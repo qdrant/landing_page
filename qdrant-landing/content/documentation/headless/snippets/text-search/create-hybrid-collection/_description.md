@@ -1,1 +1,1 @@
-Creates a hybrid collection combining a dense `description-dense` vector with a sparse `isbn-bm25` vector for semantic + lexical search.
+Creates a `books` collection with a dense `description-dense` vector for semantic search, and a full-text index with BM25 scoring on the `title` payload field for lexical search.

@@ -7,10 +7,7 @@ pub async fn main() -> anyhow::Result<()> {
         QueryRequestBuilder::new(10)
             .add_prefetch(
                 PrefetchBuilder::new(20)
-                    .query(ScoringQuery::Vector(QueryEnum::Nearest(NamedQuery {
-                        query: VectorInternal::Sparse(SparseVector::new(vec![1, 42], vec![0.22, 0.8])?),
-                        using: Some("sparse".to_string()),
-                    })))
+                    .query(TextQueryBuilder::new("title".try_into().unwrap(), "time travel").build())
                     .build(),
             )
             .add_prefetch(

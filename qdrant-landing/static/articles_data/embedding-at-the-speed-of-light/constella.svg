@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="qi-svg" viewBox="0 0 760 340" role="img" aria-label="Documents go through stella_en_400M_v5, a neural network, into document vectors stored in Qdrant. Queries go through constella-zero, a lookup table, into query vectors that Qdrant searches with."><style>{ display: block; }
+.qi-title { font-size: 14px; }
+.qi-label { font-size: 13px; }
+.se-flow { fill: none; stroke: #abb1c7; stroke-width: 1.6; }
+.se-arrowhead { fill: #656b7f; }
+.se-chip { cursor: pointer; }
+.se-chip rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.se-chip text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.se-chip.is-selected rect { stroke: #303547; stroke-width: 2.5; }
+.se-chip:focus-visible rect { stroke: #dc244c; stroke-width: 2.5; }
+.se-chip:focus { outline: none; }
+.se-box rect { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.5; }
+.se-box text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; }
+.c1 { fill: #6047ff; }
+.c2 { fill: #9c27b0; }
+.c3 { fill: #00838f; }
+.c4 { fill: #dc244c; }
+.pad { fill: none; stroke: #abb1c7; stroke-width: 1.2; stroke-dasharray: 3 3; }
+.muted { fill: #656b7f; }
+.dim { opacity: 0.35; }
+.se-num { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #303547; text-anchor: middle; }
+.se-cell-box { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.2; }
+.se-cell-box.is-selected { stroke: #303547; stroke-width: 2.5; }
+.se-seg { stroke: none; }
+.se-mesh { stroke: #abb1c7; stroke-width: 1; opacity: 0.7; fill: none; }
+.se-node { fill: #f0f3fa; stroke: #656b7f; stroke-width: 1.4; }
+.se-rowbar { fill: #f0f3fa; stroke: #d3d9eb; stroke-width: 1.2; }
+.se-curve { fill: none; stroke-width: 1.8; }
+.se-curve.c1 { stroke: #6047ff; }
+.se-curve.c2 { stroke: #9c27b0; }
+.se-curve.c3 { stroke: #00838f; }
+.qi-title{font:14px ui-monospace,Menlo,monospace;fill:#303547}.qi-label{font:13px ui-monospace,Menlo,monospace;fill:#656b7f}.qi-label--strong{fill:#303547}</style><rect width="760" height="340" fill="#fff"/>
+    <defs><marker id="se-arrow-fb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="se-arrowhead" d="M0 0L10 5L0 10Z"/></marker></defs>
+    <text class="qi-title" x="20" y="38">indexing: stella_en_400M_v5</text>
+    <g class="se-box"><rect x="20" y="82" width="100" height="36" rx="6"/><text x="32" y="105">documents</text></g><path class="se-flow" d="M120 100H150" marker-end="url(#se-arrow-fb)"/>
+    <path class="se-mesh" d="M165 74L210 74M165 74L210 100M165 74L210 126M165 100L210 74M165 100L210 100M165 100L210 126M165 126L210 74M165 126L210 100M165 126L210 126M210 74L255 74M210 74L255 100M210 74L255 126M210 100L255 74M210 100L255 100M210 100L255 126M210 126L255 74M210 126L255 100M210 126L255 126"/><circle class="se-node" cx="165" cy="74" r="6"/><circle class="se-node" cx="165" cy="100" r="6"/><circle class="se-node" cx="165" cy="126" r="6"/><circle class="se-node" cx="210" cy="74" r="6"/><circle class="se-node" cx="210" cy="100" r="6"/><circle class="se-node" cx="210" cy="126" r="6"/><circle class="se-node" cx="255" cy="74" r="6"/><circle class="se-node" cx="255" cy="100" r="6"/><circle class="se-node" cx="255" cy="126" r="6"/>
+    <path class="se-flow" d="M270 100H318" marker-end="url(#se-arrow-fb)"/>
+    <rect class="muted" x="325" y="87" width="20" height="26" rx="3"/><rect class="muted" x="347" y="87" width="20" height="26" rx="3"/><rect class="muted" x="369" y="87" width="20" height="26" rx="3"/><rect class="muted" x="391" y="87" width="20" height="26" rx="3"/><rect class="muted" x="413" y="87" width="20" height="26" rx="3"/><rect class="muted" x="435" y="87" width="20" height="26" rx="3"/><path class="se-flow" d="M470 100C540 100 560 140 604 150" marker-end="url(#se-arrow-fb)"/>
+    <text class="qi-label" x="165" y="160">transformer, run once per document</text>
+
+    <text class="qi-title" x="20" y="198">querying: constella-zero</text>
+    <g class="se-box"><rect x="20" y="232" width="100" height="36" rx="6"/><text x="32" y="255">query</text></g><path class="se-flow" d="M120 250H150" marker-end="url(#se-arrow-fb)"/>
+    <rect class="se-rowbar" x="165" y="222" width="90" height="12" rx="3"/><rect class="c1" x="165" y="238" width="90" height="12" rx="3"/><rect class="se-rowbar" x="165" y="254" width="90" height="12" rx="3"/><rect class="c2" x="165" y="270" width="90" height="12" rx="3"/><rect class="se-rowbar" x="165" y="286" width="90" height="12" rx="3"/>
+    <path class="se-flow" d="M270 250H318" marker-end="url(#se-arrow-fb)"/>
+    <rect class="muted" x="325" y="237" width="20" height="26" rx="3"/><rect class="muted" x="347" y="237" width="20" height="26" rx="3"/><rect class="muted" x="369" y="237" width="20" height="26" rx="3"/><rect class="muted" x="391" y="237" width="20" height="26" rx="3"/><rect class="muted" x="413" y="237" width="20" height="26" rx="3"/><rect class="muted" x="435" y="237" width="20" height="26" rx="3"/><path class="se-flow" d="M470 250C540 250 560 210 604 200" marker-end="url(#se-arrow-fb)"/>
+    <text class="qi-label" x="165" y="318">lookup table, no neural network</text>
+
+    <g class="se-box"><rect x="610" y="130" width="130" height="90" rx="8"/><text x="626" y="164">Qdrant</text><text class="qi-label" x="626" y="186">vectors</text><text class="qi-label" x="626" y="204">+ search</text></g>
+  </svg>

@@ -1,0 +1,174 @@
+{{/* Marketing part scripts. The part's own code comes from assets/marketing/js/; the
+     documentation part has its own tree in assets/docs/ (see documentation/js.html).
+     Shared code comes from assets/lib/ and assets/shortcodes/. */}}
+{{ partial "common/analytics/body.html" . }}
+
+{{ $indexJs := resources.Get "marketing/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $indexJs.RelPermalink }}"></script>
+
+{{ if .HasShortcode "chart" }}
+  <!--Chart hover affordances. The generated SVG is complete without this file,
+      so it is purely additive; gate on the shortcode rather than the section,
+      since only a handful of pages actually embed a chart.-->
+  {{ $vizJs := resources.Get "shortcodes/chart/chart.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $vizJs.RelPermalink }}" defer></script>
+{{ end }}
+
+{{/* Content islands: behavior half. The shell CSS is loaded from marketing/css.html.
+     Gated on `.HasShortcode "island"` so it ships only on pages with an island. */}}
+{{ if .HasShortcode "island" }}
+  {{ $islandsLoaderJs := resources.Get "shortcodes/island/island.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $islandsLoaderJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if eq .Section "pricing" }}
+  {{ $pricingTableJs := resources.Get "marketing/js/pricing-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $pricingTableJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if .IsHome }}
+  {{ $homeAnimationsJs := resources.Get "marketing/js/home-animations.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $homeAnimationsJs.RelPermalink }}"></script>
+
+  {{ $scrollRevealJs := resources.Get "marketing/js/scroll-reveal.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $scrollRevealJs.RelPermalink }}"></script>
+
+  <!--splide.js carousel-->
+  {{ $splideJs := resources.Get "marketing/js/vendor/splide.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $splideJs.RelPermalink }}"></script>
+
+{{ end }}
+
+{{ if or (eq .Section "customers") (and (not .IsPage) (eq .Section "blog")) }}
+  {{ $vendorSearchJs := resources.Get "lib/vendor/page-search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $vendorSearchJs.RelPermalink }}" type="module"></script>
+  {{ $pageSearchJs := resources.Get "marketing/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $pageSearchJs.RelPermalink }}" type="module"></script>
+{{ end }}
+
+{{ if and .IsPage (in (slice "blog" "benchmarks") .Section) }}
+  {{ $pageSearchScrollJs := resources.Get "lib/vendor/page-search-scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if in (slice "customers" "demo") .Section }}
+  {{ $catalogFiltersJs := resources.Get "marketing/js/catalog-filters.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $catalogFiltersJs.RelPermalink }}"></script>
+{{ end }}
+
+{{/* Bootstrap Popover is shared with the documentation part (assets/lib/vendor/) and is
+     needed by copy-markdown.js and copy-code.js, so it loads once before either. */}}
+{{ $copyCodeSections := slice "blog" "benchmarks" "qdrant-cloud" "quantization" "edge" }}
+{{ if or (.Store.Get "hasCopyMarkdown") (in $copyCodeSections .Section) }}
+  {{ $popoverJs := resources.Get "lib/vendor/bootstrap-popover.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $popoverJs.RelPermalink }}"></script>
+{{ end }}
+
+<!--"Copy as Markdown" button (assets/lib/copy-markdown/), shared by both parts. No marketing
+    page renders the button today; this keeps it working if one does. Call
+    common/copy-markdown/css.html in css.html too when that happens.-->
+{{ partial "common/copy-markdown/js.html" . }}
+
+{{ if eq .Section "industries" }}
+  {{ $customersJs := resources.Get "marketing/js/industries.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $customersJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if eq .Section "edge" }}
+  {{ $customersJs := resources.Get "marketing/js/edge.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $customersJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if in (slice "security" "resilience" "quantization" "observability" "cloud-inference") .Section }}
+  {{ $pricingTableJs := resources.Get "marketing/js/features-table.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $pricingTableJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if in (slice "resilience" "qdrant-cloud") .Section }}
+  {{ $pricingTableJs := resources.Get "marketing/js/sticky-tabs.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $pricingTableJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if in (slice "qdrant-cloud" "security" "resilience" "quantization" "observability" "gpu-indexing" "cloud-inference" "hybrid-cloud" "edge") .Section }}
+  {{ $cjpTrackingJs := resources.Get "marketing/js/cjp-tracking.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $cjpTrackingJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if eq .Section "qdrant-cloud" }}
+  {{ $customersJs := resources.Get "marketing/js/qdrant-cloud.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $customersJs.RelPermalink }}"></script>
+{{ end }}
+          
+{{ if in (slice "qdrant-cloud" "resilience") .Section }}
+  {{ $customersJs := resources.Get "marketing/js/nested-accordion.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $customersJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if in $copyCodeSections .Section }}
+  <!--popper.js for bootstrap-->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+
+  {{ partial "common/code-blocks/js.html" . }}
+
+  <!-- MathJax support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [
+          ['$', '$'],
+          ['\\(', '\\)'],
+        ],
+        displayMath: [
+          ['$$', '$$'],
+          ['\\[', '\\]'],
+        ],
+        processEscapes: true,
+        processEnvironments: true,
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      },
+    };
+
+    window.addEventListener('load', (event) => {
+      document.querySelectorAll('mjx-container').forEach(function (x) {
+        x.parentElement.classList.add('has-jax');
+      });
+    });
+  </script>
+
+  {{ partial "common/heading-anchors/js.html" . }}
+{{ end }}
+
+{{/* Scripts for the shortcodes on this page (assets/shortcodes/), shared by both parts.
+     They load after lang-switcher.js, where code-snippet's deployment switcher used to load. */}}
+{{ partial "common/shortcode-assets/js.html" . }}
+
+{{ if in (slice "blog" "customers") .Section }}
+  <script>
+    document.addEventListener('keydown', function (event) {
+      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+        event.preventDefault();
+
+        let searchButton = document.querySelector('[data-target="#searchModal"]');
+
+        if (searchButton) searchButton?.click();
+      }
+    });
+  </script>
+{{ end }}
+
+{{ if and (eq .Section "blog") (.IsPage) }}
+  <script>
+    document.addEventListener('scroll', () => {
+      const article = document.getElementById('article');
+      const progress = document.getElementById('progress');
+
+      const articleHeight = article.scrollHeight - window.innerHeight;
+      const scrollTop = window.scrollY - article.offsetTop;
+
+      progress.value = Math.min(Math.max((scrollTop / articleHeight) * 100, 0), 100);
+    });
+  </script>
+{{ end }}

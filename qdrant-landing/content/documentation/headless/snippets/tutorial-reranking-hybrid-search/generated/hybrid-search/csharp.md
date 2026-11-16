@@ -11,8 +11,8 @@ results = await client.QueryAsync(
 		},
 		new()
 		{
-			Query = new Document { Text = query, Model = sparseEmbeddingModel },
-			Using = "sparse",
+			Query = new Query { Text = new TextQuery { Query = query } },
+			Using = "description",
 			Limit = 20,
 		},
 	},

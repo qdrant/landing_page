@@ -16,7 +16,7 @@ keywords:
   - search
   - multimodal
   - vector-search
-category: data-exploration
+category: relevance-and-evaluation
 ---
 
 # Discovery needs context

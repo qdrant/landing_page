@@ -1,0 +1,19 @@
+documentation:
+  - changed-files:
+      - any-glob-to-any-file: 'qdrant-landing/content/documentation/**'
+
+blog:
+  - changed-files:
+      - any-glob-to-any-file: 'qdrant-landing/content/blog/**'
+
+articles:
+  - changed-files:
+      - any-glob-to-any-file: 'qdrant-landing/content/articles/**'
+
+automation:
+  - changed-files:
+      - any-glob-to-any-file: 'automation/**'
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file: '.github/**'

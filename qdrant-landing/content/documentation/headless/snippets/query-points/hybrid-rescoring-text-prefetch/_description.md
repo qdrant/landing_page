@@ -1,0 +1,1 @@
+This code snippet fetches 100 candidates with a BM25 text query on the `title` payload field, then re-scores them with a dense vector query to get the top 10.

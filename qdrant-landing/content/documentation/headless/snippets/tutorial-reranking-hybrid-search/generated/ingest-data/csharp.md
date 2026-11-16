@@ -13,7 +13,6 @@ await foreach (var (title, author, description) in ParseCsv(csvUrl))
 		Vectors = new Dictionary<string, Vector>
 		{
 			["dense"] = new Document { Text = description, Model = denseEmbeddingModel },
-			["sparse"] = new Document { Text = description, Model = sparseEmbeddingModel },
 			["multi"] = new Document { Text = description, Model = lateInteractionEmbeddingModel },
 		},
 		Payload = { ["title"] = title, ["author"] = author, ["description"] = description }

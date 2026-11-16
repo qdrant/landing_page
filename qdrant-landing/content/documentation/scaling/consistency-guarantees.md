@@ -20,6 +20,8 @@ This means concurrent updates on one point can result in an inconsistent state. 
 
 In some cases, it is necessary to ensure additional guarantees during possible hardware instabilities, mass concurrent updates of same documents, etc.
 
+These options are part of the Qdrant API, so they work the same on Qdrant Cloud clusters. On Qdrant Cloud, you can also set the default `write_consistency_factor` for new collections in the cluster's [Collection Defaults](/documentation/cloud/configure-cluster/#collection-defaults).
+
 Qdrant provides a few options to control consistency guarantees:
 
 - `write_consistency_factor` - defines the number of replicas that must acknowledge a write operation before responding to the client. Increasing this value will make write operations tolerant to network partitions in the cluster, but will require a higher number of replicas to be active to perform write operations.

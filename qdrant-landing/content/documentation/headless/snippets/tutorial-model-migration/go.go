@@ -135,14 +135,8 @@ func Main() {
 
 	// @block-start alias-update
 	err = client.UpdateAliases(context.Background(), []*qdrant.AliasOperations{
-		{Action: &qdrant.AliasOperations_DeleteAlias{
-			DeleteAlias: &qdrant.DeleteAlias{AliasName: "prod"},
-		}},
-		{Action: &qdrant.AliasOperations_CreateAlias{
-			CreateAlias: &qdrant.CreateAlias{
-				AliasName: "prod", CollectionName: NEW_COLLECTION,
-			},
-		}},
+		qdrant.NewAliasDelete("prod"),
+		qdrant.NewAliasCreate("prod", NEW_COLLECTION),
 	})
 	// @hide-start
 	if err != nil {

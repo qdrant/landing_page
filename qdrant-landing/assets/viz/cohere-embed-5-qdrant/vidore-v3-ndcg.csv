@@ -1,0 +1,7 @@
+Model,Representation,Mean nDCG@10,Source
+ColEmbed-3B-v2,Multi-vector,67.5,ViDoRe V3 Table 9
+Embed 5 Pro,1 vector / page,65.8,Our measurement: exact search in Qdrant
+Jina-v4,Multi-vector,65.2,ViDoRe V3 Table 9
+ColQwen2.5,Multi-vector,61.2,ViDoRe V3 Table 9
+Nomic-7B,1 vector / page,59.3,ViDoRe V3 Table 9
+ColPali,Multi-vector,54.8,ViDoRe V3 Table 9

@@ -33,28 +33,17 @@ The following models are available:
 
 #### Dense Models
 
-| Model | Modality | Dimensions | Cost |
-|---|---|---|---|
-| `sentence-transformers/all-minilm-l6-v2` | Text | 384 | Free |
-| `intfloat/multilingual-e5-small` | Text | 384 | Free |
-| `mixedbread-ai/mxbai-embed-large-v1` | Text | 1024 | Paid |
-| `qdrant/clip-vit-b-32-text` | Text | 512 | Paid |
-| `qdrant/clip-vit-b-32-vision` | Image | 512 | Paid |
+{{< cloud-inference-models type="dense" >}}
 
 The `qdrant/clip-vit-b-32-text` and `qdrant/clip-vit-b-32-vision` models share a vector space, so you can embed images with the vision model and search them with text queries embedded by the text model.
 
 #### Sparse Models
 
-| Model | Modality | Cost |
-|---|---|---|
-| `qdrant/bm25` | Text | Free |
-| `prithivida/splade_pp_en_v1` | Text | Paid |
+{{< cloud-inference-models type="sparse" >}}
 
 #### Multivector Models
 
-| Model | Modality | Dimensions | Cost |
-|---|---|---|---|
-| `answerdotai/answerai-colbert-small-v1` | Text | 96 | Free |
+{{< cloud-inference-models type="multivector" >}}
 
 #### Billing for Qdrant-Hosted Models
 

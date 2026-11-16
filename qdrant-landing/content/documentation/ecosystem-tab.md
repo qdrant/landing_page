@@ -65,7 +65,7 @@ build:
 ## Integrations
 
 - [Data Management](/documentation/data-management/index.md) — Connect Qdrant to ETL and streaming tools to ingest, transform, and sync vectors at scale.
-- [Embedding Providers](/documentation/embeddings/index.md) — Connect to 30+ providers: OpenAI, Cohere, Jina, Mistral, AWS Bedrock, Voyage AI, Ollama, and more.
+- [Embedding Providers](/documentation/embeddings/index.md): Find an embedding provider by input type, vector type, and where it runs: Qdrant Cloud Inference, OpenAI, Cohere, Gemini, Amazon Bedrock, Voyage AI, Ollama, and more.
 - [Frameworks](/documentation/frameworks/index.md) — Integrations with 40+ AI agent and RAG frameworks: LangChain, LlamaIndex, Haystack, CrewAI, AutoGen, Spring AI, and more.
 - [Observability](/documentation/observability/index.md) — Connect Qdrant to Datadog, OpenLIT, and OpenLLMetry to monitor performance and traces.
 - [Platforms](/documentation/platforms/index.md) — No-code and low-code integrations with n8n, Make, MuleSoft, Pipedream, Power Apps, and more.

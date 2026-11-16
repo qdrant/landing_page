@@ -1,13 +1,16 @@
 package snippet
 
-import "context" // @hide
-import "github.com/qdrant/go-client/qdrant" // @hide
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
 
 func Main() {
 	// @hide-start
 	client, err := qdrant.NewClient(&qdrant.Config{
-	    Host: "localhost",
-	    Port: 6334,
+		Host: "localhost",
+		Port: 6334,
 	})
 	if err != nil { panic(err) }
 	// @hide-end
@@ -21,12 +24,19 @@ func Main() {
 					Distance: qdrant.Distance_Cosine,
 				},
 			}),
-		SparseVectorsConfig: qdrant.NewSparseVectorsConfig(
-			map[string]*qdrant.SparseVectorParams{
-				"bm25_sparse_vector": {
-					Modifier: qdrant.Modifier_Idf.Enum(),
+	})
+
+	client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
+		CollectionName: "{collection_name}",
+		FieldName:      "passage_text",
+		FieldType:      qdrant.FieldType_FieldTypeText.Enum(),
+		FieldIndexParams: qdrant.NewPayloadIndexParamsText(
+			&qdrant.TextIndexParams{
+				Tokenizer: qdrant.TokenizerType_Word,
+				// Enable BM25 scoring
+				Scoring: &qdrant.TextScoringParams{
+					Type: qdrant.TextScoringType_Bm25,
 				},
-			},
-		),
+			}),
 	})
 }

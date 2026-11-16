@@ -1,9 +1,12 @@
 ---
 title: Relevance & Evaluation
-short_description: "Measuring and improving result relevance and data quality: evaluation, relevance feedback, and error detection."
-description: Learn how to measure and improve the relevance of vector search results, from evaluation methods and relevance feedback to finding errors in your data.
+short_description: "Understand relevance feedback, discovery, evaluation, and dataset quality."
+description: "Understand relevance feedback, discovery, evaluation, and dataset quality."
 category: relevance-and-evaluation
 url: /articles/relevance-and-evaluation/
 isCategoryPage: true
-weight: 25
+weight: 30
+aliases:
+  - /articles/search-quality/
+  - /articles/data-exploration/
 ---

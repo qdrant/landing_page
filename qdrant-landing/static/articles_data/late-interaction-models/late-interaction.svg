@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 370" role="img" aria-labelledby="description">
+  <desc id="description">Document token embeddings d1 to dm on one axis and query token embeddings q1 to qn on the other. Dotted lines connect every document embedding with every query embedding. For each query embedding, one highlighted intersection marks its most similar document embedding.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="639" height="369" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <path d="M162 37 H518" fill="none" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="2 3"/>
+    <path d="M162 79 H518" fill="none" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="2 3"/>
+    <path d="M162 121 H518" fill="none" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="2 3"/>
+    <path d="M162 163 H518" fill="none" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="2 3"/>
+    <path d="M162 205 H518" fill="none" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="2 3"/>
+    <path d="M162 279 H518" fill="none" stroke="#abb1c7" stroke-width="1.5" stroke-dasharray="2 3"/>
+    <path d="M212 37 V316" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="2 3"/>
+    <path d="M274 37 V316" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="2 3"/>
+    <path d="M336 37 V316" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="2 3"/>
+    <path d="M398 37 V316" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="2 3"/>
+    <path d="M518 37 V316" fill="none" stroke="#656b7f" stroke-width="1.5" stroke-dasharray="2 3"/>
+    <rect x="110" y="20" width="52" height="34" rx="6" fill="#ff9800" stroke="#ff9800" stroke-width="1.5"/>
+    <text x="136" y="42" font-size="14" text-anchor="middle" fill="#0b0f19" font-weight="600">d1</text>
+    <rect x="110" y="62" width="52" height="34" rx="6" fill="#ff9800" stroke="#ff9800" stroke-width="1.5"/>
+    <text x="136" y="84" font-size="14" text-anchor="middle" fill="#0b0f19" font-weight="600">d2</text>
+    <rect x="110" y="104" width="52" height="34" rx="6" fill="#ff9800" stroke="#ff9800" stroke-width="1.5"/>
+    <text x="136" y="126" font-size="14" text-anchor="middle" fill="#0b0f19" font-weight="600">d3</text>
+    <rect x="110" y="146" width="52" height="34" rx="6" fill="#ff9800" stroke="#ff9800" stroke-width="1.5"/>
+    <text x="136" y="168" font-size="14" text-anchor="middle" fill="#0b0f19" font-weight="600">d4</text>
+    <rect x="110" y="188" width="52" height="34" rx="6" fill="#ff9800" stroke="#ff9800" stroke-width="1.5"/>
+    <text x="136" y="210" font-size="14" text-anchor="middle" fill="#0b0f19" font-weight="600">d5</text>
+    <rect x="110" y="262" width="52" height="34" rx="6" fill="#ff9800" stroke="#ff9800" stroke-width="1.5"/>
+    <text x="136" y="284" font-size="14" text-anchor="middle" fill="#0b0f19" font-weight="600">dm</text>
+    <text x="136" y="240" font-size="16" text-anchor="middle" fill="#656b7f">…</text>
+    <rect x="186" y="316" width="52" height="34" rx="6" fill="#6047ff" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="212" y="338" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="600">q1</text>
+    <rect x="248" y="316" width="52" height="34" rx="6" fill="#6047ff" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="274" y="338" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="600">q2</text>
+    <rect x="310" y="316" width="52" height="34" rx="6" fill="#6047ff" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="336" y="338" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="600">q3</text>
+    <rect x="372" y="316" width="52" height="34" rx="6" fill="#6047ff" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="398" y="338" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="600">q4</text>
+    <rect x="492" y="316" width="52" height="34" rx="6" fill="#6047ff" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="518" y="338" font-size="14" text-anchor="middle" fill="#ffffff" font-weight="600">qn</text>
+    <text x="460" y="338" font-size="16" text-anchor="middle" fill="#656b7f">…</text>
+    <circle cx="212" cy="79" r="7" fill="#dc244c"/>
+    <circle cx="274" cy="163" r="7" fill="#dc244c"/>
+    <circle cx="336" cy="37" r="7" fill="#dc244c"/>
+    <circle cx="398" cy="205" r="7" fill="#dc244c"/>
+    <circle cx="518" cy="279" r="7" fill="#dc244c"/>
+  </g>
+</svg>

@@ -1,7 +1,7 @@
 ---
 title: Running with GPU
-short_description: "Accelerate Qdrant vector indexing with GPU support using dedicated Docker images for NVIDIA and AMD hardware via the Vulkan API."
-description: "Enable GPU-accelerated vector indexing in Qdrant with dedicated Docker images for NVIDIA and AMD hardware, powered by the Vulkan compute API."
+short_description: "Speed up Qdrant vector indexing with GPUs, and learn how to enable them on Managed Cloud, Private Cloud, and self-hosted deployments."
+description: "Enable GPU-accelerated vector indexing in Qdrant on Managed Cloud, Private Cloud, or self-hosted deployments with NVIDIA and AMD hardware, powered by the Vulkan compute API."
 weight: 20
 aliases:
   - /documentation/guides/running-with-GPU/
@@ -13,12 +13,25 @@ aliases:
 
 # Running Qdrant with GPU Support
 
-Starting from version v1.13.0, Qdrant offers support for GPU acceleration. 
+*Available as of v1.13.0*
 
-However, GPU support is not included in the default Qdrant binary due to additional dependencies and libraries. Instead, you will need to use dedicated Docker images with GPU support ([NVIDIA](#nvidia-gpus), [AMD](#amd-gpus)).
+Qdrant can use a GPU to build vector indices faster than a CPU can. This helps most with write-heavy workloads, such as a large initial upload or frequent updates to a big collection, because new data is indexed sooner. GPU acceleration applies to vector indexing. How you enable GPUs depends on how you deploy Qdrant. Refer to the section for your deployment type.
 
+## Managed Cloud
 
-## Configuration
+On Qdrant Managed Cloud, you add a GPU to each node when you create a cluster. GPUs are available on standard clusters on AWS, for higher RAM configurations. Qdrant Cloud configures all GPU settings for you. Refer to [Cluster Options](/documentation/cloud/create-cluster/#cluster-options) for how to choose a GPU.
+
+## Private Cloud
+
+On Private Cloud, create a `QdrantCluster` that runs on GPU nodes in your Kubernetes cluster. GPU support needs Private Cloud version 1.6.1 or later.
+
+Set `spec.gpu.gpuType` to `nvidia` or `amd` on the `QdrantCluster`, which enables GPU indexing. Once the pod has started, check its logs for a `Found GPU device` line to confirm that Qdrant detects the GPU. Refer to [GPU support](/documentation/private-cloud/qdrant-cluster-management/#gpu-support) and the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/#gpu).
+
+## Self-Hosted
+
+GPU support is not included in the default Qdrant binary. To run Qdrant with a GPU yourself, use a dedicated Docker image with GPU support ([NVIDIA](#nvidia-gpus), [AMD](#amd-gpus)), or [build Qdrant with the `gpu` feature](#standalone-gpu-support). Your GPU needs Vulkan API support. Then turn on GPU indexing, either with `gpu.indexing: true` in the configuration or with the `QDRANT__GPU__INDEXING=1` environment variable.
+
+### Configuration
 
 Qdrant includes a number of configuration options to control GPU usage. The following options are available:
 
@@ -64,7 +77,7 @@ gpu:
 It is not recommended to change these options unless you are familiar with the Qdrant internals and the Vulkan API.
 
 
-## Standalone GPU Support
+### Standalone GPU Support
 
 For standalone usage, you can build Qdrant with GPU support by running the following command:
 
@@ -74,9 +87,9 @@ cargo build --release --features gpu
 
 Ensure your device supports Vulkan API v1.3. This includes compatibility with Apple Silicon, Intel GPUs, and CPU emulators. Note that `gpu.indexing: true` must be set in your configuration to use GPUs at runtime.
 
-## NVIDIA GPUs
+### NVIDIA GPUs
 
-### Prerequisites
+#### Prerequisites
 
 To use Docker with NVIDIA GPU support, ensure the following are installed on your host:
 - Latest NVIDIA drivers
@@ -84,7 +97,7 @@ To use Docker with NVIDIA GPU support, ensure the following are installed on you
 
 Most AI or CUDA images on Amazon/GCP come pre-configured with the NVIDIA container toolkit.
 
-### Docker images with NVIDIA GPU support
+#### Docker images with NVIDIA GPU support
 
 Docker images with NVIDIA GPU support use the tag suffix `gpu-nvidia`, e.g., `qdrant/qdrant:v1.13.0-gpu-nvidia`. These images include all necessary dependencies.
 
@@ -114,13 +127,12 @@ Here you can see that two devices were found: RTX 3090 and llvmpipe (a CPU-emula
 
 This concludes the setup. Now, you can start using this Qdrant instance.
 
-### Troubleshooting NVIDIA GPUs
+#### Troubleshooting NVIDIA GPUs
 
 If your GPU is not detected in Docker, make sure your driver and `nvidia-container-toolkit` are up-to-date.
 If needed, you can install latest version of `nvidia-container-toolkit` from it's GitHub Releases [page](https://github.com/NVIDIA/nvidia-container-toolkit/releases)
 
 Verify Vulkan API visibility in the Docker container using:
-
 
 ```bash
 docker run --rm --gpus=all qdrant/qdrant:gpu-nvidia-latest vulkaninfo --summary
@@ -146,13 +158,13 @@ Set `no-cgroups=false`, save the configuration, and restart Docker:
 sudo systemctl restart docker
 ```
 
-## AMD GPUs
+### AMD GPUs
 
-### Prerequisites
+#### Prerequisites
 
 Running Qdrant with AMD GPUs requires [ROCm](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/detailed-install.html) to be installed on your host.
 
-### Docker images with AMD GPU support
+#### Docker images with AMD GPU support
 
 Docker images for AMD GPUs use the tag suffix `gpu-amd`, e.g., `qdrant/qdrant:v1.13.0-gpu-amd`. These images include all required dependencies.
 
@@ -181,8 +193,9 @@ Check logs to confirm GPU initialization. Example log output:
 
 This concludes the setup. In a basic scenario, you won't need to configure anything else.
 
-
 ## Known limitations
+
+These limitations apply to all deployment types, except for the platform support, which concerns the Docker images.
 
 * **Platform Support:** Docker images are only available for Linux x86_64. Windows, macOS, ARM, and other platforms are not supported.
 

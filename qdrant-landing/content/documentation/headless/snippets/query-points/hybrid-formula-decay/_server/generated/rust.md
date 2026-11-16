@@ -5,16 +5,14 @@ use qdrant_client::qdrant::{
     QueryPointsBuilder, RrfBuilder,
 };
 
-let client = Qdrant::from_url("http://localhost:6334").build()?;
-
 client.query(
     QueryPointsBuilder::new("{collection_name}")
         .add_prefetch(
             PrefetchQueryBuilder::default()
                 .add_prefetch(
                     PrefetchQueryBuilder::default()
-                        .query(Query::new_nearest([(1, 0.22), (42, 0.8)].as_slice()))
-                        .using("sparse")
+                        .query(Query::new_text("time travel"))
+                        .using("title")
                         .limit(100u64),
                 )
                 .add_prefetch(

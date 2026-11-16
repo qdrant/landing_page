@@ -6,6 +6,9 @@ on:
       - 'qdrant-landing/content/documentation/headless/snippets/**'
       - '!qdrant-landing/content/documentation/headless/snippets/**/*.md'
 
+permissions:
+  contents: read
+
 jobs:
   convert-snippets:
     runs-on: ubuntu-latest

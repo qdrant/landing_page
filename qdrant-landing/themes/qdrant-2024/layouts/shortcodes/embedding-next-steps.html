@@ -1,0 +1,8 @@
+<div class="embedding-next-steps">
+  <div class="row g-3">
+    {{ range hugo.Data.embedding_navigation.steps }}
+      {{ $card := dict "title" .title "description" .description "link" (dict "url" .url) }}
+      {{ partial "documentation/cards/docs-cards" (dict "card" $card "cardsPerRow" 3) }}
+    {{ end }}
+  </div>
+</div>

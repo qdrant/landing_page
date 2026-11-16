@@ -1,6 +1,6 @@
 use qdrant_client::qdrant::{
-    CreateCollectionBuilder, Distance, HnswConfigDiffBuilder, Memory, PayloadStorageParamsBuilder,
-    QuantizationType, ScalarQuantizationBuilder, VectorParamsBuilder,
+    CreateCollectionBuilder, Distance, HnswConfigDiffBuilder, IdTrackerParamsBuilder, Memory,
+    PayloadStorageParamsBuilder, QuantizationType, ScalarQuantizationBuilder, VectorParamsBuilder,
 };
 use qdrant_client::Qdrant;
 
@@ -21,7 +21,8 @@ pub async fn main() -> anyhow::Result<()> {
                         .r#type(QuantizationType::Int8.into())
                         .memory(Memory::Pinned),
                 )
-                .payload(PayloadStorageParamsBuilder::default().memory(Memory::Cached)),
+                .payload(PayloadStorageParamsBuilder::default().memory(Memory::Cached))
+                .id_tracker(IdTrackerParamsBuilder::default().memory(Memory::Cached)),
         )
         .await?;
 

@@ -28,7 +28,7 @@
   <div class="row">
     <div class="qdrant-articles-posts__pagination col-12">
       {{ if gt $paginator.TotalPages 1 }}
-        {{ partial "pagination" $paginator }}
+        {{ partial "common/pagination" $paginator }}
       {{ end }}
     </div>
   </div>

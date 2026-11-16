@@ -1,7 +1,7 @@
 ---
 title: Configuration
-short_description: "Customize Qdrant with config files and environment variables to control storage, networking, performance tuning, and feature flags."
-description: "Configure Qdrant via config files and environment variables to set storage paths, network interfaces, performance parameters, and feature flags."
+short_description: "Configure Qdrant on Managed Cloud, Hybrid Cloud, Private Cloud, or self-hosted deployments, with links to the options for each."
+description: "Configure Qdrant on Managed Cloud, Hybrid Cloud, Private Cloud, or self-hosted deployments, including config files and environment variables for storage, networking, and performance."
 weight: 5
 aliases:
   - /guides/configuration/
@@ -11,13 +11,54 @@ aliases:
 
 # Configuration
 
+How you configure Qdrant depends on how you deploy it. This page summarizes the options for Managed Cloud, Hybrid Cloud, Private Cloud, and self-hosted deployments.
+
+## Managed Cloud
+
+Qdrant Cloud exposes a selection of options that you can configure and set on the Cluster Details page in the Cloud Console. Refer to [Configure Qdrant Cloud Clusters](/documentation/cloud/configure-cluster/) for all of them.
+
+| Option | What it controls | Details |
+|---|---|---|
+| Collection defaults | The default replication factor, write consistency factor, and whether vectors are stored on disk for new collections | [Collection Defaults](/documentation/cloud/configure-cluster/#collection-defaults) |
+| Advanced optimizations | The optimizer CPU budget. | [Advanced Optimizations](/documentation/cloud/configure-cluster/#advanced-optimizations) |
+| Client IP restrictions | Which IP ranges can reach the cluster | [Client IP Restrictions](/documentation/cloud/configure-cluster/#client-ip-restrictions) |
+| Restart mode | How the nodes restart when a change needs a restart | [Restarts and Downtime](/documentation/cloud/configure-cluster/#restarts-and-downtime) |
+| Shard rebalance strategy | How shards are balanced across the nodes | [Shard Rebalancing](/documentation/cloud/configure-cluster/#shard-rebalancing) |
+| Audit logging | The rotation and retention of audit logs on paid clusters | [Audit Logging](/documentation/cloud/configure-cluster/#audit-logging) |
+
+Qdrant Cloud also configures some settings for you. Strict mode is on for new collections, a cluster can have a maximum of 1000 collections, and a collection can have a maximum of 100 payload indices. Cluster mode is enabled, which enables you to scale horizontally. From v1.20.0, [quotas](/documentation/ops-configuration/quotas/#quotas-on-qdrant-cloud) are on by default with 90% memory and disk limits. 
+
+## Hybrid Cloud
+
+Hybrid Cloud clusters run in your own Kubernetes cluster, and you manage them in the Cloud Console. They have the settings of a Managed Cloud cluster, such as the collection defaults and strict mode. Refer to [Configure Qdrant Cloud Clusters](/documentation/cloud/configure-cluster/). They also have settings that control how the pods run in your Kubernetes cluster:
+
+| Option | Details |
+|---|---|
+| Node selectors, tolerations, and topology spread constraints | [Scheduling Configuration](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#scheduling-configuration) |
+| API key and read-only API key from a Kubernetes secret | [Authentication](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#authentication-to-your-qdrant-clusters) |
+| Service type, service annotations, and load balancer source ranges | [Exposing Qdrant clusters](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#exposing-qdrant-clusters-to-your-client-applications) |
+| TLS | [Configuring TLS](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#configuring-tls) |
+| CPU and memory reservation | [Resource reservations](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/#configuring-cpu-and-memory-resource-reservations) |
+| Storage class, snapshot storage class, and volume snapshot class | [Create a Cluster](/documentation/hybrid-cloud/hybrid-cloud-cluster-creation/) |
+
+On Hybrid Cloud, you can also set the log level and, from Qdrant v1.20.0, choose where audit log entries are written. Refer to [Configure, Scale & Update Qdrant Hybrid Cloud Clusters](/documentation/hybrid-cloud/configure-scale-upgrade/) for which changes restart the pods. To configure the Qdrant Operator itself, refer to [Configure the Qdrant Operator](/documentation/hybrid-cloud/operator-configuration/).
+
+## Private Cloud
+
+Qdrant Private Cloud runs the same Qdrant Operator as Managed Cloud and Hybrid Cloud, without a connection to the Qdrant Cloud Management Console. You configure it with Kubernetes resources, on two levels.
+
+| Level | What it configures | Details |
+|---|---|---|
+| Helm chart | The Operator and the defaults it applies to every database it manages, such as images, namespaces, storage classes, network policies, ingress, backups, log levels, and shard rebalancing | [Private Cloud Configuration](/documentation/private-cloud/configuration/) |
+| `QdrantCluster` resource | A single cluster: scheduling, CPU, memory, disk, Qdrant version, exposure, API keys, TLS, audit logging, GPU indexing, snapshot storage, and shard rebalancing | [Configuring a Cluster](/documentation/private-cloud/qdrant-cluster-management/#configuring-a-cluster) |
+
+For every other field of the `QdrantCluster` resource, refer to the [Qdrant Private Cloud API Reference](/documentation/private-cloud/api-reference/).
+
+## Self-Hosted
+
 Qdrant ships with sensible defaults for collection and network settings that are suitable for most use cases. You can view these defaults in the [Qdrant source](https://github.com/qdrant/qdrant/blob/master/config/config.yaml). If you need to customize the settings, you can do so using configuration files and environment variables.
 
-<aside role="status">
-  Qdrant Cloud does not allow modifying the Qdrant configuration.
-</aside>
-
-## Configuration Files
+### Configuration Files
 
 To customize Qdrant, you can mount your configuration file in any of the following locations. This guide uses `.yaml` files, but Qdrant also supports other formats such as `.toml`, `.json`, and `.ini`.
 
@@ -67,7 +108,7 @@ To customize Qdrant, you can mount your configuration file in any of the followi
 
 For details on how these configurations are loaded and merged, see the [loading order and priority](#loading-order-and-priority). The full list of available configuration options can be found [below](#configuration-options).
 
-## Environment Variables
+### Environment Variables
 
 You can also configure Qdrant using environment variables, which always take the highest priority and override any file-based settings.
 
@@ -93,7 +134,7 @@ tls:
   cert: ./tls/cert.pem
 ```
 
-## Loading Order and Priority
+### Loading Order and Priority
 
 During startup, Qdrant merges multiple configuration sources into a single effective configuration. The loading order is as follows (from least to most significant):
 
@@ -104,7 +145,7 @@ During startup, Qdrant merges multiple configuration sources into a single effec
 5. Custom configuration file
 6. Environment variables
 
-### Overriding Behavior
+#### Overriding Behavior
 
 Settings from later sources in the list override those from earlier sources:
 
@@ -112,7 +153,7 @@ Settings from later sources in the list override those from earlier sources:
 - A custom configuration file provided via `--config-path` (5) will override all other file-based settings.
 - Environment variables (6) have the highest priority and will override any settings from files.
 
-## Configuration Validation
+### Configuration Validation
 
 Qdrant validates the configuration during startup. If any issues are found, the server will terminate immediately, providing information about the error. For example:
 
@@ -122,7 +163,7 @@ Error: invalid type: 64-bit integer `-1`, expected an unsigned 64-bit or smaller
 
 This ensures that misconfigurations are caught early, preventing Qdrant from running with invalid settings.
 
-## Configuration Options
+### Configuration Options
 
 The following YAML example describes the available configuration options.
 
@@ -134,6 +175,7 @@ log_level: INFO
 # Logging configuration
 # Qdrant logs to stdout. You may configure to also write logs to a file on disk.
 # Be aware that this file may grow indefinitely.
+# Log timestamps are in UTC, set the `TZ` environment variable to use a different timezone.
 # logger:
 #   # Logging format, supports `text` and `json`
 #   format: text
@@ -153,13 +195,50 @@ storage:
   snapshots_path: ./snapshots
 
   snapshots_config:
-    # "local" or "s3" - where to store snapshots
+    # Where to store snapshots: "local", "s3", "gcs" or "azure"
     snapshots_storage: local
+
+    # Amazon S3 or any S3-compatible storage. Fields left unset are resolved
+    # from the AWS_* environment and the default credential chain.
     # s3_config:
     #   bucket: ""
+    #   # Optional key prefix, objects become <prefix>/snapshots/...
+    #   prefix: ""
     #   region: ""
     #   access_key: ""
     #   secret_key: ""
+    #   # Custom endpoint, for MinIO and similar
+    #   endpoint_url: ""
+
+    # Google Cloud Storage. Without credential fields, Application Default
+    # Credentials are used: GOOGLE_* environment, gcloud config or the
+    # metadata server on GCE and GKE.
+    # gcs_config:
+    #   bucket: ""
+    #   # Optional object name prefix, objects become <prefix>/snapshots/...
+    #   prefix: ""
+    #   # Use at most one of the following
+    #   service_account_path: ""
+    #   service_account_key: ""
+    #   application_credentials_path: ""
+    #   # Custom endpoint, for fake-gcs-server and similar
+    #   endpoint_url: ""
+
+    # Azure Blob Storage. Without credential fields, the default chain is
+    # used: AZURE_* environment, managed identity or the Azure CLI.
+    # azure_config:
+    #   account: ""
+    #   container: ""
+    #   # Optional blob name prefix, blobs become <prefix>/snapshots/...
+    #   prefix: ""
+    #   # Use one authentication method
+    #   access_key: ""
+    #   sas_token: ""
+    #   client_id: ""
+    #   client_secret: ""
+    #   tenant_id: ""
+    #   # Custom endpoint, for Azurite and similar
+    #   endpoint_url: ""
 
   # Where to store temporary files
   # If null, temporary snapshots are stored in: storage/snapshots_temp/
@@ -180,6 +259,19 @@ storage:
   #   # Memory placement of the payload storage: cold or cached.
   #   memory: cold
 
+  # Load-time memory mode. Only affects how segments are loaded on startup;
+  # does not modify any persisted configuration. Intended as a recovery knob
+  # when a node crash-loops on out-of-memory.
+  #
+  # Options:
+  # - disabled (default): load segments as persisted.
+  # - no_resident: downgrade components to their on-disk variants where
+  #   possible — quantization loads as if always_ram=false, payload field
+  #   indexes as if on_disk=true, payload storage as mmap (not populated).
+  # - no_populate: same as no_resident, plus skip mmap prefault on load for
+  #   vectors, HNSW graph and payload storage.
+  #low_memory_mode: disabled
+
   # Maximum number of concurrent updates to shard replicas
   # If `null` - maximum concurrency is used.
   update_concurrency: null
@@ -191,6 +283,9 @@ storage:
 
     # Number of WAL segments to create ahead of actual data requirement
     wal_segments_ahead: 0
+
+    # Number of closed WAL segments to keep
+    wal_retain_closed: 1
 
   # Normal node - receives all updates and answers all queries
   node_type: "Normal"
@@ -266,7 +361,7 @@ storage:
     # If `default_segment_number = 0`, will be automatically selected by the number of available CPUs
     default_segment_number: 0
 
-    # Do not create segments larger this size (in KiloBytes).
+    # Do not create segments larger than this size (in KiloBytes).
     # Large segments might require disproportionately long indexation times,
     # therefore it makes sense to limit the size of segments.
     #
@@ -413,6 +508,10 @@ storage:
   # writes again. Without that margin a resource resting on its limit would put the node in and out
   # of service on the noise between two readings, restarting a shard recovery every time.
   #
+  # These values only seed the quota manager on the first start. Afterwards the quota config is read
+  # from (and written to) `quota.json` in the storage directory, which is kept in sync across the
+  # cluster through consensus and can be changed with the `PUT /quotas` API.
+  #
   # If this section is absent - no quota is enforced.
   #quotas:
     # Whether the limits below are enforced.
@@ -438,7 +537,8 @@ service:
   # Maximum size of POST data in a single request in megabytes
   max_request_size_mb: 32
 
-  # Number of parallel workers used for serving the api. If 0 - equal to the number of available cores.
+  # Number of parallel workers used for serving the api.
+  # If 0 - available cores minus one, with a minimum of 1.
   # If missing - Same as storage.max_search_threads
   max_workers: 0
 
@@ -448,9 +548,22 @@ service:
   # HTTP(S) port to bind the service on
   http_port: 6333
 
+  # Keep-alive timeout for incoming HTTP connections in seconds.
+  # Default: 5
+  # http_keep_alive_timeout_sec: 5
+
+  # Timeout for reading HTTP request data from clients in seconds.
+  # Default: 5
+  # http_client_request_timeout_sec: 5
+
+  # Timeout for client disconnect handling in seconds.
+  # Default: 5
+  # http_client_disconnect_timeout_sec: 5
+
   # gRPC port to bind the service on.
-  # If `null` - gRPC is disabled. Default: null
-  # Comment to disable gRPC:
+  # If `null` - gRPC is disabled. Default: 6334
+  # Commenting this key in an overlay does not disable gRPC; the base config
+  # still supplies 6334. Set `null` to disable.
   grpc_port: 6334
 
   # Enable CORS headers in REST API.
@@ -493,6 +606,19 @@ service:
   #
   # jwt_rbac: true
 
+  # Enforce API key authentication on the internal (p2p) gRPC API.
+  # Only `api_key` and `alt_api_key` are accepted there; the read-only key
+  # and JWT tokens are rejected, since peers joining consensus and moving
+  # shards must hold the read-write key.
+  # Peers forward `api_key` (or `alt_api_key` if `api_key` is unset) on
+  # internal requests, so every node must accept the key the others send.
+  # To rotate it, first set the new key as `alt_api_key` on every node, then
+  # swap the two.
+  # Enabled by default, has no effect without an API key.
+  #
+  # Uncomment to disable.
+  # enforce_internal_auth: false
+
   # Hardware reporting adds information to the API responses with a
   # hint on how many resources were used to execute the request.
   #
@@ -505,6 +631,13 @@ service:
   # Prefix for the names of metrics in the /metrics API.
   # metrics_prefix: qdrant_
 
+  # Allow snapshot recovery from remote HTTP/HTTPS URLs.
+  # If disabled, snapshot recovery will only work with local files and uploads.
+  # Disabling this can mitigate SSRF risks in environments where the Qdrant node
+  # has access to internal resources that should not be reachable by users.
+  # Default: true
+  # enable_snapshot_url_recovery: true
+
 cluster:
   # Use `enabled: true` to run Qdrant in distributed deployment mode
   enabled: false
@@ -513,6 +646,13 @@ cluster:
   p2p:
     # Port for internal communication between peers
     port: 6335
+
+    # IP address to bind the internal (p2p) gRPC listener to.
+    # Defaults to `service.host` when unset. Set this to an internal
+    # interface to keep the internal port off the interface that serves
+    # the public API. Must be an IP address, not a hostname.
+    # When set, the node's peer URI (`--uri`) must point to the same address.
+    # host: <internal IP of this node>
 
     # Use TLS for communication between peers
     enable_tls: false
@@ -574,4 +714,11 @@ tls:
 #   # WARNING: Enabling this without a trusted proxy allows clients to spoof their IP.
 #   # Default: false
 #   trust_forwarded_headers: false
+#   # Where to write audit log entries:
+#   #   file            - rolling log files in `dir`
+#   #   stdout / stderr - only the given stream, nothing is written to `dir`
+#   #   file_and_stdout / file_and_stderr - both
+#   # Each entry is a JSON line with `"kind": "audit"`, to tell it apart from regular logs.
+#   # Default: file
+#   output: file
 ```

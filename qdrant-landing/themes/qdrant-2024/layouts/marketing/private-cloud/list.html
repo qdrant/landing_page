@@ -1,0 +1,12 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+
+  {{ partial "marketing/private-cloud-hero" . }}
+  {{ partial "marketing/private-cloud-about" . }}
+  {{ partial "marketing/customer-list" . }}
+
+  {{ with (.Site.GetPage "/private-cloud/private-cloud-get-contacted") }}
+    {{ partial "marketing/get-contacted" (dict "context" . "class" "private-cloud-get-contacted") }}
+  {{ end }}
+
+{{ end }}

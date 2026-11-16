@@ -1,5 +1,6 @@
 ---
 title: Qdrant Edge | Embedded and Edge AI Systems
+type: marketing/edge
 description: Run vector search on-device with Qdrant Edge, an embedded vector search engine that runs inside your application process. Search offline, with no server to deploy and no network round trip.
 url: edge
 seo_schema_json:
@@ -10,6 +11,7 @@ aliases: [edge-beta, edge-beta/]
 build:
   render: always
 cascade:
+- type: marketing/edge
 - build:
     list: local
     publishResources: false

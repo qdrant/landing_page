@@ -1,10 +1,9 @@
 ```python
+from qdrant_client import QdrantClient
 from qdrant_client.http.models import PointStruct, Document
 from datasets import load_dataset
 
 dense_model = "sentence-transformers/all-minilm-l6-v2"
-
-bm25_model = "qdrant/bm25"
 
 ds = (
     load_dataset("miriad/miriad-4.4M", split="train", streaming=True)  # no full download
@@ -20,15 +19,11 @@ for idx, item in enumerate(ds):
 
     point = PointStruct(
         id=idx,  # stable IDs: a rerun overwrites points instead of adding duplicates
-        payload=item,
+        payload=item,  # includes passage_text, used for BM25
         vector={
             "dense_vector": Document(
                 text=passage,
                 model=dense_model
-            ),
-            "bm25_sparse_vector": Document(
-                text=passage,
-                model=bm25_model
             )
         }
     )

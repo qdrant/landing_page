@@ -20,7 +20,7 @@ Inference is the process of using a machine learning model to create vector embe
 Where and how you generate embeddings depends on the model you want to use and whether you prefer to manage your own embedding infrastructure:
 
 - **Client-side inference**: Manage your own inference pipeline locally, for example, using Qdrant's Python [FastEmbed](/documentation/fastembed/) library. This provides full control over the model and its configuration without external network calls and is ideal when you prefer to manage the embedding infrastructure yourself.
-- **Qdrant Cluster (BM25)**: Generate sparse embeddings using the [BM25 model](/documentation/inference/inference-bm25/) directly within the Qdrant cluster. This keeps the embedding logic close to the data, eliminating the need for a separate inference service for keyword-based retrieval.
+- **Qdrant Cluster (BM25)**: While we recommend running [BM25 on a full-text index](/documentation/search/text-search/full-text-search/#bm25), you can also generate sparse BM25 embeddings using the [BM25 model](/documentation/inference/inference-bm25/) directly within the Qdrant cluster. This keeps the embedding logic close to the data.
 - **Qdrant Cloud Inference**: Managed deployments on Qdrant Cloud have access to [Cloud Inference](/documentation/inference/cloud-inference/). Qdrant Cloud hosts a range of embedding models, some for free, allowing you to generate embeddings without managing the infrastructure.
 - **Externally Hosted Models (Qdrant Cloud)**: Access embedding models hosted by [third-party embedding model providers](/documentation/inference/external-inference-providers/) (OpenAI, Cohere, Jina AI, and OpenRouter). Use a wide range of state-of-the-art models through a single, unified Qdrant API, without the need to manage a separate embedding pipeline.
 
@@ -30,6 +30,7 @@ The right option depends on your deployment and what you need to embed. Use this
 
 | If you… | Use… |
 |---|---|
+| Need keyword-based retrieval with BM25 | [BM25 on a full-text index](/documentation/search/text-search/full-text-search/#bm25) (no embeddings required) |
 | Need sparse BM25 embeddings | [Qdrant Cluster](/documentation/inference/inference-bm25/) |
 | Already manage your own inference service | Client-side inference |
 | Self-host Qdrant | Client-side inference, for example using [FastEmbed](/documentation/fastembed/) |

@@ -1,0 +1,1 @@
+This code snippet fetches 100 candidates with a dense vector query, then re-scores them with a BM25 text query on the `title` payload field to get the top 10. Candidates that contain none of the query terms are dropped, so the query can return fewer results than the limit.

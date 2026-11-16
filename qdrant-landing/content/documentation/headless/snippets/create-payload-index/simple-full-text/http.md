@@ -7,7 +7,8 @@ PUT /collections/{collection_name}/index
         "tokenizer": "word",
         "min_token_len": 2,
         "max_token_len": 10,
-        "lowercase": true
+        "lowercase": true,
+        "scoring": true
     }
 }
 ```

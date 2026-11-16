@@ -34,7 +34,7 @@ An authorized user can create their own custom roles with specific sets of perm
 To create a new custom role, click on the **Add** button at the top-right corner of the **Custom Roles** list.
 
 - **Role Name**: Must be unique across roles.
-- **Role Description**: Brief description of the role’s purpose.
+- **Role Description**: Brief description of the role's purpose.
 
 Once created, the new role will appear under the **Custom Roles** section in the navigation.
 

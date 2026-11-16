@@ -1,5 +1,6 @@
-.embedding-model-figure {
-  margin: 1.5rem 0;
+.documentation .embedding-model-figure {
+  margin: 1.5rem auto;
+  width: 100%;
   max-width: 640px;
 }
 
@@ -25,4 +26,13 @@ html[data-theme='dark'] .embedding-model-figure .embedding-model-figure__dark {
   margin-top: 0.6rem;
   font-size: 0.9rem;
   line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .embedding-model-figure img:not(.embedding-model-figure__dark) {
+    display: none;
+  }
+  html:not([data-theme='light']) .embedding-model-figure .embedding-model-figure__dark {
+    display: block;
+  }
 }

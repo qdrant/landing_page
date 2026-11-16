@@ -6,9 +6,12 @@ await client.createCollection("{collection_name}", {
   vectors: {
     dense_vector: { size: 384, distance: "Cosine" },
   },
-  sparse_vectors: {
-    bm25_sparse_vector: {
-      modifier: "idf" // Enable Inverse Document Frequency
-    }
-  }
+});
+
+await client.createPayloadIndex("{collection_name}", {
+  field_name: "passage_text",
+  field_schema: {
+    type: "text",
+    scoring: true, // Enable BM25 scoring
+  },
 });

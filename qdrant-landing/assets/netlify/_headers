@@ -132,3 +132,30 @@
   X-Robots-Tag: noindex
 /documentation/tutorials-search-engineering/static-embeddings/*
   X-Robots-Tag: noindex
+
+/articles/binary-quantization/*
+  X-Robots-Tag: noindex
+/articles/binary-quantization.md
+  X-Robots-Tag: noindex
+
+/articles/binary-quantization-openai/*
+  X-Robots-Tag: noindex
+/articles/binary-quantization-openai.md
+  X-Robots-Tag: noindex
+/blog/binary-quantization-openai/*
+  X-Robots-Tag: noindex
+
+/documentation/examples/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/*
+  X-Robots-Tag: noindex
+/documentation/examples/natural-language-search-oracle-cloud-infrastructure-cohere-langchain.md
+  X-Robots-Tag: noindex
+/documentation/tutorials/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/*
+  X-Robots-Tag: noindex
+
+# Preserved historical Neural Search walkthrough.
+/articles/neural-search-tutorial/*
+  X-Robots-Tag: noindex
+/articles/neural-search-tutorial.md
+  X-Robots-Tag: noindex
+/articles/neural-search-tutorial
+  X-Robots-Tag: noindex

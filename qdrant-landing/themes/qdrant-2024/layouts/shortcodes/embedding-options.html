@@ -1,0 +1,5 @@
+<div class="row g-4 mb-4">
+  {{ range hugo.Data.embedding_navigation.featured }}
+    {{ partial "documentation/cards/docs-cards" (dict "card" . "cardsPerRow" 2) }}
+  {{ end }}
+</div>

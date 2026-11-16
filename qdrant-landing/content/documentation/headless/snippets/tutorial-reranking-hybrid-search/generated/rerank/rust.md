@@ -10,8 +10,8 @@ let results = client
             )
             .add_prefetch(
                 PrefetchQueryBuilder::default()
-                    .query(Query::new_nearest(Document::new(query, sparse_embedding_model)))
-                    .using("sparse")
+                    .query(Query::new_text(query))
+                    .using("description")
                     .limit(20u64),
             )
             .query(Query::new_nearest(Document::new(query, late_interaction_embedding_model)))

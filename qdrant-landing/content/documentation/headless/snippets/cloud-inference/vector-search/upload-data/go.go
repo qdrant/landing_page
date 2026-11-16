@@ -1,6 +1,5 @@
 package snippet
 
-// @hide-start
 import (
 	"context"
 
@@ -8,6 +7,7 @@ import (
 	"github.com/qdrant/go-client/qdrant"
 )
 
+// @hide-start
 func loadDataset(name string, split string) []map[string]string {
 	return []map[string]string{}
 }
@@ -23,7 +23,6 @@ func Main() {
 	// @hide-end
 
 	denseModel := "sentence-transformers/all-minilm-l6-v2"
-	bm25Model := "qdrant/bm25"
 	// NOTE: loadDataset is a user-defined function.
 	// Implement it to return 100 random rows with distinct passages, as the Python version does.
 	dataset := loadDataset("miriad/miriad-4.4M", "train")
@@ -38,10 +37,11 @@ func Main() {
 					Text:  passage,
 					Model: denseModel,
 				}),
-				"bm25_sparse_vector": qdrant.NewVectorDocument(&qdrant.Document{
-					Text:  passage,
-					Model: bm25Model,
-				}),
+			}),
+			// Used for BM25
+			Payload: qdrant.NewValueMap(map[string]any{
+				"passage_text": passage,
+				"question":     item["question"],
 			}),
 		}
 		points = append(points, point)
@@ -50,4 +50,7 @@ func Main() {
 		CollectionName: "{collection_name}",
 		Points:         points,
 	})
+	if err != nil {
+		panic(err)
+	}
 }

@@ -1,10 +1,10 @@
 ```python
-from qdrant_edge import Fusion, Prefetch, Query, QueryRequest, SparseVector
+from qdrant_edge import Fusion, Prefetch, Query, QueryRequest, TextQuery
 
 results = edge_shard.query(QueryRequest(
     prefetches=[
         Prefetch(
-            query=Query.Nearest(SparseVector(indices=[1, 42], values=[0.22, 0.8]), using="sparse"),
+            query=TextQuery("title", "time travel"),
             limit=20,
         ),
         Prefetch(

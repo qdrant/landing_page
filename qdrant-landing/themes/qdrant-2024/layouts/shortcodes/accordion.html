@@ -1,5 +1,5 @@
 {{ $data := .Inner | transform.Unmarshal }}
-<div class="accordion-dark">
+<div class="accordion-dark" data-shortcode="accordion">
   {{ range $data }}
     <div class="accordion-dark__item">
       <h6 class="accordion-dark__item-header">{{ .title }}</h6>

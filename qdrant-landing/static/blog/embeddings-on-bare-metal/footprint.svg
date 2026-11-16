@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="qi-svg be-svg" viewBox="0 0 760 340" role="img" aria-label="Memory footprint as squares with areas proportional to size: Qwen3 Embedding 4B at 4.28GB, about 267 times the 16MB chip; EmbeddingGemma-2 at 8 bits, 310MB, about 19 times the chip; and potion-base-2M at 7.5MB, which fits inside the 16MB square."><style>{ display: block; }
+.qi-label { font-size: 13px; }
+.be-sq.is-qwen { fill: #dc244c; }
+.be-sq.is-gemma { fill: #9c27b0; }
+.be-sq.is-chip { fill: none; stroke: #303547; stroke-width: 1.5; }
+.be-sq.is-potion { fill: #00838f; }
+.be-sq-title { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 16px; font-weight: 600; fill: #fff; }
+.be-sq-sub { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: #fff; }
+.qi-title{font:14px ui-monospace,Menlo,monospace;fill:#303547}.qi-label{font:13px ui-monospace,Menlo,monospace;fill:#656b7f}.qi-label--strong{fill:#303547}</style><rect width="760" height="340" fill="#fff"/>
+    <rect class="be-sq is-qwen" x="20" y="20" width="280.0" height="280.0" rx="4"/>
+    <text class="be-sq-title" x="36" y="52">Qwen3 Embedding 4B</text>
+    <text class="be-sq-sub" x="36" y="74">4.28GB, about 267 times the chip</text>
+
+    <rect class="be-sq is-gemma" x="330" y="20" width="75.4" height="75.4" rx="3"/>
+    <text class="qi-label qi-label--strong" x="421.3558536073821" y="52">EmbeddingGemma-2, 8-bit</text>
+    <text class="qi-label" x="421.3558536073821" y="74">310MB, about 19 times the chip</text>
+
+    <rect class="be-sq is-chip" x="330" y="160" width="17.1" height="17.1" rx="1"/>
+    <rect class="be-sq is-potion" x="332.69932125926795" y="162.69932125926795" width="11.7" height="11.7"/>
+    <text class="qi-label qi-label--strong" x="363.1196995344408" y="172">ESP32-S3 flash: 16MB</text>
+    <text class="qi-label" x="363.1196995344408" y="194">potion-base-2M: 7.5MB, it fits</text>
+
+    <text class="qi-label" x="330" y="300">Square areas are proportional to size.</text>
+  </svg>

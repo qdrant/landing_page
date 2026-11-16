@@ -1,0 +1,1 @@
+This code snippet sets up a field condition that matches keyword values containing a given string. Here, a `substring` match is defined with the target string `qdrant.tech/`. Substring matching is byte-wise and case-sensitive, consistent with exact keyword and prefix matching, and doesn't tokenize the value.

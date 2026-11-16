@@ -2,7 +2,7 @@
 title: Scale Clusters
 short_description: "Scale Qdrant Cloud clusters vertically or horizontally with automatic shard rebalancing as your data and traffic grow."
 description: "Scale Qdrant Cloud clusters vertically or horizontally with automatic shard rebalancing to match growing vector data volumes and query workloads."
-weight: 20
+weight: 25
 ---
 
 # Scaling Qdrant Cloud Clusters
@@ -15,13 +15,41 @@ The amount of data is always growing and at some point you might need to change 
 
 Vertical scaling is the process of increasing the capacity of a cluster by adding or removing CPU, storage and memory resources on each database node.
 
-You can start with a minimal cluster configuration and scale it up over time to accomodate the growing amount of data in your application. If your cluster consists of several nodes each node will need to be scaled to the same size. 
+You can start with a minimal cluster configuration and scale it up over time to accommodate the growing amount of data in your application. If your cluster consists of several nodes each node will need to be scaled to the same size. 
 
-Note that vertical cluster scaling will require a short downtime, if the collections in your cluster are not replicated. This is because each node of the cluster needs to be restarted to apply the CPU, memory and disk size.
+Changing the CPU or memory restarts each node, whether you scale up or down. If the collections in your cluster are not replicated, this causes a short downtime. Increasing only the disk size does not restart the nodes. See [Restarts and Downtime](/documentation/cloud/configure-cluster/#restarts-and-downtime).
 
 When you scale down, the new memory size must still fit all the data in the cluster. Otherwise, the cluster can run out of memory and become unavailable until you scale it back up. The Qdrant Cloud Console and the `qcloud` CLI warn you when your cluster's recent peak memory usage, plus a buffer, is more than the new configuration provides, or when current usage can't be determined. The warning doesn't block the change. Other tools, such as the [Qdrant Cloud API](/documentation/cloud-api/), Terraform, or Pulumi, apply the change without a warning. Before you scale down with them, check your cluster's memory usage. See [Monitor Clusters](/documentation/cloud/cluster-monitoring/).
 
-Note, that it is not possible to scale down the disk space of the cluster due to technical limitations of the underlying cloud providers.
+### Scaling Down Disk Space
+
+You can reduce the disk size of your cluster nodes as well as increase it. Cloud providers don't support shrinking a disk in place, so Qdrant Cloud replaces the nodes instead. For each node, Qdrant Cloud:
+
+1. Creates a new node with the smaller disk.
+2. Replicates all data from the old node to the new node.
+3. Shuts down the old node with the larger disk once replication is complete.
+
+Qdrant Cloud repeats this one node at a time until every node in the cluster has the new disk size. The process doesn't cause downtime, but keep the following in mind:
+
+- The new disk size must still fit all the data on each node, with room to grow. Check your cluster's current disk usage before you scale down. See [Monitor Clusters](/documentation/cloud/cluster-monitoring/).
+- Replacing nodes can take a while, depending on how much data your cluster holds.
+- Replicating data to the new nodes increases the disk I/O load on your cluster until the process completes.
+
+### Changing Disk Speed
+
+On AWS, you can change the IOPS and throughput of your cluster's disks by picking a different disk speed tier. Each tier has more IOPS and throughput than the one before it:
+
+- **Cost-Optimized** (the default): the lowest IOPS and throughput. For test clusters and small production clusters.
+- **Balanced**: several times the IOPS and throughput of Cost-Optimized. For medium-sized clusters.
+- **Performance**: the most IOPS and throughput. For large clusters with a high write load.
+
+Each tier requires a minimum disk size.
+
+The more your workload reads from and writes to disk, the more it gains from a faster tier. This applies to write-heavy workloads, bulk loads, and configurations with a low RAM cache ratio, such as vectors in the `cold` [memory tier](/documentation/ops-configuration/memory-tiers/). If disk I/O isn't the bottleneck, Cost-Optimized is enough.
+
+Pick the tier under **Disk Speed** in the Qdrant Cloud console, or pass `--disk-performance` with `balanced`, `cost-optimised`, or `performance` to `qcloud cluster scale` or `qcloud cluster update`. Changing the tier doesn't restart the nodes. See [Restarts and Downtime](/documentation/cloud/configure-cluster/#restarts-and-downtime).
+
+To decide whether your workload needs faster disks, see [Storage-Focused Configuration](/documentation/capacity-planning/#storage-focused-configuration).
 
 ## Horizontal Scaling
 

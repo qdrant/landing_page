@@ -13,7 +13,6 @@ const client = new QdrantClient({
 
 // @block-start define-models
 const denseEmbeddingModel = "sentence-transformers/all-MiniLM-L6-v2";
-const sparseEmbeddingModel = "qdrant/bm25";
 const lateInteractionEmbeddingModel = "answerdotai/answerai-colbert-small-v1";
 // @block-end define-models
 
@@ -37,8 +36,18 @@ await client.createCollection(collectionName, {
             hnsw_config: { m: 0 }, // Disable HNSW for reranking
         },
     },
-    sparse_vectors: {
-        sparse: { modifier: "idf" },
+});
+
+await client.createPayloadIndex(collectionName, {
+    field_name: "description",
+    field_schema: {
+        type: "text",
+        stemmer: {
+            type: "snowball",
+            language: "english",
+        },
+        stopwords: "english",
+        scoring: true, // Enable BM25 scoring
     },
 });
 // @block-end create-collection
@@ -114,7 +123,6 @@ for await (const { title, author, description } of parseCSV(csvUrl)) {
         id: idx++,
         vector: {
             dense: { text: description, model: denseEmbeddingModel },
-            sparse: { text: description, model: sparseEmbeddingModel },
             multi: { text: description, model: lateInteractionEmbeddingModel },
         },
         payload: { title, author, description },
@@ -143,15 +151,15 @@ const denseResults = await client.query(collectionName, {
 console.log(denseResults.points);
 // @block-end dense-retrieval
 
-// @block-start sparse-retrieval
-const sparseResults = await client.query(collectionName, {
-    query: { text: query, model: sparseEmbeddingModel },
-    using: "sparse",
+// @block-start bm25-retrieval
+const bm25Results = await client.query(collectionName, {
+    query: { text: query },
+    using: "description",
     limit: 10,
 });
 
-console.log(sparseResults.points);
-// @block-end sparse-retrieval
+console.log(bm25Results.points);
+// @block-end bm25-retrieval
 
 // @block-start hybrid-search
 const hybridResults = await client.query(collectionName, {
@@ -162,8 +170,8 @@ const hybridResults = await client.query(collectionName, {
             limit: 20,
         },
         {
-            query: { text: query, model: sparseEmbeddingModel },
-            using: "sparse",
+            query: { text: query },
+            using: "description",
             limit: 20,
         },
     ],
@@ -184,8 +192,8 @@ const rerankedResults = await client.query(collectionName, {
             limit: 20,
         },
         {
-            query: { text: query, model: sparseEmbeddingModel },
-            using: "sparse",
+            query: { text: query },
+            using: "description",
             limit: 20,
         },
     ],

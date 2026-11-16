@@ -1,0 +1,20 @@
+{
+  "title": "Embedding is a small slice of the loading time",
+  "kind": "grouped-columns",
+  "subtitle": "32.9M MIRACL passages, upload goes through the network into Qdrant",
+  "group": "model",
+  "series": "stage",
+  "y": "hours",
+  "yLabel": "hours",
+  "yMax": 12,
+  "colors": [
+    0,
+    2
+  ],
+  "height": 400,
+  "stacked": true,
+  "stackTotals": true,
+  "totalUnit": " h",
+  "textScale": 1.3,
+  "legendLayout": "auto"
+}

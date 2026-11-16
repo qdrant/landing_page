@@ -5,7 +5,7 @@ public class Snippet
 {
 	public static async Task Run()
 	{
-		var client = new QdrantClient("localhost", 6334);
+		var client = new QdrantClient("localhost", 6334); // @hide
 
 		await client.CreatePayloadIndexAsync(
 			collectionName: "{collection_name}",
@@ -18,7 +18,8 @@ public class Snippet
 					Tokenizer = TokenizerType.Word,
 					MinTokenLen = 2,
 					MaxTokenLen = 10,
-					Lowercase = true
+					Lowercase = true,
+					Scoring = new TextScoringParams { Type = TextScoringType.Bm25 }
 				}
 			}
 		);

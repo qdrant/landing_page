@@ -1,4 +1,6 @@
 ```python
+from qdrant_client import QdrantClient, models
+
 results = client.query_points(
     collection_name="{collection_name}",
     prefetch=[
@@ -11,11 +13,8 @@ results = client.query_points(
             limit=5
         ),
         models.Prefetch(
-            query=models.Document(
-                text=query_text,
-                model=bm25_model
-            ),
-            using="bm25_sparse_vector",
+            query=models.TextQuery(text=query_text),
+            using="passage_text",
             limit=5
         )
     ],

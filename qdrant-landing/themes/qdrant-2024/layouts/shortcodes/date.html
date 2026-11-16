@@ -1,4 +1,4 @@
 {{ $image := default "/icons/outline/date-blue.svg" (.Get "image") }}
-<div class="date">
+<div class="date" data-shortcode="date">
   <img class="date-icon" src="{{ $image }}" alt="Calendar" /> {{ .Inner }}
 </div>

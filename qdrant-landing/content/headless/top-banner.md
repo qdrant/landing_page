@@ -10,12 +10,12 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Vector Space Stream: a research-first broadcast for engineers. Eight talks on compression, edge, hybrid search, and more. Sept 17."
+text: "Qdrant 1.20: BM25 hybrid search without sparse vectors, and more"
 link:
-  text: Tune in
-  url: https://luma.com/vector-space-stream
-start: 2026-09-02T12:00:00.000Z
+  text: Read the release notes
+  url: https://qdrant.tech/blog/qdrant-1.20.x/
+start: 2026-10-22T12:00:00.000Z
 sitemapExclude: true
-end: 2026-09-16T12:00:00.000Z
+end: 2026-11-05T14:00:00.000Z
 
 ---

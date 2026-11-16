@@ -1,0 +1,9 @@
+{{ with (.Site.GetPage "/about-us/carousel") }}
+  <section class="carousel">
+    {{ $context := slice }}
+    {{ range .Params.photoCards }}
+      {{ $context = $context | append (dict "img" .img "name" "Team") }}
+    {{ end }}
+    {{ partial "marketing/marquee.html" (dict "context" $context "marqueeClass" "carousel__photos") }}
+  </section>
+{{ end }}

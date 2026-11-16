@@ -1,0 +1,8 @@
+@use '../../helpers/functions' as *;
+
+.lp-ai-retrieval-faq {
+  @include lp-ai-retrieval-band(false, 5, 5);
+  &__title { @include lp-ai-retrieval-title(false, true); margin-bottom: $spacer * 2.5; text-align: left; }
+  @include media-breakpoint-up(lg) { &__title { margin-bottom: $spacer * 4; } }
+  .accordion { margin-left: 0; }
+}

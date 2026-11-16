@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 258" role="img" aria-labelledby="d" font-family="'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<desc id="d">The synchronous caller schedules reads A, B, and C without waiting. Tokio workers finish them out of order: B, then C, then A. Each reply's slot maps it back to the original request.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#656b7f"/></marker></defs>
+<text x="20" y="35" font-size="16" font-weight="600" fill="#303547">synchronous pipeline</text>
+<text x="20" y="74" font-size="15" fill="#656b7f"><tspan x="20">schedule</tspan><tspan x="20" dy="18">immediately</tspan></text>
+<text x="440" y="30" font-size="15" fill="#656b7f">wait() receives finish order</text>
+<g font-size="15" font-weight="600" fill="#303547" text-anchor="middle"><g><circle cx="180" cy="54" r="12" fill="#6047ff" fill-opacity=".18" stroke="#6047ff"/><text x="180" y="59">A</text></g><g><circle cx="245" cy="54" r="12" fill="#9c27b0" fill-opacity=".18" stroke="#9c27b0"/><text x="245" y="59">B</text></g><g><circle cx="310" cy="54" r="12" fill="#00838f" fill-opacity=".18" stroke="#00838f"/><text x="310" y="59">C</text></g></g>
+<g fill="none" stroke-width="1.8"><path d="M180 68V104" stroke="#6047ff" marker-end="url(#a)"/><path d="M245 68V146" stroke="#9c27b0" marker-end="url(#a)"/><path d="M310 68V188" stroke="#00838f" marker-end="url(#a)"/></g>
+<text x="20" y="132" font-size="16" font-weight="600" fill="#303547">Tokio workers</text>
+<rect x="180" y="105" width="470" height="28" rx="5" fill="#d6d4fb" stroke="#6047ff" stroke-width="1.5"/><text x="192" y="124" font-size="15" font-weight="600" fill="#303547">read A · slot 0</text>
+<rect x="245" y="147" width="200" height="28" rx="5" fill="#e1ceed" stroke="#9c27b0" stroke-width="1.5"/><text x="257" y="166" font-size="15" font-weight="600" fill="#303547">read B · slot 1</text>
+<rect x="310" y="189" width="235" height="28" rx="5" fill="#c5dfe7" stroke="#00838f" stroke-width="1.5"/><text x="322" y="208" font-size="15" font-weight="600" fill="#303547">read C · slot 2</text>
+<g fill="none" stroke-width="1.8"><path d="M445 147V70" stroke="#9c27b0" marker-end="url(#a)"/><path d="M545 189V70" stroke="#00838f" marker-end="url(#a)"/><path d="M650 105V70" stroke="#6047ff" marker-end="url(#a)"/></g>
+<g font-size="15" font-weight="600" fill="#303547" text-anchor="middle"><g><circle cx="445" cy="54" r="12" fill="#9c27b0" fill-opacity=".18" stroke="#9c27b0"/><text x="445" y="59">B</text></g><g><circle cx="545" cy="54" r="12" fill="#00838f" fill-opacity=".18" stroke="#00838f"/><text x="545" y="59">C</text></g><g><circle cx="650" cy="54" r="12" fill="#6047ff" fill-opacity=".18" stroke="#6047ff"/><text x="650" y="59">A</text></g></g>
+<text x="548" y="244" text-anchor="middle" font-size="15" font-weight="600" fill="#303547">finish order: B → C → A</text>
+</svg>

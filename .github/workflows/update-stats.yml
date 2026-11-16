@@ -6,6 +6,10 @@ on:
   schedule:
     - cron: "00 17 * * 0"
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -17,8 +21,12 @@ jobs:
       - name: Run github-stars update script
         run: |
           bash -x automation/update-stats.sh
-      - uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d # v7.2.0
+      - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
-          commit_message: "Update GitHub Stars"
-          commit_user_name: "GitHub Actions"
-          commit_user_email: "team@qdrant.com"
+          commit-message: "Update GitHub Stars"
+          committer: "GitHub Actions <team@qdrant.com>"
+          author: "GitHub Actions <team@qdrant.com>"
+          branch: automation/update-github-stars
+          delete-branch: true
+          title: "Update GitHub Stars"
+          body: "Automated weekly update of the GitHub star count in `qdrant-landing/content/headless/stats.md`."

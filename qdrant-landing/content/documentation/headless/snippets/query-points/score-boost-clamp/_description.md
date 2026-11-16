@@ -1,0 +1,1 @@
+The snippet demonstrates how to clamp a payload value into a range by combining `max` and `min`: `max(0.0, min(1.0, rating))`. The clamped `rating` is added to the score, so values below 0 count as 0 and values above 1 count as 1.

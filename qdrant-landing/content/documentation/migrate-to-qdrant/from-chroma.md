@@ -48,6 +48,17 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
     --qdrant.collection 'your-collection'
 ```
 
+For Chroma Cloud, use these options. Chroma Cloud returns at most 300 records per request, so keep `--migration.batch-size` at 300 or lower.
+
+```bash
+    --chroma.url 'https://api.trychroma.com' \
+    --chroma.tenant 'your-tenant-id' \
+    --chroma.database 'your-database' \
+    --chroma.auth-type token \
+    --chroma.token-header X-Chroma-Token \
+    --chroma.token 'your-api-key'
+```
+
 ### All Chroma-Specific Flags
 
 | Flag | Required | Description |
@@ -69,6 +80,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 | `--qdrant.document-field` | `document` | Payload field name to store Chroma document text |
 | `--qdrant.id-field` | `__id__` | Payload field name for original Chroma IDs |
 | `--qdrant.distance-metric` | `euclid` | `cosine`, `dot`, `manhattan`, or `euclid` |
+| `--qdrant.uri-field`      | Field storing Chroma URIs in Qdrant. Default: `"uri"` |
 
 ## Gotchas
 

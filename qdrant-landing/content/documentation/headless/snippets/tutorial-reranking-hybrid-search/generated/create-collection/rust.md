@@ -17,17 +17,20 @@ vectors.add_named_vector_params(
         .hnsw_config(HnswConfigDiffBuilder::default().m(0)), // Disable HNSW for reranking
 );
 
-let mut sparse = SparseVectorsConfigBuilder::default();
-sparse.add_named_vector_params(
-    "sparse",
-    SparseVectorParamsBuilder::default().modifier(Modifier::Idf),
-);
+client
+    .create_collection(CreateCollectionBuilder::new(collection_name).vectors_config(vectors))
+    .await?;
 
 client
-    .create_collection(
-        CreateCollectionBuilder::new(collection_name)
-            .vectors_config(vectors)
-            .sparse_vectors_config(sparse),
+    .create_field_index(
+        CreateFieldIndexCollectionBuilder::new(collection_name, "description", FieldType::Text)
+            .field_index_params(
+                TextIndexParamsBuilder::new(TokenizerType::Word)
+                    .snowball_stemmer("english".to_string())
+                    .stopwords_language("english".to_string())
+                    .bm25_scoring() // Enable BM25 scoring
+                    .build(),
+            ),
     )
     .await?;
 ```

@@ -1,0 +1,8 @@
+@use '../../helpers/functions' as *;
+
+.lp-semantic-faq {
+  @include lp-semantic-band(false, 5, 5);
+  &__title { @include lp-semantic-title(false, true); margin-bottom: $spacer * 2.5; text-align: left; }
+  @include media-breakpoint-up(lg) { &__title { margin-bottom: $spacer * 4; } }
+  .accordion { margin-left: 0; }
+}

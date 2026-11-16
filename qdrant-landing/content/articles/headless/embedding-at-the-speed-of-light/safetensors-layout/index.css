@@ -1,0 +1,24 @@
+.se-fig { display: block; }
+.se-fig .qi-title { font-size: 14px; }
+.se-fig .qi-label { font-size: 13px; }
+.se-fig .se-flow { fill: none; stroke: var(--qi-line); stroke-width: 1.6; }
+.se-fig .se-arrowhead { fill: var(--qi-muted); }
+.se-fig .se-chip { cursor: pointer; }
+.se-fig .se-chip rect { fill: var(--qi-surface); stroke: var(--qi-border); stroke-width: 1.5; }
+.se-fig .se-chip text { font-family: var(--qi-mono); font-size: 13px; fill: var(--qi-fg); }
+.se-fig .se-chip.is-selected rect { stroke: var(--qi-hot); stroke-width: 2.5; }
+.se-fig .se-chip:focus-visible rect { stroke: var(--qi-accent); stroke-width: 2.5; }
+.se-fig .se-chip:focus { outline: none; }
+.se-fig .se-box rect { fill: var(--qi-surface); stroke: var(--qi-border); stroke-width: 1.5; }
+.se-fig .se-box text { font-family: var(--qi-mono); font-size: 13px; fill: var(--qi-fg); }
+.se-fig .c1 { fill: var(--qi-cat-1); }
+.se-fig .c2 { fill: var(--qi-cat-2); }
+.se-fig .c3 { fill: var(--qi-cat-3); }
+.se-fig .c4 { fill: var(--qi-cat-4); }
+.se-fig .pad { fill: none; stroke: var(--qi-line); stroke-width: 1.2; stroke-dasharray: 3 3; }
+.se-fig .muted { fill: var(--qi-muted); }
+.se-fig .dim { opacity: 0.35; }
+.se-fig .se-num { font-family: var(--qi-mono); font-size: 13px; fill: var(--qi-fg); text-anchor: middle; }
+.se-fig .se-cell-box { fill: var(--qi-surface); stroke: var(--qi-border); stroke-width: 1.2; }
+.se-fig .se-cell-box.is-selected { stroke: var(--qi-hot); stroke-width: 2.5; }
+.se-fig .se-seg { stroke: none; }

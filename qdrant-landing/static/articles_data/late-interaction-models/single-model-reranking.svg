@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-labelledby="description">
+  <desc id="description">A query goes through the sentence transformer, which produces output token embeddings. Manual pooling turns them into a single vector, which dense vector search uses to retrieve the top 50 results, five times the final count. The output token embeddings from the same model rerank those results, returning the top 10.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#656b7f"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="639" height="319" rx="6" fill="#f0f3fa" stroke="#d3d9eb" stroke-width="1"/>
+  <g font-family="'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <rect x="20" y="20" width="210" height="36" rx="6" fill="none" stroke="#abb1c7" stroke-width="1.5"/>
+    <text x="125" y="43" font-size="13" text-anchor="middle" fill="#303547">Query</text>
+    <path d="M125 56 V76" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="20" y="80" width="210" height="36" rx="6" fill="none" stroke="#6047ff" stroke-width="1.5"/>
+    <text x="125" y="103" font-size="13" text-anchor="middle" fill="#303547" font-weight="600">Sentence transformer</text>
+    <path d="M125 116 V136" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="20" y="140" width="210" height="36" rx="6" fill="none" stroke="#ff9800" stroke-width="1.5"/>
+    <text x="125" y="163" font-size="13" text-anchor="middle" fill="#303547" font-weight="600">Output token embeddings</text>
+    <path d="M125 176 V216" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="20" y="220" width="210" height="44" rx="6" fill="none" stroke="#03a9f4" stroke-width="1.5"/>
+    <text x="125" y="247" font-size="13" text-anchor="middle" fill="#303547" font-weight="600">Manual pooling</text>
+    <path d="M230 242 H336" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="283" y="234" font-size="12" text-anchor="middle" fill="#656b7f">single vector</text>
+    <rect x="340" y="220" width="150" height="44" rx="6" fill="none" stroke="#ff9800" stroke-width="1.5"/>
+    <text x="415" y="238" font-size="13" text-anchor="middle" fill="#303547" font-weight="600">Dense vector</text>
+    <text x="415" y="255" font-size="13" text-anchor="middle" fill="#303547" font-weight="600">search</text>
+    <text x="415" y="284" font-size="12" text-anchor="middle" fill="#656b7f">top 50</text>
+    <text x="415" y="300" font-size="12" text-anchor="middle" fill="#656b7f">5x oversampling</text>
+    <path d="M230 158 H326" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="330" y="136" width="170" height="44" rx="6" fill="none" stroke="#dc244c" stroke-width="1.5"/>
+    <text x="415" y="154" font-size="13" text-anchor="middle" fill="#303547" font-weight="600">Rerank with</text>
+    <text x="415" y="171" font-size="13" text-anchor="middle" fill="#303547" font-weight="600">token embeddings</text>
+    <path d="M415 220 V184" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <path d="M500 158 H526" fill="none" stroke="#656b7f" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <rect x="530" y="136" width="90" height="44" rx="6" fill="none" stroke="#009688" stroke-width="1.5"/>
+    <text x="575" y="163" font-size="13" text-anchor="middle" fill="#303547" font-weight="600">Top 10</text>
+  </g>
+</svg>

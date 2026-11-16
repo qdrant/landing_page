@@ -17,7 +17,7 @@ tags:
   - product quantization
   - scalar quantization
   - vector compression
-category: core-concepts
+category: qdrant-internals
 ---
 
 Vector quantization is a data compression technique used to reduce the size of high-dimensional data. Compressing vectors reduces memory usage while maintaining nearly all of the essential information. This method allows for more efficient storage and faster search operations, particularly in large datasets.
@@ -170,7 +170,7 @@ These models demonstrate minimal accuracy loss while still benefiting from subst
 
 Even though Binary Quantization is incredibly fast and memory-efficient, the trade-offs are in **precision** and **model compatibility**, so you may need to ensure search quality using techniques like oversampling and rescoring.
 
-If you're interested in exploring Binary Quantization in more detail—including implementation examples, benchmark results, and usage recommendations—check out our dedicated article on [Binary Quantization - Vector Search, 40x Faster](https://qdrant.tech/articles/binary-quantization/).
+If you're interested in exploring Binary Quantization in more detail, including how to set it up, see the [Binary Quantization section of the Quantization documentation](https://qdrant.tech/documentation/manage-data/quantization/#binary-quantization).
 
 ## 3. What is Product Quantization?
 

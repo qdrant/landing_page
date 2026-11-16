@@ -9,11 +9,9 @@ ctx := qdrant.WithHeader(context.Background(), "openrouter-api-key", "<YOUR_OPEN
 
 client.Query(ctx, &qdrant.QueryPoints{
 	CollectionName: "{collection_name}",
-	Query: qdrant.NewQueryNearest(
-		qdrant.NewVectorInputDocument(&qdrant.Document{
-			Model: "openrouter/mistralai/mistral-embed-2312",
-			Text:  "How to bake cookies?",
-		}),
-	),
+	Query: qdrant.NewQueryDocument(&qdrant.Document{
+		Model: "openrouter/mistralai/mistral-embed-2312",
+		Text:  "How to bake cookies?",
+	}),
 })
 ```

@@ -70,9 +70,9 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 ## Hybrid Search Considerations
 
-If your Elasticsearch setup uses hybrid BM25 + kNN scoring, you'll need to reconstruct this in Qdrant using [sparse vectors](/documentation/manage-data/vectors/#sparse-vectors) (for BM25-like behavior) alongside dense vectors. The migration tool transfers the dense vectors; you'll need to generate sparse vectors separately if you want hybrid search in Qdrant.
+If your Elasticsearch setup uses hybrid BM25 and kNN scoring, you can reconstruct this in Qdrant with [BM25 on a full-text index](/documentation/search/text-search/full-text-search/#bm25) alongside dense vectors. The migration tool transfers the dense vectors and document fields, so you don't need to generate embeddings for BM25. Create a [full-text index with scoring enabled](/documentation/manage-data/indexing/#bm25-scoring) on the text fields you want to search.
 
-Qdrant supports native hybrid search with [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/) to combine dense and sparse results.
+Qdrant supports native hybrid search with [Reciprocal Rank Fusion (RRF)](/documentation/search/hybrid-queries/) to combine dense and BM25 results.
 
 ## Next Steps
 

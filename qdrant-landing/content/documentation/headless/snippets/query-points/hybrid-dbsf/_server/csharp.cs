@@ -5,16 +5,14 @@ public class Snippet
 {
 	public static async Task Run()
 	{
-		var client = new QdrantClient("localhost", 6334);
+		var client = new QdrantClient("localhost", 6334); // @hide
 
 		await client.QueryAsync(
 		  collectionName: "{collection_name}",
 		  prefetch: new List < PrefetchQuery > {
 		    new() {
-		      Query = new(float, uint)[] {
-		          (0.22f, 1), (0.8f, 42),
-		        },
-		        Using = "sparse",
+		      Query = new Query { Text = new TextQuery { Query = "time travel" } },
+		        Using = "title",
 		        Limit = 20
 		    },
 		    new() {

@@ -1,0 +1,1 @@
+Generates embeddings with Jina AI and stores and searches them in Qdrant: client setup, collection creation, document and query embedding, and the provider-specific steps. Used on the Jina AI embeddings provider page.

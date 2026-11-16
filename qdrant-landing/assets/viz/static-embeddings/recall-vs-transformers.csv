@@ -1,0 +1,6 @@
+model,type,recall_at_10_pct
+arctic-embed-m,transformer,63.5
+bge-small-v1.5,transformer,56.1
+stella-400M-v5,transformer,53.7
+potion-32M,static,39.9
+potion-8M,static,15.8

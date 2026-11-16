@@ -1,10 +1,10 @@
 ```rust
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{
-    CreateCollectionBuilder, Distance, Document, Fusion, HnswConfigDiffBuilder,
-    Modifier, MultiVectorComparator, MultiVectorConfigBuilder, NamedVectors, PointStruct,
-    PrefetchQueryBuilder, Query, QueryPointsBuilder, SparseVectorParamsBuilder,
-    SparseVectorsConfigBuilder, UpsertPointsBuilder, VectorParamsBuilder, VectorsConfigBuilder,
+    CreateCollectionBuilder, CreateFieldIndexCollectionBuilder, Distance, Document, FieldType,
+    Fusion, HnswConfigDiffBuilder, MultiVectorComparator, MultiVectorConfigBuilder, NamedVectors,
+    PointStruct, PrefetchQueryBuilder, Query, QueryPointsBuilder, TextIndexParamsBuilder,
+    TokenizerType, UpsertPointsBuilder, VectorParamsBuilder, VectorsConfigBuilder,
 };
 
 let client = Qdrant::from_url(qdrant_url)
@@ -12,7 +12,6 @@ let client = Qdrant::from_url(qdrant_url)
     .build()?;
 
 let dense_embedding_model = "sentence-transformers/all-MiniLM-L6-v2";
-let sparse_embedding_model = "qdrant/bm25";
 let late_interaction_embedding_model = "answerdotai/answerai-colbert-small-v1";
 
 let collection_name = "hybrid-search";
@@ -33,17 +32,20 @@ vectors.add_named_vector_params(
         .hnsw_config(HnswConfigDiffBuilder::default().m(0)), // Disable HNSW for reranking
 );
 
-let mut sparse = SparseVectorsConfigBuilder::default();
-sparse.add_named_vector_params(
-    "sparse",
-    SparseVectorParamsBuilder::default().modifier(Modifier::Idf),
-);
+client
+    .create_collection(CreateCollectionBuilder::new(collection_name).vectors_config(vectors))
+    .await?;
 
 client
-    .create_collection(
-        CreateCollectionBuilder::new(collection_name)
-            .vectors_config(vectors)
-            .sparse_vectors_config(sparse),
+    .create_field_index(
+        CreateFieldIndexCollectionBuilder::new(collection_name, "description", FieldType::Text)
+            .field_index_params(
+                TextIndexParamsBuilder::new(TokenizerType::Word)
+                    .snowball_stemmer("english".to_string())
+                    .stopwords_language("english".to_string())
+                    .bm25_scoring() // Enable BM25 scoring
+                    .build(),
+            ),
     )
     .await?;
 
@@ -85,7 +87,6 @@ for row in parse_csv(csv_url)? {
 
     let vectors = NamedVectors::default()
         .add_vector("dense", Document::new(&description, dense_embedding_model))
-        .add_vector("sparse", Document::new(&description, sparse_embedding_model))
         .add_vector("multi", Document::new(&description, late_interaction_embedding_model));
 
     buffer.push(PointStruct::new(
@@ -133,8 +134,8 @@ for result in results.result {
 let results = client
     .query(
         QueryPointsBuilder::new(collection_name)
-            .query(Query::new_nearest(Document::new(query, sparse_embedding_model)))
-            .using("sparse")
+            .query(Query::new_text(query))
+            .using("description")
             .limit(10),
     )
     .await?;
@@ -154,8 +155,8 @@ let results = client
             )
             .add_prefetch(
                 PrefetchQueryBuilder::default()
-                    .query(Query::new_nearest(Document::new(query, sparse_embedding_model)))
-                    .using("sparse")
+                    .query(Query::new_text(query))
+                    .using("description")
                     .limit(20u64),
             )
             .query(Query::new_fusion(Fusion::Rrf))
@@ -179,8 +180,8 @@ let results = client
             )
             .add_prefetch(
                 PrefetchQueryBuilder::default()
-                    .query(Query::new_nearest(Document::new(query, sparse_embedding_model)))
-                    .using("sparse")
+                    .query(Query::new_text(query))
+                    .using("description")
                     .limit(20u64),
             )
             .query(Query::new_nearest(Document::new(query, late_interaction_embedding_model)))

@@ -26,3 +26,16 @@ New grouped-column charts can use `textScale` (a number from 0.75 to 2.5) and `l
 These are additional top-level fields on a normal chart spec, not a complete spec. Text scale multiplies the existing named type roles. It defaults to 1, although `readableType: true` still supplies 1.8 when no explicit scale is set. An explicit scale overrides that legacy preset's scale. Either new field opts into calculated heading and legend spacing. The tallest heading across all views reserves one consistent plot area; legend space is calculated and stored in the generated SVG for Hugo to consume. `height` includes the heading and plot, excluding the automatically reserved legend. Leave `legendRoom` out unless you need extra whitespace; a value smaller than the required space is rejected. At least 140 SVG units must remain for the plot. Overlong axis labels fail generation with a sizing hint. Alternate views must share the same data source, chart kind, and series field. Regenerate after changing any layout option. Existing specs without either new field remain byte-identical, including the original `readableType` preset.
 
 These dimensions are SVG units, not guaranteed on-screen font sizes. Inspect actual article widths and all views. These options do not add responsive plot reflow or remove the existing narrow-screen scrolling policy. Blog chart chrome and tooltips now follow the blog's light-only surface; theme-aware pages retain their existing explicit/system theme behavior. Series colors and values do not change with either policy.
+
+## Stacked columns
+
+`grouped-columns` charts can opt into `"stacked": true`. Each group then draws one bar, and the series stack bottom to top in CSV order instead of sitting side by side. `yMax` is required and must be at least the largest stack, otherwise generation fails rather than cutting off the top segment. Legend, hover rows, views, `textScale`, and `legendLayout` behave as for side-by-side columns.
+
+| Top-level spec field | Supported use |
+| --- | --- |
+| `stacked` | `true`; supported only for `grouped-columns` |
+| `stackTotals` | `true` prints each stack's sum above the bar; requires `stacked`; a view can set it to `false` |
+| `totalUnit` | Text appended to the total, such as `" h"` |
+| `totalDecimals` | Decimal places for the total, default 1 |
+
+See `assets/viz/fixtures/stacked.json` for an illustrative example and `test/viz/stacked.test.mjs` for the checks. Charts without `stacked` are unchanged.

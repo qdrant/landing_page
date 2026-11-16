@@ -1,0 +1,14 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+  {{ with (.Site.GetPage "/data-analysis/data-analysis-hero") }}
+    {{ partial "marketing/use-cases-vector-hero" . }}
+  {{ end }}
+
+  {{ partial "marketing/data-analysis-anomaly-detection" . }}
+
+  {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
+    {{ partial "marketing/get-started-small" (dict "context" . "class" "use-cases-vector-get-started") }}
+  {{ end }}
+
+  {{ partial "marketing/get-started" . }}
+{{ end }}

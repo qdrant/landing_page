@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="en">
-  {{- partial "head.html" . -}}
+  {{- partial "common/head.html" . -}}
   <body>
-    {{- partial "validate-content.html" . -}}
+    {{- partial "common/validate-content.html" . -}}
     <main>
       {{ partial "documentation/header" . }}
       {{ partial "documentation/content-layout" . }}
     </main>
   </body>
-  {{ partial "js.html" . }}
+  {{ partial "common/js.html" . }}
 </html>

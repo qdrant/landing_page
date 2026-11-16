@@ -8,11 +8,11 @@ const VECTOR_NAME: &str = "my-vector";
 
 fs_err::create_dir_all(MUTABLE_SHARD_DIR)?;
 let config = EdgeConfigBuilder::new()
-    .on_disk_payload(true)
+    .payload_memory(Memory::Cold)
     .vector(
         VECTOR_NAME,
         EdgeVectorParamsBuilder::new(VECTOR_DIMENSION, Distance::Cosine)
-            .on_disk(true)
+            .memory(Memory::Cold)
             .build(),
     )
     .build();

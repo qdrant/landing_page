@@ -13,7 +13,6 @@ for row in parse_csv(csv_url)? {
 
     let vectors = NamedVectors::default()
         .add_vector("dense", Document::new(&description, dense_embedding_model))
-        .add_vector("sparse", Document::new(&description, sparse_embedding_model))
         .add_vector("multi", Document::new(&description, late_interaction_embedding_model));
 
     buffer.push(PointStruct::new(

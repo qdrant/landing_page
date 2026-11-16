@@ -6,17 +6,17 @@ import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.Fusion;
 import io.qdrant.client.grpc.Points.PrefetchQuery;
+import io.qdrant.client.grpc.Points.Query;
 import io.qdrant.client.grpc.Points.QueryPoints;
+import io.qdrant.client.grpc.Points.TextQuery;
 import java.util.List;
-
-QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client.queryAsync(
     QueryPoints.newBuilder()
     .setCollectionName("{collection_name}")
     .addPrefetch(PrefetchQuery.newBuilder()
-      .setQuery(nearest(List.of(0.22f, 0.8f), List.of(1, 42)))
-      .setUsing("sparse")
+      .setQuery(Query.newBuilder().setText(TextQuery.newBuilder().setQuery("time travel")).build())
+      .setUsing("title")
       .setLimit(20)
       .build())
     .addPrefetch(PrefetchQuery.newBuilder()

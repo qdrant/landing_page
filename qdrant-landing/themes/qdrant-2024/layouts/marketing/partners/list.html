@@ -1,0 +1,37 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+  {{ partial "marketing/partners-hero" . }}
+
+  {{ partial "marketing/partners-cloud" . }}
+
+  {{ with (.Site.GetPage "/headless/marketplaces") }}
+    {{ partial "marketing/marketplaces" (dict "context" . "class" "partners-cloud-marketplaces") }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/partners/partners-testimonial") }}
+    {{ partial "marketing/testimonial-light" (dict "context" . "class" "partners-testimonial") }}
+  {{ end }}
+
+  {{ with (.Site.GetPage "/partners/partners-integrations") }}
+    {{ partial "marketing/partners-integrations" . }}
+  {{ end }}
+
+  {{ partial "marketing/partners-embeddings" . }}
+
+  {{ with (.Site.GetPage "/partners/partners-frameworks") }}
+    {{ partial "marketing/partners-integrations" . }}
+  {{ end }}
+
+  {{ partial "marketing/partners-solution" . }}
+
+  {{ with (.Site.GetPage "/partners/partners-get-started") }}
+    {{ partial "marketing/get-started-small" (dict "context" . "class" "partners-get-started") }}
+  {{ end }}
+
+  {{ partial "marketing/get-started" . }}
+
+  {{ with (.Site.GetPage "/headless/get-contacted-with-question") }}
+    {{ partial "marketing/get-contacted" (dict "context" . "class" "partners-get-contacted") }}
+  {{ end }}
+
+{{ end }}

@@ -1,0 +1,30 @@
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{Document, Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
+
+let dense_prefetch = PrefetchQueryBuilder::default()
+    .query(Query::new_nearest(Document::new(
+        "time travel",
+        "sentence-transformers/all-minilm-l6-v2",
+    )))
+    .using("description-dense")
+    .score_threshold(0.5)
+    .build();
+
+let bm25_prefetch = PrefetchQueryBuilder::default()
+    .query(Query::new_text("time travel"))
+    .using("title")
+    .build();
+
+client
+    .query(
+        QueryPointsBuilder::new("books")
+            .add_prefetch(dense_prefetch)
+            .add_prefetch(bm25_prefetch)
+            .query(Query::new_fusion(Fusion::Rrf))
+            .limit(10)
+            .with_payload(true)
+            .build(),
+    )
+    .await?;
+```

@@ -19,4 +19,5 @@ client.create_collection(
         ),
     ),
     payload=models.PayloadStorageParams(memory=models.Memory.CACHED),
+    id_tracker=models.IdTrackerParams(memory=models.Memory.CACHED),
 )

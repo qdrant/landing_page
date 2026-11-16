@@ -6,8 +6,9 @@ the documentation.
 
 This file is about editing the repository. It is not the agent-facing entry
 point for the published site, which is
-[`qdrant.tech/llms.txt`](https://qdrant.tech/llms.txt), generated from
-`themes/qdrant-2024/layouts/index.llms.txt`.
+[`qdrant.tech/llms.txt`](https://qdrant.tech/llms.txt). Its hand-written opening
+lives in `qdrant-landing/content/headless/llms.md`; the generated rest comes
+from `themes/qdrant-2024/layouts/index.llms.txt`.
 
 ## Build and serve
 
@@ -38,6 +39,7 @@ Three things about the build cause more lost time than everything else combined:
 | `qdrant-landing/content/headless/`, `.../documentation/headless/` | Page bundles that are never published as URLs: code snippets, prompts |
 | `qdrant-landing/themes/qdrant-2024/` | The theme: layouts, shortcodes, SCSS, JS |
 | `qdrant-landing/layouts/` | Project layouts, which override the theme's |
+| `netlify/edge-functions/` | Netlify Edge Functions (Deno). `agent-skills.ts` serves `/.well-known/agent-skills/` from skills.qdrant.tech |
 | `automation/` | Checks and generators, each with its own README |
 | `.github/workflows/` | CI |
 
@@ -47,6 +49,64 @@ are generated and git-ignored. Never edit them, and never cite a path under
 
 Project layouts win over theme layouts, which is why `layouts/shortcodes/`
 holds the per-output-format variants while the theme holds the HTML ones.
+
+## Assets are split by owner
+
+`themes/qdrant-2024/assets/` holds four directories and nothing else:
+
+| Directory | What it holds | May import from |
+|---|---|---|
+| `lib/` | Part-neutral code: `analytics/`, `code-blocks/`, `copy-markdown/`, `heading-anchors/`, `vendor/` (third-party wrappers), and `_tools.scss` (shared Sass values) | `lib/`, `node_modules` |
+| `shortcodes/` | One folder per shortcode with its own styles or script | `shortcodes/`, `lib/`, `node_modules` |
+| `marketing/` | The marketing part: `css/` and `js/` | `marketing/`, `lib/`, `node_modules` |
+| `docs/` | The documentation part: `css/` and `js/` | `docs/`, `lib/`, `node_modules` |
+
+Dependencies point toward `lib/`. `marketing/` and `docs/` never import from
+each other or from `shortcodes/`, so the marketing part can be rewritten without
+touching the documentation. A file that exists in both parts, such as
+`helpers.js` or `_bootstrap-tools.scss`, is a deliberate copy: fix it in both.
+See `assets/README.md`.
+
+The documentation part is the `documentation`, `learn`, `course`, and `articles`
+sections (everything reached from the docs header); the marketing part is
+everything else, including the blog. `layouts/partials/common/is-docs-part.html`
+decides, and `css.html`, `js.html`, and `js-head.html` dispatch to
+`partials/documentation/` or `partials/marketing/`.
+
+`themes/qdrant-2024/layouts/partials/` is split the same way, into three
+directories and nothing else:
+
+| Directory | What it holds |
+|---|---|
+| `common/` | Partials both parts use: the page head and the `css.html`, `js.html`, and `js-head.html` dispatchers, the `lib/` component partials, and shared pieces such as `logo`, `svg`, `pagination`, and `table-of-contents` |
+| `documentation/` | Partials only documentation pages use |
+| `marketing/` | Partials only marketing pages use, in their section subfolders (`home/`, `pricing/`, `industries/`, ...) |
+
+Call a partial by its full path, for example `partial "common/logo.html"`. A
+partial that starts serving both parts moves to `common/`. The project-level
+`qdrant-landing/layouts/partials/` (Markdown output, snippets, charts) is a
+separate override layer and keeps its own layout.
+
+Page templates for the marketing part live in
+`themes/qdrant-2024/layouts/marketing/<section>/`, and the project's Markdown
+output templates for marketing sections in `qdrant-landing/layouts/marketing/<section>/`.
+Hugo finds them through `type`: each marketing section's `_index.md` sets
+`type: marketing/<section>` and repeats it under `cascade` for the pages inside.
+A new marketing section needs both lines, or its pages fall back to
+`layouts/_default/`. A page that sets its own `type` (event pages do, for their
+event kind) keeps it.
+
+Each `lib/` component has a pair of partials that a part calls where it wants
+it, so a part can swap one for something else: `partials/common/analytics/`,
+`partials/common/code-blocks/`, `partials/common/copy-markdown/`,
+`partials/common/heading-anchors/`. Every theme
+must call `partials/common/analytics/head.html` and `body.html`, or its pages
+ship without tracking or consent.
+
+Shortcode assets load only on pages that use the shortcode. The shortcode marks
+its root element with `data-shortcode="<name>"`, and
+`partials/common/shortcode-assets/` finds the markers in `.Content`. See
+`assets/shortcodes/README.md`.
 
 ## Every page has two outputs
 
@@ -68,10 +128,6 @@ one. `code-snippet`, `include`, `prompt`, and `prompt-index` all do this.
 - **Moving or renaming a page needs `aliases`** in the destination's front
   matter. Old URLs are linked from blog posts, from articles, and from the
   pointers prepended to every documentation `index.md`.
-- **Code samples belong in `documentation/headless/snippets/`**, not written
-  inline. They are compilable sources that CI type-checks against the real
-  client libraries, and `automation/snippets/generate-md.py` derives the
-  Markdown. See `automation/snippets/README.md`.
 - **Prompts belong in `documentation/headless/prompts/`**, one file per prompt,
   included with `{{< prompt "id" >}}`. A prompt body written inline on a page
   reaches the agent-facing `index.md`, where an instruction addressed to an
@@ -82,6 +138,35 @@ one. `code-snippet`, `include`, `prompt`, and `prompt-index` all do this.
   a path that exists in the `qdrant/skills` repository is not necessarily
   published. `https://skills.qdrant.tech/llms.txt` lists what is actually
   served.
+
+## Code snippets
+
+- **Code samples belong in `documentation/headless/snippets/`**, not written
+  inline. They are compilable sources that CI type-checks against the real
+  client libraries. See `automation/snippets/README.md` for authoring
+  conventions, deployment variants, and snippets for unreleased Qdrant
+  versions, and the root `README.md` for the `code-snippet` shortcode.
+- **`generated/` is derived, not written.** `automation/snippets/generate-md.py`
+  creates the Markdown in each `generated/` directory. Commit its output and
+  never edit it by hand.
+- **Check for deployment variants before editing a snippet.** Once a
+  `_server/`, `_edge/`, or `_serverless/` subdirectory exists, the shortcode
+  ignores the files at the top level of the snippet directory.
+- **Rust snippets use `?`, not `.unwrap()`.** Use `.context("...")?` (with
+  `use anyhow::Context;`) for `Option`s, a `for` loop instead of
+  `.map().collect()` when the body needs `?`, and `NonZeroU32::try_from(8)?`
+  instead of `NonZeroU32::new(8).unwrap()`. Keep `.unwrap()` only where the
+  error type doesn't implement `std::error::Error`. When sweeping for
+  `.unwrap()`, scan the existing files too, not just the diff.
+- **Go snippets use the SDK's helper constructors**, for example
+  `qdrant.NewQueryDocument(...)`, instead of building the nested structs by
+  hand.
+- **Edge snippets match the server snippet's functionality.** Don't simplify
+  them, and check them against the Qdrant Edge version pinned in
+  `automation/snippets/templates/`, not the `dev` branch of `qdrant`, which is
+  ahead of the release. For Rust, use docs.rs for the pinned version. For
+  Python, use the `qdrant_edge.pyi` stubs installed in
+  `automation/snippets/templates/python/.venv`.
 
 ## Writing style
 
@@ -95,6 +180,7 @@ thing instead.
 ```bash
 automation/prompts/check-prompts.sh       # prompt rules, source only, seconds
 automation/prompts/check-skill-links.sh   # skill links resolve, needs network
+automation/check-content-images.sh        # blog and article front matter images exist
 automation/snippets/generate-md.py        # if you touched snippets, then commit the result
 ```
 

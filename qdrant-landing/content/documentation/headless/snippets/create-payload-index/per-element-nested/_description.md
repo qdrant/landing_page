@@ -1,0 +1,1 @@
+Creates per-element payload indexes on the `shop` and `price` fields of the `offers` array, so a `nested` filter on `offers` can be answered from the indexes alone.

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 270" role="img" aria-labelledby="d" font-family="'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<desc id="d">DiskCache has three read paths. A hit reads the local mmap. A miss fetches the missing range and writes it to the mmap. A read covered by an in-flight fetch waits for that fetch. Every path returns a local mmap slice.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#656b7f"/></marker></defs>
+<text x="380" y="24" text-anchor="middle" font-size="16" font-weight="600" fill="#303547">Every path returns a local mmap slice</text>
+<text x="380" y="46" text-anchor="middle" font-size="15" fill="#656b7f">the bitmap tracks which 16 KiB blocks are already local</text>
+
+<text x="28" y="89" font-size="15" font-weight="700" fill="#303547">HIT</text>
+<g transform="translate(112 70)" font-size="15" fill="#303547"><g fill="#b2ebf2" stroke="#00838f"><rect width="18" height="22" rx="3"/><rect x="24" width="18" height="22" rx="3"/><rect x="48" width="18" height="22" rx="3"/></g><text x="8" y="17">1</text><text x="32" y="17">1</text><text x="56" y="17">1</text></g>
+<text x="112" y="116" font-size="15" fill="#656b7f">all blocks local</text><path d="M196 84H288" fill="none" stroke="#656b7f" stroke-width="1.7" marker-end="url(#a)"/>
+<g transform="translate(306 67)"><rect width="174" height="34" rx="5" fill="#b2ebf2" stroke="#00838f" stroke-width="1.5"/><text x="87" y="22" text-anchor="middle" font-size="15" fill="#303547">local mmap</text></g>
+<path d="M480 84H570" fill="none" stroke="#656b7f" stroke-width="1.7" marker-end="url(#a)"/><text x="588" y="89" font-size="15" font-weight="600" fill="#303547">borrowed slice</text>
+
+<line x1="20" y1="126" x2="740" y2="126" stroke="#d3d9eb"/><text x="28" y="159" font-size="15" font-weight="700" fill="#303547">MISS</text>
+<g transform="translate(112 140)" font-size="15" fill="#303547"><rect width="18" height="22" rx="3" fill="#b2ebf2" stroke="#00838f"/><g fill="none" stroke="#abb1c7" stroke-dasharray="3 2"><rect x="24" width="18" height="22" rx="3"/><rect x="48" width="18" height="22" rx="3"/></g><text x="8" y="17">1</text><text x="32" y="17">0</text><text x="56" y="17">0</text></g>
+<text x="112" y="186" font-size="15" fill="#656b7f">some blocks missing</text><path d="M196 154H252" fill="none" stroke="#656b7f" stroke-width="1.7" marker-end="url(#a)"/>
+<g transform="translate(270 137)"><rect width="126" height="34" rx="5" fill="#dc244c" fill-opacity=".14" stroke="#dc244c" stroke-width="1.5"/><text x="63" y="22" text-anchor="middle" font-size="15" fill="#303547">fetch remote</text></g>
+<path d="M396 154H444" fill="none" stroke="#dc244c" stroke-width="2" marker-end="url(#a)"/><g transform="translate(462 137)"><rect width="118" height="34" rx="5" fill="#b2ebf2" stroke="#00838f" stroke-width="1.5"/><text x="59" y="22" text-anchor="middle" font-size="15" fill="#303547">write mmap</text></g>
+<path d="M580 154H626" fill="none" stroke="#656b7f" stroke-width="1.7" marker-end="url(#a)"/><text x="644" y="159" font-size="15" font-weight="600" fill="#303547">slice</text>
+
+<line x1="20" y1="196" x2="740" y2="196" stroke="#d3d9eb"/><text x="28" y="229" font-size="15" font-weight="700" fill="#303547">COVERED</text>
+<g transform="translate(112 203)"><rect width="166" height="42" rx="5" fill="#9c27b0" fill-opacity=".12" stroke="#9c27b0" stroke-width="1.5" stroke-dasharray="5 4"/><text x="83" y="18" text-anchor="middle" font-size="15" fill="#303547"><tspan x="83">range covered by</tspan><tspan x="83" dy="18">in-flight fetch</tspan></text></g>
+<path d="M278 224H340" fill="none" stroke="#656b7f" stroke-width="1.7" marker-end="url(#a)"/><text x="358" y="229" font-size="15" font-weight="600" fill="#303547">wait</text><path d="M410 224H470" fill="none" stroke="#656b7f" stroke-width="1.7" marker-end="url(#a)"/>
+<g transform="translate(488 207)"><rect width="112" height="34" rx="5" fill="#b2ebf2" stroke="#00838f" stroke-width="1.5"/><text x="56" y="22" text-anchor="middle" font-size="15" fill="#303547">local mmap</text></g><path d="M600 224H646" fill="none" stroke="#656b7f" stroke-width="1.7" marker-end="url(#a)"/><text x="664" y="229" font-size="15" font-weight="600" fill="#303547">slice</text>
+</svg>

@@ -8,7 +8,6 @@ points = (
         id=idx,
         vector={
             "dense": Document(text=row['Description'], model=dense_embedding_model),
-            "sparse": Document(text=row['Description'], model=sparse_embedding_model),
             "multi": Document(text=row['Description'], model=late_interaction_embedding_model),
         },
         payload={"title": row['Title'], "author": row['Author'], "description": row['Description']}

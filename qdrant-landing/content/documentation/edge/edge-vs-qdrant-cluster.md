@@ -45,11 +45,13 @@ How you talk to each option, and what you can do once connected.
 | **Sparse vectors** | Supported | Supported |
 | **Multivectors** | Supported | Supported |
 | **Named vectors** | Supported | Supported |
+| **Full-text search** | Supported, including BM25 scoring | Supported, including BM25 scoring |
 | **Hybrid search** | Supported | Supported |
 | **Quantization** | Supported | Supported |
 | **Distance metrics** | Cosine, Dot, Euclid, and Manhattan | Cosine, Dot, Euclid, and Manhattan |
 | **HNSW indexing** | Supported | Supported |
 | **Payload indexes** | All field types | All field types |
-| **Query scoring** | Nearest neighbor, recommendation, discovery, context, formula, MMR, order-by, and sample | Nearest neighbor, recommendation, discovery, context, formula, MMR, order-by, and sample |
+| **Query scoring** | Nearest neighbor, recommendation, discovery, context, BM25, formula, MMR, order-by, and sample | Nearest neighbor, recommendation, discovery, context, BM25, formula, MMR, order-by, and sample |
+| **Batch queries** | Supported | Supported |
 | **Grouping (`query_groups`)** | Rust only | Available |
 | **Search matrix (`search_matrix`)** | Rust only | Available |

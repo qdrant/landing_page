@@ -22,7 +22,7 @@ These pages cover how to observe and measure a running Qdrant deployment using i
 
 [Slow Request Log](/documentation/ops-monitoring/slow-request-log/) describes Qdrant's built-in in-memory log of the slowest unique requests since startup. Use it to identify which queries are responsible for high latency.
 
-For a step-by-step Managed Cloud setup, see [Managed Cloud Prometheus Monitoring](/documentation/production-operations/managed-cloud-prometheus/) in [Learn / Production & Operations](/documentation/production-operations/).
+For a step-by-step Managed Cloud setup, see [Scrape Metrics with Prometheus and Grafana](/documentation/cloud/cluster-monitoring-prometheus/).
 
 ## Monitoring with Grafana and Prometheus
 

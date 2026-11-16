@@ -5,6 +5,7 @@ import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.CreateCollection;
 import io.qdrant.client.grpc.Collections.Distance;
 import io.qdrant.client.grpc.Collections.HnswConfigDiff;
+import io.qdrant.client.grpc.Collections.IdTrackerParams;
 import io.qdrant.client.grpc.Collections.Memory;
 import io.qdrant.client.grpc.Collections.PayloadStorageParams;
 import io.qdrant.client.grpc.Collections.QuantizationConfig;
@@ -43,6 +44,7 @@ public class Snippet {
 		                            .build())
 		                    .build())
 		            .setPayload(PayloadStorageParams.newBuilder().setMemory(Memory.Cached).build())
+		            .setIdTracker(IdTrackerParams.newBuilder().setMemory(Memory.Cached).build())
 		            .build())
 		    .get();
 	}

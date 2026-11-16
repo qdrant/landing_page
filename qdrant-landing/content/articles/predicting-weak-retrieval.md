@@ -16,7 +16,7 @@ keywords:
   - retrieval confidence
   - hybrid search
   - retriever divergence
-category: search-quality
+category: relevance-and-evaluation
 ---
 
 Most retrieval systems run one pipeline on every query, and it is the wrong default in both directions: a single pass under-serves the hard queries, while reranking or rewriting every query wastes compute on the easy ones. Worse, the single pass fails silently. When the relevant document never reaches the top, the system answers anyway from whatever it got, with no sign anything went wrong.

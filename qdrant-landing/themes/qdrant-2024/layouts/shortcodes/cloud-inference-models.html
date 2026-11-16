@@ -1,0 +1,2 @@
+{{- /* Table of Qdrant Cloud Inference models. Usage: {{< cloud-inference-models type="dense" >}} */ -}}
+{{- partial "cloud-inference-models.html" (.Get "type") | .Page.RenderString (dict "display" "block") -}}

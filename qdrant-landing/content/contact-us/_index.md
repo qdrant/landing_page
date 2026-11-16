@@ -1,5 +1,6 @@
 ---
 title: Contact Qdrant
+type: marketing/contact-us
 description: Let us know how we can help by filling out the form. We will respond within 48 business hours.
 cards:
 - id: 0
@@ -28,5 +29,7 @@ form:
 aliases:
   - /contact-sales/
   - /contact-hybrid-cloud/
+cascade:
+  - type: marketing/contact-us
 ---
 

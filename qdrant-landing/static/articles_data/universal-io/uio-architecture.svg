@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 286" role="img" aria-labelledby="d" font-family="'Geist Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<desc id="d">The same consumer code uses one ReadPipeline. mmap returns a direct slice with one read in flight. io_uring uses submission and completion rings with 16 reads in flight. Network I/O uses Tokio tasks with up to 256 reads in flight.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#656b7f"/></marker></defs>
+<text x="380" y="24" text-anchor="middle" font-size="16" font-weight="600" fill="#303547">Consumer code stays the same</text>
+<text x="380" y="46" text-anchor="middle" font-size="15" fill="#656b7f">vectors · HNSW links · payload indexes</text>
+<path d="M380 56V72" fill="none" stroke="#656b7f" stroke-width="1.7" marker-end="url(#a)"/>
+<rect x="145" y="76" width="470" height="54" rx="6" fill="#f0f3fa" stroke="#303547"/>
+<text x="380" y="99" text-anchor="middle" font-size="16" font-weight="600" fill="#303547">ReadPipeline</text>
+<text x="380" y="119" text-anchor="middle" font-size="15" fill="#656b7f">schedule() · wait()</text>
+<g fill="none" stroke="#656b7f" stroke-width="1.7"><path d="M380 130V151"/><path d="M380 151H118V169" marker-end="url(#a)"/><path d="M380 151V169" marker-end="url(#a)"/><path d="M380 151H642V169" marker-end="url(#a)"/></g>
+<line x1="254" y1="181" x2="254" y2="276" stroke="#d3d9eb"/><line x1="506" y1="181" x2="506" y2="276" stroke="#d3d9eb"/>
+
+<text x="118" y="194" text-anchor="middle" font-size="16" font-weight="600" fill="#303547">mmap</text>
+<text x="118" y="216" text-anchor="middle" font-size="15" fill="#656b7f">direct mapped slice</text>
+<rect x="110" y="230" width="16" height="16" rx="3" fill="#6047ff" fill-opacity=".16" stroke="#6047ff" stroke-width="1.5"/>
+<text x="118" y="272" text-anchor="middle" font-size="15" font-weight="600" fill="#303547">1 in flight</text>
+
+<text x="380" y="194" text-anchor="middle" font-size="16" font-weight="600" fill="#303547">io_uring</text>
+<text x="380" y="216" text-anchor="middle" font-size="15" fill="#656b7f">kernel ring buffers</text>
+<g transform="translate(350 239)"><circle r="17" fill="#b2ebf2" stroke="#00838f" stroke-width="1.5"/><circle r="9" fill="#f0f3fa" stroke="#00838f"/><text y="4" text-anchor="middle" font-size="12" font-weight="600" fill="#303547">SQ</text></g>
+<g transform="translate(410 239)"><circle r="17" fill="#b2ebf2" stroke="#00838f" stroke-width="1.5"/><circle r="9" fill="#f0f3fa" stroke="#00838f"/><text y="4" text-anchor="middle" font-size="12" font-weight="600" fill="#303547">CQ</text></g>
+<text x="380" y="272" text-anchor="middle" font-size="15" font-weight="600" fill="#303547">16 in flight</text>
+
+<text x="642" y="194" text-anchor="middle" font-size="16" font-weight="600" fill="#303547">Network I/O</text>
+<text x="642" y="216" text-anchor="middle" font-size="15" fill="#656b7f">Tokio task pool</text>
+<g fill="#9c27b0" fill-opacity=".16" stroke="#9c27b0" stroke-width="1.2"><circle cx="602" cy="232" r="5"/><circle cx="618" cy="232" r="5"/><circle cx="634" cy="232" r="5"/><circle cx="650" cy="232" r="5"/><circle cx="666" cy="232" r="5"/><circle cx="682" cy="232" r="5"/><circle cx="602" cy="248" r="5"/><circle cx="618" cy="248" r="5"/><circle cx="634" cy="248" r="5"/><circle cx="650" cy="248" r="5"/><circle cx="666" cy="248" r="5"/><circle cx="682" cy="248" r="5"/></g>
+<text x="642" y="272" text-anchor="middle" font-size="15" font-weight="600" fill="#303547">up to 256 in flight</text>
+</svg>

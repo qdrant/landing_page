@@ -1,6 +1,6 @@
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(url="http://localhost:6333")  # @hide
 
 client.create_payload_index(
     collection_name="{collection_name}",
@@ -11,5 +11,6 @@ client.create_payload_index(
         min_token_len=2,
         max_token_len=10,
         lowercase=True,
+        scoring=True,
     ),
 )

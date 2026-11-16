@@ -1,0 +1,6 @@
+// Code block styles: the copy button, language tabs, and Chroma syntax
+// highlighting. Shared by both parts; see README.md. The order matches where
+// these rules sat in core.css before they moved here.
+@use 'copy-btn';
+@use 'lang-switcher';
+@use 'syntax-highlight';

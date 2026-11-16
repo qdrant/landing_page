@@ -1,0 +1,1 @@
+The snippet demonstrates how to cap a boost with the `min` expression. The popularity boost `0.1 * log_views` is added to the score, but it can never exceed `2.0`, so a very popular point can't dominate the ranking.

@@ -1,0 +1,8 @@
+.be-footprint { display: block; }
+.be-footprint .qi-label { font-size: 13px; }
+.be-footprint .be-sq.is-qwen { fill: var(--qi-cat-4); }
+.be-footprint .be-sq.is-gemma { fill: var(--qi-cat-2); }
+.be-footprint .be-sq.is-chip { fill: none; stroke: var(--qi-fg); stroke-width: 1.5; }
+.be-footprint .be-sq.is-potion { fill: var(--qi-cat-3); }
+.be-footprint .be-sq-title { font-family: var(--qi-mono); font-size: 16px; font-weight: 600; fill: #fff; }
+.be-footprint .be-sq-sub { font-family: var(--qi-mono); font-size: 13px; fill: #fff; }

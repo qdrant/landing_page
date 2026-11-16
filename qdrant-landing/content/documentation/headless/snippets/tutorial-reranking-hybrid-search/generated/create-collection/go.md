@@ -24,10 +24,25 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 			},
 		},
 	),
-	SparseVectorsConfig: qdrant.NewSparseVectorsConfig(
-		map[string]*qdrant.SparseVectorParams{
-			"sparse": {Modifier: qdrant.Modifier_Idf.Enum()},
-		},
-	),
+})
+
+client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
+	CollectionName: collectionName,
+	FieldName:      "description",
+	FieldType:      qdrant.FieldType_FieldTypeText.Enum(),
+	FieldIndexParams: qdrant.NewPayloadIndexParamsText(
+		&qdrant.TextIndexParams{
+			Tokenizer: qdrant.TokenizerType_Word,
+			Stemmer: qdrant.NewStemmingAlgorithmSnowball(&qdrant.SnowballParams{
+				Language: "english",
+			}),
+			Stopwords: &qdrant.StopwordsSet{
+				Languages: []string{"english"},
+			},
+			// Enable BM25 scoring
+			Scoring: &qdrant.TextScoringParams{
+				Type: qdrant.TextScoringType_Bm25,
+			},
+		}),
 })
 ```

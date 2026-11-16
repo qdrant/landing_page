@@ -1,0 +1,5 @@
+<section class="enterprise-solutions-testimonials">
+  {{ with (.Site.GetPage "/enterprise-solutions/testimonial-2") }}
+    {{ partial "marketing/testimonial-light" (dict "context" .) }}
+  {{ end }}
+</section>

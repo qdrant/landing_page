@@ -1,0 +1,1 @@
+Generates embeddings with NVIDIA and stores and searches them in Qdrant: client setup, collection creation, document and query embedding, and the provider-specific steps. Used on the NVIDIA embeddings provider page.

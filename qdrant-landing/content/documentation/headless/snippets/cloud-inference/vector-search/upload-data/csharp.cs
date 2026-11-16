@@ -8,7 +8,6 @@ public class Snippet
 		var client = new QdrantClient("localhost", 6334); // @hide
 
 		var denseModel = "sentence-transformers/all-minilm-l6-v2";
-		var bm25Model = "qdrant/bm25";
 		// NOTE: LoadDataset is a user-defined function.
 		// Implement it to return 100 random rows with distinct passages, as the Python version does.
 		// @hide-start
@@ -33,13 +32,10 @@ public class Snippet
 		            {
 		                Text = passage,
 		                Model = denseModel
-		            },
-		            ["bm25_sparse_vector"] = new Document
-		            {
-		                Text = passage,
-		                Model = bm25Model
 		            }
 		        },
+		        // Used for BM25
+		        Payload = { ["passage_text"] = passage, ["question"] = item["question"].ToString() }
 		    };
 
 		    points.Add(point);

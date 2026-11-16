@@ -1,0 +1,12 @@
+{
+  "title": "Recall@10: turbo4, turbo8, and float16",
+  "kind": "grouped-columns",
+  "subtitle": "six datasets by dimensions, HNSW on x86, higher is better",
+  "group": "dataset",
+  "series": "datatype",
+  "y": "recall",
+  "yLabel": "recall@10",
+  "yMax": 1,
+  "colors": [1, 0, "muted"],
+  "height": 400
+}

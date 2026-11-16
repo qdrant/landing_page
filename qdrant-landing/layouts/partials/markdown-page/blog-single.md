@@ -1,6 +1,6 @@
 > Explore Qdrant's agent skills catalog at https://skills.qdrant.tech/
 > Search the documentation at https://skills.qdrant.tech/search?query=your+query+here
-> Use this file to discover all available pages: https://qdrant.tech/llms.txt
+> Use this file for an index of the main pages: https://qdrant.tech/llms.txt
 
 {{ $content := .RenderShortcodes -}}
 {{- /* Blog posts keep the title in front matter: add it when the body has no H1, and put the byline right after the H1. */ -}}
@@ -13,7 +13,7 @@
 {{- /* Same link rewriting as layouts/_default/single.markdown.md */ -}}
 {{- $content = replaceRE `\]\((/[^):]*/)([\)#?])` `](https://qdrant.tech${1}index.md${2}` $content -}}
 {{- $content = replaceRE `\]\((\.\.?/[^):]*/)([\)#?])` `](https://qdrant.tech/${1}index.md${2}` $content -}}
-{{ $content }}{{ with partial "blog-author-profile.html" . }}
+{{ $content }}{{ with partial "common/blog-author-profile.html" . }}
 ## About the Author
 
 {{ .name }}{{ with .role }} | {{ . }}{{ end }}

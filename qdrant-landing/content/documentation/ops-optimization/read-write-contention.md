@@ -45,9 +45,9 @@ A smaller batch size is especially worth trying when your payloads are large. A 
 
 ## Step 3: Lower the Optimizer's CPU Budget
 
-By default, Qdrant auto-selects the number of CPU threads the optimizer can use, typically leaving one or two cores free and giving the rest to the optimizer. Under write pressure, this can leave little headroom for queries. Use the `optimizer_cpu_budget` setting to lower the optimizer's CPU budget.
+By default, Qdrant auto-selects the number of CPU threads the optimizer can use, typically leaving one or two cores free and giving the rest to the optimizer. Under write pressure, this can leave little headroom for queries.
 
-`optimizer_cpu_budget` is a node-level setting in the Qdrant configuration file, under `performance`:
+To lower the optimizer's CPU budget, on Qdrant Cloud, configure the **Optimizer CPU Budget** under **Advanced Optimizations** in the cluster **Configuration** tab. When self-hosting, `optimizer_cpu_budget` is a node-level setting in the Qdrant configuration file, under `performance`:
 
 ```yaml
 performance:
@@ -57,13 +57,11 @@ performance:
   optimizer_cpu_budget: 2
 ```
 
-On Qdrant Cloud, it's available under **Advanced Optimizations** in the cluster **Configuration** tab.
-
 A good starting point is **50% of your available vCPUs**. On an eight-vCPU node, that's four threads for the optimizer and four for queries. On a 16-vCPU node, set it to eight.
 
 Tune from there. If indexing falls too far behind ([watch the deferred point count](/documentation/ops-optimization/optimizer/#monitoring-deferred-points)), increase the budget. If query latency is still too high, lower it further.
 
-Because this is a node-level setting, it requires a rolling restart to take effect: after applying the configuration change, restart one node at a time.
+Because this is a node-level setting, it requires a rolling restart to take effect: after applying the configuration change, restart one node at a time. On Qdrant Cloud, changing it restarts the cluster's nodes for you. Refer to [Restarts and Downtime](/documentation/cloud/configure-cluster/#restarts-and-downtime).
 
 ## Step 4: Tune the Number of Optimizer Threads
 
@@ -124,7 +122,9 @@ Async I/O relies on `io_uring`, so verify kernel support before enabling in prod
 
 *Available as of v1.19.0.* 
 
-Set `storage.performance.io_uring` to `auto` to apply async I/O to vector storage and payload storage when they're `cold`. You can enable it in the configuration file:
+On managed Qdrant Cloud, async I/O is enabled by default on clusters that run Qdrant v1.20.0 or later.
+
+When self-hosting, set `storage.performance.io_uring` to `auto` to apply async I/O to vector storage and payload storage when they're `cold`. You can enable it in the configuration file:
 
 ```yaml
 storage:
@@ -140,9 +140,9 @@ QDRANT__STORAGE__PERFORMANCE__IO_URING=auto
 
 ### `async_scorer` Setting
 
-*Available as of v1.3.0.* 
+*Available as of v1.3.0.*
 
-An older setting that applies async I/O to vector rescoring only, not payload. Prefer `io_uring` unless you're on a version older than 1.19. Setting `io_uring` takes precedence over `async_scorer` for the structures it covers.
+An older setting that applies async I/O to vector rescoring only, not payload. It is deprecated: prefer `io_uring` unless you're on a version older than 1.19. Setting `io_uring` takes precedence over `async_scorer` for the structures it covers.
 
 You can enable `async_scorer` in the configuration file:
 
@@ -158,7 +158,7 @@ or via an environment variable:
 QDRANT__STORAGE__PERFORMANCE__ASYNC_SCORER=true
 ```
 
-On Qdrant Cloud, `async_scorer` is available under **Advanced Optimizations** in the cluster **Configuration** tab.
+On managed Qdrant Cloud clusters, `async_scorer` is available under **Advanced Optimizations** in the cluster **Configuration** tab for Qdrant versions below v1.20.0. From v1.20.0, Qdrant Cloud sets the async I/O mode for you and `async_scorer` no longer has an effect.
 
 ## Step 7: Lower the Maximum Segment Size
 

@@ -1,5 +1,0 @@
-{{ $isCompleted := .Get "isCompleted" }}
-<div class="list{{ if eq $isCompleted "true"}} list-completed{{ end}}">
-  {{ .Inner | markdownify }}
-</div>
-

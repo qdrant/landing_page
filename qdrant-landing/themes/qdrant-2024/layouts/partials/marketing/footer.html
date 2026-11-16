@@ -1,0 +1,82 @@
+{{ with (.Site.GetPage "/headless/footer") }}
+  <footer class="footer">
+    <div class="footer__menu">
+      <div class="container">
+        <div class="row gy-5">
+          <div class="col-12 col-lg-4 footer__brand">
+            <a href="/" title="Go to Home Page">
+              <img class="footer__brand-logo" src="/img/logo-white.png" alt="Qdrant Logo" />
+            </a>
+            <p class="footer__brand-tagline">{{ .Params.tagline }}</p>
+            <div class="footer__brand-social">
+              {{ range .Params.socialMedia }}
+                <a
+                  class="footer__brand-social-link"
+                  href="{{ .url }}"
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  aria-label="{{ .name }}"
+                >
+                  {{ .icon | safeHTML }}
+                </a>
+              {{ end }}
+            </div>
+            <div class="footer__brand-badges">
+              {{ range .Params.bages }}
+                <a href="{{ .url }}" target="_blank" rel="noopener noreferrer">
+                  <img src="{{ .src }}" alt="{{ .alt }}" />
+                </a>
+              {{ end }}
+            </div>
+          </div>
+          <nav class="col-12 col-lg-8 footer__menu-content">
+            {{ range .Params.menuItems }}
+              <div class="footer__menu-section">
+                <p class="footer__menu-section-title">{{ .title }}</p>
+                <ul class="footer__menu-items">
+                  {{ range .items }}
+                    <li class="footer__menu-item">
+                      <a
+                        href="{{ .url }}"
+                        {{ if strings.HasPrefix .url "http" }}
+                          target="_blank" rel="noopener noreferrer nofollow"
+                        {{ end }}
+                        >{{ .name }}
+                      </a>
+                    </li>
+                  {{ end }}
+                </ul>
+              </div>
+            {{ end }}
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="footer__middle ">
+      <div class="container">
+        {{ with (.Site.GetPage "/headless/newsletter") }}
+          <div class="align-items-top row">
+            <div class="col-12 col-lg-5">
+              <p class="footer__middle-title">{{ .Params.title }}</p>
+              <p class="footer__middle-subtitle">{{ .Params.description }}</p>
+            </div>
+
+            <div class="footer__middle-newsletter col-12 col-lg-7">
+              {{ partial "marketing/hubspot-form.html" (dict "hubspotFormOptions" .Params.hubspotFormOptions "id" "footer-subscribe-form" "context" . ) }}
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="container">
+        <div class="row g-3 align-items-center">
+          <div class="col-12 col-lg-4 footer__bottom-content">
+            <span class="footer__bottom-copyright">&copy; {{ time.Now.Year }} {{ .Params.copyright }}</span>
+          </div>
+          {{ partial "common/footer-bottom-links.html" (dict "footer" . "wrapperClass" "col-12 col-lg-8 footer__bottom-links") }}
+        </div>
+      </div>
+    </div>
+  </footer>
+{{ end }}

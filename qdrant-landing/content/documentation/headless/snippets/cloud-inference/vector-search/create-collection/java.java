@@ -2,9 +2,12 @@ package com.example.snippets_amalgamation;
 
 import io.qdrant.client.grpc.Collections.CreateCollection;
 import io.qdrant.client.grpc.Collections.Distance;
-import io.qdrant.client.grpc.Collections.Modifier;
-import io.qdrant.client.grpc.Collections.SparseVectorConfig;
-import io.qdrant.client.grpc.Collections.SparseVectorParams;
+import io.qdrant.client.grpc.Collections.PayloadIndexParams;
+import io.qdrant.client.grpc.Collections.PayloadSchemaType;
+import io.qdrant.client.grpc.Collections.TextIndexParams;
+import io.qdrant.client.grpc.Collections.TextScoringParams;
+import io.qdrant.client.grpc.Collections.TextScoringType;
+import io.qdrant.client.grpc.Collections.TokenizerType;
 import io.qdrant.client.grpc.Collections.VectorParams;
 import io.qdrant.client.grpc.Collections.VectorParamsMap;
 import io.qdrant.client.grpc.Collections.VectorsConfig;
@@ -33,14 +36,28 @@ public class Snippet {
                                                         .setDistance(Distance.Cosine)
                                                         .build())))
                                     .build())
-                            .setSparseVectorsConfig(
-                                SparseVectorConfig.newBuilder()
-                                    .putMap(
-                                        "bm25_sparse_vector",
-                                        SparseVectorParams.newBuilder()
-                                            .setModifier(Modifier.Idf)
-                                            .build()))
                             .build())
+                    .get();
+
+                client
+                    .createPayloadIndexAsync(
+                        "{collection_name}",
+                        "passage_text",
+                        PayloadSchemaType.Text,
+                        PayloadIndexParams.newBuilder()
+                            .setTextIndexParams(
+                                TextIndexParams.newBuilder()
+                                    .setTokenizer(TokenizerType.Word)
+                                    // Enable BM25 scoring
+                                    .setScoring(
+                                        TextScoringParams.newBuilder()
+                                            .setType(TextScoringType.Bm25)
+                                            .build())
+                                    .build())
+                            .build(),
+                        null,
+                        null,
+                        null)
                     .get();
         }
 }

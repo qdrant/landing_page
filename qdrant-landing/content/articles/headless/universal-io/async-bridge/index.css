@@ -1,0 +1,122 @@
+.uio-bridge {
+  display: block;
+}
+.uio-bridge .uio-compact {
+  display: none;
+}
+.uio-bridge .qi-title {
+  font-size: 14px;
+}
+.uio-bridge .qi-label {
+  font-size: 13px;
+}
+.uio-bridge .uio-lane {
+  fill: none;
+  stroke: var(--qi-fg);
+  stroke-width: 1.5;
+}
+.uio-bridge .uio-flow,
+.uio-bridge .uio-return {
+  fill: none;
+  stroke-width: 1.8;
+}
+.uio-bridge .uio-flow.is-a,
+.uio-bridge .uio-return.is-a {
+  stroke: var(--qi-cat-1);
+}
+.uio-bridge .uio-flow.is-b,
+.uio-bridge .uio-return.is-b {
+  stroke: var(--qi-cat-2);
+}
+.uio-bridge .uio-flow.is-c,
+.uio-bridge .uio-return.is-c {
+  stroke: var(--qi-cat-3);
+}
+.uio-bridge .uio-arrowhead {
+  fill: var(--qi-muted);
+}
+.uio-bridge .uio-request circle,
+.uio-bridge .uio-result circle {
+  stroke-width: 1.5;
+}
+.uio-bridge .uio-request.is-a circle,
+.uio-bridge .uio-result.is-a circle,
+.uio-bridge .uio-worker.is-a {
+  fill: var(--qi-cat-1);
+  stroke: var(--qi-cat-1);
+}
+.uio-bridge .uio-request.is-b circle,
+.uio-bridge .uio-result.is-b circle,
+.uio-bridge .uio-worker.is-b {
+  fill: var(--qi-cat-2);
+  stroke: var(--qi-cat-2);
+}
+.uio-bridge .uio-request.is-c circle,
+.uio-bridge .uio-result.is-c circle,
+.uio-bridge .uio-worker.is-c {
+  fill: var(--qi-cat-3);
+  stroke: var(--qi-cat-3);
+}
+.uio-bridge .uio-request circle,
+.uio-bridge .uio-result circle,
+.uio-bridge .uio-worker {
+  fill-opacity: 0.18;
+}
+.uio-bridge .uio-request text,
+.uio-bridge .uio-result text,
+.uio-bridge .uio-worker-label {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+.uio-bridge .uio-worker {
+  stroke-width: 1.5;
+  fill-opacity: 1;
+}
+
+html .island[data-island='content/articles/headless/universal-io/async-bridge'] {
+  margin: 1.75rem 0;
+}
+.island[data-island='content/articles/headless/universal-io/async-bridge'].is-ready .island__stage {
+  max-width: 100% !important;
+  aspect-ratio: auto !important;
+}
+html .island[data-island='content/articles/headless/universal-io/async-bridge'] .island__caption {
+  margin-top: 0.875rem;
+}
+
+@media (max-width: 560px) {
+  .uio-bridge .uio-wide {
+    display: none;
+  }
+  .uio-bridge .uio-compact {
+    display: block;
+  }
+}
+
+/* Keep labels readable at the article column width. */
+@media (min-width: 561px) {
+  .uio-bridge .qi-title {
+    font-size: 16px;
+  }
+  .uio-bridge .qi-label {
+    font-size: 15px;
+  }
+  .uio-bridge .uio-worker-label,
+  .uio-bridge .uio-request text,
+  .uio-bridge .uio-result text {
+    font-size: 15px;
+  }
+}
+
+/* Opaque task surfaces keep crossing request lines clear of their labels. */
+.uio-bridge .uio-worker.is-a {
+  fill: color-mix(in srgb, var(--qi-cat-1) 18%, var(--qi-surface));
+}
+.uio-bridge .uio-worker.is-b {
+  fill: color-mix(in srgb, var(--qi-cat-2) 18%, var(--qi-surface));
+}
+.uio-bridge .uio-worker.is-c {
+  fill: color-mix(in srgb, var(--qi-cat-3) 18%, var(--qi-surface));
+}

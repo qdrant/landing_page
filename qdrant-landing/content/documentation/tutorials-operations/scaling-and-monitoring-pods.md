@@ -74,8 +74,8 @@ qcloud cluster scale $CLUSTER_ID --disk 32GiB
 
 No restart this time. Disk resizes go through volume expansion, which Kubernetes and most storage backends support live.
 
-<aside role="alert">
-    Due to limitations in most cloud providers, once the disk has been upsized (in our case, from 8GiB to 16GiB, and then to 32GiB), it cannot be downsized. Provision disk expansions with caution.
+<aside role="status">
+    A volume cannot be shrunk in place, so reducing the disk size works differently: Qdrant replaces each node with one that has a smaller disk and moves the shards over. See <a href="/documentation/hybrid-cloud/configure-scale-upgrade/#scale-clusters">Scale Clusters</a>. Provision disk expansions with caution, because a disk decrease takes longer than an increase.
 </aside>
 
 If you'd rather use the console UI, the same scaling controls live at the URL your `QdrantCluster` resource points to:

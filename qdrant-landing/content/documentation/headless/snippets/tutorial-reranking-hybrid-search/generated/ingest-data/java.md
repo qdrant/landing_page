@@ -23,12 +23,6 @@ try (var stream = parseCSV(csvUrl)) {
                                     .setText(description)
                                     .setModel(denseEmbeddingModel)
                                     .build()),
-                            "sparse",
-                            vector(
-                                Document.newBuilder()
-                                    .setText(description)
-                                    .setModel(sparseEmbeddingModel)
-                                    .build()),
                             "multi",
                             vector(
                                 Document.newBuilder()

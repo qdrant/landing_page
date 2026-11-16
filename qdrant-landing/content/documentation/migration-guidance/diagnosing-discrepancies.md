@@ -261,7 +261,7 @@ for record in sample_records:
 <details>
 <summary><b>From Elasticsearch</b></summary>
 
-* **BM25 + vector hybrid:** If your ES setup used hybrid BM25 + kNN scoring, you'll need to reconstruct this in Qdrant using sparse vectors (for BM25-like behavior) alongside dense vectors. The scores won't match 1:1 because the ranking models are different.
+* **BM25 + vector hybrid:** If your ES setup used hybrid BM25 + kNN scoring, reconstruct this in Qdrant using [BM25 on a full-text index](/documentation/search/text-search/full-text-search/#bm25) alongside dense vectors. The scores won't match 1:1, because text processing and score fusion differ between the two systems.
 * **Nested documents:** ES nested documents need to be flattened or restructured for Qdrant's payload model.
 * **Score normalization:** ES `_score` values are not comparable to Qdrant scores. Don't use raw score comparison; use rank-based metrics (recall@k, Spearman correlation).
 

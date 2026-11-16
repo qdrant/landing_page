@@ -30,7 +30,7 @@ test('figure wrapper renders caption, role and aria-labelledby', () => {
 
 test('no data colour is duplicated into the stylesheet', () => {
   const viz = JSON.parse(readFileSync('data/viz.json', 'utf8'));
-  const scss = readFileSync('themes/qdrant-2024/assets/css/viz.scss', 'utf8').toLowerCase();
+  const scss = readFileSync('themes/qdrant-2024/assets/shortcodes/chart/chart.scss', 'utf8').toLowerCase();
   const colors = [...viz.palette.categorical, ...Object.values(viz.surface)]
     .filter((v) => typeof v === 'string' && v.startsWith('#'));
   for (const c of colors) {
@@ -40,9 +40,9 @@ test('no data colour is duplicated into the stylesheet', () => {
 });
 
 test('chart chrome uses the shared --qi-* tokens, not its own', () => {
-  const scss = readFileSync('themes/qdrant-2024/assets/css/viz.scss', 'utf8');
-  assert.ok(scss.includes("@import 'qi-tokens'"),
-    'viz.scss must pull tokens from the shared partial islands.scss also uses');
+  const scss = readFileSync('themes/qdrant-2024/assets/shortcodes/chart/chart.scss', 'utf8');
+  assert.ok(scss.includes("@import '../qi-tokens'"),
+    'chart.scss must pull tokens from the shared partial island.scss also uses');
   assert.ok(!/--viz-(ink|muted|grid|surface|border)\b/.test(scss),
     'the old chart-only --viz-* tokens should be gone');
   const gen = readFileSync('scripts/viz/generate-charts.mjs', 'utf8');
@@ -50,7 +50,7 @@ test('chart chrome uses the shared --qi-* tokens, not its own', () => {
 });
 
 test('dark chrome follows the system preference, not only the toggle', () => {
-  const scss = readFileSync('themes/qdrant-2024/assets/css/viz.scss', 'utf8');
+  const scss = readFileSync('themes/qdrant-2024/assets/shortcodes/chart/chart.scss', 'utf8');
   assert.match(scss, /@media \(prefers-color-scheme: dark\)/,
     'a reader on a dark OS who never touched the toggle must still get dark chrome');
   assert.match(scss, /html\[data-theme='dark'\]/, 'the explicit toggle must still win');

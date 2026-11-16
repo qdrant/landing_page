@@ -1,0 +1,1 @@
+Generates embeddings with Ollama and stores and searches them in Qdrant: client setup, collection creation, document and query embedding, and the provider-specific steps. Used on the Ollama embeddings provider page.

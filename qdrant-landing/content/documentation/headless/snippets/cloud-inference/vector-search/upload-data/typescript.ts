@@ -1,15 +1,13 @@
-import { QdrantClient } from "@qdrant/js-client-rest"; // @hide
+import { QdrantClient } from "@qdrant/js-client-rest";
+import { randomUUID } from "crypto";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 }); // @hide
 
-import { randomUUID } from "crypto";
-
 const denseModel = "sentence-transformers/all-minilm-l6-v2";
-const bm25Model = "qdrant/bm25";
 // NOTE: loadDataset is a user-defined function.
 // Implement it to return 100 random rows with distinct passages, as the Python version does.
 // @hide-start
-function loadDataset(name: string, slice: string): Array<{ passage_text: string }> {
+function loadDataset(name: string, slice: string): Array<{ passage_text: string; question: string }> {
     return [];
 }
 // @hide-end
@@ -25,10 +23,10 @@ const points = dataset.map((item) => {
         text: passage,
         model: denseModel,
       },
-      bm25_sparse_vector: {
-        text: passage,
-        model: bm25Model,
-      },
+    },
+    payload: {
+      passage_text: passage, // used for BM25
+      question: item.question,
     },
   };
 });

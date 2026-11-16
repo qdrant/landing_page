@@ -1,0 +1,13 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+  {{ partial "marketing/quantization/hero" . }}
+  {{ partial "marketing/quantization/why-it-matters" . }}
+  {{ partial "marketing/quantization/what-you-get" . }}
+  {{ partial "marketing/quantization/configuration" . }}
+  {{ partial "marketing/quantization/features" . }}
+  {{ partial "marketing/quantization/faq" . }}
+
+  {{ with (.Site.GetPage "/quantization/cta-banner") }}
+    {{ partial "marketing/cta-banner" . }}
+  {{ end }}
+{{ end }}

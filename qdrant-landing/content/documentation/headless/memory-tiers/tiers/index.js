@@ -1,6 +1,6 @@
 /*
  * tiers island: a static, theme-aware figure for the memory tiers guide
- * (content/documentation/production-operations/memory-tiers.md).
+ * (content/documentation/operate-and-maintain/memory-tiers.md).
  *
  * No controls. It is an island so the drawing can follow the page theme via
  * the shared --qi-* tokens; index.css maps the figure's own colors for light

@@ -9,9 +9,16 @@ weight: 100
 author: Andrei Vasnetsov
 author_link: https://blog.vasnetsov.com/
 date: 2022-12-07T10:18:00.000Z
-category: production-ops
+category: qdrant-internals
 # aliases: [ /articles/memory-consumption/ ]
 ---
+
+<aside role="status">
+This article reports historical measurements published in December 2022. The exact Qdrant version was not recorded. The experiments use the <code>glove-100-angular</code> dataset, Docker memory limits, and the disks described in each section. They do not establish current performance.
+</aside>
+
+The configuration examples use the legacy `on_disk` settings. Qdrant 1.19 and later use the `memory` parameter. See [Memory Tiers](/documentation/ops-configuration/memory-tiers/) for current settings and defaults, and [When Your Collection Outgrows RAM](/documentation/search-tuning/when-your-collection-outgrows-ram/) for current tuning guidance.
+
 
 
 <!--

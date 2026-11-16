@@ -1,0 +1,22 @@
+{{ define "main" }}
+  {{ partial "marketing/site-header" . }}
+  {{ partial "marketing/enterprise-solutions-hero" . }}
+
+  {{ partial "marketing/enterprise-solutions-use-cases" . }}
+
+  {{ with (.Site.GetPage "/customers/customers-testimonial-0") }}
+    {{ partial "marketing/testimonial-light" (dict "context" . "class" "customers-testimonial pt-1 pb-7") }}
+  {{ end }}
+
+  {{ partial "marketing/enterprise-solutions-capabilities" . }}
+
+  {{ partial "marketing/enterprise-solutions-challenges" . }}
+
+  {{ partial "marketing/enterprise-solutions-testimonials" . }}
+
+  {{ with (.Site.GetPage "/headless/get-contacted-with-question-sales") }}
+    {{ partial "marketing/get-contacted" (dict "context" . "class" "get-contacted-with-question") }}
+  {{ end }}
+
+  {{ partial "marketing/get-started" . }}
+{{ end }}

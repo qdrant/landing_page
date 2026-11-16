@@ -1,40 +1,51 @@
 ```python
-from pathlib import Path
-
 SHARD_DIRECTORY = "./qdrant-edge-bm25"
 
-from qdrant_edge import (
-    EdgeConfig,
-    EdgeShard,
-    EdgeSparseVectorParams,
-    Modifier,
-)
+from qdrant_edge import Distance, EdgeConfig, EdgeShard, EdgeVectorParams
 
 config = EdgeConfig(
-    sparse_vectors={"text": EdgeSparseVectorParams(modifier=Modifier.Idf)},
+    vectors={"embedding": EdgeVectorParams(size=4, distance=Distance.Cosine)},
 )
 
 shard = EdgeShard.create(SHARD_DIRECTORY, config)
 
-from qdrant_edge import Bm25, Bm25Config
+from qdrant_edge import (
+    Language,
+    SnowballLanguage,
+    SnowballParams,
+    TextIndexParams,
+    UpdateOperation,
+)
 
-bm25 = Bm25(Bm25Config(language="english"))
+shard.update(UpdateOperation.create_field_index(
+    "title",
+    TextIndexParams(
+        scoring=True,
+        stemmer=SnowballParams(language=SnowballLanguage.English),
+        stopwords=Language.English,
+    ),
+))
 
 from qdrant_edge import Point, UpdateOperation
 
 shard.update(UpdateOperation.upsert_points([
-    Point(1, {"text": bm25.embed_document("the quick brown fox")}, {"title": "Article 1"}),
-    Point(2, {"text": bm25.embed_document("a lazy dog sleeps")},   {"title": "Article 2"}),
-    Point(3, {"text": bm25.embed_document("foxes are clever")},    {"title": "Article 3"}),
+    Point(1, {"embedding": [0.05, 0.61, 0.76, 0.74]}, {"title": "The Time Machine"}),
+    Point(2, {"embedding": [0.19, 0.81, 0.75, 0.11]}, {"title": "Time Travel in Einstein's Universe"}),
+    Point(3, {"embedding": [0.36, 0.55, 0.47, 0.94]}, {"title": "The Travels of Marco Polo"}),
 ]))
-shard.optimize()
 
-from qdrant_edge import Query, QueryRequest
-
-query_vector = bm25.embed_query("clever fox")
+from qdrant_edge import QueryRequest, TextQuery
 
 results = shard.query(QueryRequest(
-    query=Query.Nearest(query_vector, using="text"),
+    query=TextQuery("title", "time travel"),
+    limit=3,
+    with_payload=True,
+))
+
+from qdrant_edge import Bm25Params, QueryRequest, TextQuery
+
+results = shard.query(QueryRequest(
+    query=TextQuery("title", "time travel", scoring=Bm25Params(k=1.5, b=0.5)),
     limit=3,
     with_payload=True,
 ))

@@ -13,7 +13,7 @@ tags:
   - Vector Database
   - Machine Learning
   - Information Retrieval
-category: mastering-search
+category: vector-search-fundamentals
 weight: 100
 retired: true
 hideFromList: true

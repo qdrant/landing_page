@@ -77,16 +77,21 @@ content:
         link:
           url: /documentation/search-evaluation/
           text: Explore Search Evaluation
-      - title: Prepare for Production
-        description: Plan tenant growth and large imports around the workload you need to serve.
+      - title: Deploy and Scale
+        description: Plan tenant isolation, access control, and production growth around your workload.
         link:
-          url: /documentation/production-operations/
-          text: Explore Production & Operations
-      - title: Choose Search Patterns
+          url: /documentation/deploy-and-scale/
+          text: Explore Deploy and Scale
+      - title: Operate and Maintain
+        description: Plan bulk imports, memory placement, and predictable search latency.
+        link:
+          url: /documentation/operate-and-maintain/
+          text: Explore Operate and Maintain
+      - title: Search Design
         description: Choose embedding models and filter results for your application.
         link:
-          url: /documentation/search-patterns/
-          text: Explore Search Patterns
+          url: /documentation/search-design/
+          text: Explore Search Design
       - title: Tune Search Results
         description: Follow the retrieval tuning series to test candidate depth, fusion, reranking, and memory choices.
         link:

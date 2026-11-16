@@ -56,7 +56,7 @@ test('Hugo uses generated height and retains view captions and agent-readable da
 test('tooltip inherits a light blog host and clears that override on theme-aware pages', () => {
   const figure = '<figure data-viz><svg><rect data-viz-zone data-viz-key="a" data-viz-title="Example" data-viz-rows="[]" tabindex="0" /></svg></figure>';
   const dom = new JSDOM(`<section class="qdrant-blog-post">${figure}</section><main>${figure}</main>`, { runScripts: 'outside-only' });
-  dom.window.eval(readFileSync('themes/qdrant-2024/assets/js/viz.js', 'utf8'));
+  dom.window.eval(readFileSync('themes/qdrant-2024/assets/shortcodes/chart/chart.js', 'utf8'));
   const zones = dom.window.document.querySelectorAll('[data-viz-zone]');
   const tip = dom.window.document.querySelector('.viz-tip');
   zones[0].dispatchEvent(new dom.window.Event('focus'));

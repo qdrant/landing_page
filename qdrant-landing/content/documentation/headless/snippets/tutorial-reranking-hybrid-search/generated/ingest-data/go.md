@@ -13,9 +13,8 @@ err = parseCSV(csvUrl, func(row CSVRow) {
 	buffer = append(buffer, &qdrant.PointStruct{
 		Id: qdrant.NewIDNum(idx),
 		Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
-			"dense":  qdrant.NewVectorDocument(&qdrant.Document{Text: description, Model: denseEmbeddingModel}),
-			"sparse": qdrant.NewVectorDocument(&qdrant.Document{Text: description, Model: sparseEmbeddingModel}),
-			"multi":  qdrant.NewVectorDocument(&qdrant.Document{Text: description, Model: lateInteractionEmbeddingModel}),
+			"dense": qdrant.NewVectorDocument(&qdrant.Document{Text: description, Model: denseEmbeddingModel}),
+			"multi": qdrant.NewVectorDocument(&qdrant.Document{Text: description, Model: lateInteractionEmbeddingModel}),
 		}),
 		Payload: qdrant.NewValueMap(map[string]any{
 			"title":       title,

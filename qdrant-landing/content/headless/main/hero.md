@@ -7,6 +7,10 @@ startFree:
 learnMore:
   text: See How It Works
   url: /qdrant-vector-database/
+# Shown under the buttons; `text` is what the copy button puts on the clipboard.
+agentPrompt:
+  label: "Give this to your agent:"
+  text: set up qdrant with https://qdrant.tech/llms.txt
 valueBadges:
   - icon: /img/home/hero/github-icon.svg
     text: 35k+ GitHub Stars

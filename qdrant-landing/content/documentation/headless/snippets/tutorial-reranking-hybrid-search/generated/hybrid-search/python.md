@@ -6,8 +6,8 @@ prefetch = [
         limit=20,
     ),
     models.Prefetch(
-        query=models.Document(text=query, model=sparse_embedding_model),
-        using="sparse",
+        query=models.TextQuery(text=query),
+        using="description",
         limit=20,
     ),
 ]

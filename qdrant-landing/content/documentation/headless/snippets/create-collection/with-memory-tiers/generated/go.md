@@ -24,5 +24,8 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 	Payload: &qdrant.PayloadStorageParams{
 		Memory: qdrant.Memory_Cached.Enum(),
 	},
+	IdTracker: &qdrant.IdTrackerParams{
+		Memory: qdrant.Memory_Cached.Enum(),
+	},
 })
 ```

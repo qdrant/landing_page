@@ -30,7 +30,7 @@ features:
   description: Qdrant’s scalability and multitenancy ensures that multiple agents can collaborate in distributed systems, enabling seamless coordination and communication - key for Agentic RAG workflows.
   link:
     text: Multitenancy
-    url: /documentation/production-operations/multitenant-search/
+    url: /documentation/deploy-and-scale/multitenant-search/
 - id: 2
   icon:
     src: /icons/outline/time-blue.svg

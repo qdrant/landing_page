@@ -1,0 +1,15 @@
+{
+  "title": "Illustrative fixture: stacked columns",
+  "kind": "grouped-columns",
+  "subtitle": "Illustrative data, parts stack bottom to top",
+  "group": "run",
+  "series": "part",
+  "y": "value",
+  "yLabel": "value (units)",
+  "yMax": 10,
+  "colors": [0, 2],
+  "height": 400,
+  "stacked": true,
+  "stackTotals": true,
+  "totalUnit": " u"
+}

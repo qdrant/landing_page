@@ -8,7 +8,7 @@ partition: deploy
 
 # Configuration
 
-These pages cover the settings and runtime options available for customizing and administering a Qdrant deployment.
+These pages cover the settings and runtime options available for customizing and administering a Qdrant deployment. On Qdrant Cloud, you configure a cluster in the Cloud Console. Self-hosted Qdrant is configured through configuration files or environment variables. Refer to [Configure Qdrant Cloud Clusters](/documentation/cloud/configure-cluster/). 
 
 ## Configuration
 
@@ -32,4 +32,4 @@ These pages cover the settings and runtime options available for customizing and
 
 ## Running with GPU
 
-[Running with GPU](/documentation/ops-configuration/running-with-gpu/) explains how to enable GPU-accelerated vector indexing using dedicated Docker images for NVIDIA and AMD hardware, available from Qdrant v1.13.0.
+[Running with GPU](/documentation/ops-configuration/running-with-gpu/) explains how GPUs speed up vector indexing and how to enable them on Managed Cloud, Private Cloud, and self-hosted deployments.

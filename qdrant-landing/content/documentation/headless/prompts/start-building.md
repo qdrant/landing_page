@@ -12,7 +12,7 @@ page: /documentation/agentic-tools/
 #   - Prose inside a step is one line per step or bullet, never hard-wrapped.
 #     A 65-column source wrap colliding with a 37-column screen wrap leaves
 #     orphan fragments on their own lines.
-open: true
+open: false
 skills:
   - meta/qdrant-advisor
 ---

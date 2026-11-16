@@ -14,7 +14,16 @@ keywords:
   - vector search
   - binary quantization
   - memory optimization
-category: production-ops
+category: qdrant-internals
+retired: true
+hideFromList: true
+sitemapExclude: true
+build:
+  list: never
+  render: always
+retired_resource:
+  title: Quantization Documentation
+  url: /documentation/manage-data/quantization/#binary-quantization
 ---
 
 # Optimizing High-Dimensional Vectors with Binary Quantization

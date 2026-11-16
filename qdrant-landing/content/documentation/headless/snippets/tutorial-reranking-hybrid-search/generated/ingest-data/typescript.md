@@ -10,7 +10,6 @@ for await (const { title, author, description } of parseCSV(csvUrl)) {
         id: idx++,
         vector: {
             dense: { text: description, model: denseEmbeddingModel },
-            sparse: { text: description, model: sparseEmbeddingModel },
             multi: { text: description, model: lateInteractionEmbeddingModel },
         },
         payload: { title, author, description },

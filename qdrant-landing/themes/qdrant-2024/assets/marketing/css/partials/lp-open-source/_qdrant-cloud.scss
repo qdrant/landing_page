@@ -1,0 +1,22 @@
+@use '../../helpers/functions' as *;
+
+.lp-open-source-qdrant-cloud {
+  @include lp-open-source-band(false, 5, 5);
+  @include lp-open-source-header('lp-open-source-qdrant-cloud', false, true);
+  @include lp-open-source-item('lp-open-source-qdrant-cloud');
+  @include lp-open-source-callout('lp-open-source-qdrant-cloud', $secondary-blue-50, $neutral-98, $neutral-30);
+  &__grid { display: grid; gap: $spacer * 2.5; }
+  &__visual { border-radius: pxToRem(8); overflow: hidden; img { display: block; width: 100%; height: auto; } }
+  @include lp-open-source-code('lp-open-source-qdrant-cloud');
+  &__list { display: grid; gap: $spacer * 2; margin: 0; padding: 0; list-style: none; }
+  &__grid--text .lp-open-source-qdrant-cloud__list { max-width: pxToRem(760); margin: 0; }
+  &__link { margin-top: $spacer * 2; }
+  @include media-breakpoint-up(lg) {
+    &__grid { grid-template-columns: minmax(0, 1fr) pxToRem(530); gap: $spacer * 4; align-items: center; }
+    &__grid--text { grid-template-columns: 1fr; }
+  }
+}
+
+.lp-open-source-qdrant-cloud__header { display: block; text-align: left; }
+.lp-open-source-qdrant-cloud__heading, .lp-open-source-qdrant-cloud__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
+.lp-open-source-qdrant-cloud__description { margin-top: $spacer; }

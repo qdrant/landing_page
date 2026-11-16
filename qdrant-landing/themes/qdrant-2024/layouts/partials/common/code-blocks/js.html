@@ -1,0 +1,8 @@
+{{- /* Code block behavior: copy buttons and language tabs. From assets/lib/code-blocks/;
+       see its README. Needs window.bootstrap.Popover, so the caller loads
+       lib/vendor/bootstrap-popover.js first. To replace code blocks in a part, stop
+       calling this partial there and call the replacement instead. */ -}}
+{{- $copyCodeJs := resources.Get "lib/code-blocks/copy-code.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $copyCodeJs.RelPermalink }}"></script>
+{{- $langSwitcherJs := resources.Get "lib/code-blocks/lang-switcher.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $langSwitcherJs.RelPermalink }}"></script>

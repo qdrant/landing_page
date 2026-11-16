@@ -1,102 +1,123 @@
 ---
 title: Backup Clusters
-short_description: "Schedule automatic snapshots and restore Qdrant Cloud clusters for disaster recovery, with retention controls and point-in-time recovery."
-description: "Set up scheduled snapshots, on-demand backups, and one-click restores for Qdrant Cloud clusters to protect against data loss and enable disaster recovery."
+short_description: "Schedule backups of Qdrant Cloud clusters in the Console, CLI, API, or Terraform, and restore them in place, into a new cluster, or per collection."
+description: "Set up scheduled and on-demand backups for Qdrant Cloud clusters with the Console, qcloud CLI, Cloud API, or Terraform, and choose the right restore method for your recovery goal."
 weight: 40
 ---
 
 # Backing up Qdrant Cloud Clusters
 
-Qdrant organizes cloud instances as clusters. On occasion, you may need to
-restore your cluster because of application or system failure.
+Backups protect a cluster against application or system failure. Replication keeps a highly available cluster running while a node is down, but it does not protect against bad writes or deletes. You can also reindex from your own source of truth, but that takes time. Backups cover disaster recovery.
 
-You may already have a source of truth for your data in a regular database. If you
-have a problem, you could reindex the data into your Qdrant vector search cluster.
-However, this process can take time. For high availability critical projects we
-recommend replication. It guarantees the proper cluster functionality as long as
-at least one replica is running.
+## Create a Backup Schedule
 
-For other use-cases such as disaster recovery, you can set up automatic or
-self-service backups.
+You can schedule backups on a daily, weekly, or monthly basis and keep as many as you need. Free clusters do not have scheduled backups. Use [snapshots](#backups-with-a-snapshot) instead.
 
-## Prerequisites
+In the [Qdrant Cloud Dashboard](https://cloud.qdrant.io):
 
-You can back up your Qdrant clusters though the Qdrant Cloud
-Dashboard at https://cloud.qdrant.io. This section assumes that you've already
-set up your cluster, as described in the following sections:
-
-- [Create a cluster](/documentation/cloud/create-cluster/)
-- Set up [Authentication](/documentation/cloud/authentication/)
-- Configure one or more [Collections](/documentation/manage-data/collections/)
-
-## Automatic Backups
-
-You can set up automatic backups of your clusters with our Cloud UI. With the
-procedures listed in this page, you can set up
-snapshots on a daily/weekly/monthly basis. You can keep as many snapshots as you
-need. You can restore a cluster from the snapshot of your choice.
-
-> Note: When you restore a snapshot, consider the following:
-> - The affected cluster is not available while a snapshot is being restored.
-> - If you changed the cluster setup after the copy was created, the cluster 
-    resets to the previous configuration.
-> - The previous configuration includes:
->   - CPU
->   - Memory
->   - Node count
->   - Qdrant version
-
-### Configure a Backup
-
-After you have taken the prerequisite steps, you can configure a backup with the
-[Qdrant Cloud Dashboard](https://cloud.qdrant.io). To do so, take these steps:
-
-1. On the **Cluster Detail Page** and select the **Backups** tab.
-1. Now you can set up a backup schedule.
-   The **Days of Retention** is the number of days after a backup snapshot is
-   deleted.
-1. Alternatively, you can select **Backup now** to take an immediate snapshot.
+1. Open the **Cluster Detail Page** and select the **Backups** tab.
+2. Set up a backup schedule. **Days of Retention** is the number of days after which a backup is deleted.
+3. Or select **Backup now** to take an immediate backup.
 
 ![Configure a cluster backup](/documentation/cloud/backup-schedule.png)
 
-### Restore a Backup
+You can create multiple schedules for one cluster.
 
-You can manage backups from the list of **Available Backups**. You can choose to restore or delete the backups of your choice. 
+### Schedule With the CLI
 
-Backups can be restored into the same cluster. This will revert the configuration, including the cluster version, back to the state when the backup was taken.
+With the [`qcloud` CLI](/documentation/cloud-cli/), the schedule is a cron expression in UTC, and the retention is between 1 and 365 days:
 
-Or you can restore the backup into a new cluster.
+```sh
+# Back up every day at 02:00 UTC and keep each backup for 7 days
+qcloud backup schedule create \
+  --cluster-id <CLUSTER_ID> \
+  --schedule '0 2 * * *' \
+  --retention-days 7
+
+# Take a one-off backup now
+qcloud backup create --cluster-id <CLUSTER_ID> --retention-days 7
+
+# List backups and schedules
+qcloud backup list
+qcloud backup schedule list
+```
+
+### Schedule With the Cloud API
+
+The [Cloud API](/documentation/cloud-api/) creates a schedule with a `POST` request. The `retentionPeriod` is a duration in seconds, from `86400s` (1 day) to `31536000s` (365 days). If you leave it out, backups are kept indefinitely.
+
+```sh
+API=https://api.cloud.qdrant.io/api/cluster/backup/v1/accounts/<ACCOUNT_ID>
+
+curl -X POST "$API/backup_schedules" \
+  -H "Authorization: apikey <CLOUD_MANAGEMENT_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "backupSchedule": {
+      "clusterId": "<CLUSTER_ID>",
+      "schedule": "0 2 * * *",
+      "retentionPeriod": "604800s"
+    }
+  }'
+```
+
+| Operation | Method and path under `/api/cluster/backup/v1/accounts/<ACCOUNT_ID>` | Permission |
+|---|---|---|
+| Create a backup | `POST /backups` | `write:backups` |
+| List backups | `GET /backups` | `read:backups` |
+| Delete a backup | `DELETE /backups/<BACKUP_ID>` | `delete:backups` |
+| Restore a backup | `POST /backups/<BACKUP_ID>/restore` | `restore:backups` |
+| Create a schedule | `POST /backup_schedules` | `write:backup_schedules` |
+| List schedules | `GET /backup_schedules` | `read:backup_schedules` |
+| Update a schedule | `PUT /backup_schedules/<SCHEDULE_ID>` | `write:backup_schedules` |
+| Delete a schedule | `DELETE /backup_schedules/<SCHEDULE_ID>` | `delete:backup_schedules` |
+
+### Schedule With Terraform
+
+With the [Terraform provider](/documentation/cloud-tools/terraform/), a schedule is a resource that refers to a cluster:
+
+```terraform
+resource "qdrant-cloud_accounts_backup_schedule" "daily" {
+  cluster_id       = qdrant-cloud_accounts_cluster.example.id
+  cron_expression  = "0 2 * * *" // Daily at 02:00
+  retention_period = "168h"      // Keep for 7 days
+}
+```
+
+Use `qdrant-cloud_accounts_manual_backup` for a one-off backup. Set `delete_backups_on_destroy` on the schedule if destroying it should also delete its backups.
+
+## Restore a Backup
+
+Choose the restore method from your recovery goal:
+
+| Goal | Method | Effect on the cluster |
+|---|---|---|
+| Roll the cluster back to a point in time | Restore into the **same cluster** in the Console, with `qcloud backup restore trigger <backup-id>`, or with the API | The cluster is unavailable while the restore runs. Data written after the backup is lost, and CPU, memory, node count, and Qdrant version revert to their values at backup time |
+| Test a restore, or recover without touching the source | Restore into a **new cluster** in the Console, or run `qcloud cluster create-from-backup --backup-id <backup-id> --name <new-name>` | The source cluster stays untouched. The new cluster gets the configuration the source had at backup time |
+| Recover a single collection | A [snapshot](#backups-with-a-snapshot) of that collection | Only that collection is affected |
+| Replace a cluster with no downtime | [Blue-green deployment](/documentation/tutorials-operations/blue-green-deployment/) | Traffic switches to the new cluster once you have tested it |
+
+You can manage backups in the list of **Available Backups** on the **Backups** tab, where you can restore or delete each one.
 
 ![Restore or delete a cluster backup](/documentation/cloud/restore-delete.png)
 
 ## Backups With a Snapshot
 
-Qdrant also offers a snapshot API which allows you to create a snapshot
-of a specific collection or your entire cluster. For more information, see our
-[snapshot documentation](/documentation/snapshots/).
+Qdrant also offers a snapshot API, which creates a snapshot of a specific collection or of your entire cluster. Snapshots are the way to back up free clusters, which only support manual snapshots and restores through the API. For the full API, see [Snapshots](/documentation/snapshots/).
 
-Here is how you can take a snapshot and recover a collection:
+To take a snapshot and recover a collection:
 
 1. Take a snapshot:
-   - For a single node cluster, call the snapshot endpoint on the exposed URL.
-   - For a multi node cluster call a snapshot on each node of the collection. 
-     Specifically, prepend `node-{num}-` to your cluster URL.
-     Then call the [snapshot endpoint](/documentation/snapshots/#create-snapshot) on the individual hosts. Start with node 0.
-   - In the response, you'll see the name of the snapshot.
+   - For a single node cluster, call the snapshot endpoint on the cluster URL.
+   - For a multi-node cluster, take a snapshot on each node of the collection. Prepend `node-<N>-` to your cluster URL, as in [Node-Specific Endpoints](/documentation/cloud/cluster-access/#node-specific-endpoints), and call the [snapshot endpoint](/documentation/snapshots/#create-snapshot) on each host. Start with node 0.
+   - The response contains the name of the snapshot.
 2. Delete and recreate the collection.
-3. Recover the snapshot:
-   - Call the [recover endpoint](/documentation/snapshots/#recover-from-a-url-or-local-file). Set a location which points to the snapshot file (`file:///qdrant/snapshots/{collection_name}/{snapshot_file_name}`) for each host.
+3. Recover the snapshot: call the [recover endpoint](/documentation/snapshots/#recover-from-a-url-or-local-file) on each host, with a location that points to the snapshot file, `file:///qdrant/snapshots/{collection_name}/{snapshot_file_name}`.
 
 ## Backup Considerations
 
-Backups are incremental for AWS and GCP clusters. For example, if you have two backups, backup number 2
-contains only the data that changed since backup number 1. This reduces the
-total cost of your backups.
-
-For Azure clusters, backups are based on total disk usage. The cost is calculated 
-as half of the disk usage when the backup was taken.
-
-You can create multiple backup schedules.
-
-When you restore a snapshot, any changes made after the date of the snapshot
-are lost.
+- Backups are incremental for AWS and GCP clusters. For example, backup number 2 contains only the data that changed since backup number 1, which reduces the total cost of your backups.
+- For Azure clusters, backups are based on total disk usage. The cost is half of the disk usage at the time of the backup.
+- Restoring into the same cluster resets any change you made to the cluster setup after the backup was taken.
+- Before an [upgrade](/documentation/cloud/cluster-upgrades/), take a backup. Restoring it is the way to roll back, because the restore reverts the Qdrant version.
+- Restoring is a way to test your recovery plan. Restore into a new cluster and check the data.

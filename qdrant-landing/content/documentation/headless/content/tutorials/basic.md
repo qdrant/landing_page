@@ -7,3 +7,4 @@
 | [Hybrid Search](/documentation/tutorials-basics/cloud-inference-hybrid-search/) | Get started with hybrid search. | <span class="pill">Any</span> | 15m | <span class="text-green">Beginner</span> |
 | [Hybrid Search with Reranking](/documentation/tutorials-basics/reranking-hybrid-search/) | Rerank hybrid search results for improved accuracy. | <span class="pill">Any</span> | 40m | <span class="text-yellow">Intermediate</span> |
 | [FastEmbed](/documentation/tutorials-basics/generate-embeddings-fastembed/) | Generate embeddings on CPU, then embed, index, and search with qdrant-client. | <span class="pill">Python</span> | 15m | <span class="text-green">Beginner</span> |
+| [Hugging Face Dataset Ingestion](/documentation/tutorials-basics/huggingface-datasets/) | Stream a dataset with precomputed embeddings from the Hub into a collection. | <span class="pill">Python</span> | 15m | <span class="text-green">Beginner</span> |

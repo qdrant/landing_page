@@ -1,1 +1,1 @@
-Runs a hybrid search by prefetching dense and BM25 sparse queries for an ISBN and fusing results with Reciprocal Rank Fusion.
+Runs a hybrid search for "time travel" by prefetching a dense vector query on the book descriptions and a BM25 text query on the `title` field, and fusing the results with Reciprocal Rank Fusion.

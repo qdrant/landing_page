@@ -18,8 +18,18 @@ await client.createCollection(collectionName, {
             hnsw_config: { m: 0 }, // Disable HNSW for reranking
         },
     },
-    sparse_vectors: {
-        sparse: { modifier: "idf" },
+});
+
+await client.createPayloadIndex(collectionName, {
+    field_name: "description",
+    field_schema: {
+        type: "text",
+        stemmer: {
+            type: "snowball",
+            language: "english",
+        },
+        stopwords: "english",
+        scoring: true, // Enable BM25 scoring
     },
 });
 ```

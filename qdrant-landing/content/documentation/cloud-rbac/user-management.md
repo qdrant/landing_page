@@ -36,7 +36,7 @@ Before being accepted, an Admin/Owner can cancel a pending invite directly on ei
 
 ![image.png](/documentation/cloud/role-based-access-control/revoke-invite.png)
 
-## Updating a User’s Roles
+## Updating a User's Roles
 
 Authorized users can give or take away roles from users in **User Management**.
 
