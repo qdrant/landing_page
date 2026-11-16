@@ -157,6 +157,25 @@
 .qsel .qs-table-wrap {
   overflow-x: auto;
 }
+.qsel .qs-expand {
+  margin-top: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  color: var(--qi-muted);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.qsel .qs-expand:hover {
+  color: var(--qi-fg);
+}
+.qsel .qs-expand:focus-visible {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 2px;
+}
 .qsel .qs-table {
   width: 100%;
   margin: 0;

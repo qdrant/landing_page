@@ -347,7 +347,7 @@ export function mount(node) {
   const state = {
     vectors: STOPS.vectors[DEFAULTS.vectors], dims: STOPS.dims[DEFAULTS.dims], ramIdx: DEFAULTS.ram,
     target: DEFAULTS.target, imbalance: DEFAULTS.imbalance,
-    priority: 'recall', metric: 'cosine', rescore: true, disk: false,
+    priority: 'recall', metric: 'cosine', rescore: true, disk: false, expanded: false,
   };
   const set = (el, min, max, step, value) => { el.min = min; el.max = max; el.step = step; el.value = value; };
   set(inputs.vectors, 0, STOPS.vectors.length - 1, 1, DEFAULTS.vectors);
@@ -394,11 +394,20 @@ export function mount(node) {
     node.querySelectorAll('[data-set]').forEach((b) => b.setAttribute('aria-pressed', String(state[b.dataset.set] === b.dataset.value)));
     node.querySelectorAll('[data-toggle]').forEach((b) => b.setAttribute('aria-pressed', String(state[b.dataset.toggle])));
 
-    // Table: the recommendation is the outlined row.
+    // Table: the recommendation is the outlined row. Collapsed, it shows the
+    // top three: the pick, then the next qualifying methods in table order,
+    // padded with the top rows when fewer than three qualify.
     const storageWins = Boolean(rec.storage && rec.storage.meets);
     const best = !storageWins && rec.pick ? rec.pick.method.id : null;
+    let shown = rec.rows;
+    if (!state.expanded) {
+      const keep = new Set(best ? [best] : []);
+      for (const r of rec.rows) { if (keep.size >= 3) break; if (r.verdict.ok) keep.add(r.method.id); }
+      for (const r of rec.rows) { if (keep.size >= 3) break; keep.add(r.method.id); }
+      shown = rec.rows.filter((r) => keep.has(r.method.id));
+    }
     const base = rec.rows[0];
-    const rowsHtml = rec.rows.map((r) => {
+    const rowsHtml = shown.map((r) => {
       const m = r.method;
       const memPct = clamp((r.ram / base.ram) * 100, 1.5, 100);
       const recPct = r.recall == null ? 0 : clamp((r.recall - 0.5) * 200, 0, 100);
@@ -428,9 +437,10 @@ export function mount(node) {
       </tr>`);
     }
     q('.qs-table-wrap').innerHTML = `<table class="qs-table">
-      <caption class="qs-sr">Every method at your settings. Memory is arithmetic. Recall, p95, and throughput are estimated from the guide's measurements. n/m means not measured.</caption>
+      <caption class="qs-sr">${state.expanded ? 'Every method' : 'The top three methods'} at your settings. Memory is arithmetic. Recall, p95, and throughput are estimated from the guide's measurements. n/m means not measured.</caption>
       <thead><tr><th scope="col">Method</th><th scope="col">Copy in RAM</th><th scope="col">Recall@10</th><th scope="col">p95 vs float32</th><th scope="col">QPS vs float32</th><th scope="col">Verdict</th></tr></thead>
-      <tbody>${rowsHtml.join('')}</tbody></table>`;
+      <tbody>${rowsHtml.join('')}</tbody></table>
+      <button type="button" class="qs-expand" data-expand aria-expanded="${state.expanded}">${state.expanded ? 'Show the top 3 only' : `Show all ${rec.rows.length} methods`}</button>`;
 
     // Status under the table: the recommended setup, or why nothing qualifies.
     const extrap = rec.pick ? rec.pick.extrapolated : rec.rows.some((r) => r.extrapolated);
@@ -462,10 +472,11 @@ export function mount(node) {
 
   node.addEventListener('input', (e) => { if (e.target.matches('input[type="range"]')) render(); });
   node.addEventListener('click', (e) => {
-    const t = e.target.closest('[data-set],[data-toggle]');
+    const t = e.target.closest('[data-set],[data-toggle],[data-expand]');
     if (!t) return;
     if (t.dataset.set) state[t.dataset.set] = t.dataset.value;
-    else state[t.dataset.toggle] = !state[t.dataset.toggle];
+    else if (t.dataset.toggle) state[t.dataset.toggle] = !state[t.dataset.toggle];
+    else state.expanded = !state.expanded;
     render();
   });
 
