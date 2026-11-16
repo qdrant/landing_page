@@ -157,7 +157,7 @@ The mechanism: split each vector into sub-vectors and replace each one with the 
 
 </details>
 
-TurboQuant is a method from Google Research that reduces the memory needed to store and search vectors. It first rotates each vector to spread its information more evenly across dimensions. It then rounds each number to a value in a small, predefined lookup table, called a codebook, and stores a short code for that value. The table is prepared in advance, so it doesn't need to be trained on your collection.
+TurboQuant is a method from [Google Research](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/) that reduces the memory needed to store and search vectors. It first rotates each vector to spread its information more evenly across dimensions. It then rounds each number to a value in a small, predefined lookup table, called a codebook, and stores a short code for that value. The table is prepared in advance, so it doesn't need to be trained on your collection.
 
 Qdrant supports 1-, 1.5-, 2-, and 4-bit encoding, plus an 8-bit option (`bits8`) since v1.20. Fewer bits save more memory (8x compression at 4 bits versus 4x at 8 bits), while more bits preserve more detail: on NFCorpus with BGE embeddings, 8-bit achieved 0.988 recall@10 compared with 0.938 for 4-bit, both without rescoring. Qdrant also corrects for changes in vector length and differences between dimensions to improve search accuracy. The [TurboQuant article](/articles/turboquant-quantization/) explains how these corrections work.
 
@@ -171,7 +171,80 @@ A quantized vector approximates the original, so searching the compressed copy c
 
 **Oversampling** widens the first pass: with `limit=10` and `oversampling=2.0`, the search over the quantized copy returns 20 candidates instead of 10. **Rescoring** re-scores those candidates against the original vectors and returns the best 10. With it off, the quantized scores are final and the originals are never read.
 
-![Oversampling 2 at limit 10 returns 20 candidates by rough score with a true neighbor stuck at rank 14; rescoring reads those 20 originals, re-sorts by exact score, and the rank-14 candidate lands in the returned top 10 at a cost of 20 vector reads per query](/articles_data/vector-quantization-guide/rescoring-oversampling.svg)
+<figure style="margin:1.25rem 0">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -16 800 282" style="width:100%;height:auto;display:block" role="img" aria-labelledby="qros-t qros-d">
+  <title id="qros-t">Oversampling and rescoring on one query</title>
+  <desc id="qros-d">With limit 10 and oversampling 2, the first pass over the quantized copy returns 20 candidates ranked by rough scores. A true neighbor sits at rank 14, outside the top 10, so with rescoring off it is lost. Rescoring reads the 20 original vectors, re-sorts by exact score, and the rank-14 candidate lands in the returned top 10.</desc>
+  <style>
+    .qros-h { fill: #656b7f; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 14px; }
+    .qros-n { fill: #303547; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 12px; }
+    .qros-n.is-hit { fill: #ffffff; }
+    .qros-cell { fill: none; stroke: #d3d9eb; stroke-width: 1.5; }
+    .qros-cell.is-hit { fill: #6047ff; stroke: #6047ff; }
+    .qros-brace { fill: none; stroke: #abb1c7; stroke-width: 1.5; }
+    .qros-brace.is-lost { stroke: #dc244c; }
+    .qros-note { fill: #dc244c; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 13px; }
+    .qros-keep { fill: #1a9d63; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 13px; }
+    .qros-arrow { stroke: #303547; stroke-width: 1.5; fill: none; }
+  </style>
+  <rect x="-20" y="-16" width="800" height="282" fill="#FFFFFF" rx="12"/>
+  <text class="qros-h" x="0" y="14">Oversampling 2 at limit 10: the quantized copy returns 20 candidates by rough score</text>
+  <g>
+    <rect class="qros-cell" x="0" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="16.5" y="43" text-anchor="middle">1</text>
+    <rect class="qros-cell" x="38" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="54.5" y="43" text-anchor="middle">2</text>
+    <rect class="qros-cell" x="76" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="92.5" y="43" text-anchor="middle">3</text>
+    <rect class="qros-cell" x="114" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="130.5" y="43" text-anchor="middle">4</text>
+    <rect class="qros-cell" x="152" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="168.5" y="43" text-anchor="middle">5</text>
+    <rect class="qros-cell" x="190" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="206.5" y="43" text-anchor="middle">6</text>
+    <rect class="qros-cell" x="228" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="244.5" y="43" text-anchor="middle">7</text>
+    <rect class="qros-cell" x="266" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="282.5" y="43" text-anchor="middle">8</text>
+    <rect class="qros-cell" x="304" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="320.5" y="43" text-anchor="middle">9</text>
+    <rect class="qros-cell" x="342" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="358.5" y="43" text-anchor="middle">10</text>
+    <rect class="qros-cell" x="380" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="396.5" y="43" text-anchor="middle">11</text>
+    <rect class="qros-cell" x="418" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="434.5" y="43" text-anchor="middle">12</text>
+    <rect class="qros-cell" x="456" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="472.5" y="43" text-anchor="middle">13</text>
+    <rect class="qros-cell is-hit" x="494" y="26" width="33" height="26" rx="4"/><text class="qros-n is-hit" x="510.5" y="43" text-anchor="middle">14</text>
+    <rect class="qros-cell" x="532" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="548.5" y="43" text-anchor="middle">15</text>
+    <rect class="qros-cell" x="570" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="586.5" y="43" text-anchor="middle">16</text>
+    <rect class="qros-cell" x="608" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="624.5" y="43" text-anchor="middle">17</text>
+    <rect class="qros-cell" x="646" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="662.5" y="43" text-anchor="middle">18</text>
+    <rect class="qros-cell" x="684" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="700.5" y="43" text-anchor="middle">19</text>
+    <rect class="qros-cell" x="722" y="26" width="33" height="26" rx="4"/><text class="qros-n" x="738.5" y="43" text-anchor="middle">20</text>
+  </g>
+  <path class="qros-brace is-lost" d="M0 58 v6 h375 v-6"/>
+  <text class="qros-note" x="0" y="82">rescoring off: these 10 are final by rough score, and the true neighbor at 14 is lost</text>
+  <path class="qros-arrow" d="M377 96 v26"/>
+  <path class="qros-arrow" d="M371 115 l6 8 l6 -8"/>
+  <text class="qros-h" x="395" y="106">rescoring on: read the 20 originals,</text>
+  <text class="qros-h" x="395" y="124">re-sort by exact score</text>
+  <text class="qros-h" x="0" y="152">Rescored: the same 20 candidates in exact-score order</text>
+  <g>
+    <rect class="qros-cell" x="0" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="16.5" y="181" text-anchor="middle">2</text>
+    <rect class="qros-cell" x="38" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="54.5" y="181" text-anchor="middle">1</text>
+    <rect class="qros-cell" x="76" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="92.5" y="181" text-anchor="middle">3</text>
+    <rect class="qros-cell is-hit" x="114" y="164" width="33" height="26" rx="4"/><text class="qros-n is-hit" x="130.5" y="181" text-anchor="middle">14</text>
+    <rect class="qros-cell" x="152" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="168.5" y="181" text-anchor="middle">4</text>
+    <rect class="qros-cell" x="190" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="206.5" y="181" text-anchor="middle">6</text>
+    <rect class="qros-cell" x="228" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="244.5" y="181" text-anchor="middle">5</text>
+    <rect class="qros-cell" x="266" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="282.5" y="181" text-anchor="middle">7</text>
+    <rect class="qros-cell" x="304" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="320.5" y="181" text-anchor="middle">9</text>
+    <rect class="qros-cell" x="342" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="358.5" y="181" text-anchor="middle">8</text>
+    <rect class="qros-cell" x="380" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="396.5" y="181" text-anchor="middle">11</text>
+    <rect class="qros-cell" x="418" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="434.5" y="181" text-anchor="middle">10</text>
+    <rect class="qros-cell" x="456" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="472.5" y="181" text-anchor="middle">13</text>
+    <rect class="qros-cell" x="494" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="510.5" y="181" text-anchor="middle">12</text>
+    <rect class="qros-cell" x="532" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="548.5" y="181" text-anchor="middle">15</text>
+    <rect class="qros-cell" x="570" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="586.5" y="181" text-anchor="middle">16</text>
+    <rect class="qros-cell" x="608" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="624.5" y="181" text-anchor="middle">18</text>
+    <rect class="qros-cell" x="646" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="662.5" y="181" text-anchor="middle">17</text>
+    <rect class="qros-cell" x="684" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="700.5" y="181" text-anchor="middle">19</text>
+    <rect class="qros-cell" x="722" y="164" width="33" height="26" rx="4"/><text class="qros-n" x="738.5" y="181" text-anchor="middle">20</text>
+  </g>
+  <path class="qros-brace" d="M0 196 v6 h375 v-6"/>
+  <text class="qros-keep" x="0" y="220">the best 10 by exact score are returned, the rank-14 candidate among them</text>
+  <text class="qros-h" x="0" y="248">cost: 20 original vectors read per query, not the whole collection</text>
+</svg>
+</figure>
 
 The experiments in this guide use both to recover the accuracy that quantization loses.
 
@@ -216,13 +289,7 @@ Every number the selector shows comes from the experimental setup described abov
 
 ### Limitations
 
-- Two embedding models and four datasets show the shape of each trade-off, not a universal rule, and the sign-imbalance threshold rests on eight points. Test both on your own embeddings.
-- Latency comes from an otherwise idle machine, and the throughput run shares its CPUs between client and server. The ordering of methods holds. The absolute numbers aren't a capacity plan.
-- We did not measure steady-state search with originals that permanently exceed RAM. If yours do, run `scripts/memory-pressure.sh` from the benchmark repository first.
-- One of 57 builds, `turbo4` storage with a 4-bit TurboQuant copy on FiQA with BGE, returned recall 0.0. We excluded it from the datatype figures and reported it to the Qdrant engineers as a defect.
-- We measured most configurations first on the previous Qdrant release and re-checked them on v1.20.0: recall on NFCorpus with BGE moved by at most 0.004 across 178 ablation cells, and the float32 baselines on the other three corpora matched within 0.002.
-- The 8-bit TurboQuant search copy and the `turbo8` and `turbo16` storage datatypes are new in v1.20, so they were measured on v1.20.0 only, the 8-bit copy on NFCorpus with BGE alone.
-- Neural quantizers, learned rotations, and dimensionality reduction are out of scope.
+Two embedding models and four datasets show the shape of each trade-off, not a universal rule (the sign-imbalance threshold rests on eight points), and the runs share one otherwise idle machine, so test on your own embeddings and read the absolute numbers as ratios, not a capacity plan. We didn't measure steady-state search with originals that permanently exceed RAM; if yours do, run `scripts/memory-pressure.sh` from the benchmark repository first. One of 57 builds, `turbo4` storage with a 4-bit TurboQuant copy on FiQA with BGE, returned recall 0.0, so we excluded it from the datatype figures and reported it to the Qdrant engineers as a defect. Re-checking on v1.20.0 moved recall by at most 0.004, we measured the features new in v1.20 (the 8-bit search copy, `turbo8`, and `turbo16`) on that release alone, and neural quantizers, learned rotations, and dimensionality reduction are out of scope.
 
 ## Measured Trade-Offs
 
