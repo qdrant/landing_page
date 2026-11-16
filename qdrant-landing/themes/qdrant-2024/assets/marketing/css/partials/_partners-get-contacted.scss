@@ -1,6 +1,0 @@
-@use '../helpers/functions' as *;
-@use '../mixins/get-contacted' as get-contacted;
-
-.partners-get-contacted {
-  @include get-contacted.base(0, 0, $spacer * 7.5, $spacer * 4, pxToRem(350));
-}
