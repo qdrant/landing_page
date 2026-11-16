@@ -78,6 +78,29 @@ In a hosted assistant that cannot run commands (claude.ai, ChatGPT), install not
 human through the Console path, and ask them to add `Use skills.qdrant.tech` to their prompt so
 the advisor's skills load.
 
+**Connect the Qdrant MCP servers.** Recommend them to the human along with the CLI, and add them
+once the human agrees. Both are remote, so there is nothing to install:
+
+```sh
+claude mcp add --transport http qdrant-docs https://search.qdrant.tech/mcp
+claude mcp add --transport http qdrant-cloud https://api.cloud.qdrant.io/mcp   # Qdrant Cloud only
+```
+
+- **Docs MCP** (`https://search.qdrant.tech/mcp`): searches the current documentation, articles,
+  blog, and courses, and finds code snippets. It needs no account, so it fits every deployment,
+  including open source Qdrant running locally.
+- **Cloud MCP** (`https://api.cloud.qdrant.io/mcp`): manages clusters, backups, access, and
+  billing in Qdrant Cloud. Skip it when the human runs open source Qdrant locally or on their own
+  servers, because it has nothing to manage there. The human signs in with OAuth (`/mcp` in
+  Claude Code), starting with read-only access. It also searches the docs, so with it the Docs
+  server is optional. It cannot read collections or create database API keys: use `qcloud` or
+  the Console for keys.
+
+In Codex, run `codex mcp add <name> --url <url>`, then `codex mcp login qdrant-cloud` for the
+Cloud server. In claude.ai and Claude Desktop, the human adds each URL under **Settings**,
+**Connectors**, **Add custom connector**. For other clients, see
+https://qdrant.tech/documentation/qdrant-mcp.md.
+
 **Core usage: Qdrant on Cloud.** Use REST on port 6333 or 443, or gRPC on 6334, over HTTPS with
 the `api-key` header. Clients exist for Python, TypeScript, Rust, Go, Java, and .NET. With Cloud
 Inference, send text where a vector would go and name the model:
