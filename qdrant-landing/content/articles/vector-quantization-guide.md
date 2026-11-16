@@ -197,7 +197,7 @@ Counts and lengths come from Table 1 of the BEIR paper. Quora is 144 times large
 
 ### Pick a Method for Your Collection
 
-The selector turns the measurements in this guide into a recommendation for your collection. Set the size of the collection, the RAM you can give the quantized copy, the recall you need, and how centered your embeddings are, then compare every method on memory, recall, and speed. The recommendation is the least aggressive method that fits your budget and meets your target. Switch the priority to Speed and it picks the fastest measured method that still meets the target. Click any row to see that method's impact on its own.
+The selector turns the measurements in this guide into a recommendation for your collection. Set the size of the collection, the RAM you can give the quantized copy, the recall you need, and how centered your embeddings are, then compare every method on memory, recall, and speed. The recommendation is the least aggressive method that fits your budget and meets your target. Switch the priority to Speed and it picks the fastest measured method that still meets the target.
 
 {{< island path="content/articles/headless/vector-quantization-guide/selector"
     ratio="3 / 4" >}}

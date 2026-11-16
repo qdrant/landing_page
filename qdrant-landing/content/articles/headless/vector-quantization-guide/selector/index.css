@@ -59,59 +59,76 @@
   line-height: 1.4;
   color: var(--qi-muted);
 }
+/* One labeled selection per line, labels in a shared column so chips align. */
 .qsel .qs-chips {
-  gap: 10px 22px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
 }
 .qsel .qs-chips .qi-group {
-  gap: 6px;
+  gap: 0;
 }
 .qsel .qs-chips .qi-hint {
-  margin-right: 2px;
+  min-width: 80px;
+  margin-right: 10px;
 }
 
-/* Result card */
-.qsel .qs-result {
-  padding: 16px 18px;
-  border: 1px solid var(--qi-border);
-  border-left: 4px solid var(--qi-cat-1);
-  border-radius: var(--qi-radius);
-  background: var(--qi-surface);
-  color: var(--qi-fg);
+/* Priority and Distance join into one segmented control per group. */
+.qsel .qs-chips .qi-chip[data-set] {
+  position: relative;
+  margin-left: -1px;
+  border-radius: 0;
 }
-.qsel .qs-result p {
+.qsel .qs-chips .qi-chip[data-set]:first-of-type {
+  margin-left: 0;
+  border-top-left-radius: var(--qi-radius);
+  border-bottom-left-radius: var(--qi-radius);
+}
+.qsel .qs-chips .qi-chip[data-set]:last-of-type {
+  border-top-right-radius: var(--qi-radius);
+  border-bottom-right-radius: var(--qi-radius);
+}
+.qsel .qs-chips .qi-chip[data-set][aria-pressed='true'],
+.qsel .qs-chips .qi-chip[data-set]:focus-visible {
+  z-index: 1;
+}
+
+/* The switches drop the chip frame and read as plain labeled toggles. */
+.qsel .qs-chips .qi-chip[data-toggle] + .qi-chip[data-toggle] {
+  margin-left: 20px;
+}
+.qsel .qs-chips .qi-chip[data-toggle] {
+  padding: 5px 0;
+  border-color: transparent;
+  background: transparent;
+}
+.qsel .qs-chips .qi-chip[data-toggle]:hover:not(:disabled) {
+  border-color: transparent;
+}
+.qsel .qs-chips .qi-chip[data-toggle][aria-pressed='true'] {
+  color: var(--qi-fg);
+  background: transparent;
+}
+
+/* Status under the table: the recommended setup, or why nothing qualifies. */
+.qsel .qs-status {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.qsel .qs-status:empty {
+  display: none;
+}
+.qsel .qs-status p {
   margin: 0;
 }
-.qsel .qs-result__kicker {
-  font-family: var(--qi-mono);
-  font-size: 12px;
-  color: var(--qi-cat-1);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.qsel .qs-result__kicker--warn {
-  color: var(--qi-accent);
-}
-.qsel .qs-result__name {
-  margin: 4px 0 8px;
-  font-size: 22px;
-  line-height: 1.2;
-  font-weight: 600;
-  color: var(--qi-fg);
-}
-.qsel .qs-result__why {
-  font-size: 14px;
-  line-height: 1.55;
-}
-.qsel .qs-result__why + .qs-result__why {
-  margin-top: 6px;
-}
 .qsel .qs-settings {
-  margin-top: 10px !important;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 6px 8px;
   font-size: 13px;
+  color: var(--qi-fg);
 }
 .qsel .qs-settings code {
   padding: 2px 6px;
@@ -122,69 +139,18 @@
   font-family: var(--qi-mono);
   font-size: 12px;
 }
-.qsel .qs-settings a,
-.qsel .qs-link {
+.qsel .qs-settings a {
   color: var(--qi-fg);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 .qsel .qs-note {
-  margin-top: 10px !important;
-  padding-top: 10px;
-  border-top: 1px dashed var(--qi-line);
   font-size: 13px;
   line-height: 1.5;
   color: var(--qi-muted);
 }
-
-/* Impact tiles */
-.qsel .qs-tiles__title {
-  margin: 0 0 8px;
-  font-size: 13px;
-  color: var(--qi-muted);
-}
-.qsel .qs-tiles__title strong {
-  color: var(--qi-fg);
-}
-.qsel .qs-link {
-  margin-left: 6px;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-size: 13px;
-  cursor: pointer;
-}
-.qsel .qs-tiles__grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-}
-.qsel .qs-tile {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-  padding: 12px 14px;
-  border: 1px solid var(--qi-border);
-  border-radius: var(--qi-radius);
-}
-.qsel .qs-tile__label {
-  font-family: var(--qi-mono);
-  font-size: 12px;
-  color: var(--qi-muted);
-}
-.qsel .qs-tile__big {
-  font-size: 22px;
-  line-height: 1.15;
-  font-weight: 600;
-  color: var(--qi-fg);
-  font-variant-numeric: tabular-nums;
-}
-.qsel .qs-tile__sub {
-  font-size: 12px;
-  line-height: 1.4;
-  color: var(--qi-muted);
+.qsel .qs-note--warn {
+  color: var(--qi-accent);
 }
 
 /* Comparison table */
@@ -200,7 +166,7 @@
 }
 .qsel .qs-table th,
 .qsel .qs-table td {
-  padding: 8px 10px;
+  padding: 10px 12px;
   border: 0;
   border-bottom: 1px solid var(--qi-border);
   background: transparent;
@@ -222,37 +188,17 @@
 .qsel .qs-row.is-out th {
   color: var(--qi-muted);
 }
-.qsel .qs-row.is-shown td,
-.qsel .qs-row.is-shown th {
+.qsel .qs-row.is-best td,
+.qsel .qs-row.is-best th {
   background: var(--qi-surface);
+  border-top: 2px solid var(--qi-cat-1);
+  border-bottom: 2px solid var(--qi-cat-1);
 }
 .qsel .qs-row.is-best th {
-  box-shadow: inset 3px 0 0 var(--qi-cat-1);
+  border-left: 2px solid var(--qi-cat-1);
 }
-.qsel .qs-pick {
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-weight: 600;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 3px;
-  transition: text-decoration-color 0.15s ease;
-}
-.qsel .qs-pick:hover {
-  text-decoration-color: currentColor;
-}
-.qsel .qs-pick:focus-visible {
-  outline: 2px solid var(--qi-fg);
-  outline-offset: 2px;
-}
-.qsel .qs-pick--static {
-  cursor: default;
-  text-decoration: none;
+.qsel .qs-row.is-best td:last-child {
+  border-right: 2px solid var(--qi-cat-1);
 }
 .qsel .qs-num {
   display: block;
@@ -322,12 +268,24 @@
   white-space: nowrap;
 }
 
-/* Narrow: one slider column, two tile columns, and the table becomes cards. */
+/* Narrow: one slider column, stacked toggles, and the table becomes cards. */
 .qsel.qs-narrow .qs-controls {
   grid-template-columns: minmax(0, 1fr);
 }
-.qsel.qs-narrow .qs-tiles__grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.qsel.qs-narrow .qs-chips .qi-group[aria-label='Options'] {
+  display: grid;
+  grid-template-columns: 80px auto;
+  column-gap: 10px;
+  row-gap: 8px;
+  justify-items: start;
+}
+.qsel.qs-narrow .qs-chips .qi-group[aria-label='Options'] .qi-hint {
+  margin-right: 0;
+}
+.qsel.qs-narrow .qs-chips .qi-chip[data-toggle],
+.qsel.qs-narrow .qs-chips .qi-chip[data-toggle] + .qi-chip[data-toggle] {
+  grid-column: 2;
+  margin-left: 0;
 }
 .qsel.qs-narrow .qs-table thead {
   position: absolute;
@@ -374,16 +332,12 @@
   flex: none;
   margin-top: 0;
 }
-.qsel.qs-narrow .qs-row.is-shown td,
-.qsel.qs-narrow .qs-row.is-shown th {
+.qsel.qs-narrow .qs-row.is-best td,
+.qsel.qs-narrow .qs-row.is-best th {
   background: transparent;
-}
-.qsel.qs-narrow .qs-row.is-shown {
-  background: var(--qi-surface);
+  border: 0;
 }
 .qsel.qs-narrow .qs-row.is-best {
-  border-left: 3px solid var(--qi-cat-1);
-}
-.qsel.qs-narrow .qs-row.is-best th {
-  box-shadow: none;
+  border: 2px solid var(--qi-cat-1);
+  background: var(--qi-surface);
 }

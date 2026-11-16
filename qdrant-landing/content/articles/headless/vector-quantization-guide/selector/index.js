@@ -263,7 +263,6 @@ export function fmtCount(n) {
 }
 
 const fmtX = (x) => (x >= 10 ? x.toFixed(0) : x.toFixed(x >= 1 ? 1 : 2)).replace(/\.0$/, '') + '×';
-const fmtShrink = (x) => `${String(Math.round(x * 10) / 10)}×`;
 
 // ---------------------------------------------------------------------------
 // View
@@ -278,40 +277,6 @@ const STOPS = {
 const DEFAULTS = { vectors: 6, dims: 4, ram: 4, target: 0.95, imbalance: 0.15 };
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-
-function why(pick, input) {
-  const m = pick.method;
-  const off = pick.recallOff != null ? fmtR(pick.recallOff) : null;
-  const keep = `Keep rescoring on: without it recall falls to about ${off}.`;
-  if (input.priority === 'speed' && pick.p95 != null && m.id !== 'f32') {
-    const centered = m.family === 'binary' ? ' Binary is the most sensitive to how centered your embeddings are, so measure yours first.' : '';
-    return `The fastest measured method that fits and meets your target, at ${fmtX(pick.p95)} the p95 of float32 HNSW.${pick.method.bits <= 2 ? ` ${keep}` : ''}${centered}`;
-  }
-  switch (m.id) {
-    case 'f32':
-      return `Your ${fmtBytes(pick.originals)} of float32 vectors fit in ${fmtBytes(input.ramBytes)}, so memory does not force a choice. A quantized copy would still roughly halve p95 in the guide's runs, so switch the priority to Speed if latency matters.`;
-    case 'sq':
-      return input.metric === 'manhattan'
-        ? 'Scalar is the method to use with Manhattan distance, and 4× is enough for your budget.'
-        : '4× is enough for your budget, and scalar makes no assumptions about your embeddings. If you do not need Manhattan distance, 4-bit TurboQuant gives similar recall at half the memory.';
-    case 'tq4':
-      return '8× is the least compression that fits. In the guide, 4-bit TurboQuant matched scalar recall at half the memory and ran slightly faster.';
-    case 'tq2':
-      return `16× is the least compression that fits. TurboQuant keeps more recall than binary at this size. ${keep}`;
-    case 'bq2':
-      return `16× is the least compression that fits, and binary is the faster choice at this size. ${keep}`;
-    case 'tq15':
-      return `About 21× is the least compression that fits. ${keep}`;
-    case 'tq1':
-      return `32× is the least compression that fits. In the guide's four rescored workloads 1-bit TurboQuant reached 0.79 to 0.98 recall, against 0.56 to 0.94 for binary. ${keep}`;
-    case 'bq1':
-      return `32× is the least compression that fits. Binary was the fastest method wherever it met the target, and it is the most sensitive to how centered your embeddings are. ${keep}`;
-    default:
-      return m.id === 'pq64'
-        ? 'Nothing measured reaches your memory budget, so this is the largest ratio Qdrant offers. The guide did not measure x64 recall, so test it on your data before relying on it.'
-        : 'Product quantization is the last resort: it searches slowest at matched recall. Choose it only when memory is the single constraint.';
-  }
-}
 
 function noPick(rec, input) {
   const d = rec.diagnosis;
@@ -365,13 +330,13 @@ export function mount(node) {
           <button type="button" class="qi-chip" data-set="metric" data-value="manhattan" aria-pressed="false">Manhattan</button>
         </div>
         <div class="qi-group" role="group" aria-label="Options">
+          <span class="qi-hint">Options</span>
           <button type="button" class="qi-chip" data-toggle="rescore" aria-pressed="true"><span class="qi-switch__track"><span class="qi-switch__knob"></span></span>Rescoring</button>
           <button type="button" class="qi-chip" data-toggle="disk" aria-pressed="false"><span class="qi-switch__track"><span class="qi-switch__knob"></span></span>Disk is the constraint</button>
         </div>
       </div>
-      <div class="qs-result" role="status" aria-live="polite"></div>
-      <div class="qs-tiles"></div>
       <div class="qs-table-wrap"></div>
+      <div class="qs-status" role="status" aria-live="polite"></div>
       <p class="qs-foot"></p>
     </div>`;
 
@@ -382,7 +347,7 @@ export function mount(node) {
   const state = {
     vectors: STOPS.vectors[DEFAULTS.vectors], dims: STOPS.dims[DEFAULTS.dims], ramIdx: DEFAULTS.ram,
     target: DEFAULTS.target, imbalance: DEFAULTS.imbalance,
-    priority: 'recall', metric: 'cosine', rescore: true, disk: false, picked: null,
+    priority: 'recall', metric: 'cosine', rescore: true, disk: false,
   };
   const set = (el, min, max, step, value) => { el.min = min; el.max = max; el.step = step; el.value = value; };
   set(inputs.vectors, 0, STOPS.vectors.length - 1, 1, DEFAULTS.vectors);
@@ -416,10 +381,6 @@ export function mount(node) {
     };
   }
 
-  function tile(label, big, sub) {
-    return `<div class="qs-tile"><span class="qs-tile__label">${label}</span><strong class="qs-tile__big">${big}</strong><span class="qs-tile__sub">${sub}</span></div>`;
-  }
-
   function render() {
     read();
     const inp = input();
@@ -433,59 +394,10 @@ export function mount(node) {
     node.querySelectorAll('[data-set]').forEach((b) => b.setAttribute('aria-pressed', String(state[b.dataset.set] === b.dataset.value)));
     node.querySelectorAll('[data-toggle]').forEach((b) => b.setAttribute('aria-pressed', String(state[b.dataset.toggle])));
 
-    // Result card
-    const result = q('.qs-result');
-    const extrap = rec.pick ? rec.pick.extrapolated : rec.rows.some((r) => r.extrapolated);
-    const dimsOut = state.dims < 384 || state.dims > 1024;
-    let html = '';
-    if (rec.storage && rec.storage.meets) {
-      html = `<p class="qs-result__kicker">Recommended for a disk constraint</p>
-        <h3 class="qs-result__name">turbo4 storage</h3>
-        <p class="qs-result__why">The originals shrink 8× to ${fmtBytes(rec.storage.disk)} on disk, with recall around ${fmtR(rec.storage.recall)} rescored. That loss is permanent and cannot be undone without re-ingesting. If RAM is also tight, pair it with a pinned search copy.</p>
-        <p class="qs-settings"><code>datatype: turbo4</code> <a href="${DOCS}">Quantization docs</a></p>`;
-    } else if (rec.pick) {
-      const m = rec.pick.method;
-      const note = rec.storage ? `<p class="qs-note">turbo4 storage would reach only about ${fmtR(rec.storage.recall)} here, below your target, so the recommendation below keeps float32 originals.</p>` : '';
-      const anchor = { scalar: '#setting-up-scalar-quantization', turbo: '#setting-up-turboquant', binary: '#setting-up-binary-quantization', product: '#setting-up-product-quantization' }[m.family];
-      html = `<p class="qs-result__kicker">Recommended</p>
-        <h3 class="qs-result__name">${m.id === 'f32' ? 'No quantization needed' : esc(m.name)}</h3>
-        <p class="qs-result__why">${esc(why(rec.pick, inp))}</p>
-        ${m.settings ? `<p class="qs-settings"><code>${esc(m.settings)}</code>${state.rescore ? ' <code>rescore: true, oversampling: 2</code>' : ''} <a href="${DOCS}${anchor}">Setup docs</a></p>` : ''}
-        ${note}`;
-    } else {
-      html = `<p class="qs-result__kicker qs-result__kicker--warn">No measured method meets every constraint</p>
-        ${noPick(rec, inp).map((l) => `<p class="qs-result__why">${esc(l)}</p>`).join('')}`;
-    }
-    if (rec.pick && rec.pick.method.family === 'binary' && state.imbalance > 0.19) {
-      html += '<p class="qs-note">Past a sign imbalance of about 0.19, binary 1-bit did not reach 0.95 anywhere in the guide\'s grid. Measure yours before you rely on it.</p>';
-    }
-    if (extrap || dimsOut) {
-      html += `<p class="qs-note">${dimsOut ? 'The guide measured 384 and 1,024 dimensions, so recall here is extrapolated. ' : ''}${extrap ? 'This sign imbalance is outside the range measured for these dimensions, so recall is extrapolated. ' : ''}Treat it as a prompt to measure, not a result.</p>`;
-    }
-    result.innerHTML = html;
-
-    // Tiles for the selected method (the recommendation unless a row was picked)
+    // Table: the recommendation is the outlined row.
     const storageWins = Boolean(rec.storage && rec.storage.meets);
-    const lead = storageWins ? 'turbo4' : rec.pick && rec.pick.method.id;
-    const shown = rec.rows.find((r) => r.method.id === (state.picked || lead)) || (storageWins ? null : rec.rows[0]);
-    const base = rec.rows[0];
-    const isRef = shown && shown.method.id === 'f32';
-    const tiles = !shown ? [
-      tile('Memory', '8× smaller', `${fmtBytes(rec.storage.originals)} to ${fmtBytes(rec.storage.disk)} of stored vectors`),
-      tile('Recall@10', fmtR(rec.storage.recall), `float32 HNSW is ${fmtR(base.recall)}. Rescored against 4-bit originals.`),
-      tile('Latency', 'n/m', 'Not measured in the guide'),
-      tile('Throughput', 'n/m', 'Not measured in the guide'),
-    ] : [
-      tile('Memory', isRef ? '1×' : `${fmtShrink(shown.shrink)} smaller`, isRef ? `${fmtBytes(shown.ram)} resident` : `${fmtBytes(base.ram)} to ${fmtBytes(shown.ram)} in RAM. Originals stay cold on disk.`),
-      tile('Recall@10', shown.recall == null ? 'n/m' : fmtR(shown.recall),
-        shown.recall == null ? 'Not measured in the guide' : isRef ? 'Exact search is 1.00' : `float32 HNSW is ${fmtR(base.recall)}. Rescoring on ${fmtR(shown.recallOn)}, off ${fmtR(shown.recallOff)}.`),
-      tile('Latency', shown.p95 == null ? 'n/m' : isRef ? '1×' : fmtX(shown.p95), shown.p95 == null ? 'Not measured in the guide' : 'p95 against float32 HNSW, measured at 523k vectors'),
-      tile('Throughput', shown.qps == null ? 'n/m' : isRef ? '1×' : fmtX(shown.qps), shown.qps == null ? 'Not measured in the guide' : 'Queries per second against float32 HNSW, 8 clients'),
-    ];
-    q('.qs-tiles').innerHTML = `<p class="qs-tiles__title">Impact of <strong>${shown ? esc(shown.method.name) : 'turbo4 storage'}</strong>${state.picked ? ' <button type="button" class="qs-link" data-follow>Show the recommendation</button>' : ''}</p><div class="qs-tiles__grid">${tiles.join('')}</div>`;
-
-    // Table
     const best = !storageWins && rec.pick ? rec.pick.method.id : null;
+    const base = rec.rows[0];
     const rowsHtml = rec.rows.map((r) => {
       const m = r.method;
       const memPct = clamp((r.ram / base.ram) * 100, 1.5, 100);
@@ -493,11 +405,10 @@ export function mount(node) {
       const tick = clamp((state.target - 0.5) * 200, 0, 100);
       const cls = ['qs-row'];
       if (m.id === best) cls.push('is-best');
-      if (m.id === (state.picked || best)) cls.push('is-shown');
       if (!r.verdict.ok) cls.push('is-out');
       const cell = (label, inner) => `<td data-label="${label}">${inner}</td>`;
       return `<tr class="${cls.join(' ')}">
-        <th scope="row"><button type="button" class="qs-pick" data-pick="${m.id}" aria-pressed="${m.id === (state.picked || best)}">${esc(m.name)}</button></th>
+        <th scope="row">${esc(m.name)}</th>
         ${cell('Copy in RAM', `<span class="qs-num">${fmtBytes(r.ram)}</span><span class="qs-bar"><i style="width:${memPct}%"></i></span>`)}
         ${cell('Recall@10', r.recall == null ? '<span class="qs-num qs-na">n/m</span>' : `<span class="qs-num">${fmtR(r.recall)}</span><span class="qs-bar qs-bar--recall"><i style="width:${recPct}%"></i><b style="left:${tick}%"></b></span>`)}
         ${cell('p95', r.p95 == null ? '<span class="qs-num qs-na">n/m</span>' : `<span class="qs-num">${m.id === 'f32' ? '1×' : fmtX(r.p95)}</span>`)}
@@ -507,8 +418,8 @@ export function mount(node) {
     });
     if (rec.storage) {
       const s = rec.storage;
-      rowsHtml.push(`<tr class="qs-row${s.meets ? ' is-best' : ' is-out'}${storageWins && !state.picked ? ' is-shown' : ''}">
-        <th scope="row"><span class="qs-pick qs-pick--static">${s.method.name}</span></th>
+      rowsHtml.push(`<tr class="qs-row${s.meets ? ' is-best' : ' is-out'}">
+        <th scope="row">${s.method.name}</th>
         <td data-label="Copy in RAM"><span class="qs-num qs-na">no copy</span></td>
         <td data-label="Recall@10"><span class="qs-num">${fmtR(s.recall)}</span></td>
         <td data-label="p95"><span class="qs-num qs-na">n/m</span></td>
@@ -521,17 +432,40 @@ export function mount(node) {
       <thead><tr><th scope="col">Method</th><th scope="col">Copy in RAM</th><th scope="col">Recall@10</th><th scope="col">p95 vs float32</th><th scope="col">QPS vs float32</th><th scope="col">Verdict</th></tr></thead>
       <tbody>${rowsHtml.join('')}</tbody></table>`;
 
+    // Status under the table: the recommended setup, or why nothing qualifies.
+    const extrap = rec.pick ? rec.pick.extrapolated : rec.rows.some((r) => r.extrapolated);
+    const dimsOut = state.dims < 384 || state.dims > 1024;
+    let status = '';
+    if (storageWins) {
+      status = `<p class="qs-settings">Set up <strong>turbo4 storage</strong>: <code>datatype: turbo4</code> <a href="${DOCS}">Quantization docs</a></p>
+        <p class="qs-note">The originals shrink 8× on disk; that loss is permanent and cannot be undone without re-ingesting. If RAM is also tight, pair it with a pinned search copy.</p>`;
+    } else if (rec.pick) {
+      const m = rec.pick.method;
+      const anchor = { scalar: '#setting-up-scalar-quantization', turbo: '#setting-up-turboquant', binary: '#setting-up-binary-quantization', product: '#setting-up-product-quantization' }[m.family];
+      status = m.id === 'f32'
+        ? `<p class="qs-note">Your ${fmtBytes(rec.pick.originals)} of float32 vectors fit in ${fmtBytes(inp.ramBytes)}, so memory does not force a choice. Switch the priority to Speed if latency matters.</p>`
+        : `<p class="qs-settings">Set up <strong>${esc(m.name)}</strong>: <code>${esc(m.settings)}</code>${state.rescore ? ' <code>rescore: true, oversampling: 2</code>' : ''} <a href="${DOCS}${anchor}">Setup docs</a></p>`;
+    } else {
+      status = `<p class="qs-note qs-note--warn">No measured method meets every constraint.</p>
+        ${noPick(rec, inp).map((l) => `<p class="qs-note">${esc(l)}</p>`).join('')}`;
+    }
+    if (rec.pick && rec.pick.method.family === 'binary' && state.imbalance > 0.19) {
+      status += '<p class="qs-note">Past a sign imbalance of about 0.19, binary 1-bit did not reach 0.95 anywhere in the guide\'s grid. Measure yours before you rely on it.</p>';
+    }
+    if (extrap || dimsOut) {
+      status += `<p class="qs-note">${dimsOut ? 'The guide measured 384 and 1,024 dimensions, so recall here is extrapolated. ' : ''}${extrap ? 'This sign imbalance is outside the range measured for these dimensions, so recall is extrapolated. ' : ''}Treat it as a prompt to measure, not a result.</p>`;
+    }
+    q('.qs-status').innerHTML = status;
+
     q('.qs-foot').textContent = `Memory is arithmetic with ${Math.round((OVERHEAD - 1) * 100)}% added for bookkeeping. Recall assumes hnsw_ef 256 and oversampling 2. Latency and throughput were measured on Quora with an 8-vCPU VM, so read them as ratios, not capacity numbers. n/m means the guide did not measure it.`;
   }
 
   node.addEventListener('input', (e) => { if (e.target.matches('input[type="range"]')) render(); });
   node.addEventListener('click', (e) => {
-    const t = e.target.closest('[data-set],[data-toggle],[data-pick],[data-follow]');
+    const t = e.target.closest('[data-set],[data-toggle]');
     if (!t) return;
     if (t.dataset.set) state[t.dataset.set] = t.dataset.value;
-    else if (t.dataset.toggle) state[t.dataset.toggle] = !state[t.dataset.toggle];
-    else if (t.dataset.pick) state.picked = t.dataset.pick;
-    else if (t.dataset.follow !== undefined) state.picked = null;
+    else state[t.dataset.toggle] = !state[t.dataset.toggle];
     render();
   });
 
