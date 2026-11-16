@@ -167,6 +167,10 @@ menuItems:
             name: Services
             icon: qdrant-enterprise-solutions.svg
             url: /services/
+          - id: subMenu-3-1-1
+            name: Integrations
+            icon: integrations.svg
+            url: /integrations/
           - id: subMenu-3-2
             name: Migration
             icon: migrate.svg
