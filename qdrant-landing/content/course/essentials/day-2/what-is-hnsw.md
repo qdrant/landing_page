@@ -322,7 +322,7 @@ For very tight RAM budgets consider these solutions:
 - **Vector quantization (VQ):** 
   - Scalar quantization (SQ) often cuts RAM ~4×
   - Binary quantization (BQ) compresses to 1‑bit per dimension and can cut RAM by large factors.
-- **On Disk Storage**: Set `memory="cold"` for vectors and the HNSW index to read data from disk on demand. The operating system can cache accessed data in RAM. See [Memory Tiers](/documentation/ops-configuration/memory-tiers/) for the trade-offs.
+- **On Disk Storage**: Set `memory="cold"` for original vectors to read them from disk on demand, and keep the HNSW index `cached`. The operating system can cache accessed data in RAM. See [Memory Tiers](/documentation/ops-configuration/memory-tiers/) for the trade-offs.
 - **Disable HNSW for Reranking Embeddings:** Useful since reranking vectors such as multi‑vectors are large.
 
 ## Key Takeaways

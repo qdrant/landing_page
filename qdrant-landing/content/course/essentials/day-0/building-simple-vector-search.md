@@ -30,7 +30,7 @@ To interact with Qdrant, we need the Python client. This enables us to communica
 !pip install qdrant-client==1.20.0
 ```
 
-> **Version note:** The examples use Python 3.10+ and `qdrant-client` 1.20.0 with Qdrant 1.20+. Upgrade the client if you installed it previously.
+> **Version note:** The examples use Python 3.10+ and `qdrant-client` 1.20.0 with Qdrant 1.20+.
 
 ## Step 2: Import Required Libraries
 

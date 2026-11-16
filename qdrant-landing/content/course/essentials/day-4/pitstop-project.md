@@ -364,7 +364,7 @@ You'll know you've succeeded when:
 
 <input type="checkbox"> You've achieved measurable search speed improvements  
 <input type="checkbox"> You've maintained acceptable accuracy through oversampling optimization  
-<input type="checkbox"> You've demonstrated significant hot memory savings with the `cold` memory tier for original vectors<br>
+<input type="checkbox"> You've demonstrated significant hot memory savings with the `cold` memory tier for original vectors  
 <input type="checkbox"> You can make informed recommendations about quantization for your domain
 
 

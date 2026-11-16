@@ -30,7 +30,7 @@ For production RAG systems serving real-time queries, these vectors must reside 
 
 Quantization breaks this cost scaling by compressing vectors while maintaining search effectiveness. The video covers scalar, binary, and product quantization, each with different speed, memory, and accuracy trade-offs.
 
-> **Update:** [TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization), available since 1.18, is another option. In 1.20, its `bits8` encoding offers the same 4x compression as scalar quantization and is the recommended starting point, except for Manhattan distance. The [TurboQuant datatypes](/documentation/manage-data/vectors/#datatypes), `turbo4` (1.19), `turbo8`, and `turbo16` (1.20), compress the original vectors themselves. Quantization keeps an original copy for rescoring; these datatypes replace it with a compressed representation.
+> **Update:** Since Qdrant 1.18, [TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization) offers another way to balance compression and search quality.
 
 ## Scalar Quantization
 
