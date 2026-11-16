@@ -40,6 +40,7 @@ details.qgt--w { --qgt-c: #dc244c; --qgt-bg: rgba(220, 36, 76, 0.12); }
 details.qgt--n { --qgt-c: #abb1c7; --qgt-bg: rgba(171, 177, 199, 0.14); }
 details.qgt > summary.qgt__title { margin: 0 0 0.75rem; font-size: 1.125rem; font-weight: 700; cursor: pointer; }
 details.qgt:not([open]) > summary.qgt__title { margin-bottom: 0; }
+details.qgt > summary.qgt__title .qgt__kicker { display: block; margin-top: 0.25rem; font-size: 0.875rem; font-weight: 400; line-height: 1.5; }
 h2.qcolab-h { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1rem; }
 h2.qcolab-h .qcolab { display: inline-flex; font-size: 1rem; }
 h2.qcolab-h .qcolab a { display: inline-flex; }
@@ -294,21 +295,10 @@ The experiment behind this article, although it runs across four datasets and tw
 
 ## Measured Trade-Offs
 
-Every method buys memory with recall, speed, or both. The key finding from each trade-off, with the charts, tables, and commentary collapsed under each heading:
+Every method buys memory with recall, speed, or both. Each heading carries the key finding; open it for the charts and the evidence.
 
-- [Rescoring: Recall Against Extra Reads](#rescoring-recall-against-extra-reads): a small correction at 4 bits and above, the whole method at 2 bits and below, for at most 0.04 ms of p95.
-- [Oversampling: Recall Against Search Effort](#oversampling-recall-against-search-effort): scalar and 4-bit TurboQuant met the 0.95 target on all eight workloads at the lowest effort offered, 4-bit at half of scalar's memory.
-- [Binary Quantization: Compression Against Recall](#binary-quantization-compression-against-recall): binary passed only below about 0.19 sign imbalance, and at equal compression TurboQuant beat it on every workload.
-- [Storage Datatypes: Disk Against Recall](#storage-datatypes-disk-against-recall): `turbo8` and `turbo16` halve or quarter the disk for under a point of recall.
-- [Pinned Copies: RAM Against Latency](#pinned-copies-ram-against-latency): every quantized copy searched faster than float32 on the same graph except product, the only method slower than float32.
-- [Throughput: Compression Against Queries per Second](#throughput-compression-against-queries-per-second): float32 delivered about 70% of the quantized throughput, product under half.
-- [Cold Start: RAM Against First-Query Latency](#cold-start-ram-against-first-query-latency): a pinned quantized copy answered cold queries in about 10 ms where float32 took more than a second.
-- [Memory Caps: Headroom Against Index Builds](#memory-caps-headroom-against-index-builds): a RAM cap below the originals kills the index build before it ever slows a search.
-
-### Rescoring: Recall Against Extra Reads
-
-<details class="qgt qgt--n">
-<summary class="qgt__title">Full Results</summary>
+<details class="qgt qgt--n" id="rescoring-recall-against-extra-reads">
+<summary class="qgt__title">Rescoring: Recall Against Extra Reads<span class="qgt__kicker">A small correction at 4 bits and above, the whole method at 2 bits and below, for at most 0.04 ms of p95.</span></summary>
 
 Rescoring buys back recall by reading original vectors. We ran every method with it off and on at `hnsw_ef=256` and oversampling 2, on the two larger corpora.
 
@@ -322,10 +312,8 @@ Rescoring buys back recall by reading original vectors. We ran every method with
 
 </details>
 
-### Oversampling: Recall Against Search Effort
-
-<details class="qgt qgt--n">
-<summary class="qgt__title">Full Results</summary>
+<details class="qgt qgt--n" id="oversampling-recall-against-search-effort">
+<summary class="qgt__title">Oversampling: Recall Against Search Effort<span class="qgt__kicker">Scalar and 4-bit TurboQuant met the 0.95 target on all eight workloads at the lowest effort offered, 4-bit at half of scalar's memory.</span></summary>
 
 The target decides the setting: take the cheapest one that reaches it. We set 0.95 recall@10 against exact float32 and swept `hnsw_ef` (64, 128, 256, 512), oversampling (1, 2, 4, 8), and rescoring (off, on) on the 50 development queries only. The rule picks the fastest point with recall@10 of at least 0.95 and nDCG@10 within 0.01 of exact float32, then freezes it for one run on the 150 held-out queries.
 
@@ -346,10 +334,8 @@ Scalar and 4-bit TurboQuant hit the target at the lowest effort offered, at 0.17
 
 </details>
 
-### Binary Quantization: Compression Against Recall
-
-<details class="qgt qgt--n">
-<summary class="qgt__title">Full Results</summary>
+<details class="qgt qgt--n" id="binary-quantization-compression-against-recall">
+<summary class="qgt__title">Binary Quantization: Compression Against Recall<span class="qgt__kicker">Binary passed only below about 0.19 sign imbalance, and at equal compression TurboQuant beat it on every workload.</span></summary>
 
 Binary gives the most compression, 32x, and its recall can collapse. If the ratio is all you want, 1-bit TurboQuant delivered the same 32x with more recall on every workload we measured, so take that and skip the gamble. What binary alone offers is XOR-and-popcount scoring, the fastest in these runs at 0.24 ms p95, and whether your embeddings can afford it is checkable in advance.
 
@@ -372,10 +358,8 @@ Above about 0.19, binary never reached 0.95 anywhere in the grid. Quora's questi
 
 </details>
 
-### Storage Datatypes: Disk Against Recall
-
-<details class="qgt qgt--n">
-<summary class="qgt__title">Full Results</summary>
+<details class="qgt qgt--n" id="storage-datatypes-disk-against-recall">
+<summary class="qgt__title">Storage Datatypes: Disk Against Recall<span class="qgt__kicker"><code>turbo8</code> and <code>turbo16</code> halve or quarter the disk for under a point of recall.</span></summary>
 
 A storage datatype shrinks the originals themselves, so it saves disk but leaves nothing at full precision to rescore against. Qdrant has three TurboQuant datatypes: [`turbo16`](/documentation/manage-data/vectors/#turbo16) and [`turbo8`](/documentation/manage-data/vectors/#turbo8), new in v1.20, store each coordinate in 16 and 8 bits, and [`turbo4`](/documentation/manage-data/vectors/#turbo4) stores it in four. We compared float32 originals alone, float32 with a 4-bit TurboQuant copy, `turbo16`, `turbo8`, and `turbo4` with no copy, float32 with a 1-bit copy, and `turbo4` with a 1-bit copy, the smallest configuration Qdrant can build.
 
@@ -387,10 +371,8 @@ A storage datatype shrinks the originals themselves, so it saves disk but leaves
 
 </details>
 
-### Pinned Copies: RAM Against Latency
-
-<details class="qgt qgt--n">
-<summary class="qgt__title">Full Results</summary>
+<details class="qgt qgt--n" id="pinned-copies-ram-against-latency">
+<summary class="qgt__title">Pinned Copies: RAM Against Latency<span class="qgt__kicker">Every quantized copy searched faster than float32 on the same graph except product, the only method slower than float32.</span></summary>
 
 A pinned copy costs RAM and buys speed. Quora is large enough for both effects to show.
 
@@ -402,10 +384,8 @@ A pinned copy costs RAM and buys speed. Quora is large enough for both effects t
 
 </details>
 
-### Throughput: Compression Against Queries per Second
-
-<details class="qgt qgt--n">
-<summary class="qgt__title">Full Results</summary>
+<details class="qgt qgt--n" id="throughput-compression-against-queries-per-second">
+<summary class="qgt__title">Throughput: Compression Against Queries per Second<span class="qgt__kicker">float32 delivered about 70% of the quantized throughput, product under half.</span></summary>
 
 Concurrency one measures the server. Eight concurrent clients measure how much of the machine each method leaves for other queries.
 
@@ -415,10 +395,8 @@ On Quora with Cohere, binary sustains 6,700 queries per second, 4-bit TurboQuant
 
 </details>
 
-### Cold Start: RAM Against First-Query Latency
-
-<details class="qgt qgt--n">
-<summary class="qgt__title">Full Results</summary>
+<details class="qgt qgt--n" id="cold-start-ram-against-first-query-latency">
+<summary class="qgt__title">Cold Start: RAM Against First-Query Latency<span class="qgt__kicker">A pinned quantized copy answered cold queries in about 10 ms where float32 took more than a second.</span></summary>
 
 Every number so far had the originals in the page cache. This run drops the host page cache and restarts the container before each of three passes, then sends the 150 queries once with no warm-up. The first ten requests are the cold figure.
 
@@ -434,10 +412,8 @@ A pinned copy loads with the process, so a quantized collection answers its firs
 
 </details>
 
-### Memory Caps: Headroom Against Index Builds
-
-<details class="qgt qgt--n">
-<summary class="qgt__title">Full Results</summary>
+<details class="qgt qgt--n" id="memory-caps-headroom-against-index-builds">
+<summary class="qgt__title">Memory Caps: Headroom Against Index Builds<span class="qgt__kicker">A RAM cap below the originals kills the index build before it ever slows a search.</span></summary>
 
 The trade-off is the RAM cap against a build that finishes. A first attempt capped the container at 1 GiB, below the 2.1 GB of originals. Under the cap the index build was OOM-killed for scalar, binary, TurboQuant, and float32, and only product quantization completed. At 512 MiB on the BGE corpus, three of five builds hit a four-hour timeout. Qdrant needs headroom above the originals to merge segments and build the graph, so a cap below them is a build problem before it is a search problem. We kept the results as a recorded outcome.
 
