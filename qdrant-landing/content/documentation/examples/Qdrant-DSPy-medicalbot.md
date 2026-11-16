@@ -31,6 +31,8 @@ To build a robust and trustworthy medical chatbot, we will combine the following
     
 ![medicalbot flow chart](/articles_data/Qdrant-DSPy-medicalbot/medicalbot.png)
 
+> **Qdrant 1.19+:** When using the companion notebook, import `FastEmbedVectorizer` from `dspy_qdrant.qdrant_rm`. Pass `vectorizer=FastEmbedVectorizer("BAAI/bge-small-en")` when constructing `QdrantRM` to match the ingestion model.
+
 ## Dataset Preparation and Indexing
 
 A medical chatbot is only as good as the knowledge it has access to. For this project, we will leverage the [MIRIAD medical dataset](https://huggingface.co/datasets/miriad/miriad-5.8M), a large-scale collection of medical passages enriched with metadata such as publication year and specialty.

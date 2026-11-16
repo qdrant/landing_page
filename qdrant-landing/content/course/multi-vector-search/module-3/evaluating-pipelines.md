@@ -141,7 +141,7 @@ client.create_collection(
                 scalar=ScalarQuantizationConfig(
                     type=ScalarType.INT8,
                     quantile=0.99,
-                    always_ram=True,
+                    memory=models.Memory.PINNED,
                 )
             ),
         ),

@@ -215,7 +215,7 @@ client.create_collection(
         scalar=models.ScalarQuantizationConfig(
             type=models.ScalarType.INT8,
             quantile=0.99,  # Exclude 1% outliers for better scaling
-            always_ram=True,
+            memory=models.Memory.PINNED,
         ),
     ),
 )
@@ -254,7 +254,7 @@ client.create_collection(
     },
     quantization_config=models.BinaryQuantization(
         binary=models.BinaryQuantizationConfig(
-            always_ram=True,
+            memory=models.Memory.PINNED,
         ),
     ),
 )

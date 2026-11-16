@@ -147,7 +147,7 @@ The results show which documents have the highest token-level semantic overlap w
 
 As discussed in the previous lesson, multi-vector search requires significantly more memory than traditional single-vector search. A document with 500 tokens stores 500 separate embeddings, creating substantial memory pressure for large collections.
 
-When you prioritize maximum precision over low latency, Qdrant offers a solution: **offload vectors to disk**. This strategy keeps embeddings on disk rather than loading them into RAM, dramatically reducing memory requirements at the cost of slower query performance:
+When you prioritize maximum precision over low latency, Qdrant offers a solution: **offload vectors to disk**. The `cold` memory tier skips loading embeddings into RAM at startup and reads them from disk on demand:
 
 ```python
 client.create_collection(
@@ -160,18 +160,18 @@ client.create_collection(
                 comparator=models.MultiVectorComparator.MAX_SIM,
             ),
             hnsw_config=models.HnswConfigDiff(m=0),
-            # Offload vectors to disk
-            on_disk=True,
+            # Read vectors from disk on demand
+            memory=models.Memory.COLD,
         ),
     },
 )
 ```
 
-The single `on_disk=True` parameter changes the storage strategy. Here's the trade-off:
+The `memory=models.Memory.COLD` parameter controls when vectors enter RAM. Here's the trade-off:
 
 **Benefits**: Dramatically reduced memory footprint. Instead of storing thousands of token embeddings in RAM, Qdrant reads them from disk during search. This enables multi-vector search on collections that would otherwise exceed available memory.
 
-**Costs**: Higher query latency due to disk I/O. Every MaxSim calculation requires reading document embeddings from disk, which is orders of magnitude slower than RAM access. Query times increase from milliseconds to potentially seconds, depending on collection size and hardware.
+**Costs**: Uncached reads add disk I/O latency. The operating system can cache accessed pages in RAM, so repeated searches may reuse them. See [Memory Tiers](/documentation/ops-configuration/memory-tiers/) for the trade-offs.
 
 **When to use it**: Disk offloading works best when precision is critical but latency constraints are relaxed. Research applications, offline batch processing, or scenarios where you're willing to wait a few seconds for the most accurate results all benefit from this approach. For production systems requiring sub-second response times, you'll need other optimization strategies.
 
@@ -183,7 +183,7 @@ You've learned how to configure Qdrant for multi-vector search, from creating co
 
 - **Multi-vector collections** require specific configuration: `multivector_config` with `MAX_SIM` comparator
 - **HNSW indexing is disabled** because MaxSim doesn't work with static proximity graphs
-- **Disk offloading** (`on_disk=True`) reduces memory usage when precision matters more than latency
+- **Disk offloading** (`memory=models.Memory.COLD`) reduces memory usage when precision matters more than latency
 - **Local inference** with FastEmbed integration lets you provide text directly instead of pre-computed embeddings
 
 The examples in this lesson focused on text search using ColBERT. But late interaction and MaxSim aren't limited to text. In Module 2, you'll discover how multi-vector embeddings extend to multi-modal data - searching PDFs and images using visual token embeddings with ColPali.

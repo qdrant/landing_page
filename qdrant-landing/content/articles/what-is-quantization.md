@@ -240,7 +240,7 @@ After setting up quantization and adding your vectors, you can perform searches 
 
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
     "query": [0.22, -0.01, -0.98, 0.37],
     "params": {
@@ -329,7 +329,7 @@ For example, in our case with a limit of 4, a candidate that ranked 6th in the i
 Here's how you can set it up:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 
 
 {
@@ -410,14 +410,15 @@ On Linux-based systems, `io_uring` allows multiple disk operations to be process
 
 When you perform vector quantization and store data on disk, Qdrant often needs to access multiple vectors in parallel. Without io_uring, this process can be slowed down due to the system’s limitations in handling many disk accesses.
 
-To enable `io_uring` in Qdrant, add the following to your storage configuration:
+For self-hosted Qdrant 1.19+, enable `io_uring` in your storage configuration:
 
 ```yaml
 storage:
-  async_scorer: true  # Enable io_uring for async storage
+  performance:
+    io_uring: auto
 ```
 
-Without this configuration, Qdrant will default to using `mmap` for disk I/O operations.
+On managed Qdrant Cloud 1.20+, async I/O is enabled automatically. See [async I/O configuration](/documentation/ops-configuration/memory-tiers/#async-io) for version requirements and defaults.
 
 For more information and benchmarks comparing io_uring with traditional I/O approaches like mmap, check out [Qdrant's io_uring implementation article.](https://qdrant.tech/articles/io_uring/)
 

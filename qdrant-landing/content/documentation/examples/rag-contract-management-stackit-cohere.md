@@ -118,15 +118,14 @@ client.create_collection(
         distance=models.Distance.COSINE,
         quantization_config=models.BinaryQuantization(
             binary=models.BinaryQuantizationConfig(
-                always_ram=True,
+                memory=models.Memory.PINNED,
             )
         )
     ),
 )
 ```
 
-We are going to use the `contracts` collection to store the vectors of the documents. The `always_ram` flag is set to
-`True` to keep the quantized vectors in RAM, which will speed up the search process. We also wanted to restrict access 
+We are going to use the `contracts` collection to store the vectors of the documents. The `memory` tier is set to `pinned` to keep the quantized vectors in RAM, which will speed up the search process. We also wanted to restrict access
 to the individual documents, so only users with the proper permissions can see them. In Qdrant that should be solved by
 adding a payload field that defines who can access the document. We'll call this field `roles` and set it to an array
 of strings with the roles that can access the document. Because every search filters on it, create a payload index for it:

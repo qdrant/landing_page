@@ -108,6 +108,8 @@ In these cases, the latency can increase by multiple times, and its worst-case q
 
 Test [HNSW inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index) with quantization at your real vector dimensionality and graph connectivity before relying on it in production. Qdrant's inline HNSW storage removes a random-access read by copying vector data directly into the graph file: a full-precision copy per point, plus a compressed copy for every edge into it.
 
+Since Qdrant 1.20, rebuilt indexed segments with inline storage keep original vectors only in the HNSW file. `hnsw_config.memory` controls their placement there; `vectors.memory` has no effect.
+
 That second cost scales with edge count and vector size, not point count, so it can grow far faster than the collection does.
 
 {{< island path="content/documentation/headless/memory-tiers/hnsw-inline" ratio="960 / 470" >}}
