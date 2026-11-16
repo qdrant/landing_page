@@ -36,6 +36,10 @@ const manifest = globSync('assets/viz/**/*.json').sort().map((p) => {
   if (spec.readableType && spec.kind !== 'grouped-columns') {
     throw new Error(`${p}: readableType is supported only for grouped-columns`);
   }
+  if (spec.sharedAxes) {
+    if (spec.kind !== 'lines-facet') throw new Error(`${p}: sharedAxes is supported only for lines-facet`);
+    if (spec.yDomains || spec.yLabels) throw new Error(`${p}: sharedAxes needs one y domain and label; per-facet yDomains/yLabels contradict it`);
+  }
   if ('horizontal' in spec && (spec.horizontal !== true || spec.kind !== 'columns-2panel')) {
     throw new Error(`${p}: horizontal must be true and is supported only for columns-2panel`);
   }
@@ -295,14 +299,24 @@ function linesFacet(c) {
   const data = readCsv(c.data);
   const facets = [...new Set(data.map((d) => d[c.facet]))];
   const gap = LAYOUT.gap;
-  const pw = (c.width - gap * (facets.length - 1)) / facets.length;
+  // sharedAxes: the facets share one y scale, so only the first panel carries
+  // tick labels and the rotated axis title; the margin the other panels save
+  // goes to their plot areas, and one x label serves the whole row. Opt-in per
+  // chart, so existing small multiples do not change under their posts.
+  const shared = c.sharedAxes === true;
+  const lefts = facets.map((_, i) => (shared && i > 0 ? 20 : LAYOUT.left));
+  const plotW = (c.width - gap * (facets.length - 1) - lefts.reduce((a, b) => a + b, 0)
+    - facets.length * LAYOUT.right) / facets.length;
+  const widths = lefts.map((l) => l + plotW + LAYOUT.right);
+  const offsets = widths.map((_, i) => widths.slice(0, i).reduce((a, b) => a + b + gap, 0));
 
   return facets.map((fv, fi) => {
+    const pw = widths[fi];
     const rows_ = data.filter((d) => d[c.facet] === fv);
     const node = Plot.plot({
       document: dom.window.document,
       width: pw, height: c.height,
-      marginLeft: LAYOUT.left, marginRight: LAYOUT.right,
+      marginLeft: lefts[fi], marginRight: LAYOUT.right,
       marginTop: LAYOUT.top, marginBottom: LAYOUT.bottom,
       style: { fontFamily: FONT, fontSize: `${viz.type.axis}px`, background: 'none',
                color: MUTED },
@@ -314,14 +328,19 @@ function linesFacet(c) {
       y: { type: c.yScale || 'linear', domain: (c.yDomains && c.yDomains[fv]) || c.yDomain,
            grid: true, label: null,
            tickSize: 0,
+           ...(shared && fi > 0 ? { tickFormat: () => '' } : {}),
            ticks: c.yScale === 'log' ? decades(c.yDomain)
              : ((c.yTicks && c.yTicks[fv]) || undefined) },
       marks: [
         ...(c.refLine
           ? [Plot.ruleY([c.refLine.value], { stroke: MUTED, strokeDasharray: '4 3', strokeWidth: 1 }),
-             Plot.text([c.refLine], { y: 'value', frameAnchor: 'right', dx: -6, dy: -8,
-               textAnchor: 'end', fontFamily: FONT, fontSize: viz.type.label,
-               text: (d) => d.label, fill: { value: () => MUTED, scale: null } })]
+             // With shared axes the dashed rule repeats in every panel, so its
+             // label only needs to appear once, beside the axis that names it.
+             ...(!shared || fi === 0
+               ? [Plot.text([c.refLine], { y: 'value', frameAnchor: 'right', dx: -6, dy: -8,
+                   textAnchor: 'end', fontFamily: FONT, fontSize: viz.type.label,
+                   text: (d) => d.label, fill: { value: () => MUTED, scale: null } })]
+               : [])]
           : []),
       ].concat(c.series.flatMap((sName, si) => [
         Plot.line(rows_, { x: c.x, y: sName, stroke: viz.palette.categorical[si], strokeWidth: 2 }),
@@ -374,11 +393,18 @@ function linesFacet(c) {
     }).join('');
 
     const head = panelHead(pw, c.facetLabel.replace('{}', fv), c.subtitle);
-    const xlab = `<text x="${pw / 2}" y="${c.height - LAYOUT.bottom + 56}" text-anchor="middle" font-family="${FONT}"`
+    const xlab = shared ? ''
+      : `<text x="${pw / 2}" y="${c.height - LAYOUT.bottom + 56}" text-anchor="middle" font-family="${FONT}"`
       + ` font-size="${viz.type.label}" fill="${MUTED}">${esc(c.xLabel)}</text>`;
-    const ylab = yAxisLabel(c.height, (c.yLabels && c.yLabels[fv]) || c.yLabel);
-    return `<g transform="translate(${fi * (pw + gap)},0)">${head}${ylab}${wrapPlot(plotted)}${crosshair}${zones}${xlab}</g>`;
-  }).join('') + (c.series.length > 1 ? legend(c, c.width) : '');
+    const ylab = !shared || fi === 0
+      ? yAxisLabel(c.height, (c.yLabels && c.yLabels[fv]) || c.yLabel) : '';
+    return `<g transform="translate(${offsets[fi]},0)">${head}${ylab}${wrapPlot(plotted)}${crosshair}${zones}${xlab}</g>`;
+  }).join('')
+    + (shared
+      ? `<text x="${c.width / 2}" y="${c.height - LAYOUT.bottom + 56}" text-anchor="middle" font-family="${FONT}"`
+        + ` font-size="${viz.type.label}" fill="${MUTED}">${esc(c.xLabel)}</text>`
+      : '')
+    + (c.series.length > 1 ? legend(c, c.width) : '');
 }
 
 function legend(c, w) {

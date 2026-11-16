@@ -1,6 +1,7 @@
 {
   "title": "Quora, Cohere 1,024-d: the development sweep at k=10 with rescoring on",
   "kind": "lines-facet",
+  "sharedAxes": true,
   "facet": "method",
   "facetLabel": "{}",
   "x": "hnsw_ef",
