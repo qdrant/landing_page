@@ -39,6 +39,7 @@ Memory grows linearly with the vector count and with the dimensions. Set your ow
 details.qgt { margin: 1.25rem 0; padding: 0.875rem 1.25rem; border-left: 5px solid var(--qgt-c); border-radius: 6px; background: var(--qgt-bg); }
 details.qgt--s { --qgt-c: #1a9d63; --qgt-bg: rgba(26, 157, 99, 0.14); }
 details.qgt--w { --qgt-c: #dc244c; --qgt-bg: rgba(220, 36, 76, 0.12); }
+details.qgt--n { --qgt-c: #abb1c7; --qgt-bg: rgba(171, 177, 199, 0.14); }
 details.qgt > summary.qgt__title { margin: 0 0 0.75rem; font-size: 1.125rem; font-weight: 700; cursor: pointer; }
 details.qgt:not([open]) > summary.qgt__title { margin-bottom: 0; }
 h2.qcolab-h { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1rem; }
@@ -183,7 +184,23 @@ A quantized vector approximates the original, so searching the compressed copy c
 ![The four BEIR datasets: SciFact, NFCorpus, FiQA, and Quora, with their task, documents, words per document, relevant documents per query, and float32 storage at 1,024 dimensions](/articles_data/vector-quantization-guide/experimental-setup.svg)
 {{< /island >}}
 
-Counts and lengths come from Table 1 of the BEIR paper. Quora is 144 times larger than NFCorpus and its float32 originals take 2,142 MB at 1,024 dimensions, so it is the only corpus where the search copies cost real memory. Its documents are 11-word questions against 132 to 232 words elsewhere, it is the only symmetric task, and its embeddings are the most centered, which is why binary quantization passes there (see [Binary Quantization: Compression Against Recall](#binary-quantization-compression-against-recall)). NFCorpus has 38.2 relevant documents per query against one to three elsewhere, which leaves recall@10 unchanged but shapes nDCG@10. We embed every corpus with Cohere embed-english-v3.0 (1,024 dimensions, supplied vectors) and BGE-small-en-v1.5 (384 dimensions, run locally with 512-token truncation), search with cosine distance on L2-normalized vectors, and run Qdrant v1.20.0 in Docker on a dedicated 8-vCPU, 32 GiB VM with the client on the same machine, `m=16`, `ef_construct=100`, and three independently built indexes per configuration. The quantized copy is pinned in RAM and the originals stay `cold` (see [memory tiers](/documentation/ops-configuration/memory-tiers/)), and every query sets rescoring and oversampling explicitly because the defaults differ by method: on for binary and for TurboQuant at 1, 1.5, and 2 bits, off for scalar, product, and 4- and 8-bit TurboQuant. Fifty development queries tune each setting and 150 held-out test queries report it. We score ANN recall@10 against exact float32 search, which isolates the error quantization adds, and nDCG@10 against the BEIR judgments, which shows whether that error changes what a user would see as relevant. Latency is server-side p95 at concurrency one over five passes, throughput uses eight concurrent clients, and memory is the Qdrant allocator heap after indexing and a search pass. SciFact and NFCorpus were also rerun on their whole test splits, 300 and 323 queries, with no recall moving by more than 0.025 and no pass or fail changing. The Colab notebook in the section title runs this setup on SciFact against any Qdrant 1.20 or later cluster, with no embedding API key.
+Counts and lengths come from Table 1 of the BEIR paper. Quora is 144 times larger than NFCorpus and its float32 originals take 2,142 MB at 1,024 dimensions, so it is the only corpus where the search copies cost real memory. Its documents are 11-word questions against 132 to 232 words elsewhere, it is the only symmetric task, and its embeddings are the most centered, which is why binary quantization passes there (see [Binary Quantization: Compression Against Recall](#binary-quantization-compression-against-recall)). NFCorpus has 38.2 relevant documents per query against one to three elsewhere, which leaves recall@10 unchanged but shapes nDCG@10.
+
+We embed every corpus with Cohere embed-english-v3.0 (1,024 dimensions, supplied vectors) and BGE-small-en-v1.5 (384 dimensions, run locally with 512-token truncation), and search with cosine distance on L2-normalized vectors. Qdrant v1.20.0 runs in Docker on a dedicated 8-vCPU, 32 GiB VM with the client on the same machine. We score ANN recall@10 against exact float32 search, which isolates the error quantization adds, and nDCG@10 against the BEIR judgments, which shows whether that error changes what a user would see as relevant.
+
+<details class="qgt qgt--n">
+<summary class="qgt__title">Protocol Details</summary>
+
+- **Index:** `m=16`, `ef_construct=100`, and three independently built indexes per configuration.
+- **Memory:** The quantized copy is pinned in RAM and the originals stay `cold` (see [memory tiers](/documentation/ops-configuration/memory-tiers/)).
+- **Rescoring:** Every query sets rescoring and oversampling explicitly because the defaults differ by method: on for binary and for TurboQuant at 1, 1.5, and 2 bits, off for scalar, product, and 4- and 8-bit TurboQuant.
+- **Queries:** Fifty development queries tune each setting and 150 held-out test queries report it.
+- **Measurement:** Latency is server-side p95 at concurrency one over five passes, throughput uses eight concurrent clients, and memory is the Qdrant allocator heap after indexing and a search pass.
+- **Stability:** SciFact and NFCorpus were also rerun on their whole test splits, 300 and 323 queries, with no recall moving by more than 0.025 and no pass or fail changing.
+
+</details>
+
+The Colab notebook in the section title runs this setup on SciFact against any Qdrant 1.20 or later cluster, with no embedding API key.
 
 ### Pick a Method for Your Collection
 
