@@ -76,10 +76,24 @@
       border-color: $neutral-70;
     }
 
+    &-head {
+      display: flex;
+      align-items: center;
+      gap: $spacer * 0.75;
+      margin-bottom: $spacer * 0.5;
+    }
+
+    &-logo {
+      flex: 0 0 auto;
+      width: pxToRem(28);
+      height: pxToRem(28);
+      object-fit: contain;
+    }
+
     &-title {
       font-size: pxToRem(20);
       color: $neutral-98;
-      margin-bottom: $spacer * 0.5;
+      margin: 0;
     }
 
     &-description {

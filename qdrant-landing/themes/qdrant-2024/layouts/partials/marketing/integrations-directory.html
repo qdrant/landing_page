@@ -24,11 +24,18 @@
           <h2 class="integrations-directory__group-title">
             {{ $cat.title }} <span class="integrations-directory__count">{{ len .Pages }}</span>
           </h2>
+          {{ $sectionKey := path.Base $cat.section }}
           <div class="row g-4">
             {{ range .Pages.ByTitle }}
+              {{ $logo := index (site.Data.integration_logos | default dict) (printf "%s/%s" $sectionKey .File.ContentBaseName) }}
               <div class="col-12 col-md-6 col-xl-4 integrations-directory__item" data-search="{{ lower (printf "%s %s" .Title (.Params.short_description | default "")) }}">
                 <a class="integrations-directory__card" href="{{ .RelPermalink }}">
-                  <h3 class="integrations-directory__card-title">{{ .Title }}</h3>
+                  <div class="integrations-directory__card-head">
+                    {{ with $logo }}
+                      <img class="integrations-directory__card-logo" src="{{ . }}" alt="" loading="lazy" />
+                    {{ end }}
+                    <h3 class="integrations-directory__card-title">{{ .Title }}</h3>
+                  </div>
                   <p class="integrations-directory__card-description">{{ .Params.short_description }}</p>
                 </a>
               </div>
