@@ -64,6 +64,8 @@ Here's a simple linear example of what this process looks like:
 
 To set up Scalar Quantization in Qdrant, you need to include the `quantization_config` section when creating or updating a collection:
 
+> **Version note:** The `on_disk` and `always_ram` flags in these examples still work. Since Qdrant 1.19, [memory tiers](/documentation/ops-configuration/memory-tiers/) replace these flags. The equivalent settings are `memory="cold"` for `on_disk=True` and `memory="pinned"` for `always_ram=True`.
+
 ```http
 PUT /collections/{collection_name}
 {
@@ -400,7 +402,7 @@ client.update_collection(
 )
 ```
 
-Without explicitly setting `on_disk=True`, you won't see any RAM savings, even with quantization enabled. So, make sure to configure both storage and quantization options based on your memory and performance needs. If your storage has high disk latency, consider disabling rescoring to maintain speed.
+To reduce RAM use, keep original vectors cold and quantized vectors pinned. The operating system can still cache original vectors as queries read them. If your storage has high disk latency, consider disabling rescoring to maintain speed.
 
 ### Speeding Up Rescoring with io_uring
 

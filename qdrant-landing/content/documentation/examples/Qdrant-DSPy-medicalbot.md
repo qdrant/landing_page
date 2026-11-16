@@ -31,7 +31,7 @@ To build a robust and trustworthy medical chatbot, we will combine the following
     
 ![medicalbot flow chart](/articles_data/Qdrant-DSPy-medicalbot/medicalbot.png)
 
-> **Qdrant 1.19+:** When using the companion notebook, import `FastEmbedVectorizer` from `dspy_qdrant.qdrant_rm`. Pass `vectorizer=FastEmbedVectorizer("BAAI/bge-small-en")` when constructing `QdrantRM` to match the ingestion model.
+> **Python client 1.19+:** When using the companion notebook, import `FastEmbedVectorizer` from `dspy_qdrant.qdrant_rm`. Pass `vectorizer=FastEmbedVectorizer("BAAI/bge-small-en")` when constructing `QdrantRM` to match the ingestion model.
 
 ## Dataset Preparation and Indexing
 

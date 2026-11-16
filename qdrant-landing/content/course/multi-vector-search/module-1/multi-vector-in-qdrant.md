@@ -173,7 +173,7 @@ The `memory=models.Memory.COLD` parameter controls when vectors enter RAM. Here'
 
 **Costs**: Uncached reads add disk I/O latency. The operating system can cache accessed pages in RAM, so repeated searches may reuse them. See [Memory Tiers](/documentation/ops-configuration/memory-tiers/) for the trade-offs.
 
-**When to use it**: Disk offloading works best when precision is critical but latency constraints are relaxed. Research applications, offline batch processing, or scenarios where you're willing to wait a few seconds for the most accurate results all benefit from this approach. For production systems requiring sub-second response times, you'll need other optimization strategies.
+**When to use it**: Use cold storage when reducing startup RAM is worth potential disk-read latency. Measure query latency with your own collection and hardware.
 
 This is just one optimization technique. Module 3 covers additional approaches including quantization, pooling, and multi-stage retrieval that balance precision, memory, and latency more effectively for production deployments.
 
