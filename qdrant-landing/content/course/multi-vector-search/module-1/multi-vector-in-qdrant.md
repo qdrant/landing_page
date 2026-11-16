@@ -183,7 +183,7 @@ You've learned how to configure Qdrant for multi-vector search, from creating co
 
 - **Multi-vector collections** require specific configuration: `multivector_config` with `MAX_SIM` comparator
 - **HNSW indexing is disabled** because MaxSim doesn't work with static proximity graphs
-- **Disk offloading** (`memory=models.Memory.COLD`) reduces memory usage when precision matters more than latency
+- **Disk offloading** (`memory=models.Memory.COLD`) reduces startup RAM use, with potential disk-read latency
 - **Local inference** with FastEmbed integration lets you provide text directly instead of pre-computed embeddings
 
 The examples in this lesson focused on text search using ColBERT. But late interaction and MaxSim aren't limited to text. In Module 2, you'll discover how multi-vector embeddings extend to multi-modal data - searching PDFs and images using visual token embeddings with ColPali.

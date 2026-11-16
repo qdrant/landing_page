@@ -366,7 +366,7 @@ If quantization is impacting performance in an application that requires high ac
 
 ## Distributing Resources Between Disk & Memory
 
-Qdrant stores both the quantized and original vectors. When you enable quantization, both the original and quantized vectors are stored in RAM by default. You can move the original vectors to disk to significantly reduce RAM usage and lower system costs. Simply enabling quantization is not enough—you need to explicitly move the original vectors to disk by setting `on_disk=True`.
+Qdrant stores both quantized and original vectors. By default, dense vectors use `cached`, and quantized vectors use `pinned`. To reduce startup RAM use, use `cold` for original vectors and `pinned` for quantized vectors. The legacy `on_disk=True` and `always_ram=True` flags in this example provide the same placement.
 
 Here’s an example configuration:
 
@@ -402,7 +402,7 @@ client.update_collection(
 )
 ```
 
-To reduce RAM use, keep original vectors cold and quantized vectors pinned. The operating system can still cache original vectors as queries read them. If your storage has high disk latency, consider disabling rescoring to maintain speed.
+The operating system can still cache original vectors as queries read them. If your storage has high disk latency, consider disabling rescoring to maintain speed.
 
 ### Speeding Up Rescoring with io_uring
 

@@ -31,7 +31,7 @@ To build a robust and trustworthy medical chatbot, we will combine the following
     
 ![medicalbot flow chart](/articles_data/Qdrant-DSPy-medicalbot/medicalbot.png)
 
-> **Python client 1.19+:** `qdrant-client` removed the default embedding helper used by `QdrantRM`. In the companion notebook, import `FastEmbedVectorizer` from `dspy_qdrant.qdrant_rm` and set `vectorizer=FastEmbedVectorizer("BAAI/bge-small-en")`. Keep `vector_name="dense"` and `document_field="passage_text"` to match the collection.
+> **Python client 1.19+:** The companion notebook sets the retrieval embedding model explicitly for `QdrantRM`.
 
 ## Dataset Preparation and Indexing
 
