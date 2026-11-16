@@ -3,7 +3,8 @@
    marks it lost, teal marks it recovered. */
 .qrs { display: block; text-align: left; }
 .qrs .qi-fig { gap: 16px; }
-.qrs .qi-status--2 { min-height: calc(2 * 1.45em); }
+/* The state is narrated for assistive tech only; visually the SVG carries it. */
+.qrs .qrs__status { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .qrs .qrs-h { fill: var(--qi-muted); font-family: var(--qi-mono); font-size: 15px; }
 .qrs .qrs-n { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 12px; }
 .qrs .qrs-n.is-hit { fill: #ffffff; }

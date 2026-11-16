@@ -79,7 +79,7 @@ export function mount(node) {
     '    </div>',
     '  </div>',
     `  <svg class="qi-svg" viewBox="-6 0 ${VB_W + 12} ${VB_H}" role="img"></svg>`,
-    '  <p class="qi-status qi-status--2 qrs__status" role="status" aria-live="polite"></p>',
+    '  <p class="qrs__status" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');
   const svg = node.querySelector('svg');
