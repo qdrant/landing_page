@@ -13,15 +13,9 @@ aliases:
 
 # Running Qdrant with GPU Support
 
-Qdrant can use a GPU to build vector indices faster than a CPU can. This helps most with write-heavy workloads, such as a large initial upload or frequent updates to a big collection, because new data is indexed sooner. GPU acceleration applies to vector indexing.
+*Available as of v1.13.0*
 
-## Requirements
-
-To use a GPU, you need:
-
-* Qdrant v1.13.0 or later,
-* a GPU with Vulkan API support,
-* GPU indexing turned on, either with `gpu.indexing: true` in the configuration or with the `QDRANT__GPU__INDEXING=1` environment variable.
+Qdrant can use a GPU to build vector indices faster than a CPU can. This helps most with write-heavy workloads, such as a large initial upload or frequent updates to a big collection, because new data is indexed sooner. GPU acceleration applies to vector indexing. How you enable GPUs depends on how you deploy Qdrant. Refer to the section for your deployment type.
 
 ## Managed Cloud
 
@@ -41,7 +35,7 @@ Set `spec.gpu.gpuType` to `nvidia` or `amd` on the `QdrantCluster`, which enable
 
 ## Self-Hosted
 
-GPU support is not included in the default Qdrant binary. To run Qdrant with a GPU yourself, use a dedicated Docker image with GPU support ([NVIDIA](#nvidia-gpus), [AMD](#amd-gpus)), or [build Qdrant with the `gpu` feature](#standalone-gpu-support). Then turn on GPU indexing.
+GPU support is not included in the default Qdrant binary. To run Qdrant with a GPU yourself, use a dedicated Docker image with GPU support ([NVIDIA](#nvidia-gpus), [AMD](#amd-gpus)), or [build Qdrant with the `gpu` feature](#standalone-gpu-support). Your GPU needs Vulkan API support. Then turn on GPU indexing, either with `gpu.indexing: true` in the configuration or with the `QDRANT__GPU__INDEXING=1` environment variable.
 
 ### Configuration
 
