@@ -22,6 +22,14 @@
     margin: 0 auto $spacer * 3;
   }
 
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $spacer;
+    margin: 0 auto $spacer * 3;
+  }
+
   &__image {
     position: relative;
     display: none;
