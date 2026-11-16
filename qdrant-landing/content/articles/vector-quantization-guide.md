@@ -142,7 +142,7 @@ The mechanism: split each vector into sub-vectors and replace each one with the 
 - Fast: p95 was 0.69 ms against 2.10 ms for float32 HNSW and 0.96 ms for scalar, and throughput 6,138 against 5,567 queries per second for scalar on Quora with Cohere. It reached the target at `hnsw_ef` 64 on all eight workloads ([memory chart](#pinned-copies-ram-against-latency), [throughput](#throughput-compression-against-queries-per-second), [selected points](#oversampling-recall-against-search-effort)).
 - More recall than binary at equal compression. At 16x on Quora with BGE, 2-bit reached 0.985 against 0.920 for binary, and at 32x 1-bit reached 0.938 against 0.838 ([rescoring chart](#rescoring-recall-against-extra-reads)).
 - No per-dataset calibration, so it holds up where binary stalls: rescored 1-bit recall was 0.791 on FiQA with BGE against binary's 0.560 ([rescoring chart](#rescoring-recall-against-extra-reads)).
-- The 8-bit copy is the most accurate without rescoring: 0.988 recall@10 on NFCorpus with BGE against 0.938 for 4-bit, and with rescoring and oversampling 2 both reached 0.996 ([limitations](#limitations) on its coverage).
+- The 8-bit copy is the most accurate without rescoring: 0.988 recall@10 on NFCorpus with BGE against 0.938 for 4-bit, and with rescoring and oversampling 2 both reached 0.996 (the 8-bit copy was measured on NFCorpus with BGE only, on v1.20.0).
 
 </details>
 
@@ -289,7 +289,7 @@ Every number the selector shows comes from the experimental setup described abov
 
 ### Limitations
 
-Two embedding models and four datasets show the shape of each trade-off, not a universal rule (the sign-imbalance threshold rests on eight points), and the runs share one otherwise idle machine, so test on your own embeddings and read the absolute numbers as ratios, not a capacity plan. We didn't measure steady-state search with originals that permanently exceed RAM; if yours do, run `scripts/memory-pressure.sh` from the benchmark repository first. One of 57 builds, `turbo4` storage with a 4-bit TurboQuant copy on FiQA with BGE, returned recall 0.0, so we excluded it from the datatype figures and reported it to the Qdrant engineers as a defect. Re-checking on v1.20.0 moved recall by at most 0.004, we measured the features new in v1.20 (the 8-bit search copy, `turbo8`, and `turbo16`) on that release alone, and neural quantizers, learned rotations, and dimensionality reduction are out of scope.
+The experiment behind this article, although it runs across four datasets and two embedding dimension sizes, is bound by limitations: the runs share one otherwise idle machine, so the absolute numbers are ratios rather than a capacity plan, the sign-imbalance threshold rests on eight points, and we didn't measure steady-state search with originals that permanently exceed RAM. The [Pick a Method for Your Collection](#pick-a-method-for-your-collection) interactive tool inherits those bounds and adds two of its own: its recall and latency figures are interpolations between the two embedding models and four corpora, not fresh measurements of your workload, and it fixes the search settings at `hnsw_ef` 256 and oversampling 2, showing n/m where the guide measured nothing. To cover the RAM shortcoming, extend the experiment with `scripts/memory-pressure.sh` from the benchmark repository, which reruns search while the originals are forced out of memory.
 
 ## Measured Trade-Offs
 
