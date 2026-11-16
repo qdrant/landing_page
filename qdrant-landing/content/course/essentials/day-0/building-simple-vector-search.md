@@ -27,7 +27,7 @@ Follow along as we build your first collection, insert vectors, and run similari
 To interact with Qdrant, we need the Python client. This enables us to communicate with the Qdrant service, manage collections, and perform vector searches.
 
 ```python
-!pip install --upgrade qdrant-client==1.20.0
+!pip install qdrant-client==1.20.0
 ```
 
 > **Version note:** The examples use Python 3.10+ and `qdrant-client` 1.20.0 with Qdrant 1.20+. Upgrade the client if you installed it previously.
