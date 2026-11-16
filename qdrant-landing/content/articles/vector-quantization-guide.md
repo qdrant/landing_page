@@ -33,14 +33,6 @@ Memory grows linearly with the vector count and with the dimensions. Set your ow
 ![Memory for 100M vectors at 1,536 dimensions against 256 GB of RAM: float32 needs 614 GB and exceeds it, scalar int8 needs 154 GB, TurboQuant 4-bit or product x8 needs 77 GB, and binary 1-bit needs 19 GB](/articles_data/vector-quantization-guide/memory-scale.svg)
 {{< /island >}}
 
-### Rescoring and Oversampling
-
-A quantized vector approximates the original, so searching the compressed copy can miss some of the true nearest neighbors. Oversampling and rescoring recover most of that loss. Both are set per query, so one collection can serve a cheap feed query and an expensive deduplication query.
-
-**Oversampling** widens the first pass. Qdrant searches the quantized copy through the HNSW graph and returns `limit × oversampling` candidates instead of `limit`. With `limit=10` and `oversampling=2.0` it returns 20, which gives a true neighbor ranked 14th by the rough scores a chance to survive.
-
-**Rescoring** corrects the scores. Qdrant recomputes the similarity between the query and each candidate using the original vectors, sorts the candidates by those exact scores, and returns the best `limit`. A candidate that ranked 14th under the compressed scores can land in the top 10 here. It stays cheap because only the candidates' originals are read, 20 vectors rather than the whole collection. With rescoring off, the quantized scores are final and the originals are never read. The experiments in this guide use both to recover the accuracy that quantization loses.
-
 ## The Four Methods
 
 <style>
@@ -172,6 +164,14 @@ Four-bit TurboQuant gives 8× compression and, in every run we measured, recall 
 {{< island path="content/articles/headless/vector-quantization-guide/turbo" ratio="2 / 1" >}}
 ![TurboQuant: a vector with one large coordinate before rotation and an even spread after rotation, with the same length](/articles_data/vector-quantization-guide/method-turboquant.svg)
 {{< /island >}}
+
+## Rescoring and Oversampling
+
+A quantized vector approximates the original, so searching the compressed copy can miss some of the true nearest neighbors. Oversampling and rescoring recover most of that loss. Both are set per query, so one collection can serve a cheap feed query and an expensive deduplication query.
+
+**Oversampling** widens the first pass. Qdrant searches the quantized copy through the HNSW graph and returns `limit × oversampling` candidates instead of `limit`. With `limit=10` and `oversampling=2.0` it returns 20, which gives a true neighbor ranked 14th by the rough scores a chance to survive.
+
+**Rescoring** corrects the scores. Qdrant recomputes the similarity between the query and each candidate using the original vectors, sorts the candidates by those exact scores, and returns the best `limit`. A candidate that ranked 14th under the compressed scores can land in the top 10 here. It stays cheap because only the candidates' originals are read, 20 vectors rather than the whole collection. With rescoring off, the quantized scores are final and the originals are never read. The experiments in this guide use both to recover the accuracy that quantization loses.
 
 ## Quantization Trade-Offs Experiment <span class="qcolab">[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/Quantization-experiments/quantization-guide/quantization_guide.ipynb)</span> {#quantization-trade-offs-experiment .qcolab-h}
 
