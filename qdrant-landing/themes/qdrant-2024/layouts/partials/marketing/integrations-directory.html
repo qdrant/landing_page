@@ -1,0 +1,77 @@
+{{ $cats := .Params.categories }}
+<section class="integrations-directory">
+  <div class="container">
+    <div class="integrations-directory__controls">
+      <input
+        type="search"
+        class="integrations-directory__search"
+        placeholder="Search integrations"
+        aria-label="Search integrations"
+        data-integrations-search
+      />
+      <div class="integrations-directory__filters" role="group" aria-label="Filter by category">
+        <button type="button" class="integrations-directory__chip is-active" data-filter="all">All</button>
+        {{ range $cats }}
+          <button type="button" class="integrations-directory__chip" data-filter="{{ .id }}">{{ .title }}</button>
+        {{ end }}
+      </div>
+    </div>
+
+    {{ range $cats }}
+      {{ $cat := . }}
+      {{ with $.Site.GetPage .section }}
+        <div class="integrations-directory__group" data-group="{{ $cat.id }}">
+          <h2 class="integrations-directory__group-title">
+            {{ $cat.title }} <span class="integrations-directory__count">{{ len .Pages }}</span>
+          </h2>
+          <div class="row g-4">
+            {{ range .Pages.ByTitle }}
+              <div class="col-12 col-md-6 col-xl-4 integrations-directory__item" data-search="{{ lower (printf "%s %s" .Title (.Params.short_description | default "")) }}">
+                <a class="integrations-directory__card" href="{{ .RelPermalink }}">
+                  <h3 class="integrations-directory__card-title">{{ .Title }}</h3>
+                  <p class="integrations-directory__card-description">{{ .Params.short_description }}</p>
+                </a>
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      {{ end }}
+    {{ end }}
+    <p class="integrations-directory__empty" hidden>No integrations match your search.</p>
+  </div>
+</section>
+<script>
+  (function () {
+    var root = document.querySelector('.integrations-directory');
+    if (!root) return;
+    var search = root.querySelector('[data-integrations-search]');
+    var chips = root.querySelectorAll('[data-filter]');
+    var groups = root.querySelectorAll('[data-group]');
+    var empty = root.querySelector('.integrations-directory__empty');
+    var filter = 'all';
+    function apply() {
+      var q = search.value.trim().toLowerCase();
+      var total = 0;
+      groups.forEach(function (g) {
+        var show = filter === 'all' || g.dataset.group === filter;
+        var visible = 0;
+        g.querySelectorAll('.integrations-directory__item').forEach(function (it) {
+          var ok = show && (!q || it.dataset.search.indexOf(q) !== -1);
+          it.hidden = !ok;
+          if (ok) visible++;
+        });
+        g.hidden = visible === 0;
+        total += visible;
+      });
+      empty.hidden = total !== 0;
+    }
+    chips.forEach(function (c) {
+      c.addEventListener('click', function () {
+        filter = c.dataset.filter;
+        chips.forEach(function (x) { x.classList.toggle('is-active', x === c); });
+        apply();
+      });
+    });
+    search.addEventListener('input', apply);
+  })();
+</script>

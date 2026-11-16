@@ -64,7 +64,7 @@
   {{ $bundles = slice "pricing" }}
 {{ else if in (slice "industries" "edge" "elastic-lucene" "healthcare") .Section }}
   {{ $bundles = slice "industries" }}
-{{ else if in (slice "partners" "customers" "stars" "community" "qdrant-for-startups" "brand-resources") .Section }}
+{{ else if in (slice "partners" "integrations" "customers" "stars" "community" "qdrant-for-startups" "brand-resources") .Section }}
   {{ $bundles = slice "partners-customers" }}
 {{ end }}
 {{ range $bundles }}

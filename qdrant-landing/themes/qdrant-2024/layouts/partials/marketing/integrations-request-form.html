@@ -1,0 +1,126 @@
+{{ $f := .Params.requestForm }}
+<section class="integrations-request" id="request-integration">
+  <div class="container">
+    <div class="integrations-request__box">
+      <h2 class="integrations-request__title">{{ $f.title }}</h2>
+      <p class="integrations-request__description">{{ $f.description | safeHTML }}</p>
+
+      <div class="integrations-request__modes" role="radiogroup" aria-label="Request type">
+        <label class="integrations-request__mode">
+          <input type="radio" name="requestType" value="user" checked />
+          <span>I want to use a tool with Qdrant</span>
+        </label>
+        <label class="integrations-request__mode">
+          <input type="radio" name="requestType" value="owner" />
+          <span>I represent a technology provider</span>
+        </label>
+      </div>
+
+      <form class="integrations-request__form" data-action="{{ $f.action }}" {{ with $f.action }}action="{{ . }}" method="post"{{ end }}>
+        <input type="hidden" name="requestType" value="user" data-type-field />
+
+        <div class="integrations-request__grid">
+          <label>Your name
+            <input type="text" name="name" required autocomplete="name" />
+          </label>
+          <label>Work email
+            <input type="email" name="email" required autocomplete="email" />
+          </label>
+
+          <label>Company
+            <input type="text" name="company" data-required-for="owner" autocomplete="organization" />
+          </label>
+          <label>Your role
+            <input type="text" name="role" data-required-for="owner" autocomplete="organization-title" />
+          </label>
+
+          <label>Tool or product name
+            <input type="text" name="toolName" required />
+          </label>
+          <label>Website or docs URL
+            <input type="url" name="toolUrl" required placeholder="https://" />
+          </label>
+          <label>Category
+            <select name="category" required>
+              <option value="">Select a category</option>
+              <option>Embeddings</option>
+              <option>Framework</option>
+              <option>Data management / pipelines</option>
+              <option>Platform / low-code</option>
+              <option>Observability</option>
+              <option>Other</option>
+            </select>
+          </label>
+
+          <div data-mode="user" class="integrations-request__field-group">
+            <label>How do you use Qdrant today?
+              <select name="qdrantUsage">
+                <option value="">Select one</option>
+                <option>Qdrant Cloud</option>
+                <option>Qdrant Hybrid Cloud</option>
+                <option>Qdrant Private Cloud</option>
+                <option>Self-hosted / open source</option>
+                <option>Evaluating Qdrant</option>
+              </select>
+            </label>
+          </div>
+
+          <div data-mode="owner" class="integrations-request__field-group" hidden>
+            <label>GitHub repository or SDK link
+              <input type="url" name="repoUrl" placeholder="https://" />
+            </label>
+            <label>Integration status
+              <select name="integrationStatus" data-required-for="owner">
+                <option value="">Select one</option>
+                <option>Idea only</option>
+                <option>In development</option>
+                <option>Working integration, needs listing</option>
+                <option>Already documented elsewhere</option>
+              </select>
+            </label>
+            <label>Approximate number of users or customers
+              <input type="text" name="reach" />
+            </label>
+          </div>
+
+          <label class="integrations-request__wide" data-mode-label>
+            <span data-mode="user">What would you like to do with Qdrant and this tool?</span>
+            <span data-mode="owner" hidden>What should the integration do, and why would Qdrant users benefit?</span>
+            <textarea name="details" rows="4" required></textarea>
+          </label>
+        </div>
+
+        <button type="submit" class="button button_contained button_lg">Send request</button>
+        <p class="integrations-request__status" role="status" hidden></p>
+      </form>
+    </div>
+  </div>
+</section>
+<script>
+  (function () {
+    var root = document.getElementById('request-integration');
+    if (!root) return;
+    var form = root.querySelector('form');
+    var typeField = root.querySelector('[data-type-field]');
+    var status = root.querySelector('.integrations-request__status');
+
+    function setMode(mode) {
+      typeField.value = mode;
+      root.querySelectorAll('[data-mode]').forEach(function (el) { el.hidden = el.dataset.mode !== mode; });
+      root.querySelectorAll('[data-required-for]').forEach(function (el) {
+        el.required = el.dataset.requiredFor === mode;
+      });
+    }
+    root.querySelectorAll('input[name="requestType"][type="radio"]').forEach(function (r) {
+      r.addEventListener('change', function () { setMode(r.value); });
+    });
+    setMode('user');
+
+    form.addEventListener('submit', function (e) {
+      if (form.dataset.action) return; // posts natively to the configured endpoint
+      e.preventDefault();
+      status.hidden = false;
+      status.textContent = 'This form is not connected to a submission endpoint yet.';
+    });
+  })();
+</script>

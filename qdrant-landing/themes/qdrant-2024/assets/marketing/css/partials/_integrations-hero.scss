@@ -1,0 +1,9 @@
+@use '../helpers/functions' as *;
+
+.integrations-hero__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $spacer;
+  margin: 0 auto $spacer * 3;
+}

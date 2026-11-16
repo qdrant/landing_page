@@ -1,0 +1,96 @@
+@use '../helpers/functions' as *;
+
+.integrations-directory {
+  padding-top: $spacer * 3;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-10;
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+    margin-bottom: $spacer * 3;
+  }
+
+  &__search {
+    width: 100%;
+    max-width: pxToRem(480);
+    padding: $spacer * 0.75 $spacer;
+    color: $neutral-98;
+    background: transparent;
+    border: 1px solid $neutral-70;
+    border-radius: pxToRem(8);
+  }
+
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer * 0.5;
+  }
+
+  &__chip {
+    padding: $spacer * 0.375 $spacer;
+    color: $neutral-98;
+    background: transparent;
+    border: 1px solid $neutral-70;
+    border-radius: pxToRem(100);
+    cursor: pointer;
+
+    &.is-active {
+      background: $neutral-98;
+      color: $neutral-10;
+    }
+  }
+
+  &__group {
+    margin-bottom: $spacer * 3;
+
+    &[hidden],
+    .integrations-directory__item[hidden] {
+      display: none;
+    }
+  }
+
+  &__group-title {
+    font-size: pxToRem(28);
+    color: $neutral-98;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__count {
+    font-size: pxToRem(14);
+    color: $neutral-70;
+    margin-left: $spacer * 0.5;
+  }
+
+  &__card {
+    display: block;
+    height: 100%;
+    padding: $spacer * 1.25;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: pxToRem(12);
+    text-decoration: none;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: $neutral-70;
+    }
+
+    &-title {
+      font-size: pxToRem(20);
+      color: $neutral-98;
+      margin-bottom: $spacer * 0.5;
+    }
+
+    &-description {
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
+      color: $neutral-70;
+      margin: 0;
+    }
+  }
+
+  &__empty {
+    color: $neutral-70;
+  }
+}
