@@ -75,7 +75,7 @@ of our document chunks.
 
 #### Data indexing
 
-We will use the `BAAI/bge-small-en` embedding model. Create the collection explicitly, then upload documents with `models.Document` and `upsert`. In this tutorial we
+We will use the `BAAI/bge-small-en` embedding model. Create the collection explicitly, then upload documents with `models.Document` and `upload_points`. In this tutorial we
 are not going to focus much on the document parsing, as there are plenty of tools that can help with that. The
 [`unstructured`](https://github.com/Unstructured-IO/unstructured) library is one of the options you can launch on your
 infrastructure. In our simplified example, we are going to use a list of strings as our documents. These are the 

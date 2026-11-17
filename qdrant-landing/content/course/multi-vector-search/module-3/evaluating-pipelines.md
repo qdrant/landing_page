@@ -210,7 +210,7 @@ def embed_and_upload_document(doc_path: str, doc_id: int) -> None:
     hierarchical_vec = hierarchical_pool(full_multivec, k=32)
 
     # Upload all representations in one point
-    client.upsert(
+    client.upload_points(
         collection_name=COLLECTION_NAME,
         points=[
             models.PointStruct(
@@ -224,6 +224,7 @@ def embed_and_upload_document(doc_path: str, doc_id: int) -> None:
                 },
             )
         ],
+        wait=True,
     )
 ```
 

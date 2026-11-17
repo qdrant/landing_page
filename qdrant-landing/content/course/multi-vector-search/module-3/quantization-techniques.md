@@ -224,7 +224,7 @@ client.create_collection(
 Ingest the documents into the scalar-quantized collection:
 
 ```python
-client.upsert(
+client.upload_points(
     collection_name="colpali-scalar",
     points=[
         models.PointStruct(
@@ -234,6 +234,7 @@ client.upsert(
         )
         for i, embedding in enumerate(image_embeddings)
     ],
+    wait=True,
 )
 ```
 
@@ -260,7 +261,7 @@ client.create_collection(
 )
 
 # Ingest the same data into the binary-quantized collection
-client.upsert(
+client.upload_points(
     collection_name="colpali-binary",
     points=[
         models.PointStruct(
@@ -270,6 +271,7 @@ client.upsert(
         )
         for i, embedding in enumerate(image_embeddings)
     ],
+    wait=True,
 )
 ```
 

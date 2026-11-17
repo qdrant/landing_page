@@ -233,12 +233,13 @@ for document_path, roles in documents.items():
     for start in range(0, len(chunks), 20):
         batch = chunks[start:start + 20]
         vectors = embed_documents([payload["text"] for _, payload in batch])
-        client.upsert(
+        client.upload_points(
             collection_name="contracts",
             points=[
                 models.PointStruct(id=point_id, vector=vector, payload=payload)
                 for (point_id, payload), vector in zip(batch, vectors)
             ],
+            wait=True,
         )
 ```
 

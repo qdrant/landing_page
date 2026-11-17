@@ -19,7 +19,7 @@ if not client.collection_exists("document-parts"):
         },
     )
 
-client.upsert(
+client.upload_points(
     collection_name="document-parts",
     points=[
         models.PointStruct(

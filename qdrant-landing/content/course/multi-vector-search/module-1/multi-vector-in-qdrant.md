@@ -99,7 +99,7 @@ documents = [
     "more comfortable.",
 ]
 
-client.upsert(
+client.upload_points(
     collection_name="colbert-search",
     points=[
         models.PointStruct(
@@ -115,7 +115,8 @@ client.upsert(
             }
         )
         for doc in documents
-    ]
+    ],
+    wait=True,
 )
 ```
 
