@@ -93,7 +93,7 @@ html[data-theme='dark'] .chunking-figure > .chunking-figure__dark {
 }
 
 .qi-chunk .qi-chip small {
-  font-size: 12px;
+  font-size: 14px;
   opacity: 1;
 }
 
@@ -245,7 +245,7 @@ html[data-theme='dark'] .chunking-figure > .chunking-figure__dark {
   border: 1px solid var(--qi-line);
   border-radius: 4px;
   font-family: var(--qi-mono);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   color: var(--qi-fg);
 }
