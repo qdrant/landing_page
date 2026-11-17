@@ -1,3 +1,32 @@
+.documentation details.chunking-tradeoffs {
+  margin: 1.25rem 0;
+  padding: 0.875rem 1.25rem;
+  border-left: 5px solid var(--chunking-tradeoff-color);
+  border-radius: 6px;
+  background: var(--chunking-tradeoff-background);
+}
+
+.chunking-tradeoffs--strengths {
+  --chunking-tradeoff-color: #1a9d63;
+  --chunking-tradeoff-background: rgba(26, 157, 99, 0.14);
+}
+
+.chunking-tradeoffs--weaknesses {
+  --chunking-tradeoff-color: #dc244c;
+  --chunking-tradeoff-background: rgba(220, 36, 76, 0.12);
+}
+
+.documentation details.chunking-tradeoffs > summary {
+  margin: 0 0 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.documentation details.chunking-tradeoffs:not([open]) > summary {
+  margin-bottom: 0;
+}
+
 .documentation .chunking-figure {
   margin: 1.5rem auto;
   width: 100%;

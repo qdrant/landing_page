@@ -65,23 +65,124 @@ Inspect the extracted text as well as the original document. A PDF parser that s
 
 ## 2. Choose Meaningful Boundaries
 
-Use the structure you found to choose a starting method. These methods can work together: split a manual into sections first, then apply a size-limited splitter only to sections that are too long.
+Fixed, semantic, agentic, and recursive chunking differ in what decides a boundary: a length limit, embedding similarity, an LLM, or an ordered set of separators. Each can be useful, but none knows which evidence your questions will require unless you check the resulting chunks.
 
-| Method | When to try it | What it preserves or breaks |
+Use reliable document structure first. A complete FAQ entry or a short procedure may already be a good chunk. For Markdown, the [header splitter](https://docs.langchain.com/oss/python/integrations/splitters/markdown_header_metadata_splitter) groups text under configured headings and records their hierarchy as metadata. It strips headings by default, so retain useful titles in the embedding input. Apply another splitter to sections that are too long or contain several topics.
+
+**For the handbook, start with the complete export section and the billing question-answer pair.** There is no reason to pad a short, complete entry to a maximum length. If the export section grows, the four methods give you different ways to divide it.
+
+| Method | What chooses the boundary | When to try it |
 | --- | --- | --- |
-| Fixed size | A simple baseline, especially when structure is unreliable. | Predictable lengths in the chosen unit, but cuts can separate sentences, table rows, or conditions. The [course's fixed-size example](/course/essentials/day-1/chunking-strategies/#1-fixed-size-chunking) counts words, not model tokens. |
-| Recursive splitting | Prose with useful paragraph or line breaks and inconsistent section structure. | Tries larger separators first, then smaller ones when a piece is too long. It preserves nearby text where it fits, but cannot recognize a distant exception. |
-| Document structure | FAQs, manuals, and procedures with reliable headings or complete entries. | Preserves the units the author supplied. A heading can still contain multiple topics, and an oversized section needs a fallback. |
+| [Fixed chunking](#fixed-chunking) | A length limit in characters, words, or tokens | A simple baseline, including text with unreliable formatting |
+| [Semantic chunking](#semantic-chunking) | Changes in embedding similarity | Topic changes that paragraph breaks or headings do not capture |
+| [Agentic chunking](#agentic-chunking) | An LLM's decision about where to split | Boundaries that require interpreting the passage's meaning or role |
+| [Recursive chunking](#recursive-chunking) | Ordered separators, with finer splits for oversized pieces | Prose with useful paragraph or line breaks and uneven section lengths |
 
-[LangChain's recursive text splitter](https://docs.langchain.com/oss/python/integrations/splitters/recursive_text_splitter) tries paragraph breaks, line breaks, spaces, and finally individual characters by default. That does not guarantee complete sentences. Use appropriate separators for your language and format, and check the resulting chunks. Its default length measurement is characters, not tokens.
+### Fixed Chunking
 
-For Markdown, the [header splitter](https://docs.langchain.com/oss/python/integrations/splitters/markdown_header_metadata_splitter) groups content under configured headings and records their hierarchy as metadata. It strips heading text by default. Retain useful headings in the embedding input, and use a second splitter when a section exceeds your limit.
+<details class="chunking-tradeoffs chunking-tradeoffs--strengths">
+<summary>Strengths</summary>
 
-**For the handbook, start with two units: the complete export section and the billing question-answer pair.** A single sentence can be enough for a self-contained fact. Keep its paragraph or section when that is where its subject, definition, or conditions live. There is no reason to pad a short, complete FAQ to the maximum chunk length.
+- Simple to implement and repeat: the same input and settings produce the same boundaries.
+- Splitting needs no embedding or LLM calls; only the finished chunks need retrieval embeddings.
+- A length cap makes chunk sizes predictable in the unit you choose, even when document formatting is poor.
 
-If an export section grows into several pages, divide it into focused subtasks. Keep the conditions relevant to each subtask with it. When that still requires too much repeated text, preserve the relationship to the section so you can supply that context after retrieval, as described in [Add Context Where Needed](#4-add-context-where-needed).
+</details>
 
-Semantic chunking uses changes in embedding similarity to suggest boundaries. Consider it when simpler methods repeatedly join unrelated topics in poorly structured text. It adds embedding work during splitting, and a change in topic does not prove that adjacent passages are independent. Compare it with your structural or recursive baseline using the same questions and text budget. The [Essentials lesson](/course/essentials/day-1/chunking-strategies/) provides further explanations and implementations.
+<details class="chunking-tradeoffs chunking-tradeoffs--weaknesses">
+<summary>Weaknesses</summary>
+
+- A length boundary can separate a condition from its instruction or put unrelated topics in one chunk.
+- Overlap repeats source text, increasing embedding work and potentially duplicating retrieved evidence.
+- A character or word limit does not establish that a chunk fits the embedding model's token limit.
+
+</details>
+
+Fixed chunking is a useful baseline when you want to establish how far a simple splitter gets you. It advances through the text in windows of a chosen length, optionally repeating part of the previous window. For example, 400-token windows with 40 tokens of overlap advance by 360 tokens. That arithmetic describes the split; it says nothing about whether 400 tokens contain a complete answer.
+
+Check the implementation's unit and boundary rules. [Agno's fixed-size chunker](https://docs.agno.com/knowledge/concepts/chunking/fixed-size-chunking) uses characters and avoids cutting a word when a boundary is available. The [Essentials course example](/course/essentials/day-1/chunking-strategies/#1-fixed-size-chunking) counts words. Neither setting is interchangeable with tokens. If you need a token cap, use the indexing model's tokenizer and account for titles or context added afterward.
+
+In the handbook, a cut after the export procedure leaves the linked-file exception in the next chunk. Both chunks can contain complete sentences, yet the procedure is incomplete evidence for sharing a full copy. Keep fixed chunking if it passes your questions; change the boundary or supply the missing source context when it does not.
+
+### Semantic Chunking
+
+<details class="chunking-tradeoffs chunking-tradeoffs--strengths">
+<summary>Strengths</summary>
+
+- Uses the text's content to suggest boundaries when headings or paragraph breaks are unhelpful.
+- Allows different lengths for different runs of related sentences.
+- Can separate a topic change inside a long paragraph without asking a generative model to choose the split.
+
+</details>
+
+<details class="chunking-tradeoffs chunking-tradeoffs--weaknesses">
+<summary>Weaknesses</summary>
+
+- Adds sentence or passage embedding work before the final chunks are indexed.
+- Boundaries depend on the embedding model, sentence segmentation, and threshold settings.
+- Similarity does not establish that passages are independent, and a coherent topic can still exceed the model's input limit.
+
+</details>
+
+Semantic chunking is worth testing when simpler splitters repeatedly combine unrelated topics. A common approach divides the text into sentences, embeds each sentence with some neighboring context, and compares adjacent groups. A sufficiently large change in their vectors becomes a candidate boundary. [LlamaIndex's semantic splitter](https://developers.llamaindex.ai/python/examples/node_parsers/semantic_chunking/) follows this pattern. The final chunks still need embeddings for retrieval; the intermediate sentence embeddings serve the boundary decision.
+
+The controls differ across implementations. LlamaIndex uses a [percentile of cosine dissimilarities](https://developers.llamaindex.ai/python/framework-api-reference/node_parsers/semantic_splitter/); lowering that percentile produces more splits. [Agno's semantic chunker](https://docs.agno.com/knowledge/concepts/chunking/semantic-chunking) exposes a similarity threshold, where increasing the threshold produces more splits. Tune the documented control on a sample of your text, inspect the boundaries, and check final token lengths. A setting copied from another splitter does not necessarily mean the same thing.
+
+In the handbook, a semantic splitter might separate the export material from billing. That is useful, but the definition, procedure, and exception also have different wording and roles. Inspect whether they stay together. A topic boundary is a signal to test, not proof that each side contains everything needed for an answer.
+
+### Agentic Chunking
+
+<details class="chunking-tradeoffs chunking-tradeoffs--strengths">
+<summary>Strengths</summary>
+
+- Lets an LLM consider the meaning and role of a passage when choosing a split.
+- Can use instructions tailored to the document, such as keeping a procedure with the conditions that govern it.
+- Can select boundaries while retaining the source wording, when the implementation slices the original text.
+
+</details>
+
+<details class="chunking-tradeoffs chunking-tradeoffs--weaknesses">
+<summary>Weaknesses</summary>
+
+- Adds model calls during ingestion, with latency and compute or API cost to measure.
+- Decisions depend on the model, prompt, and text it can see; a distant exception outside that input cannot guide the split.
+- Model-selected boundaries still need validation. Failed calls or invalid responses require a fallback that can change the resulting chunks.
+
+</details>
+
+Here, agentic chunking means using an LLM to decide where to divide source text. It is a preprocessing choice: an agent that searches your knowledge base can use any of these four chunking methods. Try an LLM-assisted splitter when inspecting failed chunks reveals boundaries that require interpreting the text, and simpler structural or recursive rules do not resolve them.
+
+[Agno's implementation](https://docs.agno.com/knowledge/concepts/chunking/agentic-chunking) gives the model a window of text and asks for a character position at which to split. It then takes that span from the source, rather than asking the model to rewrite the passage. Its `max_chunk_size` is measured in characters. The [source code](https://github.com/agno-agi/agno/blob/main/libs/agno/agno/knowledge/chunking/agentic.py) also defines validation and a size-based fallback for failed or unusable responses. Check which boundaries came from the model and which came from a fallback before attributing a result to the method.
+
+For the handbook, the goal is to keep the definition, steps, and linked-file exception together. An LLM may recognize that dependency if all three fit in the text it receives. If the exception falls outside that window, calling the splitter agentic does not recover it. Inspect the source coverage and compare any improvement in final evidence against the extra ingestion work.
+
+### Recursive Chunking
+
+<details class="chunking-tradeoffs chunking-tradeoffs--strengths">
+<summary>Strengths</summary>
+
+- Keeps larger text units intact when they fit, and subdivides only the oversized pieces.
+- Needs no embedding or LLM calls to choose boundaries.
+- Lets you adapt separators and length measurement to the document format and language.
+
+</details>
+
+<details class="chunking-tradeoffs chunking-tradeoffs--weaknesses">
+<summary>Weaknesses</summary>
+
+- Follows separators, so it cannot tell whether a paragraph depends on a later exception.
+- Poor extraction or unsuitable separators can force cuts at word or character boundaries.
+- A configured overlap is a target, and the length limit uses the splitter's chosen counting function.
+
+</details>
+
+Recursive chunking is a practical starting point for prose with useful paragraph breaks and uneven lengths. It tries a coarse separator first, then uses finer separators on pieces that remain too large. Small pieces can be combined until the next addition would exceed the cap. A short paragraph can stay intact while a long one is divided further.
+
+[LangChain's recursive text splitter](https://docs.langchain.com/oss/python/integrations/splitters/recursive_text_splitter) tries paragraph breaks, line breaks, spaces, and finally individual characters by default. Its default length measurement is characters. Those separators do not guarantee complete sentences or preserve a document's heading hierarchy. Choose separators for your language and format; use the [token-aware configuration](https://docs.langchain.com/oss/python/integrations/splitters/split_by_token) when the cap must follow a particular tokenizer.
+
+For a longer export section, recursive splitting can keep each short subtask intact and subdivide a long explanation. It still cannot know that a separate paragraph's linked-file rule governs every subtask. Keep the relevant conditions with each unit, or retain the section relationship and [supply that context after retrieval](#4-add-context-where-needed).
+
+For this handbook, the existing structure already gives us two useful units. For your own data, compare the simplest suitable baseline with a more involved method only when you can name the failure it should repair. Use the same questions and retrieved-text budget in [step 5](#5-test-the-evidence-that-reaches-the-answer), and record splitting time and model usage alongside evidence coverage.
 
 ## 3. Fit Size and Overlap to Your Constraints
 
