@@ -12,15 +12,42 @@ weight: 20
 
 # How to Choose a Chunking Strategy
 
-A user asks how to share a complete project copy. Your search finds the export procedure, and the answer tells them to download and share the archive. But a separate paragraph says linked files must be downloaded separately. The answer follows the retrieved instructions and still leaves the user with an incomplete copy.
+Chunking divides documents into separately retrievable pieces, each with its own embedding and source reference in a dense retrieval system. The debate is where boundaries should fall: follow length rules, compare sentence embeddings, or ask a model to decide? Larger context windows add another option: supply the relevant document whole.
 
-This is the problem a chunking strategy must address: **which information needs to reach the answer together?**
+Consider a user asking how to share a complete project copy. Search finds the export procedure but misses a separate paragraph requiring linked files to be downloaded separately. The answer follows the retrieved instructions and still leaves the user with an incomplete copy.
 
-Chunking divides documents into separately retrievable pieces. In a dense retrieval system, each chunk gets its own embedding and source reference. Search can then return a passage instead of an entire document. Because one embedding represents its input as a whole, a focused passage can make a detail easier to find than embedding a long document about many topics. Splitting too aggressively can remove the context needed to use that detail.
+This is the problem a chunking strategy must address: **which information needs to reach the answer together?** This guide takes you from that question to boundaries, size and overlap, context, and a testable configuration.
 
-Start with your documents and questions. Choose meaningful boundaries, fit them to your model budgets, and test the evidence that reaches the answer. The fictional handbook in this guide follows that process, including a failed split and two ways to repair it.
+## What the Chunking Debate Means in Practice
 
-If you already know the relevant document and it fits the available input budget, supplying the whole document may be sufficient. A short, focused document can also be a useful retrieval unit without further splitting.
+**A bad boundary can lose evidence.** A length cut can break a sentence or separate an instruction from its exception. [Recursive splitters](https://docs.langchain.com/oss/python/integrations/splitters/recursive_text_splitter) try larger text separators before smaller ones. Even a complete sentence can be incomplete evidence. To investigate a reported "retrieval collapse," trace which source passage the split or retrieval left out.
+
+**Semantic coherence is a hypothesis to test.** [Qu et al. (2024)](https://arxiv.org/abs/2410.13070) compared fixed and semantic chunkers across retrieval and answer-generation tasks. Semantic methods did not consistently outperform the baseline, which grouped **whole sentences**. [Sayıcı's EUR-Lex experiment](https://mburaksayici.com/blog/2025/11/08/not-all-clever-chunking-methods-always-worth-it.html) also questions whether added complexity pays. These findings motivate a comparison on your workload; they do not establish a universal ranking of splitters.
+
+**Model-based splitters do different work.** Embedding-based methods compare sentence vectors. A trained detector such as [Chonky](https://github.com/mirth/chonky) classifies boundaries. An [LLM-based chunker](https://docs.agno.com/knowledge/concepts/chunking/agentic-chunking) can interpret instructions and passage roles. Compare ingestion time, model usage, and final evidence coverage. Check whether the implementation slices source text or generates new text.
+
+**Larger context windows make whole-document input an option.** If you know the relevant document and it fits your answering budget, test supplying it whole. You still need to find relevant material in a large corpus and respect the embedding model's input limit. [Lost in the Middle](https://arxiv.org/abs/2307.03172) found sensitivity to evidence position; [Chroma's 2025 Context Rot experiments](https://www.trychroma.com/research/context-rot) found sensitivity to input length, varying by model and task. Test your current model on representative document lengths and evidence positions.
+
+**Parsing can fail before chunking begins.** Scrambled PDF columns, missing table headers, and repeated headers or footers change the text any splitter receives. Check extraction quality before changing the boundary rule; tools such as [Docling](https://docling-project.github.io/docling/) address this earlier stage.
+
+## Available Frameworks and Libraries
+
+Choose an entry point that fits your pipeline. Check each implementation's counting units and inspect its output.
+
+| Tool | Useful starting point | What to inspect |
+| --- | --- | --- |
+| [LangChain text splitters](https://docs.langchain.com/oss/python/integrations/splitters/index) | Length-based, recursive, and document-format splitting. | The length function, separator order, overlap, and retained headings. |
+| [LlamaIndex node parsers](https://developers.llamaindex.ai/python/framework/module_guides/loading/node_parsers/modules/) | Sentence, semantic, and hierarchical splitting within an indexing pipeline. | Node relationships, metadata, and whether retrieval actually expands to related nodes. |
+| [Agno chunking](https://docs.agno.com/knowledge/concepts/chunking/overview) | Fixed, recursive, semantic, and LLM-selected boundaries in Agno knowledge ingestion. | Counting units, model calls, boundary validation, and fallback behavior. |
+| [Chonkie](https://docs.chonkie.ai/oss/chunkers/overview) | A dedicated ingestion library with multiple chunkers, including semantic and neural approaches. | Each chunker's tokenizer, model requirements, and size limits. |
+| [Chonky](https://github.com/mirth/chonky) | A trained token-classification model that predicts chunk boundaries. | Boundary quality on your language and document types, plus inference requirements. |
+| [Docling](https://docling-project.github.io/docling/) / [Unstructured](https://docs.unstructured.io/open-source/core-functionality/partitioning) | Parse documents into structured elements before forming retrieval chunks. | Reading order, tables, headings, OCR quality, and the subsequent chunking policy. |
+
+Chonky and Chonkie are separate projects; Chonkie also offers a [neural chunker using Chonky models](https://docs.chonkie.ai/oss/chunkers/neural-chunker). [Sentence Transformers](https://www.sbert.net/docs/sentence_transformer/usage/semantic_textual_similarity.html) can supply sentence embeddings for a semantic splitter, but the splitting rule and thresholds still need to be defined.
+
+For splitting throughput, Minhas's [performance walkthrough](https://usefeyn.com/blog/you-want-to-chunk-really-fast/) explains the engine originally called `memchunk`, now [Chunk](https://github.com/feyninc/chunk). Its byte-based splitting is separate from model-token budgeting and retrieval quality. Measure parsing, splitting, inference, and indexing separately to locate your bottleneck.
+
+Now use the handbook to choose a baseline, inspect a failed split, and compare two repairs.
 
 ## 1. Inspect Your Documents and Questions
 
