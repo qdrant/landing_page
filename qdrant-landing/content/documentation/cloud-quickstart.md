@@ -22,9 +22,9 @@ Learn how to set up Qdrant Cloud and perform your first semantic search in just 
 
 We recommend copying the following into your agent to get started quickly and directly:
 
-```text
-set up qdrant with https://qdrant.tech/llms.txt
-```
+{{< prompt "start-building" >}}
+
+If you use the prompt, your agent creates the cluster, installs the client, and connects to Qdrant Cloud for you, so you can skip to [Step 4](#4-create-our-collection).
 
 ## 1. Create a Cloud Cluster
 

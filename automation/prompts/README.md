@@ -88,9 +88,7 @@ the same way.
 **Do not hard-wrap prose.** Write each paragraph as one long line and let the
 page wrap it. The element renders the body with `white-space: pre-wrap`, so any
 line breaks you type are preserved, and a body wrapped at 80 columns keeps those
-breaks in a content column that is narrower than that. `start-building` is the
-exception: its numbered steps and indented commands are structure, so its line
-breaks are content.
+breaks in a content column that is narrower than that.
 
 **A body can contain anything, including fenced blocks.** The shortcode passes
 it to Chroma as a value rather than re-parsing it as markdown, so a prompt that
