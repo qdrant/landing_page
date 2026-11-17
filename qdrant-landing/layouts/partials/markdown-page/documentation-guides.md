@@ -27,7 +27,7 @@
   {{- end -}}
 {{- end -}}
 > Explore Qdrant's agent skills catalog at https://skills.qdrant.tech/
-> Search the documentation at https://skills.qdrant.tech/search?query=your+query+here
+> Search the documentation at https://search.qdrant.tech/md/documentation?q=your+query+here
 > Use this file for an index of the main pages: https://qdrant.tech/llms.txt
 
 {{ $content -}}
