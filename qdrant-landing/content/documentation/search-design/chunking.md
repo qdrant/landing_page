@@ -40,12 +40,16 @@ Choose an entry point that fits your pipeline. Check each implementation's count
 | [LlamaIndex node parsers](https://developers.llamaindex.ai/python/framework/module_guides/loading/node_parsers/modules/) | Sentence, semantic, and hierarchical splitting within an indexing pipeline. | Node relationships, metadata, and whether retrieval actually expands to related nodes. |
 | [Agno chunking](https://docs.agno.com/knowledge/concepts/chunking/overview) | Fixed, recursive, semantic, and LLM-selected boundaries in Agno knowledge ingestion. | Counting units, model calls, boundary validation, and fallback behavior. |
 | [Chonkie](https://docs.chonkie.ai/oss/chunkers/overview) | A dedicated ingestion library with multiple chunkers, including semantic and neural approaches. | Each chunker's tokenizer, model requirements, and size limits. |
+| [Kiru](https://github.com/bitswired/kiru) | Rust core with Python bindings for byte or character chunking, streaming files, and parallel document processing. | Counting unit, overlap, UTF-8 handling, final model-token lengths, and lazy versus materialized output. |
+| [semchunk](https://github.com/isaacus-dev/semchunk) | Python splitting with a hierarchy of structural boundaries and a configurable tokenizer or token counter. | Token-count caching, overlap, offsets, and whether optional AI chunking is enabled. |
+| [text-splitter](https://github.com/benbrandt/text-splitter) / `semantic-text-splitter` | Rust splitting for plain text, Markdown, and code, with Python bindings under the second name. | Character-based defaults versus tokenizer-based sizing, structural boundaries, and retained source positions. |
+| [memchunk, now Chunk](https://github.com/feyninc/chunk) | Rust delimiter-based byte splitting with Python bindings, designed to minimize boundary-search and copying work. | Byte limits, delimiter behavior, UTF-8 handling, and a separate check against the embedding tokenizer. |
 | [Chonky](https://github.com/mirth/chonky) | A trained token-classification model that predicts chunk boundaries. | Boundary quality on your language and document types, plus inference requirements. |
 | [Docling](https://docling-project.github.io/docling/) / [Unstructured](https://docs.unstructured.io/open-source/core-functionality/partitioning) | Parse documents into structured elements before forming retrieval chunks. | Reading order, tables, headings, OCR quality, and the subsequent chunking policy. |
 
 Chonky and Chonkie are separate projects; Chonkie also offers a [neural chunker using Chonky models](https://docs.chonkie.ai/oss/chunkers/neural-chunker). [Sentence Transformers](https://www.sbert.net/docs/sentence_transformer/usage/semantic_textual_similarity.html) can supply sentence embeddings for a semantic splitter, but the splitting rule and thresholds still need to be defined.
 
-For splitting throughput, Minhas's [performance walkthrough](https://usefeyn.com/blog/you-want-to-chunk-really-fast/) explains the engine originally called `memchunk`, now [Chunk](https://github.com/feyninc/chunk). Its byte-based splitting is separate from model-token budgeting and retrieval quality. Measure parsing, splitting, inference, and indexing separately to locate your bottleneck.
+The word "semantic" in a package description does not always mean embedding-based boundary detection. `text-splitter` uses structural and Unicode boundaries; semchunk's default mode also follows structural rules, while its optional AI mode calls an enrichment model. Inspect the implementation you actually configure. For throughput, see [Speed Up Chunking After Finding the Bottleneck](#speed-up-chunking-after-finding-the-bottleneck).
 
 Now use the handbook to choose a baseline, inspect a failed split, and compare two repairs.
 
@@ -338,6 +342,20 @@ Start with zero overlap for complete, independent entries. When splitting a long
 For the handbook, a little overlap might preserve a definition immediately before a subtask. It will not reliably attach an exception several paragraphs away. Increasing overlap everywhere also lets nearly identical hits consume multiple result slots and repeat evidence in the answer context. Reduce it, merge duplicate source spans, or retrieve the relevant surrounding passage explicitly.
 
 Preserve table headers with the rows they describe, including when splitting a long table. Keep source positions with repeated text so you can recognize duplicated spans. In Qdrant, document, section, and position fields can live in a point's [payload](/documentation/manage-data/payload/); they do not automatically become part of the embedding or the answer context.
+
+### Speed Up Chunking After Finding the Bottleneck
+
+Measure parsing/OCR, token counting, splitting, model calls, and indexing separately. A faster boundary search will have little effect if OCR or embedding inference dominates ingestion. Keep the evidence checks from this guide while optimizing: a speedup that drops a condition or exceeds the token cap changes the task.
+
+Minhas's [You want to chunk really fast?](https://usefeyn.com/blog/you-want-to-chunk-really-fast/#benchmarks) explains three optimizations behind `memchunk`, now Chunk:
+
+- **Search backward from the size cap.** Find the last acceptable delimiter near a proposed endpoint instead of enumerating every delimiter in the whole document.
+- **Use specialized byte searches.** For one to three delimiter bytes, the implementation uses reverse-search functions from `memchr`, which can use SIMD instructions to inspect several bytes at once. Larger delimiter sets use a 256-entry lookup table.
+- **Avoid copying during splitting.** Borrowed slices or source offsets let boundary detection reference the original buffer. Creating Python strings or serializing the final chunks still has a cost.
+
+For the rest of the pipeline, reuse tokenizer and chunker instances, and avoid recounting identical text where a bounded cache helps. [semchunk](https://github.com/isaacus-dev/semchunk) provides token-count memoization and multiprocessing over document lists. Batch independent documents when useful work outweighs worker startup and transfer costs. With [Kiru](https://github.com/bitswired/kiru), consume streaming results incrementally if retaining every chunk would exhaust memory. For model-based splitters, batch sentence embeddings where supported and measure model time separately from boundary decisions.
+
+Treat published throughput as a measurement of a specific operation. Chunk's [benchmark harness](https://github.com/feyninc/chunk/tree/main/benches) loads input before timing; its byte-splitting rate is not the rate of a complete RAG ingestion pipeline. When comparing libraries, match size units, overlap, tokenizer work, input data, and whether output is copied or fully consumed. A byte cap and a character cap are different workloads. Record wall-clock time and peak memory alongside source coverage and final token lengths; splitting speed does not establish retrieval quality.
 
 ## 4. Add Context Where Needed
 
