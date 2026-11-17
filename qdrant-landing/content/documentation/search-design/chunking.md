@@ -12,7 +12,7 @@ weight: 20
 
 # How to Choose a Chunking Strategy
 
-Chunking divides documents into separately retrievable pieces, each with its own embedding and source reference in a dense retrieval system. The debate is where boundaries should fall: follow length rules, compare sentence embeddings, or ask a model to decide? Larger context windows add another option: supply the relevant document whole.
+We chunk documents because each embedding model has a limited input context window. For example, [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2#intended-uses) truncates inputs beyond 256 word pieces by default, while [BGE-M3](https://huggingface.co/BAAI/bge-m3#specs) supports up to 8,192 tokens. If a document exceeds the configured limit, the pipeline may truncate it or reject it. With truncation, discarded text never reaches the embedding, so the resulting vector cannot represent the full document. Splitting the source into chunks that fit the model gives focused passages their own vectors, which can make specific details easier to retrieve than one vector covering many topics. Each chunk can also have [metadata stored alongside its vector](/documentation/manage-data/payload/), such as its document ID, section title, and page number, to support filtering and citations.
 
 Consider a user asking how to share a complete project copy. Search finds the export procedure but misses a separate paragraph requiring linked files to be downloaded separately. The answer follows the retrieved instructions and still leaves the user with an incomplete copy.
 
