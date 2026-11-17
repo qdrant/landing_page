@@ -227,7 +227,7 @@ Everything so far is about the shape of the interface. Here is what it is worth 
 
 The depths are the backends' own constants, `IO_URING_QUEUE_LENGTH` and `BLOB_PIPELINE_CAPACITY`.
 
-**`io_uring` does not read any faster than `mmap`.** With a single read outstanding, `io_uring` took 569 µs and `mmap` took 568 µs, a difference of 0.2%, which is the same disk, the same bytes, and the same wait. Let the ring fill to its depth of 16 and throughput goes from 7.2 MB/s to 113.3 MB/s. That is 15.7x on a ring 16 deep, so depth accounts for almost all of it.
+**The 15.7x comes from depth, not from a faster backend.** With a single read outstanding, `io_uring` took 569 µs and `mmap` took 568 µs, which is the same disk doing the same work, exactly as you would expect. That is the control rather than the result. It leaves the ring filling to its depth of 16 as the only thing that changes when throughput goes from 7.2 MB/s to 113.3 MB/s, and 15.7x on a ring 16 deep accounts for almost all of it. Those two readings also put a number on the interface itself, since they are different backends reached through the same `read_batch` call and they land 0.2% apart.
 
 **S3 is slower per read than the local disk and faster overall.** One S3 read took 24.3 ms against mmap's 568 µs, so a single read is 43 times slower, and yet S3 moved 34.7 MB/s against mmap's 7.2 MB/s, which is 4.8 times more. Ordering the three backends by latency and by throughput gives opposite answers:
 
