@@ -44,7 +44,7 @@ This mirrors real-world retrieval challenges where users need precise answers fr
 
 ### Prerequisites
 * Qdrant Cloud cluster (URL + API key)
-* Python 3.9+ (or Google Colab)
+* Python 3.10+ (or Google Colab)
 * Packages: `qdrant-client`, `numpy`
 
 ### Models

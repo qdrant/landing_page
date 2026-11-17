@@ -147,7 +147,7 @@ Defaults are chosen to work well; tune only if you understand the trade‑offs!
 
 **Parameters:**
 - `full_scan_threshold` *(int)* – up to this number (not including), the inverted index **won’t** be used during comparison (but **is still built**).  
-- `on_disk` *(bool)* – store the inverted index on disk (`True`) or in RAM (`False`, default).  
+- `memory` - keep the inverted index in RAM (`pinned`, default), warm the disk cache at startup (`cached`), or read from disk on demand (`cold`).
 - `datatype` – precision of values **stored inside the index**: `uint8` | `float16` | `float32` (default).  
   - The **original values are still stored on disk** regardless of the `datatype` value.
 
@@ -158,13 +158,15 @@ client.create_collection(
         <SPARSE_VECTOR_NAME>: models.SparseVectorParams(
             index=models.SparseIndexParams(
                 full_scan_threshold=0,          # compare directly below this size (index still built)
-                on_disk=False,                  # keep index in RAM (default False)
+                memory=models.Memory.PINNED,    # keep index in RAM (default)
                 datatype=models.VectorStorageDatatype("float32")  # precision inside the index
             )
         )
     },
 )
 ```
+
+> **Version note:** Since Qdrant 1.19, `memory` replaces the deprecated `on_disk` flag shown in the video. The old flag still works. For sparse vectors, only the index has a `memory` setting; Qdrant provides no RAM cache for the original sparse vector values. See [Memory Tiers](/documentation/ops-configuration/memory-tiers/).
 
 ### Store Sparse Vectors in Qdrant
 Sparse vectors in Qdrant are represented by:

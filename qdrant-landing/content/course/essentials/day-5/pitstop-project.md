@@ -33,7 +33,7 @@ A hybrid recommendation system using:
 ### Prerequisites
 
 * Qdrant Cloud cluster (URL + API key)
-* Python 3.9+ (or Google Colab)
+* Python 3.10+ (or Google Colab)
 * Packages: `qdrant-client`, `fastembed`
 
 ### Models
@@ -95,7 +95,7 @@ client.create_collection(
     sparse_vectors_config={
         # Sparse vectors for exact keyword matching
         "sparse": models.SparseVectorParams(
-            index=models.SparseIndexParams(on_disk=False)
+            index=models.SparseIndexParams(memory=models.Memory.PINNED)
         )
     },
 )

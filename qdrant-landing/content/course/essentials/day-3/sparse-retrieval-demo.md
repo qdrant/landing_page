@@ -177,6 +177,8 @@ Qdrant provides tooling to compute IDF on the server side.
 When using any retrieval formula that includes IDF, such as BM25, in Qdrant, we no longer need to include the IDF component in the sparse document representations. 
 The IDF component will be applied by Qdrant automatically when computing similarity scores.
 
+> **Update:** Since Qdrant 1.20, a [full-text index with BM25 scoring](/documentation/search/text-search/full-text-search/) can rank payload text directly. Enable scoring on the text index, then use a `text` query. Qdrant computes the average document length automatically, without sparse vectors or an embedding step. The sparse BM25 approach in this lesson remains supported.
+
 #### Create a Collection for BM25 Sparse Vectors
 
 ```python
@@ -241,7 +243,7 @@ client.upsert(
 
 **Corpus Average Length**
 
-Qdrant and FastEmbed do not compute $\mathrm{avg}_{\text{corpus}}|D|$ (the average document length in the corpus). You must **estimate and provide this value** as a BM25 parameter.
+For the sparse vector approach, you must **estimate and provide** $\mathrm{avg}_{\text{corpus}}|D|$ (the average document length in the corpus) as a BM25 parameter. A full-text index with BM25 scoring computes it for you.
 
 **Default BM25 Parameters in FastEmbed (Qdrant)**
 

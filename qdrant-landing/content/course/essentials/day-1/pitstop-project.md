@@ -32,7 +32,7 @@ A working semantic search engine that demonstrates:
 
 ### Prerequisites
 - Qdrant Cloud cluster (URL + API key)
-- Python 3.9+ (or Colab)
+- Python 3.10+ (or Colab)
 - Packages: `qdrant-client`, `sentence-transformers`, `google.colab` (if using Colab)
 
 ### Models

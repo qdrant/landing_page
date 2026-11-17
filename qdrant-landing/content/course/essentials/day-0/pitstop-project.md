@@ -30,7 +30,7 @@ A working search system with:
 
 ### Prerequisites
 - Qdrant Cloud cluster (URL + API key)
-- Python 3.9+ (or Colab)
+- Python 3.10+ (or Colab)
 - Required packages: `qdrant-client`.
 
 ### Models
