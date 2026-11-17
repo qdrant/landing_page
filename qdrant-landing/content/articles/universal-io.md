@@ -217,41 +217,23 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 ## What the Depth Buys
 
-Everything so far is about the shape of the interface. Here is what it is worth in practice. Every number below is a 4 KiB random read on the same machine, a 4-core Xeon 8375C in us-west-2 with an EBS gp3 volume, with the page cache dropped before each run. The S3 reads go to a bucket in the same region, and all three backends run through the same `read_batch` call, so the backend is the only thing that changes.
+Each point below is one configuration: 4 KiB random reads on a 4-core Xeon 8375C in us-west-2 with an EBS gp3 volume, page cache dropped before each run, all three backends going through the same `read_batch` call.
 
 {{< island
     path="content/articles/headless/universal-io/depth-latency"
     width="960" ratio="960 / 560"
-    title="Each configuration is one point. Latency is p50 from submitting a read to its completion, so past a backend's pipeline depth it includes queueing, which is what the caller waits either way."
+    title="Latency is p50 from submitting a read to its completion, so past a backend's pipeline depth it includes queueing. Latency and bandwidth were measured in separate runs."
 >}}
-![Bandwidth against latency for three read backends on log scales. io_uring climbs almost straight up, from 7.15 to 85.66 MB/s while latency stays near 0.6 ms, then bends right as the last 29% of bandwidth costs fifteen times the wait. mmap runs flat along the bottom at about 7.2 MB/s whatever the batch, because its pipeline is one deep. S3 climbs straight up at about 24 ms, from 0.15 to 12.55 MB/s.](/articles_data/universal-io/uio-depth-latency.svg)
+![Bandwidth against latency for three read backends on log scales. io_uring climbs almost straight up, from 7.15 to 85.66 MB/s while latency stays near 0.6 ms, then bends right. mmap runs flat at about 7.2 MB/s whatever the batch. S3 climbs straight up at about 24 ms, from 0.15 to 12.55 MB/s.](/articles_data/universal-io/uio-depth-latency.svg)
 {{< /island >}}
 
-Three backends, three directions.
+`io_uring` goes up. Each doubling of the batch doubles the bandwidth and leaves latency alone, from 7.15 MB/s at batch 1 to 85.66 MB/s at batch 16, for 9% more latency. Past 16 the ring is full and the extra reads only queue, so batch 512 buys another 29% and waits 9.4 ms for it, fifteen times longer.
 
-**`io_uring` goes up.** Each doubling of the batch doubles the bandwidth and leaves latency alone, until the ring is full:
+`mmap` goes right. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency: 7.2 MB/s at every batch, and 71 ms per read at batch 256 against 0.55 ms at batch 1.
 
-| batch | 1 | 2 | 4 | 8 | 16 |
-|---|---:|---:|---:|---:|---:|
-| MB/s | 7.15 | 13.43 | 25.84 | 45.71 | 85.66 |
-| latency p50 | 0.562 ms | 0.565 ms | 0.572 ms | 0.578 ms | 0.614 ms |
+S3 goes up too, starting 43 times further right. One read takes 24.3 ms, but that barely moves as concurrency rises, 25.1 ms with 128 in flight, so bandwidth climbs from 0.15 to 12.55 MB/s. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s.
 
-Twelve times the bandwidth for 9% more latency. Past 16 the ring cannot hold any more, so extra reads only queue. Batch 512 reaches 110.91 MB/s, another 29%, and waits 9.418 ms for it, fifteen times longer.
-
-**`mmap` goes right.** Its pipeline is one deep, so a bigger batch buys no concurrency at all, only a queue. Bandwidth never moves, and latency follows the queue so closely that you can predict it: the median read in a batch of N waits for about (N+1)/2 reads ahead of it, each taking 0.567 ms.
-
-| batch | MB/s | latency p50 | queue model |
-|---:|---:|---:|---:|
-| 1 | 7.22 | 0.552 ms | 0.57 ms |
-| 16 | 7.15 | 4.836 ms | 4.82 ms |
-| 64 | 7.21 | 18.461 ms | 18.43 ms |
-| 256 | 7.22 | 71.224 ms | 72.80 ms |
-
-**S3 goes up as well, but it starts 43 times further right.** One read takes 24.3 ms against mmap's 0.552 ms. What saves it is that the figure barely moves as concurrency rises: at 128 reads in flight the median was still 25.1 ms, while bandwidth went from 0.15 to 12.55 MB/s, 84 times more. Nothing queues behind anything else, so every slot you fill turns into bandwidth. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s, past the range that sweep covered.
-
-That is the argument for the interface. The same `read_batch` call reaches a backend that wants depth 1 and a backend that wants depth 256, and each gets what it needs.
-
-Two limits are worth stating. The first is that latency was measured with a single read outstanding and bandwidth with the pipeline full, so those columns come from different runs. The second is that depth only helps when there is more than one read to issue. Qdrant does issue single reads where there is only one item to fetch, such as one point by ID, one posting-list entry, or a file header, and on object storage each of those is one round trip of roughly 25 ms however deep the pipeline is. Search batches its reads and the blob pipeline is a fixed 256 deep, so the search path gets the bandwidth above, but a workload built around single-point lookups does not.
+Depth only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 25 ms on object storage, however deep the pipeline is.
 
 ## The Best of All Worlds (Almost)
 

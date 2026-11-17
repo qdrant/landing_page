@@ -69,8 +69,7 @@ export function drawing(opts) {
   const x = ms => L + (Math.log10(ms) - Math.log10(XMIN)) / (Math.log10(XMAX) - Math.log10(XMIN)) * (R - L);
   const y = mb => B - (Math.log10(mb) - Math.log10(YMIN)) / (Math.log10(YMAX) - Math.log10(YMIN)) * (B - T);
   let s = '';
-  s += `<text class="dl-title" x="${L}" y="${T - 88}" style="font-size:${titleSize}px">Depth buys bandwidth.</text>`;
-  s += `<text class="dl-title" x="${L}" y="${T - 88 + titleSize + 7}" style="font-size:${titleSize}px">Over-batching buys only waiting.</text>`;
+  s += `<text class="dl-title" x="${L}" y="${T - 52}" style="font-size:${titleSize}px">Depth buys bandwidth. Over-batching buys only waiting.</text>`;
   s += `<text class="dl-note" x="${L}" y="${T - 22}">4 KiB random reads, cold, one box</text>`;
   for (const t of XT) {
     s += `<line class="dl-grid" x1="${x(t).toFixed(1)}" y1="${T}" x2="${x(t).toFixed(1)}" y2="${B}"/>`;
@@ -116,18 +115,18 @@ export const LEGEND = (x0, y0, gap) => SERIES.map((ser, i) => {
 const DESKTOP = {
   w: 960, h: 560, L: 150, R: 900, T: 150, B: 440, titleSize: 22,
   notes: [
-    { ms: 0.63, mb: 33, hue: 'blue', lines: ['each doubling of depth', 'doubles bandwidth, latency flat'] },
-    { ms: 11, mb: 185, lines: ['past the 16-deep ring, the last 29%', 'of bandwidth costs 15&#215; the wait'] },
-    { ms: 2.1, mb: 3.4, hue: 'cyan', lines: ['no pipeline: 256 queued reads change', 'nothing but the wait (129&#215;)'] },
-    { ms: 21, mb: 0.28, hue: 'red', anchor: 'end', lines: ['84&#215; the bandwidth,', 'latency flat at 24 ms'] },
+    { ms: 0.63, mb: 30, hue: 'blue', lines: ['each doubling of depth doubles bandwidth'] },
+    { ms: 100, mb: 180, anchor: 'end', lines: ['ring full at 16: +29% bandwidth, 15&#215; the wait'] },
+    { ms: 2.2, mb: 3.6, hue: 'cyan', lines: ['no pipeline, so batching only queues'] },
+    { ms: 21, mb: 0.3, hue: 'red', anchor: 'end', lines: ['latency flat at 24 ms'] },
   ],
 };
 
 const MOBILE = {
   w: 480, h: 610, L: 96, R: 452, T: 158, B: 416, titleSize: 17,
   notes: [
-    { ms: 0.7, mb: 46, hue: 'blue', lines: ['depth doubles', 'bandwidth, for free'] },
-    { ms: 22, mb: 0.23, hue: 'red', anchor: 'end', lines: ['latency flat', 'at 24 ms'] },
+    { ms: 0.75, mb: 40, hue: 'blue', lines: ['depth doubles', 'bandwidth'] },
+    { ms: 22, mb: 0.25, hue: 'red', anchor: 'end', lines: ['latency flat', 'at 24 ms'] },
   ],
 };
 
