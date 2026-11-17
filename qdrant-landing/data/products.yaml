@@ -1,0 +1,20 @@
+# Products that docs sections can be tagged for, in display order.
+# key: used in the products="..." heading attribute.
+# label: shown to readers.
+# Groups (for example a key with includes: [clusters, ...]) can be added later.
+- key: edge
+  label: Qdrant Edge
+- key: clusters
+  label: dedicated clusters
+- key: serverless
+  label: Serverless
+- key: cloud
+  label: Qdrant Cloud
+- key: hybrid-cloud
+  label: Hybrid Cloud
+- key: private-cloud
+  label: Private Cloud
+- key: operator
+  label: Operator
+- key: self-hosted
+  label: self-hosted deployments

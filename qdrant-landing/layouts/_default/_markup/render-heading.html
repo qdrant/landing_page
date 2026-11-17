@@ -1,0 +1,11 @@
+{{- range $k, $_ := .Attributes -}}
+  {{- if not (in (slice "id" "class" "products" "version") $k) -}}
+    {{- errorf "%s: heading %q has unsupported attribute %q (allowed: id, class, products, version)" $.Page.File.Path $.PlainText $k -}}
+  {{- end -}}
+{{- end -}}
+{{- $note := "" -}}
+{{- if or .Attributes.products .Attributes.version -}}
+  {{- $r := partial "common/products/applies-to.html" (dict "products" .Attributes.products "version" .Attributes.version "where" (printf "%s: heading %q" .Page.File.Path .PlainText)) -}}
+  {{- $note = printf "\n<p class=\"section-note\"><em>%s</em></p>" $r.note -}}
+{{- end -}}
+<h{{ .Level }} id="{{ .Anchor }}"{{ with .Attributes.class }} class="{{ . }}"{{ end }}>{{ .Text }}</h{{ .Level }}>{{ $note | safeHTML }}
