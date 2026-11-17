@@ -1,0 +1,59 @@
+/* Universal I/O depth-latency scatter. Scoped under .qi-dl; chrome (fg, muted,
+   line) comes from the shared --qi-* tokens on .island, which already follow
+   the page theme. This file maps the three series colours and swaps in the
+   stacked composition when the figure is narrower than 640px. Series hues
+   match the rest of the article: mmap cyan, io_uring neon blue, S3 amaranth.
+   Dark mode lifts each hue so it still reads against the dark surface. */
+
+.qi-dl {
+  --dl-cyan: #00838f; /* cyan-800 */
+  --dl-blue: #6047ff; /* neon-blue-500 */
+  --dl-red: #dc244c; /* amaranth-500 */
+
+  display: block;
+  container-type: inline-size;
+  padding: 20px 24px;
+  border: 1px solid var(--qi-line);
+  border-radius: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-dl {
+    --dl-cyan: #26c6da; /* cyan-300 */
+    --dl-blue: #9c8cff; /* neon-blue-300 */
+    --dl-red: #ff5c7a; /* amaranth-300 */
+  }
+}
+
+html[data-theme='dark'] .qi-dl {
+  --dl-cyan: #26c6da;
+  --dl-blue: #9c8cff;
+  --dl-red: #ff5c7a;
+}
+
+.qi-dl .dl-cyan { color: var(--dl-cyan); }
+.qi-dl .dl-blue { color: var(--dl-blue); }
+.qi-dl .dl-red { color: var(--dl-red); }
+
+.qi-dl .dl-title { fill: var(--qi-fg); font-weight: 600; }
+.qi-dl .dl-note { fill: var(--qi-muted); font-size: 13px; }
+.qi-dl .dl-tick { fill: var(--qi-muted); font-size: 12.5px; }
+.qi-dl .dl-legend { fill: var(--qi-fg); font-size: 13.5px; }
+.qi-dl .dl-callout { fill: currentColor; font-size: 13px; font-weight: 600; }
+.qi-dl .dl-callout:not(.dl-blue):not(.dl-cyan):not(.dl-red) { fill: var(--qi-muted); font-weight: 400; }
+.qi-dl .dl-callout--cont { font-weight: 400; }
+.qi-dl .dl-grid { stroke: var(--qi-line); stroke-width: 1; opacity: .45; }
+.qi-dl .dl-axis { stroke: var(--qi-muted); stroke-width: 1.5; fill: none; }
+.qi-dl .dl-outline { stroke: var(--qi-fg); stroke-width: 5; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.qi-dl .dl-line { stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.qi-dl .dl-dot { fill: currentColor; stroke: var(--qi-bg, transparent); stroke-width: 1.5; }
+.qi-dl .dl-hit { fill: transparent; cursor: pointer; }
+.qi-dl .dl-hit:focus-visible { outline: none; stroke: var(--qi-fg); stroke-width: 2; }
+
+.qi-dl__m { display: none; }
+
+@container (max-width: 640px) {
+  .qi-dl { padding: 16px 12px; }
+  .qi-dl__d { display: none; }
+  .qi-dl__m { display: block; }
+}
