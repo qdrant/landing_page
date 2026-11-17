@@ -282,6 +282,8 @@ Visual retrieval can also use a single dense vector per input. For example, Qdra
 
 Choose a retrieval encoder separately from the model that reads the retrieved evidence and writes an answer. A generative VLM can also describe a figure before text embedding, but its description may omit a value or relationship. Preserve the original image and verify generated descriptions. For page retrieval, inspect small labels after resizing, measure vector storage and inference/search latency, and check the image budget of the answering model. Visual retrieval changes the representation; it does not remove size limits or guarantee correct answers.
 
+For the implementation, follow [Qdrant Multivector Document Retrieval with ColPali/ColQwen](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/). It walks through page embeddings, pooling for candidate retrieval, and reranking with the original multivectors.
+
 #### What Visual Retrieval Benchmarks Show
 
 The original **Visual Document Retrieval benchmark, ViDoRe (v1)**, provides a concrete reason to test this approach. In the [ColPali paper's Table 2](https://arxiv.org/html/2407.01449v6#S5.T2), the paper's ColPali configuration achieved **81.3 average nDCG@5**, compared with **66.1** for Unstructured + OCR + BGE-M3 and **67.0** for Unstructured + captioning + BGE-M3 across ten tasks. These are page-ranking scores on a 0–100 scale: nDCG@5 measures the quality of the top five ranked results, not the percentage of questions answered correctly. The result supports testing visual retrieval on visually rich documents; it does not rank every current model or PDF pipeline.
