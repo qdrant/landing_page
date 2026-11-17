@@ -24,6 +24,8 @@ We recommend copying the following into your agent to get started quickly and di
 
 {{< prompt "start-building" >}}
 
+If you use the prompt, your agent creates the cluster, installs the client, and connects to Qdrant Cloud for you, so you can skip to [Step 4](#4-create-our-collection).
+
 ## 1. Create a Cloud Cluster
 
 1. Register for a [Cloud account](https://cloud.qdrant.io/signup) with your email, Google or Github credentials.
