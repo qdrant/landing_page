@@ -107,7 +107,6 @@ Use reliable document structure first. A complete FAQ entry or a short procedure
 | [Semantic chunking](#semantic-chunking) | Changes in embedding similarity | Topic changes that paragraph breaks or headings do not capture |
 | [Agentic chunking](#agentic-chunking) | An LLM's decision about where to split | Boundaries that require interpreting the passage's meaning or role |
 | [Recursive chunking](#recursive-chunking) | Ordered separators, with finer splits for oversized pieces | Prose with useful paragraph or line breaks and uneven section lengths |
-| [Graph-based chunking](#graph-based-chunking) | A partition of relationships between text units | Nonlocal relationships that adjacent-boundary rules miss |
 
 ### Fixed Chunking
 
@@ -249,31 +248,45 @@ For a longer export section, recursive splitting can keep each short subtask int
 ![With a 24-word cap, the 12-word and 5-word paragraphs remain intact. Only the 30-word paragraph is split into sentences of 8 and 22 words.](/guides_data/chunking/recursive.svg)
 {{< /island >}}
 
-### Graph-Based Chunking
-
-Graph-based chunking uses relationships between text units to choose their grouping. For example, [Malioutov and Barzilay's graph-based topic segmentation](https://aclanthology.org/P06-1004/) represents sentences as nodes and lexical similarity as weighted edges, then partitions the graph into contiguous source segments. This allows relationships beyond adjacent sentences to influence a boundary. It is an example from lecture segmentation, not evidence that graph-based chunking improves modern RAG universally.
-
-Consider this approach when inspecting failures suggests that nonlocal relationships would improve the split. You must choose how to construct and partition the graph, measure that extra work, and check final token lengths and source coverage. Distinguish this boundary decision from [Microsoft GraphRAG's default pipeline](https://microsoft.github.io/graphrag/index/default_dataflow/), which first creates text chunks and then extracts a graph for later retrieval.
-
 For this handbook, the existing structure already gives us two useful units. For your own data, compare the simplest suitable baseline with a more involved method only when you can name the failure it should repair. Use the same questions and retrieved-text budget in [step 5](#5-test-the-evidence-that-reaches-the-answer), and record splitting time and model usage alongside evidence coverage.
 
 ## Beyond Text: Choose the Evidence Unit
 
 Text remains the focus of this guide, but a text splitter can only preserve information that extraction captures. For visually rich documents, recordings, and audio, first decide which representation can carry the answer. Then choose its boundaries.
 
-### When to Use Text Chunking or Visual Retrieval
+### When to Use VLMs or Text Chunking
 
-Use **text chunking** when the answer survives extraction into prose or structured tables. Test **visual document retrieval** when it depends on information in the rendered page: chart shapes, diagram connections, spatial layout, or labels that extraction loses. The [ColPali paper](https://arxiv.org/abs/2407.01449) describes retrieving document pages directly from their visual representation.
+Many traditional PDF retrieval pipelines combine text extraction, **optical character recognition (OCR)** for scanned content, and layout analysis with rules tailored to particular document types. Reconstructing tables, associating captions with figures, and interpreting charts require more than recognizing words. Rules tuned to one template may fail on another, even within the same domain: an annual report can move its headers, change its columns, or encode a comparison in a chart. These ingestion failures are part of the motivation for [Qdrant's visual document retrieval approach](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/). Changing the text splitter cannot recover information that extraction discarded.
 
-| What the question needs | Starting approach |
+Use **text chunking** when extracted text or structured tables preserve the evidence your questions need. Use a **vision-language model (VLM) adapted for retrieval** when answers depend on visual relationships that extraction repeatedly loses. ColPali and ColQwen are examples of such retrievers. They embed page images directly, avoiding a separate OCR and layout-reconstruction pipeline for indexing. You still render and preprocess the images, choose a page or region as the retrieval unit, and respect the model's input limits.
+
+| Document and question | Starting approach |
 | --- | --- |
-| A policy, definition, or procedure stated in readable text | Parse the document and apply a text chunker. |
-| A chart trend, a connection in a diagram, or a relationship expressed through layout | Retrieve the page image with a visual embedding model, then provide the relevant image to an image-capable answering model. |
-| Prose explaining a figure, with essential evidence in both | Keep linked text chunks and page or figure images; retrieve and assemble both when needed. |
+| Readable policies or manuals; the answer is stated in prose | Use text chunks with useful headings and source references. Page images add little when the relevant evidence already survives extraction. |
+| Scanned, mostly textual pages with reliable OCR | OCR followed by text chunking remains a reasonable baseline. Being a scan alone does not require visual retrieval. |
+| Charts, flowcharts, or complex tables; the answer depends on a trend, arrow, legend, or row/column relationship missing from extraction | Test VLM-based page retrieval and give the retrieved image to an image-capable answering model. |
+| Reports in one domain but with changing layouts; parsing repeatedly scrambles evidence | Compare visual retrieval with repairing the parser. Page-image indexing can reduce dependence on template-specific rules. |
+| Explanatory prose and figures both carry required evidence | Keep linked text and image representations, and assemble both when needed. |
 
-ColPali and [ColQwen](https://huggingface.co/vidore/colqwen2-v1.0) represent pages with multiple vectors associated with image patches. Late interaction scores a query against those patch vectors. A page is still a bounded retrieval unit; resolution and patch limits can hide small details. Compare vector storage and image-processing latency with your text pipeline as well as answer quality. See the [Qdrant visual retrieval tutorial](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) for the indexing approach.
+#### ColPali, ColQwen, and Other Qdrant Options
 
-A vision-language model (VLM) can also extract or describe a figure for a text-based pipeline. That is a different step from embedding page images for retrieval. Check generated descriptions against the source, and retain the image when the answer depends on details the description omits. Having diagrams in a document is a reason to inspect the evidence, not an automatic reason to replace all text chunks.
+ColPali and ColQwen encode a page into multiple vectors associated with image patches, and a text query into token vectors. **Late interaction** matches each query vector against the page vectors and combines those matches into a page score. Qdrant can store these multivectors and compute that matching with its `MAX_SIM` comparator. Generating the embeddings is a separate model-inference step.
+
+| Visual retriever | Documented Qdrant route and practical distinction |
+| --- | --- |
+| [ColPali v1.3](https://huggingface.co/Qdrant/colpali-v1.3-fp16) | Qdrant provides a FastEmbed-compatible ONNX model and multivector search example. This variant resizes pages to 448 × 448 pixels; inspect whether small text and dense figures remain usable. |
+| [ColQwen2 v1.0](https://huggingface.co/vidore/colqwen2-v1.0) | Uses dynamic image resolution while preserving aspect ratio. Its patch budget trades image detail against memory use. The [Qdrant ColPali/ColQwen tutorial](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) documents the family integration, including pooled candidates followed by full multivector reranking. |
+| [ColModernVBERT](https://huggingface.co/Qdrant/colmodernvbert) | A smaller, approximately 250-million-parameter visual retriever. Qdrant's ONNX export supports CPU/GPU inference through FastEmbed, making it another candidate when local inference resources matter. It also produces multivectors. |
+
+Visual retrieval can also use a single dense vector per input. For example, Qdrant's [Voyage AI integration](/documentation/embeddings/voyage/#embed-images) shows how to embed mixed text/image inputs with `voyage-multimodal-3.5` through the provider API and store the resulting vectors. This is a different storage and scoring choice from patch-level multivectors.
+
+Choose a retrieval encoder separately from the model that reads the retrieved evidence and writes an answer. A generative VLM can also describe a figure before text embedding, but its description may omit a value or relationship. Preserve the original image and verify generated descriptions. For page retrieval, inspect small labels after resizing, measure vector storage and inference/search latency, and check the image budget of the answering model. Visual retrieval changes the representation; it does not remove size limits or guarantee correct answers.
+
+#### What Visual Retrieval Benchmarks Show
+
+The original **Visual Document Retrieval benchmark, ViDoRe (v1)**, provides a concrete reason to test this approach. In the [ColPali paper's Table 2](https://arxiv.org/html/2407.01449v6#S5.T2), the paper's ColPali configuration achieved **81.3 average nDCG@5**, compared with **66.1** for Unstructured + OCR + BGE-M3 and **67.0** for Unstructured + captioning + BGE-M3 across ten tasks. These are page-ranking scores on a 0–100 scale: nDCG@5 measures the quality of the top five ranked results, not the percentage of questions answered correctly. The result supports testing visual retrieval on visually rich documents; it does not rank every current model or PDF pipeline.
+
+Newer [ViDoRe v3 evaluations](https://arxiv.org/abs/2601.08620) also examine answer generation and visual grounding. In the authors' [2026 comparison of retrieval pipelines](https://huggingface.co/blog/antoineedy/vidore-v3-pipeline-framework-and-leaderboard), a text-input pipeline using Jina embeddings v4 and ZeRank2 led the leaderboard at its release, despite the advantage of visual models in single-retriever comparisons. That ranking measures retrieval quality. OCR quality, retrieval, reranking, and the evidence supplied to the answer all affect the outcome. Use benchmark results to choose candidates, then judge the complete pipeline against your own documents and questions.
 
 ### Diagrams, Charts, and Graphs
 
