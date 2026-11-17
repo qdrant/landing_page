@@ -137,7 +137,7 @@ qdrant.upload_points(
 
 Each point's payload includes a `doc_id`, like `engineering-architecture-001`. Qdrant point IDs must be unsigned integers or UUIDs, so the human-readable ID goes in the payload instead. SpiceDB uses the same ID for its `document` resources, and that shared ID is what connects the two systems. In this tutorial, each document is a single point. If you split documents into chunks, give every chunk its parent's `doc_id`, and the permission check stays the same.
 
-On the SpiceDB side, the script writes a schema and the relationships between users, departments, and documents. This is explained in detail below.
+On the SpiceDB side, the script writes a schema and the relationships between users, departments, and documents. See the 'How SpiceDB Decides Access' section.
 
 ## How SpiceDB Decides Access
 
@@ -207,6 +207,7 @@ A **relationship** is a specific instance of a relation. The setup script writes
 | Contractor | `document:engineering-guide-006#viewer@user:dana` |
 
 Every user also has a direct `viewer` relationship to each of the five public documents.
+
 Check out the SpiceDB documentation for more information on [schema](https://authzed.com/docs/spicedb/concepts/schema) and [relationships](https://authzed.com/docs/spicedb/concepts/relationships).
 
 Your application asks SpiceDB whether a user can view a document with the `CheckPermission` API, or with `CheckBulkPermissions` to check many documents in one request.
