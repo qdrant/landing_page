@@ -92,18 +92,22 @@ Inspect the extracted text as well as the original document. A PDF parser that s
 
 ## 2. Choose Meaningful Boundaries
 
-Fixed, semantic, agentic, and recursive chunking differ in what decides a boundary: a length limit, embedding similarity, an LLM, or an ordered set of separators. Each can be useful, but none knows which evidence your questions will require unless you check the resulting chunks.
+Chunking strategies differ in what decides a boundary: length, sentences, document structure, embedding similarity, or an LLM. A sliding window also determines how much neighboring chunks repeat. These choices can be combined; a sentence-aware splitter can group sentences to a token cap and carry some into the next chunk. Check whether the resulting units preserve the evidence your questions require.
 
 Use reliable document structure first. A complete FAQ entry or a short procedure may already be a good chunk. For Markdown, the [header splitter](https://docs.langchain.com/oss/python/integrations/splitters/markdown_header_metadata_splitter) groups text under configured headings and records their hierarchy as metadata. It strips headings by default, so retain useful titles in the embedding input. Apply another splitter to sections that are too long or contain several topics.
 
-**For the handbook, start with the complete export section and the billing question-answer pair.** There is no reason to pad a short, complete entry to a maximum length. If the export section grows, the four methods give you different ways to divide it.
+**For the handbook, start with the complete export section and the billing question-answer pair.** There is no reason to pad a short, complete entry to a maximum length. If the export section grows, these methods give you different ways to divide it.
 
 | Method | What chooses the boundary | When to try it |
 | --- | --- | --- |
 | [Fixed chunking](#fixed-chunking) | A length limit in characters, words, or tokens | A simple baseline, including text with unreliable formatting |
+| [Sentence chunking](#sentence-chunking) | Sentence boundaries, optionally grouped to a size cap | Prose where arbitrary cuts break statements |
+| [Paragraph chunking](#paragraph-chunking) | Paragraph or section breaks | Documents whose layout groups complete ideas |
+| [Sliding-window chunking](#sliding-window-chunking) | A window size and stride, with repeated source spans | Nearby context is often needed across boundaries |
 | [Semantic chunking](#semantic-chunking) | Changes in embedding similarity | Topic changes that paragraph breaks or headings do not capture |
 | [Agentic chunking](#agentic-chunking) | An LLM's decision about where to split | Boundaries that require interpreting the passage's meaning or role |
 | [Recursive chunking](#recursive-chunking) | Ordered separators, with finer splits for oversized pieces | Prose with useful paragraph or line breaks and uneven section lengths |
+| [Graph-based chunking](#graph-based-chunking) | A partition of relationships between text units | Nonlocal relationships that adjacent-boundary rules miss |
 
 ### Fixed Chunking
 
@@ -134,6 +138,26 @@ In the handbook, a cut after the export procedure leaves the linked-file excepti
 {{< island path="documentation/headless/chunking/fixed" ratio="16/11" title="Fixed windows advance by size minus overlap. Change the word count and overlap, then select a chunk to inspect its source span. Dashed words repeat from the preceding chunk." >}}
 ![Twelve-word windows over a 31-word source: zero overlap gives three chunks; three-word overlap gives four chunks with repeated source positions.](/guides_data/chunking/fixed.svg)
 {{< /island >}}
+
+### Sentence Chunking
+
+Sentence chunking uses sentence boundaries as the starting units. You can index one sentence at a time or group consecutive sentences until the next would exceed a size cap. [Chonkie's sentence chunker](https://docs.chonkie.ai/oss/chunkers/sentence-chunker) is one implementation. This is a useful baseline for prose: it avoids arbitrary cuts inside statements without requiring embedding comparisons or an LLM to choose boundaries.
+
+A complete sentence is not necessarily complete evidence. In the handbook, "Download those files separately" depends on the preceding sentence identifying linked files. Group them, or retain the source relationship for expansion after retrieval. Check segmentation on abbreviations, lists, and your document languages, and define a fallback for a sentence longer than the embedding limit. Sentence count alone does not establish a token budget.
+
+### Paragraph Chunking
+
+Paragraph chunking keeps each paragraph intact, optionally combining short adjacent paragraphs within the same section. It works well when authors use paragraphs to develop complete ideas. Retain the section title, and use a finer splitter when a paragraph exceeds the cap. In extracted PDFs, distinguish real paragraph boundaries from line wrapping before using blank lines as separators.
+
+In the handbook, the definition, procedure, and exception are three paragraphs about one task. Keeping them separate preserves their formatting but can still omit required evidence. Start with paragraphs when they are independently useful; group related paragraphs or supply their shared section when the questions require it.
+
+### Sliding-Window Chunking
+
+A sliding window moves through the source by a chosen **stride**. With a 400-token window and a 360-token stride, adjacent chunks share 40 tokens. A sentence-based version might take four sentences, then advance by three. The fixed-chunking interactive example demonstrates this same size-minus-overlap relationship using words.
+
+Try it when a useful definition or condition often sits just across a boundary. The repeated span gives neighboring chunks some shared context, but cannot guarantee that an entire dependency fits. An exception several paragraphs away may still be absent. Overlap also increases indexed text and can return duplicate evidence, so preserve source offsets and merge repeated spans when assembling the answer.
+
+This is different from [LlamaIndex's sentence-window retrieval](https://developers.llamaindex.ai/python/framework-api-reference/node_parsers/sentence_window/): that parser stores individual sentences as nodes and surrounding sentences as metadata. The application must supply that surrounding text after retrieval. Embedding overlapping windows and expanding a retrieved sentence change different stages of the pipeline.
 
 ### Semantic Chunking
 
@@ -185,7 +209,7 @@ In the handbook, a semantic splitter might separate the export material from bil
 
 </details>
 
-Here, agentic chunking means using an LLM to decide where to divide source text. It is a preprocessing choice: an agent that searches your knowledge base can use any of these four chunking methods. Try an LLM-assisted splitter when inspecting failed chunks reveals boundaries that require interpreting the text, and simpler structural or recursive rules do not resolve them.
+Here, agentic chunking means using an LLM to decide where to divide source text. It is a preprocessing choice: an agent that searches your knowledge base can use any of these chunking methods. Try an LLM-assisted splitter when inspecting failed chunks reveals boundaries that require interpreting the text, and simpler structural or recursive rules do not resolve them.
 
 [Agno's implementation](https://docs.agno.com/knowledge/concepts/chunking/agentic-chunking) gives the model a window of text and asks for a character position at which to split. It then takes that span from the source, rather than asking the model to rewrite the passage. Its `max_chunk_size` is measured in characters. The [source code](https://github.com/agno-agi/agno/blob/main/libs/agno/agno/knowledge/chunking/agentic.py) also defines validation and a size-based fallback for failed or unusable responses. Check which boundaries came from the model and which came from a fallback before attributing a result to the method.
 
@@ -225,7 +249,51 @@ For a longer export section, recursive splitting can keep each short subtask int
 ![With a 24-word cap, the 12-word and 5-word paragraphs remain intact. Only the 30-word paragraph is split into sentences of 8 and 22 words.](/guides_data/chunking/recursive.svg)
 {{< /island >}}
 
+### Graph-Based Chunking
+
+Graph-based chunking uses relationships between text units to choose their grouping. For example, [Malioutov and Barzilay's graph-based topic segmentation](https://aclanthology.org/P06-1004/) represents sentences as nodes and lexical similarity as weighted edges, then partitions the graph into contiguous source segments. This allows relationships beyond adjacent sentences to influence a boundary. It is an example from lecture segmentation, not evidence that graph-based chunking improves modern RAG universally.
+
+Consider this approach when inspecting failures suggests that nonlocal relationships would improve the split. You must choose how to construct and partition the graph, measure that extra work, and check final token lengths and source coverage. Distinguish this boundary decision from [Microsoft GraphRAG's default pipeline](https://microsoft.github.io/graphrag/index/default_dataflow/), which first creates text chunks and then extracts a graph for later retrieval.
+
 For this handbook, the existing structure already gives us two useful units. For your own data, compare the simplest suitable baseline with a more involved method only when you can name the failure it should repair. Use the same questions and retrieved-text budget in [step 5](#5-test-the-evidence-that-reaches-the-answer), and record splitting time and model usage alongside evidence coverage.
+
+## Beyond Text: Choose the Evidence Unit
+
+Text remains the focus of this guide, but a text splitter can only preserve information that extraction captures. For visually rich documents, recordings, and audio, first decide which representation can carry the answer. Then choose its boundaries.
+
+### When to Use Text Chunking or Visual Retrieval
+
+Use **text chunking** when the answer survives extraction into prose or structured tables. Test **visual document retrieval** when it depends on information in the rendered page: chart shapes, diagram connections, spatial layout, or labels that extraction loses. The [ColPali paper](https://arxiv.org/abs/2407.01449) describes retrieving document pages directly from their visual representation.
+
+| What the question needs | Starting approach |
+| --- | --- |
+| A policy, definition, or procedure stated in readable text | Parse the document and apply a text chunker. |
+| A chart trend, a connection in a diagram, or a relationship expressed through layout | Retrieve the page image with a visual embedding model, then provide the relevant image to an image-capable answering model. |
+| Prose explaining a figure, with essential evidence in both | Keep linked text chunks and page or figure images; retrieve and assemble both when needed. |
+
+ColPali and [ColQwen](https://huggingface.co/vidore/colqwen2-v1.0) represent pages with multiple vectors associated with image patches. Late interaction scores a query against those patch vectors. A page is still a bounded retrieval unit; resolution and patch limits can hide small details. Compare vector storage and image-processing latency with your text pipeline as well as answer quality. See the [Qdrant visual retrieval tutorial](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) for the indexing approach.
+
+A vision-language model (VLM) can also extract or describe a figure for a text-based pipeline. That is a different step from embedding page images for retrieval. Check generated descriptions against the source, and retain the image when the answer depends on details the description omits. Having diagrams in a document is a reason to inspect the evidence, not an automatic reason to replace all text chunks.
+
+### Diagrams, Charts, and Graphs
+
+Treat a figure and the context needed to interpret it as a unit. For a chart, preserve axes, units, legend, caption, and relevant footnotes. For a flowchart or network graph, preserve connected nodes, arrow direction, and edge labels. Cropping away the legend or an arrow endpoint can lose evidence just as cutting away an exception does in text.
+
+If a page contains unrelated figures, test separate figure regions while retaining their captions and a link to the full page. Store document ID, page number, and bounding-box coordinates alongside each region. [Docling's document representation](https://docling-project.github.io/docling/reference/docling_document/) provides picture elements, captions, and source provenance for this kind of pipeline. Prefer source data or verified extracted tables when exact chart values matter; a generated summary should not be the only record of them.
+
+### Video Chunking
+
+Use time ranges as chunks. Fixed-duration clips are a baseline; scene, topic, or demonstration boundaries may keep an action and its outcome together more reliably. [TwelveLabs' video embedding interface](https://docs.twelvelabs.io/docs/guides/create-embeddings/at-scale/video) illustrates fixed and content-adaptive temporal segmentation. A camera cut alone does not establish a complete explanation.
+
+Link each clip's transcript, sampled frames, and source video with the same video ID and start/end timestamps. Text chunks can retrieve what a speaker said; they cannot recover an unspoken action visible only on screen. For that question, retrieve visual evidence and supply it to a model that can use it. Check frame sampling as well as clip boundaries: a brief but decisive event can fall between sampled frames.
+
+### Voice and Audio Chunking
+
+For meetings, interviews, and podcasts, start with transcript chunks that preserve a complete statement or exchange. Keep speaker labels and timestamps so a match can lead back to the recording; [timestamped utterances](https://assemblyai.github.io/assemblyai-node-sdk/types/TranscriptUtterance.html) provide one useful source unit. A speaker change or pause is a candidate boundary, but a question and its answer may need to remain together. Check transcription errors before blaming the splitter.
+
+Retain the audio when questions concern sounds absent from the transcript, such as an alarm or music. Use suitable audio embeddings and bounded time segments for those questions; [audio-content and transcript representations](https://docs.twelvelabs.io/docs/guides/create-embeddings/at-scale/audio) carry different evidence. Check the chosen model's duration and input limits, and ensure the answering stage receives the relevant audio or verified evidence extracted from it.
+
+Across these modalities, retain a path to the original source and inspect the complete unit the model receives. For the handbook's text pipeline, the next decision is how much text each stage can accept.
 
 ## 3. Fit Size and Overlap to Your Constraints
 
