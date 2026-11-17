@@ -121,6 +121,9 @@ behave differently for agents, give it a `<name>.markdown.md` variant in
 `layouts/shortcodes/` rather than trying to detect the format inside the HTML
 one. `code-snippet`, `include`, `prompt`, and `prompt-index` all do this.
 
+For prose meant only for agents, wrap it in `{{< agents-only >}}...{{< /agents-only >}}`:
+it appears in `index.md` and renders nothing in HTML. See the root `README.md`.
+
 ## Content conventions
 
 - **`weight` in front matter orders the docs sidebar.** Adding a page without
