@@ -7,10 +7,10 @@
 <link href="{{ $coreCss.RelPermalink }}" rel="stylesheet" integrity="{{ $coreCss.Data.Integrity }}" />
 
 <!--Code blocks (assets/lib/code-blocks/), shared by both parts-->
-{{ partial "common/code-blocks/css.html" . }}
+{{ if not (hasPrefix .Section "lp-") }}{{ partial "common/code-blocks/css.html" . }}{{ end }}
 
 <!--Heading anchors (assets/lib/heading-anchors/), shared by both parts-->
-{{ partial "common/heading-anchors/css.html" . }}
+{{ if not (hasPrefix .Section "lp-") }}{{ partial "common/heading-anchors/css.html" . }}{{ end }}
 
 <!--Shortcode styles for the shortcodes on this page (assets/shortcodes/), shared by both parts.
     Right after core so they keep the cascade position they had inside core.css.-->
