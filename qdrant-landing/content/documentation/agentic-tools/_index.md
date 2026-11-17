@@ -14,7 +14,7 @@ Qdrant provides tools and resources that help AI agents work with Qdrant more ef
 
 [`qdrant.tech/llms.txt`](https://qdrant.tech/llms.txt) is the single entry point for AI agents. We've curated it to be under 30KB and to provide your agent with everything it needs to get started, manage, and troubleshoot your Qdrant search engine. It tells an agent what Qdrant is, how to set it up, how to use it correctly, and where to find everything else on qdrant.tech.
 
-**To get started, simply give this into your agent:**
+**To get started, give this to your agent:**
 
 {{< prompt "start-building" >}}
 
@@ -31,7 +31,7 @@ The file has a hand-written brief, followed by an index of the site that is gene
 | Part | What it gives your agent |
 | --- | --- |
 | Overview | What Qdrant is, when to use it, and why to start on Qdrant Cloud. Self-hosted Qdrant is set up only when you ask for it. |
-| Setup | The steps to a working Qdrant Cloud cluster: sign up, choose a cluster, connect through the [Qdrant Cloud CLI](#the-cli-and-mcp-servers) or the Cloud Console, store keys in a `.env` file, and test the connection. Coding agents recommend the CLI and install it only after you agree.  |
+| Setup | The steps to a working Qdrant Cloud cluster: sign up, choose a cluster, connect through the [Qdrant Cloud CLI](#the-cli-and-mcp-servers) or the Cloud Console, store keys in a `.env` file, and test the connection. Coding agents recommend the CLI and install it only after you agree. |
 | MCP servers | When to connect the [Qdrant MCP servers](#the-cli-and-mcp-servers), and how. |
 | Core usage | Connection details, a Python example that creates a collection and searches it with Cloud Inference, the Query API for hybrid search, and common `qcloud` commands. |
 | Rules | Guardrails that prevent common mistakes, such as filtering on fields without a payload index, choosing the wrong vector size or distance metric, and building multitenancy without access control. The agent also confirms with you before it takes an action that costs money or deletes data. |
