@@ -417,6 +417,8 @@ You'll know you've succeeded when:
 
 ## Optional: Go Further
 
+Compare your best result with [4-bit TurboQuant](/documentation/manage-data/quantization/#setting-up-turboquant), using the same queries and measurements.
+
 ### Dynamic Oversampling
 
 Implement adaptive oversampling based on query characteristics:

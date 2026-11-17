@@ -30,7 +30,7 @@ For production RAG systems serving real-time queries, these vectors must reside 
 
 Quantization breaks this cost scaling by compressing vectors while maintaining search effectiveness. The video covers scalar, binary, and product quantization, each with different speed, memory, and accuracy trade-offs.
 
-> **Update:** Since Qdrant 1.18, [TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization) offers another way to balance compression and search quality.
+> **Update:** Since Qdrant 1.18, [4-bit TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization) is a good starting point for cosine, dot product, or Euclidean distance. It offers 8x vector compression. Check search quality on your data.
 
 ## Scalar Quantization
 
