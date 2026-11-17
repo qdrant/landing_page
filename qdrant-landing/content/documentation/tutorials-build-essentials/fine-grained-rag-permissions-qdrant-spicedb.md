@@ -137,7 +137,7 @@ qdrant.upload_points(
 
 Each point's payload includes a `doc_id`, like `engineering-architecture-001`. Qdrant point IDs must be unsigned integers or UUIDs, so the human-readable ID goes in the payload instead. SpiceDB uses the same ID for its `document` resources, and that shared ID is what connects the two systems. In this tutorial, each document is a single point. If you split documents into chunks, give every chunk its parent's `doc_id`, and the permission check stays the same.
 
-On the SpiceDB side, the script writes a schema and the relationships between users, departments, and documents. See the 'How SpiceDB Decides Access' section.
+On the SpiceDB side, the script writes a schema and the relationships between users, departments, and documents. This is explained in detail in the [How SpiceDB Decides Access](#how-spicedb-decides-access) section.
 
 ## How SpiceDB Decides Access
 
