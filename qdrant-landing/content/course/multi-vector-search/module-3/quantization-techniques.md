@@ -215,7 +215,7 @@ client.create_collection(
         scalar=models.ScalarQuantizationConfig(
             type=models.ScalarType.INT8,
             quantile=0.99,  # Exclude 1% outliers for better scaling
-            always_ram=True,
+            memory=models.Memory.PINNED,
         ),
     ),
 )
@@ -224,7 +224,7 @@ client.create_collection(
 Ingest the documents into the scalar-quantized collection:
 
 ```python
-client.upsert(
+client.upload_points(
     collection_name="colpali-scalar",
     points=[
         models.PointStruct(
@@ -234,6 +234,7 @@ client.upsert(
         )
         for i, embedding in enumerate(image_embeddings)
     ],
+    wait=True,
 )
 ```
 
@@ -254,13 +255,13 @@ client.create_collection(
     },
     quantization_config=models.BinaryQuantization(
         binary=models.BinaryQuantizationConfig(
-            always_ram=True,
+            memory=models.Memory.PINNED,
         ),
     ),
 )
 
 # Ingest the same data into the binary-quantized collection
-client.upsert(
+client.upload_points(
     collection_name="colpali-binary",
     points=[
         models.PointStruct(
@@ -270,6 +271,7 @@ client.upsert(
         )
         for i, embedding in enumerate(image_embeddings)
     ],
+    wait=True,
 )
 ```
 

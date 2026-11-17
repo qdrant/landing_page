@@ -64,6 +64,8 @@ Here's a simple linear example of what this process looks like:
 
 To set up Scalar Quantization in Qdrant, you need to include the `quantization_config` section when creating or updating a collection:
 
+> **Version note:** The `on_disk` and `always_ram` flags in these examples still work. Since Qdrant 1.19, [memory tiers](/documentation/ops-configuration/memory-tiers/) replace these flags. The equivalent settings are `memory="cold"` for `on_disk=True` and `memory="pinned"` for `always_ram=True`.
+
 ```http
 PUT /collections/{collection_name}
 {
@@ -240,7 +242,7 @@ After setting up quantization and adding your vectors, you can perform searches 
 
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
     "query": [0.22, -0.01, -0.98, 0.37],
     "params": {
@@ -329,7 +331,7 @@ For example, in our case with a limit of 4, a candidate that ranked 6th in the i
 Here's how you can set it up:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 
 
 {
@@ -364,7 +366,7 @@ If quantization is impacting performance in an application that requires high ac
 
 ## Distributing Resources Between Disk & Memory
 
-Qdrant stores both the quantized and original vectors. When you enable quantization, both the original and quantized vectors are stored in RAM by default. You can move the original vectors to disk to significantly reduce RAM usage and lower system costs. Simply enabling quantization is not enough—you need to explicitly move the original vectors to disk by setting `on_disk=True`.
+Qdrant stores both quantized and original vectors. By default, dense vectors use `cached`, and quantized vectors use `pinned`. To reduce startup RAM use, use `cold` for original vectors and `pinned` for quantized vectors. The legacy `on_disk=True` and `always_ram=True` flags in this example provide the same placement.
 
 Here’s an example configuration:
 
@@ -400,7 +402,7 @@ client.update_collection(
 )
 ```
 
-Without explicitly setting `on_disk=True`, you won't see any RAM savings, even with quantization enabled. So, make sure to configure both storage and quantization options based on your memory and performance needs. If your storage has high disk latency, consider disabling rescoring to maintain speed.
+The operating system can still cache original vectors as queries read them. If your storage has high disk latency, consider disabling rescoring to maintain speed.
 
 ### Speeding Up Rescoring with io_uring
 
@@ -410,14 +412,15 @@ On Linux-based systems, `io_uring` allows multiple disk operations to be process
 
 When you perform vector quantization and store data on disk, Qdrant often needs to access multiple vectors in parallel. Without io_uring, this process can be slowed down due to the system’s limitations in handling many disk accesses.
 
-To enable `io_uring` in Qdrant, add the following to your storage configuration:
+For self-hosted Qdrant 1.19+, enable `io_uring` in your storage configuration:
 
 ```yaml
 storage:
-  async_scorer: true  # Enable io_uring for async storage
+  performance:
+    io_uring: auto
 ```
 
-Without this configuration, Qdrant will default to using `mmap` for disk I/O operations.
+On managed Qdrant Cloud 1.20+, async I/O is enabled automatically. See [async I/O configuration](/documentation/ops-configuration/memory-tiers/#async-io) for version requirements and defaults.
 
 For more information and benchmarks comparing io_uring with traditional I/O approaches like mmap, check out [Qdrant's io_uring implementation article.](https://qdrant.tech/articles/io_uring/)
 

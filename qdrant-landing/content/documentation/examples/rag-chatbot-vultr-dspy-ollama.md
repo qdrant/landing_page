@@ -46,10 +46,10 @@ Engine](https://www.vultr.com/kubernetes/). That gives us a lot of flexibility i
 ### Installing the necessary packages
 
 We are going to need a couple of Python packages to run our application. They might be installed together with the
-`dspy-ai` package and `qdrant` extra:
+`dspy-ai` package and the Qdrant client's `fastembed` extra:
 
 ```shell
-pip install dspy-ai dspy-qdrant
+pip install dspy-ai dspy-qdrant "qdrant-client[fastembed]"
 ```
 
 ### Qdrant Hybrid Cloud
@@ -75,8 +75,7 @@ of our document chunks.
 
 #### Data indexing
 
-FastEmbed uses the `BAAI/bge-small-en` as the default embedding model. We are going to use it as well. Our collection
-will be created automatically if we call the `.add` method on an existing `QdrantClient` instance. In this tutorial we
+We will use the `BAAI/bge-small-en` embedding model. Create the collection explicitly, then upload documents with `models.Document` and `upload_points`. In this tutorial we
 are not going to focus much on the document parsing, as there are plenty of tools that can help with that. The
 [`unstructured`](https://github.com/Unstructured-IO/unstructured) library is one of the options you can launch on your
 infrastructure. In our simplified example, we are going to use a list of strings as our documents. These are the 
@@ -123,15 +122,9 @@ location, but expect the results to be returned in a structured format.
 
 ![An example of extracted information](/documentation/examples/information-extraction-ollama-vultr/extracted-information.png)
 
-Indexing in Qdrant is a single call if we have the documents defined:
+Create the collection and index the documents:
 
-```python
-client.add(
-    collection_name="document-parts",
-    documents=documents,
-    metadata=[{"document": document} for document in documents],
-)
-```
+{{< code-snippet path="/documentation/headless/snippets/learn/vultr-dspy/index-documents/" >}}
 
 Our collection is ready to be queried. We can now move to the next step, which is setting up the Ollama model.
 
@@ -185,19 +178,17 @@ gemma_model = dspy.OllamaLocal(
 )
 ```
 
-Similarly, we have to define connection to our Qdrant Hybrid Cloud cluster:
+Configure the retriever with the same embedding model and vector name used for indexing:
 
 ```python
 from dspy_qdrant import QdrantRM
-from qdrant_client import QdrantClient, models
+from dspy_qdrant.qdrant_rm import FastEmbedVectorizer
 
-client = QdrantClient(
-    os.environ.get("QDRANT_URL"),
-    api_key=os.environ.get("QDRANT_API_KEY"),
-)
 qdrant_retriever = QdrantRM(
     qdrant_collection_name="document-parts",
     qdrant_client=client,
+    vectorizer=FastEmbedVectorizer("BAAI/bge-small-en"),
+    vector_name="dense",
 )
 ```
 

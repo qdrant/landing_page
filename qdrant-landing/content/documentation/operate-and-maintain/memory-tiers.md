@@ -106,9 +106,11 @@ In these cases, the latency can increase by multiple times, and its worst-case q
 
 ## HNSW Inline Storage and Disk Space
 
-Test [HNSW inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index) with quantization at your real vector dimensionality and graph connectivity before relying on it in production. Qdrant's inline HNSW storage removes a random-access read by copying vector data directly into the graph file: a full-precision copy per point, plus a compressed copy for every edge into it.
+Test [HNSW inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index) with quantization at your real vector dimensionality and graph connectivity before relying on it in production. Qdrant's inline HNSW storage removes a random-access read by copying vector data directly into the graph file: a full-precision vector per point, plus a compressed copy for every edge into it.
 
 That second cost scales with edge count and vector size, not point count, so it can grow far faster than the collection does.
+
+Since Qdrant 1.20, rebuilt indexed segments with [inline storage](/documentation/ops-configuration/memory-tiers/#inline-storage) keep original vectors only in the HNSW file. `hnsw_config.memory` controls their placement there; `vectors.memory` has no effect.
 
 {{< island path="content/documentation/headless/memory-tiers/hnsw-inline" ratio="960 / 470" >}}
 ![A standard HNSW graph stores a link per edge; inline storage attaches a compressed vector copy to every edge instead, so on-disk graph size grows with edge count, not just point count, and the gap between the two widens as a collection scales](/articles_data/memory-tiers-in-qdrant-what-to-use-and-when/visuals/hnsw-storage-blowup.png)
