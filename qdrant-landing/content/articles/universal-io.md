@@ -221,8 +221,8 @@ Each point below is one configuration: 4 KiB random reads on a 4-core Xeon 8375C
 
 {{< island
     path="content/articles/headless/universal-io/depth-latency"
-    width="960" ratio="960 / 560"
-    title="Latency is p50 from submitting a read to its completion, so past a backend's pipeline depth it includes queueing. Latency and bandwidth were measured in separate runs."
+    width="760" ratio="760 / 372"
+    title="Latency is p50 from submitting a read to its completion, so past a backend's pipeline depth it includes queueing. Switch to sequential to see what the kernel's readahead does. Latency and bandwidth were measured in separate runs."
 >}}
 ![Bandwidth against latency for three read backends on log scales. io_uring climbs almost straight up, from 7.15 to 85.66 MB/s while latency stays near 0.6 ms, then bends right. mmap runs flat at about 7.2 MB/s whatever the batch. S3 climbs straight up at about 24 ms, from 0.15 to 12.55 MB/s.](/articles_data/universal-io/uio-depth-latency.svg)
 {{< /island >}}
@@ -233,7 +233,9 @@ Each point below is one configuration: 4 KiB random reads on a 4-core Xeon 8375C
 
 S3 goes up too, starting 43 times further right. One read takes 24.3 ms, but that barely moves as concurrency rises, 25.1 ms with 128 in flight, so bandwidth climbs from 0.15 to 12.55 MB/s. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s.
 
-Depth only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 25 ms on object storage, however deep the pipeline is.
+Read in order and none of this applies. Opened with `MADV_SEQUENTIAL`, `mmap` on its own reached 230.85 MB/s against 7.09 MB/s random, and `io_uring` added nothing, because the kernel had already read ahead and most reads never reached the disk. The pipeline earns its place where readahead cannot help, which is random access and object storage.
+
+Depth also only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 25 ms on object storage, however deep the pipeline is.
 
 ## The Best of All Worlds (Almost)
 

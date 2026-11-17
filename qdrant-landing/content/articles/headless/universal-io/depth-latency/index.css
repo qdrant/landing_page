@@ -12,7 +12,7 @@
 
   display: block;
   container-type: inline-size;
-  padding: 20px 24px;
+  padding: 16px;
   border: 1px solid var(--qi-line);
   border-radius: 12px;
 }
@@ -35,16 +35,17 @@ html[data-theme='dark'] .qi-dl {
 .qi-dl .dl-blue { color: var(--dl-blue); }
 .qi-dl .dl-red { color: var(--dl-red); }
 
-.qi-dl .dl-title { fill: var(--qi-fg); font-weight: 600; }
-.qi-dl .dl-note { fill: var(--qi-muted); font-size: 13px; }
-.qi-dl .dl-tick { fill: var(--qi-muted); font-size: 12.5px; }
-.qi-dl .dl-legend { fill: var(--qi-fg); font-size: 13.5px; }
+.qi-dl .dl-title { fill: var(--qi-fg); font-size: 14px; }
+.qi-dl .dl-axlbl { fill: var(--qi-muted); font-size: 14px; }
+.qi-dl .dl-tick { fill: var(--qi-muted); font-size: 13px; }
+.qi-dl .dl-legend { fill: var(--qi-fg); font-size: 14px; }
 .qi-dl .dl-callout { fill: currentColor; font-size: 13px; font-weight: 600; }
+.qi-dl .dl-dot--off { fill: var(--qi-surface, #fff); stroke: currentColor; stroke-width: 2; }
 .qi-dl .dl-callout:not(.dl-blue):not(.dl-cyan):not(.dl-red) { fill: var(--qi-muted); font-weight: 400; }
 .qi-dl .dl-callout--cont { font-weight: 400; }
 .qi-dl .dl-grid { stroke: var(--qi-line); stroke-width: 1; opacity: .45; }
 .qi-dl .dl-axis { stroke: var(--qi-muted); stroke-width: 1.5; fill: none; }
-.qi-dl .dl-outline { stroke: var(--qi-fg); stroke-width: 5; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.qi-dl .dl-outline { stroke: var(--qi-fg); stroke-width: 4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
 .qi-dl .dl-line { stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linejoin: round; stroke-linecap: round; }
 .qi-dl .dl-dot { fill: currentColor; stroke: var(--qi-bg, transparent); stroke-width: 1.5; }
 .qi-dl .dl-hit { fill: transparent; cursor: pointer; }
@@ -57,3 +58,7 @@ html[data-theme='dark'] .qi-dl {
   .qi-dl__d { display: none; }
   .qi-dl__m { display: block; }
 }
+
+/* Sequential view keeps the random lines underneath, faded, so the jump is
+   visible without a second figure. They carry no points and no hit targets. */
+.qi-dl .dl-ghost .dl-line { opacity: .25; stroke-width: 2; }
