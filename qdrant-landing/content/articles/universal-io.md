@@ -21,7 +21,7 @@ Most software is built on an unspoken assumption: data lives on disk, and is rea
 
 For Qdrant, that happened with [serverless mode](https://qdrant.tech/serverless/), where the data sits in object storage instead of on a disk next to the process. This blog tells the story of Universal I/O, the interface we built so that the same code could work in both worlds, and of the design choices that keep the local path cheap. This read is particularly relevant if you are a systems programmer, and some knowledge of Rust will help you follow the code, but the lessons should carry over to many other kinds of software.
 
-To see how deeply that assumption was baked into Qdrant, it helps to look at how we read data before serverless mode: all of our on-disk data structures (vectors, HNSW graphs, and payload indexes) went through `mmap`, which assumes that an actual disk sits underneath. In serverless mode, however, the data lives in object storage, and the difference in cost is large: a cold `mmap` read takes about 100 µs on an SSD, whereas the same read over the network takes 10 to 100 ms, which makes it two or three orders of magnitude slower and also exposes it to failure modes that disk reads don't have.
+To see how deeply that assumption was baked into Qdrant, it helps to look at how we read data before serverless mode: all of our on-disk data structures (vectors, HNSW graphs, and payload indexes) went through `mmap`, which assumes that an actual disk sits underneath. In serverless mode, however, the data lives in object storage, and the difference in cost is large: on our test box a cold `mmap` read took 568 µs from an EBS gp3 volume, whereas the same read against a same-region S3 bucket took 24.3 ms, which makes it 43 times slower and also exposes it to failure modes that disk reads don't have. Faster local storage widens that gap, and so does distance, since the same read against a bucket in another region took 131 ms.
 
 One option was to re-implement every one of those interactions against object storage, but that would have meant maintaining two versions of the same logic, which tend to drift apart over time, and every data structure would have needed to switch between the two versions, which could change the behavior of the local path that already worked well. 
 
@@ -37,9 +37,9 @@ We therefore decided to build a single interface that lets us hot-swap the stora
 
 What we needed instead was a single abstract interface (a `trait`, in Rust terms, similar to interfaces in Go and protocols in Python) that standardizes the contract for every backend, rather than a separate concrete implementation for each component. That interface had to cover at least three backends, and they behave very differently from each other:
 
-- **`mmap`**: synchronous. Very cheap when the data is already in RAM, but a read of cold data blocks on a page fault (around 100 µs on an SSD).
+- **`mmap`**: synchronous. Very cheap when the data is already in RAM, but a read of cold data blocks on a page fault (568 µs on the EBS gp3 volume we measured on).
 - **`io_uring`**: queued. Many reads can run concurrently, but works only on Linux kernel v5.1 or later (it was introduced in 2019).
-- **Network I/O**: asynchronous. Very expensive when the data isn't cached locally (10 to 100 ms per round trip), and exposed to failure modes that disk reads don't have.
+- **Network I/O**: asynchronous. Very expensive when the data isn't cached locally (24.3 ms per round trip to a bucket in the same region, and 131 ms to one in another region), and exposed to failure modes that disk reads don't have.
 
 ## Neither Async nor Blocking Fits
 
@@ -214,6 +214,33 @@ fn read(range) -> Slice {
 Once every block is local, the `fully_populated` flag lets reads skip the bitmap and its lock entirely, and at that point a read is just a slice of the local `MmapFile`, the same kind of operation the `mmap` backend performs.
 
 Append-only files can also grow, and reopening one would mean fetching everything again, so `DiskCache` grows the mirror in two phases: it first *stages* the change by learning the new remote size and prefetching the new tail, without any visible effect for readers, and then *applies* it by growing and remapping the local file. This lets Qdrant stage reloads for many files at once and pay only for the slowest one.
+
+## What the Depth Buys
+
+Everything so far is about the shape of the interface. Here is what it is worth in practice. Every number below is a 4 KiB random read on the same machine, a 4-core Xeon 8375C in us-west-2 with an EBS gp3 volume, with the page cache dropped before each run. The S3 reads go to a bucket in the same region, and all three backends run through the same `read_batch` call, so the backend is the only thing that changes. Small random reads like these give much lower MB/s than a sequential read of the same device would.
+
+| backend | pipeline depth | one read, depth 1 | throughput at full depth |
+|---|---:|---:|---:|
+| `mmap`, cold | 1 | 568 µs | 7.2 MB/s (1,761 reads/s) |
+| `io_uring`, cold | 16 | 569 µs | 113.3 MB/s (27,653 reads/s) |
+| S3, same region | 256 | 24.3 ms | 34.7 MB/s (8,476 reads/s) |
+
+The depths are the backends' own constants, `IO_URING_QUEUE_LENGTH` and `BLOB_PIPELINE_CAPACITY`.
+
+**`io_uring` does not read any faster than `mmap`.** With a single read outstanding, `io_uring` took 569 µs and `mmap` took 568 µs, a difference of 0.2%, which is the same disk, the same bytes, and the same wait. Let the ring fill to its depth of 16 and throughput goes from 7.2 MB/s to 113.3 MB/s. That is 15.7x on a ring 16 deep, so depth accounts for almost all of it.
+
+**S3 is slower per read than the local disk and faster overall.** One S3 read took 24.3 ms against mmap's 568 µs, so a single read is 43 times slower, and yet S3 moved 34.7 MB/s against mmap's 7.2 MB/s, which is 4.8 times more. Ordering the three backends by latency and by throughput gives opposite answers:
+
+```
+  one read     mmap 0.57 ms   =   io_uring 0.57 ms   <<  S3 24.3 ms
+  throughput   mmap 7.2 MB/s  <<  S3 34.7 MB/s       <   io_uring 113.3 MB/s
+```
+
+S3 can do this because its latency barely moves as concurrency rises. In a concurrency sweep on the same box, one read at a time answered in 24.3 ms at p50 and gave 0.15 MB/s, and at 128 concurrent requests the median read still took 25.1 ms while throughput reached 12.6 MB/s, which is 84 times more. Nothing queues behind anything else, so every slot you fill turns into throughput. Across our runs a same-region GET sat between 24 and 30 ms at p50.
+
+One caveat on that table. We measured latency with a single read outstanding and throughput with the pipeline full, so those two columns come from different runs, and what a single read costs while 256 of them are in flight is something we did not measure.
+
+Depth only helps when there is more than one read to issue. Qdrant does issue single reads where there is only one item to fetch, such as one point by ID, one posting-list entry, or a file header, and on object storage each of those is one round trip of roughly 25 ms however deep the pipeline is. Search batches its reads and the blob pipeline is a fixed 256 deep, so the search path gets the throughput above, but a workload built around single-point lookups does not.
 
 ## The Best of All Worlds (Almost)
 
