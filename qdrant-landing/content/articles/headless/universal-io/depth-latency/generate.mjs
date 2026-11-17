@@ -2,8 +2,7 @@
    Run from the repo root:
      node content/articles/headless/universal-io/depth-latency/generate.mjs */
 import { writeFileSync } from 'node:fs';
-import { LABEL } from './plot.mjs';
-import { body } from './index.js';
+import { LABEL, body } from './index.js';
 
 const CHROME = `
   .dl-title{fill:#303547;font-weight:600}.dl-note{fill:#656b7f;font-size:13px}
