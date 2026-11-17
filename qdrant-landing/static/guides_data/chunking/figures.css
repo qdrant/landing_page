@@ -58,6 +58,276 @@ html[data-theme='dark'] .chunking-figure > .chunking-figure__dark {
   line-height: 1.5;
 }
 
+/* The four method diagrams share the site's island controls and theme tokens. */
+.island[data-island^='documentation/headless/chunking/'] .island__caption {
+  color: var(--qi-fg);
+  opacity: 1;
+}
+
+.qi-chunk {
+  --qi-cat-1-soft: color-mix(in srgb, var(--qi-cat-1) 10%, var(--qi-surface));
+  --qi-cat-2-soft: color-mix(in srgb, var(--qi-cat-2) 10%, var(--qi-surface));
+  --qi-cat-4-soft: color-mix(in srgb, var(--qi-cat-4) 10%, var(--qi-surface));
+  container: chunking / inline-size;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.documentation .qi-chunk p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.qi-chunk .qi-chip,
+.qi-chunk .qi-hint,
+.qi-chunk .qi-frame-label {
+  font-size: 14px;
+  color: var(--qi-fg);
+}
+
+.qi-chunk .qi-chip {
+  min-height: 36px;
+  white-space: normal;
+  text-align: left;
+}
+
+.qi-chunk .qi-chip small {
+  font-size: 12px;
+  opacity: 1;
+}
+
+.qi-chunk .qi-status {
+  min-height: 0;
+  color: var(--qi-fg);
+}
+
+.qi-chunk__panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.qi-chunk__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+  background: var(--qi-surface);
+}
+
+.qi-chunk__label,
+.qi-chunk__chunk-title {
+  font-family: var(--qi-mono);
+  font-weight: 600;
+}
+
+.qi-chunk__tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: start;
+}
+
+.qi-chunk__token {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 5px;
+  padding: 4px 7px;
+  border: 1px solid var(--qi-border);
+  border-radius: 4px;
+  background: var(--chunk-soft, var(--qi-surface));
+  color: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+
+.qi-chunk__token small {
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.qi-chunk__source-words .qi-chunk__token {
+  background: transparent;
+}
+
+.qi-chunk__source-words .qi-chunk__token.is-selected {
+  background: var(--chunk-soft);
+  border-color: var(--qi-fg);
+}
+
+.qi-chunk__range-list {
+  gap: 6px;
+}
+
+.qi-chunk__range[aria-pressed='true'] {
+  box-shadow: inset 0 -3px var(--chunk-color);
+}
+
+.documentation .qi-chunk__steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.documentation .qi-chunk__steps li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 8px;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+
+.qi-chunk__steps .is-current {
+  border-color: var(--qi-fg);
+  background: var(--qi-surface);
+  font-weight: 600;
+}
+
+.qi-chunk__step-number {
+  font-variant-numeric: tabular-nums;
+}
+
+.qi-chunk__chunk.is-oversized {
+  border-top: 2px dashed var(--qi-fg);
+  border-right: 2px dashed var(--qi-fg);
+  border-bottom: 2px dashed var(--qi-fg);
+}
+
+.qi-chunk__chunks,
+.qi-chunk__sentences {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.qi-chunk__chunk,
+.qi-chunk__sentence {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--qi-border);
+  border-left: 3px solid var(--chunk-color, var(--qi-line));
+  border-radius: var(--qi-radius);
+  background: var(--chunk-soft, transparent);
+}
+
+.qi-chunk__sentence-head,
+.qi-chunk__similarity-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+}
+
+.qi-chunk__sentence-head b {
+  font-family: var(--qi-mono);
+}
+
+.qi-chunk__badge {
+  display: inline-block;
+  width: fit-content;
+  padding: 2px 6px;
+  border: 1px solid var(--qi-line);
+  border-radius: 4px;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--qi-fg);
+}
+
+.qi-chunk__note {
+  color: var(--qi-fg);
+}
+
+.qi-chunk .is-overlap {
+  border: 2px dashed var(--qi-fg);
+}
+
+.qi-chunk .is-outside {
+  border-style: dashed;
+  border-color: var(--qi-line);
+  background: transparent;
+}
+
+.qi-chunk__similarity {
+  padding: 4px 10px 10px;
+}
+
+.qi-chunk__similarity-label {
+  justify-content: space-between;
+  margin-bottom: 7px;
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+
+.qi-chunk__meter {
+  position: relative;
+  height: 8px;
+  border: 1px solid var(--qi-line);
+  border-radius: 2px;
+}
+
+.qi-chunk__meter-fill {
+  display: block;
+  height: 100%;
+  background: var(--qi-cat-3);
+}
+
+.qi-chunk__meter-threshold {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--qi-fg);
+}
+
+.qi-chunk__cut-line {
+  padding-top: 6px;
+  border-top: 2px dashed var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+
+.qi-chunk__decision {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--qi-line);
+  border-radius: var(--qi-radius);
+}
+
+.qi-chunk__flow-arrow {
+  color: var(--qi-fg);
+  font-size: 24px;
+  text-align: center;
+  line-height: 1;
+}
+
+@container chunking (max-width: 560px) {
+  .qi-chunk__panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .qi-chunk__panel {
+    padding: 12px;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   html:not([data-theme='light']) .chunking-figure > picture:not(.chunking-figure__dark) {
     display: none;
