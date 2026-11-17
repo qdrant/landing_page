@@ -31,6 +31,7 @@
   - [Shortcodes 🧩🧩🧩](#shortcodes-)
     - [Built-in shortcodes](#built-in-shortcodes)
     - [Custom shortcodes](#custom-shortcodes)
+      - [🧩 Agents-only content](#-agents-only-content)
       - [🧩 Card](#-card)
       - [🧩 Grid Row](#-grid-row)
       - [🧩 Banner](#-banner)
@@ -570,6 +571,30 @@ If you use a shortcode in your markdown file, but it fails to render, check if t
 ### Custom shortcodes
 
 You can find the list of available shortcodes in the `qdrant-landing/themes/qdrant/layouts/shortcodes` directory.
+
+#### 🧩 Agents-only content
+
+Content wrapped in `agents-only` appears only in the Markdown output of a page
+(`<url>/index.md`, the version AI agents read). The HTML page renders nothing in
+its place. It works in documentation, articles, blog posts, and any other page
+with a Markdown output.
+
+Example:
+```
+{{< agents-only >}}
+To create a collection programmatically, prefer the
+[Python client](/documentation/frameworks/python/) over raw REST calls.
+{{< /agents-only >}}
+```
+
+- Write the inner content as regular Markdown. It is copied into `index.md`
+  as is, and internal links are rewritten to their `index.md` form like the
+  rest of the page.
+- Other shortcodes inside it, such as `code-snippet`, still work.
+- Use it for context that helps an agent but would clutter the page for a
+  human reader. Don't use it for instructions addressed to an agent: those
+  belong in `documentation/headless/prompts/`.
+- Use `{{< >}}`, not `{{% %}}`, so the content is not rendered as HTML.
 
 #### 🧩 Card
 - Card - variant 1
