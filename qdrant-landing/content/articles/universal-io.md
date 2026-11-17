@@ -233,7 +233,7 @@ Each point below is one configuration: 4 KiB random reads on a 4-core Xeon 8375C
 
 S3 goes up too, starting 43 times further right. One read takes 24.3 ms, but that barely moves as concurrency rises, 25.1 ms with 128 in flight, so bandwidth climbs from 0.15 to 12.55 MB/s. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s.
 
-Read in order and none of this applies. Opened with `MADV_SEQUENTIAL`, `mmap` on its own reached 230.85 MB/s against 7.09 MB/s random, and `io_uring` added nothing, because the kernel had already read ahead and most reads never reached the disk. The pipeline earns its place where readahead cannot help, which is random access and object storage.
+Read in order and depth stops mattering. Opened with `MADV_SEQUENTIAL`, `mmap` reached 117 MB/s against 7.2 MB/s random, and the batch changed nothing: 115 MB/s at batch 1, 119 MB/s at batch 256. The kernel reads ahead, so most reads never reach the disk. The backend still matters, though. `io_uring` managed 215 MB/s on the same reads, because bulk reads keep the device busier than page faults do. Depth is what readahead replaces, and it earns its place where readahead cannot help, which is random access and object storage.
 
 Depth also only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 25 ms on object storage, however deep the pipeline is.
 

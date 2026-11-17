@@ -50,23 +50,25 @@ export const SETS = {
   },
   seq: {
     label: 'Sequential',
-    title: 'MB/s delivered, 4 KiB sequential reads (log scale)',
+    title: 'MB/s delivered, 4 KiB sequential reads, each run on untouched bytes (log scale)',
     series: [
       { name: 'mmap', hue: 'cyan', points: [
-        { label: 'batch 1', ms: 0.00005, mb: 230.85 }, { label: 'batch 4', ms: 0.0001, mb: 235.88 },
-        { label: 'batch 16', ms: 0.0168, mb: 228.2 }, { label: 'batch 256', ms: 2.5001, mb: 230.11 }] },
+        { label: 'batch 1', ms: 0.0001, mb: 115.13 }, { label: 'batch 16', ms: 0.8671, mb: 117.43 },
+        { label: 'batch 256', ms: 5.0196, mb: 119.48 }] },
       { name: 'io_uring', hue: 'blue', points: [
-        { label: 'batch 1', ms: 0.0008, mb: 231.47 }, { label: 'batch 16', ms: 0.0251, mb: 216.76 },
-        { label: 'batch 256', ms: 2.3751, mb: 231.62 }] },
+        { label: 'batch 1', ms: 0.0015, mb: 221.69 }, { label: 'batch 256', ms: 2.5136, mb: 208.23 }] },
+      { name: 'S3, same region', hue: 'red', points: [
+        { label: '1 in flight', ms: 23.05, mb: 0.17 }, { label: '16 in flight', ms: 23.42, mb: 1.91 },
+        { label: '256 in flight', ms: 30.01, mb: 10.46 }] },
     ],
     notes: [
-      { ms: 0.13, mb: 60, hue: 'cyan', lines: ['230 MB/s with no pipeline, 32&#215; the random rate'] },
+      { ms: 0.13, mb: 42, hue: 'cyan', lines: ['mmap 117 MB/s, 16&#215; its random rate'] },
+      { ms: 0.13, mb: 400, hue: 'blue', lines: ['io_uring 215 MB/s: bulk reads beat page faults'] },
       { ms: 0.75, mb: 2.1, lines: ['the same reads, in random order'] },
       { ms: 100, mb: 0.4, anchor: 'end', lines: ['hollow: p50 under 0.1 ms: the page was already there'] },
-      { ms: 100, mb: 0.19, anchor: 'end', lines: ['S3 was not measured sequentially'] },
     ],
     mobileNotes: [
-      { ms: 0.13, mb: 40, hue: 'cyan', lines: ['230 MB/s,', 'no pipeline'] },
+      { ms: 0.13, mb: 40, hue: 'cyan', lines: ['mmap 117 MB/s,', 'io_uring 215'] },
       { ms: 100, mb: 0.19, anchor: 'end', lines: ['hollow: p50', 'under 0.1 ms'] },
     ],
   },
@@ -79,10 +81,10 @@ export const LABEL = {
     + 'the wait. mmap runs flat at about 7.2 megabytes per second whatever the batch, because its '
     + 'pipeline is one deep. S3 climbs straight up at about 24 milliseconds, from 0.15 to 12.55 '
     + 'megabytes per second.',
-  seq: 'The same axes for sequential reads. Both local backends sit near 230 megabytes per second '
-    + 'whatever the batch, about thirty-two times the random rate, and io_uring is no faster than '
-    + 'mmap. Most reads have a median latency below the axis floor because readahead had already '
-    + 'fetched the page. S3 was not measured sequentially.',
+  seq: 'The same axes for sequential reads, each run on bytes no earlier run touched. mmap holds about '
+    + '117 megabytes per second whatever the batch, sixteen times its random rate, and io_uring reaches '
+    + 'about 215. Most reads have a median latency below the axis floor because readahead had already '
+    + 'fetched the page. S3 gains little from reading in order.',
 };
 
 const GEO = {
