@@ -16,9 +16,7 @@ Qdrant provides tools and resources that help AI agents work with Qdrant more ef
 
 **To get started, simply give this into your agent:**
 
-```text
-set up qdrant with https://qdrant.tech/llms.txt
-```
+{{< prompt "start-building" >}}
 
 By default, it recommends a free [Qdrant Cloud](https://cloud.qdrant.io/) cluster, where nothing needs to run on your machine and you don't need a credit card. This is our simplest setup and gives your agent more control with the Qdrant CLI. Additionally, **Cloud Inference creates embeddings for free** with the [free Qdrant-hosted models](/documentation/cloud/inference/#qdrant-hosted-models), so you don't need an embedding library or an embedding provider key.
 
