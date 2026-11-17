@@ -49,10 +49,10 @@ This tutorial splits the job between two systems. **Qdrant finds** the documents
 In this tutorial, you'll use SpiceDB to:
 
 1. Model users, departments, and documents as a SpiceDB schema and relationships.
-2. Add an authorization node that checks every retrieved document with `CheckBulkPermissions` before it reaches the LLM. The LLM can't skip it.
+2. Add an authorization node that checks for permissions for every retrieved document before it reaches the LLM. The LLM can't skip it.
 3. Grant and revoke access to a document without touching your Qdrant collection.
 
-You can follow this tutorial, complete with a chatbot UI, in this self-guided [repository](https://github.com/authzed/workshops/tree/main/secure-rag-pipelines). Qdrant and SpiceDB run locally in Docker, and embeddings run locally with FastEmbed, so the only key you need is for any chat model.
+You can follow this tutorial, complete with a chatbot UI, in this self-guided workshop [repository](https://github.com/authzed/workshops/tree/main/secure-rag-pipelines). Qdrant and SpiceDB run locally in Docker, and embeddings run locally with FastEmbed, so the only key you need is for any chat model.
 
 ## Setup
 
@@ -137,11 +137,11 @@ qdrant.upload_points(
 
 Each point's payload includes a `doc_id`, like `engineering-architecture-001`. Qdrant point IDs must be unsigned integers or UUIDs, so the human-readable ID goes in the payload instead. SpiceDB uses the same ID for its `document` resources, and that shared ID is what connects the two systems. In this tutorial, each document is a single point. If you split documents into chunks, give every chunk its parent's `doc_id`, and the permission check stays the same.
 
-On the SpiceDB side, the script writes a schema and the relationships between users, departments, and documents.
+On the SpiceDB side, the script writes a schema and the relationships between users, departments, and documents. This is explained in detail below.
 
 ## How SpiceDB Decides Access
 
-SpiceDB is an open source implementation of [Zanzibar](https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/), the authorization system behind Google Drive, Calendar, YouTube, and other Google services. Reddit, Netflix, OpenAI, and many more companies use it for authorization.
+SpiceDB is an open source implementation of [Google Zanzibar](https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/), the authorization system behind Google Drive, Calendar, YouTube, and other Google services. Reddit, Netflix, OpenAI, and many more companies use it for authorization.
 
 SpiceDB uses **Relationship-Based Access Control (ReBAC)**, which decides access from the relationships between subjects (users, agents, groups) and resources (documents, folders). In ReBAC, relationships form a graph, and every authorization decision answers one question:
 
@@ -207,6 +207,7 @@ A **relationship** is a specific instance of a relation. The setup script writes
 | Contractor | `document:engineering-guide-006#viewer@user:dana` |
 
 Every user also has a direct `viewer` relationship to each of the five public documents.
+Check out the SpiceDB documentation for more information on [schema](https://authzed.com/docs/spicedb/concepts/schema) and [relationships](https://authzed.com/docs/spicedb/concepts/relationships).
 
 Your application asks SpiceDB whether a user can view a document with the `CheckPermission` API, or with `CheckBulkPermissions` to check many documents in one request.
 
@@ -225,7 +226,7 @@ Also consider consistency. By default, SpiceDB answers checks from a cached snap
 
 ## Explore the Pipeline
 
-The pipeline is a LangGraph state machine in `agentic_rag/graph.py`. It runs three nodes in order:
+The pipeline is a [LangGraph](https://docs.langchain.com/oss/python/langgraph/overview) state machine in `agentic_rag/graph.py`. It runs three nodes in order:
 
 1. **`retrieve`** embeds the query and runs a vector search against Qdrant.
 2. **`authorize`** checks every retrieved document before the LLM sees it.
