@@ -1,0 +1,613 @@
+{
+  "text": " Now, as the footer the ladder, the lamp footbeds are only depressed in the surface about one or two inches. Although the surface appears to be very fine green, did you get close to it, it's almost like a powder. Ground mass is very fine. Now I'm going to step on to land now. That's one small step for man. One giant leap for mankind.",
+  "segments": [
+    {
+      "id": 0,
+      "seek": 0,
+      "start": 0.0,
+      "end": 4.7,
+      "text": " Now, as the footer the ladder, the lamp footbeds are only",
+      "tokens": [
+        50363,
+        2735,
+        11,
+        355,
+        262,
+        2366,
+        263,
+        262,
+        18002,
+        11,
+        262,
+        20450,
+        2366,
+        3077,
+        82,
+        389,
+        691,
+        50613
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.480118139466243,
+      "compression_ratio": 1.4720496894409938,
+      "no_speech_prob": 0.40420788526535034,
+      "words": [
+        {
+          "word": " Now,",
+          "start": 0.0,
+          "end": 0.76,
+          "probability": 0.135986328125
+        },
+        {
+          "word": " as",
+          "start": 1.22,
+          "end": 1.22,
+          "probability": 0.2230224609375
+        },
+        {
+          "word": " the",
+          "start": 1.22,
+          "end": 1.64,
+          "probability": 0.44775390625
+        },
+        {
+          "word": " footer",
+          "start": 1.64,
+          "end": 1.94,
+          "probability": 0.9033203125
+        },
+        {
+          "word": " the",
+          "start": 1.94,
+          "end": 2.06,
+          "probability": 0.529296875
+        },
+        {
+          "word": " ladder,",
+          "start": 2.06,
+          "end": 2.34,
+          "probability": 0.62646484375
+        },
+        {
+          "word": " the",
+          "start": 3.18,
+          "end": 3.26,
+          "probability": 0.9541015625
+        },
+        {
+          "word": " lamp",
+          "start": 3.26,
+          "end": 3.52,
+          "probability": 0.36962890625
+        },
+        {
+          "word": " footbeds",
+          "start": 3.52,
+          "end": 4.3,
+          "probability": 0.4931640625
+        },
+        {
+          "word": " are",
+          "start": 4.3,
+          "end": 4.38,
+          "probability": 0.92822265625
+        },
+        {
+          "word": " only",
+          "start": 4.38,
+          "end": 4.7,
+          "probability": 0.58154296875
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "seek": 0,
+      "start": 7.26,
+      "end": 11.4,
+      "text": " depressed in the surface about one or two inches.",
+      "tokens": [
+        50613,
+        19095,
+        287,
+        262,
+        4417,
+        546,
+        530,
+        393,
+        734,
+        8331,
+        13,
+        50963
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.480118139466243,
+      "compression_ratio": 1.4720496894409938,
+      "no_speech_prob": 0.40420788526535034,
+      "words": [
+        {
+          "word": " depressed",
+          "start": 7.26,
+          "end": 7.86,
+          "probability": 0.09344482421875
+        },
+        {
+          "word": " in",
+          "start": 7.86,
+          "end": 8.22,
+          "probability": 0.60498046875
+        },
+        {
+          "word": " the",
+          "start": 8.22,
+          "end": 8.32,
+          "probability": 0.9072265625
+        },
+        {
+          "word": " surface",
+          "start": 8.32,
+          "end": 8.52,
+          "probability": 0.75732421875
+        },
+        {
+          "word": " about",
+          "start": 8.52,
+          "end": 9.02,
+          "probability": 0.775390625
+        },
+        {
+          "word": " one",
+          "start": 9.02,
+          "end": 10.76,
+          "probability": 0.7177734375
+        },
+        {
+          "word": " or",
+          "start": 10.76,
+          "end": 10.96,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " two",
+          "start": 10.96,
+          "end": 11.2,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " inches.",
+          "start": 11.2,
+          "end": 11.4,
+          "probability": 0.9990234375
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "seek": 0,
+      "start": 12.3,
+      "end": 18.46,
+      "text": " Although the surface appears to be very fine green,",
+      "tokens": [
+        50963,
+        4900,
+        262,
+        4417,
+        3568,
+        284,
+        307,
+        845,
+        3734,
+        4077,
+        11,
+        51263
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.480118139466243,
+      "compression_ratio": 1.4720496894409938,
+      "no_speech_prob": 0.40420788526535034,
+      "words": [
+        {
+          "word": " Although",
+          "start": 12.3,
+          "end": 12.58,
+          "probability": 0.94091796875
+        },
+        {
+          "word": " the",
+          "start": 12.58,
+          "end": 12.86,
+          "probability": 0.80908203125
+        },
+        {
+          "word": " surface",
+          "start": 12.86,
+          "end": 13.34,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " appears",
+          "start": 13.34,
+          "end": 13.64,
+          "probability": 0.96484375
+        },
+        {
+          "word": " to",
+          "start": 13.64,
+          "end": 14.04,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " be",
+          "start": 14.04,
+          "end": 14.18,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " very",
+          "start": 14.18,
+          "end": 16.94,
+          "probability": 0.77783203125
+        },
+        {
+          "word": " fine",
+          "start": 16.94,
+          "end": 18.16,
+          "probability": 0.57861328125
+        },
+        {
+          "word": " green,",
+          "start": 18.16,
+          "end": 18.46,
+          "probability": 0.334716796875
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "seek": 0,
+      "start": 18.82,
+      "end": 21.16,
+      "text": " did you get close to it, it's almost like a powder.",
+      "tokens": [
+        51263,
+        750,
+        345,
+        651,
+        1969,
+        284,
+        340,
+        11,
+        340,
+        338,
+        2048,
+        588,
+        257,
+        11913,
+        13,
+        51463
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.480118139466243,
+      "compression_ratio": 1.4720496894409938,
+      "no_speech_prob": 0.40420788526535034,
+      "words": [
+        {
+          "word": " did",
+          "start": 18.82,
+          "end": 18.84,
+          "probability": 0.1324462890625
+        },
+        {
+          "word": " you",
+          "start": 18.84,
+          "end": 18.96,
+          "probability": 0.97705078125
+        },
+        {
+          "word": " get",
+          "start": 18.96,
+          "end": 19.14,
+          "probability": 0.9580078125
+        },
+        {
+          "word": " close",
+          "start": 19.14,
+          "end": 19.32,
+          "probability": 0.92431640625
+        },
+        {
+          "word": " to",
+          "start": 19.32,
+          "end": 19.62,
+          "probability": 0.99609375
+        },
+        {
+          "word": " it,",
+          "start": 19.62,
+          "end": 19.74,
+          "probability": 0.990234375
+        },
+        {
+          "word": " it's",
+          "start": 19.84,
+          "end": 19.98,
+          "probability": 0.7353515625
+        },
+        {
+          "word": " almost",
+          "start": 19.98,
+          "end": 20.38,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " like",
+          "start": 20.38,
+          "end": 20.74,
+          "probability": 0.99609375
+        },
+        {
+          "word": " a",
+          "start": 20.74,
+          "end": 20.86,
+          "probability": 0.93896484375
+        },
+        {
+          "word": " powder.",
+          "start": 20.86,
+          "end": 21.16,
+          "probability": 0.99169921875
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "seek": 0,
+      "start": 22.68,
+      "end": 24.46,
+      "text": " Ground mass is very fine.",
+      "tokens": [
+        51463,
+        13706,
+        2347,
+        318,
+        845,
+        3734,
+        13,
+        51613
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.480118139466243,
+      "compression_ratio": 1.4720496894409938,
+      "no_speech_prob": 0.40420788526535034,
+      "words": [
+        {
+          "word": " Ground",
+          "start": 22.68,
+          "end": 22.74,
+          "probability": 0.317138671875
+        },
+        {
+          "word": " mass",
+          "start": 22.74,
+          "end": 22.94,
+          "probability": 0.473388671875
+        },
+        {
+          "word": " is",
+          "start": 22.94,
+          "end": 23.96,
+          "probability": 0.8828125
+        },
+        {
+          "word": " very",
+          "start": 23.96,
+          "end": 24.18,
+          "probability": 0.96142578125
+        },
+        {
+          "word": " fine.",
+          "start": 24.18,
+          "end": 24.46,
+          "probability": 0.98291015625
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "seek": 3000,
+      "start": 36.34,
+      "end": 38.14,
+      "text": " Now I'm going to step on to land now.",
+      "tokens": [
+        50363,
+        2735,
+        314,
+        1101,
+        1016,
+        284,
+        2239,
+        319,
+        284,
+        1956,
+        783,
+        13,
+        50713
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5804983377456665,
+      "compression_ratio": 1.1294117647058823,
+      "no_speech_prob": 0.3225036561489105,
+      "words": [
+        {
+          "word": " Now",
+          "start": 36.34,
+          "end": 36.94,
+          "probability": 0.26806640625
+        },
+        {
+          "word": " I'm",
+          "start": 36.94,
+          "end": 37.04,
+          "probability": 0.71240234375
+        },
+        {
+          "word": " going",
+          "start": 37.04,
+          "end": 37.12,
+          "probability": 0.54443359375
+        },
+        {
+          "word": " to",
+          "start": 37.12,
+          "end": 37.24,
+          "probability": 0.9794921875
+        },
+        {
+          "word": " step",
+          "start": 37.24,
+          "end": 37.38,
+          "probability": 0.9267578125
+        },
+        {
+          "word": " on",
+          "start": 37.38,
+          "end": 37.58,
+          "probability": 0.58349609375
+        },
+        {
+          "word": " to",
+          "start": 37.58,
+          "end": 37.74,
+          "probability": 0.48095703125
+        },
+        {
+          "word": " land",
+          "start": 37.74,
+          "end": 37.92,
+          "probability": 0.23779296875
+        },
+        {
+          "word": " now.",
+          "start": 37.92,
+          "end": 38.14,
+          "probability": 0.58935546875
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "seek": 3000,
+      "start": 47.60000000000001,
+      "end": 49.92,
+      "text": " That's one small step for man.",
+      "tokens": [
+        51263,
+        1320,
+        338,
+        530,
+        1402,
+        2239,
+        329,
+        582,
+        13,
+        51513
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5804983377456665,
+      "compression_ratio": 1.1294117647058823,
+      "no_speech_prob": 0.3225036561489105,
+      "words": [
+        {
+          "word": " That's",
+          "start": 47.60000000000001,
+          "end": 48.2,
+          "probability": 0.84814453125
+        },
+        {
+          "word": " one",
+          "start": 48.2,
+          "end": 48.4,
+          "probability": 0.98046875
+        },
+        {
+          "word": " small",
+          "start": 48.4,
+          "end": 48.96,
+          "probability": 0.75146484375
+        },
+        {
+          "word": " step",
+          "start": 48.96,
+          "end": 49.34,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " for",
+          "start": 49.34,
+          "end": 49.7,
+          "probability": 0.93505859375
+        },
+        {
+          "word": " man.",
+          "start": 49.7,
+          "end": 49.92,
+          "probability": 0.849609375
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "seek": 3000,
+      "start": 53.06000000000001,
+      "end": 55.16,
+      "text": " One giant leap for mankind.",
+      "tokens": [
+        51513,
+        1881,
+        6175,
+        16470,
+        329,
+        18019,
+        13,
+        51763
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5804983377456665,
+      "compression_ratio": 1.1294117647058823,
+      "no_speech_prob": 0.3225036561489105,
+      "words": [
+        {
+          "word": " One",
+          "start": 53.06000000000001,
+          "end": 53.660000000000004,
+          "probability": 0.89599609375
+        },
+        {
+          "word": " giant",
+          "start": 53.660000000000004,
+          "end": 54.26,
+          "probability": 0.69140625
+        },
+        {
+          "word": " leap",
+          "start": 54.26,
+          "end": 54.56,
+          "probability": 0.998046875
+        },
+        {
+          "word": " for",
+          "start": 54.56,
+          "end": 54.9,
+          "probability": 0.97119140625
+        },
+        {
+          "word": " mankind.",
+          "start": 54.9,
+          "end": 55.16,
+          "probability": 0.83984375
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

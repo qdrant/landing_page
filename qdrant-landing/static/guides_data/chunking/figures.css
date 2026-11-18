@@ -37,6 +37,15 @@
   min-width: 0;
 }
 
+.documentation .chunking-source-example > .chunking-run-example {
+  position: static;
+}
+
+.documentation .chunking-source-example .chunking-run-example img {
+  width: 100%;
+  max-height: none;
+}
+
 @media (max-width: 700px) {
   .documentation .chunking-source-example {
     grid-template-columns: minmax(0, 1fr);
