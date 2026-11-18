@@ -1,0 +1,20 @@
+{
+  "title": "Code Search Gains, Prose Losses",
+  "kind": "grouped-columns",
+  "subtitle": "Exact search, nDCG@10. Higher is better.",
+  "group": "group",
+  "series": "model",
+  "y": "ndcg10",
+  "yLabel": "nDCG@10",
+  "yMax": 1.0,
+  "colors": [
+    3,
+    2,
+    1,
+    0
+  ],
+  "width": 640,
+  "height": 420,
+  "textScale": 1.1,
+  "legendLayout": "auto"
+}
