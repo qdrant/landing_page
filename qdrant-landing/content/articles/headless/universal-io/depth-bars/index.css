@@ -5,8 +5,8 @@
 
 .qi-dl__bar { transition: width 0.4s ease; }
 .qi-dl__row--h1 .qi-dl__bar { fill: var(--qi-cat-3); }
-.qi-dl__row--h2 .qi-dl__bar { fill: var(--qi-cat-2); }
-.qi-dl__row--h3 .qi-dl__bar { fill: var(--qi-cat-1); }
+.qi-dl__row--h2 .qi-dl__bar { fill: var(--qi-cat-1); }
+.qi-dl__row--h3 .qi-dl__bar { fill: var(--qi-cat-4); }
 .qi-dl__row:not(.is-deep) .qi-dl__bar { opacity: 0.45; }
 
 .qi-dl__name {
