@@ -441,10 +441,10 @@ Keep a short decision record: boundaries and fallback, size limits and tokenizer
 
 ## Further Reading
 
-- [Is Semantic Chunking Worth the Computational Cost?](https://arxiv.org/abs/2410.13070), Qu et al. (2024): compares semantic chunking with fixed groups of whole sentences across retrieval and answer-generation tasks. Its inconsistent gains challenge the assumption that semantic boundaries necessarily improve results.
-- [Clever Chunking Methods Aren't (Always) Worth the Effort](https://mburaksayici.com/blog/2025/11/08/not-all-clever-chunking-methods-always-worth-it.html), Mehmet Burak Sayıcı (2025): an EUR-Lex case study testing whether semantic chunking and proposition-based processing justify their added complexity. Read the findings in the context of its dataset, model, and evaluation.
-- [Visualizing Chunking Impacts in Agentic RAG, Part 1](https://towardsdev.com/visualizing-chunking-impacts-in-agentic-rag-with-agno-qdrant-ragas-and-llamaindex-part-1-7fe1ee31f5a5), M K Pavan Kumar (2025): a worked Agno/Qdrant pipeline comparing four strategies with RAGAS and LlamaIndex evaluation.
-- [Greg Kamradt's five-level text-splitting walkthrough](https://www.youtube.com/watch?v=8OJC21T2SL4): a video introduction to several splitting approaches and their implementation.
-- [You want to chunk really fast?](https://usefeyn.com/blog/you-want-to-chunk-really-fast/), Bhavnick Minhas (2026): the byte-search techniques behind `memchunk`. Its throughput measurements concern splitting speed, rather than retrieval quality.
-- [Chonkie: Chunkers Overview](https://docs.chonkie.ai/oss/chunkers/overview): implementation documentation for sentence, recursive, semantic, neural, and other chunkers.
-- [Qdrant Multivector Document Retrieval with ColPali/ColQwen](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/): a practical path from page-image embeddings to pooled candidate retrieval and full multivector reranking.
+- [Is Semantic Chunking Worth the Computational Cost?](https://arxiv.org/abs/2410.13070)
+- [Clever Chunking Methods Aren't (Always) Worth the Effort](https://mburaksayici.com/blog/2025/11/08/not-all-clever-chunking-methods-always-worth-it.html)
+- [Visualizing Chunking Impacts in Agentic RAG, Part 1](https://towardsdev.com/visualizing-chunking-impacts-in-agentic-rag-with-agno-qdrant-ragas-and-llamaindex-part-1-7fe1ee31f5a5)
+- [Greg Kamradt's five-level text-splitting walkthrough](https://www.youtube.com/watch?v=8OJC21T2SL4)
+- [You want to chunk really fast?](https://usefeyn.com/blog/you-want-to-chunk-really-fast/)
+- [Chonkie: Chunkers Overview](https://docs.chonkie.ai/oss/chunkers/overview)
+- [Qdrant Multivector Document Retrieval with ColPali/ColQwen](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/)
