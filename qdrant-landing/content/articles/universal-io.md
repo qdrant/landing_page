@@ -217,19 +217,19 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 ## What Concurrency Buys
 
-{{< chart id="universal-io/frontier" caption="Each dot is one configuration on a 4-core Xeon 8375C in us-west-2, page cache dropped before each run. mmap and io_uring vary the batch, meaning how many reads one call submits. S3 varies the number of readers, each with one request open. Up and left is better, and the dashed staircase is the frontier, the settings nothing else beats on both measures." caption2="The same two measures for reads in order. Local storage jumps to the top left, because the kernel reads ahead. Object storage does not move." >}}
+{{< chart id="universal-io/frontier" caption="Each dot is one configuration: 4 KiB random reads on a 16-vCPU Xeon 8375C in us-west-2, against an EBS gp3 volume provisioned to 16,000 IOPS, page cache dropped before each run. mmap and io_uring vary the batch, meaning how many reads one call submits. S3 varies the number of readers, each with one request open. Up and left is better, and the dashed staircase is the frontier, the settings nothing else beats on both measures." >}}
 
-`io_uring` turns concurrency into throughput. Each doubling of the batch doubles it, from 7.15 MB/s at batch 1 to 85.66 MB/s at batch 16. Latency rises 9% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 buys 29% more throughput, and latency rises to 9.4 ms for it.
+`io_uring` turns concurrency into throughput. Each doubling of the batch doubles it, from 7.16 MB/s at batch 1 to 87.36 MB/s at batch 16. Latency rises 7% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 delivers 68.48 MB/s, less than batch 16 does, and waits 14.9 ms per read against 0.61 ms.
 
-`mmap` runs one read at a time whatever you ask for. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency. Throughput sits at 7.2 MB/s whatever the batch. Latency grows instead, from 0.55 ms per read at batch 1 to 71 ms at batch 256.
+`mmap` runs one read at a time whatever you ask for. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency. Throughput sits at 7.15 MB/s whatever the batch. Latency grows instead, from 0.57 ms per read at batch 1 to 146 ms at batch 512.
 
 S3 turns readers into throughput, but never into lower latency. One read takes about 24 ms however many readers run. Throughput climbs from 0.17 MB/s with one reader to 11.3 MB/s with 128. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s.
 
-{{< chart id="universal-io/endpoints" caption="One read at a time against the most each backend allows, on random reads." caption2="The same two settings by latency. mmap pays 71 ms for throughput it already had one read at a time." >}}
+{{< chart id="universal-io/endpoints" caption="One read at a time against the most each backend allows, 4 KiB random reads on a gp3 volume provisioned to 16,000 IOPS." caption2="The same two settings by latency. mmap pays 146 ms for throughput it already had one read at a time." >}}
 
-Read in order and concurrency stops mattering. Opened with `MADV_SEQUENTIAL`, `mmap` reached 117 MB/s against 7.2 MB/s in random order. The batch changed nothing, from 115 MB/s at batch 1 to 119 MB/s at batch 256. The kernel reads ahead, so most reads never reach the disk.
+Read in order and concurrency stops mattering. Opened with `MADV_SEQUENTIAL`, `mmap` reached 117 MB/s against 7.15 MB/s in random order. The batch changed nothing, from 115 MB/s at batch 1 to 119 MB/s at batch 256. The kernel reads ahead, so most reads never reach the disk.
 
-The backend still matters, though. `io_uring` managed 215 MB/s on the same reads, because bulk reads keep the device busier than page faults do. Object storage gains nothing from order, as expected, because nothing reads ahead across network requests. A read costs about 23 ms either way. Up to 64 readers, the random and sequential numbers stay within 11% of each other.
+Object storage gains nothing from order, as expected, because nothing reads ahead across network requests. A read costs about 23 ms either way. Up to 64 readers, the random and sequential numbers stay within 11% of each other.
 
 Concurrency only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 24 ms on object storage, however many reads the pipeline allows.
 
