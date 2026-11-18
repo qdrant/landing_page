@@ -12,9 +12,13 @@ weight: 20
 
 # Why Chunking Matters
 
-Every embedding model has an input context limit: [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2#intended-uses) truncates beyond 256 word pieces by default; [BGE-M3](https://huggingface.co/BAAI/bge-m3#specs) supports up to 8,192 tokens. Oversized inputs may be rejected; truncation discards information. A single document vector can also blur topic distinctions. Chunking gives focused passages individual vectors and [metadata](/documentation/manage-data/payload/), such as document IDs and page numbers, for filtering and citations.
+Feeding entire, unsplit documents directly into an embedding pipeline is one of the fastest ways to degrade retrieval quality. To turn raw text into accurate, searchable knowledge, you first have to break it down into manageable pieces. Chunking is a critical step before generating vector embeddings. They address the following challenges:
 
-Boundaries must preserve related evidence. [Qu et al.](https://arxiv.org/abs/2410.13070) found inconsistent semantic-chunking gains over fixed groups of whole sentences; [Sayıcı's EUR-Lex experiment](https://mburaksayici.com/blog/2025/11/08/not-all-clever-chunking-methods-always-worth-it.html) also challenges added complexity. Compare evidence coverage and ingestion cost. Larger answer windows don't remove embedding limits, and parsing errors can lose evidence before splitting.
+- **Embedding model token limits:** Embedding models are bound by context window limits. For example BGE-M3 can process 8,192 tokens, any longer inputs are truncated.
+- **Preserving topic clarity:** Representing a long document with a single vector dilutes specific themes and lowers search accuracy.
+- **Enabling metadata and citations:** Chunking assigns each focused passage its own vector alongside metadata like page numbers and document IDs, allowing precise filtering and source tracking.
+
+---
 
 {{< island path="documentation/headless/chunking/decision-flow" ratio="16/9" >}}
 ![Four connected steps: inspect sources, choose boundary, speed up chunking, and evaluate chunk quality.](/guides_data/chunking/decision-flow.svg)
