@@ -53,7 +53,7 @@ They compress very well. With 1-bit [TurboQuant](/documentation/manage-data/quan
 
 That changes which model to pick. The 4B compressed to 1 bit scores higher than the 0.6B in float32, and takes 12x less RAM.
 
-{{< chart id="papr-embed-code/storage" caption="Seven code tasks, HNSW. 1-bit vectors rescored with 2x oversampling." caption2="Seven code tasks, HNSW. Mean nDCG@10." >}}
+{{< chart id="papr-embed-code/storage" caption="Seven code tasks, HNSW. 1-bit TurboQuant vectors rescored with 2x oversampling." caption2="Seven code tasks, HNSW. Mean nDCG@10." >}}
 
 The 4B still costs more to run, because it embeds about four times slower than the 0.6B on the same GPU. And WikiSQL is the exception, where the 0.6B scored higher.
 
@@ -84,6 +84,8 @@ For code search, yes. On code it never saw, papr-embed-code-1 beat the model it 
 The bigger choice is the size. Compressed to 1 bit, the 4B scored higher than the 0.6B in float32, in a twelfth of the RAM. If you can afford to embed with the 4B, we'd store it with 1-bit [TurboQuant](/documentation/manage-data/quantization/#turboquant-quantization), keep rescoring on, and raise `hnsw_ef` before adding bits. Compare against an unquantized collection on your own queries, once with [rescoring disabled](/documentation/manage-data/quantization/#searching-with-quantization) and once with 2x oversampling. If you index several languages in one collection, filter by language.
 
 We'd leave BM25 out to start. If your users search for exact identifiers, that's the case to test it on, with a low weight.
+
+The 0.6B is coming to [FastEmbed](/documentation/fastembed/) in its next release.
 
 ## Full Results
 

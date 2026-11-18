@@ -1,13 +1,13 @@
 group,model,ndcg10
-Unseen code,Qwen3-Embedding-0.6B,0.781
-Unseen code,papr-embed-code-1-0.6b,0.808
-Unseen code,Qwen3-Embedding-4B,0.795
-Unseen code,papr-embed-code-1-4b,0.829
-CoIR,Qwen3-Embedding-0.6B,0.838
-CoIR,papr-embed-code-1-0.6b,0.879
-CoIR,Qwen3-Embedding-4B,0.917
-CoIR,papr-embed-code-1-4b,0.941
-Prose,Qwen3-Embedding-0.6B,0.443
-Prose,papr-embed-code-1-0.6b,0.440
-Prose,Qwen3-Embedding-4B,0.525
-Prose,papr-embed-code-1-4b,0.508
+Unseen code,Qwen3 0.6B,0.781
+Unseen code,Papr 0.6B,0.808
+Unseen code,Qwen3 4B,0.795
+Unseen code,Papr 4B,0.829
+CoIR,Qwen3 0.6B,0.838
+CoIR,Papr 0.6B,0.879
+CoIR,Qwen3 4B,0.917
+CoIR,Papr 4B,0.941
+Prose,Qwen3 0.6B,0.443
+Prose,Papr 0.6B,0.440
+Prose,Qwen3 4B,0.525
+Prose,Papr 4B,0.508
