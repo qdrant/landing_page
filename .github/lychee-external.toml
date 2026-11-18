@@ -1,0 +1,31 @@
+# Config for the weekly external link check (check-dead-links.yml).
+# Internal links are checked by internal-dead-links.yml. Only check web links here.
+scheme = ["https", "http"]
+
+# Bot protection (403), LinkedIn (999), auth walls (401) and rate limits (429) aren't broken links.
+accept = ["200..=299", "401", "403", "429", "999"]
+accept_timeouts = true
+
+max_retries = 3
+retry_wait_time = 5
+timeout = 30
+# Lychee's default user agent is blocked by many sites.
+user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36"
+
+exclude = [
+  # Our own sites: covered by internal-dead-links.yml, and they return 403 to the runner
+  '^https?://(www\.)?qdrant\.(com|tech|to)(/|$)',
+  # Placeholder cluster URLs in code samples
+  '^https?://[^/]*(xxx-xxx|xyz-example)[^/]*\.cloud\.qdrant\.io',
+  # Login-only pages
+  '^https://console\.cloud\.google\.com/',
+  # MCP endpoint: a plain GET returns 405 by design
+  '^https://search\.qdrant\.tech/mcp$',
+  # API base URL, not a page
+  '^https://api\.cloud\.qdrant\.io/?$',
+  # Returns 400 to non-browser clients
+  '^https://(www\.)?facebook\.com/',
+  # Lychee hits HTTP/2 protocol errors on these sites; they load fine in a browser
+  '^https://www\.hpe\.com/',
+  '^https://www\.opentable\.com/',
+]
