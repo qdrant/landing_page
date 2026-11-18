@@ -1,3 +1,31 @@
+.documentation details.chunking-method-menu {
+  margin: 1.25rem 0;
+  padding: 0.875rem 1.25rem;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+}
+
+.documentation .chunking-method-menu > summary {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.documentation .chunking-method-menu > ul {
+  margin: 0.75rem 0 0;
+}
+
+.documentation .chunking-method-menu a {
+  display: inline-block;
+  padding: 0.25rem 0;
+}
+
+.documentation .chunking-method-menu :focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
 .documentation details.chunking-tradeoffs {
   margin: 1.25rem 0;
   padding: 0.875rem 1.25rem;

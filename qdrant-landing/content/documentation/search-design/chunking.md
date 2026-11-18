@@ -12,17 +12,11 @@ weight: 20
 
 # Why Chunking Matters
 
-Each embedding model has a limited input context window. [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2#intended-uses) truncates inputs beyond 256 word pieces by default; [BGE-M3](https://huggingface.co/BAAI/bge-m3#specs) supports up to 8,192 tokens. Oversized inputs may be rejected or truncated. Discarded text never reaches the embedding. Chunking lets you give focused passages their own vectors and attach [metadata](/documentation/manage-data/payload/), including document IDs, section titles, and page numbers, for filtering and citations.
+Every embedding model has an input context limit: [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2#intended-uses) truncates beyond 256 word pieces by default; [BGE-M3](https://huggingface.co/BAAI/bge-m3#specs) supports up to 8,192 tokens. Oversized inputs may be rejected; truncation discards information. A single document vector can also blur topic distinctions. Chunking gives focused passages individual vectors and [metadata](/documentation/manage-data/payload/), such as document IDs and page numbers, for filtering and citations.
 
-Boundaries determine which evidence arrives together. Retrieving an export procedure without its linked-file exception can produce incomplete instructions, even if every sentence stays intact. Start by asking: **what information must reach the answer together?**
+Boundaries must preserve related evidence. [Qu et al.](https://arxiv.org/abs/2410.13070) found inconsistent semantic-chunking gains over fixed groups of whole sentences; [Sayıcı's EUR-Lex experiment](https://mburaksayici.com/blog/2025/11/08/not-all-clever-chunking-methods-always-worth-it.html) also challenges added complexity. Compare evidence coverage and ingestion cost. Larger answer windows don't remove embedding limits, and parsing errors can lose evidence before splitting.
 
-More elaborate splitting is not automatically better. [Qu et al. (2024)](https://arxiv.org/abs/2410.13070) found inconsistent gains from semantic chunking over fixed groups of whole sentences. [Sayıcı's EUR-Lex experiment](https://mburaksayici.com/blog/2025/11/08/not-all-clever-chunking-methods-always-worth-it.html) also questions whether added complexity pays. Embedding-based splitters compare sentence vectors, neural detectors classify boundaries, and LLMs interpret passage roles. Compare their ingestion costs and evidence coverage against a simple baseline on your questions.
-
-Larger answering-model windows can make whole-document input useful when the relevant document fits. They do not remove embedding limits or the need to search a large corpus. [Lost in the Middle](https://arxiv.org/abs/2307.03172) and [Context Rot](https://www.trychroma.com/research/context-rot) show that evidence position and input length can affect results, depending on the model and task.
-
-Check parsing before splitting. Scrambled PDF columns, missing table headers, or detached captions lose evidence upstream. [Docling](https://docling-project.github.io/docling/) can help extract structured content; visually rich documents may need page-image retrieval.
-
-{{< island path="documentation/headless/chunking/decision-flow" ratio="1/1" title="Select a step to explore its decision and possible next actions. Follow source inspection, boundaries, size and overlap, context, and evaluation. If evidence is lost, return to the stage responsible. This map illustrates the workflow; it does not run a pipeline." >}}
+{{< island path="documentation/headless/chunking/decision-flow" ratio="1/1" title="Select a decision to explore its options and next steps. Trace missing evidence to the stage responsible. This map illustrates the workflow; it does not run a pipeline." >}}
 ![Five connected decisions: inspect source evidence, choose boundaries that keep needed facts together, fit embedding and answer budgets, supply missing context, and test the evidence reaching the answer. Trace failures to extraction, retrieval, context assembly, or the answering stage before changing the splitter.](/guides_data/chunking/decision-flow.svg)
 {{< /island >}}
 
@@ -88,47 +82,49 @@ Inspect the extracted text as well as the original document. A PDF parser that s
 
 ## 2. Choose Meaningful Boundaries
 
-Chunking strategies differ in what decides a boundary: length, sentences, document structure, embedding similarity, or an LLM. A sliding window also determines how much neighboring chunks repeat. These choices can be combined; a sentence-aware splitter can group sentences to a token cap and carry some into the next chunk. Check whether the resulting units preserve the evidence your questions require.
+Start with reliable document structure: the handbook's complete export section and billing question-answer pair already make useful chunks. Split further when a section exceeds your size cap or mixes topics.
 
-Use reliable document structure first. A complete FAQ entry or a short procedure may already be a good chunk. For Markdown, the [header splitter](https://docs.langchain.com/oss/python/integrations/splitters/markdown_header_metadata_splitter) groups text under configured headings and records their hierarchy as metadata. It strips headings by default, so retain useful titles in the embedding input. Apply another splitter to sections that are too long or contain several topics.
+For Markdown, the [header splitter](https://docs.langchain.com/oss/python/integrations/splitters/markdown_header_metadata_splitter) groups text by headings and records their hierarchy as metadata. It strips headings by default; retain useful titles in the embedding input.
 
-**For the handbook, start with the complete export section and the billing question-answer pair.** There is no reason to pad a short, complete entry to a maximum length. If the export section grows, these methods give you different ways to divide it.
+Methods can be combined: group whole sentences to a size cap, for example, then overlap neighboring chunks.
 
-| Method | What chooses the boundary | When to try it |
-| --- | --- | --- |
-| [Fixed chunking](#fixed-chunking) | A length limit in characters, words, or tokens | A simple baseline, including text with unreliable formatting |
-| [Sentence chunking](#sentence-chunking) | Sentence boundaries, optionally grouped to a size cap | Prose where arbitrary cuts break statements |
-| [Paragraph chunking](#paragraph-chunking) | Paragraph or section breaks | Documents whose layout groups complete ideas |
-| [Sliding-window chunking](#sliding-window-chunking) | A window size and stride, with repeated source spans | Nearby context is often needed across boundaries |
-| [Semantic chunking](#semantic-chunking) | Changes in embedding similarity | Topic changes that paragraph breaks or headings do not capture |
-| [Agentic chunking](#agentic-chunking) | An LLM's decision about where to split | Boundaries that require interpreting the passage's meaning or role |
-| [Recursive chunking](#recursive-chunking) | Ordered separators, with finer splits for oversized pieces | Prose with useful paragraph or line breaks and uneven section lengths |
+<details class="chunking-method-menu">
+<summary>Choose a chunking method</summary>
+
+- [Fixed chunking](#fixed-chunking)
+- [Sentence chunking](#sentence-chunking)
+- [Paragraph chunking](#paragraph-chunking)
+- [Sliding-window chunking](#sliding-window-chunking)
+- [Semantic chunking](#semantic-chunking)
+- [Agentic chunking](#agentic-chunking)
+- [Recursive chunking](#recursive-chunking)
+
+</details>
 
 ### Fixed Chunking
 
 <details class="chunking-tradeoffs chunking-tradeoffs--strengths">
 <summary>Strengths</summary>
 
-- Simple to implement and repeat: the same input and settings produce the same boundaries.
-- Splitting needs no embedding or LLM calls; only the finished chunks need retrieval embeddings.
-- A length cap makes chunk sizes predictable in the unit you choose, even when document formatting is poor.
+- Predictable sizes and repeatable boundaries, even with poor formatting.
+- No embedding or LLM calls needed to choose boundaries.
 
 </details>
 
 <details class="chunking-tradeoffs chunking-tradeoffs--weaknesses">
 <summary>Weaknesses</summary>
 
-- A length boundary can separate a condition from its instruction or put unrelated topics in one chunk.
-- Overlap repeats source text, increasing embedding work and potentially duplicating retrieved evidence.
-- A character or word limit does not establish that a chunk fits the embedding model's token limit.
+- Can separate instructions from conditions or mix unrelated topics.
+- Overlap adds embedding work and duplicate evidence.
+- Word or character limits do not enforce model token limits.
 
 </details>
 
-Fixed chunking is a useful baseline when you want to establish how far a simple splitter gets you. It advances through the text in windows of a chosen length, optionally repeating part of the previous window. For example, 400-token windows with 40 tokens of overlap advance by 360 tokens. That arithmetic describes the split; it says nothing about whether 400 tokens contain a complete answer.
+Fixed chunking advances through text in windows of a chosen length. A 400-token window with 40-token overlap advances by 360 tokens. Use it as a simple baseline; the length alone does not establish complete evidence.
 
-Check the implementation's unit and boundary rules. [Agno's fixed-size chunker](https://docs.agno.com/knowledge/concepts/chunking/fixed-size-chunking) uses characters and avoids cutting a word when a boundary is available. The [Essentials course example](/course/essentials/day-1/chunking-strategies/#1-fixed-size-chunking) counts words. Neither setting is interchangeable with tokens. If you need a token cap, use the indexing model's tokenizer and account for titles or context added afterward.
+Check the counting unit. [Agno's fixed-size chunker](https://docs.agno.com/knowledge/concepts/chunking/fixed-size-chunking) counts characters and avoids cutting words where possible; the [Essentials example](/course/essentials/day-1/chunking-strategies/#1-fixed-size-chunking) counts words. For a token cap, use the embedding model's tokenizer, including any added titles or context.
 
-In the handbook, a cut after the export procedure leaves the linked-file exception in the next chunk. Both chunks can contain complete sentences, yet the procedure is incomplete evidence for sharing a full copy. Keep fixed chunking if it passes your questions; change the boundary or supply the missing source context when it does not.
+In the handbook, a cut after the export procedure separates its linked-file exception. Repair that boundary or supply the missing source context.
 
 {{< island path="documentation/headless/chunking/fixed" ratio="16/11" title="Fixed windows advance by size minus overlap. Change the word count and overlap, then select a chunk to inspect its source span. Dashed words repeat from the preceding chunk." >}}
 ![Twelve-word windows over a 31-word source: zero overlap gives three chunks; three-word overlap gives four chunks with repeated source positions.](/guides_data/chunking/fixed.svg)
@@ -139,24 +135,23 @@ In the handbook, a cut after the export procedure leaves the linked-file excepti
 <details class="chunking-tradeoffs chunking-tradeoffs--strengths">
 <summary>Strengths</summary>
 
-- Keeps statements intact instead of cutting at an arbitrary character or token position.
-- Can group adjacent sentences to give a short statement its surrounding context.
-- Requires no embedding comparisons or LLM calls to choose boundaries.
+- Preserves statements without embedding comparisons or LLM calls.
+- Grouping adjacent sentences can retain nearby context.
 
 </details>
 
 <details class="chunking-tradeoffs chunking-tradeoffs--weaknesses">
 <summary>Weaknesses</summary>
 
-- Pronouns, definitions, and exceptions can depend on a different sentence.
-- Abbreviations, lists, and language-specific punctuation can confuse sentence detection.
-- A single sentence can exceed the input limit and require a finer split.
+- Definitions, pronouns, and exceptions can depend on another sentence.
+- Abbreviations, lists, and language-specific punctuation complicate segmentation.
+- Long sentences may require finer splitting; sentence counts are not token limits.
 
 </details>
 
-Sentence chunking uses sentence boundaries as the starting units. You can index one sentence at a time or group consecutive sentences until the next would exceed a size cap. [Chonkie's sentence chunker](https://docs.chonkie.ai/oss/chunkers/sentence-chunker) is one implementation. This is a useful baseline for prose: it avoids arbitrary cuts inside statements without requiring embedding comparisons or an LLM to choose boundaries.
+Sentence chunking indexes individual sentences or groups consecutive ones until the next would exceed a cap. [Chonkie's sentence chunker](https://docs.chonkie.ai/oss/chunkers/sentence-chunker) implements this approach.
 
-A complete sentence is not necessarily complete evidence. In the handbook, "Download those files separately" depends on the preceding sentence identifying linked files. Group them, or retain the source relationship for expansion after retrieval. Check segmentation on abbreviations, lists, and your document languages, and define a fallback for a sentence longer than the embedding limit. Sentence count alone does not establish a token budget.
+In the handbook, "Download those files separately" needs the preceding sentence identifying linked files. Group them, or preserve their source relationship for expansion after retrieval.
 
 {{< island path="documentation/headless/chunking/sentence" ratio="16/11" title="Sentence boundaries stay intact as adjacent sentences are grouped. Compare one sentence per chunk with grouping under a word cap. At 20 words, the linked-file statement and its download instruction fit together; at 8, the 9-word sentence needs a finer split. Counts are words, not model tokens." >}}
 ![Three sentences contain 8, 9, and 6 words. A 12-word cap keeps them separate; a 20-word cap groups the first two into a 17-word chunk. An 8-word cap cannot contain the 9-word sentence intact.](/guides_data/chunking/sentence.svg)
@@ -167,24 +162,23 @@ A complete sentence is not necessarily complete evidence. In the handbook, "Down
 <details class="chunking-tradeoffs chunking-tradeoffs--strengths">
 <summary>Strengths</summary>
 
-- Preserves the author's grouping of sentences into an idea or explanation.
-- Keeps short passages intact without requiring model inference.
-- Can combine short adjacent paragraphs within a section while retaining their source positions.
+- Preserves the author's grouping of ideas without model inference.
+- Can combine short paragraphs within a section.
 
 </details>
 
 <details class="chunking-tradeoffs chunking-tradeoffs--weaknesses">
 <summary>Weaknesses</summary>
 
-- PDF line wrapping and extraction errors can create misleading paragraph breaks.
-- A paragraph can depend on a definition or condition elsewhere in the section.
-- Long paragraphs still need a size check and a fallback splitter.
+- PDF line wrapping can create false paragraph breaks.
+- Definitions or conditions may sit elsewhere.
+- Oversized paragraphs need a finer splitter.
 
 </details>
 
-Paragraph chunking keeps each paragraph intact, optionally combining short adjacent paragraphs within the same section. It works well when authors use paragraphs to develop complete ideas. Retain the section title, and use a finer splitter when a paragraph exceeds the cap. In extracted PDFs, distinguish real paragraph boundaries from line wrapping before using blank lines as separators.
+Paragraph chunking keeps paragraphs intact, optionally packing adjacent ones within the same section. Retain section titles and check extracted paragraph boundaries before splitting PDFs.
 
-In the handbook, the definition, procedure, and exception are three paragraphs about one task. Keeping them separate preserves their formatting but can still omit required evidence. Start with paragraphs when they are independently useful; group related paragraphs or supply their shared section when the questions require it.
+The handbook's definition, procedure, and exception occupy three paragraphs but govern one task. Group them or supply their shared section when a question needs all three.
 
 {{< island path="documentation/headless/chunking/paragraph" ratio="16/11" title="Paragraphs can be packed together without crossing a section heading. At a 24-word cap, the first two export paragraphs form one chunk; at 48, all three fit. Billing remains separate in both cases. A paragraph that exceeds the cap is flagged for a finer split." >}}
 ![Export paragraphs P1, P2, and P3 contain 10, 12, and 15 words; Billing paragraph P4 contains 8. Packing at 24 words groups P1 and P2. Packing at 48 groups P1 through P3. The section boundary keeps P4 separate.](/guides_data/chunking/paragraph.svg)
@@ -195,9 +189,8 @@ In the handbook, the definition, procedure, and exception are three paragraphs a
 <details class="chunking-tradeoffs chunking-tradeoffs--strengths">
 <summary>Strengths</summary>
 
-- Carries nearby context across boundaries by repeating part of each window.
-- Makes source coverage predictable from the window size and stride.
-- Works with word, token, or sentence units without a model choosing each boundary.
+- Repeats nearby context across boundaries without model inference.
+- Window size and stride determine source coverage.
 
 </details>
 
@@ -205,16 +198,14 @@ In the handbook, the definition, procedure, and exception are three paragraphs a
 <summary>Weaknesses</summary>
 
 - Repeated text increases embedding work and storage.
-- Overlapping hits can consume result slots and repeat evidence in the answer context.
-- Dependencies longer than the window can still be separated.
+- Overlapping hits can waste result slots and answer-context space.
+- Dependencies extending beyond the window remain separated.
 
 </details>
 
-A sliding window moves through the source by a chosen **stride**. With a 400-token window and a 360-token stride, adjacent chunks share 40 tokens. A sentence-based version might take three sentences, then advance by two, repeating one sentence in the next window.
+A sliding window advances by a **stride**. A 400-token window with a 360-token stride repeats 40 tokens; three-sentence windows with a two-sentence stride repeat one sentence. Try overlap for conditions just across a boundary. Preserve source offsets to merge repeated spans during answer assembly.
 
-Try it when a useful definition or condition often sits just across a boundary. The repeated span gives neighboring chunks some shared context, but cannot guarantee that an entire dependency fits. An exception several paragraphs away may still be absent. Overlap also increases indexed text and can return duplicate evidence, so preserve source offsets and merge repeated spans when assembling the answer.
-
-This is different from [LlamaIndex's sentence-window retrieval](https://developers.llamaindex.ai/python/framework-api-reference/node_parsers/sentence_window/): that parser stores individual sentences as nodes and surrounding sentences as metadata. The application must supply that surrounding text after retrieval. Embedding overlapping windows and expanding a retrieved sentence change different stages of the pipeline.
+[LlamaIndex's sentence-window retrieval](https://developers.llamaindex.ai/python/framework-api-reference/node_parsers/sentence_window/) instead indexes individual sentences and stores neighbors as metadata. The application supplies that surrounding text after retrieval; it is not part of the embedded window.
 
 {{< island path="documentation/headless/chunking/sliding-window" ratio="16/11" title="Keep the window at three sentences and change how far it advances. A stride of three separates the linked-file statement from its instruction. A stride of two puts them together in a window, with two repeated sentence appearances across the output. Select a chunk to trace its source span." >}}
 ![Six sentences form two non-overlapping three-sentence chunks at stride 3. At stride 2, the windows are S1–S3, S3–S5, and S5–S6; S3 and S5 repeat. The linked-file statement S3 and download instruction S4 share the middle window.](/guides_data/chunking/sliding-window.svg)
@@ -225,26 +216,23 @@ This is different from [LlamaIndex's sentence-window retrieval](https://develope
 <details class="chunking-tradeoffs chunking-tradeoffs--strengths">
 <summary>Strengths</summary>
 
-- Uses the text's content to suggest boundaries when headings or paragraph breaks are unhelpful.
-- Allows different lengths for different runs of related sentences.
-- Can separate a topic change inside a long paragraph without asking a generative model to choose the split.
+- Can detect topic changes that formatting misses.
+- Allows variable lengths for related passages.
 
 </details>
 
 <details class="chunking-tradeoffs chunking-tradeoffs--weaknesses">
 <summary>Weaknesses</summary>
 
-- Adds sentence or passage embedding work before the final chunks are indexed.
-- Boundaries depend on the embedding model, sentence segmentation, and threshold settings.
-- Similarity does not establish that passages are independent, and a coherent topic can still exceed the model's input limit.
+- Adds embedding work before indexing the finished chunks.
+- Boundaries depend on segmentation, the model, and thresholds.
+- Similarity guarantees neither independent evidence nor valid token lengths.
 
 </details>
 
-Semantic chunking is worth testing when simpler splitters repeatedly combine unrelated topics. A common approach divides the text into sentences, embeds each sentence with some neighboring context, and compares adjacent groups. A sufficiently large change in their vectors becomes a candidate boundary. [LlamaIndex's semantic splitter](https://developers.llamaindex.ai/python/examples/node_parsers/semantic_chunking/) follows this pattern. The final chunks still need embeddings for retrieval; the intermediate sentence embeddings serve the boundary decision.
+A common semantic splitter embeds sentences with neighboring context and splits where adjacent groups' vectors differ sufficiently. Try it when simpler rules repeatedly combine unrelated topics. [LlamaIndex's implementation](https://developers.llamaindex.ai/python/examples/node_parsers/semantic_chunking/) follows this pattern.
 
-The controls differ across implementations. LlamaIndex uses a [percentile of cosine dissimilarities](https://developers.llamaindex.ai/python/framework-api-reference/node_parsers/semantic_splitter/); lowering that percentile produces more splits. [Agno's semantic chunker](https://docs.agno.com/knowledge/concepts/chunking/semantic-chunking) exposes a similarity threshold, where increasing the threshold produces more splits. Tune the documented control on a sample of your text, inspect the boundaries, and check final token lengths. A setting copied from another splitter does not necessarily mean the same thing.
-
-In the handbook, a semantic splitter might separate the export material from billing. That is useful, but the definition, procedure, and exception also have different wording and roles. Inspect whether they stay together. A topic boundary is a signal to test, not proof that each side contains everything needed for an answer.
+Controls differ: lowering LlamaIndex's [dissimilarity percentile](https://developers.llamaindex.ai/python/framework-api-reference/node_parsers/semantic_splitter/) produces more splits; raising [Agno's similarity threshold](https://docs.agno.com/knowledge/concepts/chunking/semantic-chunking) does likewise. Inspect boundaries and final token lengths. In the handbook, separating export from billing helps, but separating export steps from their exception loses necessary context.
 
 {{< island path="documentation/headless/chunking/semantic" ratio="16/11" title="Semantic boundaries depend on the similarity rule. With these illustrative scores, raising the threshold from 0.35 to 0.65 separates the steps from the linked-file exception. No embedding model runs in this demo." >}}
 ![Illustrative semantic scores produce two chunks at threshold 0.35 and three at 0.65. The 0.56 similarity between export steps and the linked-file exception becomes a split.](/guides_data/chunking/semantic.svg)
@@ -255,26 +243,25 @@ In the handbook, a semantic splitter might separate the export material from bil
 <details class="chunking-tradeoffs chunking-tradeoffs--strengths">
 <summary>Strengths</summary>
 
-- Lets an LLM consider the meaning and role of a passage when choosing a split.
-- Can use instructions tailored to the document, such as keeping a procedure with the conditions that govern it.
-- Can select boundaries while retaining the source wording, when the implementation slices the original text.
+- Lets an LLM interpret passage roles and document-specific instructions.
+- Can preserve source wording by selecting boundaries for direct slicing.
 
 </details>
 
 <details class="chunking-tradeoffs chunking-tradeoffs--weaknesses">
 <summary>Weaknesses</summary>
 
-- Adds model calls during ingestion, with latency and compute or API cost to measure.
-- Decisions depend on the model, prompt, and text it can see; a distant exception outside that input cannot guide the split.
-- Model-selected boundaries still need validation. Failed calls or invalid responses require a fallback that can change the resulting chunks.
+- Adds ingestion latency and model costs.
+- Decisions depend on the prompt, model, and visible source window.
+- Invalid responses need validation and fallback splitting.
 
 </details>
 
-Here, agentic chunking means using an LLM to decide where to divide source text. It is a preprocessing choice: an agent that searches your knowledge base can use any of these chunking methods. Try an LLM-assisted splitter when inspecting failed chunks reveals boundaries that require interpreting the text, and simpler structural or recursive rules do not resolve them.
+Here, agentic chunking means an LLM chooses source boundaries during ingestion. An agent searching a knowledge base can use any chunking method. Try this approach when failed splits require interpretation that simpler rules cannot provide.
 
-[Agno's implementation](https://docs.agno.com/knowledge/concepts/chunking/agentic-chunking) gives the model a window of text and asks for a character position at which to split. It then takes that span from the source, rather than asking the model to rewrite the passage. Its `max_chunk_size` is measured in characters. The [source code](https://github.com/agno-agi/agno/blob/main/libs/agno/agno/knowledge/chunking/agentic.py) also defines validation and a size-based fallback for failed or unusable responses. Check which boundaries came from the model and which came from a fallback before attributing a result to the method.
+[Agno](https://docs.agno.com/knowledge/concepts/chunking/agentic-chunking) asks for a character position, then slices the original text; `max_chunk_size` counts characters. Its [validation and fallback logic](https://github.com/agno-agi/agno/blob/main/libs/agno/agno/knowledge/chunking/agentic.py) can also determine boundaries. Record which path ran.
 
-For the handbook, the goal is to keep the definition, steps, and linked-file exception together. An LLM may recognize that dependency if all three fit in the text it receives. If the exception falls outside that window, calling the splitter agentic does not recover it. Inspect the source coverage and compare any improvement in final evidence against the extra ingestion work.
+The handbook's linked-file exception can guide the split only if it fits in the model's source window. Compare evidence gains against ingestion cost.
 
 {{< island path="documentation/headless/chunking/agentic" ratio="16/11" title="An LLM can only consider the source window it receives. Compare two scripted decisions: one ends after the steps; the wider window also includes the exception. The output copies the selected source span. No model is called." >}}
 ![A scripted agentic example: a window containing S1–S2 ends after the export steps; a wider window containing S1–S4 can keep the linked-file exception. Both outputs retain source wording.](/guides_data/chunking/agentic.svg)
@@ -285,32 +272,31 @@ For the handbook, the goal is to keep the definition, steps, and linked-file exc
 <details class="chunking-tradeoffs chunking-tradeoffs--strengths">
 <summary>Strengths</summary>
 
-- Keeps larger text units intact when they fit, and subdivides only the oversized pieces.
-- Needs no embedding or LLM calls to choose boundaries.
-- Lets you adapt separators and length measurement to the document format and language.
+- Preserves units that fit and subdivides oversized ones.
+- Supports format-specific separators without model inference.
 
 </details>
 
 <details class="chunking-tradeoffs chunking-tradeoffs--weaknesses">
 <summary>Weaknesses</summary>
 
-- Follows separators, so it cannot tell whether a paragraph depends on a later exception.
-- Poor extraction or unsuitable separators can force cuts at word or character boundaries.
-- A configured overlap is a target, and the length limit uses the splitter's chosen counting function.
+- Separators cannot identify dependencies between passages.
+- Poor extraction can force word or character cuts.
+- Overlap is a target; the configured counting function determines length.
 
 </details>
 
-Recursive chunking is a practical starting point for prose with useful paragraph breaks and uneven lengths. It tries a coarse separator first, then uses finer separators on pieces that remain too large. Small pieces can be combined until the next addition would exceed the cap. A short paragraph can stay intact while a long one is divided further.
+Recursive chunking tries coarse separators first, finer ones for oversized pieces, then packs pieces within the cap. It suits prose with useful paragraph breaks and uneven lengths.
 
-[LangChain's recursive text splitter](https://docs.langchain.com/oss/python/integrations/splitters/recursive_text_splitter) tries paragraph breaks, line breaks, spaces, and finally individual characters by default. Its default length measurement is characters. Those separators do not guarantee complete sentences or preserve a document's heading hierarchy. Choose separators for your language and format; use the [token-aware configuration](https://docs.langchain.com/oss/python/integrations/splitters/split_by_token) when the cap must follow a particular tokenizer.
+[LangChain](https://docs.langchain.com/oss/python/integrations/splitters/recursive_text_splitter) defaults to paragraph breaks, line breaks, spaces, then characters, measuring length in characters. This does not guarantee complete sentences or preserve heading hierarchy. Adapt separators to your language and format; use [token-aware configuration](https://docs.langchain.com/oss/python/integrations/splitters/split_by_token) for a tokenizer-specific cap.
 
-For a longer export section, recursive splitting can keep each short subtask intact and subdivide a long explanation. It still cannot know that a separate paragraph's linked-file rule governs every subtask. Keep the relevant conditions with each unit, or retain the section relationship and [supply that context after retrieval](#4-add-context-where-needed).
+Keep governing conditions with each subtask, or retain their section relationship and [supply context after retrieval](#4-add-context-where-needed).
 
 {{< island path="documentation/headless/chunking/recursive" ratio="8/5" title="Recursive splitting preserves units that fit and subdivides those that do not. Step through a custom paragraph → sentence → word hierarchy, then pack the pieces within the selected word cap. This illustrates the mechanism, not LangChain's default separators." >}}
 ![With a 24-word cap, the 12-word and 5-word paragraphs remain intact. Only the 30-word paragraph is split into sentences of 8 and 22 words.](/guides_data/chunking/recursive.svg)
 {{< /island >}}
 
-For this handbook, the existing structure already gives us two useful units. For your own data, compare the simplest suitable baseline with a more involved method only when you can name the failure it should repair. Use the same questions and retrieved-text budget in [step 5](#5-test-the-evidence-that-reaches-the-answer), and record splitting time and model usage alongside evidence coverage.
+Compare the simplest suitable baseline with a method that addresses a specific failure. Use the same questions and [retrieved-text budget](#5-test-the-evidence-that-reaches-the-answer), recording splitting time and model usage alongside evidence coverage.
 
 ## Beyond Text: Choose the Evidence Unit
 
@@ -374,128 +360,78 @@ Across these modalities, retain a path to the original source and inspect the co
 
 ## 3. Fit Size and Overlap to Your Constraints
 
-There are two different limits to satisfy:
+Check two budgets with the respective model's tokenizer:
 
-- **Embedding input:** Every final input must fit the embedding model's supported length, including titles, added context, required prefixes, and special tokens. Oversized inputs may be rejected or truncated, depending on the model and serving configuration.
-- **Answer context:** All retrieved text must fit the space remaining after instructions, the question, conversation history, and reserved output. This budget applies across results, including any text added after retrieval.
+- **Embedding input:** Each chunk must fit, including titles, context, prefixes, and special tokens. Inspect lengths with truncation disabled so an oversized input cannot hide behind a shortened count.
+- **Answer context:** Retrieved evidence must share the remaining space after instructions, the question, history, and reserved output. Include any context added after retrieval.
 
-Measure final embedding inputs with that model's tokenizer, with truncation disabled for inspection. Otherwise, a shortened count can hide an oversized input. Measure the assembled answer context with the answering model's tokenizer. Character counts, word counts, and token counts from a different model are not interchangeable. [Hugging Face's tokenizer documentation](https://huggingface.co/docs/transformers/main_classes/tokenizer) explains these controls; hosted models may offer their own counting tools.
+Words, characters, and another model's tokens are not interchangeable. See [Hugging Face's tokenizer controls](https://huggingface.co/docs/transformers/main_classes/tokenizer) or your provider's counting tools.
 
 ### Set a Cap Without Treating It as a Target
 
-Inspect the lengths of your complete units first. Keep short units intact. For oversized ones, choose a finer meaningful boundary and preserve the context the smaller unit needs.
+Keep short, complete units intact. Split oversized units at finer meaningful boundaries, preserving needed definitions and exceptions. If retrieved passages exceed the answer budget, use fewer passages or allocate more evidence space where possible.
 
-For example, suppose you allocate **2,000 answering-model tokens to retrieved evidence** and expect to need four passages. That allows roughly 500 tokens per passage. If a title and source label use about 50 tokens, around 450 remain for the body. These are illustrative planning assumptions to test, not a recommended universal chunk size. Independently check whether that same input fits the embedding model's tokenizer and limit.
-
-If a complete export subtask is longer than this allowance, you have a decision: use fewer passages, allocate more evidence space if available, or split the subtask at a meaningful boundary and supply its needed context separately. Cutting at token 450 and losing the exception defeats the purpose of the budget. Short billing entries should stay short.
-
-Smaller chunks can isolate facts but require several hits to reconstruct a task. Larger chunks can preserve the task but spend more of the answer budget on unrelated text. More chunks mean more vectors to store and index; repeated text also increases embedding work. Choose the tradeoff using your questions, not the embedding model's maximum length alone.
+Smaller chunks isolate facts but may require several hits to reconstruct a task. Larger chunks preserve context but can crowd out other evidence. More chunks and repeated text also increase indexing and embedding work.
 
 ### Add Overlap Only Where It Repairs a Boundary
 
-Overlap repeats text in neighboring chunks. It can accompany different splitting methods; it is not a separate way to find meaningful boundaries.
+Start with zero overlap for independent entries. For dependent prose, test carrying a needed sentence or paragraph into the next chunk. Inspect the output: structural boundaries can prevent the requested overlap.
 
-Start with zero overlap for complete, independent entries. When splitting a long prose section, test carrying the last sentence or paragraph into the next chunk if it is needed to understand that chunk. Inspect actual output: an overlap setting may be a target rather than an exact amount, and structural splitters can prevent overlap across sections.
-
-For the handbook, a little overlap might preserve a definition immediately before a subtask. It will not reliably attach an exception several paragraphs away. Increasing overlap everywhere also lets nearly identical hits consume multiple result slots and repeat evidence in the answer context. Reduce it, merge duplicate source spans, or retrieve the relevant surrounding passage explicitly.
-
-Preserve table headers with the rows they describe, including when splitting a long table. Keep source positions with repeated text so you can recognize duplicated spans. In Qdrant, document, section, and position fields can live in a point's [payload](/documentation/manage-data/payload/); they do not automatically become part of the embedding or the answer context.
+Overlap can preserve a nearby definition, but cannot reliably recover a distant exception. Deduplicate repeated source spans so similar hits do not consume the answer budget. Keep table headers with their rows and retain source positions in [payload](/documentation/manage-data/payload/). Payload fields do not automatically enter embeddings or answer context.
 
 ### Speed Up Chunking After Finding the Bottleneck
 
-Measure parsing/OCR, token counting, splitting, model calls, and indexing separately. A faster boundary search will have little effect if OCR or embedding inference dominates ingestion. Keep the evidence checks from this guide while optimizing: a speedup that drops a condition or exceeds the token cap changes the task.
+Time parsing/OCR, token counting, splitting, model calls, and indexing separately. Faster splitting helps little when OCR or inference dominates.
 
-Minhas's [You want to chunk really fast?](https://usefeyn.com/blog/you-want-to-chunk-really-fast/#benchmarks) explains three optimizations behind `memchunk`, now Chunk:
+Minhas's [You want to chunk really fast?](https://usefeyn.com/blog/you-want-to-chunk-really-fast/#benchmarks) describes three optimizations in `memchunk`, now Chunk:
 
-- **Search backward from the size cap.** Find the last acceptable delimiter near a proposed endpoint instead of enumerating every delimiter in the whole document.
-- **Use specialized byte searches.** For one to three delimiter bytes, the implementation uses reverse-search functions from `memchr`, which can use SIMD instructions to inspect several bytes at once. Larger delimiter sets use a 256-entry lookup table.
-- **Avoid copying during splitting.** Borrowed slices or source offsets let boundary detection reference the original buffer. Creating Python strings or serializing the final chunks still has a cost.
+- Search backward from the size cap for an acceptable delimiter.
+- Use specialized byte searches: `memchr` can use SIMD for one to three delimiter bytes; larger sets use a 256-entry lookup table.
+- Use borrowed slices or offsets during splitting; materializing Python strings still costs time.
 
-For the rest of the pipeline, reuse tokenizer and chunker instances, and avoid recounting identical text where a bounded cache helps. [semchunk](https://github.com/isaacus-dev/semchunk) provides token-count memoization and multiprocessing over document lists. Batch independent documents when useful work outweighs worker startup and transfer costs. With [Kiru](https://github.com/bitswired/kiru), consume streaming results incrementally if retaining every chunk would exhaust memory. For model-based splitters, batch sentence embeddings where supported and measure model time separately from boundary decisions.
+Reuse tokenizer instances. [semchunk](https://github.com/isaacus-dev/semchunk) offers token-count memoization and document multiprocessing; batch only when processing outweighs worker overhead. Consume [Kiru](https://github.com/bitswired/kiru) streams incrementally to limit memory. Batch sentence embeddings where supported.
 
-Treat published throughput as a measurement of a specific operation. Chunk's [benchmark harness](https://github.com/feyninc/chunk/tree/main/benches) loads input before timing; its byte-splitting rate is not the rate of a complete RAG ingestion pipeline. When comparing libraries, match size units, overlap, tokenizer work, input data, and whether output is copied or fully consumed. A byte cap and a character cap are different workloads. Record wall-clock time and peak memory alongside source coverage and final token lengths; splitting speed does not establish retrieval quality.
+Chunk's [benchmark harness](https://github.com/feyninc/chunk/tree/main/benches) excludes input loading. Compare libraries using matching size units, overlap, tokenizer work, data, and output copying or consumption. Record elapsed time, peak memory, source coverage, and final token lengths. Splitting throughput alone does not establish retrieval quality.
 
 ## 4. Add Context Where Needed
 
-Read a chunk without its document. Does "it" have a clear referent? Does "complete" depend on an earlier definition? Can you tell which product, version, or procedure the passage describes?
+Read each chunk alone. Add a concise title and section path **before embedding** if its product, version, or subject is unclear. Preserve any needed definition or exception in source text; a title cannot replace an instruction.
 
-For the handbook's exception, "Project handbook > Export > Linked files" identifies the subject. But a title cannot replace the instruction to download those files separately. Preserve the source text that carries the condition.
+For long sections, [parent-document retrieval](https://reference.langchain.com/python/langchain-classic/retrievers/parent_document_retriever/ParentDocumentRetriever) indexes focused passages, then fetches their surroundings after a match. Your application must retain source links and perform this expansion explicitly. Bound it, merge overlapping passages, and count the expanded text against the answer budget. It still requires a useful initial hit: context added **after retrieval** cannot improve the initial match. Context added **before embedding** changes the representation and consumes the embedding budget.
 
-Choose the addition according to where information is missing:
+[Anthropic's contextual retrieval experiments](https://www.anthropic.com/research/contextual-retrieval) prepend generated document context before embedding and lexical indexing, reducing retrieval failures in the tested configurations. Try this when source headings and definitions are insufficient. Check generated text against the source, distinguish it from original evidence, and measure answers as well as retrieval; generation adds cost and can introduce errors.
 
-| Problem | First adjustment to test |
-| --- | --- |
-| The passage's identity is unclear during search. | Include a concise document title and section path before embedding. |
-| A definition or exception is missing from a retrieved result. | Keep it with the source chunk, or fetch the relevant source context after a useful hit. |
-| Useful context is scattered across a long document. | Consider a short generated explanation, checked against the source, after trying source headings and definitions. |
-
-### Search a Passage, Then Supply Its Surroundings
-
-The text used to find a match need not be all the text supplied to the answer. If the export section becomes too long, you can index focused subtasks and retain their section identifiers. After a subtask matches, fetch the relevant definition and exception from that section. This is the idea behind [parent-document retrieval](https://reference.langchain.com/python/langchain-classic/retrievers/parent_document_retriever/ParentDocumentRetriever), where smaller searchable chunks lead to larger source units.
-
-This approach requires an explicit application step and a reliable link back to the source. Bound the expansion, merge overlapping passages when several hits belong to one section, and count the expanded text against the answer budget. It can recover a condition that did not match independently, but still needs a useful initial hit. It does not change the initial vector matching.
-
-By contrast, adding text **before embedding** changes the searchable representation and consumes the embedding input budget. If that added text is also passed to the answering model, count it there too. Adding it only **after retrieval** cannot improve the initial match, but can make the matched passage usable.
-
-[Anthropic's contextual retrieval experiments](https://www.anthropic.com/research/contextual-retrieval) prepend a short explanation generated from the document before embedding and lexical indexing. They report fewer retrieval failures in the tested configurations. That supports testing generated context for passages that lose meaning in isolation; it does not establish better final answers for every corpus. Generation adds preprocessing cost and can introduce unsupported details. Keep the original passage, distinguish generated context from source evidence, and check both retrieval and answers.
-
-For our short handbook, the initial plan remains simple: index the complete export section and the complete billing entry, retain titles and source references, and use zero overlap. The larger-section alternative is available if the real documents cannot fit those units within their limits. Now test which evidence that plan actually delivers.
+For the short handbook, start with the complete export section and billing entry, source references, and zero overlap. Use expansion if real sections exceed your limits.
 
 ## 5. Test the Evidence That Reaches the Answer
 
-Before running retrieval, inspect a few chunks against their source:
+Inspect sample chunks for missing conditions, broken tables or reading order, unclear references, truncation, and correct source/version links.
 
-- Are the needed facts, conditions, and exceptions preserved?
-- Can each chunk be understood outside its document?
-- Does the complete embedding input fit without truncation?
-- Are tables and reading order intact?
-- Can you recover the correct source passage and version?
+Build questions covering facts, procedures, and boundary cases. Label required **source passages**, not changing chunk IDs; accept equivalent evidence. The handbook's complete-copy question needs the export definition, procedure, and linked-file exception. A procedure-only hit is insufficient. Test grouping those passages or expanding the retrieved subtask, then rerun all questions to catch regressions.
 
-Build a small question set from the inspection in step 1. Include straightforward facts, complete procedures, and cases likely to cross a boundary. Label the required **source passages**, not chunk IDs that change with the splitter. Accept equivalent evidence elsewhere when it answers the same question.
-
-| Question | Evidence needed for a complete answer |
-| --- | --- |
-| What does a complete export include? | The definition: settings, documents, and attached files. |
-| What must a complete project copy include, and how do I share one that uses linked files? | Definition, export procedure, and linked-file exception. |
-| Where can I download an invoice? | The billing question and answer. |
-
-Also include a question the documents cannot answer, such as "How long does an export download link remain valid?" for this handbook. Check that the answer acknowledges the missing information rather than inventing a duration. Keep that result separate from evidence coverage on answerable questions.
-
-### Follow One Failure Through to a Repair
-
-Consider an illustrative run where the procedure is the only retrieved hit for the complete-copy question. The two repairs are candidates to test, not measured results. Inspect the text sent to the model, not just the ranked search results:
-
-| Candidate | Final context to inspect | What to check |
-| --- | --- | --- |
-| Separate definition, procedure, and exception chunks | Procedure only | The definition and linked-file condition are missing. "Export and share the archive" is insufficient. |
-| One complete export chunk | Definition + procedure + exception, if that chunk is retrieved and fits | All required evidence is available. The answer must still include the inventory and separate linked-file download. |
-| Focused subtask with source expansion | Matched procedure + its definition and exception | Check the same evidence, including the expanded text in the budget and avoiding duplicate section content. |
-
-The second and third candidates address this particular failure. Rerun the full question set after either change: a grouping that helps the procedure question can reduce focus for another question. Do not infer a retrieval improvement from the chunk layout alone.
+Include unanswerable questions and check that answers acknowledge missing information. Score these separately from evidence coverage on answerable questions.
 
 ### Compare at the Same Text Budget
 
-Keep the documents, embedding model, search configuration, question set, and total retrieved-text budget fixed while changing one chunking choice at a time. Five 200-token chunks and five 800-token chunks offer different amounts of evidence. A fixed result count alone is not an equal-budget comparison.
+Hold documents, models, search configuration, questions, and the final retrieved-text budget fixed. Change one chunking choice at a time. Equal result counts do not provide equal evidence budgets.
 
-Use the same rule to select, expand, and deduplicate results until they fit. Record the actual text and token count supplied, including titles and source labels. Do not silently truncate the final chunk halfway through a condition. When comparing generated answers, keep the answering model, prompt, and generation settings fixed too.
+Apply the same selection, expansion, and deduplication rules. Record the text and token count actually supplied, including titles and source labels; avoid truncating a condition. Keep the answer prompt and generation settings fixed.
 
-Score two outcomes separately:
+Score separately:
 
-1. **Evidence available:** Did all passages needed for this question survive into the final context? One relevant passage is not a pass when the question requires three. Record missing passages, duplicate text, and irrelevant material.
-2. **Answer correct:** Did the answer use that evidence correctly, include the conditions, avoid unsupported additions, and cite the right source? Available evidence is not a guarantee that the model will use it.
+- **Evidence available:** Did every required passage reach the final context? Record omissions, duplicates, and irrelevant text.
+- **Answer correct:** Did the answer use that evidence accurately, include conditions, avoid unsupported claims, and cite the correct source?
 
 ### Locate the Loss Before Changing the Splitter
 
-| Where evidence disappears | Next action |
+| Evidence lost at | Inspect |
 | --- | --- |
-| Missing from extracted text or indexed chunks | Fix parsing, discarded content, or truncation before testing retrieval. |
-| Present in chunks, absent from retrieved candidates | Inspect the query, filters, and representation. Test a title/context repair or a different boundary when the missing meaning explains the miss. |
-| Retrieved, then dropped during context assembly | Inspect ranking, duplication, expansion, and the text budget. Re-splitting may not be necessary. |
-| Present in the final context, absent or wrong in the answer | Inspect the answering stage before changing chunking. |
+| Extraction or indexing | Parsing, discarded content, truncation |
+| Retrieval | Query, filters, representation, boundaries |
+| Context assembly | Ranking, duplication, expansion, budget |
+| Answer generation | Prompt and answering model |
 
-Use this trace to choose the smallest useful change. Check both the failing question and the questions that previously worked.
-
-Keep a short decision record: boundaries and fallback, size limits and tokenizers, overlap, context added at each stage, source references, and the questions that pass or fail. Reassess when document types, questions, models, or budgets change. That record gives you a starting configuration you can explain and evidence for the next change.
+Fix the stage responsible, then retest failed and previously passing questions. Record boundaries, tokenizers and limits, overlap, added context, source references, and results. Reassess when documents, questions, models, or budgets change.
 
 ## Further Reading
 
