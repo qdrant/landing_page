@@ -348,18 +348,25 @@ function linesFacet(c) {
     // hover anywhere in a column and every series reads out together at that x.
     // Take the x positions from Plot's own emitted dots rather than recomputing
     // the point scale — whatever Plot did is the truth.
-    const dotGroups = [...plotted.matchAll(/<g aria-label="dot"[\s\S]*?<\/g>/g)].map((m) => m[0]);
-    const xs = dotGroups.length
-      ? [...dotGroups[0].matchAll(/cx="([\d.]+)"/g)].map((m) => Number(m[1]))
+    // The x-axis ticks always carry one position per x value. A series' own
+    // dots do not: one measured at only some x values emits fewer circles, and
+    // reading positions off it lines every hover zone up with the wrong column.
+    const tickGroup = plotted.match(/<g aria-label="x-axis tick label"[\s\S]*?<\/g>/);
+    const xs = tickGroup
+      ? [...tickGroup[0].matchAll(/<text[^>]*transform="translate\(([\d.]+),/g)].map((m) => Number(m[1]))
       : [];
 
     // Tag each dot with its column key so hovering rings every series at that x.
-    let gi = 0;
-    plotted = plotted.replace(/<g aria-label="dot"[\s\S]*?<\/g>/g, (g) => {
-      const si = gi++;
-      let ci = 0;
-      return g.replace(/<circle /g, () => `<circle data-viz-key="${fv}-x${ci++}" `);
-    });
+    const columnOf = (cx) => {
+      let best = 0;
+      xs.forEach((x, i) => { if (Math.abs(x - cx) < Math.abs(xs[best] - cx)) best = i; });
+      return best;
+    };
+    plotted = plotted.replace(/<g aria-label="dot"[\s\S]*?<\/g>/g, (g) =>
+      g.replace(/<circle\b[^>]*>/g, (tag) => {
+        const cx = tag.match(/cx="([\d.]+)"/);
+        return cx ? tag.replace('<circle ', `<circle data-viz-key="${fv}-x${columnOf(Number(cx[1]))}" `) : tag;
+      }));
 
     const step = xs.length > 1 ? xs[1] - xs[0] : 40;
     const top = LAYOUT.top;
@@ -374,15 +381,17 @@ function linesFacet(c) {
       const rows = c.series
         .map((sName, si) => ({ k: (c.seriesLabels || c.series)[si],
                                n: Number(rows_[i][sName]),
+                               raw: rows_[i][sName],
                                c: viz.palette.categorical[si] }))
+        .filter((r) => r.raw !== '' && r.raw != null)
         .sort((a, b) => b.n - a.n)
         .map((r) => ({ k: r.k, v: `${r.n} ${c.unit || ''}`.trim(), c: r.c }));
       return `<rect data-viz-zone data-viz-key="${fv}-x${i}" data-viz-x="${cx}"`
         + ` data-viz-panel="${fi}"`
-        + ` data-viz-title="${esc(c.facetLabel.replace('{}', fv))} · ${esc(rows_[i][c.x])}${esc(c.xSuffix ?? '')}"`
+        + ` data-viz-title="${esc(c.facetLabel.replace('{}', fv))} · ${esc(c.xPrefix ?? '')}${esc(rows_[i][c.x])}${esc(c.xSuffix ?? '')}"`
         + ` data-viz-rows="${esc(JSON.stringify(rows))}"`
         + ` tabindex="0" role="button"`
-        + ` aria-label="${esc(fv + ' at ' + c.xLabel + ' ' + rows_[i][c.x] + (c.xSuffix ?? ''))}"`
+        + ` aria-label="${esc(fv + ' at ' + (c.xPrefix ? c.xPrefix : c.xLabel + ' ') + rows_[i][c.x] + (c.xSuffix ?? ''))}"`
         + ` x="${cx - step / 2}" y="${top}" width="${step}" height="${bot - top}" fill="transparent"/>`;
     }).join('');
 

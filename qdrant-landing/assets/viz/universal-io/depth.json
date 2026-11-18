@@ -4,7 +4,8 @@
   "facet": "metric",
   "facetLabel": "{}",
   "x": "depth",
-  "xLabel": "pipeline depth: reads in flight, or concurrent readers on S3",
+  "xLabel": "pipeline depth, or concurrent readers on S3",
+  "xPrefix": "depth=",
   "xSuffix": "",
   "yScale": "log",
   "yDomains": {
