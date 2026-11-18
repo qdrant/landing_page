@@ -20,6 +20,8 @@ Feeding entire, unsplit documents directly into an embedding pipeline is one of 
 
 ---
 
+While setting up and fine-tuning a chunking method, there are a few key decisions to make:
+
 {{< island path="documentation/headless/chunking/decision-flow" ratio="16/9" >}}
 ![Four connected steps: inspect sources, choose boundary, speed up chunking, and evaluate chunk quality.](/guides_data/chunking/decision-flow.svg)
 {{< /island >}}
@@ -28,18 +30,15 @@ Feeding entire, unsplit documents directly into an embedding pipeline is one of 
 
 Before selecting a chunking strategy, assess whether your source files need layout-aware preprocessing. When working with visually rich documents, you have three main paths: use traditional **OCR** for simple text extraction, use a **VLM** to convert complex layouts, tables, and charts into structured Markdown before splitting, or skip text chunking entirely by indexing page images directly with multimodal retrievers like **ColPali** or **ColQwen**.
 
-### Receipt: Check the OCR Output
-
 <div class="chunking-source-example">
 <figure>
   <a href="/guides_data/chunking/receipt.png" aria-label="Open the full-size Bright Mart receipt">
     <img src="/guides_data/chunking/receipt.png" alt="Bright Mart receipt RCP-602371 dated February 12, 2026: headphones cost $60 and a connecting wire $10. Subtotal $70, tax $17.50, discount minus $0.50, total $87." width="840" height="1659" loading="lazy">
   </a>
-  <figcaption>Receipt example. Select the image to inspect it at full resolution.</figcaption>
 </figure>
 <div class="chunking-source-example__text mathjax_ignore">
 
-#### When to Use VLMs or Text Chunking
+### When to Use VLMs or Text Chunking
 
 Use native PDF text when available; use OCR for scans. Choose text chunking when extraction preserves rows, amounts, and signs.
 
@@ -50,18 +49,15 @@ Keep a short receipt in one chunk if it fits the embedding limit. Store receipt 
 </div>
 </div>
 
-### Infographic: Keep the Chart Readable
-
 <div class="chunking-source-example">
 <figure>
   <a href="/guides_data/chunking/retirement-infographic.png" aria-label="Open the full-size Global Retirement Dilemma infographic">
     <img src="/guides_data/chunking/retirement-infographic.png" alt="The Global Retirement Dilemma infographic. Its chart of seniors as a projected share of total population shows the blue U.S. curve above the white World curve across the displayed 2015–2060 range." width="970" height="1615" loading="lazy">
   </a>
-  <figcaption>Historical infographic: Dave Merrill / Bloomberg Visual Data. Select to inspect the full image; its projections are not current statistics.</figcaption>
 </figure>
 <div class="chunking-source-example__text">
 
-#### Diagrams, Charts, and Graphs
+### Diagrams, Charts, and Graphs
 
 Preserve axes, units, legends, captions, and footnotes; for graphs, preserve nodes, arrow direction, and edge labels. Use verified data for exact values. Otherwise, retrieve the complete figure or page for an image-capable answering model. Check label legibility after resizing.
 
@@ -78,19 +74,20 @@ ColPali/ColQwen encode page patches and query tokens as multivectors. Qdrant's `
 
 [Qdrant's PDF tutorial](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) combines pooled candidate retrieval with full multivector reranking. Measure storage and latency; check image budgets.
 
-</div>
-</div>
+<p class="chunking-source-credit">Historical infographic: Dave Merrill / Bloomberg Visual Data. Its projections are not current statistics.</p>
 
-### Handwriting: Verify Recognition Before Splitting
+</div>
+</div>
 
 <div class="chunking-source-example">
 <figure>
   <a href="/guides_data/chunking/handwritten-page.png" aria-label="Open the full-size handwritten page">
     <img src="/guides_data/chunking/handwritten-page.png" alt="A page of cursive handwriting on aged paper, including the line How often did I think of you." width="600" height="948" loading="lazy">
   </a>
-  <figcaption>Handwritten source. Select the image to compare individual words.</figcaption>
 </figure>
 <div class="chunking-source-example__text">
+
+### Handwriting: Verify Recognition Before Splitting
 
 Use handwriting recognition or a VLM, then verify uncertain words against the scan. Preserve reading order, original wording, page/line references, and available region coordinates. Keep normalized search text separate from quoted transcriptions.
 
@@ -100,8 +97,6 @@ When visual marks matter, test page-image retrieval. Preserve the scan, check le
 
 </div>
 </div>
-
-### Video Chunking
 
 <div class="chunking-source-example">
 <div class="chunking-inline-media" data-media-kind="video">
@@ -120,6 +115,8 @@ When visual marks matter, test page-image retrieval. Preserve the scan, check le
 </div>
 <div class="chunking-source-example__text">
 
+### Video Chunking
+
 - **Boundary:** Start with fixed-duration windows; use scene or topic boundaries when they preserve a complete action. [TwelveLabs supports fixed and dynamic segmentation](https://docs.twelvelabs.io/docs/guides/create-embeddings/at-scale/video).
 - **Evidence:** Link frames, transcript, and clip through a source ID and start/end timestamps. Transcript embeddings alone cannot recover actions the speaker does not describe. Check frame sampling and model duration limits.
 - **Actual run:** The script divides a 61.5-second NASA recording into six ranges capped at 12 seconds; FFmpeg extracts each midpoint frame. One frame can miss an action: replay the complete interval before judging its evidence.
@@ -128,8 +125,6 @@ When visual marks matter, test page-image retrieval. Preserve the scan, check le
 
 </div>
 </div>
-
-### Voice and Audio Chunking
 
 <div class="chunking-source-example">
 <div class="chunking-inline-media" data-media-kind="audio">
@@ -144,6 +139,8 @@ When visual marks matter, test page-image retrieval. Preserve the scan, check le
 
 </div>
 <div class="chunking-source-example__text">
+
+### Voice and Audio Chunking
 
 - **Boundary:** Use ASR timestamps; add diarization when speaker identity matters. Keep dependent turns together. Pauses can occur inside a sentence.
 - **Evidence:** Retain recording IDs and source offsets. Non-speech events require the original audio and a suitable [audio embedding model](https://docs.twelvelabs.io/docs/guides/create-embeddings/at-scale/audio).

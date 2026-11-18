@@ -27,7 +27,7 @@
   margin: 0 auto;
 }
 
-.documentation .chunking-source-example figcaption {
+.documentation .chunking-source-credit {
   margin-top: 0.75rem;
   font-size: 0.875rem;
   line-height: 1.5;
@@ -35,6 +35,10 @@
 
 .chunking-source-example__text {
   min-width: 0;
+}
+
+.documentation .chunking-source-example__text > h3:first-child {
+  margin-top: 0;
 }
 
 .documentation .chunking-inline-media {
