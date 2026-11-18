@@ -40,11 +40,11 @@ Before selecting a chunking strategy, assess whether your source files need layo
 
 ### When to Use VLMs or Text Chunking
 
-Use native PDF text when available; use OCR for scans. Choose text chunking when extraction preserves rows, amounts, and signs.
+For text-heavy PDFs, extract the existing text or use **OCR** for scans, then split it into passages. Keep a short receipt together when it fits the embedding model's token limit.
 
-Template-specific layout rules can break when columns or headers move. If that loses evidence, test a better parser, a VLM that produces structured Markdown, or [page-image retrieval](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/). Verify generated Markdown against the source.
+For forms and tables, use a layout-aware parser such as [Docling](https://docling-project.github.io/docling/) or a **VLM** to produce structured text. Check that amounts remain attached to their labels before chunking.
 
-Keep a short receipt in one chunk if it fits the embedding limit. Store receipt ID, date, page, source image, and cell coordinates in [payload](/documentation/manage-data/payload/). Embed the extracted text; metadata supports filtering and citations but is not automatically embedded.
+When converting the layout to text loses meaning, use [**ColPali or ColQwen**](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) to index page images directly. Retain document and page IDs with either approach so results link to the source.
 
 </div>
 </div>
@@ -59,9 +59,9 @@ Keep a short receipt in one chunk if it fits the embedding limit. Store receipt 
 
 ### Diagrams, Charts, and Graphs
 
-Preserve axes, units, legends, captions, and footnotes; for graphs, preserve nodes, arrow direction, and edge labels. Use verified data for exact values. Otherwise, retrieve the complete figure or page for an image-capable answering model. Check label legibility after resizing.
+To use **text embeddings**, convert each figure into a description or table with a VLM, then chunk that text with its caption. Verify numbers and relationships against the original; use the underlying chart data when available.
 
-Store document ID, page, bounding box, and full-page reference; [Docling](https://docling-project.github.io/docling/reference/docling_document/) supports this provenance. Here, the U.S. curve stays above World; extracted labels alone lose that relationship.
+To search the **visual content directly**, index page images with **ColPali** or **ColQwen**. This is useful when questions depend on curves, spatial arrangement, or connections between nodes. If you crop a figure into its own retrieval unit, include its axes, legend, and caption, and retain a link to the full page.
 
 #### ColPali, ColQwen, and Other Qdrant Options
 
@@ -89,11 +89,9 @@ ColPali/ColQwen encode page patches and query tokens as multivectors. Qdrant's `
 
 ### Handwriting: Verify Recognition Before Splitting
 
-Use handwriting recognition or a VLM, then verify uncertain words against the scan. Preserve reading order, original wording, page/line references, and available region coordinates. Keep normalized search text separate from quoted transcriptions.
+For searches over the words, use **handwriting recognition or a VLM** to transcribe the page. Correct uncertain words against the scan, then group sentences into passages within the embedding limit. Handwritten line breaks rarely make useful chunk boundaries on their own.
 
-Group verified lines into complete passages within the embedding limit. A line break alone does not define a meaningful chunk; repair recognition errors before comparing splitters.
-
-When visual marks matter, test page-image retrieval. Preserve the scan, check legibility after resizing, and verify the answering model's quotations against it.
+When annotations, placement, or drawings matter, test **page-image retrieval** with ColPali or ColQwen. Keep the scan available with any transcription so readers can inspect the original.
 
 </div>
 </div>
@@ -117,9 +115,9 @@ When visual marks matter, test page-image retrieval. Preserve the scan, check le
 
 ### Video Chunking
 
-- **Boundary:** Start with fixed-duration windows; use scene or topic boundaries when they preserve a complete action. [TwelveLabs supports fixed and dynamic segmentation](https://docs.twelvelabs.io/docs/guides/create-embeddings/at-scale/video).
-- **Evidence:** Link frames, transcript, and clip through a source ID and start/end timestamps. Transcript embeddings alone cannot recover actions the speaker does not describe. Check frame sampling and model duration limits.
-- **Actual run:** The script divides a 61.5-second NASA recording into six ranges capped at 12 seconds; FFmpeg extracts each midpoint frame. One frame can miss an action: replay the complete interval before judging its evidence.
+For lectures and interviews, **transcribe the speech** and chunk the transcript by topic, retaining timestamps for each passage. For demonstrations or visual actions, **embed the video segments** themselves; still frames can miss motion. [TwelveLabs](https://docs.twelvelabs.io/docs/guides/create-embeddings/at-scale/video) supports visual and audio embeddings with fixed or dynamic segmentation.
+
+Start with short time windows, then adjust boundaries to keep each explanation or action together. Keep transcripts, frames, and clips linked by recording ID and start/end timestamps. Fit each segment within the embedding model's duration limit.
 
 [Reproduce the example](https://github.com/qdrant/landing_page/blob/codex/chunking-guide/qdrant-landing/content/documentation/headless/chunking/media-demo/README.md).
 
@@ -142,11 +140,11 @@ When visual marks matter, test page-image retrieval. Preserve the scan, check le
 
 ### Voice and Audio Chunking
 
-- **Boundary:** Use ASR timestamps; add diarization when speaker identity matters. Keep dependent turns together. Pauses can occur inside a sentence.
-- **Evidence:** Retain recording IDs and source offsets. Non-speech events require the original audio and a suitable [audio embedding model](https://docs.twelvelabs.io/docs/guides/create-embeddings/at-scale/audio).
-- **Actual run:** A Whisper base.en transcript is split into eight chunks using punctuation, ASR word gaps of at least 0.8 seconds, and a 12-second cap. It misrecognizes "fine-grained" as "fine green"; the gap rule also splits an unfinished phrase. Repair recognition and boundary errors before embedding.
+For podcasts, interviews, and meetings, use **speech-to-text** and split the transcript into complete thoughts or topics. Add speaker diarization when you need to distinguish speakers, and keep related turns together. Retain timestamps so each text chunk links to its audio.
 
-[Inspect the raw transcript](/guides_data/chunking/media-demo/transcript.raw.json). This single-speaker example does not run diarization or retrieval.
+For music or environmental sounds, **embed audio segments directly** with an [audio embedding model](https://docs.twelvelabs.io/docs/guides/create-embeddings/at-scale/audio). Use silence or sound changes as candidate boundaries, then check that clips preserve the event and fit the model's duration limit. A pause alone does not necessarily end a thought.
+
+[Inspect the example transcript](/guides_data/chunking/media-demo/transcript.raw.json).
 
 </div>
 </div>
