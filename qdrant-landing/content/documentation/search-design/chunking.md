@@ -39,7 +39,7 @@ Chonky and Chonkie are separate projects; Chonkie also offers a [neural chunker 
 
 The word "semantic" in a package description does not always mean embedding-based boundary detection. `text-splitter` uses structural and Unicode boundaries; semchunk's default mode also follows structural rules, while its optional AI mode calls an enrichment model. Inspect the implementation you actually configure. For throughput, see [Speed Up Chunking After Finding the Bottleneck](#speed-up-chunking-after-finding-the-bottleneck).
 
-## 1. Inspect Your Documents and Questions
+## 1. Inspect Your Documents
 
 Before choosing a splitter, check whether your ingestion pipeline preserves the evidence needed for a specific question. These examples use manually checked transcriptions and answers, not outputs from an OCR or VLM run.
 
@@ -116,39 +116,9 @@ A mistranscribed word is a recognition error. Changing chunk size cannot recover
 </div>
 </div>
 
-### Text: Keep the Task and Its Conditions Together
-
-Now consider a handbook whose text is already readable:
-
-> **Definition: a complete export.** A complete export includes project settings, documents, and attached files.
->
-> **Procedure: export a project.** Pause edits, select **Export project**, download the archive, and check its contents before sharing it.
->
-> **Exception: linked files.** Linked files appear as references in the archive. Download those files separately and include them when sharing a complete copy.
->
-> **Billing FAQ.** Where can I download an invoice? Open **Billing**, then **Invoices**.
-
-**Question:** What must a complete project copy include, and how do I share one that uses linked files?
-
-The answer needs the definition, procedure, and linked-file exception. One chunk per bold label could retrieve only the procedure. Group the three export passages as a baseline; keep the independent billing answer separate. We will use this handbook to compare text chunking methods.
-
-<figure class="chunking-figure">
-  <picture>
-    <source media="(max-width: 540px)" srcset="/guides_data/chunking/complete-task.mobile.svg" width="360" height="766">
-    <img src="/guides_data/chunking/complete-task.svg" alt="A project handbook becomes an export chunk containing the definition, steps, and linked-file exception, plus a separate billing FAQ chunk. A split after the export steps would leave out the exception." width="640" height="568" loading="lazy">
-  </picture>
-  <picture class="chunking-figure__dark">
-    <source media="(max-width: 540px)" srcset="/guides_data/chunking/complete-task.mobile.dark.svg" width="360" height="766">
-    <img src="/guides_data/chunking/complete-task.dark.svg" alt="A project handbook becomes an export chunk containing the definition, steps, and linked-file exception, plus a separate billing FAQ chunk. A split after the export steps would leave out the exception." width="640" height="568" loading="lazy">
-  </picture>
-  <figcaption>Keep the export definition, steps, and linked-file exception together for the complete-copy question. Retrieve the independent billing FAQ on its own.</figcaption>
-</figure>
-
-For your own sample, record the question, exact source evidence, extraction errors, and the unit to retrieve. Include source IDs and positions so every failure can be traced back to the document.
-
 ## 2. Choose Meaningful Boundaries
 
-Start with reliable document structure: the handbook's complete export section and billing question-answer pair already make useful chunks. Split further when a section exceeds your size cap or mixes topics.
+Start with reliable document structure. In a project handbook, group an export procedure with its definition and linked-file exception; keep an unrelated billing FAQ separate. Split sections that exceed your size cap or mix topics.
 
 For Markdown, the [header splitter](https://docs.langchain.com/oss/python/integrations/splitters/markdown_header_metadata_splitter) groups text by headings and records their hierarchy as metadata. It strips headings by default; retain useful titles in the embedding input.
 
@@ -473,7 +443,7 @@ For the short handbook, start with the complete export section and billing entry
 
 Inspect sample chunks for missing conditions, broken tables or reading order, unclear references, truncation, and correct source/version links.
 
-Build questions covering facts, procedures, and boundary cases. Label required **source passages**, not changing chunk IDs; accept equivalent evidence. The handbook's complete-copy question needs the export definition, procedure, and linked-file exception. A procedure-only hit is insufficient. Test grouping those passages or expanding the retrieved subtask, then rerun all questions to catch regressions.
+Build questions covering facts, procedures, and boundary cases. Label required **source passages**, not changing chunk IDs; accept equivalent evidence. A question about sharing a complete project copy needs the export definition, procedure, and linked-file exception. A procedure-only hit is insufficient. Test grouping those passages or expanding the retrieved subtask, then rerun all questions to catch regressions.
 
 Include unanswerable questions and check that answers acknowledge missing information. Score these separately from evidence coverage on answerable questions.
 
