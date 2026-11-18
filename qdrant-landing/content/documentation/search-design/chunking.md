@@ -41,7 +41,7 @@ The word "semantic" in a package description does not always mean embedding-base
 
 ## 1. Inspect Your Documents
 
-Before choosing a splitter, check whether your ingestion pipeline preserves the evidence needed for a specific question. These examples use manually checked transcriptions and answers, not outputs from an OCR or VLM run.
+Before selecting a chunking strategy, assess whether your source files need layout-aware preprocessing. When working with visually rich documents, you have three main paths: use traditional **OCR** for simple text extraction, use a **VLM** to convert complex layouts, tables, and charts into structured Markdown before splitting, or skip text chunking entirely by indexing page images directly with multimodal retrievers like **ColPali** or **ColQwen**.
 
 ### Receipt: Check the OCR Output
 
