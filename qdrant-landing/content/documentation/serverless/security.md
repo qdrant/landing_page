@@ -11,7 +11,7 @@ Two layers control access to a space: API keys for applications and account perm
 
 **Space API keys** control what an application can do with your data: reading points, writing them, and managing collections. Applications pass the key in the `api-key` header of every request.
 
-**Account permissions** control what a person can do in the Qdrant Cloud console: creating spaces, deleting them, managing keys and backups. They're part of [Cloud role-based access control](/documentation/cloud-rbac/).
+**Account permissions** control what a person can do in the Qdrant Cloud console: creating spaces, deleting them, managing keys and backups. They're part of [Cloud role-based access control](/documentation/cloud-rbac/#cloud-rbac).
 
 A space accepts connections from any address, so the API key is what protects your data.
 
