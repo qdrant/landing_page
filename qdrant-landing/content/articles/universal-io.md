@@ -215,7 +215,7 @@ Once every block is local, the `fully_populated` flag lets reads skip the bitmap
 
 Append-only files can also grow, and reopening one would mean fetching everything again, so `DiskCache` grows the mirror in two phases: it first *stages* the change by learning the new remote size and prefetching the new tail, without any visible effect for readers, and then *applies* it by growing and remapping the local file. This lets Qdrant stage reloads for many files at once and pay only for the slowest one.
 
-## What More Concurrency Buys
+## What Concurrency Buys
 
 {{< chart id="universal-io/frontier" caption="Each dot is one configuration on a 4-core Xeon 8375C in us-west-2, page cache dropped before each run. mmap and io_uring vary the batch, meaning how many reads one call submits. S3 varies the number of readers, each with one request open. Up and left is better, and the dashed staircase is the frontier, the settings nothing else beats on both measures." caption2="The same two measures for reads in order. Local storage jumps to the top left, because the kernel reads ahead. Object storage does not move." >}}
 
