@@ -445,17 +445,6 @@ For fixed 128-token chunks, 32-token overlap raised recall from **83.85% to 88.5
 
 [Reproduce the experiment](https://github.com/qdrant/landing_page/blob/codex/chunking-guide/qdrant-landing/content/documentation/headless/chunking/quality-experiment/README.md), download the [result table](/guides_data/chunking/quality-experiment/summary.csv), or inspect the [run metadata](/guides_data/chunking/quality-experiment/run-metadata.json).
 
-<details>
-<summary>Scoring and boundary rules</summary>
-
-Let G be the unique labeled source-token positions, U the unique retrieved positions, C the total retrieved positions including repeats, and H the size of their intersection. Recall is H/|G|, precision is H/C, and duplicate-penalized IoU is H/(C + |G| − H).
-
-Sentence splitting uses punctuation and line breaks; recursive splitting tries paragraphs, then sentences, then fixed cuts. Semantic splitting groups adjacent sentence units while their cosine similarity is at least 0.5 and the cap permits. Oversized units are split. These are explicit implementations in the linked script, not library defaults.
-
-The budget counts each chunk's independently tokenized content; relevance uses stable positions from tokenizing the complete source once. All embedding inputs, including special tokens, fit the model's 256-token limit. Source offsets, individual query results, dependency pins, and separate stage timings accompany the script. Timings are from one warm CPU run, not a throughput benchmark.
-
-</details>
-
 ### Check Answers Separately
 
 The [Agno/Qdrant walkthrough](https://towardsdev.com/visualizing-chunking-impacts-in-agentic-rag-with-agno-qdrant-ragas-and-llamaindex-part-1-7fe1ee31f5a5) shows an end-to-end evaluation workflow. Freeze the answering model, prompt, and evaluator when comparing chunkers. [Ragas faithfulness](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/faithfulness/) checks support in retrieved context; [factual correctness](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/factual_correctness/) compares the answer with a reference. Test unanswerable questions separately. Neither a supported answer nor a retrieval hit alone proves that every required condition survived.
@@ -475,26 +464,6 @@ Choose datasets whose labels match the failure you want to measure. These benchm
 | [CASTELLA](https://dcase.community/challenge2026/task-audio-moment-retrieval-from-long-audio) | Audio moment retrieval against caption/time-interval annotations, using temporal recall and mAP at specified IoU thresholds. |
 
 Use the same image and returned-duration budgets, and report actual usage. Hold page resolution, frame sampling, and transcription settings fixed. Score the retrieved page, region, or time interval before scoring the answer.
-
-<details>
-<summary>Worked check: video window boundaries</summary>
-
-We tested six window configurations against **50 distinct AVHaystacks evidence intervals** from the 3D-printing annotations. Median evidence duration was **93.5 seconds**. Windows start on a regular grid from time zero; the scorer selects the best matching window using the known annotation.
-
-| Window | Overlap | Best-window IoU, mean | Whole interval in one window |
-| --- | --- | --- | --- |
-| 10 s | 0% | 0.158 | 1/50 |
-| 10 s | 50% | 0.160 | 1/50 |
-| 20 s | 0% | 0.274 | 2/50 |
-| 20 s | 50% | 0.286 | 3/50 |
-| 40 s | 0% | 0.406 | 3/50 |
-| 40 s | 50% | 0.434 | 6/50 |
-
-At 40 seconds, overlap increased single-window coverage from 3 to 6 intervals. Most evidence still required multiple windows. This checks boundary geometry using annotations; it does not run video retrieval, transcription, or answer generation. Unknown recording ends are not used to trim windows.
-
-[Reproduce the check](https://github.com/qdrant/landing_page/blob/codex/chunking-guide/qdrant-landing/content/documentation/headless/chunking/quality-experiment/README-temporal.md) or inspect the [per-interval results](/guides_data/chunking/quality-experiment/temporal-results.json).
-
-</details>
 
 ## Conclusion
 
