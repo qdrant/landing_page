@@ -51,7 +51,6 @@ export function mount(node) {
         <div class="qi-chunk__panel">
           <p class="qi-frame-label qi-chunk__label" data-output-label></p>
           <div class="qi-chunk__chunks" data-chunks></div>
-          <p class="qi-chunk__note">Words illustrate size. They are not model tokens.</p>
         </div>
       </div>
       <p class="qi-status" role="status" aria-live="polite" aria-atomic="true"></p>

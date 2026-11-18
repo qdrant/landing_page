@@ -185,7 +185,7 @@ A 400-token window with 40-token overlap advances by 360 tokens. Count with the 
 
 **Tools:** [Agno](https://docs.agno.com/knowledge/concepts/chunking/fixed-size-chunking) counts characters and avoids cutting words where possible. [Kiru](https://github.com/bitswired/kiru) supports byte or character chunking; [Chunk (formerly memchunk)](https://github.com/feyninc/chunk) uses delimiter-based byte splitting. Their size units are not interchangeable with model tokens.
 
-{{< island path="documentation/headless/chunking/fixed" ratio="16/11" title="Change the word count and overlap to see which source words repeat." >}}
+{{< island path="documentation/headless/chunking/fixed" ratio="16/11" >}}
 ![Twelve-word windows over a 31-word source: zero overlap gives three chunks; three-word overlap gives four chunks with repeated source positions.](/guides_data/chunking/fixed.svg)
 {{< /island >}}
 
@@ -220,7 +220,7 @@ Sentence chunking indexes individual sentences or packs consecutive sentences up
 
 **Tools:** [Chonkie's sentence chunker](https://docs.chonkie.ai/oss/chunkers/sentence-chunker) groups sentences; [LlamaIndex node parsers](https://developers.llamaindex.ai/python/framework/module_guides/loading/node_parsers/modules/) integrate sentence splitting into an indexing pipeline. Sentence counts alone do not enforce the embedding model's token limit.
 
-{{< island path="documentation/headless/chunking/sentence" ratio="16/11" title="Adjust the word cap to group sentences or reveal one that needs a finer split." >}}
+{{< island path="documentation/headless/chunking/sentence" ratio="16/11" >}}
 ![Three sentences contain 8, 9, and 6 words. A 12-word cap keeps them separate; a 20-word cap groups the first two into a 17-word chunk. An 8-word cap cannot contain the 9-word sentence intact.](/guides_data/chunking/sentence.svg)
 {{< /island >}}
 
@@ -253,7 +253,7 @@ Paragraph chunking preserves paragraphs and optionally combines adjacent ones wi
 
 **Tools:** [Docling](https://docling-project.github.io/docling/) and [Unstructured](https://docs.unstructured.io/open-source/core-functionality/partitioning) extract structured elements before chunking. For Markdown, [LangChain's header splitter](https://docs.langchain.com/oss/python/integrations/splitters/markdown_header_metadata_splitter) groups sections and stores heading metadata; it strips headings by default, so retain useful titles in the embedding input. Then pack paragraphs within those sections under a token cap.
 
-{{< island path="documentation/headless/chunking/paragraph" ratio="16/11" title="Pack paragraphs under a word cap while keeping the section boundary intact." >}}
+{{< island path="documentation/headless/chunking/paragraph" ratio="16/11" >}}
 ![Export paragraphs P1, P2, and P3 contain 10, 12, and 15 words; Billing paragraph P4 contains 8. Packing at 24 words groups P1 and P2. Packing at 48 groups P1 through P3. The section boundary keeps P4 separate.](/guides_data/chunking/paragraph.svg)
 {{< /island >}}
 
@@ -288,7 +288,7 @@ Preserve source offsets to merge repeated spans during answer assembly.
 
 **Tools:** [LangChain text splitters](https://docs.langchain.com/oss/python/integrations/splitters/index) support overlapping chunks. [LlamaIndex's sentence-window parser](https://developers.llamaindex.ai/python/framework-api-reference/node_parsers/sentence_window/) instead embeds individual sentences and stores neighbors as metadata for expansion after retrieval; those neighbors are not part of the embedded window.
 
-{{< island path="documentation/headless/chunking/sliding-window" ratio="16/11" title="Change the stride of a three-sentence window to see repeated evidence and repaired boundaries." >}}
+{{< island path="documentation/headless/chunking/sliding-window" ratio="16/11" >}}
 ![Six sentences form two non-overlapping three-sentence chunks at stride 3. At stride 2, the windows are S1–S3, S3–S5, and S5–S6; S3 and S5 repeat. The linked-file statement S3 and download instruction S4 share the middle window.](/guides_data/chunking/sliding-window.svg)
 {{< /island >}}
 
@@ -325,7 +325,7 @@ Semantic chunking compares sentence or passage embeddings to detect topic change
 
 A lower [LlamaIndex dissimilarity percentile](https://developers.llamaindex.ai/python/framework-api-reference/node_parsers/semantic_splitter/) produces more splits; this demo uses a higher similarity threshold for that effect.
 
-{{< island path="documentation/headless/chunking/semantic" ratio="16/11" title="Raise the threshold to split illustrative similarity scores; no embedding model runs here." >}}
+{{< island path="documentation/headless/chunking/semantic" ratio="16/11" >}}
 ![Illustrative semantic scores produce two chunks at threshold 0.35 and three at 0.65. The 0.56 similarity between export steps and the linked-file exception becomes a split.](/guides_data/chunking/semantic.svg)
 {{< /island >}}
 
@@ -360,7 +360,7 @@ An exception can guide a split only if the model sees it. An agent searching a k
 
 **Tools:** [Agno](https://docs.agno.com/knowledge/concepts/chunking/agentic-chunking) asks for a character position and slices the original text; `max_chunk_size` counts characters. Its [validation and fallback logic](https://github.com/agno-agi/agno/blob/main/libs/agno/agno/knowledge/chunking/agentic.py) can also determine boundaries, so record which path ran.
 
-{{< island path="documentation/headless/chunking/agentic" ratio="16/11" title="Compare two scripted source windows to see which includes the exception; no model runs here." >}}
+{{< island path="documentation/headless/chunking/agentic" ratio="16/11" >}}
 ![A scripted agentic example: a window containing S1–S2 ends after the export steps; a wider window containing S1–S4 can keep the linked-file exception. Both outputs retain source wording.](/guides_data/chunking/agentic.svg)
 {{< /island >}}
 
@@ -393,7 +393,7 @@ Recursive chunking tries coarse separators first, subdivides oversized pieces, t
 
 **Tools:** [LangChain](https://docs.langchain.com/oss/python/integrations/splitters/recursive_text_splitter) defaults to paragraph breaks, line breaks, spaces, then characters. Its default counter measures characters; use [token-aware configuration](https://docs.langchain.com/oss/python/integrations/splitters/split_by_token) for a token cap. Overlap is a target, and sentences may still split. [semchunk](https://github.com/isaacus-dev/semchunk)'s default mode and [text-splitter](https://github.com/benbrandt/text-splitter) (`semantic-text-splitter` in Python) use structural boundaries, despite the semantic naming; they do not require embedding similarity comparisons.
 
-{{< island path="documentation/headless/chunking/recursive" ratio="8/5" title="Step through a custom paragraph, sentence, and word hierarchy, rather than LangChain's default separators." >}}
+{{< island path="documentation/headless/chunking/recursive" ratio="8/5" >}}
 ![With a 24-word cap, the 12-word and 5-word paragraphs remain intact. Only the 30-word paragraph is split into sentences of 8 and 22 words.](/guides_data/chunking/recursive.svg)
 {{< /island >}}
 

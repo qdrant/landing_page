@@ -93,7 +93,6 @@ export function mount(node) {
         <p class="qi-frame-label qi-chunk__label qi-chunk__stage-label"></p>
         <div class="qi-chunk__chunks qi-chunk__units"></div>
       </div>
-      <p class="qi-chunk__note">Custom separators; word counts, not model tokens. No overlap.</p>
       <p class="qi-status qi-chunk__status" role="status" aria-live="polite" aria-atomic="true"></p>
     </div>`;
 

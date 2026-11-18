@@ -263,8 +263,17 @@ html[data-theme='dark'] .chunking-figure > .chunking-figure__dark {
 }
 
 .qi-chunk .qi-status {
+  /* Announce control changes without a visible summary beneath the example. */
+  position: absolute;
+  width: 1px;
+  height: 1px;
   min-height: 0;
-  color: var(--qi-fg);
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 .qi-chunk__panels {
@@ -563,11 +572,6 @@ html[data-theme='dark'] .chunking-figure > .chunking-figure__dark {
 
 .qi-chunk--compact .qi-chunk__steps .is-current {
   border-bottom-color: var(--qi-fg);
-}
-
-.documentation .chunking-method > .island .island__caption {
-  text-align: left;
-  font-size: 14px;
 }
 
 @container chunking (max-width: 560px) {

@@ -46,7 +46,6 @@ export function mount(node) {
           <p class="qi-chunk__label qi-frame-label" data-output-label></p>
           <div class="qi-group qi-chunk__range-list" role="group" aria-label="Select a sliding-window chunk" data-ranges></div>
           <div class="qi-chunk__chunk" data-selected></div>
-          <p class="qi-chunk__note">Dashed marks show sentences repeated from the previous chunk.</p>
         </div>
       </div>
       <p class="qi-status" role="status" aria-live="polite" aria-atomic="true"></p>
