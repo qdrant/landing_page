@@ -6,7 +6,7 @@ short_description: "Papr fine-tuned Qwen3-Embedding for code search. We tested i
 description: "papr-embed-code-1 in Qdrant: code retrieval against its Qwen3-Embedding base, 1-bit TurboQuant, BM25 with the code tokenizer, and 1M filtered snippets."
 preview_image: /blog/papr-embed-code/hero.jpg
 social_preview_image: /blog/papr-embed-code/preview/social_preview.jpg
-date: 2026-10-30
+date: 2026-11-18
 author: Dylan Couzon, Anush
 author_profile: dylan-couzon
 featured: false
