@@ -1,104 +1,85 @@
-/* Static, theme-aware figure on the existing island loader, following
- * content/documentation/headless/agentic-rag-langgraph/workflow. No controls:
- * the whole idea stays visible without interaction. svg() is also the source
- * for the self-contained SVG/PNG fallbacks in
- * static/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/.
+/* Application data flow. Service names identify the dependency of each step;
+ * the application makes the calls and removes denied documents. The exported
+ * narrow SVG is also the source of the static image fallback.
  */
 let instance = 0;
 
-function defs(id) {
-  const head = (suffix, cls) =>
-    `<marker id="${id}-arrow${suffix}" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8 Z" class="qi-sp__head ${cls}"/></marker>`;
-  return `<defs>${head('', '')}${head('-hot', 'qi-sp__head--hot')}${head('-deny', 'qi-sp__head--deny')}</defs>`;
-}
-function text(x, y, s, size, cls = '', anchor = 'middle') {
-  return `<text x="${x}" y="${y}" class="qi-label ${cls}" style="font-size:${size}px;text-anchor:${anchor}">${s}</text>`;
-}
-function lines(x, ys, items, size, anchor) {
-  return items.map((s, i) => text(x, ys[i], s, size, '', anchor)).join('');
-}
-function box(x, y, w, h, cls = '', rx = 6) {
-  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" class="qi-frame qi-sp__node ${cls}"/>`;
-}
-function edge(id, d, kind = '', extra = '') {
-  const suffix = kind === 'hot' ? '-hot' : kind === 'deny' ? '-deny' : '';
-  const cls = kind ? `qi-sp__edge--${kind}` : '';
-  return `<path d="${d}" class="qi-sp__edge ${cls} ${extra}" marker-end="url(#${id}-arrow${suffix})"/>`;
-}
-function frame(w, h) {
-  return `<rect x="1" y="1" width="${w - 2}" height="${h - 2}" rx="6" class="qi-frame"/>`;
-}
-function open(w, h, cls, label) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" class="qi-svg ${cls}" role="img" aria-label="${label}">`;
-}
-
 const ROOT = 'qi-sp-arch';
-const HOT = false;
-const LABEL = 'The user asks the application a question. The application runs four numbered steps in order: 1, embed the query with the embedding model; 2, retrieve candidate documents from Qdrant; 3, check access in SpiceDB; 4, generate the answer with the LLM from the allowed documents only. Step 5 returns the answer to the user.';
-
-/* The four services sit in one row in the order the application calls them,
-   so the reader sees that the SpiceDB check (3) comes before the LLM (4).
-   Data and API names live in the surrounding text, not on the arrows. */
-const strong = 'qi-label--strong qi-sp__label';
-function step(x, y, n) {
-  return `<circle cx="${x}" cy="${y}" r="11" class="qi-sp__step"/>` +
-    `<text x="${x}" y="${y + 5}" class="qi-label qi-sp__step-num" style="font-size:14px;text-anchor:middle">${n}</text>`;
-}
-/* Badge plus verb, centered on cx. Geist Mono advances 0.6em per glyph. */
-function stepLabel(cx, y, n, verb) {
-  const w = 28 + verb.length * 9;
-  const x0 = cx - w / 2;
-  return step(x0 + 11, y - 5, n) + text(x0 + 28, y, verb, 15, strong, 'start');
-}
-const SERVICES = [
-  ['Embedding', 'model', '', 'Embed'],
-  ['Qdrant', '', 'qi-sp__node--qdrant', 'Retrieve'],
-  ['SpiceDB', '', 'qi-sp__node--authz', 'Check access'],
-  ['LLM', '', '', 'Generate'],
+const LABEL = 'The user sends a question to the application. The application embeds the question and retrieves candidate documents from Qdrant. It checks their document IDs with SpiceDB and removes denied documents. The LLM receives only authorized context. The application returns the answer to the user.';
+const STEPS = [
+  ['Embed query', 'Embedding model'],
+  ['Retrieve', 'Qdrant'],
+  ['Check access', 'SpiceDB'],
+  ['Generate answer', 'LLM'],
 ];
-function service(cx, y, w, h, [a, b, cls]) {
-  return box(cx - w / 2, y, w, h, cls) +
-    (b ? text(cx, y + h / 2 - 2, a, 17, strong) + text(cx, y + h / 2 + 17, b, 14)
-       : text(cx, y + h / 2 + 6, a, 18, strong));
+
+function text(x, y, value, cls = '', anchor = 'middle') {
+  return `<text x="${x}" y="${y}" class="qi-label ${cls}" text-anchor="${anchor}">${value}</text>`;
 }
+
+function box(x, y, w, h, cls = '') {
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" class="qi-frame ${cls}"/>`;
+}
+
+function edge(id, path, authorized = false) {
+  return `<path d="${path}" class="qi-sp-arch__edge${authorized ? ' qi-sp-arch__edge--authorized' : ''}" marker-end="url(#${id}${authorized ? '-authorized' : ''})"/>`;
+}
+
+function stage(x, y, w, h, step) {
+  const [title, service] = STEPS[step];
+  return box(x, y, w, h, `qi-sp-arch__node${step === 2 ? ' qi-sp-arch__node--authorization' : ''}`) +
+    text(x + w / 2, y + 28, title, 'qi-label--strong qi-sp-arch__title') +
+    text(x + w / 2, y + 50, service, 'qi-sp-arch__service');
+}
+
 export function svg(narrow = false, id = ROOT) {
+  const w = narrow ? 340 : 760;
+  const h = narrow ? 596 : 294;
+  let out = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" class="qi-svg qi-sp-arch__${narrow ? 'narrow' : 'wide'}" role="img" aria-label="${LABEL}">`;
+  out += '<defs>' + ['', '-authorized'].map(suffix =>
+    `<marker id="${id}${suffix}" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L8 4 L0 8 Z" class="qi-sp-arch__head${suffix ? ' qi-sp-arch__head--authorized' : ''}"/></marker>`
+  ).join('') + '</defs>';
+
   if (narrow) {
-    const W = 340, H = 500;
-    let out = open(W, H, 'qi-sp__narrow', LABEL) + defs(id) + frame(W, H) +
-      box(16, 16, 84, 44) + text(58, 44, 'User', 18, strong) +
-      edge(id, 'M38 62 V104') + edge(id, 'M78 104 V62') +
-      step(122, 83, 5) + text(140, 88, 'Answer', 15, strong, 'start') +
-      box(16, 106, 84, 378) +
-      `<text x="58" y="295" class="qi-label qi-label--strong qi-sp__label" style="font-size:18px;text-anchor:middle" transform="rotate(-90 58 295)">Application</text>`;
-    SERVICES.forEach((s, i) => {
-      const y = 130 + i * 96;
-      out += stepLabel(265, y - 10, i + 1, s[3]) +
-        service(265, y, 118, 56, s) +
-        edge(id, `M102 ${y + 18} H204`) + edge(id, `M204 ${y + 38} H102`);
+    out += box(16, 80, 308, 426) +
+      text(32, 102, 'Application', 'qi-sp-arch__boundary-label', 'start') +
+      box(70, 12, 200, 40, 'qi-sp-arch__node') +
+      text(170, 37, 'User question', 'qi-label--strong qi-sp-arch__endpoint') +
+      edge(id, 'M170 54 V114');
+    STEPS.forEach((_, i) => {
+      const y = 116 + i * 104;
+      out += stage(44, y, 252, 64, i);
+      if (i < STEPS.length - 1) out += edge(id, `M170 ${y + 66} V${y + 102}`, i === 2);
     });
-    return out + '</svg>';
+    out += text(184, 413, 'Allowed only', 'qi-label--strong qi-sp-arch__service', 'start') +
+      edge(id, 'M170 494 V538') +
+      box(70, 540, 200, 40, 'qi-sp-arch__node') +
+      text(170, 565, 'Answer to user', 'qi-label--strong qi-sp-arch__endpoint');
+  } else {
+    out += box(16, 90, 728, 188) +
+      text(380, 116, 'Application workflow', 'qi-sp-arch__boundary-label') +
+      box(32, 16, 156, 44, 'qi-sp-arch__node') +
+      text(110, 43, 'User question', 'qi-label--strong qi-sp-arch__endpoint') +
+      edge(id, 'M110 62 V142') +
+      box(572, 16, 156, 44, 'qi-sp-arch__node') +
+      text(650, 43, 'Answer to user', 'qi-label--strong qi-sp-arch__endpoint') +
+      edge(id, 'M650 142 V62');
+    STEPS.forEach((_, i) => {
+      const x = 32 + i * 180;
+      out += stage(x, 144, 156, 72, i);
+      if (i < STEPS.length - 1) out += edge(id, `M${x + 158} 180 H${x + 178}`, i === 2);
+    });
+    out += text(32, 258, 'The application calls each service.', 'qi-sp-arch__service', 'start') +
+      text(560, 246, 'Authorized context only', 'qi-label--strong qi-sp-arch__service');
   }
-  const W = 760, H = 304;
-  let out = open(W, H, 'qi-sp__wide', LABEL) + defs(id) + frame(W, H) +
-    box(16, 178, 92, 56) + text(62, 212, 'User', 20, strong) +
-    edge(id, 'M110 206 H134') +
-    edge(id, 'M180 236 V282 H62 V238') + step(98, 266, 5) + text(116, 271, 'Answer', 15, strong, 'start') +
-    box(136, 178, 608, 56) + text(440, 212, 'Application', 20, strong);
-  SERVICES.forEach((s, i) => {
-    const cx = 201 + i * 159;
-    out += stepLabel(cx, 30, i + 1, s[3]) +
-      service(cx, 44, 130, 56, s) +
-      edge(id, `M${cx - 16} 176 V102`) + edge(id, `M${cx + 16} 102 V176`);
-  });
   return out + '</svg>';
 }
 
 export function mount(node) {
-  node.classList.add('qi-sp', ROOT);
+  node.classList.add(ROOT);
   const wrapper = node.closest('.island');
-  // The shared loader injects CSS without waiting for it. Do not expose an
-  // unstyled drawing or signal ready until this figure's stylesheet is usable.
   const stylesheet = document.querySelector(`link[href="${wrapper.dataset.islandCss}"]`);
+  const fail = () => node.dispatchEvent(new CustomEvent('island:error', { bubbles: true }));
   const render = () => {
     if (wrapper.classList.contains('is-failed')) return;
     if (getComputedStyle(node).getPropertyValue('--qi-sp-ready').trim() !== '1') {
@@ -109,7 +90,6 @@ export function mount(node) {
     node.innerHTML = svg(false, `${id}-wide`) + svg(true, `${id}-narrow`);
     node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
   };
-  const fail = () => node.dispatchEvent(new CustomEvent('island:error', { bubbles: true }));
   if (!stylesheet) fail();
   else if (stylesheet.sheet) render();
   else {

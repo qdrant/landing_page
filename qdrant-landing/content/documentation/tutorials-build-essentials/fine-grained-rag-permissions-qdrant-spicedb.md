@@ -42,8 +42,8 @@ You could add pseudo-departments, copy allow-lists into every point's payload, o
 
 This tutorial splits the job between two systems. **Qdrant finds** the documents that are relevant to a question, and **[SpiceDB](https://github.com/authzed/spicedb) decides** who can see them. Every Qdrant point carries a `doc_id` in its payload, SpiceDB stores who can view each `doc_id`, and an authorization step checks every retrieved document before any of them reach the LLM:
 
-{{< island path="content/documentation/headless/fine-grained-permissions-spicedb/architecture" width="340" ratio="340 / 500" title="Fig. 1: The request flow. The application checks access in SpiceDB (step 3) before it sends anything to the LLM (step 4)." >}}
-![The user asks the application a question. The application runs four numbered steps in order: 1, embed the query with the embedding model; 2, retrieve candidate documents from Qdrant; 3, check access in SpiceDB; 4, generate the answer with the LLM from the allowed documents only. Step 5 returns the answer to the user.](/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/architecture-mobile.png)
+{{< island path="content/documentation/headless/fine-grained-permissions-spicedb/architecture" width="340" ratio="340 / 596" title="Fig. 1: The application embeds the query, retrieves candidates from Qdrant, checks document IDs in SpiceDB, and sends only authorized context to the LLM." >}}
+![The user sends a question to the application. The application embeds the question and retrieves candidate documents from Qdrant. It checks their document IDs with SpiceDB and removes denied documents. The LLM receives only authorized context. The application returns the answer to the user.](/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/architecture-mobile.png)
 {{< /island >}}
 
 In this tutorial, you'll use SpiceDB to:
