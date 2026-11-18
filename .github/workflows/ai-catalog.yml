@@ -1,0 +1,40 @@
+name: Check AI catalog
+
+on:
+  pull_request:
+    paths:
+      - 'qdrant-landing/static/.well-known/ai-catalog.json'
+      - '.github/workflows/ai-catalog.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  check-ai-catalog:
+    runs-on: ubuntu-latest
+    env:
+      # To upgrade, take the version and the checksum from the .sha256 file of
+      # the linux-amd64-gnu archive on
+      # https://github.com/Agent-Card/ai-catalog-cli/releases. The checksum is
+      # pinned here rather than read from that file, so a replaced release
+      # asset fails the job instead of running.
+      AI_CATALOG_VERSION: v0.4.0
+      AI_CATALOG_SHA256: ffdf50ab9c98abea09db7634af2e1d5b0329a3684c0f76cee0ba01ef95df6bcd
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # The AI Catalog working group's own CLI. The specification publishes no
+      # JSON Schema, so its validator is the reference for what a valid
+      # catalog is.
+      - name: Install ai-catalog CLI
+        run: |
+          NAME=ai-catalog-linux-amd64-gnu
+          curl -fsSLO "https://github.com/Agent-Card/ai-catalog-cli/releases/download/$AI_CATALOG_VERSION/$NAME.tar.gz"
+          echo "$AI_CATALOG_SHA256  $NAME.tar.gz" | sha256sum -c -
+          tar -xzf "$NAME.tar.gz" -C "$RUNNER_TEMP" ai-catalog
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
+      # Fails on invalid JSON as well as on a catalog that breaks the
+      # specification.
+      - name: Check ai-catalog.json
+        run: ai-catalog validate qdrant-landing/static/.well-known/ai-catalog.json
