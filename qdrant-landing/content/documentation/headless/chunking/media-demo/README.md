@@ -63,6 +63,10 @@ than embedding screenshots of this viewer.
 - `transcript.raw.json` preserves the unedited ASR output and word timestamps.
 - `source.mp4` and `audio.m4a` are browser-playable derivatives. Frames come
   from the original OGV. Times are relative to the beginning of that recording.
+- The MP4 uses two-pass H.264 at 90 kbps and mono AAC at 32 kbps / 16 kHz,
+  with fast-start playback. It retains the source's 320 × 240 resolution and
+  24 fps; the encoder checks the site's 1 MiB limit. The original OGV remains
+  the input for transcription and frame extraction.
 - The detector uses gaps between ASR word timestamps. It does not measure
   silence with VAD, identify speakers, detect semantic video scenes, generate
   embeddings, or evaluate retrieval.

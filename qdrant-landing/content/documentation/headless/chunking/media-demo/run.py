@@ -68,6 +68,42 @@ def ffmpeg(*args: str) -> None:
     subprocess.run(["ffmpeg", "-nostdin", "-y", "-v", "error", *args], check=True)
 
 
+def encode_video(source: Path, destination: Path, scratch: Path) -> None:
+    options = [
+        "-i",
+        str(source),
+        "-c:v",
+        "libx264",
+        "-preset",
+        "slow",
+        "-b:v",
+        "90k",
+        "-pix_fmt",
+        "yuv420p",
+        "-passlogfile",
+        str(scratch / "video-encode"),
+    ]
+    ffmpeg(*options, "-pass", "1", "-an", "-f", "null", "/dev/null")
+    ffmpeg(
+        *options,
+        "-pass",
+        "2",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "32k",
+        "-ac",
+        "1",
+        "-ar",
+        "16000",
+        "-movflags",
+        "+faststart",
+        str(destination),
+    )
+    if destination.stat().st_size > 1024 * 1024:
+        raise ValueError("Video exceeds the site's 1 MiB media limit.")
+
+
 async def download(destination: Path) -> None:
     async with httpx.AsyncClient(follow_redirects=True, timeout=60) as client:
         response = await client.get(SOURCE_URL)
@@ -195,23 +231,7 @@ def run(source: Path | None, output: Path) -> None:
             "pcm_s16le",
             str(wav),
         )
-        ffmpeg(
-            "-i",
-            str(source),
-            "-c:v",
-            "libx264",
-            "-crf",
-            "20",
-            "-pix_fmt",
-            "yuv420p",
-            "-c:a",
-            "aac",
-            "-b:a",
-            "64k",
-            "-movflags",
-            "+faststart",
-            str(output / "source.mp4"),
-        )
+        encode_video(source, output / "source.mp4", temporary)
         ffmpeg("-i", str(wav), "-c:a", "aac", "-b:a", "64k", str(output / "audio.m4a"))
         clips = video_chunks(source, output, seconds)
         model_path = snapshot_download(MODEL, revision=REVISION)
