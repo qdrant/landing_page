@@ -1,5 +1,5 @@
 {
-  "title": "What reading many at once buys each backend",
+  "title": "What more reads in flight buys each backend",
   "kind": "columns-2panel",
   "horizontal": true,
   "width": 700,

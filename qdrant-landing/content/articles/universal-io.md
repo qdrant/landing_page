@@ -215,23 +215,23 @@ Once every block is local, the `fully_populated` flag lets reads skip the bitmap
 
 Append-only files can also grow, and reopening one would mean fetching everything again, so `DiskCache` grows the mirror in two phases: it first *stages* the change by learning the new remote size and prefetching the new tail, without any visible effect for readers, and then *applies* it by growing and remapping the local file. This lets Qdrant stage reloads for many files at once and pay only for the slowest one.
 
-## What the Depth Buys
+## What More Reads in Flight Buys
 
-{{< chart id="universal-io/frontier" caption="Each dot is one configuration on a 4-core Xeon 8375C in us-west-2, page cache dropped before each run. Up and left is better: more MB/s for less wait. The dashed staircase is the frontier, the settings nothing else beats on both measures." caption2="The same two measures for reads in order. Local storage jumps to the top left, because the kernel reads ahead. Object storage does not move." >}}
+{{< chart id="universal-io/frontier" caption="Each dot is one configuration on a 4-core Xeon 8375C in us-west-2, page cache dropped before each run. mmap and io_uring vary the batch, meaning how many reads one call submits. S3 varies the number of readers, each with one request open. Up and left is better, and the dashed staircase is the frontier, the settings nothing else beats on both measures." caption2="The same two measures for reads in order. Local storage jumps to the top left, because the kernel reads ahead. Object storage does not move." >}}
 
-{{< chart id="universal-io/endpoints" caption="One read at a time against the most each backend allows, on random reads." caption2="The same two settings by what the caller waits. mmap pays 71 ms for bandwidth it already had one read at a time." >}}
+{{< chart id="universal-io/endpoints" caption="One read in flight against the most each backend allows, on random reads." caption2="The same two settings by what the caller waits. mmap pays 71 ms for bandwidth it already had with one read in flight." >}}
 
-`io_uring` turns depth into bandwidth. Each doubling of the batch doubles it, from 7.15 MB/s at batch 1 to 85.66 MB/s at batch 16. The wait rises 9% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 buys 29% more bandwidth, and the wait rises to 9.4 ms for it.
+`io_uring` turns reads in flight into bandwidth. Each doubling of the batch doubles it, from 7.15 MB/s at batch 1 to 85.66 MB/s at batch 16. The wait rises 9% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 buys 29% more bandwidth, and the wait rises to 9.4 ms for it.
 
-`mmap` turns depth into waiting. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency. Bandwidth sits at 7.2 MB/s whatever the batch. The wait grows instead, from 0.55 ms per read at batch 1 to 71 ms at batch 256.
+`mmap` keeps one read in flight whatever you ask for. Its pipeline is one deep, so a bigger batch buys a queue rather than more reads in flight. Bandwidth sits at 7.2 MB/s whatever the batch. The wait grows instead, from 0.55 ms per read at batch 1 to 71 ms at batch 256.
 
 S3 turns readers into bandwidth, but never into a shorter wait. One read takes about 24 ms however many readers run. Bandwidth climbs from 0.17 MB/s with one reader to 11.3 MB/s with 128. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s.
 
-Read in order and depth stops mattering. Opened with `MADV_SEQUENTIAL`, `mmap` reached 117 MB/s against 7.2 MB/s in random order. The batch changed nothing, from 115 MB/s at batch 1 to 119 MB/s at batch 256. The kernel reads ahead, so most reads never reach the disk.
+Read in order and the number in flight stops mattering. Opened with `MADV_SEQUENTIAL`, `mmap` reached 117 MB/s against 7.2 MB/s in random order. The batch changed nothing, from 115 MB/s at batch 1 to 119 MB/s at batch 256. The kernel reads ahead, so most reads never reach the disk.
 
 The backend still matters, though. `io_uring` managed 215 MB/s on the same reads, because bulk reads keep the device busier than page faults do. Object storage gains nothing from order, as expected, because nothing reads ahead across network requests. A read costs about 23 ms either way. Up to 64 readers, the random and sequential numbers stay within 11% of each other.
 
-Depth also only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 24 ms on object storage, however deep the pipeline is.
+More reads in flight only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 24 ms on object storage, however many reads the pipeline allows.
 
 ## The Best of All Worlds (Almost)
 

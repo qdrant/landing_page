@@ -1,7 +1,7 @@
 backend,setting,mb,ms
-mmap,one read at a time,7.22,0.55
-mmap,256 at a time,7.22,71.22
-io_uring,one read at a time,7.15,0.56
-io_uring,16 at a time,85.66,0.61
-S3,one reader,0.17,23.94
+mmap,batch 1,7.22,0.55
+mmap,batch 256,7.22,71.22
+io_uring,batch 1,7.15,0.56
+io_uring,batch 16,85.66,0.61
+S3,1 reader,0.17,23.94
 S3,128 readers,11.32,24.06

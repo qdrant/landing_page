@@ -8,7 +8,7 @@ random,io_uring,,up,0.572,25.84
 random,io_uring,batch 16,up,0.6135,85.66
 random,io_uring,,up,1.432,97.32
 random,io_uring,,up,4.8724,107.67
-random,io_uring,batch 512,down,9.4183,110.91
+random,io_uring,,down,9.4183,110.91
 random,S3,1 reader,left,23.94,0.167
 random,S3,,up,23.98,1.029
 random,S3,,up,23.11,4.721
