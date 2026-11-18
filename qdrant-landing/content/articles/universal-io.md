@@ -1,6 +1,6 @@
 ---
 draft: false
-title: "Universal I/O in Qdrant"
+title: "Universal I/O: one interface for mmap, io_uring and S3"
 short_description: "How Qdrant talks to different storage backends through a unified I/O interface"
 description: "A deep dive into Qdrant's Universal I/O, which allows consumer code to interact with different storage backends (mmap, io_uring, network-backed) through a unified interface"
 social_preview_image: /articles_data/universal-io/preview/social_preview.jpg
@@ -17,13 +17,9 @@ keywords:
 category: qdrant-internals
 ---
 
-Most software is built on an unspoken assumption: data lives on disk, and is read from and written to it. The assumption usually holds, until a new way (or need) of storing data appears.
+All of Qdrant's on-disk data structures (vectors, HNSW graphs, and payload indexes) went through `mmap`, which assumes that an actual disk sits underneath. Then came [serverless mode](https://qdrant.tech/serverless/), where the data sits in object storage instead of on a disk next to the process, and the difference in cost is large. On our test box a cold `mmap` read took 568 µs from an EBS gp3 volume, whereas the same read against a same-region S3 bucket took 24.3 ms, 43 times slower. It also exposes the read to failure modes that disk reads don't have. Faster local storage widens that gap, and so does distance, since the same read against a bucket in another region took 131 ms.
 
-For Qdrant, that happened with [serverless mode](https://qdrant.tech/serverless/), where the data sits in object storage instead of on a disk next to the process. This blog tells the story of Universal I/O, the interface we built so that the same code could work in both worlds, and of the design choices that keep the local path cheap. This read is particularly relevant if you are a systems programmer, and some knowledge of Rust will help you follow the code, but the lessons should carry over to many other kinds of software.
-
-To see how deeply that assumption was baked into Qdrant, it helps to look at how we read data before serverless mode: all of our on-disk data structures (vectors, HNSW graphs, and payload indexes) went through `mmap`, which assumes that an actual disk sits underneath. In serverless mode, however, the data lives in object storage, and the difference in cost is large: on our test box a cold `mmap` read took 568 µs from an EBS gp3 volume, whereas the same read against a same-region S3 bucket took 24.3 ms, which makes it 43 times slower and also exposes it to failure modes that disk reads don't have. Faster local storage widens that gap, and so does distance, since the same read against a bucket in another region took 131 ms.
-
-One option was to re-implement every one of those interactions against object storage, but that would have meant maintaining two versions of the same logic, which tend to drift apart over time, and every data structure would have needed to switch between the two versions, which could change the behavior of the local path that already worked well. 
+One option was to re-implement every one of those interactions against object storage, but that would have meant maintaining two versions of the same logic, which tend to drift apart over time. Every data structure would also have needed to switch between the two versions, which could change the behavior of the local path that already worked well. 
 
 We therefore decided to build a single interface that lets us hot-swap the storage backend underneath the same code, and that work became **Universal I/O**. In this blog we focus on the read path, since that is where most of our optimizations ended up.
 
@@ -46,7 +42,7 @@ What we needed instead was a single abstract interface (a `trait`, in Rust terms
 Because of this gap in cost, the design of the interface seemed to be limited to two approaches, and each with a clear downside:
 
 - **Make everything async.** This is a great fit for network storage, but a poor fit for `mmap` and for data that is already cached, since async isn't free in Rust: it needs a runtime, and the compiler does a poor job of optimizing async code, which would show up on every read of cached data, possibly affecting existing deployments.
-- **Make everything blocking.** This suits the existing `mmap` code, but it is terrible for network requests, which are 100 to 1,000 times slower than disk reads: when each request is sequential and blocks until it finishes, the latency piles up quickly.
+- **Make everything blocking.** This suits the existing `mmap` code, but it is terrible for network requests, which took 43 times longer than a cold disk read, and 231 times longer from another region. When each request blocks until it finishes, that latency piles up quickly.
 
 After a few iterations, we settled on a middle ground, a `ReadPipeline` abstraction modeled on `io_uring`, in which you schedule reads (like pushing to a submission queue) and then wait for results (like reading from a completion queue), while each backend implements the pipeline in the way that suits it best.
 
@@ -211,7 +207,7 @@ fn read(range) -> Slice {
 }
 ```
 
-Once every block is local, the `fully_populated` flag lets reads skip the bitmap and its lock entirely, and at that point a read is just a slice of the local `MmapFile`, the same kind of operation the `mmap` backend performs.
+Once every block is local, the `fully_populated` flag lets reads skip the bitmap and its lock entirely. At that point a read is just a slice of the local `MmapFile`, the same kind of operation the `mmap` backend performs. The first read of a block still costs a 24.3 ms round trip. Every read after it costs 568 µs, the price of a local `mmap`.
 
 Append-only files can also grow, and reopening one would mean fetching everything again, so `DiskCache` grows the mirror in two phases: it first *stages* the change by learning the new remote size and prefetching the new tail, without any visible effect for readers, and then *applies* it by growing and remapping the local file. This lets Qdrant stage reloads for many files at once and pay only for the slowest one.
 
@@ -231,7 +227,7 @@ Each point below is one configuration: 4 KiB reads on a 4-core Xeon 8375C in us-
 
 `mmap` goes right. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency: 7.2 MB/s at every batch, and 71 ms per read at batch 256 against 0.55 ms at batch 1.
 
-S3 goes up too, starting 43 times further right. One read takes 23.9 ms, and that barely moves as readers are added, 24.1 ms with 128 of them, so bandwidth climbs from 0.17 to 11.3 MB/s. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s.
+S3 goes up too, starting 43 times further right. One read takes about 24 ms, and adding readers does not change that. Bandwidth climbs from 0.17 MB/s with one reader to 11.3 MB/s with 128. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s.
 
 Read in order and depth stops mattering. Opened with `MADV_SEQUENTIAL`, `mmap` reached 117 MB/s against 7.2 MB/s random, and the batch changed nothing: 115 MB/s at batch 1, 119 MB/s at batch 256. The kernel reads ahead, so most reads never reach the disk. The backend still matters, though. `io_uring` managed 215 MB/s on the same reads, because bulk reads keep the device busier than page faults do. Object storage gains nothing from order, as expected, because nothing reads ahead across network requests. A read costs about 23 ms either way, and up to 64 readers the two lines stay within 11% of each other. Depth is what readahead replaces, and it earns its place where readahead cannot help.
 
