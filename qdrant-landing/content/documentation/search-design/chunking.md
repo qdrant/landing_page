@@ -434,7 +434,7 @@ The choice of chunk size, chunk boundary, and chunk overlap can affect retrieval
 
 ### Measure the Evidence Retrieved
 
-Label relevant **source spans**, independently of chunk IDs. Following [Chroma's evaluation approach](https://www.trychroma.com/research/evaluating-chunking), measure:
+Label relevant **source spans**, independently of chunk IDs, and measure:
 
 - **Recall:** How much labeled evidence was retrieved?
 - **Precision:** How much retrieved text was labeled relevant?
@@ -444,7 +444,7 @@ Count source-token positions, not matching words. Repeated passages consume budg
 
 ### A Small Qdrant Experiment
 
-We ran **Qdrant 1.20.0** on Chroma's State of the Union 2024 subset: one speech, **76 published synthetic questions**, and 95 labeled excerpts. Every configuration used the same pinned all-MiniLM-L6-v2 model, exact cosine search, and a **512-token retrieved-text budget**. Ranked chunks were kept whole; chunks that did not fit were skipped. No deduplication or answer generation was applied.
+We ran **Qdrant 1.20.0** on the State of the Union 2024 dataset: one speech, **76 published synthetic questions**, and 95 labeled excerpts. Every configuration used the same pinned all-MiniLM-L6-v2 model, exact cosine search, and a **512-token retrieved-text budget**. Ranked chunks were kept whole; chunks that did not fit were skipped. No deduplication or answer generation was applied.
 
 Caps and overlap are source WordPiece counts; chunks can be shorter than the cap. Scores and actual returned token counts are means across the 76 questions.
 
@@ -515,7 +515,6 @@ At 40 seconds, overlap increased single-window coverage from 3 to 6 intervals. M
 
 ## Further Reading
 
-- [Evaluating Chunking Strategies for Retrieval](https://www.trychroma.com/research/evaluating-chunking)
 - [Is Semantic Chunking Worth the Computational Cost?](https://arxiv.org/abs/2410.13070)
 - [Clever Chunking Methods Aren't (Always) Worth the Effort](https://mburaksayici.com/blog/2025/11/08/not-all-clever-chunking-methods-always-worth-it.html)
 - [Visualizing Chunking Impacts in Agentic RAG, Part 1](https://towardsdev.com/visualizing-chunking-impacts-in-agentic-rag-with-agno-qdrant-ragas-and-llamaindex-part-1-7fe1ee31f5a5)
