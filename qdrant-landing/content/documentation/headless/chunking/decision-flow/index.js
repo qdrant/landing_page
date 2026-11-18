@@ -1,44 +1,57 @@
-// One illustrative example per setup decision; no pipeline or model runs here.
+// Setup checklists apply to direct text, parsed documents, and page images.
 export const STEPS = [
   {
     id: 1,
     title: 'Inspect sources',
-    exampleTitle: 'Receipt totals',
-    instruction: 'Check OCR against the original receipt.',
-    before: 'Subtotal $70 + tax $17.50 − discount $0.50',
-    after: 'Total $87',
+    checklist: [
+      'Identify the evidence your questions need.',
+      'Check source quality and reading order.',
+      'Choose direct text, OCR, VLM parsing, or page images.',
+      'Retain source IDs and positions.',
+    ],
   },
   {
     id: 2,
     title: 'Choose boundary',
-    exampleTitle: 'Export instructions',
-    instruction: 'Keep a task and its condition together.',
-    before: 'Export steps + linked-file exception',
-    after: 'One chunk',
+    checklist: [
+      'Fixed chunking: length limits',
+      'Sentence chunking: sentence boundaries',
+      'Paragraph chunking: paragraph boundaries',
+      'Sliding-window chunking: overlapping spans',
+      'Semantic chunking: embedding similarity',
+      'Agentic chunking: LLM-selected boundaries',
+      'Recursive chunking: ordered separators',
+    ],
   },
   {
     id: 3,
     title: 'Set size and overlap',
-    exampleTitle: 'Overlapping windows',
-    instruction: "Example sizes: count with your embedding model's tokenizer.",
-    before: '400-token window − 40-token overlap',
-    after: '360-token stride',
+    checklist: [
+      'Choose the retrieval unit and size.',
+      'Check embedding and answering-model input limits.',
+      'Set overlap or stride where needed.',
+      'Budget all evidence sent to the answering model.',
+    ],
   },
   {
     id: 4,
     title: 'Add missing context',
-    exampleTitle: 'Name the subject',
-    instruction: 'Include useful context before embedding.',
-    before: 'Download them separately.',
-    after: 'Linked files: download them separately.',
+    checklist: [
+      'Choose useful titles, labels, or definitions.',
+      'Keep required conditions with the evidence.',
+      'Decide whether retrieval should fetch surrounding context.',
+      'Retain source references for citations.',
+    ],
   },
   {
     id: 5,
     title: 'Test final evidence',
-    exampleTitle: 'Missing evidence',
-    instruction: 'Check the context sent to the answering model.',
-    before: 'Retrieved: Share the export archive.',
-    after: 'Missing: Download linked files separately.',
+    checklist: [
+      'Label source evidence for representative questions.',
+      'Compare alternatives at the same context budget.',
+      'Score evidence coverage and answer correctness separately.',
+      'Measure ingestion cost, storage, and latency.',
+    ],
   },
 ];
 
@@ -47,7 +60,7 @@ const escape = value => String(value).replace(/[&<>"']/g, character => ({
 })[character]);
 
 export function mount(node) {
-  node.classList.add('qi-chunk', 'qi-chunk--flow', 'mathjax_ignore');
+  node.classList.add('qi-chunk', 'qi-chunk--flow');
   node.innerHTML = `
     <div class="qi-fig">
       <div class="qi-flow__layout">
@@ -60,13 +73,7 @@ export function mount(node) {
           </li>`).join('')}
         </ol>
         <div class="qi-chunk__panel qi-flow__detail">
-          <p class="qi-flow__example-title" data-example-title></p>
-          <p data-instruction></p>
-          <div class="qi-flow__example">
-            <p data-before></p>
-            <span class="qi-flow__example-arrow" aria-hidden="true">↓</span>
-            <p class="qi-flow__result" data-after></p>
-          </div>
+          <ul class="qi-flow__checklist" data-checklist></ul>
         </div>
       </div>
       <p class="qi-flow__announcement" role="status" aria-live="polite" aria-atomic="true"></p>
@@ -76,11 +83,10 @@ export function mount(node) {
     node.querySelectorAll('[data-step]').forEach(button => {
       button.setAttribute('aria-pressed', String(Number(button.dataset.step) === step.id));
     });
-    node.querySelector('[data-example-title]').textContent = step.exampleTitle;
-    node.querySelector('[data-instruction]').textContent = step.instruction;
-    node.querySelector('[data-before]').textContent = step.before;
-    node.querySelector('[data-after]').textContent = step.after;
-    node.querySelector('[role="status"]').textContent = `${step.title}. ${step.instruction} ${step.before} ${step.after}`;
+    const checklist = node.querySelector('[data-checklist]');
+    checklist.setAttribute('aria-label', `Checklist: ${step.title}`);
+    checklist.innerHTML = step.checklist.map(item => `<li>${escape(item)}</li>`).join('');
+    node.querySelector('[role="status"]').textContent = `${step.title}. ${step.checklist.join(' ')}`;
   }
 
   node.addEventListener('click', event => {

@@ -45,30 +45,26 @@
   }
 }
 
-.documentation details.chunking-method-menu {
-  margin: 1.25rem 0;
+.documentation details.chunking-method {
+  margin: 1rem 0;
   padding: 0.875rem 1.25rem;
   border: 1px solid currentColor;
   border-radius: 6px;
+  scroll-margin-top: 6rem;
 }
 
-.documentation .chunking-method-menu > summary {
+.documentation .chunking-method > summary {
   margin: 0;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 700;
   cursor: pointer;
 }
 
-.documentation .chunking-method-menu > ul {
-  margin: 0.75rem 0 0;
+.documentation .chunking-method[open] > summary {
+  margin-bottom: 1.25rem;
 }
 
-.documentation .chunking-method-menu a {
-  display: inline-block;
-  padding: 0.25rem 0;
-}
-
-.documentation .chunking-method-menu :focus-visible {
+.documentation .chunking-method > summary:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 4px;
 }

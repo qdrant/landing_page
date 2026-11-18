@@ -45,34 +45,21 @@
   text-align: center;
 }
 
-.qi-chunk--flow .qi-flow__detail {
-  gap: 16px;
+.documentation .qi-chunk--flow .qi-flow__checklist {
+  margin: 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
-.documentation .qi-chunk--flow .qi-flow__example-title {
-  font-size: 18px;
-  font-weight: 600;
+.documentation .qi-chunk--flow .qi-flow__checklist > li {
+  padding-left: 0.25rem;
+  margin: 0 0 0.75rem;
 }
 
-.qi-chunk--flow .qi-flow__example {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 12px;
-  padding: 16px;
-  border: 1px solid var(--qi-line);
-  border-radius: var(--qi-radius);
-  background: var(--qi-cat-1-soft);
-}
-
-.qi-chunk--flow .qi-flow__example-arrow {
-  color: var(--qi-fg);
-  font-size: 22px;
-  line-height: 1;
-}
-
-.qi-chunk--flow .qi-flow__result {
-  font-weight: 600;
+.documentation .qi-chunk--flow .qi-flow__checklist > li:last-child {
+  margin-bottom: 0;
 }
 
 .qi-chunk--flow .qi-flow__announcement {

@@ -18,7 +18,7 @@ function fixture(t) {
   return dom.window.document;
 }
 
-test('each title selects one concise example without replacing the focused control', t => {
+test('each title selects a bullet-only checklist without replacing the focused control', t => {
   const document = fixture(t);
   const node = document.querySelector('#first');
   mount(node);
@@ -30,7 +30,7 @@ test('each title selects one concise example without replacing the focused contr
   assert.equal(node.querySelectorAll('.qi-flow__arrow').length, 4);
   assert.equal(node.querySelectorAll('a, [data-choices], [data-reset], [data-next]').length, 0);
   const panel = node.querySelector('.qi-flow__detail');
-  const examples = new Set();
+  const checklists = new Set();
   for (const button of [...buttons, buttons[0], buttons[0]]) {
     button.focus();
     button.querySelector('b').click();
@@ -38,14 +38,22 @@ test('each title selects one concise example without replacing the focused contr
     assert.equal(node.querySelectorAll('[aria-pressed="true"]').length, 1);
     assert.equal(button.getAttribute('aria-pressed'), 'true');
     assert.equal(node.querySelector('.qi-flow__detail'), panel);
-    assert.equal(panel.querySelectorAll('.qi-flow__example').length, 1);
-    assert.ok(panel.textContent.trim().split(/\s+/).length <= 35);
+    assert.equal(panel.children.length, 1);
+    assert.equal(panel.firstElementChild.tagName, 'UL');
+    assert.ok(panel.querySelectorAll('li').length >= 4);
+    assert.equal(panel.querySelectorAll('input, button, p, h1, h2, h3').length, 0);
+    assert.equal(panel.firstElementChild.getAttribute('aria-label'), `Checklist: ${button.textContent.trim()}`);
     assert.ok(node.querySelector('[role="status"]').textContent.startsWith(button.textContent.trim()));
-    examples.add(panel.textContent);
+    checklists.add(panel.textContent);
   }
-  assert.equal(examples.size, 5);
-  assert.match(panel.textContent, /Total \$87/);
-  assert.doesNotMatch(node.textContent, /Explore the five decisions|Select a step|Next Action|Situation:/);
+  assert.equal(checklists.size, 5);
+  assert.match(panel.textContent, /direct text, OCR, VLM parsing, or page images/);
+  node.querySelector('[data-step="2"]').click();
+  assert.deepEqual([...panel.querySelectorAll('li')].map(item => item.textContent.split(':')[0]), [
+    'Fixed chunking', 'Sentence chunking', 'Paragraph chunking', 'Sliding-window chunking',
+    'Semantic chunking', 'Agentic chunking', 'Recursive chunking',
+  ]);
+  assert.doesNotMatch(node.textContent, /Explore the five decisions|Select a step|Next Action|Situation:|Receipt totals/);
 });
 
 test('mount announces readiness and selections remain scoped to their own diagram', t => {
@@ -59,8 +67,8 @@ test('mount announces readiness and selections remain scoped to their own diagra
   assert.deepEqual(ready, [first, second]);
   const initialSecond = second.innerHTML;
   first.querySelector('[data-step="5"]').click();
-  assert.match(first.querySelector('[data-after]').textContent, /Missing: Download linked files separately/);
+  assert.match(first.querySelector('[data-checklist]').textContent, /evidence coverage and answer correctness separately/);
   assert.equal(second.innerHTML, initialSecond);
-  first.querySelector('.qi-flow__example').click();
+  first.querySelector('.qi-flow__checklist li').click();
   assert.equal(first.querySelector('[data-step="5"]').getAttribute('aria-pressed'), 'true');
 });
