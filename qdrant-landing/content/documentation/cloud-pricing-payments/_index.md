@@ -1,13 +1,13 @@
 ---
-title: Billing & Payments
+title: Billing
 short_description: "Understand Qdrant Cloud pricing based on CPU, memory, and storage, and pay by credit card or AWS, GCP, or Azure Marketplace."
 description: "Qdrant Cloud billing explained: usage-based pricing for CPU, memory, and disk, with payment via credit card or AWS, GCP, and Azure Marketplaces."
 weight: 235
 partition: deploy
 aliases:
-  - aws-marketplace
-  - gcp-marketplace
-  - azure-marketplace
+  - /documentation/aws-marketplace/
+  - /documentation/gcp-marketplace/
+  - /documentation/azure-marketplace/
   - /documentation/cloud/pricing-payments/
 ---
 
@@ -23,7 +23,7 @@ Qdrant database clusters in Qdrant Cloud are priced based on CPU, memory, and di
 | Multi-AZ clusters (Premium) | At a higher rate than single-AZ clusters, to cover the cost of traffic between zones |
 | Backups | On AWS and GCP, backups are incremental, so each one stores only the data that changed since the previous one. On Azure, the cost is half of the disk usage when the backup was taken. See [Backups](/documentation/cloud/backups/#backup-considerations) |
 | Paid inference models | Per 1,000,000 tokens that the model processes. Free models cost nothing. External providers bill you directly through your own API key. See [Inference](/documentation/cloud/inference/) |
-| Premium | Premium tier rates under a committed-spend contract with an annual minimum. See [Premium Tier](/documentation/cloud-premium/) |
+| Premium | Premium tier rates under a committed-spend contract with an annual minimum. See [Premium Tier](/documentation/cloud-pricing-payments/cloud-premium/) |
 
 You can attach a [label](/documentation/cloud/configure-cluster/#adding-labels-to-a-cluster) to a cluster and use it for cost attribution in consumption reports.
 

@@ -2,8 +2,10 @@
 title: User Profile
 short_description: "Manage your Qdrant Cloud user profile: profile details, color scheme, cookie consent, account invitations, multi-factor authentication, and deactivation."
 description: "Manage your personal Qdrant Cloud user profile: profile details, appearance and color scheme, cookie consent, pending account invitations, multi-factor authentication and user deactivation."
-weight: 215
+weight: 10
 partition: deploy
+aliases:
+  - /documentation/cloud-user-profile/
 ---
 
 # Your User Profile & Preferences

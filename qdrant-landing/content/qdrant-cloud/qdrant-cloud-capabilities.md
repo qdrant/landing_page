@@ -127,7 +127,7 @@ tabs:
           alt: Git branch
         title: Multi-AZ Replication
         description: Up to 99.95% SLA. Three availability zones with automatic failover.
-        link: /documentation/cloud-premium/
+        link: /documentation/cloud-pricing-payments/cloud-premium/
       - id: 2
         icon:
           src: /icons/outline/database-purple.svg
@@ -160,28 +160,28 @@ tabs:
           alt: Shield check
         title: Compliance
         description: Reports available under NDA. SOC 2 Type II, HIPAA with BAA, and GDPR with DPA.
-        link: /documentation/cloud-security/
+        link: /documentation/cloud-rbac/cloud-security/
       - id: 1
         icon:
           src: /icons/outline/lock-open-turquoise.svg
           alt: Lock open
         title: Encryption in Transit
         description: End-to-end protection in flight. TLS 1.2+ on every API endpoint and replication channel.
-        link: /documentation/cloud-security/
+        link: /documentation/cloud-rbac/cloud-security/
       - id: 2
         icon:
           src: /icons/outline/hard-drive-turquoise.svg
           alt: Hard drive
         title: Encryption at Rest
         description: Storage protected by default; Premium adds customer-managed keys. AES-256 on storage volumes.
-        link: /documentation/cloud-security/
+        link: /documentation/cloud-rbac/cloud-security/
       - id: 3
         icon:
           src: /icons/outline/waypoints-turquoise.svg
           alt: Waypoints
         title: Private VPC Links
         description: On Premium, traffic stays on private networks over AWS PrivateLink, GCP Private Service Connect, or Azure Private Link.
-        link: /documentation/cloud-premium/
+        link: /documentation/cloud-pricing-payments/cloud-premium/
       - id: 4
         icon:
           src: /icons/outline/list-filter-turquoise.svg

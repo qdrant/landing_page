@@ -47,7 +47,7 @@ An availability zone (AZ) is an isolated section of a cloud provider's infrastru
 
 Creating a multi-node cluster with replication does not automatically distribute replicas across availability zones: all replicas may land in the same zone, so a single zone outage could take down every replica of a shard at once, even with a replication factor of two or higher.
 
-On the [Qdrant Cloud premium tier](/documentation/cloud-premium/), checking the **Multi AZ** box at cluster creation makes Qdrant zone-aware: it automatically distributes shards across availability zones so that each shard has a replica in another zone, and it routes traffic between zones automatically so the cluster stays available if one zone goes down. See [Creating a Production-Ready Cluster](/documentation/cloud/create-cluster/#creating-a-production-ready-cluster).
+On the [Qdrant Cloud premium tier](/documentation/cloud-pricing-payments/cloud-premium/), checking the **Multi AZ** box at cluster creation makes Qdrant zone-aware: it automatically distributes shards across availability zones so that each shard has a replica in another zone, and it routes traffic between zones automatically so the cluster stays available if one zone goes down. See [Creating a Production-Ready Cluster](/documentation/cloud/create-cluster/#creating-a-production-ready-cluster).
 
 Self-hosted Qdrant clusters have no zone awareness and won't automatically distribute replicas across them. You need to spread your nodes across zones yourself, then [move replicas](/documentation/scaling/distributed_deployment/#moving-shards) so that each shard has at least one replica in a different zone.
 

@@ -9,16 +9,16 @@ cards:
       src: /icons/outline/vectors-blue.svg
       alt: Vectors
     link:
-      url: /documentation/cloud-security/#managed-cloud
+      url: /documentation/cloud-rbac/cloud-security/#managed-cloud
       text: Explore Cluster Isolation
   - id: 1
     title: Encryption in Transit, at Rest
-    description: Data protected in transit with TLS and storage volumes encrypted at rest. <a href="/documentation/cloud-premium/">Premium</a> customers can encrypt their data at rest using their own keys.
+    description: Data protected in transit with TLS and storage volumes encrypted at rest. <a href="/documentation/cloud-pricing-payments/cloud-premium/">Premium</a> customers can encrypt their data at rest using their own keys.
     icon:
       src: /icons/outline/lock-keyhole-blue.svg
       alt: Lock
     link:
-      url: /documentation/cloud-security/#managed-cloud
+      url: /documentation/cloud-rbac/cloud-security/#managed-cloud
       text: See How Encryption Works
   - id: 2
     title: Telemetry and Logs

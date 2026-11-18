@@ -21,7 +21,7 @@ To create your first cluster, start with [Getting Started](/documentation/cloud/
 | Where clusters run | Qdrant-owned infrastructure on AWS, GCP, or Azure | Your Kubernetes clusters, in any environment | Your Kubernetes clusters, in any environment |
 | Who operates the database | Qdrant | Qdrant Cloud, through an Operator in your cluster | You, with the Qdrant Operator |
 | Management | Cloud Console, [Cloud API](/documentation/cloud-automation/cloud-api/), [CLI](/documentation/cloud-automation/cloud-cli/), and [Terraform](/documentation/cloud-automation/terraform/) | The same tools as Managed Cloud | Kubernetes resources, with no connection to Qdrant Cloud |
-| Where your data lives | Qdrant-managed volumes, [encrypted at rest](/documentation/cloud-security/) | Inside your network | Inside your network |
+| Where your data lives | Qdrant-managed volumes, [encrypted at rest](/documentation/cloud-rbac/cloud-security/) | Inside your network | Inside your network |
 | Read more | This section | [Hybrid Cloud](/documentation/hybrid-cloud/) | [Private Cloud](/documentation/private-cloud/) |
 
 For who is responsible for what in each model, see [Shared Responsibility](/documentation/shared-responsibility/).
@@ -35,7 +35,7 @@ For who is responsible for what in each model, see [Shared Responsibility](/docu
 | Uptime SLA | Not included | 99.5% | 99.9%, or 99.95% for multi-AZ |
 | Support | Best effort | Business hours | 24/7 for Severity 1 and 2 issues |
 
-See [Create a Cluster](/documentation/cloud/create-cluster/) for the free tier limits and [Premium Tier](/documentation/cloud-premium/) for the full comparison. Billing is usage-based on CPU, memory, and disk. See [Billing & Payments](/documentation/cloud-pricing-payments/).
+See [Create a Cluster](/documentation/cloud/create-cluster/) for the free tier limits and [Premium Tier](/documentation/cloud-pricing-payments/cloud-premium/) for the full comparison. Billing is usage-based on CPU, memory, and disk. See [Billing & Payments](/documentation/cloud-pricing-payments/).
 
 ## What Each Cluster Includes
 

@@ -2,7 +2,7 @@
 title: Shared Responsibility
 short_description: "Compare Managed Cloud, Hybrid Cloud, and Private Cloud: where the data plane runs, and who is responsible for infrastructure, upgrades, networking, access control, availability, and monitoring."
 description: "Who is responsible for what in Qdrant Managed Cloud, Hybrid Cloud, and Private Cloud: infrastructure, Kubernetes, upgrades, networking, access control, backups, failover, monitoring, and logging."
-weight: 250
+weight: 258
 partition: deploy
 ---
 
@@ -52,7 +52,7 @@ In all three models, you choose when to upgrade a Qdrant cluster, and the Operat
 
 | Area | Managed Cloud | Hybrid Cloud | Private Cloud |
 |---|---|---|---|
-| **Internal networking** | Qdrant. Premium adds [private connections](/documentation/cloud-premium/#private-network-connectivity) | You. The Operator sets the pod network policies | You. The Operator sets the pod network policies |
+| **Internal networking** | Qdrant. Premium adds [private connections](/documentation/cloud-pricing-payments/cloud-premium/#private-network-connectivity) | You. The Operator sets the pod network policies | You. The Operator sets the pod network policies |
 | **IP restrictions** | You set the ranges in the Console | You set them on your load balancer or ingress | You |
 | **Firewall and ingress** | Qdrant | You. Allow outbound port 443 to `grpc.cloud.qdrant.io` and `api.cloud.qdrant.io`. Also allow `registry.cloud.qdrant.io` for images and Helm charts, unless you [mirror them](/documentation/hybrid-cloud/hybrid-cloud-setup/#mirroring-images-and-charts) | You |
 | **DNS** | Qdrant provisions the endpoint | You | You |
@@ -63,7 +63,7 @@ In all three models, you choose when to upgrade a Qdrant cluster, and the Operat
 |---|---|---|---|
 | **Console roles** | You, with [Cloud RBAC](/documentation/cloud-rbac/) | You, with Cloud RBAC | Not available |
 | **Cluster API keys** | You, in the Console or API. See [Authentication](/documentation/cloud/authentication/) | You, in your own systems | You, in your own systems |
-| **SSO** | You, on [Premium](/documentation/cloud-premium/#enterprise-single-sign-on-sso) | You, on Premium | Not provided |
+| **SSO** | You, on [Premium](/documentation/cloud-pricing-payments/cloud-premium/#enterprise-single-sign-on-sso) | You, on Premium | Not provided |
 | **Infrastructure IAM** | Qdrant | You | You |
 
 ## Availability
@@ -95,7 +95,7 @@ In all three models, you choose when to upgrade a Qdrant cluster, and the Operat
 
 ## Further Reading
 
-- [Cloud Security](/documentation/cloud-security/): encryption, access control, compliance certifications, and container image security
+- [Cloud Security](/documentation/cloud-rbac/cloud-security/): encryption, access control, compliance certifications, and container image security
 - [Managed Cloud](/documentation/cloud/): setup and cluster management
 - [Hybrid Cloud](/documentation/hybrid-cloud/): architecture, setup, and operations
 - [Private Cloud](/documentation/private-cloud/): setup and cluster management

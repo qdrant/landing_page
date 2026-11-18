@@ -32,7 +32,7 @@ This page takes you from no account to a connected, production-ready cluster. Ea
 | Uptime SLA | Not included | 99.5% | 99.9%, or 99.95% for multi-AZ |
 | Also includes | Basic monitoring, logs, and alerting | Scaling, audit logging, and GPUs for indexing (AWS only) | SSO, private networking, customer-managed keys, and 24/7 support |
 
-Free clusters are suspended after 1 week without use and deleted after 4 weeks of inactivity. You can upgrade a free cluster to a standard cluster at any time. For the full comparison, see [Create a Cluster](/documentation/cloud/create-cluster/) and [Premium Tier](/documentation/cloud-premium/).
+Free clusters are suspended after 1 week without use and deleted after 4 weeks of inactivity. You can upgrade a free cluster to a standard cluster at any time. For the full comparison, see [Create a Cluster](/documentation/cloud/create-cluster/) and [Premium Tier](/documentation/cloud-pricing-payments/cloud-premium/).
 
 ## Size Your Cluster
 
@@ -120,5 +120,5 @@ For the same workflow in each tool, see [Automate Qdrant Cloud](/documentation/c
 | Invite teammates and set roles | [Cloud RBAC](/documentation/cloud-rbac/) |
 | Change cluster size | [Scale Clusters](/documentation/cloud/cluster-scaling/) |
 | Tune defaults and restart behavior | [Configure Clusters](/documentation/cloud/configure-cluster/) |
-| Review compliance and network isolation | [Cloud Security](/documentation/cloud-security/) |
-| Compare Standard and Premium | [Premium Tier](/documentation/cloud-premium/) |
+| Review compliance and network isolation | [Cloud Security](/documentation/cloud-rbac/cloud-security/) |
+| Compare Standard and Premium | [Premium Tier](/documentation/cloud-pricing-payments/cloud-premium/) |

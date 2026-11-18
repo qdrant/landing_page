@@ -59,7 +59,7 @@ Restoring a backup into the same cluster makes the cluster unavailable while it 
 | Database API keys | An expiration on each key, one key per application, and the narrowest permission it needs. An email alert warns before a key expires | **API Keys** tab. See [Authentication](/documentation/cloud/authentication/) |
 | Network access | Client IP ranges restricted to your own networks | **Client IP Restrictions** in the [cluster configuration](/documentation/cloud/configure-cluster/#client-ip-restrictions) |
 | Console access | Users with the roles they need, and their keys revoked when they leave | [Cloud RBAC](/documentation/cloud-rbac/) and [When a User Leaves](/documentation/cloud/authentication/#when-a-user-leaves) |
-| Premium isolation | Private network connectivity and customer-managed encryption keys, if you need them | See [Premium Tier](/documentation/cloud-premium/) |
+| Premium isolation | Private network connectivity and customer-managed encryption keys, if you need them | See [Premium Tier](/documentation/cloud-pricing-payments/cloud-premium/) |
 
 ## Monitoring
 

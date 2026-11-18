@@ -7,7 +7,7 @@ weight: 5
 
 # Creating a Qdrant Cloud Cluster
 
-Qdrant Cloud offers two types of clusters: **Free** and **Standard**. [Premium](/documentation/cloud-premium/) customers create Standard clusters with additional options.
+Qdrant Cloud offers two types of clusters: **Free** and **Standard**. [Premium](/documentation/cloud-pricing-payments/cloud-premium/) customers create Standard clusters with additional options.
 
 ## Free Clusters
 
@@ -104,7 +104,8 @@ Then size the nodes:
 
 Migrations need more room than normal operation. When you restore a snapshot or use the Migration Tool, the target cluster needs twice the disk space that the source collection uses, and twice the RAM when you use the Migration Tool.
 
-These numbers are estimates. For the full formulas for sparse vectors, payloads, and indexes, see [Capacity Planning](/documentation/capacity-planning/). For ingestion-heavy workloads, it also covers [CPU](/documentation/capacity-planning/#cpu) and [disk speed](/documentation/capacity-planning/#storage-focused-configuration). For an interactive estimate, use the [Sizing Calculator](https://sizing.qdrant.tech/), and for cost, use the [Pricing Calculator](https://cloud.qdrant.io/calculator).
+These numbers are estimates. For the full formulas for sparse vectors, payloads, and indexes, see [Capacity Planning](/documentation/capacity-planning/). For ingestion-heavy workloads, it also covers [CPU](/documentation/capacity-planning/#cpu) and [disk speed](/documentation/capacity-planning/#storage-focused-configuration). For an interactive estimate, use the [Sizing Calculator](https://sizing.qdrant.tech/), and for cost, use the [Pricing Calculator](https://cloud.qdrant.io/calculator).
+
 
 ## Creating a Production-Ready Cluster
 

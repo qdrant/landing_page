@@ -7,11 +7,11 @@ weight: 50
 
 # Encryption at Rest
 
-Qdrant Managed Cloud encrypts all storage volumes at rest by default. [Premium customers](/documentation/cloud-premium/) can also use their own cloud key management service (KMS) key for additional control over their encryption. Enabling this requires opening a support ticket. Qdrant Support provides the cloud-specific identifiers and detailed setup instructions, then configures your cluster once your key is in place.
+Qdrant Managed Cloud encrypts all storage volumes at rest by default. [Premium customers](/documentation/cloud-pricing-payments/cloud-premium/) can also use their own cloud key management service (KMS) key for additional control over their encryption. Enabling this requires opening a support ticket. Qdrant Support provides the cloud-specific identifiers and detailed setup instructions, then configures your cluster once your key is in place.
 
 ## Prerequisites
 
-- A [Premium Managed Cloud](/documentation/cloud-premium/) subscription
+- A [Premium Managed Cloud](/documentation/cloud-pricing-payments/cloud-premium/) subscription
 - An existing cluster in Qdrant Cloud (create one before requesting encryption)
 - Whether your cluster is empty or contains data. We recommend starting with an empty cluster where possible.
 

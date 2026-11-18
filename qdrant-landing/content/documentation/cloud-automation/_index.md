@@ -1,5 +1,5 @@
 ---
-title: Automate Qdrant Cloud
+title: Automation
 short_description: "Choose between the Cloud API, the qcloud CLI, Terraform, and Pulumi, and see the same cluster and key workflow in each."
 description: "Automate Qdrant Cloud with the qcloud CLI, the Cloud API, Terraform, or Pulumi: prerequisites, the same create-cluster and create-key workflow in each tool, and a map of common operations."
 weight: 255

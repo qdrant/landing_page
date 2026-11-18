@@ -1,5 +1,5 @@
 ---
-title: Account Setup
+title: Account
 short_description: "Set up your Qdrant Cloud account: register, switch between accounts, invite teammates, and manage account settings and ownership."
 description: "Register a Qdrant Cloud account with email, Google, GitHub, or SSO. Create and switch between multiple Cloud accounts, manage account settings, and transfer ownership."
 weight: 210
@@ -27,7 +27,7 @@ Once you sign in, the Qdrant Cloud Console is organized around three areas:
 
 * The **left navigation** gives you access to your account resources like the account's clusters, backups, access management, or billing.
 * The **account switcher** at the top left lets you switch between the accounts you own or have been invited to, create new accounts, and open the accounts overview.
-* The **user menu** at the bottom left contains your personal, user-level options, like your user specific settings, invitations, and the management of your accounts. These are documented on the [User Profile](/documentation/cloud-user-profile/) page.
+* The **user menu** at the bottom left contains your personal, user-level options, like your user specific settings, invitations, and the management of your accounts. These are documented on the [User Profile](/documentation/cloud-account-setup/user-profile/) page.
 
 ![Qdrant Cloud Console overview](/documentation/cloud/console-overview.png)
 
@@ -81,16 +81,16 @@ To transfer ownership, on the account **Settings** page choose **Transfer Owners
 
 ### Deleting an Account
 
-Use **Delete Account** to permanently delete an account you own, along with all of its database clusters and associated data. This action cannot be undone and is only available to the account owner. Deleting an account does not delete your user. You can create other accounts afterward. You can delete your user completely in the [User Settings](/documentation/cloud-user-profile/).
+Use **Delete Account** to permanently delete an account you own, along with all of its database clusters and associated data. This action cannot be undone and is only available to the account owner. Deleting an account does not delete your user. You can create other accounts afterward. You can delete your user completely in the [User Settings](/documentation/cloud-account-setup/user-profile/).
 
 ## Inviting Users to an Account
 
-You can invite additional users to an account and manage their permissions on the **Access Management** page in the Qdrant Cloud Console. Invited users receive an email with an invitation link. Once they sign up, they can accept the invitation from their personal [Invitations](/documentation/cloud-user-profile/#invitations) page.
+You can invite additional users to an account and manage their permissions on the **Access Management** page in the Qdrant Cloud Console. Invited users receive an email with an invitation link. Once they sign up, they can accept the invitation from their personal [Invitations](/documentation/cloud-account-setup/user-profile/#invitations) page.
 
 For roles and permissions, see [Cloud RBAC](/documentation/cloud-rbac/).
 
 ## Enterprise Single-Sign-On (SSO)
 
-SSO lets your team sign in to the Cloud Console through your identity provider. It covers Console sign-in only and is part of the Premium Tier. See [Enterprise Single Sign-On](/documentation/cloud-premium/#enterprise-single-sign-on-sso) for the supported identity providers and how to turn it on.
+SSO lets your team sign in to the Cloud Console through your identity provider. It covers Console sign-in only and is part of the Premium Tier. See [Enterprise Single Sign-On](/documentation/cloud-pricing-payments/cloud-premium/#enterprise-single-sign-on-sso) for the supported identity providers and how to turn it on.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/EtUcA-MCZJM?si=-u31oU5R0FkVrspN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

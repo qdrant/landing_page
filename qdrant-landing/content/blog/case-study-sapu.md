@@ -36,7 +36,7 @@ The team initially ran Qdrant self-hosted on Docker. That worked well enough to 
 
 ## Why Sapu Moved to Qdrant Cloud Premium
 
-Sapu signed a [Qdrant Cloud](https://qdrant.tech/documentation/cloud-premium/) Premium partnership to get reliability without dedicating engineering bandwidth to managing infrastructure. The shift solved the stability problems immediately.
+Sapu signed a [Qdrant Cloud](https://qdrant.tech/documentation/cloud-pricing-payments/cloud-premium/) Premium partnership to get reliability without dedicating engineering bandwidth to managing infrastructure. The shift solved the stability problems immediately.
 
 >"So far it's paid dividends. We haven't run into the issues we had previously." — Scott Myers, Product Manager, Sapu
 
