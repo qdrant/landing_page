@@ -1,4 +1,4 @@
-// Regenerate the seven theme-neutral SVG fallbacks with:
+// Regenerate the theme-neutral SVG fallbacks with:
 // node qdrant-landing/content/documentation/headless/chunking/render-fallbacks.mjs
 // No dependencies or network requests are needed. The existing chunking figure
 // supplies the same embedded Geist Mono font used by these standalone exports.
@@ -41,6 +41,28 @@ function document(title, description, height, drawing) {
 ${drawing.join('\n')}
 </svg>
 `;
+}
+
+function decisionFlow() {
+  const drawing = [text(24, 40, 'Five Decisions for Chunking', { weight: 600 })];
+  const steps = [
+    ['Inspect Sources', 'Is the source evidence intact?'],
+    ['Choose Boundaries', 'Do needed facts stay together?'],
+    ['Set Size and Overlap', 'Do both input budgets fit?'],
+    ['Add Missing Context', 'Does each chunk make sense alone?'],
+    ['Test Final Evidence', 'Where does evidence disappear?'],
+  ];
+  steps.forEach(([label, question], index) => {
+    const y = 74 + index * 104;
+    drawing.push(rect(24, y, 592, 80, index === 0 ? color.violet : color.muted, { opacity: index === 0 ? 0.08 : 0.03 }));
+    drawing.push(text(40, y + 31, `${index + 1}. ${label}`, { weight: 600 }));
+    drawing.push(text(40, y + 62, question));
+    if (index < steps.length - 1) drawing.push(line(320, y + 84, 320, y + 100, { arrow: true }));
+  });
+  drawing.push(text(24, 614, 'Trace failures to the relevant step.'));
+  return document('Five decisions for setting up chunking',
+    'Follow five connected decisions. First, inspect whether extracted source evidence is intact. Second, choose boundaries that keep the facts needed for a question together. Third, fit complete embedding inputs and the assembled answer context within their separate model budgets, adding overlap only where it helps. Fourth, add source identity or missing source context at the appropriate stage. Fifth, test final evidence coverage and answer correctness separately. Missing source evidence leads back to inspection; a retrieval miss calls for inspecting the query, filters, and representation; dropped context calls for inspecting assembly, expansion, duplicates, and budgets. If evidence is present but the answer is wrong, inspect the answering stage. This diagram illustrates decisions and does not run or validate a pipeline.',
+    640, drawing);
 }
 
 function fixed() {
@@ -242,7 +264,7 @@ function recursive() {
     400, drawing);
 }
 
-for (const [name, render] of Object.entries({ fixed, sentence, paragraph, 'sliding-window': slidingWindow, semantic, agentic, recursive })) {
+for (const [name, render] of Object.entries({ 'decision-flow': decisionFlow, fixed, sentence, paragraph, 'sliding-window': slidingWindow, semantic, agentic, recursive })) {
   const svg = render();
   await writeFile(new URL(`${name}.svg`, destination), svg);
   console.log(`${name}.svg: ${svg.match(/viewBox="([^"]+)"/)[1]}, embedded Geist Mono`);

@@ -10,25 +10,21 @@ weight: 20
 
 <link rel="stylesheet" href="/guides_data/chunking/figures.css">
 
-# How to Choose a Chunking Strategy
+# Why Chunking Matters
 
-We chunk documents because each embedding model has a limited input context window. For example, [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2#intended-uses) truncates inputs beyond 256 word pieces by default, while [BGE-M3](https://huggingface.co/BAAI/bge-m3#specs) supports up to 8,192 tokens. If a document exceeds the configured limit, the pipeline may truncate it or reject it. With truncation, discarded text never reaches the embedding, so the resulting vector cannot represent the full document. Splitting the source into chunks that fit the model gives focused passages their own vectors, which can make specific details easier to retrieve than one vector covering many topics. Each chunk can also have [metadata stored alongside its vector](/documentation/manage-data/payload/), such as its document ID, section title, and page number, to support filtering and citations.
+Each embedding model has a limited input context window. [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2#intended-uses) truncates inputs beyond 256 word pieces by default; [BGE-M3](https://huggingface.co/BAAI/bge-m3#specs) supports up to 8,192 tokens. Oversized inputs may be rejected or truncated. Discarded text never reaches the embedding. Chunking lets you give focused passages their own vectors and attach [metadata](/documentation/manage-data/payload/), including document IDs, section titles, and page numbers, for filtering and citations.
 
-Consider a user asking how to share a complete project copy. Search finds the export procedure but misses a separate paragraph requiring linked files to be downloaded separately. The answer follows the retrieved instructions and still leaves the user with an incomplete copy.
+Boundaries determine which evidence arrives together. Retrieving an export procedure without its linked-file exception can produce incomplete instructions, even if every sentence stays intact. Start by asking: **what information must reach the answer together?**
 
-This is the problem a chunking strategy must address: **which information needs to reach the answer together?** This guide takes you from that question to boundaries, size and overlap, context, and a testable configuration.
+More elaborate splitting is not automatically better. [Qu et al. (2024)](https://arxiv.org/abs/2410.13070) found inconsistent gains from semantic chunking over fixed groups of whole sentences. [Sayıcı's EUR-Lex experiment](https://mburaksayici.com/blog/2025/11/08/not-all-clever-chunking-methods-always-worth-it.html) also questions whether added complexity pays. Embedding-based splitters compare sentence vectors, neural detectors classify boundaries, and LLMs interpret passage roles. Compare their ingestion costs and evidence coverage against a simple baseline on your questions.
 
-## What the Chunking Debate Means in Practice
+Larger answering-model windows can make whole-document input useful when the relevant document fits. They do not remove embedding limits or the need to search a large corpus. [Lost in the Middle](https://arxiv.org/abs/2307.03172) and [Context Rot](https://www.trychroma.com/research/context-rot) show that evidence position and input length can affect results, depending on the model and task.
 
-**A bad boundary can lose evidence.** A length cut can break a sentence or separate an instruction from its exception. [Recursive splitters](https://docs.langchain.com/oss/python/integrations/splitters/recursive_text_splitter) try larger text separators before smaller ones. Even a complete sentence can be incomplete evidence. To investigate a reported "retrieval collapse," trace which source passage the split or retrieval left out.
+Check parsing before splitting. Scrambled PDF columns, missing table headers, or detached captions lose evidence upstream. [Docling](https://docling-project.github.io/docling/) can help extract structured content; visually rich documents may need page-image retrieval.
 
-**Semantic coherence is a hypothesis to test.** [Qu et al. (2024)](https://arxiv.org/abs/2410.13070) compared fixed and semantic chunkers across retrieval and answer-generation tasks. Semantic methods did not consistently outperform the baseline, which grouped **whole sentences**. [Sayıcı's EUR-Lex experiment](https://mburaksayici.com/blog/2025/11/08/not-all-clever-chunking-methods-always-worth-it.html) also questions whether added complexity pays. These findings motivate a comparison on your workload; they do not establish a universal ranking of splitters.
-
-**Model-based splitters do different work.** Embedding-based methods compare sentence vectors. A trained detector such as [Chonky](https://github.com/mirth/chonky) classifies boundaries. An [LLM-based chunker](https://docs.agno.com/knowledge/concepts/chunking/agentic-chunking) can interpret instructions and passage roles. Compare ingestion time, model usage, and final evidence coverage. Check whether the implementation slices source text or generates new text.
-
-**Larger context windows make whole-document input an option.** If you know the relevant document and it fits your answering budget, test supplying it whole. You still need to find relevant material in a large corpus and respect the embedding model's input limit. [Lost in the Middle](https://arxiv.org/abs/2307.03172) found sensitivity to evidence position; [Chroma's 2025 Context Rot experiments](https://www.trychroma.com/research/context-rot) found sensitivity to input length, varying by model and task. Test your current model on representative document lengths and evidence positions.
-
-**Parsing can fail before chunking begins.** Scrambled PDF columns, missing table headers, and repeated headers or footers change the text any splitter receives. Check extraction quality before changing the boundary rule; tools such as [Docling](https://docling-project.github.io/docling/) address this earlier stage.
+{{< island path="documentation/headless/chunking/decision-flow" ratio="1/1" title="Select a step to explore its decision and possible next actions. Follow source inspection, boundaries, size and overlap, context, and evaluation. If evidence is lost, return to the stage responsible. This map illustrates the workflow; it does not run a pipeline." >}}
+![Five connected decisions: inspect source evidence, choose boundaries that keep needed facts together, fit embedding and answer budgets, supply missing context, and test the evidence reaching the answer. Trace failures to extraction, retrieval, context assembly, or the answering stage before changing the splitter.](/guides_data/chunking/decision-flow.svg)
+{{< /island >}}
 
 ## Available Frameworks and Libraries
 

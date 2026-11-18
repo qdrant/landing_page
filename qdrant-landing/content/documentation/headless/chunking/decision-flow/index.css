@@ -1,0 +1,116 @@
+.qi-chunk--flow .qi-flow__layout {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.8fr) minmax(0, 1.4fr);
+  align-items: start;
+  gap: 20px;
+}
+
+.documentation .qi-chunk--flow .qi-flow__steps {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.documentation .qi-chunk--flow .qi-flow__steps > li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.qi-chunk--flow .qi-flow__node {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 10px;
+  width: 100%;
+  min-height: 64px;
+  padding: 10px 12px;
+  border-color: var(--qi-line);
+  background: var(--qi-surface);
+  text-align: left;
+}
+
+.qi-chunk--flow .qi-flow__node[aria-pressed='true'] {
+  border: 2px solid var(--qi-fg);
+  padding: 9px 11px;
+  background: var(--qi-cat-1-soft);
+}
+
+.qi-chunk--flow .qi-flow__number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: start;
+  min-height: 24px;
+  border: 1px solid var(--qi-line);
+  border-radius: 50%;
+  font-variant-numeric: tabular-nums;
+}
+
+.qi-chunk--flow .qi-flow__node-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.qi-chunk--flow .qi-flow__node-copy > span {
+  font-family: var(--qi-sans, inherit);
+  font-weight: 400;
+}
+
+.qi-chunk--flow .qi-flow__arrow {
+  display: block;
+  height: 26px;
+  color: var(--qi-fg);
+  font-size: 22px;
+  line-height: 26px;
+  text-align: center;
+}
+
+.qi-chunk--flow .qi-flow__detail {
+  gap: 16px;
+}
+
+.qi-chunk--flow .qi-flow__question {
+  font-weight: 600;
+}
+
+.qi-chunk--flow .qi-flow__choices,
+.qi-chunk--flow .qi-flow__navigation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.qi-chunk--flow .qi-flow__action {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--qi-line);
+}
+
+.qi-chunk--flow .qi-flow__navigation a {
+  display: inline-block;
+  padding: 5px 2px;
+  color: var(--qi-fg);
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.qi-chunk--flow [hidden] {
+  display: none !important;
+}
+
+@container chunking (max-width: 560px) {
+  .qi-chunk--flow .qi-flow__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .qi-chunk--flow .qi-flow__node {
+    min-height: 60px;
+  }
+}
