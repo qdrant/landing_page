@@ -127,6 +127,38 @@ html[data-theme='light'] .chunking-media-fallback {
   outline-offset: 4px;
 }
 
+.documentation .chunking-method > p {
+  margin: 1rem 0;
+}
+
+.chunking-tradeoff-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+  align-items: start;
+}
+
+.documentation .chunking-tradeoff-grid details.chunking-tradeoffs {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-left-width: 3px;
+}
+
+.documentation .chunking-tradeoff-grid ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.documentation .chunking-tradeoff-grid li {
+  margin-bottom: 0.35rem;
+}
+
+@media (max-width: 700px) {
+  .chunking-tradeoff-grid { grid-template-columns: minmax(0, 1fr); }
+  .documentation details.chunking-method { padding: 0.75rem; }
+}
+
 .documentation details.chunking-tradeoffs {
   margin: 1.25rem 0;
   padding: 0.875rem 1.25rem;
@@ -446,6 +478,92 @@ html[data-theme='dark'] .chunking-figure > .chunking-figure__dark {
   font-size: 24px;
   text-align: center;
   line-height: 1;
+}
+
+/* Compact method examples show source wording once, with only boundary cues. */
+.qi-chunk--compact .qi-chunk__panels {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+
+.qi-chunk--compact .qi-chunk__panel {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  gap: 10px;
+}
+
+.qi-chunk--compact .qi-chip { min-height: 40px; }
+
+.qi-chunk--compact .qi-chunk__chunk,
+.qi-chunk--compact .qi-chunk__sentence {
+  padding: 10px 14px;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 0;
+  gap: 6px;
+}
+
+.qi-chunk--compact .qi-chunk__token {
+  padding: 0 3px;
+  border: 0;
+  background: transparent;
+}
+
+.qi-chunk--compact .qi-chunk__sentences { gap: 4px; }
+
+.qi-chunk--compact .qi-chunk__sentence { padding: 6px 14px; }
+
+.qi-chunk--compact .qi-chunk__badge {
+  padding: 0;
+  border: 0;
+}
+
+.documentation .qi-chunk--compact .qi-chunk__text,
+.documentation .qi-chunk--compact .qi-chunk__source-words {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.qi-chunk--compact .qi-chunk__word {
+  padding: 2px 0;
+  border-bottom: 2px solid transparent;
+}
+
+.qi-chunk--compact .qi-chunk__word.is-selected {
+  background: var(--chunk-soft);
+  border-bottom-color: var(--qi-fg);
+}
+
+.qi-chunk--compact .qi-chunk__word.is-overlap,
+.qi-chunk--compact .qi-chunk__token.is-overlap {
+  border: 0;
+  border-bottom: 2px dashed var(--qi-fg);
+}
+
+.qi-chunk--compact .qi-chunk__chunk.is-oversized {
+  border-left-style: dashed;
+}
+
+.qi-chunk--compact .qi-chunk__boundary { padding: 2px 0; }
+
+.qi-chunk--compact .qi-chunk__similarity { padding: 0; }
+
+.qi-chunk--compact .qi-chunk__steps li {
+  padding: 4px 8px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+}
+
+.qi-chunk--compact .qi-chunk__steps .is-current {
+  border-bottom-color: var(--qi-fg);
+}
+
+.documentation .chunking-method > .island .island__caption {
+  text-align: left;
+  font-size: 14px;
 }
 
 @container chunking (max-width: 560px) {

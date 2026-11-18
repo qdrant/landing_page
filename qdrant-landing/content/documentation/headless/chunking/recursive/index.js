@@ -75,10 +75,9 @@ function visibleUnits(units) {
 }
 
 export function mount(node) {
-  node.classList.add('qi-chunk', 'qi-chunk--recursive');
+  node.classList.add('qi-chunk', 'qi-chunk--compact', 'qi-chunk--recursive');
   node.innerHTML = `
     <div class="qi-fig">
-      <p class="qi-chunk__lead">Follow only the oversized pieces through finer separators.</p>
       <div class="qi-controls">
         <div class="qi-group" role="group" aria-label="Recursive chunk word cap">
           <span class="qi-hint">Cap</span>
@@ -90,17 +89,11 @@ export function mount(node) {
       <ol class="qi-chunk__steps" aria-label="Recursive splitting stages">
         ${STEPS.map((name, i) => `<li data-step="${i}"><span class="qi-chunk__step-number">${i + 1}</span>${name}</li>`).join('')}
       </ol>
-      <div class="qi-chunk__panels">
-        <div class="qi-chunk__panel">
-          <p class="qi-frame-label qi-chunk__label">Source · ${SOURCE_WORDS.length} words</p>
-          <div class="qi-chunk__chunks qi-chunk__paragraphs">${initialUnits().map((unit) => `<div class="qi-chunk__chunk" style="${color(unit.paragraph)}"><p class="qi-chunk__chunk-title">${unit.id} <span class="qi-chunk__badge">${unit.words.length} words</span></p><p class="qi-chunk__text">${escape(unit.words.join(' '))}</p></div>`).join('')}</div>
-        </div>
-        <div class="qi-chunk__panel">
-          <p class="qi-frame-label qi-chunk__label qi-chunk__stage-label"></p>
-          <div class="qi-chunk__chunks qi-chunk__units"></div>
-        </div>
+      <div class="qi-chunk__panel">
+        <p class="qi-frame-label qi-chunk__label qi-chunk__stage-label"></p>
+        <div class="qi-chunk__chunks qi-chunk__units"></div>
       </div>
-      <p class="qi-chunk__note">Custom separators: paragraph → sentence → word. Counts are words, with zero overlap.</p>
+      <p class="qi-chunk__note">Custom separators; word counts, not model tokens. No overlap.</p>
       <p class="qi-status qi-chunk__status" role="status" aria-live="polite" aria-atomic="true"></p>
     </div>`;
 
@@ -127,28 +120,21 @@ export function mount(node) {
     stageLabel.textContent = `${step + 1}. ${STEPS[step]} · cap ${cap}`;
 
     if (step === 3) {
-      const sourceStarts = new Map(stages.sentences.map((unit) => [unit.id, unit.start]));
-      unitsEl.innerHTML = stages.chunks.map((chunk) => {
-        const provenance = visibleUnits(chunk.units).map((unit) => {
-          const firstWord = unit.start - sourceStarts.get(unit.id) + 1;
-          const lastWord = unit.end - sourceStarts.get(unit.id);
-          const label = unit.kind === 'word-group'
-            ? `${unit.id} · ${firstWord === lastWord ? `word ${firstWord}` : `words ${firstWord}–${lastWord}`}`
-            : unit.id;
-          return `<span class="qi-chunk__token" style="${color(unit.paragraph)};border-color:var(--chunk-color)" title="Source words ${unit.start + 1}–${unit.end}">${label}</span>`;
-        }).join('');
-        return `<div class="qi-chunk__chunk" style="--chunk-color:var(--qi-line);--chunk-soft:transparent"><p class="qi-chunk__chunk-title">${chunk.id} <span class="qi-chunk__badge">${chunk.words.length} words</span></p><div class="qi-chunk__tokens" role="group" aria-label="Source units in ${chunk.id}">${provenance}</div><p class="qi-chunk__text">${escape(chunk.words.join(' '))}</p><p class="qi-chunk__note">Source words ${chunk.start + 1}–${chunk.end}</p></div>`;
-      }).join('');
-      statusEl.innerHTML = `<b>${stages.chunks.length} chunks</b>, each at most ${cap} words. All <b>${SOURCE_WORDS.length} source words</b> survive in order with no overlap. Units that fit stayed intact; smaller neighbors were packed together where they fit.`;
+      unitsEl.innerHTML = stages.chunks.map(chunk => `
+        <div class="qi-chunk__chunk" style="--chunk-color:var(--qi-line);--chunk-soft:transparent">
+          <p class="qi-chunk__chunk-title">${chunk.id} · ${chunk.words.length} words <span class="qi-chunk__note">(source ${chunk.start + 1}–${chunk.end})</span></p>
+          <p class="qi-chunk__text">${escape(chunk.words.join(' '))}</p>
+        </div>`).join('');
+      statusEl.innerHTML = `<b>${stages.chunks.length} chunks</b>, each at most ${cap} words. All <b>${SOURCE_WORDS.length} source words</b> survive in order.`;
       return;
     }
 
     unitsEl.innerHTML = visibleUnits(units).map((unit) => {
       const wordGroup = unit.kind === 'word-group';
       const oversized = !wordGroup && unit.words.length > cap;
-      const tag = wordGroup ? `${unit.words.length} one-word units` : oversized ? `${unit.words.length} > ${cap} · split next` : `${unit.words.length} ≤ ${cap} · keep intact`;
+      const tag = wordGroup ? `${unit.words.length} one-word units` : oversized ? `${unit.words.length} words · split next` : `${unit.words.length} words · keep intact`;
       const body = wordGroup
-        ? `<div class="qi-chunk__tokens">${unit.words.map((word, i) => `<span class="qi-chunk__token" title="Source word ${unit.start + i + 1}">${escape(word)}</span>`).join('')}</div>`
+        ? `<p class="qi-chunk__text qi-chunk__word-units">${unit.words.map(escape).join(' · ')}</p>`
         : `<p class="qi-chunk__text">${escape(unit.words.join(' '))}</p>`;
       return `<div class="qi-chunk__chunk${oversized ? ' is-oversized' : ''}${wordGroup ? ' qi-chunk__word-group' : ''}" style="${color(unit.paragraph)}"><p class="qi-chunk__chunk-title">${unit.id} <span class="qi-chunk__badge">${tag}</span></p>${body}</div>`;
     }).join('');
@@ -156,15 +142,15 @@ export function mount(node) {
     const oversized = units.filter((unit) => unit.words.length > cap);
     if (step === 0) {
       statusEl.innerHTML = `<b>${stages.paragraphs.length - oversized.length} of ${stages.paragraphs.length} paragraphs fit</b> the ${cap}-word cap. ` +
-        (oversized.length ? `${oversized.map((unit) => unit.id).join(', ')} will split at sentence boundaries; the other paragraphs stay intact.` : 'No paragraph needs a finer split. Continue to see how intact units are packed.');
+        (oversized.length ? `${oversized.map((unit) => unit.id).join(', ')} will split at sentence boundaries; the other paragraphs stay intact.` : 'No paragraph needs a finer split.');
     } else if (step === 1) {
       const splitParents = stages.paragraphs.filter((unit) => unit.words.length > cap);
       statusEl.innerHTML = (splitParents.length ? `Only <b>${splitParents.map((unit) => unit.id).join(', ')}</b> split into sentences. ` : 'No paragraph was split. ') +
-        (oversized.length ? `<b>${oversized.map((unit) => unit.id).join(', ')}</b> still exceeds ${cap} words and needs word boundaries.` : `Every unit now fits the ${cap}-word cap; no word-level split is needed.`);
+        (oversized.length ? `<b>${oversized.map((unit) => unit.id).join(', ')}</b> still exceeds ${cap} words and needs word boundaries.` : `Every unit fits; no word-level split is needed.`);
     } else {
       const splitSentences = stages.sentences.filter((unit) => unit.words.length > cap);
       statusEl.innerHTML = (splitSentences.length ? `<b>${splitSentences.map((unit) => unit.id).join(', ')}</b> became individual word units. ` : 'No word-level split was needed. ') +
-        `Every unit fits. The final step packs neighboring units up to <b>${cap} words</b>, keeping source order.`;
+        `Pack neighboring units up to <b>${cap} words</b>.`;
     }
   }
 

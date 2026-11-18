@@ -27,10 +27,10 @@ const color = (index) => `--chunk-color:var(--qi-cat-${index + 1});--chunk-soft:
 const sourceColor = (paragraph) => color(PARAGRAPHS.indexOf(paragraph));
 
 export function mount(node) {
-  node.classList.add('qi-chunk', 'qi-chunk--paragraph');
+  node.classList.add('qi-chunk', 'qi-chunk--paragraph', 'qi-chunk--compact');
   node.innerHTML = `
     <div class="qi-fig">
-      <p class="qi-chunk__lead">Keep each paragraph intact, or pack adjacent paragraphs within the same section.</p>
+      <p class="qi-chunk__lead">Group whole paragraphs without crossing a section heading.</p>
       <div class="qi-controls">
         <div class="qi-group" role="group" aria-label="Paragraph grouping">
           <button type="button" class="qi-chip" data-pack="false" aria-pressed="true">One per paragraph</button>
@@ -44,13 +44,9 @@ export function mount(node) {
       </div>
       <div class="qi-chunk__panels">
         <div class="qi-chunk__panel">
-          <p class="qi-frame-label qi-chunk__label">Source · 4 paragraphs</p>
-          <div class="qi-chunk__chunks" data-paragraph-source></div>
-        </div>
-        <div class="qi-chunk__panel">
           <p class="qi-frame-label qi-chunk__label" data-output-label></p>
           <div class="qi-chunk__chunks" data-paragraph-output></div>
-          <p class="qi-chunk__note">A section change ends a group even when more words would fit.</p>
+          <p class="qi-chunk__note">Counts are words, not model tokens.</p>
         </div>
       </div>
       <p class="qi-status" role="status" aria-live="polite" aria-atomic="true"></p>
@@ -58,7 +54,6 @@ export function mount(node) {
 
   let cap = 24;
   let pack = false;
-  const source = node.querySelector('[data-paragraph-source]');
   const output = node.querySelector('[data-paragraph-output]');
   const label = node.querySelector('[data-output-label]');
   const status = node.querySelector('[role="status"]');
@@ -69,20 +64,14 @@ export function mount(node) {
     const totalWords = PARAGRAPHS.reduce((sum, paragraph) => sum + paragraph.wordCount, 0);
     node.querySelectorAll('[data-pack]').forEach((button) => button.setAttribute('aria-pressed', String((button.dataset.pack === 'true') === pack)));
     node.querySelectorAll('[data-cap]').forEach((button) => button.setAttribute('aria-pressed', String(Number(button.dataset.cap) === cap)));
-    source.innerHTML = PARAGRAPHS.map((paragraph) => `<div class="qi-chunk__chunk${paragraph.wordCount > cap ? ' is-oversized' : ''}" style="${sourceColor(paragraph)}" data-paragraph="${paragraph.id}">
-      <p class="qi-chunk__chunk-title">${paragraph.id} · ${escape(paragraph.section)} <span class="qi-chunk__badge">${paragraph.wordCount} words</span></p>
-      <p class="qi-chunk__text">${escape(paragraph.text)}</p>
-    </div>`).join('');
     label.textContent = `${groups.length} ${oversized.length ? 'units to inspect' : 'chunks'} · cap ${cap} words`;
-    output.innerHTML = groups.map((group, index) => `<div class="qi-chunk__chunk${group.oversized ? ' is-oversized' : ''}" data-group="${index}" data-section="${escape(group.section)}">
+    output.innerHTML = groups.map((group, index) => `<div class="qi-chunk__chunk${group.oversized ? ' is-oversized' : ''}" style="${color(group.section === 'Export' ? 0 : 2)}" data-group="${index}" data-section="${escape(group.section)}">
       <p class="qi-chunk__chunk-title">${group.oversized ? 'Pending' : `C${index + 1}`} · ${escape(group.section)} <span class="qi-chunk__badge">${group.wordCount} words</span></p>
-      <div class="qi-chunk__tokens">${group.paragraphs.map((paragraph) => `<span class="qi-chunk__token" style="${sourceColor(paragraph)}" data-member="${paragraph.id}">${paragraph.id} ${escape(paragraph.label)}</span>`).join('')}</div>
-      ${group.oversized ? `<p class="qi-chunk__note"><b>Needs a finer split:</b> ${group.wordCount} words exceed the ${cap}-word cap.</p>` : ''}
+      ${group.paragraphs.map((paragraph) => `<p data-paragraph="${paragraph.id}"><span class="qi-chunk__token" style="${sourceColor(paragraph)}" data-member="${paragraph.id}">${paragraph.id} ${escape(paragraph.label)}</span> <span class="qi-chunk__text">${escape(paragraph.text)}</span></p>`).join('')}
+      ${group.oversized ? '<p class="qi-chunk__note"><b>Needs a finer split.</b></p>' : ''}
     </div>`).join('');
-    status.textContent = `${pack ? 'Pack adjacent paragraphs within each section.' : 'One paragraph per chunk.'} ` +
-      `${groups.length} ${oversized.length ? 'units' : 'chunks'} retain all ${totalWords} source words. ` +
-      (oversized.length ? `${oversized.map((paragraph) => paragraph.id).join(', ')} exceeds the cap and needs a finer split before embedding. ` : 'Every paragraph fits the selected cap. ') +
-      'Billing stays separate from Export. Counts are words, not model tokens.';
+    status.textContent = `${groups.length} ${oversized.length ? 'units' : 'chunks'} retain all ${totalWords} source words. ` +
+      (oversized.length ? `${oversized.map((paragraph) => paragraph.id).join(', ')} exceeds the cap; split it further.` : 'Billing stays separate from Export.');
   }
 
   node.addEventListener('click', (event) => {

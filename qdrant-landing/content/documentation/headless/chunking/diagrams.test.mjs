@@ -162,7 +162,7 @@ test('fixed controls update one instance, retain focused range selection, and re
     assert.equal(document.activeElement.dataset.chunk, String(chunks.length - 1));
     assert.equal(first.querySelectorAll('.qi-chunk__source-words [data-word]').length, fixed.SOURCE_WORDS.length);
     assert.equal(first.querySelectorAll('.qi-chunk__source-words .is-selected').length, chunks.at(-1).words.length);
-    assert.equal(first.querySelectorAll('.qi-chunk__selected-chunk .is-overlap').length, overlap);
+    assert.equal(first.querySelectorAll('.qi-chunk__source-words .is-overlap').length, overlap);
     assert.equal(statusText(second), initial);
     assert.equal(pressed(second, '[data-size]').dataset.size, '12');
   }

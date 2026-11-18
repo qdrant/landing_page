@@ -20,33 +20,25 @@ export function exampleDecision(windowEnd) {
 }
 
 export function mount(node) {
-  node.classList.add('qi-chunk', 'qi-chunk--agentic');
+  node.classList.add('qi-chunk', 'qi-chunk--compact', 'qi-chunk--agentic');
   node.innerHTML = `
     <div class="qi-fig">
-      <p class="qi-chunk__lead">Change the text window, then reveal a scripted boundary decision.</p>
       <div class="qi-controls qi-controls--split">
         <div class="qi-group" role="group" aria-label="Text supplied to the chunking model">
           ${WINDOWS.map(window => `<button type="button" class="qi-chip" data-window="${window.end}" aria-pressed="false">${window.label}<small>${window.range}</small></button>`).join('')}
         </div>
         <button type="button" class="qi-chip" data-reset>Reset</button>
       </div>
-      <p class="qi-chunk__note">Scripted illustration. No model is called; an actual model may choose another boundary.</p>
-      <div class="qi-chunk__panels">
-        <div class="qi-chunk__panel">
-          <p class="qi-chunk__label qi-frame-label">1. Supply a source window</p>
-          <div class="qi-chunk__sentences" data-source></div>
-        </div>
-        <div class="qi-chunk__panel">
-          <p class="qi-chunk__label qi-frame-label">2. Model selects a position</p>
-          <p class="qi-chunk__instruction">Example instruction: Keep a procedure with its conditions when they fit.</p>
-          <div class="qi-chunk__decision" data-decision></div>
-          <div class="qi-controls"><button type="button" class="qi-chip" data-reveal>Show example decision</button></div>
-          <div class="qi-chunk__flow-arrow" aria-hidden="true">↓</div>
-          <p class="qi-chunk__label qi-frame-label">3. Slice the source text</p>
-          <div data-result></div>
-        </div>
+      <p class="qi-chunk__note">Scripted decisions; no model runs here.</p>
+      <div class="qi-chunk__panel">
+        <p class="qi-chunk__label qi-frame-label">Source supplied to the model</p>
+        <div data-source></div>
+        <p class="qi-chunk__note" data-outside></p>
+        <button type="button" class="qi-chip" data-reveal>Show example decision</button>
+        <div data-decision></div>
+        <div data-result></div>
       </div>
-      <p class="qi-status qi-status--2" role="status" aria-live="polite" aria-atomic="true"></p>
+      <p class="qi-status" role="status" aria-live="polite" aria-atomic="true"></p>
     </div>`;
 
   const source = node.querySelector('[data-source]');
@@ -61,31 +53,27 @@ export function mount(node) {
   function render() {
     const example = exampleDecision(windowEnd);
     buttons.forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.window) === windowEnd)));
-    source.innerHTML = SENTENCES.map((sentence, index) => `
-      <div class="qi-chunk__sentence ${index < windowEnd ? 'is-in-window' : 'is-outside'}" data-sentence="${sentence.id}" style="--chunk-color:var(--qi-cat-1);--chunk-soft:var(--qi-cat-1-soft)">
-        <p class="qi-chunk__sentence-head"><b>${sentence.id}</b><span>${sentence.label}</span><span class="qi-chunk__badge">${index < windowEnd ? 'In window' : 'Outside input'}</span></p>
-        <p class="qi-chunk__text">${sentence.text}</p>
-      </div>${revealed && index === windowEnd - 1 ? `<div class="qi-chunk__cut-line">Selected cut after ${sentence.id}</div>` : ''}`).join('');
+    source.innerHTML = `<div class="qi-chunk__chunk" ${revealed ? 'data-output' : ''} style="--chunk-color:var(--qi-cat-1);--chunk-soft:var(--qi-cat-1-soft)">
+      <p class="qi-chunk__chunk-title">S1–S${windowEnd} · ${example.characterPosition} characters</p>
+      <p class="qi-chunk__text">${example.sentences.map(sentence => `<span class="is-in-window" data-sentence="${sentence.id}" title="${sentence.id}: ${sentence.label}">${sentence.text}</span>`).join(' ')}</p>
+    </div>`;
+    node.querySelector('[data-outside]').textContent = `Not supplied: ${SENTENCES.slice(windowEnd).map(sentence => `${sentence.id} ${sentence.label.toLowerCase()}`).join('; ')}.`;
 
     revealButton.textContent = revealed ? 'Hide example decision' : 'Show example decision';
     revealButton.setAttribute('aria-expanded', String(revealed));
     decision.innerHTML = revealed
-      ? `<span class="qi-chunk__badge">Example response</span><p class="qi-chunk__chunk-title">Split after ${example.splitAfter}</p><p class="qi-chunk__text">Character position ${example.characterPosition} in the displayed source window.</p>`
-      : '<p class="qi-chunk__text">The model receives only the sentences marked In window. It returns a boundary position.</p>';
+      ? `<p class="qi-chunk__cut-line">Split after ${example.splitAfter} · character ${example.characterPosition}</p>`
+      : '';
     result.innerHTML = revealed
-      ? `<div class="qi-chunk__chunk" data-output style="--chunk-color:var(--qi-cat-3);--chunk-soft:var(--qi-cat-3-soft)">
-          <p class="qi-chunk__chunk-title">Chunk: S1–${example.splitAfter}</p>
-          <p class="qi-chunk__text">${example.text}</p>
-          <p class="qi-chunk__note">Source wording retained.</p>
-        </div>`
-      : '<p class="qi-chunk__note">The selected span will be copied from the source. The model is not rewriting it.</p>';
+      ? `<p class="qi-chunk__note">Output: S1–${example.splitAfter}, copied unchanged from the source.</p>`
+      : '';
 
     const effect = windowEnd === 2
-      ? 'The linked-file exception is outside the model input, so it cannot guide this decision.'
-      : 'The input includes the linked-file exception. This example keeps it with the export steps.';
+      ? 'The linked-file exception is outside the input.'
+      : 'This input can keep the linked-file exception with the steps.';
     status.textContent = revealed
-      ? `Scripted decision: split after ${example.splitAfter}, at character ${example.characterPosition}. ${effect}`
-      : `Input window: S1 through S${windowEnd}, ${example.characterPosition} characters with single spaces between sentences. ${effect} Reveal the example to see the source slice.`;
+      ? `Scripted decision: split after ${example.splitAfter}. ${effect}`
+      : `Input: S1–S${windowEnd}. ${effect}`;
   }
 
   buttons.forEach(button => button.addEventListener('click', () => {

@@ -29,10 +29,9 @@ function colorStyle(index) {
 }
 
 export function mount(node) {
-  node.classList.add('qi-chunk', 'qi-chunk--semantic');
+  node.classList.add('qi-chunk', 'qi-chunk--compact', 'qi-chunk--semantic');
   node.innerHTML = `
     <div class="qi-fig">
-      <p class="qi-chunk__lead">Move the threshold to change which neighboring sentences stay together.</p>
       <div class="qi-controls qi-controls--split">
         <div class="qi-group" role="group" aria-label="Semantic similarity threshold">
           <span class="qi-hint">Split below:</span>
@@ -40,23 +39,14 @@ export function mount(node) {
         </div>
         <button type="button" class="qi-chip" data-reset>Reset</button>
       </div>
-      <p class="qi-chunk__note">Illustrative similarity scores. No embedding model runs in this demo.</p>
-      <div class="qi-chunk__panels">
-        <div class="qi-chunk__panel">
-          <p class="qi-chunk__label qi-frame-label">Compare adjacent sentence embeddings</p>
-          <p class="qi-chunk__note">Bar: similarity. Marker: selected threshold.</p>
-          <div class="qi-chunk__sentences" data-source></div>
-        </div>
-        <div class="qi-chunk__panel">
-          <p class="qi-chunk__label qi-frame-label" data-output-label></p>
-          <div class="qi-chunk__chunks" data-chunks></div>
-          <p class="qi-chunk__note">Sentence order and wording stay the same. Only the boundaries change.</p>
-        </div>
+      <p class="qi-chunk__note">Illustrative scores; no embedding model runs here.</p>
+      <div class="qi-chunk__panel">
+        <p class="qi-chunk__label qi-frame-label" data-output-label></p>
+        <div class="qi-chunk__chunks" data-chunks></div>
       </div>
-      <p class="qi-status qi-status--2" role="status" aria-live="polite" aria-atomic="true"></p>
+      <p class="qi-status" role="status" aria-live="polite" aria-atomic="true"></p>
     </div>`;
 
-  const source = node.querySelector('[data-source]');
   const chunks = node.querySelector('[data-chunks]');
   const outputLabel = node.querySelector('[data-output-label]');
   const status = node.querySelector('.qi-status');
@@ -65,39 +55,31 @@ export function mount(node) {
 
   function render() {
     const groups = groupBySimilarity(SENTENCES, SIMILARITIES, threshold);
-    const groupFor = new Map(groups.flatMap((group, index) => group.map(sentence => [sentence.id, index])));
     buttons.forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.threshold) === threshold)));
 
-    source.innerHTML = SENTENCES.map((sentence, index) => {
-      const score = SIMILARITIES[index];
-      const boundary = score == null ? '' : `
-        <div class="qi-chunk__similarity ${score < threshold ? 'is-cut' : 'is-kept'}" data-boundary="${index + 1}">
-          <div class="qi-chunk__similarity-label">
-            <span>${sentence.id} / ${SENTENCES[index + 1].id}: <b>${score.toFixed(2)}</b></span>
-            <strong>${score < threshold ? 'Split' : 'Keep'}</strong>
-          </div>
-          <div class="qi-chunk__meter" aria-hidden="true"><span class="qi-chunk__meter-fill" style="width:${score * 100}%"></span><span class="qi-chunk__meter-threshold" style="left:${threshold * 100}%"></span></div>
-        </div>`;
-      return `<div class="qi-chunk__sentence" data-sentence="${sentence.id}" style="${colorStyle(groupFor.get(sentence.id))}">
-          <p class="qi-chunk__sentence-head"><b>${sentence.id}</b><span>${sentence.label}</span></p>
-          <p class="qi-chunk__text">${sentence.text}</p>
-        </div>${boundary}`;
+    outputLabel.textContent = `${groups.length} chunks`;
+    chunks.innerHTML = groups.map((group, index) => {
+      const rows = group.map(sentence => {
+        const sourceIndex = SENTENCES.indexOf(sentence);
+        const score = SIMILARITIES[sourceIndex];
+        const kept = score != null && score >= threshold;
+        return `<p class="qi-chunk__text" data-sentence="${sentence.id}"><span class="qi-chunk__token">${sentence.id}</span> ${sentence.text}</p>` +
+          (kept ? `<p class="qi-chunk__boundary is-kept" data-boundary="${sourceIndex + 1}">Similarity ${score.toFixed(2)} ≥ ${threshold.toFixed(2)} · keep together</p>` : '');
+      }).join('');
+      const lastIndex = SENTENCES.indexOf(group.at(-1));
+      const score = SIMILARITIES[lastIndex];
+      const boundary = score == null ? '' : `<p class="qi-chunk__cut-line" data-boundary="${lastIndex + 1}">Similarity ${score.toFixed(2)} &lt; ${threshold.toFixed(2)} · split</p>`;
+      return `<div class="qi-chunk__chunk" style="${colorStyle(index)}" data-chunk="${index + 1}">
+        <p class="qi-chunk__chunk-title">Chunk ${index + 1}</p>${rows}
+      </div>${boundary}`;
     }).join('');
 
-    outputLabel.textContent = `${groups.length} resulting chunks`;
-    chunks.innerHTML = groups.map((group, index) => `
-      <div class="qi-chunk__chunk" style="${colorStyle(index)}" data-chunk="${index + 1}">
-        <p class="qi-chunk__chunk-title">Chunk ${index + 1}</p>
-        <div class="qi-chunk__tokens">${group.map(sentence => `<span class="qi-chunk__token">${sentence.id}</span>`).join('')}</div>
-        <p class="qi-chunk__text">${group.map(sentence => sentence.label).join(' + ')}</p>
-      </div>`).join('');
-
     const boundaryText = threshold === 0.35
-      ? 'Only the 0.18 export-to-billing boundary splits; S1 through S4 stay together.'
+      ? 'Export stays together; billing separates.'
       : threshold === 0.65
-        ? 'The 0.56 boundary also splits, separating the export steps from the linked-file exception.'
-        : 'Every illustrated score is below 0.85, so every sentence becomes its own chunk.';
-    status.textContent = `Threshold ${threshold.toFixed(2)}: ${groups.length} chunks. ${boundaryText} A similarity boundary does not prove the evidence is complete.`;
+        ? 'The 0.56 boundary separates export steps from their linked-file exception.'
+        : 'Every sentence becomes its own chunk.';
+    status.textContent = `Threshold ${threshold.toFixed(2)}: ${groups.length} chunks. ${boundaryText}`;
   }
 
   buttons.forEach(button => button.addEventListener('click', () => {

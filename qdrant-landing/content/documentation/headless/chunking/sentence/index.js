@@ -32,10 +32,10 @@ export function sentenceChunks(sentences, { group = false, cap = 20 } = {}) {
 }
 
 export function mount(node) {
-  node.classList.add('qi-chunk', 'qi-chunk--sentence');
+  node.classList.add('qi-chunk', 'qi-chunk--sentence', 'qi-chunk--compact');
   node.innerHTML = `
     <div class="qi-fig">
-      <p class="qi-chunk__lead">Keep one sentence per chunk, or pack whole sentences within a word cap.</p>
+      <p class="qi-chunk__lead">Group whole sentences under a word cap.</p>
       <div class="qi-controls">
         <div class="qi-group" role="group" aria-label="Sentence grouping">
           <button type="button" class="qi-chip" data-mode="single" aria-pressed="false">One sentence</button>
@@ -49,11 +49,6 @@ export function mount(node) {
       </div>
       <div class="qi-chunk__panels">
         <div class="qi-chunk__panel">
-          <p class="qi-frame-label qi-chunk__label">Source · 3 sentences · 23 words</p>
-          <div class="qi-chunk__sentences" data-source></div>
-          <p class="qi-chunk__note">In S2, "those files" refers to the linked files in S1.</p>
-        </div>
-        <div class="qi-chunk__panel">
           <p class="qi-frame-label qi-chunk__label" data-output-label></p>
           <div class="qi-chunk__chunks" data-chunks></div>
           <p class="qi-chunk__note">Words illustrate size. They are not model tokens.</p>
@@ -64,40 +59,31 @@ export function mount(node) {
 
   let mode = 'single';
   let cap = 20;
-  const source = node.querySelector('[data-source]');
   const output = node.querySelector('[data-chunks]');
   const outputLabel = node.querySelector('[data-output-label]');
   const status = node.querySelector('[role="status"]');
 
   function render() {
     const chunks = sentenceChunks(SENTENCES, { group: mode === 'group', cap });
-    const groupFor = new Map(chunks.flatMap((chunk, index) => chunk.sentences.map(sentence => [sentence.id, index])));
     node.querySelectorAll('[data-mode]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mode === mode)));
     node.querySelectorAll('[data-cap]').forEach(button => button.setAttribute('aria-pressed', String(mode === 'group' && Number(button.dataset.cap) === cap)));
-
-    source.innerHTML = SENTENCES.map(sentence => `
-      <div class="qi-chunk__sentence" data-sentence="${sentence.id}" style="${colorStyle(groupFor.get(sentence.id))}">
-        <p class="qi-chunk__sentence-head"><b>${sentence.id}</b><span>${sentence.label}</span><span class="qi-chunk__badge">${wordCount(sentence.text)} words</span></p>
-        <p class="qi-chunk__text">${escape(sentence.text)}</p>
-      </div>`).join('');
 
     outputLabel.textContent = `${chunks.length} ${mode === 'group' && chunks.some(chunk => chunk.oversized) ? 'candidate chunks' : 'chunks'}`;
     output.innerHTML = chunks.map((chunk, index) => `
       <div class="qi-chunk__chunk${mode === 'group' && chunk.oversized ? ' is-oversized' : ''}" data-chunk="${index + 1}" style="${colorStyle(index)}">
         <p class="qi-chunk__chunk-title">Chunk ${index + 1} <span class="qi-chunk__badge">${chunk.wordCount} words</span></p>
-        <div class="qi-chunk__tokens">${chunk.sentences.map(sentence => `<span class="qi-chunk__token">${sentence.id}</span>`).join('')}</div>
-        <p class="qi-chunk__text">${chunk.sentences.map(sentence => escape(sentence.text)).join(' ')}</p>
-        ${mode === 'group' && chunk.oversized ? `<p class="qi-chunk__note"><b>Needs a finer split:</b> this sentence exceeds the ${cap}-word cap.</p>` : ''}
+        <p class="qi-chunk__text">${chunk.sentences.map(sentence => `<span class="qi-chunk__token">${sentence.id}</span> ${escape(sentence.text)}`).join(' ')}</p>
+        ${mode === 'group' && chunk.oversized ? '<p class="qi-chunk__note"><b>Needs a finer split.</b></p>' : ''}
       </div>`).join('');
 
     if (mode === 'single') {
-      status.textContent = '3 chunks, one per sentence. S2 keeps its wording but loses S1, which identifies "those files".';
+      status.textContent = '3 chunks, one per sentence. In S2, "those files" still needs S1.';
     } else {
       const oversized = chunks.filter(chunk => chunk.oversized);
       const together = chunks.some(chunk => chunk.sentences.includes(SENTENCES[0]) && chunk.sentences.includes(SENTENCES[1]));
       status.textContent = `${cap}-word cap: ${chunks.length} ${oversized.length ? 'candidate chunks' : 'chunks'}. ` +
-        (oversized.length ? 'S2 has 9 words and needs a finer split; no text is discarded. ' : 'Every chunk fits this word cap. ') +
-        (together ? 'S1 and S2 now share a chunk, so "those files" has its referent.' : 'S1 and S2 remain separate, so S2 still needs its preceding context.');
+        (oversized.length ? 'S2 needs a finer split; no text is discarded.' :
+          together ? 'S1 and S2 now share a chunk.' : 'In S2, "those files" still needs S1.');
     }
   }
 

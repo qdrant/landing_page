@@ -26,10 +26,10 @@ export function sentenceWindows(sentences, size, stride) {
 const colorStyle = index => `--chunk-color:var(--qi-cat-${(index % 4) + 1});--chunk-soft:var(--qi-cat-${(index % 4) + 1}-soft)`;
 
 export function mount(node) {
-  node.classList.add('qi-chunk', 'qi-chunk--sliding-window');
+  node.classList.add('qi-chunk', 'qi-chunk--sliding-window', 'qi-chunk--compact');
   node.innerHTML = `
     <div class="qi-fig">
-      <p class="qi-chunk__lead">Keep a three-sentence window. Change how far it advances, then select a chunk.</p>
+      <p class="qi-chunk__lead">Move a three-sentence window through the source.</p>
       <div class="qi-controls qi-controls--split">
         <div class="qi-group" role="group" aria-label="Sliding-window stride">
           <span class="qi-hint">Advance by</span>
@@ -46,7 +46,7 @@ export function mount(node) {
           <p class="qi-chunk__label qi-frame-label" data-output-label></p>
           <div class="qi-group qi-chunk__range-list" role="group" aria-label="Select a sliding-window chunk" data-ranges></div>
           <div class="qi-chunk__chunk" data-selected></div>
-          <p class="qi-chunk__note">Dashed sentences repeat from the preceding chunk. A final window may be shorter.</p>
+          <p class="qi-chunk__note">Dashed marks show sentences repeated from the previous chunk.</p>
         </div>
       </div>
       <p class="qi-status" role="status" aria-live="polite" aria-atomic="true"></p>
@@ -73,19 +73,19 @@ export function mount(node) {
       const inCurrent = index >= current.start && index < current.end;
       const isRepeated = inCurrent && index < previousEnd;
       return `<div class="qi-chunk__sentence${inCurrent ? ' is-selected' : ''}${isRepeated ? ' is-overlap' : ''}" data-sentence="${sentence.id}" style="${inCurrent ? colorStyle(selected) : '--chunk-color:var(--qi-line);--chunk-soft:transparent'}">
-        <p class="qi-chunk__text"><b>${sentence.id}${inCurrent ? ` · C${selected + 1}` : ''}</b> ${sentence.text}</p>
+        <p class="qi-chunk__text"><b>${sentence.id}</b> ${sentence.text}</p>
       </div>`;
     }).join('');
     outputLabel.textContent = `${chunks.length} chunks · ${WINDOW_SIZE - stride} sentence${WINDOW_SIZE - stride === 1 ? '' : 's'} overlap`;
     ranges.innerHTML = chunks.map((chunk, index) => `<button type="button" class="qi-chip qi-chunk__range" style="${colorStyle(index)}" data-chunk="${index}" aria-label="Select chunk ${index + 1}, sentences ${chunk.start + 1} through ${chunk.end}" aria-pressed="${index === selected}"><span>C${index + 1}</span><small>S${chunk.start + 1}–S${chunk.end}</small></button>`).join('');
     selectedChunk.setAttribute('style', colorStyle(selected));
     selectedChunk.innerHTML = `<p class="qi-chunk__chunk-title">Chunk ${selected + 1} <span class="qi-chunk__badge">${current.sentences.length} sentences</span></p>
-      <div class="qi-chunk__sentences">${current.sentences.map((sentence, index) => `<div class="qi-chunk__sentence${current.start + index < previousEnd ? ' is-overlap' : ''}" data-selected-sentence="${sentence.id}"><p class="qi-chunk__text"><b>${sentence.id}</b> ${sentence.text}</p></div>`).join('')}</div>`;
+      <div class="qi-chunk__tokens">${current.sentences.map((sentence, index) => `<span class="qi-chunk__token${current.start + index < previousEnd ? ' is-overlap' : ''}" data-selected-sentence="${sentence.id}">${sentence.id}</span>`).join('')}</div>`;
 
     const dependency = pairChunks.length
-      ? `S3's linked-file reference and S4's instruction stay together in ${pairChunks.map(index => `C${index}`).join(' and ')}.`
-      : "S3's linked-file reference and S4's instruction are split across chunks.";
-    status.textContent = `Overlap = ${WINDOW_SIZE} − ${stride} = ${WINDOW_SIZE - stride} sentence${WINDOW_SIZE - stride === 1 ? '' : 's'}. ${chunks.length} chunks contain ${repeated} repeated sentence appearances. ${dependency}`;
+      ? `S3 and S4 stay together in ${pairChunks.map(index => `C${index}`).join(' and ')}.`
+      : 'S3 and S4 are split across chunks.';
+    status.textContent = `${chunks.length} chunks; ${repeated} repeated sentence appearances. ${dependency}`;
   }
 
   node.addEventListener('click', event => {

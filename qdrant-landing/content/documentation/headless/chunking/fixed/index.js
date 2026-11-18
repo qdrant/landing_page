@@ -20,14 +20,13 @@ const escape = (text) => String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;'
 const color = (i) => `--chunk-color:var(--qi-cat-${(i % 4) + 1});--chunk-soft:var(--qi-cat-${(i % 4) + 1}-soft)`;
 
 function wordTile(word, index, classes = '') {
-  return `<span class="qi-chunk__token ${classes}" data-word="${index + 1}" title="Word ${index + 1}: ${escape(word)}"><small class="qi-chunk__word-index" aria-hidden="true">${index + 1}</small>${escape(word)}</span>`;
+  return `<span class="qi-chunk__word ${classes}" data-word="${index + 1}" title="Word ${index + 1}">${escape(word)}</span>`;
 }
 
 export function mount(node) {
-  node.classList.add('qi-chunk', 'qi-chunk--fixed');
+  node.classList.add('qi-chunk', 'qi-chunk--fixed', 'qi-chunk--compact');
   node.innerHTML = `
     <div class="qi-fig">
-      <p class="qi-chunk__lead">Change the window and overlap, then select a chunk to trace its words.</p>
       <div class="qi-controls">
         <div class="qi-group" role="group" aria-label="Fixed chunk window size">
           <span class="qi-hint">Window</span>
@@ -41,14 +40,9 @@ export function mount(node) {
       </div>
       <div class="qi-chunk__panels">
         <div class="qi-chunk__panel">
-          <p class="qi-frame-label qi-chunk__label">Source · ${SOURCE_WORDS.length} words</p>
-          <div class="qi-chunk__tokens qi-chunk__source-words" aria-label="Source word sequence"></div>
-        </div>
-        <div class="qi-chunk__panel">
           <p class="qi-frame-label qi-chunk__label qi-chunk__output-label"></p>
           <div class="qi-group qi-chunk__range-list" role="group" aria-label="Select a fixed chunk"></div>
-          <div class="qi-chunk__chunk qi-chunk__selected-chunk"></div>
-          <p class="qi-chunk__note">Dashed tiles repeat words from the preceding chunk.</p>
+          <p class="qi-chunk__source-words" aria-label="Source text with selected chunk highlighted"></p>
         </div>
       </div>
       <p class="qi-status qi-chunk__status" role="status" aria-live="polite" aria-atomic="true"></p>
@@ -60,7 +54,6 @@ export function mount(node) {
   const sourceEl = node.querySelector('.qi-chunk__source-words');
   const outputLabel = node.querySelector('.qi-chunk__output-label');
   const rangeList = node.querySelector('.qi-chunk__range-list');
-  const selectedEl = node.querySelector('.qi-chunk__selected-chunk');
   const statusEl = node.querySelector('.qi-chunk__status');
 
   function render() {
@@ -76,16 +69,12 @@ export function mount(node) {
     node.querySelectorAll('[data-overlap]').forEach((button) => button.setAttribute('aria-pressed', String(Number(button.dataset.overlap) === overlap)));
     sourceEl.setAttribute('style', style);
     sourceEl.innerHTML = SOURCE_WORDS.map((word, i) => wordTile(word, i, i >= current.start && i < current.end
-      ? `is-selected${i < repeatEnd ? ' is-overlap' : ''}` : '')).join('');
+      ? `is-selected${i < repeatEnd ? ' is-overlap' : ''}` : '')).join(' ');
 
-    outputLabel.textContent = `${chunks.length} chunks · select a range`;
-    rangeList.innerHTML = chunks.map((chunk, i) => `<button type="button" class="qi-chip qi-chunk__range" style="${color(i)}" data-chunk="${i}" aria-pressed="${i === selected}" aria-label="Select chunk ${i + 1}, words ${chunk.start + 1} through ${chunk.end}"><span>C${i + 1}</span><small>${chunk.start + 1}–${chunk.end}</small></button>`).join('');
-    selectedEl.setAttribute('style', style);
-    selectedEl.innerHTML = `<p class="qi-chunk__chunk-title">Chunk ${selected + 1} <span class="qi-chunk__badge">${current.words.length} words</span></p>
-      <div class="qi-chunk__tokens">${current.words.map((word, i) => wordTile(word, current.start + i, current.start + i < repeatEnd ? 'is-overlap' : '')).join('')}</div>`;
-    statusEl.innerHTML = `Advance by <b>${size} − ${overlap} = ${size - overlap} words</b> each time. ` +
-      `${chunks.length} chunks contain <b>${repeated} repeated word appearances</b>. ` +
-      `Selected: C${selected + 1}, words ${current.start + 1}–${current.end}. Boundaries follow length, even inside a sentence.`;
+    outputLabel.textContent = `${chunks.length} chunks from ${SOURCE_WORDS.length} words`;
+    rangeList.innerHTML = chunks.map((chunk, i) => `<button type="button" class="qi-chip qi-chunk__range" style="${color(i)}" data-chunk="${i}" aria-pressed="${i === selected}" aria-label="Select chunk ${i + 1}, words ${chunk.start + 1} through ${chunk.end}">Chunk ${i + 1}<small>${chunk.start + 1}–${chunk.end}</small></button>`).join('');
+    statusEl.textContent = `Chunk ${selected + 1}: words ${current.start + 1}–${current.end}. Advance ${size - overlap} words; ${repeated} repeated word appearances across all chunks.` +
+      (overlap ? ' Dashed underlines mark overlap.' : ' A length boundary can cut a sentence.');
   }
 
   node.addEventListener('click', (event) => {

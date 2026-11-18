@@ -171,39 +171,38 @@ When visual marks matter, test page-image retrieval. Preserve the scan, check le
 
 ## 2. Choose Meaningful Boundaries
 
-Start with reliable document structure. In a project handbook, group an export procedure with its definition and linked-file exception; keep an unrelated billing FAQ separate. Split sections that exceed your size cap or mix topics.
-
-For Markdown, the [header splitter](https://docs.langchain.com/oss/python/integrations/splitters/markdown_header_metadata_splitter) groups text by headings and records their hierarchy as metadata. It strips headings by default; retain useful titles in the embedding input.
-
-Methods can be combined: group whole sentences to a size cap, for example, then overlap neighboring chunks.
+Choose boundaries that keep an answer with its conditions. Start with document structure, then split oversized sections; combine methods when needed, such as grouping sentences with overlap.
 
 <details class="chunking-method" id="fixed-chunking">
 <summary>Fixed chunking</summary>
 
+Fixed chunking cuts windows of a chosen length; use it as a simple baseline when document structure is unreliable.
+
+<div class="chunking-tradeoff-grid">
+
 <details class="chunking-tradeoffs chunking-tradeoffs--strengths" open>
 <summary>Strengths</summary>
 
-- Predictable sizes and repeatable boundaries, even with poor formatting.
-- No embedding or LLM calls needed to choose boundaries.
+- Predictable sizes and repeatable boundaries.
+- No model calls to choose splits.
 
 </details>
 
 <details class="chunking-tradeoffs chunking-tradeoffs--weaknesses" open>
 <summary>Weaknesses</summary>
 
-- Can separate instructions from conditions or mix unrelated topics.
-- Overlap adds embedding work and duplicate evidence.
-- Word or character limits do not enforce model token limits.
+- Can separate a statement from its conditions.
+- Character or word caps do not enforce token limits.
 
 </details>
 
-Fixed chunking advances through text in windows of a chosen length. A 400-token window with 40-token overlap advances by 360 tokens. Use it as a simple baseline; the length alone does not establish complete evidence.
+</div>
 
-Check the counting unit. [Agno's fixed-size chunker](https://docs.agno.com/knowledge/concepts/chunking/fixed-size-chunking) counts characters and avoids cutting words where possible; the [Essentials example](/course/essentials/day-1/chunking-strategies/#1-fixed-size-chunking) counts words. For a token cap, use the embedding model's tokenizer, including any added titles or context.
+A 400-token window with 40-token overlap advances by 360 tokens. Count with the embedding model's tokenizer, including added titles or context.
 
-In the handbook, a cut after the export procedure separates its linked-file exception. Repair that boundary or supply the missing source context.
+**Tools:** [Agno](https://docs.agno.com/knowledge/concepts/chunking/fixed-size-chunking) counts characters and avoids cutting words where possible. [Kiru](https://github.com/bitswired/kiru) supports byte or character chunking; [Chunk (formerly memchunk)](https://github.com/feyninc/chunk) uses delimiter-based byte splitting. Their size units are not interchangeable with model tokens.
 
-{{< island path="documentation/headless/chunking/fixed" ratio="16/11" title="Fixed windows advance by size minus overlap. Change the word count and overlap, then select a chunk to inspect its source span. Dashed words repeat from the preceding chunk." >}}
+{{< island path="documentation/headless/chunking/fixed" ratio="16/11" title="Change the word count and overlap to see which source words repeat." >}}
 ![Twelve-word windows over a 31-word source: zero overlap gives three chunks; three-word overlap gives four chunks with repeated source positions.](/guides_data/chunking/fixed.svg)
 {{< /island >}}
 
@@ -212,28 +211,33 @@ In the handbook, a cut after the export procedure separates its linked-file exce
 <details class="chunking-method" id="sentence-chunking">
 <summary>Sentence chunking</summary>
 
+Sentence chunking indexes individual sentences or packs consecutive sentences up to a size cap, preserving statements in ordinary prose.
+
+<div class="chunking-tradeoff-grid">
+
 <details class="chunking-tradeoffs chunking-tradeoffs--strengths" open>
 <summary>Strengths</summary>
 
-- Preserves statements without embedding comparisons or LLM calls.
-- Grouping adjacent sentences can retain nearby context.
+- Keeps statements intact without model inference.
+- Grouping sentences retains nearby context.
 
 </details>
 
 <details class="chunking-tradeoffs chunking-tradeoffs--weaknesses" open>
 <summary>Weaknesses</summary>
 
-- Definitions, pronouns, and exceptions can depend on another sentence.
-- Abbreviations, lists, and language-specific punctuation complicate segmentation.
-- Long sentences may require finer splitting; sentence counts are not token limits.
+- Pronouns and exceptions may depend on other sentences.
+- Abbreviations complicate segmentation; oversized sentences still need splitting.
 
 </details>
 
-Sentence chunking indexes individual sentences or groups consecutive ones until the next would exceed a cap. [Chonkie's sentence chunker](https://docs.chonkie.ai/oss/chunkers/sentence-chunker) implements this approach.
+</div>
 
-In the handbook, "Download those files separately" needs the preceding sentence identifying linked files. Group them, or preserve their source relationship for expansion after retrieval.
+"Download those files separately" needs the sentence identifying the files. Group them when they fit the token cap.
 
-{{< island path="documentation/headless/chunking/sentence" ratio="16/11" title="Sentence boundaries stay intact as adjacent sentences are grouped. Compare one sentence per chunk with grouping under a word cap. At 20 words, the linked-file statement and its download instruction fit together; at 8, the 9-word sentence needs a finer split. Counts are words, not model tokens." >}}
+**Tools:** [Chonkie's sentence chunker](https://docs.chonkie.ai/oss/chunkers/sentence-chunker) groups sentences; [LlamaIndex node parsers](https://developers.llamaindex.ai/python/framework/module_guides/loading/node_parsers/modules/) integrate sentence splitting into an indexing pipeline. Sentence counts alone do not enforce the embedding model's token limit.
+
+{{< island path="documentation/headless/chunking/sentence" ratio="16/11" title="Adjust the word cap to group sentences or reveal one that needs a finer split." >}}
 ![Three sentences contain 8, 9, and 6 words. A 12-word cap keeps them separate; a 20-word cap groups the first two into a 17-word chunk. An 8-word cap cannot contain the 9-word sentence intact.](/guides_data/chunking/sentence.svg)
 {{< /island >}}
 
@@ -242,28 +246,31 @@ In the handbook, "Download those files separately" needs the preceding sentence 
 <details class="chunking-method" id="paragraph-chunking">
 <summary>Paragraph chunking</summary>
 
+Paragraph chunking preserves paragraphs and optionally combines adjacent ones within a section; use it when the author's grouping survives extraction.
+
+<div class="chunking-tradeoff-grid">
+
 <details class="chunking-tradeoffs chunking-tradeoffs--strengths" open>
 <summary>Strengths</summary>
 
-- Preserves the author's grouping of ideas without model inference.
-- Can combine short paragraphs within a section.
+- Preserves the author's grouping without model inference.
+- Combines short paragraphs within the same section.
 
 </details>
 
 <details class="chunking-tradeoffs chunking-tradeoffs--weaknesses" open>
 <summary>Weaknesses</summary>
 
-- PDF line wrapping can create false paragraph breaks.
-- Definitions or conditions may sit elsewhere.
-- Oversized paragraphs need a finer splitter.
+- PDF line wrapping can create false paragraphs.
+- Conditions may lie elsewhere; oversized paragraphs need splitting.
 
 </details>
 
-Paragraph chunking keeps paragraphs intact, optionally packing adjacent ones within the same section. Retain section titles and check extracted paragraph boundaries before splitting PDFs.
+</div>
 
-The handbook's definition, procedure, and exception occupy three paragraphs but govern one task. Group them or supply their shared section when a question needs all three.
+**Tools:** [Docling](https://docling-project.github.io/docling/) and [Unstructured](https://docs.unstructured.io/open-source/core-functionality/partitioning) extract structured elements before chunking. For Markdown, [LangChain's header splitter](https://docs.langchain.com/oss/python/integrations/splitters/markdown_header_metadata_splitter) groups sections and stores heading metadata; it strips headings by default, so retain useful titles in the embedding input. Then pack paragraphs within those sections under a token cap.
 
-{{< island path="documentation/headless/chunking/paragraph" ratio="16/11" title="Paragraphs can be packed together without crossing a section heading. At a 24-word cap, the first two export paragraphs form one chunk; at 48, all three fit. Billing remains separate in both cases. A paragraph that exceeds the cap is flagged for a finer split." >}}
+{{< island path="documentation/headless/chunking/paragraph" ratio="16/11" title="Pack paragraphs under a word cap while keeping the section boundary intact." >}}
 ![Export paragraphs P1, P2, and P3 contain 10, 12, and 15 words; Billing paragraph P4 contains 8. Packing at 24 words groups P1 and P2. Packing at 48 groups P1 through P3. The section boundary keeps P4 separate.](/guides_data/chunking/paragraph.svg)
 {{< /island >}}
 
@@ -272,28 +279,33 @@ The handbook's definition, procedure, and exception occupy three paragraphs but 
 <details class="chunking-method" id="sliding-window-chunking">
 <summary>Sliding-window chunking</summary>
 
+Sliding windows repeat context by advancing less than their full length: a 400-token window with a 360-token stride overlaps by 40 tokens.
+
+<div class="chunking-tradeoff-grid">
+
 <details class="chunking-tradeoffs chunking-tradeoffs--strengths" open>
 <summary>Strengths</summary>
 
-- Repeats nearby context across boundaries without model inference.
-- Window size and stride determine source coverage.
+- Keeps nearby context across boundaries.
+- Size and stride give predictable coverage.
 
 </details>
 
 <details class="chunking-tradeoffs chunking-tradeoffs--weaknesses" open>
 <summary>Weaknesses</summary>
 
-- Repeated text increases embedding work and storage.
-- Overlapping hits can waste result slots and answer-context space.
-- Dependencies extending beyond the window remain separated.
+- Duplicate text increases embedding work and storage.
+- Overlapping hits consume result slots; distant dependencies remain separated.
 
 </details>
 
-A sliding window advances by a **stride**. A 400-token window with a 360-token stride repeats 40 tokens; three-sentence windows with a two-sentence stride repeat one sentence. Try overlap for conditions just across a boundary. Preserve source offsets to merge repeated spans during answer assembly.
+</div>
 
-[LlamaIndex's sentence-window retrieval](https://developers.llamaindex.ai/python/framework-api-reference/node_parsers/sentence_window/) instead indexes individual sentences and stores neighbors as metadata. The application supplies that surrounding text after retrieval; it is not part of the embedded window.
+Preserve source offsets to merge repeated spans during answer assembly.
 
-{{< island path="documentation/headless/chunking/sliding-window" ratio="16/11" title="Keep the window at three sentences and change how far it advances. A stride of three separates the linked-file statement from its instruction. A stride of two puts them together in a window, with two repeated sentence appearances across the output. Select a chunk to trace its source span." >}}
+**Tools:** [LangChain text splitters](https://docs.langchain.com/oss/python/integrations/splitters/index) support overlapping chunks. [LlamaIndex's sentence-window parser](https://developers.llamaindex.ai/python/framework-api-reference/node_parsers/sentence_window/) instead embeds individual sentences and stores neighbors as metadata for expansion after retrieval; those neighbors are not part of the embedded window.
+
+{{< island path="documentation/headless/chunking/sliding-window" ratio="16/11" title="Change the stride of a three-sentence window to see repeated evidence and repaired boundaries." >}}
 ![Six sentences form two non-overlapping three-sentence chunks at stride 3. At stride 2, the windows are S1–S3, S3–S5, and S5–S6; S3 and S5 repeat. The linked-file statement S3 and download instruction S4 share the middle window.](/guides_data/chunking/sliding-window.svg)
 {{< /island >}}
 
@@ -302,10 +314,14 @@ A sliding window advances by a **stride**. A 400-token window with a 360-token s
 <details class="chunking-method" id="semantic-chunking">
 <summary>Semantic chunking</summary>
 
+Semantic chunking compares sentence or passage embeddings to detect topic changes; try it when structural rules repeatedly combine unrelated topics.
+
+<div class="chunking-tradeoff-grid">
+
 <details class="chunking-tradeoffs chunking-tradeoffs--strengths" open>
 <summary>Strengths</summary>
 
-- Can detect topic changes that formatting misses.
+- Can detect shifts that formatting misses.
 - Allows variable lengths for related passages.
 
 </details>
@@ -313,17 +329,20 @@ A sliding window advances by a **stride**. A 400-token window with a 360-token s
 <details class="chunking-tradeoffs chunking-tradeoffs--weaknesses" open>
 <summary>Weaknesses</summary>
 
-- Adds embedding work before indexing the finished chunks.
-- Boundaries depend on segmentation, the model, and thresholds.
-- Similarity guarantees neither independent evidence nor valid token lengths.
+- Adds embedding cost before indexing.
+- Similarity guarantees neither complete evidence nor valid token lengths.
 
 </details>
 
-A common semantic splitter embeds sentences with neighboring context and splits where adjacent groups' vectors differ sufficiently. Try it when simpler rules repeatedly combine unrelated topics. [LlamaIndex's implementation](https://developers.llamaindex.ai/python/examples/node_parsers/semantic_chunking/) follows this pattern.
+</div>
 
-Controls differ: lowering LlamaIndex's [dissimilarity percentile](https://developers.llamaindex.ai/python/framework-api-reference/node_parsers/semantic_splitter/) produces more splits; raising [Agno's similarity threshold](https://docs.agno.com/knowledge/concepts/chunking/semantic-chunking) does likewise. Inspect boundaries and final token lengths. In the handbook, separating export from billing helps, but separating export steps from their exception loses necessary context.
+[Qu et al.](https://arxiv.org/abs/2410.13070) found inconsistent gains over fixed sentence groups; [Sayıcı's EUR-Lex experiment](https://mburaksayici.com/blog/2025/11/08/not-all-clever-chunking-methods-always-worth-it.html) also questions added complexity.
 
-{{< island path="documentation/headless/chunking/semantic" ratio="16/11" title="Semantic boundaries depend on the similarity rule. With these illustrative scores, raising the threshold from 0.35 to 0.65 separates the steps from the linked-file exception. No embedding model runs in this demo." >}}
+**Tools:** [LlamaIndex](https://developers.llamaindex.ai/python/examples/node_parsers/semantic_chunking/) and [Chonkie](https://docs.chonkie.ai/oss/chunkers/overview) offer semantic splitters; [Sentence Transformers](https://www.sbert.net/docs/sentence_transformer/usage/semantic_textual_similarity.html) supplies embeddings, leaving the splitting rule to you. [Chonky](https://github.com/mirth/chonky), also available through [Chonkie's neural chunker](https://docs.chonkie.ai/oss/chunkers/neural-chunker), predicts boundaries with token classification rather than similarity thresholds.
+
+A lower [LlamaIndex dissimilarity percentile](https://developers.llamaindex.ai/python/framework-api-reference/node_parsers/semantic_splitter/) produces more splits; this demo uses a higher similarity threshold for that effect.
+
+{{< island path="documentation/headless/chunking/semantic" ratio="16/11" title="Raise the threshold to split illustrative similarity scores; no embedding model runs here." >}}
 ![Illustrative semantic scores produce two chunks at threshold 0.35 and three at 0.65. The 0.56 similarity between export steps and the linked-file exception becomes a split.](/guides_data/chunking/semantic.svg)
 {{< /island >}}
 
@@ -332,30 +351,33 @@ Controls differ: lowering LlamaIndex's [dissimilarity percentile](https://develo
 <details class="chunking-method" id="agentic-chunking">
 <summary>Agentic chunking</summary>
 
+Agentic chunking uses an LLM to choose source boundaries during ingestion; try it when failed splits require interpretation beyond structural or similarity rules.
+
+<div class="chunking-tradeoff-grid">
+
 <details class="chunking-tradeoffs chunking-tradeoffs--strengths" open>
 <summary>Strengths</summary>
 
-- Lets an LLM interpret passage roles and document-specific instructions.
-- Can preserve source wording by selecting boundaries for direct slicing.
+- Interprets passage roles and document-specific instructions.
+- Boundary selection can preserve the original wording.
 
 </details>
 
 <details class="chunking-tradeoffs chunking-tradeoffs--weaknesses" open>
 <summary>Weaknesses</summary>
 
-- Adds ingestion latency and model costs.
-- Decisions depend on the prompt, model, and visible source window.
-- Invalid responses need validation and fallback splitting.
+- Adds model cost and ingestion latency.
+- Limited source windows and invalid responses require safeguards.
 
 </details>
 
-Here, agentic chunking means an LLM chooses source boundaries during ingestion. An agent searching a knowledge base can use any chunking method. Try this approach when failed splits require interpretation that simpler rules cannot provide.
+</div>
 
-[Agno](https://docs.agno.com/knowledge/concepts/chunking/agentic-chunking) asks for a character position, then slices the original text; `max_chunk_size` counts characters. Its [validation and fallback logic](https://github.com/agno-agi/agno/blob/main/libs/agno/agno/knowledge/chunking/agentic.py) can also determine boundaries. Record which path ran.
+An exception can guide a split only if the model sees it. An agent searching a knowledge base can use any chunking method.
 
-The handbook's linked-file exception can guide the split only if it fits in the model's source window. Compare evidence gains against ingestion cost.
+**Tools:** [Agno](https://docs.agno.com/knowledge/concepts/chunking/agentic-chunking) asks for a character position and slices the original text; `max_chunk_size` counts characters. Its [validation and fallback logic](https://github.com/agno-agi/agno/blob/main/libs/agno/agno/knowledge/chunking/agentic.py) can also determine boundaries, so record which path ran.
 
-{{< island path="documentation/headless/chunking/agentic" ratio="16/11" title="An LLM can only consider the source window it receives. Compare two scripted decisions: one ends after the steps; the wider window also includes the exception. The output copies the selected source span. No model is called." >}}
+{{< island path="documentation/headless/chunking/agentic" ratio="16/11" title="Compare two scripted source windows to see which includes the exception; no model runs here." >}}
 ![A scripted agentic example: a window containing S1–S2 ends after the export steps; a wider window containing S1–S4 can keep the linked-file exception. Both outputs retain source wording.](/guides_data/chunking/agentic.svg)
 {{< /island >}}
 
@@ -364,55 +386,37 @@ The handbook's linked-file exception can guide the split only if it fits in the 
 <details class="chunking-method" id="recursive-chunking">
 <summary>Recursive chunking</summary>
 
+Recursive chunking tries coarse separators first, subdivides oversized pieces, then packs them within a cap; it suits structured prose with uneven lengths.
+
+<div class="chunking-tradeoff-grid">
+
 <details class="chunking-tradeoffs chunking-tradeoffs--strengths" open>
 <summary>Strengths</summary>
 
-- Preserves units that fit and subdivides oversized ones.
-- Supports format-specific separators without model inference.
+- Preserves units that fit without model inference.
+- Supports separators for specific formats and languages.
 
 </details>
 
 <details class="chunking-tradeoffs chunking-tradeoffs--weaknesses" open>
 <summary>Weaknesses</summary>
 
-- Separators cannot identify dependencies between passages.
+- Separators cannot detect dependencies between passages.
 - Poor extraction can force word or character cuts.
-- Overlap is a target; the configured counting function determines length.
 
 </details>
 
-Recursive chunking tries coarse separators first, finer ones for oversized pieces, then packs pieces within the cap. It suits prose with useful paragraph breaks and uneven lengths.
+</div>
 
-[LangChain](https://docs.langchain.com/oss/python/integrations/splitters/recursive_text_splitter) defaults to paragraph breaks, line breaks, spaces, then characters, measuring length in characters. This does not guarantee complete sentences or preserve heading hierarchy. Adapt separators to your language and format; use [token-aware configuration](https://docs.langchain.com/oss/python/integrations/splitters/split_by_token) for a tokenizer-specific cap.
+**Tools:** [LangChain](https://docs.langchain.com/oss/python/integrations/splitters/recursive_text_splitter) defaults to paragraph breaks, line breaks, spaces, then characters. Its default counter measures characters; use [token-aware configuration](https://docs.langchain.com/oss/python/integrations/splitters/split_by_token) for a token cap. Overlap is a target, and sentences may still split. [semchunk](https://github.com/isaacus-dev/semchunk)'s default mode and [text-splitter](https://github.com/benbrandt/text-splitter) (`semantic-text-splitter` in Python) use structural boundaries, despite the semantic naming; they do not require embedding similarity comparisons.
 
-Keep governing conditions with each subtask, then check that the required evidence reaches the [retrieval results](#4-evaluate-chunk-quality).
-
-{{< island path="documentation/headless/chunking/recursive" ratio="8/5" title="Recursive splitting preserves units that fit and subdivides those that do not. Step through a custom paragraph → sentence → word hierarchy, then pack the pieces within the selected word cap. This illustrates the mechanism, not LangChain's default separators." >}}
+{{< island path="documentation/headless/chunking/recursive" ratio="8/5" title="Step through a custom paragraph, sentence, and word hierarchy, rather than LangChain's default separators." >}}
 ![With a 24-word cap, the 12-word and 5-word paragraphs remain intact. Only the 30-word paragraph is split into sentences of 8 and 22 words.](/guides_data/chunking/recursive.svg)
 {{< /island >}}
 
 </details>
 
-Compare the simplest suitable baseline with a method that addresses a specific failure. Use the same questions and [retrieved-text budget](#4-evaluate-chunk-quality), recording splitting time and model usage alongside evidence coverage.
-
-## Available Frameworks and Libraries
-
-| Tool | Useful starting point |
-| --- | --- |
-| [LangChain text splitters](https://docs.langchain.com/oss/python/integrations/splitters/index) | Length-based, recursive, and document-format splitting. |
-| [LlamaIndex node parsers](https://developers.llamaindex.ai/python/framework/module_guides/loading/node_parsers/modules/) | Sentence, semantic, and hierarchical splitting within an indexing pipeline. |
-| [Agno chunking](https://docs.agno.com/knowledge/concepts/chunking/overview) | Fixed, recursive, semantic, and LLM-selected boundaries in Agno knowledge ingestion. |
-| [Chonkie](https://docs.chonkie.ai/oss/chunkers/overview) | A dedicated ingestion library with multiple chunkers, including semantic and neural approaches. |
-| [Kiru](https://github.com/bitswired/kiru) | Rust core with Python bindings for byte or character chunking, streaming files, and parallel document processing. |
-| [semchunk](https://github.com/isaacus-dev/semchunk) | Python splitting with a hierarchy of structural boundaries and a configurable tokenizer or token counter. |
-| [text-splitter](https://github.com/benbrandt/text-splitter) / `semantic-text-splitter` | Rust splitting for plain text, Markdown, and code, with Python bindings under the second name. |
-| [memchunk, now Chunk](https://github.com/feyninc/chunk) | Rust delimiter-based byte splitting with Python bindings, designed to minimize boundary-search and copying work. |
-| [Chonky](https://github.com/mirth/chonky) | A trained token-classification model that predicts chunk boundaries. |
-| [Docling](https://docling-project.github.io/docling/) / [Unstructured](https://docs.unstructured.io/open-source/core-functionality/partitioning) | Parse documents into structured elements before forming retrieval chunks. |
-
-Chonky and Chonkie are separate projects; Chonkie also offers a [neural chunker using Chonky models](https://docs.chonkie.ai/oss/chunkers/neural-chunker). [Sentence Transformers](https://www.sbert.net/docs/sentence_transformer/usage/semantic_textual_similarity.html) can supply sentence embeddings for a semantic splitter, but the splitting rule and thresholds still need to be defined.
-
-The word "semantic" in a package description does not always mean embedding-based boundary detection. `text-splitter` uses structural and Unicode boundaries; semchunk's default mode also follows structural rules, while its optional AI mode calls an enrichment model. Inspect the implementation you actually configure. For throughput, see [Speed up chunking](#3-speed-up-chunking).
+Compare methods on the same questions and [retrieved-text budget](#4-evaluate-chunk-quality), measuring splitting time alongside evidence coverage.
 
 ## 3. Speed up chunking
 
