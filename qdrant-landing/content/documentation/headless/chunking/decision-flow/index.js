@@ -4,40 +4,32 @@ export const STEPS = [
     id: 1,
     title: 'Inspect sources',
     checklist: [
-      '**Audit Modalities:** Catalog input formats across text (PDF, Markdown), audio (WAV, MP3), and video (MP4, MKV).',
-      '**Map Natural Anchors:** Identify existing boundaries like document headers, audio silence gaps, speaker changes, or video scene cuts.',
-      '**Measure Scale Distributions:** Check token counts, audio durations, and video frame rates to spot extreme outliers.',
-      '**Flag Artifacts & Noise:** Detect OCR errors, background static, dead air, or black frames that require pre-cleaning.',
+      '**Audit Sources:** Catalog text, audio, and video formats. Check token counts, durations, and noise that needs cleaning.',
+      '**Map Natural Anchors:** Identify document headers, silence gaps, speaker changes, and scene cuts.',
     ],
   },
   {
     id: 2,
     title: 'Choose boundary',
     checklist: [
-      '**Align With Structure:** Split on structural markers first (paragraphs, speaker diarization turns, or visual shot transitions) rather than arbitrary fixed cuts.',
-      '**Set Window & Overlap:** Define target limits (tokens or seconds) and add a 10%–20% overlap buffer so context is not lost mid-sentence or mid-action.',
-      '**Use Semantic Shifts:** Group consecutive units based on embedding similarity or topic shifts when explicit structural markers are missing.',
-      '**Protect Atomic Units:** Keep tables, code blocks, complete spoken thoughts, and continuous visual actions intact.',
+      '**Align With Structure:** Split at paragraphs, speaker turns, or scene changes. Use semantic shifts when structural markers are missing.',
+      '**Set Limits & Preserve Context:** Set token or time limits and tune overlap. Keep tables, code blocks, complete thoughts, and actions intact.',
     ],
   },
   {
     id: 3,
     title: 'Speed up chunking',
     checklist: [
-      '**Leverage Lightweight Heuristics:** Prioritize fast rule-based cues (regex, Voice Activity Detection, pixel histograms) over heavy neural models during initial splitting.',
-      '**Batch & Parallelize:** Distribute file processing across multi-core CPU workers or GPU batches for high-throughput ingestion.',
-      '**Stream Large Media:** Process long audio tracks and high-resolution videos in memory-mapped streams rather than loading full files at once.',
-      '**Cache via Content Hashes:** Store intermediate transcripts, timestamps, and chunk outputs to skip reprocessing unchanged assets.',
+      '**Use Lightweight Cues:** Start with regex, voice activity detection, or simple scene-change detection before adding expensive models.',
+      '**Reuse & Scale Processing:** Cache unchanged assets, batch or parallelize processing, and stream large files.',
     ],
   },
   {
     id: 4,
     title: 'Evaluate chunk quality',
     checklist: [
-      '**Audit Boundary Integrity:** Spot-check random samples to confirm sentences are not cut off and video/audio clips start and end cleanly.',
-      '**Verify Size Compliance:** Check distribution plots to ensure chunks fit within downstream embedding model token or duration limits.',
-      '**Benchmark Retrieval Accuracy:** Measure **Recall@K** and **MRR** against a ground-truth query dataset across all modalities.',
-      '**Inspect Failure Modes:** Trace missed retrievals back to fragmented context or noisy boundaries to tune overlap and split thresholds.',
+      '**Check Boundaries & Limits:** Sample chunks for complete sentences and actions. Check that they fit embedding model token or duration limits.',
+      '**Benchmark & Diagnose:** Measure **Recall@K** and **MRR** on labeled queries. Trace misses to fragmented context or noisy boundaries.',
     ],
   },
 ];

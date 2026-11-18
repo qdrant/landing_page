@@ -7,10 +7,10 @@ const source = await readFile(new URL('./index.js', import.meta.url));
 const { mount } = await import(`data:text/javascript;base64,${source.toString('base64')}`);
 
 const CHECKLIST_LABELS = [
-  ['Audit Modalities', 'Map Natural Anchors', 'Measure Scale Distributions', 'Flag Artifacts & Noise'],
-  ['Align With Structure', 'Set Window & Overlap', 'Use Semantic Shifts', 'Protect Atomic Units'],
-  ['Leverage Lightweight Heuristics', 'Batch & Parallelize', 'Stream Large Media', 'Cache via Content Hashes'],
-  ['Audit Boundary Integrity', 'Verify Size Compliance', 'Benchmark Retrieval Accuracy', 'Inspect Failure Modes'],
+  ['Audit Sources', 'Map Natural Anchors'],
+  ['Align With Structure', 'Set Limits & Preserve Context'],
+  ['Use Lightweight Cues', 'Reuse & Scale Processing'],
+  ['Check Boundaries & Limits', 'Benchmark & Diagnose'],
 ];
 
 function fixture(t) {
@@ -47,8 +47,8 @@ test('each title selects a bullet-only checklist without replacing the focused c
     assert.equal(panel.children.length, 1);
     assert.equal(panel.firstElementChild.tagName, 'UL');
     const items = [...panel.querySelectorAll('li')];
-    assert.equal(items.length, 4);
-    assert.deepEqual(items.map(item => item.firstElementChild.tagName), ['STRONG', 'STRONG', 'STRONG', 'STRONG']);
+    assert.equal(items.length, 2);
+    assert.deepEqual(items.map(item => item.firstElementChild.tagName), ['STRONG', 'STRONG']);
     assert.deepEqual(items.map(item => item.firstElementChild.textContent),
       CHECKLIST_LABELS[Number(button.dataset.step) - 1].map(label => `${label}:`));
     assert.equal(panel.querySelectorAll('input, button, p, h1, h2, h3').length, 0);
@@ -59,8 +59,8 @@ test('each title selects a bullet-only checklist without replacing the focused c
   }
   assert.equal(checklists.size, 4);
   node.querySelector('[data-step="4"]').click();
-  assert.deepEqual([...panel.querySelectorAll('li')[2].querySelectorAll('strong')].map(item => item.textContent), [
-    'Benchmark Retrieval Accuracy:', 'Recall@K', 'MRR',
+  assert.deepEqual([...panel.querySelectorAll('li')[1].querySelectorAll('strong')].map(item => item.textContent), [
+    'Benchmark & Diagnose:', 'Recall@K', 'MRR',
   ]);
   assert.doesNotMatch(node.textContent, /Explore the five decisions|Select a step|Next Action|Situation:|Receipt totals/);
 });
@@ -76,7 +76,7 @@ test('mount announces readiness and selections remain scoped to their own diagra
   assert.deepEqual(ready, [first, second]);
   const initialSecond = second.innerHTML;
   first.querySelector('[data-step="4"]').click();
-  assert.match(first.querySelector('[data-checklist]').textContent, /Inspect Failure Modes/);
+  assert.match(first.querySelector('[data-checklist]').textContent, /Benchmark & Diagnose/);
   assert.equal(second.innerHTML, initialSecond);
   first.querySelector('.qi-flow__checklist li').click();
   assert.equal(first.querySelector('[data-step="4"]').getAttribute('aria-pressed'), 'true');
