@@ -559,10 +559,12 @@ function scatter(c) {
   const halo = (fill, size, weight) => `font-family="${FONT}" font-size="${size}"`
     + ` font-weight="${weight}" fill="${fill}" paint-order="stroke" stroke="var(--qi-surface)" stroke-width="3.5"`;
 
+  // Every point names its setting on hover; an empty `place` means the label is
+  // not drawn on the chart, so a crowded run does not have to go unidentified.
   const labels = bySeries.flatMap((pts, si) => pts.map((d, ri) => {
     const text = c.pointLabel ? d[c.pointLabel] : '';
-    if (text === '' || text == null || !at[si] || !at[si][ri]) return '';
-    const pl = PLACE[d[c.place]] || PLACE.up;
+    if (!d[c.place] || text === '' || text == null || !at[si] || !at[si][ri]) return '';
+    const pl = PLACE[d[c.place]];
     return `<text x="${at[si][ri].x + pl.dx}" y="${at[si][ri].y + pl.dy}" text-anchor="${pl.anchor}"`
       + ` ${halo(INK, viz.type.label, 500)}>${esc(text)}</text>`;
   })).join('');
