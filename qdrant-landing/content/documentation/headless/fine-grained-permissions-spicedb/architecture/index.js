@@ -34,61 +34,62 @@ function open(w, h, cls, label) {
 
 const ROOT = 'qi-sp-arch';
 const HOT = false;
-const LABEL = 'The user sends a query to the application, which runs five numbered steps. 1: it embeds the query with the embedding model. 2: it retrieves candidate chunks from Qdrant. 3: it checks permissions in SpiceDB with a CheckPermissionRequest and gets a CheckPermissionResponse back. 4: it builds the prompt using only the authorized chunks and calls the LLM. 5: it returns the response to the user.';
+const LABEL = 'The user asks the application a question. The application runs four numbered steps in order: 1, embed the query with the embedding model; 2, retrieve candidate documents from Qdrant; 3, check access in SpiceDB; 4, generate the answer with the LLM from the allowed documents only. Step 5 returns the answer to the user.';
 
-/* Request flow around the application: embedding model, Qdrant, and the LLM,
-   with SpiceDB checking the retrieved chunks before any reach the LLM. */
+/* The four services sit in one row in the order the application calls them,
+   so the reader sees that the SpiceDB check (3) comes before the LLM (4).
+   Data and API names live in the surrounding text, not on the arrows. */
 const strong = 'qi-label--strong qi-sp__label';
 function step(x, y, n) {
   return `<circle cx="${x}" cy="${y}" r="11" class="qi-sp__step"/>` +
     `<text x="${x}" y="${y + 5}" class="qi-label qi-sp__step-num" style="font-size:14px;text-anchor:middle">${n}</text>`;
 }
+/* Badge plus verb, centered on cx. Geist Mono advances 0.6em per glyph. */
+function stepLabel(cx, y, n, verb) {
+  const w = 28 + verb.length * 9;
+  const x0 = cx - w / 2;
+  return step(x0 + 11, y - 5, n) + text(x0 + 28, y, verb, 15, strong, 'start');
+}
+const SERVICES = [
+  ['Embedding', 'model', '', 'Embed'],
+  ['Qdrant', '', 'qi-sp__node--qdrant', 'Retrieve'],
+  ['SpiceDB', '', 'qi-sp__node--authz', 'Check access'],
+  ['LLM', '', '', 'Generate'],
+];
+function service(cx, y, w, h, [a, b, cls]) {
+  return box(cx - w / 2, y, w, h, cls) +
+    (b ? text(cx, y + h / 2 - 2, a, 17, strong) + text(cx, y + h / 2 + 17, b, 14)
+       : text(cx, y + h / 2 + 6, a, 18, strong));
+}
 export function svg(narrow = false, id = ROOT) {
   if (narrow) {
-    const W = 340, H = 640;
+    const W = 340, H = 500;
     let out = open(W, H, 'qi-sp__narrow', LABEL) + defs(id) + frame(W, H) +
       box(16, 16, 84, 44) + text(58, 44, 'User', 18, strong) +
-      edge(id, 'M38 62 V108') + edge(id, 'M78 108 V62') +
-      text(112, 80, '↓ query', 14, '', 'start') +
-      text(112, 98, '↑ response', 14, '', 'start') +
-      box(16, 110, 84, 514) +
-      `<text x="58" y="367" class="qi-label qi-label--strong qi-sp__label" style="font-size:18px;text-anchor:middle" transform="rotate(-90 58 367)">Application</text>`;
-    const rows = [
-      ['Embedding', 'model', '', ['query'], ['embedded', 'query']],
-      ['Qdrant', '', 'qi-sp__node--qdrant', ['embedded', 'query'], ['candidate', 'chunks']],
-      ['SpiceDB', '', 'qi-sp__node--authz', ['Check', 'Permission', 'Request'], ['Check', 'Permission', 'Response']],
-      ['LLM', '', '', ['query +', 'authorized', 'context +', 'prompt'], ['response']],
-    ];
-    rows.forEach(([a, b, cls, req, resp], i) => {
-      const y = [120, 250, 390, 550][i];
-      out += box(206, y, 118, 64, cls) +
-        (b ? text(265, y + 28, a, 16, strong) + text(265, y + 48, b, 15) : text(265, y + 38, a, 17, strong)) +
-        edge(id, `M102 ${y + 20} H204`) + edge(id, `M204 ${y + 44} H102`);
-      const above = req.map((_, j) => y + 12 - (req.length - 1 - j) * 16);
-      out += lines(153, above, req, 14, 'middle') +
-        lines(153, resp.map((_, j) => y + 62 + j * 16), resp, 14, 'middle') +
-        step(324, y, i + 1);
+      edge(id, 'M38 62 V104') + edge(id, 'M78 104 V62') +
+      step(122, 83, 5) + text(140, 88, 'Answer', 15, strong, 'start') +
+      box(16, 106, 84, 378) +
+      `<text x="58" y="295" class="qi-label qi-label--strong qi-sp__label" style="font-size:18px;text-anchor:middle" transform="rotate(-90 58 295)">Application</text>`;
+    SERVICES.forEach((s, i) => {
+      const y = 130 + i * 96;
+      out += stepLabel(265, y - 10, i + 1, s[3]) +
+        service(265, y, 118, 56, s) +
+        edge(id, `M102 ${y + 18} H204`) + edge(id, `M204 ${y + 38} H102`);
     });
-    return out + step(212, 93, 5) + '</svg>';
+    return out + '</svg>';
   }
-  const W = 760, H = 372;
+  const W = 760, H = 304;
   let out = open(W, H, 'qi-sp__wide', LABEL) + defs(id) + frame(W, H) +
-    box(16, 190, 110, 56) + text(71, 224, 'User', 20, strong) +
-    edge(id, 'M128 218 H168') + text(148, 210, 'query', 14) +
-    edge(id, 'M230 248 V330 H71 V250') + text(150, 322, 'response', 14) + step(150, 292, 5) +
-    box(170, 190, 574, 56) + text(457, 224, 'Application', 20, strong) +
-    box(180, 20, 150, 60) + text(255, 46, 'Embedding', 18, strong) + text(255, 68, 'model', 16) +
-    box(385, 20, 150, 60, 'qi-sp__node--qdrant') + text(460, 57, 'Qdrant', 18, strong) +
-    box(590, 20, 150, 60) + text(665, 57, 'LLM', 18, strong) +
-    edge(id, 'M210 188 V82') + lines(202, [112], ['query'], 14, 'end') +
-    edge(id, 'M300 82 V188') + lines(308, [154, 170], ['embedded', 'query'], 14, 'start') + step(255, 135, 1) +
-    edge(id, 'M415 188 V82') + lines(407, [104, 120], ['embedded', 'query'], 14, 'end') +
-    edge(id, 'M505 82 V188') + lines(513, [164, 180], ['candidate', 'chunks'], 14, 'start') + step(460, 135, 2) +
-    edge(id, 'M620 188 V82') + lines(612, [96, 112, 128, 144], ['query +', 'authorized', 'context +', 'prompt'], 14, 'end') + step(665, 116, 4) +
-    edge(id, 'M710 82 V188') + lines(702, [162], ['response'], 14, 'end') +
-    box(425, 300, 170, 56, 'qi-sp__node--authz') + text(510, 334, 'SpiceDB', 18, strong) +
-    edge(id, 'M455 248 V298') + lines(447, [270, 286], ['CheckPermission', 'Request'], 14, 'end') +
-    edge(id, 'M565 298 V248') + lines(573, [270, 286], ['CheckPermission', 'Response'], 14, 'start') + step(510, 273, 3);
+    box(16, 178, 92, 56) + text(62, 212, 'User', 20, strong) +
+    edge(id, 'M110 206 H134') +
+    edge(id, 'M180 236 V282 H62 V238') + step(98, 266, 5) + text(116, 271, 'Answer', 15, strong, 'start') +
+    box(136, 178, 608, 56) + text(440, 212, 'Application', 20, strong);
+  SERVICES.forEach((s, i) => {
+    const cx = 201 + i * 159;
+    out += stepLabel(cx, 30, i + 1, s[3]) +
+      service(cx, 44, 130, 56, s) +
+      edge(id, `M${cx - 16} 176 V102`) + edge(id, `M${cx + 16} 102 V176`);
+  });
   return out + '</svg>';
 }
 

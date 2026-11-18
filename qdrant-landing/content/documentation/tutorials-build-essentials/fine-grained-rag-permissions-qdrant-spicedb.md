@@ -32,7 +32,7 @@ example_resources:
 
 A standard RAG pipeline answers questions using information retrieved from your documents. Qdrant stores their embeddings and associated metadata and finds relevant documents to provide as context to the language model. But without an authorization step, any user can get an answer from any document in the collection, including documents they aren't allowed to read. The [OWASP Top 10 for LLM Applications](https://genai.owasp.org/llm-top-10/) lists this kind of leak as Sensitive Information Disclosure.
 
-For simple cases, there are coarse-grained techniques of adding access control such as [payload filtering](/documentation/search/filtering/) on a department field. But this breaks down in real-world scenarios when access gets more specific. In the example this tutorial uses:
+For simple cases, there are coarse-grained techniques of adding access control such as [payload filtering](/documentation/search/filtering/) on a department field. But this becomes less practical in real-world scenarios when access gets more specific. In the example this tutorial uses:
 
 - Engineering shares **one** architecture document with Sales.
 - Bob, who works in Sales, has a one-off exception for one engineering guide.
@@ -42,8 +42,8 @@ You could add pseudo-departments, copy allow-lists into every point's payload, o
 
 This tutorial splits the job between two systems. **Qdrant finds** the documents that are relevant to a question, and **[SpiceDB](https://github.com/authzed/spicedb) decides** who can see them. Every Qdrant point carries a `doc_id` in its payload, SpiceDB stores who can view each `doc_id`, and an authorization step checks every retrieved document before any of them reach the LLM:
 
-{{< island path="content/documentation/headless/fine-grained-permissions-spicedb/architecture" width="340" ratio="340 / 640" title="Fig. 1: The request flow. The application checks the candidate chunks from Qdrant in SpiceDB (step 3) before it builds the prompt for the LLM (step 4)." >}}
-![The user sends a query to the application, which runs five numbered steps. 1: it embeds the query with the embedding model. 2: it retrieves candidate chunks from Qdrant. 3: it checks permissions in SpiceDB. 4: it builds the prompt using only the authorized chunks and calls the LLM. 5: it returns the response to the user.](/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/architecture-mobile.png)
+{{< island path="content/documentation/headless/fine-grained-permissions-spicedb/architecture" width="340" ratio="340 / 500" title="Fig. 1: The request flow. The application checks access in SpiceDB (step 3) before it sends anything to the LLM (step 4)." >}}
+![The user asks the application a question. The application runs four numbered steps in order: 1, embed the query with the embedding model; 2, retrieve candidate documents from Qdrant; 3, check access in SpiceDB; 4, generate the answer with the LLM from the allowed documents only. Step 5 returns the answer to the user.](/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/architecture-mobile.png)
 {{< /island >}}
 
 In this tutorial, you'll use SpiceDB to:
@@ -135,7 +135,7 @@ qdrant.upload_points(
 )
 ```
 
-Each point's payload includes a `doc_id`, like `engineering-architecture-001`. Qdrant point IDs must be unsigned integers or UUIDs, so the human-readable ID goes in the payload instead. SpiceDB uses the same ID for its `document` resources, and that shared ID is what connects the two systems. In this tutorial, each document is a single point. If you split documents into chunks, give every chunk its parent's `doc_id`, and the permission check stays the same.
+The `doc_id` in each Qdrant point's payload matches the document's resource ID in SpiceDB, such as `engineering-architecture-001`. The authorization node uses this shared ID to check access. This example stores one point per document. If you split a document into chunks, give every chunk the parent document's `doc_id`.
 
 On the SpiceDB side, the script writes a schema and the relationships between users, departments, and documents. This is explained in detail in the [How SpiceDB Decides Access](#how-spicedb-decides-access) section.
 
@@ -161,9 +161,11 @@ document:engineering-architecture-001#viewer@department:sales#member
 
 To check whether Bob can view `engineering-architecture-001`, SpiceDB walks from the document through `viewer` to the sales department, and through `member` to Bob. The path exists, so Bob can view it. `engineering-architecture-002` was never shared, so its only viewers are members of Engineering. There's no path to Bob, so the check fails:
 
-{{< island path="content/documentation/headless/fine-grained-permissions-spicedb/permission-check" width="340" ratio="340 / 356" title="Fig. 2: Two checks for `user:bob`. SpiceDB finds a path to Bob from `engineering-architecture-001`, but not from `engineering-architecture-002`." >}}
-![Two permission checks for user bob. For engineering-architecture-001, the path goes through viewer to the sales department and through member to bob, so the result is PERMISSIONSHIP_HAS_PERMISSION. For engineering-architecture-002, the path goes through viewer to the engineering department, but its member relation does not reach bob, so the result is PERMISSIONSHIP_NO_PERMISSION.](/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/permission-check-mobile.png)
+{{< island path="content/documentation/headless/fine-grained-permissions-spicedb/permission-check" width="340" ratio="340 / 322" title="Fig. 2: Two checks for Bob. A path through Sales reaches Bob from Doc 001, but no path reaches him from Doc 002." >}}
+![Two permission checks for Bob. Doc 001 has the Sales department as a viewer, and Bob is a member of Sales, so a path reaches Bob and access is allowed. Doc 002 has the Engineering department as a viewer, and Bob is not a member of Engineering, so there is no path and access is denied.](/documentation/tutorials-build-essentials/fine-grained-rag-permissions-qdrant-spicedb/permission-check-mobile.png)
 {{< /island >}}
+
+In the figure, Doc 001 is `engineering-architecture-001` and Doc 002 is `engineering-architecture-002`. Through the API, the first check returns `PERMISSIONSHIP_HAS_PERMISSION` and the second returns `PERMISSIONSHIP_NO_PERMISSION`.
 
 Per-document sharing, cross-department access, and one-off exceptions are all relationships like these. Role-Based Access Control or scoped tokens can't express them without a new role or token for every exception.
 
@@ -210,7 +212,7 @@ Every user also has a direct `viewer` relationship to each of the five public do
 
 Check out the SpiceDB documentation for more information on [schema](https://authzed.com/docs/spicedb/concepts/schema) and [relationships](https://authzed.com/docs/spicedb/concepts/relationships).
 
-Your application asks SpiceDB whether a user can view a document with the `CheckPermission` API, or with `CheckBulkPermissions` to check many documents in one request.
+Your application asks SpiceDB whether a user can view a document with the `CheckPermission` API, or with `CheckBulkPermissions` to check many documents in one request. It can also list every document a user can view with `LookupResources`.
 
 ## Choose Where to Check Permissions
 

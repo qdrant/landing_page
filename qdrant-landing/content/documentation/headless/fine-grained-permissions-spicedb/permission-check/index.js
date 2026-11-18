@@ -34,79 +34,59 @@ function open(w, h, cls, label) {
 
 const ROOT = 'qi-sp-check';
 const HOT = false;
-const LABEL = 'Two permission checks for user bob. For engineering-architecture-001, the path goes through viewer to the sales department and through member to bob, so the result is PERMISSIONSHIP_HAS_PERMISSION. For engineering-architecture-002, the path goes through viewer to the engineering department, but its member relation does not reach bob, so the result is PERMISSIONSHIP_NO_PERMISSION.';
+const LABEL = 'Two permission checks for Bob. Doc 001 has the Sales department as a viewer, and Bob is a member of Sales, so a path reaches Bob and access is allowed. Doc 002 has the Engineering department as a viewer, and Bob is not a member of Engineering, so there is no path and access is denied.';
 
-/* Two CheckPermission walks for user:bob. engineering-architecture-001 is
-   shared with sales#member, so a path reaches Bob. engineering-architecture-002
-   is shared with engineering#member, which does not include Bob. */
+/* Two CheckPermission walks for user:bob. Doc 001 is shared with
+   sales#member, so a path reaches Bob. Doc 002 is shared with
+   engineering#member, which does not include Bob. Full IDs and API result
+   names live in the surrounding text. */
 const CHECKS = [
-  { doc: 'eng-arch-001', full: 'document:engineering-architecture-001', dept: 'sales', ok: true },
-  { doc: 'eng-arch-002', full: 'document:engineering-architecture-002', dept: 'engineering', ok: false },
+  { doc: 'Doc 001', dept: 'Sales', ok: true },
+  { doc: 'Doc 002', dept: 'Engineering', ok: false },
 ];
 const strong = 'qi-label--strong qi-sp__label';
 function cross(x, y) {
   return `<circle cx="${x}" cy="${y}" r="8" class="qi-sp__cross"/>` +
     `<path d="M${x - 3.5} ${y - 3.5} L${x + 3.5} ${y + 3.5} M${x + 3.5} ${y - 3.5} L${x - 3.5} ${y + 3.5}" class="qi-sp__edge qi-sp__edge--deny" style="stroke-dasharray:none"/>`;
 }
+function bob(x, y, w, h, ok) {
+  return box(x, y, w, h, ok ? 'qi-sp__node--hot' : 'qi-sp__dashed qi-sp__dim') +
+    text(x + w / 2, y + h / 2 + 6, 'Bob', 17, ok ? strong : 'qi-sp__dim');
+}
+function result(x, y, w, h, ok) {
+  return box(x, y, w, h, ok ? 'qi-sp__node--hot' : 'qi-sp__node--deny') +
+    text(x + w / 2, y + h / 2 + 6, ok ? 'Allowed' : 'Denied', 17, 'qi-label--strong');
+}
 export function svg(narrow = false, id = ROOT) {
   if (narrow) {
-    let out = open(340, 356, 'qi-sp__narrow', LABEL) + defs(id) + frame(340, 356);
+    const W = 340, H = 322;
+    let out = open(W, H, 'qi-sp__narrow', LABEL) + defs(id) + frame(W, H);
     CHECKS.forEach((c, col) => {
-      const x = 16 + col * 162;
-      const cx = x + 70;
-      const k = c.ok ? 'hot' : '';
-      const ys = [16, 70, 124, 178, 232];
-      const items = [[c.doc, 6], ['viewer', 18], [c.dept, 6], ['member', 18], ['bob', 6]];
-      items.forEach(([label, rx], i) => {
-        const y = ys[i];
-        const last = i === items.length - 1;
-        const cls = last ? (c.ok ? 'qi-sp__node--hot' : 'qi-sp__dashed qi-sp__dim') : (rx > 6 ? 'qi-sp__node--rel' : '');
-        out += box(x, y, 140, 36, cls, rx) + text(cx, y + 23, label, 15, last && !c.ok ? 'qi-sp__dim' : strong);
-        if (i < items.length - 1) {
-          const broken = !c.ok && i === items.length - 2;
-          out += edge(id, `M${cx} ${y + 38} V${ys[i + 1] - 2}`, broken ? 'deny' : k);
-          if (broken) out += cross(cx, y + 45);
-        }
-      });
-      out += edge(id, `M${cx} 270 V288`, c.ok ? 'hot' : 'deny') +
-        box(x, 290, 140, 52, c.ok ? 'qi-sp__node--hot' : 'qi-sp__node--deny') +
-        text(cx, 311, 'PERMISSIONSHIP_', 14, 'qi-label--strong') +
-        text(cx, 330, c.ok ? 'HAS_PERMISSION' : 'NO_PERMISSION', 14, 'qi-label--strong');
+      const x = 16 + col * 162, w = 146, cx = x + w / 2, k = c.ok ? 'hot' : '';
+      out += box(x, 16, w, 40) + text(cx, 42, c.doc, 17, strong) +
+        edge(id, `M${cx} 58 V96`, k) + text(cx + 14, 82, 'viewer', 14, '', 'start') +
+        box(x, 98, w, 40) + text(cx, 124, c.dept, 17, strong) +
+        edge(id, `M${cx} 140 V178`, c.ok ? 'hot' : 'deny') + text(cx + 14, 164, 'member', 14, '', 'start') +
+        (c.ok ? '' : cross(cx, 159)) +
+        bob(x, 180, w, 40, c.ok) +
+        edge(id, `M${cx} 222 V260`, c.ok ? 'hot' : 'deny') +
+        result(x, 262, w, 44, c.ok);
     });
     return out + '</svg>';
   }
-  let out = open(760, 404, 'qi-sp__wide', LABEL) + defs(id) + frame(760, 404);
+  const W = 760, H = 236;
+  let out = open(W, H, 'qi-sp__wide', LABEL) + defs(id) + frame(W, H);
   CHECKS.forEach((c, row) => {
-    const y0 = 34 + row * 196;
-    const k = c.ok ? 'hot' : '';
-    const y = y0 + 40;
-    const mid = y + 24;
-    out += text(16, y0, `CHECK ${c.full} · view · user:bob`, 15, 'qi-sp__kicker', 'start') +
-      text(16, y0 + 30, 'DOCUMENT', 14, 'qi-sp__kicker', 'start') +
-      text(352, y0 + 30, 'DEPARTMENT', 14, 'qi-sp__kicker', 'start') +
-      text(668, y0 + 30, 'USER', 14, 'qi-sp__kicker', 'start') +
-      box(16, y, 170, 48) + text(101, mid + 6, c.doc, 18, strong) +
-      edge(id, `M188 ${mid} H212`, k) +
-      box(214, y, 110, 48, 'qi-sp__node--rel', 24) + text(269, mid + 6, 'viewer', 18, strong) +
-      edge(id, `M326 ${mid} H350`, k) +
-      box(352, y, 150, 48) + text(427, mid + 6, c.dept, 18, strong) +
-      edge(id, `M504 ${mid} H528`, k) +
-      box(530, y, 110, 48, 'qi-sp__node--rel', 24) + text(585, mid + 6, 'member', 18, strong);
-    if (c.ok) {
-      out += edge(id, `M642 ${mid} H666`, 'hot') +
-        box(668, y, 76, 48, 'qi-sp__node--hot') + text(706, mid + 6, 'bob', 18, strong) +
-        edge(id, `M706 ${y + 50} V${y + 76}`, 'hot') +
-        text(698, y + 68, 'path found', 14, '', 'end') +
-        box(400, y + 78, 344, 40, 'qi-sp__node--hot') +
-        text(572, y + 104, 'PERMISSIONSHIP_HAS_PERMISSION', 16, 'qi-label--strong');
-    } else {
-      out += edge(id, `M642 ${mid} H666`, 'deny') + cross(654, mid) +
-        box(668, y, 76, 48, 'qi-sp__dashed qi-sp__dim') + text(706, mid + 6, 'bob', 18, 'qi-sp__dim') +
-        edge(id, `M706 ${y + 50} V${y + 76}`, 'deny') +
-        text(698, y + 68, 'no path', 14, '', 'end') +
-        box(400, y + 78, 344, 40, 'qi-sp__node--deny') +
-        text(572, y + 104, 'PERMISSIONSHIP_NO_PERMISSION', 16, 'qi-label--strong');
-    }
+    const y0 = 34 + row * 108, y = y0 + 14, mid = y + 24, k = c.ok ? 'hot' : '';
+    out += text(24, y0, `Can Bob view ${c.doc}?`, 15, 'qi-sp__kicker', 'start') +
+      box(24, y, 130, 48) + text(89, mid + 6, c.doc, 18, strong) +
+      edge(id, `M156 ${mid} H254`, k) + text(205, mid - 13, 'viewer', 14) +
+      box(256, y, 150, 48) + text(331, mid + 6, c.dept, 18, strong) +
+      edge(id, `M408 ${mid} H506`, c.ok ? 'hot' : 'deny') + text(457, mid - 13, 'member', 14) +
+      (c.ok ? '' : cross(457, mid)) +
+      bob(508, y, 90, 48, c.ok) +
+      edge(id, `M600 ${mid} H622`, c.ok ? 'hot' : 'deny') +
+      result(624, y, 120, 48, c.ok);
   });
   return out + '</svg>';
 }
