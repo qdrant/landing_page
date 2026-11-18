@@ -1,3 +1,50 @@
+.documentation .chunking-source-example {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 1.5rem;
+  align-items: start;
+  margin: 1.5rem 0 2rem;
+}
+
+.documentation .chunking-source-example > figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.documentation .chunking-source-example figure > a {
+  display: block;
+  cursor: zoom-in;
+}
+
+.documentation .chunking-source-example img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 28rem;
+  margin: 0 auto;
+}
+
+.documentation .chunking-source-example figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.chunking-source-example__text {
+  min-width: 0;
+}
+
+@media (max-width: 700px) {
+  .documentation .chunking-source-example {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .documentation .chunking-source-example img {
+    max-height: 24rem;
+  }
+}
+
 .documentation details.chunking-method-menu {
   margin: 1.25rem 0;
   padding: 0.875rem 1.25rem;

@@ -41,9 +41,84 @@ The word "semantic" in a package description does not always mean embedding-base
 
 ## 1. Inspect Your Documents and Questions
 
-Choose a small sample that includes your common document types and difficult cases: long sections, tables, references to earlier definitions, and exceptions. Write representative questions alongside it. For each question, mark the source passages needed for a complete answer before deciding where to split.
+Before choosing a splitter, check whether your ingestion pipeline preserves the evidence needed for a specific question. These examples use manually checked transcriptions and answers, not outputs from an OCR or VLM run.
 
-Here is our project handbook:
+### Receipt: Check the OCR Output
+
+<div class="chunking-source-example">
+<figure>
+  <a href="/guides_data/chunking/receipt.png" aria-label="Open the full-size Bright Mart receipt">
+    <img src="/guides_data/chunking/receipt.png" alt="Bright Mart receipt RCP-602371 dated February 12, 2026: headphones cost $60 and a connecting wire $10. Subtotal $70, tax $17.50, discount minus $0.50, total $87." width="840" height="1659" loading="lazy">
+  </a>
+  <figcaption>Receipt example. Select the image to inspect it at full resolution.</figcaption>
+</figure>
+<div class="chunking-source-example__text mathjax_ignore">
+
+**Question:** Why is the total $87.00 rather than $70.00?
+
+The extracted text must preserve these label-value pairs:
+
+| Label | Value |
+| --- | --- |
+| Subtotal | $70.00 |
+| Tax (25%) | $17.50 |
+| Discount | −$0.50 |
+| Total | $87.00 |
+
+The answer follows from **$70.00 + $17.50 − $0.50 = $87.00**. Check the amounts, labels, and discount sign against the image before embedding.
+
+Start with **OCR followed by text chunking**. Keep this short receipt as one chunk if it fits the embedding budget, with its receipt ID, date, and source-image reference. Separating the total from the tax and discount would lose the explanation. Visual retrieval adds little for this question when extraction preserves those fields.
+
+</div>
+</div>
+
+### Infographic: Keep the Chart Readable
+
+<div class="chunking-source-example">
+<figure>
+  <a href="/guides_data/chunking/retirement-infographic.png" aria-label="Open the full-size Global Retirement Dilemma infographic">
+    <img src="/guides_data/chunking/retirement-infographic.png" alt="The Global Retirement Dilemma infographic. Its chart of seniors as a projected share of total population shows the blue U.S. curve above the white World curve across the displayed 2015–2060 range." width="970" height="1615" loading="lazy">
+  </a>
+  <figcaption>Historical infographic: Dave Merrill / Bloomberg Visual Data. Select to inspect the full image; its projections are not current statistics.</figcaption>
+</figure>
+<div class="chunking-source-example__text">
+
+**Question:** Does the U.S. or the world have the higher projected share of seniors across the chart's 2015–2060 range?
+
+The **U.S. curve stays above the World curve**. OCR that returns only the labels and axis values omits this relationship.
+
+Test **visual retrieval**: ColPali or ColQwen can retrieve the page; an image-capable answering model must then read the chart. Keep the title, axes, curves, series labels, and "projected" qualifier together, whether you supply the page or a chart region. Check that small labels remain readable after resizing.
+
+If verified chart extraction already captures this relationship, text retrieval can also answer it. See [VLMs or text chunking](#when-to-use-vlms-or-text-chunking) for the model and storage choices.
+
+</div>
+</div>
+
+### Handwriting: Verify Recognition Before Splitting
+
+<div class="chunking-source-example">
+<figure>
+  <a href="/guides_data/chunking/handwritten-page.png" aria-label="Open the full-size handwritten page">
+    <img src="/guides_data/chunking/handwritten-page.png" alt="A page of cursive handwriting on aged paper, including the line How often did I think of you." width="600" height="948" loading="lazy">
+  </a>
+  <figcaption>Handwritten source. Select the image to compare individual words.</figcaption>
+</figure>
+<div class="chunking-source-example__text">
+
+**Question:** What does the line beginning "How often" say?
+
+The reference transcription is **"How often did I think of you"**.
+
+Compare handwriting-recognition or generative VLM output with the scan, marking uncertain words for review. A VLM transcription also needs verification. Index verified text with page and line references, and retain the scan so a result can be checked against the original.
+
+A mistranscribed word is a recognition error. Changing chunk size cannot recover the missing wording. Once recognition is reliable, group lines into complete passages rather than treating every handwritten line as an independent chunk.
+
+</div>
+</div>
+
+### Text: Keep the Task and Its Conditions Together
+
+Now consider a handbook whose text is already readable:
 
 > **Definition: a complete export.** A complete export includes project settings, documents, and attached files.
 >
@@ -53,9 +128,9 @@ Here is our project handbook:
 >
 > **Billing FAQ.** Where can I download an invoice? Open **Billing**, then **Invoices**.
 
-"What does a complete export include?" needs the definition. "What must a complete project copy include, and how do I share one that uses linked files?" needs the definition, procedure, and exception. The invoice question belongs to a different topic.
+**Question:** What must a complete project copy include, and how do I share one that uses linked files?
 
-A plausible first split is one chunk per bold label. Yet a match on the procedure would not necessarily retrieve the definition or exception. Grouping the export passages is one candidate repair; keeping the billing entry separate preserves its focus.
+The answer needs the definition, procedure, and linked-file exception. One chunk per bold label could retrieve only the procedure. Group the three export passages as a baseline; keep the independent billing answer separate. We will use this handbook to compare text chunking methods.
 
 <figure class="chunking-figure">
   <picture>
@@ -69,16 +144,7 @@ A plausible first split is one chunk per bold label. Yet a match on the procedur
   <figcaption>Keep the export definition, steps, and linked-file exception together for the complete-copy question. Retrieve the independent billing FAQ on its own.</figcaption>
 </figure>
 
-Look for the same dependencies in your own data:
-
-| Document pattern | Starting unit | Dependency to check |
-| --- | --- | --- |
-| FAQ | One question and answer | Does the answer name its subject without the question? |
-| Procedure | A complete task or subtask | Which prerequisites, definitions, and exceptions govern the steps? |
-| Prose | A paragraph developing one idea | Does it depend on an earlier paragraph or section title? |
-| Reference manual | A section or complete entry | Do notes and table headers apply to the whole entry? |
-
-Inspect the extracted text as well as the original document. A PDF parser that scrambles columns or drops table headers has already lost information. Fix that before tuning the splitter. Keep document identifiers and versions, section paths, and source positions so you can trace every chunk back to its origin.
+For your own sample, record the question, exact source evidence, extraction errors, and the unit to retrieve. Include source IDs and positions so every failure can be traced back to the document.
 
 ## 2. Choose Meaningful Boundaries
 
