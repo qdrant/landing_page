@@ -44,25 +44,23 @@ ${drawing.join('\n')}
 }
 
 function decisionFlow() {
-  const drawing = [text(24, 40, 'Five Decisions for Chunking', { weight: 600 })];
+  const drawing = [];
   const steps = [
-    ['Inspect Sources', 'Is the source evidence intact?'],
-    ['Choose Boundaries', 'Do needed facts stay together?'],
-    ['Set Size and Overlap', 'Do both input budgets fit?'],
-    ['Add Missing Context', 'Does each chunk make sense alone?'],
-    ['Test Final Evidence', 'Where does evidence disappear?'],
+    'Inspect sources',
+    'Choose boundary',
+    'Set size and overlap',
+    'Add missing context',
+    'Test final evidence',
   ];
-  steps.forEach(([label, question], index) => {
-    const y = 74 + index * 104;
-    drawing.push(rect(24, y, 592, 80, index === 0 ? color.violet : color.muted, { opacity: index === 0 ? 0.08 : 0.03 }));
-    drawing.push(text(40, y + 31, `${index + 1}. ${label}`, { weight: 600 }));
-    drawing.push(text(40, y + 62, question));
-    if (index < steps.length - 1) drawing.push(line(320, y + 84, 320, y + 100, { arrow: true }));
+  steps.forEach((label, index) => {
+    const y = 20 + index * 64;
+    drawing.push(rect(80, y, 480, 48, color.muted, { opacity: 0.03 }));
+    drawing.push(text(320, y + 33, label, { anchor: 'middle', weight: 600 }));
+    if (index < steps.length - 1) drawing.push(line(320, y + 50, 320, y + 62, { arrow: true }));
   });
-  drawing.push(text(24, 614, 'Trace failures to the relevant step.'));
   return document('Five decisions for setting up chunking',
-    'Follow five connected decisions. First, inspect whether extracted source evidence is intact. Second, choose boundaries that keep the facts needed for a question together. Third, fit complete embedding inputs and the assembled answer context within their separate model budgets, adding overlap only where it helps. Fourth, add source identity or missing source context at the appropriate stage. Fifth, test final evidence coverage and answer correctness separately. Missing source evidence leads back to inspection; a retrieval miss calls for inspecting the query, filters, and representation; dropped context calls for inspecting assembly, expansion, duplicates, and budgets. If evidence is present but the answer is wrong, inspect the answering stage. This diagram illustrates decisions and does not run or validate a pipeline.',
-    640, drawing);
+    'Inspect sources, choose boundary, set size and overlap, add missing context, and test final evidence.',
+    360, drawing);
 }
 
 function fixed() {

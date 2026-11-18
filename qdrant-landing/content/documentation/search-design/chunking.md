@@ -16,8 +16,8 @@ Every embedding model has an input context limit: [all-MiniLM-L6-v2](https://hug
 
 Boundaries must preserve related evidence. [Qu et al.](https://arxiv.org/abs/2410.13070) found inconsistent semantic-chunking gains over fixed groups of whole sentences; [Sayıcı's EUR-Lex experiment](https://mburaksayici.com/blog/2025/11/08/not-all-clever-chunking-methods-always-worth-it.html) also challenges added complexity. Compare evidence coverage and ingestion cost. Larger answer windows don't remove embedding limits, and parsing errors can lose evidence before splitting.
 
-{{< island path="documentation/headless/chunking/decision-flow" ratio="1/1" title="Select a decision to explore its options and next steps. Trace missing evidence to the stage responsible. This map illustrates the workflow; it does not run a pipeline." >}}
-![Five connected decisions: inspect source evidence, choose boundaries that keep needed facts together, fit embedding and answer budgets, supply missing context, and test the evidence reaching the answer. Trace failures to extraction, retrieval, context assembly, or the answering stage before changing the splitter.](/guides_data/chunking/decision-flow.svg)
+{{< island path="documentation/headless/chunking/decision-flow" ratio="16/9" >}}
+![Five connected steps: inspect sources, choose boundary, set size and overlap, add missing context, and test final evidence.](/guides_data/chunking/decision-flow.svg)
 {{< /island >}}
 
 ## Available Frameworks and Libraries

@@ -4,29 +4,9 @@ import test from 'node:test';
 import { JSDOM } from 'jsdom';
 
 const source = await readFile(new URL('./index.js', import.meta.url));
-const { STEPS, decisionFor, mount } = await import(`data:text/javascript;base64,${source.toString('base64')}`);
+const { mount } = await import(`data:text/javascript;base64,${source.toString('base64')}`);
 
-test('decision routes distinguish evidence loss from answering failure', () => {
-  assert.deepEqual(STEPS.map(step => step.id), [1, 2, 3, 4, 5]);
-  assert.equal(decisionFor(1, 'missing').nextStep.id, 1);
-  assert.equal(decisionFor(3, 'oversized').nextStep.id, 3);
-  assert.equal(decisionFor(4, 'identity').nextStep.id, 3);
-  assert.equal(decisionFor(4, 'condition').nextStep.id, 3);
-  assert.equal(decisionFor(5, 'source').nextStep.id, 1);
-  assert.equal(decisionFor(5, 'search').nextStep.id, 2);
-  assert.equal(decisionFor(5, 'assembly').nextStep.id, 3);
-  assert.equal(decisionFor(5, 'assembly').choice.link, '#4-add-context-where-needed');
-  assert.equal(decisionFor(5, 'answer').nextStep, null);
-  assert.equal(decisionFor(5, 'present').nextStep, null);
-  for (const step of STEPS) for (const choice of step.choices) {
-    assert.ok(choice.action.length > 0);
-    assert.ok(choice.next === null || STEPS.some(candidate => candidate.id === choice.next));
-  }
-  assert.throws(() => decisionFor(9, 'missing'), RangeError);
-  assert.throws(() => decisionFor(1, 'answer'), RangeError);
-});
-
-test('the map retains all five decisions and supports choices, returns, links, and independent reset', t => {
+function fixture(t) {
   const dom = new JSDOM('<main><section id="first"></section><section id="second"></section></main>');
   const previousCustomEvent = globalThis.CustomEvent;
   globalThis.CustomEvent = dom.window.CustomEvent;
@@ -35,7 +15,41 @@ test('the map retains all five decisions and supports choices, returns, links, a
     else globalThis.CustomEvent = previousCustomEvent;
     dom.window.close();
   });
-  const document = dom.window.document;
+  return dom.window.document;
+}
+
+test('each title selects one concise example without replacing the focused control', t => {
+  const document = fixture(t);
+  const node = document.querySelector('#first');
+  mount(node);
+  const buttons = [...node.querySelectorAll('button')];
+  assert.deepEqual(buttons.map(button => button.textContent.trim()), [
+    'Inspect sources', 'Choose boundary', 'Set size and overlap',
+    'Add missing context', 'Test final evidence',
+  ]);
+  assert.equal(node.querySelectorAll('.qi-flow__arrow').length, 4);
+  assert.equal(node.querySelectorAll('a, [data-choices], [data-reset], [data-next]').length, 0);
+  const panel = node.querySelector('.qi-flow__detail');
+  const examples = new Set();
+  for (const button of [...buttons, buttons[0], buttons[0]]) {
+    button.focus();
+    button.querySelector('b').click();
+    assert.equal(document.activeElement, button);
+    assert.equal(node.querySelectorAll('[aria-pressed="true"]').length, 1);
+    assert.equal(button.getAttribute('aria-pressed'), 'true');
+    assert.equal(node.querySelector('.qi-flow__detail'), panel);
+    assert.equal(panel.querySelectorAll('.qi-flow__example').length, 1);
+    assert.ok(panel.textContent.trim().split(/\s+/).length <= 35);
+    assert.ok(node.querySelector('[role="status"]').textContent.startsWith(button.textContent.trim()));
+    examples.add(panel.textContent);
+  }
+  assert.equal(examples.size, 5);
+  assert.match(panel.textContent, /Total \$87/);
+  assert.doesNotMatch(node.textContent, /Explore the five decisions|Select a step|Next Action|Situation:/);
+});
+
+test('mount announces readiness and selections remain scoped to their own diagram', t => {
+  const document = fixture(t);
   const first = document.querySelector('#first');
   const second = document.querySelector('#second');
   const ready = [];
@@ -43,40 +57,10 @@ test('the map retains all five decisions and supports choices, returns, links, a
   mount(first);
   mount(second);
   assert.deepEqual(ready, [first, second]);
-  const initialStatus = second.querySelector('[role="status"]').textContent;
-  const initialAction = second.querySelector('[data-action]').textContent;
-  for (const step of STEPS) {
-    const stepButton = first.querySelector(`[data-step="${step.id}"]`);
-    stepButton.focus();
-    stepButton.click();
-    assert.equal(document.activeElement, stepButton);
-    assert.equal(first.querySelectorAll('[data-step]').length, 5);
-    assert.equal(first.querySelectorAll('.qi-flow__arrow').length, 4);
-    assert.equal(stepButton.getAttribute('aria-pressed'), 'true');
-    assert.equal(first.querySelector('[data-section]').getAttribute('href'), step.anchor);
-    for (const choice of step.choices) {
-      const button = first.querySelector(`[data-choice="${choice.id}"]`);
-      button.focus();
-      button.click();
-      assert.equal(document.activeElement, button);
-      assert.equal(button.getAttribute('aria-pressed'), 'true');
-      assert.equal(first.querySelector('[data-action]').textContent, choice.action);
-      assert.equal(first.querySelector('[data-next]').hidden, choice.next === null || choice.next === step.id);
-      assert.equal(first.querySelector('[data-related]').hidden, !choice.link);
-      assert.match(first.querySelector('[role="status"]').textContent, new RegExp(`Step ${step.id}:`));
-      assert.equal(second.querySelector('[role="status"]').textContent, initialStatus);
-      assert.equal(second.querySelector('[data-action]').textContent, initialAction);
-    }
-  }
-  first.querySelector('[data-choice="source"]').click();
-  first.querySelector('[data-next]').click();
-  assert.equal(first.querySelector('[data-step="1"]').getAttribute('aria-pressed'), 'true');
-  assert.equal(document.activeElement, first.querySelector('[data-step="1"]'));
-  assert.equal(first.querySelector('[data-choice="missing"]').getAttribute('aria-pressed'), 'true', 'returning to a decision retains its selected situation');
-  first.querySelector('[data-reset]').click();
-  assert.equal(first.querySelector('[role="status"]').textContent, initialStatus);
-  assert.equal(first.querySelector('[data-choice="intact"]').getAttribute('aria-pressed'), 'true');
-  first.querySelector('[data-next]').click();
-  assert.equal(first.querySelector('[data-step="2"]').getAttribute('aria-pressed'), 'true');
-  assert.equal(first.querySelector('[data-choice="complete"]').getAttribute('aria-pressed'), 'true');
+  const initialSecond = second.innerHTML;
+  first.querySelector('[data-step="5"]').click();
+  assert.match(first.querySelector('[data-after]').textContent, /Missing: Download linked files separately/);
+  assert.equal(second.innerHTML, initialSecond);
+  first.querySelector('.qi-flow__example').click();
+  assert.equal(first.querySelector('[data-step="5"]').getAttribute('aria-pressed'), 'true');
 });
