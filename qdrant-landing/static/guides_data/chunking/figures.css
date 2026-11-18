@@ -58,9 +58,9 @@ html[data-theme='dark'] .chunking-figure > .chunking-figure__dark {
   line-height: 1.5;
 }
 
-/* The four method diagrams share the site's island controls and theme tokens. */
+/* Method diagrams share the site's island controls and theme tokens. */
 .island[data-island^='documentation/headless/chunking/'] .island__caption {
-  color: var(--qi-fg);
+  color: inherit;
   opacity: 1;
 }
 

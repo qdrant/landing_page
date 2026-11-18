@@ -1,4 +1,4 @@
-// Regenerate the four theme-neutral SVG fallbacks with:
+// Regenerate the seven theme-neutral SVG fallbacks with:
 // node qdrant-landing/content/documentation/headless/chunking/render-fallbacks.mjs
 // No dependencies or network requests are needed. The existing chunking figure
 // supplies the same embedded Geist Mono font used by these standalone exports.
@@ -77,6 +77,79 @@ function fixed() {
   });
   return document('Fixed chunking: 12-word windows over 31 source words',
     'Both examples use the same 31-word source and a 12-word window. Without overlap, the chunks cover words 1–12, 13–24, and 25–31, advancing 12 words at a time. With 3 words of overlap, they cover 1–12, 10–21, 19–30, and 28–31, advancing 9 words at a time. Dashed teal bands mark the 3 repeated source positions at the beginning of each later chunk. Bars use the same source-word position scale; final chunks can be shorter. These are word counts, not model-token counts.',
+    440, drawing);
+}
+
+function sentence() {
+  const drawing = [
+    text(24, 40, 'Sentence: keep whole statements', { weight: 600 }),
+    text(24, 78, 'Sentence lengths: 8, 9, 6 words', { fill: color.muted }),
+    text(24, 122, 'Cap 12 → 3 separate chunks'),
+  ];
+  const group = (x, y, width, label, count, stroke) => {
+    drawing.push(rect(x, y, width, 68, stroke));
+    drawing.push(text(x + width / 2, y + 28, label, { anchor: 'middle' }));
+    drawing.push(text(x + width / 2, y + 57, `${count} words`, { anchor: 'middle' }));
+  };
+  [8, 9, 6].forEach((count, i) => group(24 + i * 204, 138, 184, `S${i + 1}`, count, color.violet));
+  drawing.push(text(24, 250, 'Cap 20 → group adjacent sentences'));
+  group(24, 266, 388, 'S1 + S2', 17, color.violet);
+  group(432, 266, 184, 'S3', 6, color.teal);
+  drawing.push(text(24, 382, 'Cap 8: S2 has 9 words.'));
+  drawing.push(text(24, 418, 'Use a finer split; do not truncate.'));
+  return document('Sentence chunking: group complete sentences within a word cap',
+    'S1 identifies linked-file references in 8 words. S2 gives the separate-download instruction in 9 words. S3 covers billing in 6 words. A 12-word cap keeps all three sentences in separate chunks. A 20-word cap groups S1 and S2 into a 17-word chunk, retaining the meaning of those files, and leaves S3 separate. An 8-word cap cannot contain S2 intact: it needs a finer split, not silent truncation. Counts are words, not embedding-model tokens.',
+    440, drawing);
+}
+
+function paragraph() {
+  const drawing = [
+    text(24, 40, 'Paragraphs: preserve section breaks', { weight: 600 }),
+    text(24, 80, 'Export: P1, P2, P3 · Billing: P4', { fill: color.muted }),
+    text(24, 128, 'Cap 24 → 3 chunks'),
+  ];
+  const group = (x, y, width, label, count, stroke) => {
+    drawing.push(rect(x, y, width, 78, stroke));
+    drawing.push(text(x + width / 2, y + 31, label, { anchor: 'middle' }));
+    drawing.push(text(x + width / 2, y + 64, `${count} words`, { anchor: 'middle' }));
+  };
+  group(24, 148, 288, 'P1 + P2', 22, color.violet);
+  group(326, 148, 138, 'P3', 15, color.violet);
+  group(478, 148, 138, 'P4', 8, color.teal);
+  drawing.push(text(24, 282, 'Cap 48 → 2 chunks'));
+  group(24, 302, 440, 'P1 + P2 + P3', 37, color.violet);
+  group(478, 302, 138, 'P4', 8, color.teal);
+  drawing.push(text(24, 424, 'Headings prevent cross-section merges.'));
+  return document('Paragraph chunking: pack adjacent paragraphs within a section',
+    'The Export section contains P1, a 10-word definition, P2, 12-word steps, and P3, a 15-word linked-file exception. The Billing section contains P4, an 8-word paragraph. Packing at a 24-word cap produces P1 plus P2, P3, and P4. Although P3 plus P4 would fit the cap, the section boundary prevents their merger. At a 48-word cap, all three Export paragraphs fit together in 37 words; Billing remains a separate 8-word chunk. Counts are words, not model tokens.',
+    440, drawing);
+}
+
+function slidingWindow() {
+  const drawing = [
+    text(24, 40, 'Slide a three-sentence window', { weight: 600 }),
+    text(24, 78, 'S3: linked files · S4: download', { fill: color.muted }),
+    text(24, 116, 'Stride 3 → no overlap'),
+  ];
+  const window = (first, last, y, stroke, repeated = false) => {
+    const start = 24 + (first - 1) * 98;
+    drawing.push(rect(start, y, (last - first + 1) * 98 - 8, 40, stroke));
+    for (let i = first; i <= last; i += 1) {
+      drawing.push(text(24 + (i - 1) * 98 + 45, y + 29, `S${i}`, { anchor: 'middle' }));
+    }
+    if (repeated) {
+      drawing.push(`<rect x="${start}" y="${y}" width="90" height="40" rx="4" fill="none" stroke="${color.fg}" stroke-width="2" stroke-dasharray="5 4"/>`);
+    }
+  };
+  window(1, 3, 134, color.violet);
+  window(4, 6, 134, color.purple);
+  drawing.push(text(24, 222, 'Stride 2 → overlap 1 sentence'));
+  window(1, 3, 240, color.violet);
+  window(3, 5, 290, color.purple, true);
+  window(5, 6, 340, color.teal, true);
+  drawing.push(text(24, 420, 'Dashed: S3 and S5 repeat.'));
+  return document('Sliding-window chunking: changing stride while holding window size fixed',
+    'The source has six sentences. S3 describes linked-file references and S4 gives the separate-download instruction. Three-sentence windows at stride 3 cover S1–S3 and S4–S6, so S3 and S4 are separated. At stride 2, the windows cover S1–S3, S3–S5, and S5–S6. The middle window keeps S3 and S4 together. Dashed outlines mark S3 and S5 repeated from the preceding windows, for two repeated sentence appearances. The final window is shorter. These are sentence counts, not token counts.',
     440, drawing);
 }
 
@@ -169,7 +242,7 @@ function recursive() {
     400, drawing);
 }
 
-for (const [name, render] of Object.entries({ fixed, semantic, agentic, recursive })) {
+for (const [name, render] of Object.entries({ fixed, sentence, paragraph, 'sliding-window': slidingWindow, semantic, agentic, recursive })) {
   const svg = render();
   await writeFile(new URL(`${name}.svg`, destination), svg);
   console.log(`${name}.svg: ${svg.match(/viewBox="([^"]+)"/)[1]}, embedded Geist Mono`);

@@ -32,26 +32,22 @@ This is the problem a chunking strategy must address: **which information needs 
 
 ## Available Frameworks and Libraries
 
-Choose an entry point that fits your pipeline. Check each implementation's counting units and inspect its output.
-
-| Tool | Useful starting point | What to inspect |
-| --- | --- | --- |
-| [LangChain text splitters](https://docs.langchain.com/oss/python/integrations/splitters/index) | Length-based, recursive, and document-format splitting. | The length function, separator order, overlap, and retained headings. |
-| [LlamaIndex node parsers](https://developers.llamaindex.ai/python/framework/module_guides/loading/node_parsers/modules/) | Sentence, semantic, and hierarchical splitting within an indexing pipeline. | Node relationships, metadata, and whether retrieval actually expands to related nodes. |
-| [Agno chunking](https://docs.agno.com/knowledge/concepts/chunking/overview) | Fixed, recursive, semantic, and LLM-selected boundaries in Agno knowledge ingestion. | Counting units, model calls, boundary validation, and fallback behavior. |
-| [Chonkie](https://docs.chonkie.ai/oss/chunkers/overview) | A dedicated ingestion library with multiple chunkers, including semantic and neural approaches. | Each chunker's tokenizer, model requirements, and size limits. |
-| [Kiru](https://github.com/bitswired/kiru) | Rust core with Python bindings for byte or character chunking, streaming files, and parallel document processing. | Counting unit, overlap, UTF-8 handling, final model-token lengths, and lazy versus materialized output. |
-| [semchunk](https://github.com/isaacus-dev/semchunk) | Python splitting with a hierarchy of structural boundaries and a configurable tokenizer or token counter. | Token-count caching, overlap, offsets, and whether optional AI chunking is enabled. |
-| [text-splitter](https://github.com/benbrandt/text-splitter) / `semantic-text-splitter` | Rust splitting for plain text, Markdown, and code, with Python bindings under the second name. | Character-based defaults versus tokenizer-based sizing, structural boundaries, and retained source positions. |
-| [memchunk, now Chunk](https://github.com/feyninc/chunk) | Rust delimiter-based byte splitting with Python bindings, designed to minimize boundary-search and copying work. | Byte limits, delimiter behavior, UTF-8 handling, and a separate check against the embedding tokenizer. |
-| [Chonky](https://github.com/mirth/chonky) | A trained token-classification model that predicts chunk boundaries. | Boundary quality on your language and document types, plus inference requirements. |
-| [Docling](https://docling-project.github.io/docling/) / [Unstructured](https://docs.unstructured.io/open-source/core-functionality/partitioning) | Parse documents into structured elements before forming retrieval chunks. | Reading order, tables, headings, OCR quality, and the subsequent chunking policy. |
+| Tool | Useful starting point |
+| --- | --- |
+| [LangChain text splitters](https://docs.langchain.com/oss/python/integrations/splitters/index) | Length-based, recursive, and document-format splitting. |
+| [LlamaIndex node parsers](https://developers.llamaindex.ai/python/framework/module_guides/loading/node_parsers/modules/) | Sentence, semantic, and hierarchical splitting within an indexing pipeline. |
+| [Agno chunking](https://docs.agno.com/knowledge/concepts/chunking/overview) | Fixed, recursive, semantic, and LLM-selected boundaries in Agno knowledge ingestion. |
+| [Chonkie](https://docs.chonkie.ai/oss/chunkers/overview) | A dedicated ingestion library with multiple chunkers, including semantic and neural approaches. |
+| [Kiru](https://github.com/bitswired/kiru) | Rust core with Python bindings for byte or character chunking, streaming files, and parallel document processing. |
+| [semchunk](https://github.com/isaacus-dev/semchunk) | Python splitting with a hierarchy of structural boundaries and a configurable tokenizer or token counter. |
+| [text-splitter](https://github.com/benbrandt/text-splitter) / `semantic-text-splitter` | Rust splitting for plain text, Markdown, and code, with Python bindings under the second name. |
+| [memchunk, now Chunk](https://github.com/feyninc/chunk) | Rust delimiter-based byte splitting with Python bindings, designed to minimize boundary-search and copying work. |
+| [Chonky](https://github.com/mirth/chonky) | A trained token-classification model that predicts chunk boundaries. |
+| [Docling](https://docling-project.github.io/docling/) / [Unstructured](https://docs.unstructured.io/open-source/core-functionality/partitioning) | Parse documents into structured elements before forming retrieval chunks. |
 
 Chonky and Chonkie are separate projects; Chonkie also offers a [neural chunker using Chonky models](https://docs.chonkie.ai/oss/chunkers/neural-chunker). [Sentence Transformers](https://www.sbert.net/docs/sentence_transformer/usage/semantic_textual_similarity.html) can supply sentence embeddings for a semantic splitter, but the splitting rule and thresholds still need to be defined.
 
 The word "semantic" in a package description does not always mean embedding-based boundary detection. `text-splitter` uses structural and Unicode boundaries; semchunk's default mode also follows structural rules, while its optional AI mode calls an enrichment model. Inspect the implementation you actually configure. For throughput, see [Speed Up Chunking After Finding the Bottleneck](#speed-up-chunking-after-finding-the-bottleneck).
-
-Now use the handbook to choose a baseline, inspect a failed split, and compare two repairs.
 
 ## 1. Inspect Your Documents and Questions
 
@@ -144,23 +140,89 @@ In the handbook, a cut after the export procedure leaves the linked-file excepti
 
 ### Sentence Chunking
 
+<details class="chunking-tradeoffs chunking-tradeoffs--strengths">
+<summary>Strengths</summary>
+
+- Keeps statements intact instead of cutting at an arbitrary character or token position.
+- Can group adjacent sentences to give a short statement its surrounding context.
+- Requires no embedding comparisons or LLM calls to choose boundaries.
+
+</details>
+
+<details class="chunking-tradeoffs chunking-tradeoffs--weaknesses">
+<summary>Weaknesses</summary>
+
+- Pronouns, definitions, and exceptions can depend on a different sentence.
+- Abbreviations, lists, and language-specific punctuation can confuse sentence detection.
+- A single sentence can exceed the input limit and require a finer split.
+
+</details>
+
 Sentence chunking uses sentence boundaries as the starting units. You can index one sentence at a time or group consecutive sentences until the next would exceed a size cap. [Chonkie's sentence chunker](https://docs.chonkie.ai/oss/chunkers/sentence-chunker) is one implementation. This is a useful baseline for prose: it avoids arbitrary cuts inside statements without requiring embedding comparisons or an LLM to choose boundaries.
 
 A complete sentence is not necessarily complete evidence. In the handbook, "Download those files separately" depends on the preceding sentence identifying linked files. Group them, or retain the source relationship for expansion after retrieval. Check segmentation on abbreviations, lists, and your document languages, and define a fallback for a sentence longer than the embedding limit. Sentence count alone does not establish a token budget.
 
+{{< island path="documentation/headless/chunking/sentence" ratio="16/11" title="Sentence boundaries stay intact as adjacent sentences are grouped. Compare one sentence per chunk with grouping under a word cap. At 20 words, the linked-file statement and its download instruction fit together; at 8, the 9-word sentence needs a finer split. Counts are words, not model tokens." >}}
+![Three sentences contain 8, 9, and 6 words. A 12-word cap keeps them separate; a 20-word cap groups the first two into a 17-word chunk. An 8-word cap cannot contain the 9-word sentence intact.](/guides_data/chunking/sentence.svg)
+{{< /island >}}
+
 ### Paragraph Chunking
+
+<details class="chunking-tradeoffs chunking-tradeoffs--strengths">
+<summary>Strengths</summary>
+
+- Preserves the author's grouping of sentences into an idea or explanation.
+- Keeps short passages intact without requiring model inference.
+- Can combine short adjacent paragraphs within a section while retaining their source positions.
+
+</details>
+
+<details class="chunking-tradeoffs chunking-tradeoffs--weaknesses">
+<summary>Weaknesses</summary>
+
+- PDF line wrapping and extraction errors can create misleading paragraph breaks.
+- A paragraph can depend on a definition or condition elsewhere in the section.
+- Long paragraphs still need a size check and a fallback splitter.
+
+</details>
 
 Paragraph chunking keeps each paragraph intact, optionally combining short adjacent paragraphs within the same section. It works well when authors use paragraphs to develop complete ideas. Retain the section title, and use a finer splitter when a paragraph exceeds the cap. In extracted PDFs, distinguish real paragraph boundaries from line wrapping before using blank lines as separators.
 
 In the handbook, the definition, procedure, and exception are three paragraphs about one task. Keeping them separate preserves their formatting but can still omit required evidence. Start with paragraphs when they are independently useful; group related paragraphs or supply their shared section when the questions require it.
 
+{{< island path="documentation/headless/chunking/paragraph" ratio="16/11" title="Paragraphs can be packed together without crossing a section heading. At a 24-word cap, the first two export paragraphs form one chunk; at 48, all three fit. Billing remains separate in both cases. A paragraph that exceeds the cap is flagged for a finer split." >}}
+![Export paragraphs P1, P2, and P3 contain 10, 12, and 15 words; Billing paragraph P4 contains 8. Packing at 24 words groups P1 and P2. Packing at 48 groups P1 through P3. The section boundary keeps P4 separate.](/guides_data/chunking/paragraph.svg)
+{{< /island >}}
+
 ### Sliding-Window Chunking
 
-A sliding window moves through the source by a chosen **stride**. With a 400-token window and a 360-token stride, adjacent chunks share 40 tokens. A sentence-based version might take four sentences, then advance by three. The fixed-chunking interactive example demonstrates this same size-minus-overlap relationship using words.
+<details class="chunking-tradeoffs chunking-tradeoffs--strengths">
+<summary>Strengths</summary>
+
+- Carries nearby context across boundaries by repeating part of each window.
+- Makes source coverage predictable from the window size and stride.
+- Works with word, token, or sentence units without a model choosing each boundary.
+
+</details>
+
+<details class="chunking-tradeoffs chunking-tradeoffs--weaknesses">
+<summary>Weaknesses</summary>
+
+- Repeated text increases embedding work and storage.
+- Overlapping hits can consume result slots and repeat evidence in the answer context.
+- Dependencies longer than the window can still be separated.
+
+</details>
+
+A sliding window moves through the source by a chosen **stride**. With a 400-token window and a 360-token stride, adjacent chunks share 40 tokens. A sentence-based version might take three sentences, then advance by two, repeating one sentence in the next window.
 
 Try it when a useful definition or condition often sits just across a boundary. The repeated span gives neighboring chunks some shared context, but cannot guarantee that an entire dependency fits. An exception several paragraphs away may still be absent. Overlap also increases indexed text and can return duplicate evidence, so preserve source offsets and merge repeated spans when assembling the answer.
 
 This is different from [LlamaIndex's sentence-window retrieval](https://developers.llamaindex.ai/python/framework-api-reference/node_parsers/sentence_window/): that parser stores individual sentences as nodes and surrounding sentences as metadata. The application must supply that surrounding text after retrieval. Embedding overlapping windows and expanding a retrieved sentence change different stages of the pipeline.
+
+{{< island path="documentation/headless/chunking/sliding-window" ratio="16/11" title="Keep the window at three sentences and change how far it advances. A stride of three separates the linked-file statement from its instruction. A stride of two puts them together in a window, with two repeated sentence appearances across the output. Select a chunk to trace its source span." >}}
+![Six sentences form two non-overlapping three-sentence chunks at stride 3. At stride 2, the windows are S1–S3, S3–S5, and S5–S6; S3 and S5 repeat. The linked-file statement S3 and download instruction S4 share the middle window.](/guides_data/chunking/sliding-window.svg)
+{{< /island >}}
 
 ### Semantic Chunking
 
