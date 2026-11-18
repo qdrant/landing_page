@@ -1,0 +1,839 @@
+[
+  {
+    "id": 0,
+    "token_start": 0,
+    "token_end": 127,
+    "char_start": 0,
+    "char_end": 588,
+    "content_tokens": 127,
+    "text": "Good evening. Good evening. If I were smart, I’d go home now.\n\nMr. Speaker, Madam Vice President, members of Congress, my fellow Americans.\n\nIn January 1941, Franklin Roosevelt came to this chamber to speak to the nation. And he said, “I address you at a moment unprecedented in the history of the Union”. Hitler was on the march. War was raging in Europe.\n\nPresident Roosevelt’s purpose was to wake up Congress and alert the American people that this was no ordinary time. Freedom and democracy were under assault in the world.\n\nTonight, I come to the same chamber to address the nation."
+  },
+  {
+    "id": 1,
+    "token_start": 127,
+    "token_end": 239,
+    "char_start": 589,
+    "char_end": 1145,
+    "content_tokens": 112,
+    "text": "Now it’s we who face an unprecedented moment in the history of the Union.\n\nAnd, yes, my purpose tonight is to wake up the Congress and alert the American people that this is no ordinary moment either. Not since President Lincoln and the Civil War have freedom and democracy been under assault at home as they are today.\n\nWhat makes our moment rare is that freedom and democracy are under attack at — both at home and overseas at the very same time.\n\nOverseas, Putin of Russia is on the march, invading Ukraine and sowing chaos throughout Europe and beyond."
+  },
+  {
+    "id": 2,
+    "token_start": 239,
+    "token_end": 351,
+    "char_start": 1147,
+    "char_end": 1668,
+    "content_tokens": 112,
+    "text": "If anybody in this room thinks Putin will stop at Ukraine, I assure you: He will not.\n\nBut Ukraine — Ukraine can stop Putin. Ukraine can stop Putin if we stand with Ukraine and provide the weapons that it needs to defend itself.\n\nThat is all — that is all Ukraine is asking. They’re not asking for American soldiers. In fact, there are no American soldiers at war in Ukraine, and I’m determined to keep it that way.\n\nBut now assistance to Ukraine is being blocked by those who want to walk away from our world leadership."
+  },
+  {
+    "id": 3,
+    "token_start": 351,
+    "token_end": 451,
+    "char_start": 1670,
+    "char_end": 2084,
+    "content_tokens": 100,
+    "text": "It wasn’t long ago when a Republican president named Ronald Reagan thundered, “Mr. Gorbachev, tear down this wall.”\n\nNow — now my predecessor, a former Republican president, tells Putin, quote, “Do whatever the hell you want.”\n\nAUDIENCE: Booo —\n\nTHE PRESIDENT: That’s a quote.\n\nA former president actually said that — bowing down to a Russian leader. I think it’s outrageous, it’s dangerous, and it’s unacceptable."
+  },
+  {
+    "id": 4,
+    "token_start": 451,
+    "token_end": 577,
+    "char_start": 2086,
+    "char_end": 2689,
+    "content_tokens": 126,
+    "text": "America is a founding member of NATO, the military alliance of democratic nations created after World War Two prevent — to prevent war and keep the peace.\n\nAnd today, we’ve made NATO stronger than ever. We welcomed Finland to the Alliance last year. And just this morning, Sweden officially joined, and their minister is here tonight. Stand up. Welcome. Welcome, welcome, welcome. And they know how to fight.\n\nMr. Prime Minister, welcome to NATO, the strongest military alliance the world has ever seen.\n\nI say this to Congress: We have to stand up to Putin. Send me a bipartisan national security bill."
+  },
+  {
+    "id": 5,
+    "token_start": 577,
+    "token_end": 705,
+    "char_start": 2690,
+    "char_end": 3277,
+    "content_tokens": 128,
+    "text": "History is literally watching. History is watching.\n\nIf the United States walks away, it will put Ukraine at risk. Europe is at risk. The free world will be at risk, emboldening others to do what they wish to do us harm.\n\nMy message to President Putin, who I’ve known for a long time, is simple: We will not walk away. We will not bow down. I will not bow down.\n\nIn a literal sense, history is watching. History is watching — just like history watched three years ago on January 6th when insurrectionists stormed this very Capitol and placed a dagger to the throat of American democracy."
+  },
+  {
+    "id": 6,
+    "token_start": 705,
+    "token_end": 828,
+    "char_start": 3279,
+    "char_end": 3863,
+    "content_tokens": 123,
+    "text": "Many of you were here on that darkest of days. We all saw with our own eyes the insurrectionists were not patriots. They had come to stop the peaceful transfer of power, to overturn the will of the people.\n\nJanuary 6th lies about the 2020 election and the plots to steal the election posed a great — gravest threat to U.S. democracy since the Civil War.\n\nBut they failed. America stood — America stood strong and democracy prevailed. We must be honest: The threat to democracy must be defended (defeated).\n\nMy predecessor and some of you here seek to bury the truth about January 6th."
+  },
+  {
+    "id": 7,
+    "token_start": 828,
+    "token_end": 943,
+    "char_start": 3864,
+    "char_end": 4399,
+    "content_tokens": 115,
+    "text": "I will not do that.\n\nThis is a moment to speak the truth and to bury the lies. Here’s the simple truth: You can’t love your country only when you win.\n\nAs I’ve done ever since being elected to office, I ask all of you, without regard to party, to join together and defend democracy. Remember your oath of office to defend against all threats foreign and domestic.\n\nRespect — respect free and fair elections, restore trust in our institutions, and make clear political violence has absolutely no place — no place in America. Zero place."
+  },
+  {
+    "id": 8,
+    "token_start": 943,
+    "token_end": 1071,
+    "char_start": 4401,
+    "char_end": 4997,
+    "content_tokens": 128,
+    "text": "Again, it’s not — it’s not hyperbole to suggest history is watching. They’re watching. Your children and grandchildren will read about this day and what we do.\n\nHistory is watching another assault on freedom. Joining us tolight (tonight) is Latorya Beasley, a social worker from Birmingham, Alabama.\n\nFourteen months ago — fourteen months ago, she and her husband welcomed a baby girl thanks to the miracle of IVF. She scheduled treatments to have that second child, but the Alabama Supreme Court shut down IVF treatments across the state, unleashed by a Supreme Court decision overturning Roe v."
+  },
+  {
+    "id": 9,
+    "token_start": 1071,
+    "token_end": 1193,
+    "char_start": 4998,
+    "char_end": 5581,
+    "content_tokens": 122,
+    "text": "Wade. She was told her dream would have to wait.\n\nWhat her family had gone through should never have happened. Unless Congress acts, it could happen again.\n\nSo, tonight, let’s stand up for families like hers. To my friends across the aisle — don’t keep this waiting any longer. Guarantee the right to IVF. Guarantee it nationwide.\n\nLike most Americans, I believe Roe v. Wade got it right.\n\nI thank Vice President Harris for being an incredible leader defending reproductive freedom and so much more. Thank you.\n\nMy predecessor came to office determined to see Roe v. Wade overturned."
+  },
+  {
+    "id": 10,
+    "token_start": 1193,
+    "token_end": 1318,
+    "char_start": 5582,
+    "char_end": 6130,
+    "content_tokens": 125,
+    "text": "He’s the reason it was overturned, and he brags about it. Look at the chaos that has resulted.\n\nJoining us tonight is Kate Cox, a wife and mother from Dallas. She’d become pregnant again and had a fetus with a fatal condition. Her doctor told Kate that her own life and her ability to have future in the fil- — children in the future were at risk if she didn’t act. Because Texas law banned her ability to act, Kate and her husband had to leave the state to get what she needed.\n\nWhat her family had gone through should have never happened as well."
+  },
+  {
+    "id": 11,
+    "token_start": 1318,
+    "token_end": 1409,
+    "char_start": 6131,
+    "char_end": 6566,
+    "content_tokens": 91,
+    "text": "But it’s happening to too many others.\n\nThere are state laws banning the freedom to choose, criminalizing doctors, forcing survivors of rape and incest to leave their states to get the treatment they need.\n\nMany of you in this chamber and my predecessor are promising to pass a national ban on reproductive freedom.\n\nAUDIENCE: Booo —\n\nTHE PRESIDENT: My God, what freedom else would you take away?\n\nLook, its decision to overturn Roe v."
+  },
+  {
+    "id": 12,
+    "token_start": 1409,
+    "token_end": 1519,
+    "char_start": 6567,
+    "char_end": 7046,
+    "content_tokens": 110,
+    "text": "Wade, the Supreme Court majority wrote the following — and with all due respect, Justices — “Women are not without electoral — electoral power” — excuse me — “electoral or political power.”\n\nYou’re about to realize just how much you were right about that.\n\nClearly — clearly, those bragging about overturning Roe v. Wade have no clue about the power of women.\n\nBut they found out. When reproductive freedom was on the ballot, we won in 2022 and 2023. And we’ll win again in 2024."
+  },
+  {
+    "id": 13,
+    "token_start": 1519,
+    "token_end": 1640,
+    "char_start": 7048,
+    "char_end": 7569,
+    "content_tokens": 121,
+    "text": "If you — if you, the American people, send me a Congress that supports the right to choose, I promise you I will restore Roe v. Wade as the law of the land again.\n\nFolks, America cannot go back.\n\nI am here to- — tonight to show what I believe is the way forward, because I know how far we’ve come.\n\nFour years ago next week, before I came to office, the country was hit by the worst pandemic and the worst economic crisis in a century.\n\nRemember the fear, record losses?\n\nRemember the spikes in crime and the murder rate?"
+  },
+  {
+    "id": 14,
+    "token_start": 1640,
+    "token_end": 1768,
+    "char_start": 7570,
+    "char_end": 8165,
+    "content_tokens": 128,
+    "text": "A raging virus that took more than 1 million American lives of loved ones, millions left behind.\n\nA mental health crisis of isolation and loneliness.\n\nA president, my predecessor, failed in the most basic presidential duty that he owes to American people: the duty to care.\n\nAUDIENCE MEMBER: Lies!\n\nTHE PRESIDENT: I think that’s unforgivable.\n\nI came to office determined to get us through one of the toughest periods in the nation’s history. We have.\n\nIt doesn’t make new, but in a — news — in a thousand cities and towns, the American people are writing the greatest comeback story never told."
+  },
+  {
+    "id": 15,
+    "token_start": 1768,
+    "token_end": 1891,
+    "char_start": 8167,
+    "char_end": 8700,
+    "content_tokens": 123,
+    "text": "So, let’s tell the story here — tell it here and now.\n\nAmerica’s comeback is building a future of American possibilities; building an economy from the middle out and the bottom up, not the top down; investing in all of America, in all Americans to make every- — sure everyone has a fair shot and we leave no one — no one behind.\n\nThe pandemic no longer controls our lives. The vaccine that saved us from COVID is — are now being used to beat cancer.\n\nTurning setback into comeback. That’s what America does. That’s what America does."
+  },
+  {
+    "id": 16,
+    "token_start": 1891,
+    "token_end": 2009,
+    "char_start": 8702,
+    "char_end": 9266,
+    "content_tokens": 118,
+    "text": "Folks, I inherited an economy that was on the brink. Now, our economy is literally the envy of the world.\n\nFifteen million new jobs in just three years. A record. A record.\n\nUnemployment at 50-year lows.\n\nA record 16 million Americans are starting small businesses, and each one is a literal act of hope, with historic job growth and small-business growth for Black and Hispanics and Asian Americans. Eight hundred thousand new manufacturing jobs in America and counting.\n\nWhere is it written we can’t be the manufacturing capital of the world? We are and we will."
+  },
+  {
+    "id": 17,
+    "token_start": 2009,
+    "token_end": 2136,
+    "char_start": 9268,
+    "char_end": 9880,
+    "content_tokens": 127,
+    "text": "More people have health insurance today — more people have health insurance today than ever before.\n\nThe racial wealth gap is the smallest it’s been in 20 years.\n\nWages keep going up. Inflation keeps coming down. Inflation has dropped from 9 percent to 3 percent — the lowest in the world and tending (trending) lower.\n\nThe landing is and will be soft. And now, instead of aporting — importing foreign products and exporting American jobs, we’re exporting American products and creating American jobs right here in America, where they belong.\n\nAnd it takes time, but the American people are beginning to feel it."
+  },
+  {
+    "id": 18,
+    "token_start": 2136,
+    "token_end": 2246,
+    "char_start": 9881,
+    "char_end": 10461,
+    "content_tokens": 110,
+    "text": "Consumer studies show consumer confidence is soaring.\n\n“Buy America” has been the law of the land since the 1930s. Past administrations, including my predecessor — including some Democrats, as well, in the past — failed to buy American. Not anymore.\n\nOn my watch, federal projects that you fund — like helping build American roads, bridges, and highways — will be made with American products and built by American workers creating good-paying American jobs.\n\nAnd thanks to our CHIPS and Science Act the United States is investing more in research and development than ever before."
+  },
+  {
+    "id": 19,
+    "token_start": 2246,
+    "token_end": 2374,
+    "char_start": 10462,
+    "char_end": 11094,
+    "content_tokens": 128,
+    "text": "During the pandemic, a shortage of semiconductors, chips that drove up the price of everything from cell phones to automobiles — and, by the way, we invented those chips right here in America.\n\nWell, instead of having to import them, instead of — private companies are now investing billions of dollars to build new chip factories here in America creating tens of thousands of jobs, many of those jobs paying $100,000 a year and don’t require a college degree.\n\nIn fact, my policies have attracted $650 billion in private-sector investment in clean energy, advanced manufacturing, creating tens of thousands of jobs here in America."
+  },
+  {
+    "id": 20,
+    "token_start": 2374,
+    "token_end": 2499,
+    "char_start": 11096,
+    "char_end": 11647,
+    "content_tokens": 125,
+    "text": "And thanks — and thanks to our Bipartisan Infrastructure Law, 46,000 new projects have been announced all across your communities.\n\nAnd, by the way, I noticed some of you who’ve strongly voted against it are there cheering on that money coming in. And I like it. I’m with you. I’m with you.\n\nAnd if any of you don’t want that money in your district, just let me know.\n\nModernizing our roads and bridges, ports and airports, public transit systems. Removing poi- — poisonous lead pipes so every child can drink clean water without risk of brain damage."
+  },
+  {
+    "id": 21,
+    "token_start": 2499,
+    "token_end": 2622,
+    "char_start": 11649,
+    "char_end": 12253,
+    "content_tokens": 123,
+    "text": "Providing affordable — affordable high-speed Internet for every American, no matter where you live — urban, suburban, or rural communities in red states and blue states.\n\nRecord investments in Tribal communities.\n\nBecause of my investment in family farms — because I invested in family farms — led by my Secretary of Agriculture, who knows more about this anybody I know — we’re better able to stay in the family for the — those farms so their — and their children and grandchildren won’t have to leave — leave home to make a living. It’s transformative.\n\nThe great comeback story is Belvidere, Illinois."
+  },
+  {
+    "id": 22,
+    "token_start": 2622,
+    "token_end": 2748,
+    "char_start": 12254,
+    "char_end": 12835,
+    "content_tokens": 126,
+    "text": "Home to an auto plant for nearly 60 years. Before I came to office, the plant was on its way to shutting down. Thousands of workers feared for their livelihoods. Hope was fading.\n\nThen, I was elected to office, and we raised Belvidere repeatedly with auto companies, knowing unions would make all the difference. The UAW worked like hell to keep the plant open and get these jobs back. And together, we succeeded.\n\nInstead of auto factories shutting down, auto factories are reopening and a new state-of-the-art battery factory is being built to power those cars there at the same."
+  },
+  {
+    "id": 23,
+    "token_start": 2748,
+    "token_end": 2868,
+    "char_start": 12837,
+    "char_end": 13334,
+    "content_tokens": 120,
+    "text": "To the folks — to the folks of Belvidere, I’d say: Instead of your town being left behind, your community is moving forward again. Because instead of watching auto ja- — jobs of the future go overseas, 4,000 union jobs with higher wages are building a future in Belvidere right here in America.\n\nHere tonight is UAW President Shawn Fain, a great friend and a great labor leader. Shawn, where are you? Stand up.\n\nAnd — and Dawn — and Dawn Simms, a third-generation worker — UAW worker at Belvidere."
+  },
+  {
+    "id": 24,
+    "token_start": 2868,
+    "token_end": 2986,
+    "char_start": 13336,
+    "char_end": 13843,
+    "content_tokens": 118,
+    "text": "Shawn, I was proud to be the first President to stand in the picket line. And today, Dawn has a good job in her hometown, providing stability for her family and pride and dignity as well.\n\nShowing once again Wall Street didn’t build America. They’re not bad guys. They didn’t build it, though. The middle class built the country, and unions built the middle class.\n\nI say to the American people: When America gets knocked down, we get back up. We keep going. That’s America. That’s you, the American people."
+  },
+  {
+    "id": 25,
+    "token_start": 2986,
+    "token_end": 3106,
+    "char_start": 13845,
+    "char_end": 14403,
+    "content_tokens": 120,
+    "text": "It’s because of you America is coming back. It’s because of you our future is brighter. It’s because of you that tonight we can proudly say the state of our Union is strong and getting stronger.\n\nAUDIENCE: Four more years! Four more years! Four more years!\n\nTHE PRESIDENT: Tonight — tonight, I want to talk about the future of possibilities that we can build together — a future where the days of trickle-down economics are over and the wealthy and the biggest corporations no longer get the — all the tax breaks.\n\nAnd, by the way, I understand corporations."
+  },
+  {
+    "id": 26,
+    "token_start": 3106,
+    "token_end": 3215,
+    "char_start": 14404,
+    "char_end": 14863,
+    "content_tokens": 109,
+    "text": "I come from a state that has more corporations invested than every one of your states in the state — the United States combined. And I represented it for 36 years. I’m not anti-corporation.\n\nBut I grew up in a home where trickle-down economics didn’t put much on my dad’s kitchen table. That’s why I’m determined to turn things around so the middle class does well. When they do well, the poor have a way up and the wealthy still do very well. We all do well."
+  },
+  {
+    "id": 27,
+    "token_start": 3215,
+    "token_end": 3334,
+    "char_start": 14865,
+    "char_end": 15361,
+    "content_tokens": 119,
+    "text": "And there’s more to do to make sure you’re feeling the benefits of all we’re doing.\n\nAmericans pay more for prescription drugs than anywhere in the world. It’s wrong, and I’m ending it.\n\nWith a law that I proposed and signed — and not one of your Republican buddies work- — voted for it — we finally beat Big Pharma.\n\nInstead of paying $400 a month or thereabouts for insulin with diabetes — and it only costs 10 bucks to make — they only get paid $35 a month now and still make a healthy profit."
+  },
+  {
+    "id": 28,
+    "token_start": 3334,
+    "token_end": 3452,
+    "char_start": 15363,
+    "char_end": 15877,
+    "content_tokens": 118,
+    "text": "And I want to — and what to do next, I want to cap the cost of insulin at $35 a month for every American who needs it — everyone.\n\nFor years, people have talked about it. But finally, we got it done and gave Medicare the power to negotiate lower prices on prescription drugs, just like the VA is able to do for veterans.\n\nThat’s not just saving seniors money. It’s saving taxpayers money. We cut the federal deficit by $160 billion because Medicare will no longer have to pay those exorbitant prices to Big Pharma."
+  },
+  {
+    "id": 29,
+    "token_start": 3452,
+    "token_end": 3541,
+    "char_start": 15879,
+    "char_end": 16310,
+    "content_tokens": 89,
+    "text": "This year, Medicare is negotiating lower prices for some of the costliest drugs on the market that treat everything from heart disease to arthritis. It’s now time to go further and give Medicare the power to negotiate lower prices for 500 different drugs over the next decade.\n\nThey’re making a lot of money, guys. And they’ll still be extremely profitable. It will not only save lives; it will save taxpayers another $200 billion."
+  },
+  {
+    "id": 30,
+    "token_start": 3541,
+    "token_end": 3656,
+    "char_start": 16312,
+    "char_end": 16757,
+    "content_tokens": 115,
+    "text": "Starting next year, the same law caps total prescription drug costs for seniors on Medicare at $200 — at $2,000 a year, even for expensive cancer drugs that cost $10-, $12-, $15,000. Now I want to cap prescription drug costs at $2,000 a year for everyone.\n\nFolks, I’m going to get in trouble for saying that, but any of you want to get in Air Force One with me and fly to Toronto, Berlin, Moscow — I mean, excuse me. Well, even Moscow, probably."
+  },
+  {
+    "id": 31,
+    "token_start": 3656,
+    "token_end": 3778,
+    "char_start": 16758,
+    "char_end": 17289,
+    "content_tokens": 122,
+    "text": "And bring your prescription with you, and I promise you, I’ll get it for you for 40 percent the cost you’re paying now. Same company, same drug, same place.\n\nFolks, the Affordable Care Act — the old “Obamacare” is still a very big deal.\n\nOver 100 million of you can no longer be denied health insurance because of a preexisting condition. But my predecessor and many in this chamber want to take the — that prescription drug away by repealing Affordable Care Act.\n\nAUDIENCE: Booo —\n\nTHE PRESIDENT: I’m not going to let that happen."
+  },
+  {
+    "id": 32,
+    "token_start": 3778,
+    "token_end": 3880,
+    "char_start": 17290,
+    "char_end": 17724,
+    "content_tokens": 102,
+    "text": "We stopped you 50 times before, and we’ll stop you again.\n\nIn fact, I’m not only protecting it, I’m expanding it. The — we enacted tax credits of $800 per person per year (to) reduce healthcare costs for millions of working families. That tax credit expires next year. I want to make that savings permanent.\n\nTo state the obvious: Women are more than half of our population, but research on women’s health has always been underfunded."
+  },
+  {
+    "id": 33,
+    "token_start": 3880,
+    "token_end": 3980,
+    "char_start": 17726,
+    "char_end": 18173,
+    "content_tokens": 100,
+    "text": "That’s why we’re launching the first-ever White House Initiative on Women’s Health Research, led by Jill — doing an incredible job as First Lady — to pa- — to pass my plan for $12 billion to transform women’s health research and benefit millions of lives all across America.\n\nI know the cost of housing is so important to you. Inflation keeps coming down. Mortgage rates will come down as well, and the Fed acknowledges that.\n\nBut I’m not waiting."
+  },
+  {
+    "id": 34,
+    "token_start": 3980,
+    "token_end": 4072,
+    "char_start": 18174,
+    "char_end": 18594,
+    "content_tokens": 92,
+    "text": "I want to provide an annual tax credit that will give Americans $400 a month for the next two years as mortgage rates come down to put toward their mortgages when they buy their first home or trade up for a little more space. That’s for two years.\n\nAnd my administration is also eliminating title insurance (fees) on federally backed mortgages. When you refinance your home, you can save $1,000 or more as a consequence."
+  },
+  {
+    "id": 35,
+    "token_start": 4072,
+    "token_end": 4189,
+    "char_start": 18596,
+    "char_end": 19127,
+    "content_tokens": 117,
+    "text": "For millions of renters, we’re cracking down on big landlords who use antitrust law —using antitrust — who break antitrust laws by price-fixing and driving up rents.\n\nWe’ve cut red tape so builders can get federally financing, which is already helping build a record 1.7 million new house u- — housing units nationwide.\n\nNow pass — now pass (my plan) and build and renovate 2 million affordable homes and bring those rents down.\n\nTo remain the strongest economy in the world, we need to have the best education system in the world."
+  },
+  {
+    "id": 36,
+    "token_start": 4189,
+    "token_end": 4288,
+    "char_start": 19128,
+    "char_end": 19563,
+    "content_tokens": 99,
+    "text": "And I, like I suspect all of you, want to give a child — every child a good start by providing access to preschool for three- and four-years-old.\n\nYou know, I think I pointed out last year — I think I pointed out last year that children coming from broken homes where there’s no books, they’re not read to, they’re not spoken to very often start school — kindergarten or first grade hearing — having heard a million fewer words spoken."
+  },
+  {
+    "id": 37,
+    "token_start": 4288,
+    "token_end": 4371,
+    "char_start": 19565,
+    "char_end": 19942,
+    "content_tokens": 83,
+    "text": "Well, studies show that children who go to preschool are nearly 50 percent more likely to finish high school and go on to earn a two- and four-year degree no matter what their background is.\n\nI met a year and a half ago with the leaders of the Business Roundtable. They were mad that I was ever — angry — I — well, they were discussing why I wanted to spend money on education."
+  },
+  {
+    "id": 38,
+    "token_start": 4371,
+    "token_end": 4496,
+    "char_start": 19944,
+    "char_end": 20453,
+    "content_tokens": 125,
+    "text": "I pointed out to them: As Vice President, I met with over 8- — I think it was 182 of those folks — don’t hold me to the exact number — and I asked them what they need most — the CEOs. And you’ve had the same experience on both sides of the aisle. They say, “A better-educated workforce,” right?\n\nSo, I looked at them. And I say, “I come from Delaware. DuPont used to be the eighth-largest corporation in the world. And every new enter- — enterprise they bought, they educated the workforce to that enterprise."
+  },
+  {
+    "id": 39,
+    "token_start": 4496,
+    "token_end": 4613,
+    "char_start": 20454,
+    "char_end": 20981,
+    "content_tokens": 117,
+    "text": "But none of you do that anymore. Why are you angry with me providing you the opportunity for the best-educated workforce in the world?”\n\nAnd they all looked at me and said, “I think you’re right.”\n\nI want to expand high-quality tutoring and summer learning to see that every child learns to read by third grade.\n\nI’m also connecting local businesses and high schools so students get hands-on experience and a path to a good-paying job whether or not they go to college.\n\nAnd I want to make sure that college is more affordable."
+  },
+  {
+    "id": 40,
+    "token_start": 4613,
+    "token_end": 4732,
+    "char_start": 20982,
+    "char_end": 21581,
+    "content_tokens": 119,
+    "text": "Let’s continue increasing the Pell Grants to working- and middle-class families and increase record investments in HBCUs and minority-serving institutions, including Hispanic institutions.\n\nWhen I was told I couldn’t universally just change the way in which we did — dealt with student loans, I fixed two student loan programs that already existed to reduce the burden of student debt for nearly 4 million Americans, including nurses, firefighters and others in public service.\n\nLike Keenan Jones, a public educator in Minnesota, who’s here with us tonight. Keenan, where are you? Keenan, thank you."
+  },
+  {
+    "id": 41,
+    "token_start": 4732,
+    "token_end": 4858,
+    "char_start": 21583,
+    "char_end": 22132,
+    "content_tokens": 126,
+    "text": "He’s educated hundreds of students so they can go to college. Now he’s able to help, after debt forgiveness, get his own daughter to college.\n\nAnd, folks, look, such relief is good for the economy because folks are now able to buy a home, start a business, start a family.\n\nAnd while we’re at it, I want to give public school teachers a raise.\n\nAnd, by the way, the first couple of years, we cut the deficit.\n\nNow let me speak to the question of fundamental fairness for all Americans. I’ve been delivering real results in fiscally responsible ways."
+  },
+  {
+    "id": 42,
+    "token_start": 4858,
+    "token_end": 4963,
+    "char_start": 22133,
+    "char_end": 22600,
+    "content_tokens": 105,
+    "text": "We’ve already cut the federal deficit —we’ve already cut the federal deficit by over $1 trillion.\n\nI signed a bipartisan deal to cut another trillion dollars in the next decade.\n\nIt’s my goal to cut the federal deficit another $3 trillion by making big corporations and the very wealthy finally beginning to pay their fair share.\n\nLook, I’m a capitalist. If you want to make or can make a million or millions of bucks, that’s great. Just pay your fair share in taxes."
+  },
+  {
+    "id": 43,
+    "token_start": 4963,
+    "token_end": 5075,
+    "char_start": 22602,
+    "char_end": 23147,
+    "content_tokens": 112,
+    "text": "A fair tax code is how we invest in things that make this country great: healthcare, education, defense, and so much more.\n\nBut here’s the deal. The last administration enacted a $2 trillion tax cut overwhelmingly benefit the top 1 percent — the very wealthy —\n\nAUDIENCE: Booo —\n\nTHE PRESIDENT: — and the biggest corporations — and exploded the federal deficit.\n\nThey added more to the national debt than any presidential term in American history. Check the numbers.\n\nFolks at home, does anybody really think the tax code is fair?\n\nAUDIENCE: No!"
+  },
+  {
+    "id": 44,
+    "token_start": 5075,
+    "token_end": 5200,
+    "char_start": 23149,
+    "char_end": 23708,
+    "content_tokens": 125,
+    "text": "THE PRESIDENT: Do you really think the wealthy and big corporations need another $2 trillion tax break?\n\nAUDIENCE: No!\n\nTHE PRESIDENT: I sure don’t. I’m going to keep fighting like hell to make it fair. Under my plan, nobody earning less than $400,000 a year will pay an additional penny in federal taxes nobody — not one penny. And they haven’t yet.\n\nIn fact, the Child Tax Credit I passed during the pandemic cut taxes for millions of working families and cut child poverty in half.\n\nRestore that Child Tax Credit. No child should go hungry in this country."
+  },
+  {
+    "id": 45,
+    "token_start": 5200,
+    "token_end": 5322,
+    "char_start": 23710,
+    "char_end": 24277,
+    "content_tokens": 122,
+    "text": "The way to make the tax code fair is to make big corporations and the very wealthy begin to pay their share. Remember in 2020, 55 of the biggest companies in America made $40 billion and paid zero in federal income tax. Zero.\n\nAUDIENCE: Booo —\n\nTHE PRESIDENT: Not anymore.\n\nThanks to the law I wrote and we signed, big companies now have to pay a minimum of 15 percent. But that’s still less than working people pay in federal taxes.\n\nIt’s time to raise the corporate minimum tax to at least 21 percent so every big corporation finally begins to pay their fair share."
+  },
+  {
+    "id": 46,
+    "token_start": 5322,
+    "token_end": 5440,
+    "char_start": 24279,
+    "char_end": 24766,
+    "content_tokens": 118,
+    "text": "I also want to end tax breaks for Big Pharma, Big Oil, private jets, massive executive pay when it was only supposed to be a million bal- — a million dollars that could be deducted. They can pay them $20 million if they want, but deduct a million.\n\nEnd it now.\n\nYou know, there are 1,000 billionaires in America. You know what the average federal tax is for those billionaires?\n\nAUDIENCE MEMBER: Zero!\n\nTHE PRESIDENT: No.\n\nThey’re making great sacrifices — 8.2 percent.\n\nAUDIENCE: Booo —"
+  },
+  {
+    "id": 47,
+    "token_start": 5440,
+    "token_end": 5547,
+    "char_start": 24768,
+    "char_end": 25275,
+    "content_tokens": 107,
+    "text": "THE PRESIDENT: That’s far less than the vast majority of Americans pay.\n\nNo billionaire should pay a lower federal tax rate than a teacher, a sanitation worker, or a nurse.\n\nI proposed a minimum tax for billionaires of 25 percent — just 25 percent. You know what that would raise? That would raise $500 billion over the next 10 years.\n\nAnd imagine what that could do for America. Imagine a future with affordable childcare, millions of families can get what they need to go to work to help grow the economy."
+  },
+  {
+    "id": 48,
+    "token_start": 5547,
+    "token_end": 5667,
+    "char_start": 25277,
+    "char_end": 25861,
+    "content_tokens": 120,
+    "text": "Imagine a future with paid leave, because no one should have to choose between working and taking care of their sick family member.\n\nImagine — imagine a future with home care and eldercare, and people living with disabilities so they can stay in their homes and family caregivers can finally get the pay they deserve.\n\nTonight, let’s all agree once again to stand up for seniors.\n\nMany of my friends on the other side of the aisle want to put Social Security on the chopping block.\n\nIf anyone here tries to cut Social Security or Medicare or raise the retirement age, I will stop you."
+  },
+  {
+    "id": 49,
+    "token_start": 5667,
+    "token_end": 5785,
+    "char_start": 25863,
+    "char_end": 26357,
+    "content_tokens": 118,
+    "text": "The working people — the working people who built this country pay more into Social Security than millionaires and billionaires do. It’s not fair.\n\nWe have two ways to go. Republicans can cut Social Security and give more tax breaks to the wealthy. I will —\n\nAUDIENCE MEMBER: (Inaudible.)\n\nTHE PRESIDENT: That’s the proposal. Oh, no? You guys don’t want another $2 trillion tax cut?\n\nAUDIENCE MEMBER: Liar!\n\nTHE PRESIDENT: I kind of thought that’s what your plan was. Well, that’s good to hear."
+  },
+  {
+    "id": 50,
+    "token_start": 5785,
+    "token_end": 5877,
+    "char_start": 26358,
+    "char_end": 26775,
+    "content_tokens": 92,
+    "text": "You’re not going to cut another $2 trillion for the super-wealthy? That’s good to hear.\n\nI’ll protect and strengthen Social Security and make the wealthy pay their fair share.\n\nLook, too many corporations raise prices to pad their profits, charging more and more for less and less.\n\nThat’s why we’re cracking down on corporations that engage in price gouging and deceptive pricing, from food to healthcare to housing."
+  },
+  {
+    "id": 51,
+    "token_start": 5877,
+    "token_end": 5996,
+    "char_start": 26777,
+    "char_end": 27219,
+    "content_tokens": 119,
+    "text": "In fact, the snack companies think you won’t notice if they change the size of the bag and put a hell of a lot fewer — same — same size bag -— put fewer chips in it. No, I’m not joking. It’s called “shrink-flation.”\n\nPass Bobby Casey’s bill and stop this. I really mean it.\n\nYou probably all saw that commercial on Snickers bars. And you get — you get charged the same amount, and you got about, I don’t know, 10 percent fewer Snickers in it."
+  },
+  {
+    "id": 52,
+    "token_start": 5996,
+    "token_end": 6095,
+    "char_start": 27221,
+    "char_end": 27626,
+    "content_tokens": 99,
+    "text": "Look, I’m also getting rid of junk fees — those hidden fees — at the end of your bill that are there without your knowledge. My administration announced we’re cutting credit card late fees from $32 to $8.\n\nBanks and credit card companies are allowed to charge what it costs them to in- — to instigate the collection. And that’s more — a hell of a lot like $8 than 30-some dollars.\n\nBut they don’t like it."
+  },
+  {
+    "id": 53,
+    "token_start": 6095,
+    "token_end": 6215,
+    "char_start": 27627,
+    "char_end": 28152,
+    "content_tokens": 120,
+    "text": "The credit card companies don’t like it, but I’m saving American families $20 billion a year with all of the junk fees I’m eliminating.\n\nFolks at home, that’s why the banks are so mad. It’s $20 billion in profit.\n\nI’m not stopping there.\n\nMy administration has proposed rules to make cable, travel, utilities, and online ticket sellers tell you the total price up front so there are no surprises.\n\nIt matters. It matters.\n\nAnd so does this. In November, my team began serious negotiations with a bipartisan group of senators."
+  },
+  {
+    "id": 54,
+    "token_start": 6215,
+    "token_end": 6298,
+    "char_start": 28153,
+    "char_end": 28471,
+    "content_tokens": 83,
+    "text": "The result was a bipartisan bill with the toughest set of border security reforms we’ve ever seen.\n\nAUDIENCE: Booo —\n\nTHE PRESIDENT: Oh, you don’t think so?\n\nAUDIENCE: Booo —\n\nTHE PRESIDENT: Oh, you don’t like that bill — huh? — that conservatives got together and said was a good bill? I’ll be darned. That’s amazing."
+  },
+  {
+    "id": 55,
+    "token_start": 6298,
+    "token_end": 6402,
+    "char_start": 28473,
+    "char_end": 29001,
+    "content_tokens": 104,
+    "text": "That bipartisan bill would hire 1,500 more security agents and officers, 100 more immigration judges to help tackle the backload of 2 million cases, 4,300 more asylum officers, and new policies so they can resolve cases in six months instead of six years now. What are you against?\n\nOne hundred more high-tech drug detection machines to significantly increase the ability to screen and stop vehicles smuggling fentanyl into America that’s killing thousands of children.\n\nThis bill would save lives and bring order to the border."
+  },
+  {
+    "id": 56,
+    "token_start": 6402,
+    "token_end": 6516,
+    "char_start": 29003,
+    "char_end": 29516,
+    "content_tokens": 114,
+    "text": "It would also give me and any new president new emergency authority to temporarily shut down the border when the number of migrants at the border is overwhelming.\n\nThe Border Patrol union has endorsed this bill.\n\n(Cross-talk.)\n\nThe federal Chamber of Commerce has — yeah, yeah. You’re saying “no.” Look at the facts. I know — I know you know how to read.\n\nI believe that given the opportunity — for — a majority in the House and Senate would endorse the bill as well — a majority right now.\n\nAUDIENCE MEMBER: Yes!"
+  },
+  {
+    "id": 57,
+    "token_start": 6516,
+    "token_end": 6630,
+    "char_start": 29518,
+    "char_end": 29992,
+    "content_tokens": 114,
+    "text": "THE PRESIDENT: But unfortunately, politics have derailed this bill so far.\n\nI’m told my predecessor called members of Congress in the Senate to demand they block the bill. He feels political win — he viewed it as a — it would be a political win for me and a political loser for him. It’s not about him. It’s not about me. I’d be a winner — not really. I —\n\nREPRESENTATIVE GREENE: What about Laken Riley?\n\n(Cross-talk.)\n\nAUDIENCE: Booo —\n\nREPRESENTATIVE GREENE: Say her name!"
+  },
+  {
+    "id": 58,
+    "token_start": 6630,
+    "token_end": 6732,
+    "char_start": 29994,
+    "char_end": 30403,
+    "content_tokens": 102,
+    "text": "THE PRESIDENT: (The President holds up a pin reading “Say Her Name, Laken Riley.”) Lanken — Lanken (Laken) Riley, an innocent young woman who was killed.\n\nREPRESENTATIVE GREENE: By an illegal!\n\nTHE PRESIDENT: By an illegal. That’s right. But how many of thousands of people are being killed by legals?\n\n(Cross-talk.)\n\nTo her parents, I say: My heart goes out to you. Having lost children myself, I understand."
+  },
+  {
+    "id": 59,
+    "token_start": 6732,
+    "token_end": 6817,
+    "char_start": 30405,
+    "char_end": 30737,
+    "content_tokens": 85,
+    "text": "But, look, if we change the dynamic at the border — people pay people — people pay these smugglers 8,000 bucks to get across the border because they know if they get by — if they get by and let into the country, it’s six to eight years before they have a hearing. And it’s worth the — taking the chance of the $8,000.\n\n(Cross-talk.)"
+  },
+  {
+    "id": 60,
+    "token_start": 6817,
+    "token_end": 6915,
+    "char_start": 30739,
+    "char_end": 31131,
+    "content_tokens": 98,
+    "text": "But — but if it’s only six mon- — six weeks, the idea is it’s highly unlikely that people will pay that money and come all that way knowing that they’ll be — able to be kicked out quickly.\n\nFolks, I would respectfully su- — suggest to my friend in — my Republican friends owe it to the American people. Get this bill done. We need to act now.\n\nAUDIENCE: Get it done! Get it done! Get it done!"
+  },
+  {
+    "id": 61,
+    "token_start": 6915,
+    "token_end": 7040,
+    "char_start": 31133,
+    "char_end": 31702,
+    "content_tokens": 125,
+    "text": "THE PRESIDENT: And if my predecessor is watching: Instead of paying (playing) politics and pressuring members of Congress to block the bill, join me in telling the Congress to pass it.\n\nWe can do it together.\n\nBut that’s what he apparently — here’s what he will not do.\n\nI will not demonize immigrants, saying they are “poison in the blood of our country.”\n\nI will not separate families.\n\nI will not ban people because of their faith.\n\nUnlike my predecessor, on my first day in office, I introduced a comprehensive bill to fix our immigration system. Take a look at it."
+  },
+  {
+    "id": 62,
+    "token_start": 7040,
+    "token_end": 7167,
+    "char_start": 31703,
+    "char_end": 32297,
+    "content_tokens": 127,
+    "text": "It has all these and more: secure the border, provide a pathway to citizenship for DREAMers, and so much more.\n\nBut unlike my predecessor, I know who we are as Americans. We’re the only nation in the world with a heart and soul that draws from old and new.\n\nHome to Native Americans whose ancestors have been here for thousands of years. Home to people of every pla- — from every place on Earth.\n\nThey came freely. Some came in chains. Some came when famine struck, like my ancestral family in Ireland. Some to flee persecution, to chase dreams that are impossible anywhere but here in America."
+  },
+  {
+    "id": 63,
+    "token_start": 7167,
+    "token_end": 7293,
+    "char_start": 32299,
+    "char_end": 32833,
+    "content_tokens": 126,
+    "text": "That’s America. And we all come from somewhere, but we’re all Americans.\n\nLook, folks, we have a simple choice: We can fight about fixing the border or we can fix it. I’m ready to fix it. Send me the border bill now.\n\nAUDIENCE: Fix it! Fix it! Fix it!\n\nTHE PRESIDENT: A transformational his- — moment in history happened 58 — 59 years ago today in Selma, Alabama. Hundreds of foot soldiers for justice marched across the Edmund Pettus Bridge, named after the Grand Dragon of the Ku Klux Klan, to claim their fundamental right to vote."
+  },
+  {
+    "id": 64,
+    "token_start": 7293,
+    "token_end": 7413,
+    "char_start": 32835,
+    "char_end": 33375,
+    "content_tokens": 120,
+    "text": "They were beaten. They were bloodied and left for dead. Our late friend and former colleague John Lewis was on that march. We miss him.\n\nBut joining us tonight are other marchers, both in the gallery and on the floor, including Bettie Mae Fikes, known as the “Voice of Selma.”\n\nThe daughter of gospel singers and preachers, she sang songs of prayer and protest on that Bloody Sunday to help shake the nation’s conscience.\n\nFive months later, the Voting Rights Act passed and was signed into law.\n\nThank you. Thank you, thank you, thank you."
+  },
+  {
+    "id": 65,
+    "token_start": 7413,
+    "token_end": 7535,
+    "char_start": 33377,
+    "char_end": 33918,
+    "content_tokens": 122,
+    "text": "But 59 years later, there are forces taking us back in time: voter suppression, election subversion, unlimited dark money, extreme gerrymandering.\n\nJohn Lewis was a great friend to many of us here. But if you truly want to honor him and all the heroes who marched with him, then it’s time to do more than talk.\n\nPass the Freedom to Vote Act, the John Lewis Voting Right(s) Act.\n\nAnd stop — stop denying another core value of America: our diversity across American life. Banning books is wrong. Instead of erasing history, let’s make history."
+  },
+  {
+    "id": 66,
+    "token_start": 7535,
+    "token_end": 7657,
+    "char_start": 33920,
+    "char_end": 34463,
+    "content_tokens": 122,
+    "text": "I want to protect fundamental rights.\n\nPass the Equality Act.\n\nAnd my message to transgender Americans: I have your back.\n\nPass the PRO Act for workers’ rights.\n\nRaise the federal minimum wage, because every worker has the right to a decent living more than eig- — seven bucks an hour.\n\nWe’re also making history by confronting the climate crisis, not denying it. I don’t think any of you think there’s no longer a climate crisis. At least, I hope you don’t.\n\nI’m taking the most significant action ever on climate in the history of the world."
+  },
+  {
+    "id": 67,
+    "token_start": 7657,
+    "token_end": 7781,
+    "char_start": 34465,
+    "char_end": 35034,
+    "content_tokens": 124,
+    "text": "I’m cutting our carbon emissions in half by 2030; creating tens of thousands of clean energy jobs, like the IBEW workers building and installing 500,000 electric vehicle charging stations; conserving 30 percent of America’s lands and waters by 2030; and taking action on environmental justice — fence-line communities smothered by the legacy of pollution.\n\nAnd patterned after the Peace Corps and AmericaCorps (AmeriCorps), I launched the Climate Corps to put 20,000 young people to work in the forefront of our clean energy future. I’ll triple that number in a decade."
+  },
+  {
+    "id": 68,
+    "token_start": 7781,
+    "token_end": 7882,
+    "char_start": 35036,
+    "char_end": 35437,
+    "content_tokens": 101,
+    "text": "To state the obvious, all Americans deserve the freedom to be safe. And America is safer today than when I took office.\n\nThe year before I took office, murder rates went up 30 percent.\n\nMR. NIKOUI: Remember Abbey Gate!\n\nTHE PRESIDENT: Thirty percent, they went up —\n\nMR. NIKOUI: United States Marines! Kareem Mae’Lee Nikoui!\n\nTHE PRESIDENT: — the biggest increase in history.\n\nMR. NIKOUI: (Inaudible.)"
+  },
+  {
+    "id": 69,
+    "token_start": 7882,
+    "token_end": 7998,
+    "char_start": 35439,
+    "char_end": 36008,
+    "content_tokens": 116,
+    "text": "THE PRESIDENT: It was then, through no — through my American Rescue Plan — which every American (Republican) voted against, I might add — we made the largest investment in public safety ever.\n\nLast year, the murder rate saw the sharpest decrease in history. Violent crime fell to one of its lowest levels in more than 50 years.\n\nBut we have more to do. We have to help cities invest in more community police officers, more mental health workers, more community violence intervention.\n\nGive communities the tools to crack down on gun crime, retail crime, and carjacking."
+  },
+  {
+    "id": 70,
+    "token_start": 7998,
+    "token_end": 8124,
+    "char_start": 36009,
+    "char_end": 36626,
+    "content_tokens": 126,
+    "text": "Keep building trust, as I’ve been doing, by taking executive action on police reform and calling for it to be the law of the land.\n\nDirecting my Cabinet to review the federal classification of marijuana and expunging thousands of convictions for the mere possession, because no one should be jailed for simply using or have it on their record.\n\nTake on crimes of domestic violence. I’m ramping up the federal enforcement of the Violence Against Women Act that I proudly wrote when I was a senator so we can finally — finally end the scourge against women in America.\n\nThere are other kinds of violence I want to stop."
+  },
+  {
+    "id": 71,
+    "token_start": 8124,
+    "token_end": 8234,
+    "char_start": 36628,
+    "char_end": 37121,
+    "content_tokens": 110,
+    "text": "With us tonight is Jasmine, whose nine-year-old sister Jackie was murdered with 21 classmates and teachers in her elementary school in Uvalde, Texas.\n\nVery soon after that happened, Jill and I went to Uvalde for a couple days. We spent hours and hours with each of the families. We heard their message so everyone in this room, in this chamber could hear the same message.\n\nThe constant refrain — and I was there for hours, meeting with every family. They said, “Do something.” “Do something.”"
+  },
+  {
+    "id": 72,
+    "token_start": 8234,
+    "token_end": 8357,
+    "char_start": 37123,
+    "char_end": 37641,
+    "content_tokens": 123,
+    "text": "Well, I did do something by establishing the first-ever Office of Gun Violence Prevention in the White House, that the Vice President is leading the charge. Thank you for doing it.\n\nMeanwhile — meanwhile, my predecessor told the NRA he’s proud he did nothing on guns when he was President.\n\nAUDIENCE: Booo —\n\nTHE PRESIDENT: After another shooting in Iowa recently, he said — when asked what to do about it, he said, just “get over it.” That was his quote. Just “get over it.”\n\nI say stop it. Stop it, stop it, stop it."
+  },
+  {
+    "id": 73,
+    "token_start": 8357,
+    "token_end": 8476,
+    "char_start": 37643,
+    "char_end": 38176,
+    "content_tokens": 119,
+    "text": "I’m proud we beat the NRA when I signed the most significant gun safety law in nearly 30 years because of this Congress. We now must beat the NRA again.\n\nI’m demanding a ban on assault weapons and high-capacity magazines. Pass universal background checks.\n\nNone of this — none of this — I taught the Second Amendment for 12 years. None of this violates the Second Amendment or vilifies responsible gun owners.\n\n(Cross-talk.)\n\nYou know, as we manage challenges at home, we’re also managing crises abroad, including in the Middle East."
+  },
+  {
+    "id": 74,
+    "token_start": 8476,
+    "token_end": 8589,
+    "char_start": 38178,
+    "char_end": 38737,
+    "content_tokens": 113,
+    "text": "I know the last five months have been gut-wrenching for so many people — for the Israeli people, for the Palestinian people, and so many here in America.\n\nThis crisis began on October 7th with a massacre by a terrorist group called Hamas, as you all know. One thousand two hundred innocent people — women and girls, men and boys — slaughtered after enduring sexual violence. The deadliest day of the — for the Jewish people since the Holocaust. And 250 hostages taken.\n\nHere in this chamber tonight are families whose loved ones are still being held by Hamas."
+  },
+  {
+    "id": 75,
+    "token_start": 8589,
+    "token_end": 8702,
+    "char_start": 38738,
+    "char_end": 39260,
+    "content_tokens": 113,
+    "text": "I pledge to all the families that we will not rest until we bring every one of your loved ones home.\n\nWe also — we will also work around the clock to bring home Evan and Paul — Americans being unjustly detained by the Russians — and others around the world.\n\nIsrael has a right to go after Hamas. Hamas ended this conflict by releasing the hostages, laying down arms — could end it by — by releasing the hostages, laying down arms, and s- — surrendering those responsible for October 7th.\n\nBut Israel has a h- — excuse me."
+  },
+  {
+    "id": 76,
+    "token_start": 8702,
+    "token_end": 8820,
+    "char_start": 39261,
+    "char_end": 39891,
+    "content_tokens": 118,
+    "text": "Israel has a added burden because Hamas hides and operates among the civilian population like cowards — under hospitals, daycare centers, and all the like.\n\nIsrael also has a fundamental responsibility, though, to protect innocent civilians in Gaza.\n\nThis war has taken a greater toll on innocent civilians than all previous wars in Gaza combined. More than 30,000 Palestinians have been killed —\n\nAUDIENCE MEMBER: Says who?\n\nTHE PRESIDENT: — most of whom are not Hamas. Thousands and thousands of innocents — women and children. Girls and boys also orphaned.\n\nNearly 2 million more Palestinians under bombardment or displacement."
+  },
+  {
+    "id": 77,
+    "token_start": 8820,
+    "token_end": 8933,
+    "char_start": 39892,
+    "char_end": 40451,
+    "content_tokens": 113,
+    "text": "Homes destroyed, neighborhoods in rubble, cities in ruin. Families without food, water, medicine.\n\nIt’s heartbreaking.\n\nI’ve been working non-stop to establish an immediate ceasefire that would last for six weeks to get all the prisoners released — all the hostages released and to get the hostages home and to ease the intolerable an- — humanitarian crisis and build toward an enduring — a more — something more enduring.\n\nThe United States has been leading international efforts to get more humanitarian assistance into Gaza. Tonight, I’m directing the U.S."
+  },
+  {
+    "id": 78,
+    "token_start": 8933,
+    "token_end": 9054,
+    "char_start": 40452,
+    "char_end": 41043,
+    "content_tokens": 121,
+    "text": "military to lead an emergency mission to establish a temporary pier in the Mediterranean on the coast of Gaza that can receive large shipments carrying food, water, medicine, and temporary shelters.\n\nNo U.S. boots will be on the ground.\n\nA temporary pier will enable a massive increase in the amount of humanitarian assistance getting into Gaza every day.\n\nAnd Israel must also do its part. Israel must allow more aid into Gaza and ensure humanitarian workers aren’t caught in the crossfire.\n\nAnd they’re announcing they’re going to — they’re going to ca- — have a crossing in Northern Gaza."
+  },
+  {
+    "id": 79,
+    "token_start": 9054,
+    "token_end": 9172,
+    "char_start": 41045,
+    "char_end": 41615,
+    "content_tokens": 118,
+    "text": "To the leadership of Israel, I say this: Humanitarian assistance cannot be a secondary consideration or a bargaining chip. Protecting and saving innocent lives has to be a priority.\n\nAs we look to the future, the only real solution to the situation is a two-state solution over time.\n\nAnd I say this as a lifelong supporter of Israel, my entire career. No one has a stronger record with Israel than I do. I challenge any of you here. I’m the only American president to visit Israel in wartime.\n\nBut there is no other path that guarantees Israel’s security and democracy."
+  },
+  {
+    "id": 80,
+    "token_start": 9172,
+    "token_end": 9291,
+    "char_start": 41616,
+    "char_end": 42187,
+    "content_tokens": 119,
+    "text": "There is no other path that guarantees Pa- — that Palestinians can live in peace with po- — with peace and dignity.\n\nAnd there is no other path that guarantees peace between Israel and all of its neighbors — including Saudi Arabia, with whom I’m talking.\n\nCreating stability in the Middle East also means containing the threat posed by Iran. That’s why I built a coalition of more than a dozen countries to defend international shipping and freedom of navigation in the Red Sea.\n\nI’ve ordered strikes to degrade the Houthi capability and defend U.S. forces in the region."
+  },
+  {
+    "id": 81,
+    "token_start": 9291,
+    "token_end": 9415,
+    "char_start": 42189,
+    "char_end": 42720,
+    "content_tokens": 124,
+    "text": "As Commander-in-Chief, I will not hesitate to direct further measures to protect our people and our military personnel.\n\nFor years, I’ve heard many of my Republican and Democratic friends say that China is on the rise and America is falling behind. They’ve got it backwards. I’ve been saying it for over four years, even when I wasn’t president.\n\nAmerica is rising. We have the best economy in the world. And since I’ve come to office, our GTB (GDP) is up, our trade deficit with China is down to the lowest point in over a decade."
+  },
+  {
+    "id": 82,
+    "token_start": 9415,
+    "token_end": 9527,
+    "char_start": 42722,
+    "char_end": 43241,
+    "content_tokens": 112,
+    "text": "And we’re standing up against China’s unfair economic practices.\n\nWe’re standing up for peace and stability across the Taiwan Straits.\n\nI’ve revitalized our partnership and alliance in the Pacific: India, Australia, Japan, South Korea, the Pacific Islands. I’ve made sure that the most advanced American technologies can’t be used in China — not allowing to trade them there.\n\nFrankly, for all his tough talk on China, it never occurred to my predecessor to do any of that.\n\nI want competition with China, not conflict."
+  },
+  {
+    "id": 83,
+    "token_start": 9527,
+    "token_end": 9640,
+    "char_start": 43242,
+    "char_end": 43748,
+    "content_tokens": 113,
+    "text": "And we’re in a stronger position to win the conflict (competition) of the 21st century against China than anyone else for that matter — than at any time as well.\n\nHere at home, I’ve signed over 400 bipartisan bills. But there’s more to pass my Unity Agenda.\n\nStrengthen penalties on fentanyl trafficking. You don’t want to do that, huh?\n\nPass bipartisan privacy legislation to protect our children online.\n\nHarness — harness the promise of AI to protect us from peril. Ban AI voice impersonations and more."
+  },
+  {
+    "id": 84,
+    "token_start": 9640,
+    "token_end": 9745,
+    "char_start": 43750,
+    "char_end": 44218,
+    "content_tokens": 105,
+    "text": "And keep our truly sacred obligation to train and equip those we send into harm’s way and care for them and their families when they come home and when they don’t.\n\nThat’s why, with the strong support and help of Denis and the VA, I signed the PACT Act — one of the most significant laws ever, helping millions of veterans exposed to toxins who now are battling more than 100 different cancers. Many of them don’t come home, but we owe them and their families support."
+  },
+  {
+    "id": 85,
+    "token_start": 9745,
+    "token_end": 9865,
+    "char_start": 44220,
+    "char_end": 44701,
+    "content_tokens": 120,
+    "text": "And we owe it to ourselves to keep supporting our new health research agency called ARPA-H — and remind us — to remind us that we can do big things, like end cancer as we know it. And we will.\n\nLet me close with this.\n\nTHE PRESIDENT: Yay!\n\nI know you don’t want to hear anymore, Lindsey, but I got to say a few more things.\n\nI know I may not look like it, but I’ve been around a while. When you get to be my age, certain things become clearer than ever.\n\nI know the American story."
+  },
+  {
+    "id": 86,
+    "token_start": 9865,
+    "token_end": 9987,
+    "char_start": 44702,
+    "char_end": 45277,
+    "content_tokens": 122,
+    "text": "Again and again, I’ve seen the contest between competing forces in the battle for the soul of our nation, between those who want to pull America back to the past and those who want to move America into the future.\n\nMy lifetime has taught me to embrace freedom and democracy, a future based on core values that have defined America — honesty, decency, dignity, and equality; to respect everyone; to give everyone a fair shot; to give hate no safe harbor.\n\nNow, other people my age see it differently. The American story of resentment, revenge, and retribution.\n\nThat’s not me."
+  },
+  {
+    "id": 87,
+    "token_start": 9987,
+    "token_end": 10113,
+    "char_start": 45278,
+    "char_end": 45852,
+    "content_tokens": 126,
+    "text": "I was born amid World War Two, when America stood for the freedom of the world. I grew up in Scranton, Pennsylvania, and Claymont, Delaware, among working-class people who built this country.\n\nI watched in horror as two of my heroes — like many of you did — Dr. King and Bobby Kennedy, were assassinated. And their legacies inspired me to pur- — pursue a car- — a career in service.\n\nI left a law firm and became a public defender because my city of Wilmington was the only city in America occupied by the National Guard after Dr. King was assassinated because of the riots."
+  },
+  {
+    "id": 88,
+    "token_start": 10113,
+    "token_end": 10241,
+    "char_start": 45853,
+    "char_end": 46380,
+    "content_tokens": 128,
+    "text": "And I became a county councilman almost by accident.\n\nI got elected to the United States Senate when I had no intention of running, at age 29.\n\nThen vice president to our first Black president. Now a president to the first woman vice president.\n\nIn my career, I’ve been told I was too young. By the way, they didn’t let me on the Senate elevators for votes sometimes. They — not a joke.\n\nAnd I’ve been told I am too old.\n\nWhether young or old, I’ve always been known — I’ve always known what endures. I’ve known our North Star."
+  },
+  {
+    "id": 89,
+    "token_start": 10241,
+    "token_end": 10369,
+    "char_start": 46381,
+    "char_end": 46902,
+    "content_tokens": 128,
+    "text": "The very idea of America is that we’re all created equal, deserves to be treated equally throughout our lives.\n\nWe’ve never fully lived up to that idea, but we’ve never walked away from it either. And I won’t walk away from it now.\n\nI’m optimistic. I really am. I’m optimistic, Nancy.\n\nAUDIENCE: Four more years! Four more years! Four more years!\n\nTHE PRESIDENT: My fellow Americans, the issue facing our nation isn’t how old we are; it’s how old are our ideas.\n\nHate, anger, revenge, retribution are the oldest of ideas."
+  },
+  {
+    "id": 90,
+    "token_start": 10369,
+    "token_end": 10487,
+    "char_start": 46903,
+    "char_end": 47408,
+    "content_tokens": 118,
+    "text": "But you can’t lead America with ancient ideas that only take us back. To lead America, the land of possibilities, you need a vision for the future and what can and should be done.\n\nTonight, you’ve heard mine.\n\nI see a future where (we’re) defending democracy, you don’t diminish it.\n\nI see a future where we restore the right to choose and protect our freedoms, not take them away.\n\nI see a future where the middle class has — finally has a fair shot and the wealthy have to pay their fair share in taxes."
+  },
+  {
+    "id": 91,
+    "token_start": 10487,
+    "token_end": 10615,
+    "char_start": 47410,
+    "char_end": 47986,
+    "content_tokens": 128,
+    "text": "I see a future where we save the planet from the climate crisis and our country from gun violence.\n\nAbove all, I see a future for all Americans. I see a country for all Americans. And I will always be President for all Americans because I believe in America. I believe in you, the American people. You’re the reason we’ve never been more optimistic about our future than I am now.\n\nSo, let’s build the future together. Let’s remember who we are.\n\nWe are the United States of America. And there is nothing — nothing beyond our capacity when we act together.\n\nGod bless you all."
+  },
+  {
+    "id": 92,
+    "token_start": 10615,
+    "token_end": 10631,
+    "char_start": 47987,
+    "char_end": 48051,
+    "content_tokens": 16,
+    "text": "And may God protect our troops. Thank you, thank you, thank you."
+  }
+]

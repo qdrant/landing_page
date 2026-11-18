@@ -1,7 +1,7 @@
 ---
 title: "How to Choose a Chunking Strategy"
-short_description: "Choose boundaries, size, and overlap from your documents and questions. Follow a worked example from missing evidence to a repair you can test."
-description: "Choose a chunking strategy for RAG: preserve meaningful boundaries, budget size and overlap, add context where needed, and diagnose retrieval failures."
+short_description: "Inspect your documents, choose chunk boundaries, speed up ingestion, and compare evidence quality in a Qdrant experiment."
+description: "Choose a chunking strategy for RAG, improve splitting throughput, and evaluate retrieval quality with a reproducible Qdrant experiment."
 author: Ewa Szyszka
 date: 2026-11-12T00:00:00.000Z
 draft: false
@@ -17,7 +17,7 @@ Every embedding model has an input context limit: [all-MiniLM-L6-v2](https://hug
 Boundaries must preserve related evidence. [Qu et al.](https://arxiv.org/abs/2410.13070) found inconsistent semantic-chunking gains over fixed groups of whole sentences; [Sayıcı's EUR-Lex experiment](https://mburaksayici.com/blog/2025/11/08/not-all-clever-chunking-methods-always-worth-it.html) also challenges added complexity. Compare evidence coverage and ingestion cost. Larger answer windows don't remove embedding limits, and parsing errors can lose evidence before splitting.
 
 {{< island path="documentation/headless/chunking/decision-flow" ratio="16/9" >}}
-![Five connected steps: inspect sources, choose boundary, set size and overlap, add missing context, and test final evidence.](/guides_data/chunking/decision-flow.svg)
+![Four connected steps: inspect sources, choose boundary, speed up chunking, and evaluate chunk quality.](/guides_data/chunking/decision-flow.svg)
 {{< /island >}}
 
 ## 1. Inspect Your Documents
@@ -368,7 +368,7 @@ Recursive chunking tries coarse separators first, finer ones for oversized piece
 
 [LangChain](https://docs.langchain.com/oss/python/integrations/splitters/recursive_text_splitter) defaults to paragraph breaks, line breaks, spaces, then characters, measuring length in characters. This does not guarantee complete sentences or preserve heading hierarchy. Adapt separators to your language and format; use [token-aware configuration](https://docs.langchain.com/oss/python/integrations/splitters/split_by_token) for a tokenizer-specific cap.
 
-Keep governing conditions with each subtask, or retain their section relationship and [supply context after retrieval](#4-add-context-where-needed).
+Keep governing conditions with each subtask, then check that the required evidence reaches the [retrieval results](#4-evaluate-chunk-quality).
 
 {{< island path="documentation/headless/chunking/recursive" ratio="8/5" title="Recursive splitting preserves units that fit and subdivides those that do not. Step through a custom paragraph → sentence → word hierarchy, then pack the pieces within the selected word cap. This illustrates the mechanism, not LangChain's default separators." >}}
 ![With a 24-word cap, the 12-word and 5-word paragraphs remain intact. Only the 30-word paragraph is split into sentences of 8 and 22 words.](/guides_data/chunking/recursive.svg)
@@ -376,7 +376,7 @@ Keep governing conditions with each subtask, or retain their section relationshi
 
 </details>
 
-Compare the simplest suitable baseline with a method that addresses a specific failure. Use the same questions and [retrieved-text budget](#5-test-the-evidence-that-reaches-the-answer), recording splitting time and model usage alongside evidence coverage.
+Compare the simplest suitable baseline with a method that addresses a specific failure. Use the same questions and [retrieved-text budget](#4-evaluate-chunk-quality), recording splitting time and model usage alongside evidence coverage.
 
 ## Available Frameworks and Libraries
 
@@ -395,85 +395,106 @@ Compare the simplest suitable baseline with a method that addresses a specific f
 
 Chonky and Chonkie are separate projects; Chonkie also offers a [neural chunker using Chonky models](https://docs.chonkie.ai/oss/chunkers/neural-chunker). [Sentence Transformers](https://www.sbert.net/docs/sentence_transformer/usage/semantic_textual_similarity.html) can supply sentence embeddings for a semantic splitter, but the splitting rule and thresholds still need to be defined.
 
-The word "semantic" in a package description does not always mean embedding-based boundary detection. `text-splitter` uses structural and Unicode boundaries; semchunk's default mode also follows structural rules, while its optional AI mode calls an enrichment model. Inspect the implementation you actually configure. For throughput, see [Speed Up Chunking After Finding the Bottleneck](#speed-up-chunking-after-finding-the-bottleneck).
+The word "semantic" in a package description does not always mean embedding-based boundary detection. `text-splitter` uses structural and Unicode boundaries; semchunk's default mode also follows structural rules, while its optional AI mode calls an enrichment model. Inspect the implementation you actually configure. For throughput, see [Speed up chunking](#3-speed-up-chunking).
 
-## 3. Fit Size and Overlap to Your Constraints
+## 3. Speed up chunking
 
-Check two budgets with the respective model's tokenizer:
+Time parsing/OCR, token counting, splitting, embedding, and indexing separately. Optimize the stage that dominates ingestion.
 
-- **Embedding input:** Each chunk must fit, including titles, context, prefixes, and special tokens. Inspect lengths with truncation disabled so an oversized input cannot hide behind a shortened count.
-- **Answer context:** Retrieved evidence must share the remaining space after instructions, the question, history, and reserved output. Include any context added after retrieval.
+- **Avoid repeated work.** Reuse tokenizers and bound the token-count cache. [semchunk](https://github.com/isaacus-dev/semchunk) supports memoization and document multiprocessing; batch enough work to outweigh worker overhead.
+- **Reduce searching and copying.** Minhas's [You want to chunk really fast?](https://usefeyn.com/blog/you-want-to-chunk-really-fast/#benchmarks) describes backward delimiter searches, specialized byte searches, and borrowed slices in memchunk, now Chunk. Materializing Python strings still costs time.
+- **Control memory and inference.** Consume [Kiru](https://github.com/bitswired/kiru) streams incrementally. Batch sentence embeddings for semantic chunking and reuse them across threshold experiments.
 
-Words, characters, and another model's tokens are not interchangeable. See [Hugging Face's tokenizer controls](https://huggingface.co/docs/transformers/main_classes/tokenizer) or your provider's counting tools.
+Compare throughput with the same input, counting units, overlap, tokenizer work, and output consumption. Chunk's [benchmark harness](https://github.com/feyninc/chunk/tree/main/benches) excludes input loading. Record elapsed time, peak memory, source coverage, and token lengths; a faster splitter can still produce worse retrieval results.
 
-### Set a Cap Without Treating It as a Target
+## 4. Evaluate chunk quality
 
-Keep short, complete units intact. Split oversized units at finer meaningful boundaries, preserving needed definitions and exceptions. If retrieved passages exceed the answer budget, use fewer passages or allocate more evidence space where possible.
+The choice of chunk size, chunk boundary, and chunk overlap can affect retrieval performance. Hold documents, questions, models, search settings, and the retrieved-text budget fixed while changing one choice at a time. Equal result counts do not provide equal evidence budgets.
 
-Smaller chunks isolate facts but may require several hits to reconstruct a task. Larger chunks preserve context but can crowd out other evidence. More chunks and repeated text also increase indexing and embedding work.
+### Measure the Evidence Retrieved
 
-### Add Overlap Only Where It Repairs a Boundary
+Label relevant **source spans**, independently of chunk IDs. Following [Chroma's evaluation approach](https://www.trychroma.com/research/evaluating-chunking), measure:
 
-Start with zero overlap for independent entries. For dependent prose, test carrying a needed sentence or paragraph into the next chunk. Inspect the output: structural boundaries can prevent the requested overlap.
+- **Recall:** How much labeled evidence was retrieved?
+- **Precision:** How much retrieved text was labeled relevant?
+- **Overlap-aware IoU:** How much do retrieved and relevant source positions overlap, while charging repeated text against the score?
 
-Overlap can preserve a nearby definition, but cannot reliably recover a distant exception. Deduplicate repeated source spans so similar hits do not consume the answer budget. Keep table headers with their rows and retain source positions in [payload](/documentation/manage-data/payload/). Payload fields do not automatically enter embeddings or answer context.
+Count source-token positions, not matching words. Repeated passages consume budget but earn relevance credit once. Inspect low-scoring queries for missing conditions, unrelated text, and duplicated evidence. [LlamaIndex](https://developers.llamaindex.ai/python/examples/evaluation/retrieval/retriever_eval/) also supports rank-based metrics such as MRR and nDCG; map relevance back to stable source evidence when changing splits.
 
-### Speed Up Chunking After Finding the Bottleneck
+### A Small Qdrant Experiment
 
-Time parsing/OCR, token counting, splitting, model calls, and indexing separately. Faster splitting helps little when OCR or inference dominates.
+We ran **Qdrant 1.20.0** on Chroma's State of the Union 2024 subset: one speech, **76 published synthetic questions**, and 95 labeled excerpts. Every configuration used the same pinned all-MiniLM-L6-v2 model, exact cosine search, and a **512-token retrieved-text budget**. Ranked chunks were kept whole; chunks that did not fit were skipped. No deduplication or answer generation was applied.
 
-Minhas's [You want to chunk really fast?](https://usefeyn.com/blog/you-want-to-chunk-really-fast/#benchmarks) describes three optimizations in `memchunk`, now Chunk:
+Caps and overlap are source WordPiece counts; chunks can be shorter than the cap. Scores and actual returned token counts are means across the 76 questions.
 
-- Search backward from the size cap for an acceptable delimiter.
-- Use specialized byte searches: `memchr` can use SIMD for one to three delimiter bytes; larger sets use a 256-entry lookup table.
-- Use borrowed slices or offsets during splitting; materializing Python strings still costs time.
+| Method: cap/overlap | Vectors | Recall | Precision | IoU | Returned tokens |
+| --- | --- | --- | --- | --- | --- |
+| Fixed 64/0 | 167 | 87.48% | 6.78% | 6.71% | 511.9 |
+| Fixed 128/0 | 84 | 83.85% | 6.70% | 6.67% | 512.0 |
+| Fixed 128/32 | 111 | 88.55% | 6.80% | 6.75% | 512.0 |
+| Fixed 192/0 | 56 | 79.79% | 6.84% | 6.82% | 455.0 |
+| Sentence 128/0 | 93 | 81.52% | 6.40% | 6.33% | 484.0 |
+| Recursive 128/0 | 99 | 87.05% | 6.85% | 6.82% | 498.6 |
+| Semantic 128/0 | 570 | 87.31% | 6.41% | 6.34% | 511.7 |
 
-Reuse tokenizer instances. [semchunk](https://github.com/isaacus-dev/semchunk) offers token-count memoization and document multiprocessing; batch only when processing outweighs worker overhead. Consume [Kiru](https://github.com/bitswired/kiru) streams incrementally to limit memory. Batch sentence embeddings where supported.
+For fixed 128-token chunks, 32-token overlap raised recall from **83.85% to 88.55%**, but **9.21%** of retrieved source-token positions were duplicates. Semantic splitting produced **570 vectors**, versus recursive splitting's **99**, with similar recall. Its adjacent-sentence similarity threshold was fixed at 0.5 before evaluation. These results describe one speech and these configurations; they do not establish a general winner. Published excerpt labels can also omit valid alternative evidence.
 
-Chunk's [benchmark harness](https://github.com/feyninc/chunk/tree/main/benches) excludes input loading. Compare libraries using matching size units, overlap, tokenizer work, data, and output copying or consumption. Record elapsed time, peak memory, source coverage, and final token lengths. Splitting throughput alone does not establish retrieval quality.
+[Reproduce the experiment](https://github.com/qdrant/landing_page/blob/codex/chunking-guide/qdrant-landing/content/documentation/headless/chunking/quality-experiment/README.md), download the [result table](/guides_data/chunking/quality-experiment/summary.csv), or inspect the [run metadata](/guides_data/chunking/quality-experiment/run-metadata.json).
 
-## 4. Add Context Where Needed
+<details>
+<summary>Scoring and boundary rules</summary>
 
-Read each chunk alone. Add a concise title and section path **before embedding** if its product, version, or subject is unclear. Preserve any needed definition or exception in source text; a title cannot replace an instruction.
+Let G be the unique labeled source-token positions, U the unique retrieved positions, C the total retrieved positions including repeats, and H the size of their intersection. Recall is H/|G|, precision is H/C, and duplicate-penalized IoU is H/(C + |G| − H).
 
-For long sections, [parent-document retrieval](https://reference.langchain.com/python/langchain-classic/retrievers/parent_document_retriever/ParentDocumentRetriever) indexes focused passages, then fetches their surroundings after a match. Your application must retain source links and perform this expansion explicitly. Bound it, merge overlapping passages, and count the expanded text against the answer budget. It still requires a useful initial hit: context added **after retrieval** cannot improve the initial match. Context added **before embedding** changes the representation and consumes the embedding budget.
+Sentence splitting uses punctuation and line breaks; recursive splitting tries paragraphs, then sentences, then fixed cuts. Semantic splitting groups adjacent sentence units while their cosine similarity is at least 0.5 and the cap permits. Oversized units are split. These are explicit implementations in the linked script, not library defaults.
 
-[Anthropic's contextual retrieval experiments](https://www.anthropic.com/research/contextual-retrieval) prepend generated document context before embedding and lexical indexing, reducing retrieval failures in the tested configurations. Try this when source headings and definitions are insufficient. Check generated text against the source, distinguish it from original evidence, and measure answers as well as retrieval; generation adds cost and can introduce errors.
+The budget counts each chunk's independently tokenized content; relevance uses stable positions from tokenizing the complete source once. All embedding inputs, including special tokens, fit the model's 256-token limit. Source offsets, individual query results, dependency pins, and separate stage timings accompany the script. Timings are from one warm CPU run, not a throughput benchmark.
 
-For the short handbook, start with the complete export section and billing entry, source references, and zero overlap. Use expansion if real sections exceed your limits.
+</details>
 
-## 5. Test the Evidence That Reaches the Answer
+### Check Answers Separately
 
-Inspect sample chunks for missing conditions, broken tables or reading order, unclear references, truncation, and correct source/version links.
+The [Agno/Qdrant walkthrough](https://towardsdev.com/visualizing-chunking-impacts-in-agentic-rag-with-agno-qdrant-ragas-and-llamaindex-part-1-7fe1ee31f5a5) shows an end-to-end evaluation workflow. Freeze the answering model, prompt, and evaluator when comparing chunkers. [Ragas faithfulness](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/faithfulness/) checks support in retrieved context; [factual correctness](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/factual_correctness/) compares the answer with a reference. Test unanswerable questions separately. Neither a supported answer nor a retrieval hit alone proves that every required condition survived.
 
-Build questions covering facts, procedures, and boundary cases. Label required **source passages**, not changing chunk IDs; accept equivalent evidence. A question about sharing a complete project copy needs the export definition, procedure, and linked-file exception. A procedure-only hit is insufficient. Test grouping those passages or expanding the retrieved subtask, then rerun all questions to catch regressions.
+### Evaluate Images, Video, and Audio
 
-Include unanswerable questions and check that answers acknowledge missing information. Score these separately from evidence coverage on answerable questions.
+Choose datasets whose labels match the failure you want to measure. These benchmarks support different tests; QA accuracy alone does not measure layout or temporal boundaries.
 
-### Compare at the Same Text Budget
-
-Hold documents, models, search configuration, questions, and the final retrieved-text budget fixed. Change one chunking choice at a time. Equal result counts do not provide equal evidence budgets.
-
-Apply the same selection, expansion, and deduplication rules. Record the text and token count actually supplied, including titles and source labels; avoid truncating a condition. Keep the answer prompt and generation settings fixed.
-
-Score separately:
-
-- **Evidence available:** Did every required passage reach the final context? Record omissions, duplicates, and irrelevant text.
-- **Answer correct:** Did the answer use that evidence accurately, include conditions, avoid unsupported claims, and cite the correct source?
-
-### Locate the Loss Before Changing the Splitter
-
-| Evidence lost at | Inspect |
+| Benchmark | What to measure |
 | --- | --- |
-| Extraction or indexing | Parsing, discarded content, truncation |
-| Retrieval | Query, filters, representation, boundaries |
-| Context assembly | Ranking, duplication, expansion, budget |
-| Answer generation | Prompt and answering model |
+| [DocVQA](https://www.docvqa.org/datasets/docvqa) | Answer quality on a supplied document image, using average normalized Levenshtein similarity (ANLS). It does not directly label table or chart segmentation. |
+| [MP-DocVQA](https://github.com/rubenpt91/MP-DocVQA-Framework) | ANLS across multipage documents, plus answer-page prediction accuracy. Compare OCR chunks with page-image retrieval on the same questions. |
+| [DocLayNet](https://github.com/DS4SD/DocLayNet) | Region detection using labeled text, table, and picture boxes. Bounding-box mAP tests whether preprocessing isolates the intended regions. |
+| [ViDoSeek](https://github.com/Alibaba-NLP/ViDoRAG) | Reference-page recall and answer quality in visually rich document collections. Despite its name, this is a document benchmark. |
+| [AVHaystacks](https://schowdhury671.github.io/magnet_project/) | Video retrieval recall, temporal grounding against annotated evidence intervals, and grounded answer quality. Report retrieval and grounding separately so missing videos remain visible. |
+| [ActivityNet-QA](https://github.com/MILVLG/activitynet-qa) | Answer accuracy for video questions. Its QA labels alone do not establish correct clip boundaries. |
+| [CASTELLA](https://dcase.community/challenge2026/task-audio-moment-retrieval-from-long-audio) | Audio moment retrieval against caption/time-interval annotations, using temporal recall and mAP at specified IoU thresholds. |
 
-Fix the stage responsible, then retest failed and previously passing questions. Record boundaries, tokenizers and limits, overlap, added context, source references, and results. Reassess when documents, questions, models, or budgets change.
+Use the same image and returned-duration budgets, and report actual usage. Hold page resolution, frame sampling, and transcription settings fixed. Score the retrieved page, region, or time interval before scoring the answer.
+
+<details>
+<summary>Worked check: video window boundaries</summary>
+
+We tested six window configurations against **50 distinct AVHaystacks evidence intervals** from the 3D-printing annotations. Median evidence duration was **93.5 seconds**. Windows start on a regular grid from time zero; the scorer selects the best matching window using the known annotation.
+
+| Window | Overlap | Best-window IoU, mean | Whole interval in one window |
+| --- | --- | --- | --- |
+| 10 s | 0% | 0.158 | 1/50 |
+| 10 s | 50% | 0.160 | 1/50 |
+| 20 s | 0% | 0.274 | 2/50 |
+| 20 s | 50% | 0.286 | 3/50 |
+| 40 s | 0% | 0.406 | 3/50 |
+| 40 s | 50% | 0.434 | 6/50 |
+
+At 40 seconds, overlap increased single-window coverage from 3 to 6 intervals. Most evidence still required multiple windows. This checks boundary geometry using annotations; it does not run video retrieval, transcription, or answer generation. Unknown recording ends are not used to trim windows.
+
+[Reproduce the check](https://github.com/qdrant/landing_page/blob/codex/chunking-guide/qdrant-landing/content/documentation/headless/chunking/quality-experiment/README-temporal.md) or inspect the [per-interval results](/guides_data/chunking/quality-experiment/temporal-results.json).
+
+</details>
 
 ## Further Reading
 
+- [Evaluating Chunking Strategies for Retrieval](https://www.trychroma.com/research/evaluating-chunking)
 - [Is Semantic Chunking Worth the Computational Cost?](https://arxiv.org/abs/2410.13070)
 - [Clever Chunking Methods Aren't (Always) Worth the Effort](https://mburaksayici.com/blog/2025/11/08/not-all-clever-chunking-methods-always-worth-it.html)
 - [Visualizing Chunking Impacts in Agentic RAG, Part 1](https://towardsdev.com/visualizing-chunking-impacts-in-agentic-rag-with-agno-qdrant-ragas-and-llamaindex-part-1-7fe1ee31f5a5)

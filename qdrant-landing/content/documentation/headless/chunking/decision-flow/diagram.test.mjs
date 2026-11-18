@@ -24,10 +24,9 @@ test('each title selects a bullet-only checklist without replacing the focused c
   mount(node);
   const buttons = [...node.querySelectorAll('button')];
   assert.deepEqual(buttons.map(button => button.textContent.trim()), [
-    'Inspect sources', 'Choose boundary', 'Set size and overlap',
-    'Add missing context', 'Test final evidence',
+    'Inspect sources', 'Choose boundary', 'Speed up chunking', 'Evaluate chunk quality',
   ]);
-  assert.equal(node.querySelectorAll('.qi-flow__arrow').length, 4);
+  assert.equal(node.querySelectorAll('.qi-flow__arrow').length, 3);
   assert.equal(node.querySelectorAll('a, [data-choices], [data-reset], [data-next]').length, 0);
   const panel = node.querySelector('.qi-flow__detail');
   const checklists = new Set();
@@ -46,7 +45,7 @@ test('each title selects a bullet-only checklist without replacing the focused c
     assert.ok(node.querySelector('[role="status"]').textContent.startsWith(button.textContent.trim()));
     checklists.add(panel.textContent);
   }
-  assert.equal(checklists.size, 5);
+  assert.equal(checklists.size, 4);
   assert.match(panel.textContent, /direct text, OCR, VLM parsing, or page images/);
   node.querySelector('[data-step="2"]').click();
   assert.deepEqual([...panel.querySelectorAll('li')].map(item => item.textContent.split(':')[0]), [
@@ -66,9 +65,9 @@ test('mount announces readiness and selections remain scoped to their own diagra
   mount(second);
   assert.deepEqual(ready, [first, second]);
   const initialSecond = second.innerHTML;
-  first.querySelector('[data-step="5"]').click();
-  assert.match(first.querySelector('[data-checklist]').textContent, /evidence coverage and answer correctness separately/);
+  first.querySelector('[data-step="4"]').click();
+  assert.match(first.querySelector('[data-checklist]').textContent, /answer correctness separately from evidence coverage/);
   assert.equal(second.innerHTML, initialSecond);
   first.querySelector('.qi-flow__checklist li').click();
-  assert.equal(first.querySelector('[data-step="5"]').getAttribute('aria-pressed'), 'true');
+  assert.equal(first.querySelector('[data-step="4"]').getAttribute('aria-pressed'), 'true');
 });

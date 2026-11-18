@@ -25,32 +25,22 @@ export const STEPS = [
   },
   {
     id: 3,
-    title: 'Set size and overlap',
+    title: 'Speed up chunking',
     checklist: [
-      'Choose the retrieval unit and size.',
-      'Check embedding and answering-model input limits.',
-      'Set overlap or stride where needed.',
-      'Budget all evidence sent to the answering model.',
+      'Time parsing, token counting, splitting, model calls, and indexing.',
+      'Reuse tokenizers and cache repeated token counts.',
+      'Batch or stream when it improves throughput or memory use.',
+      'Compare throughput using matching outputs and settings.',
     ],
   },
   {
     id: 4,
-    title: 'Add missing context',
-    checklist: [
-      'Choose useful titles, labels, or definitions.',
-      'Keep required conditions with the evidence.',
-      'Decide whether retrieval should fetch surrounding context.',
-      'Retain source references for citations.',
-    ],
-  },
-  {
-    id: 5,
-    title: 'Test final evidence',
+    title: 'Evaluate chunk quality',
     checklist: [
       'Label source evidence for representative questions.',
-      'Compare alternatives at the same context budget.',
-      'Score evidence coverage and answer correctness separately.',
-      'Measure ingestion cost, storage, and latency.',
+      'Keep corpus, models, questions, and final evidence budget fixed.',
+      'Compare evidence coverage, irrelevant text, and duplicates.',
+      'Check answer correctness separately from evidence coverage.',
     ],
   },
 ];

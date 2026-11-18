@@ -1,0 +1,115 @@
+{
+  "started_utc": "2026-11-18T12:33:33.715853+00:00",
+  "finished_utc": "2026-11-18T12:33:38.920951+00:00",
+  "source_commit": "e708410d1c61cb76a85cd9d433630ef89b9c6b85",
+  "inputs": {
+    "state_of_the_union.md": {
+      "url": "https://raw.githubusercontent.com/brandonstarxel/chunking_evaluation/e708410d1c61cb76a85cd9d433630ef89b9c6b85/chunking_evaluation/evaluation_framework/general_evaluation_data/corpora/state_of_the_union.md",
+      "sha256": "6fc21d560d31eb2421e337596feea0f83f1fa9ca02c6c4e47bc26959d7531b37",
+      "bytes": 48995
+    },
+    "questions_df.csv": {
+      "url": "https://raw.githubusercontent.com/brandonstarxel/chunking_evaluation/e708410d1c61cb76a85cd9d433630ef89b9c6b85/chunking_evaluation/evaluation_framework/general_evaluation_data/questions_df.csv",
+      "sha256": "3ab3901889b8900f43775537bf12d36bd6614255fc59124faca31bede1dda7a3",
+      "bytes": 236464
+    },
+    "LICENSE": {
+      "url": "https://raw.githubusercontent.com/brandonstarxel/chunking_evaluation/e708410d1c61cb76a85cd9d433630ef89b9c6b85/LICENSE",
+      "sha256": "d45a8feb04274ffe74d308c1ce44db7af536b6fe66f48a96566a4e4329ffba27",
+      "bytes": 1070
+    }
+  },
+  "script_sha256": "5b196fd251a888023774d3c7a8e0099dcb5152f0c4706f2508dc18960ac629b8",
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "local_model_file_sha256": {
+    "model.safetensors": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+    "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037",
+    "config.json": "953f9c0d463486b10a6871cc2fd59f223b2c70184f49815e7efbcab5d8908b41",
+    "sentence_bert_config.json": "fc1993fde0a95c24ec6c022539d41cf6e2f7c9721e5415d6fb6897472a9cd4b7"
+  },
+  "model_max_seq_length": 256,
+  "qdrant_image": "qdrant/qdrant@sha256:9bfc89f9914fc14876a88c05270685921a55b8877b254a98bcc1cc2f0a424cd2",
+  "qdrant_server": {
+    "title": "qdrant - vector search engine",
+    "version": "1.20.0",
+    "commit": "222b2e44ab1c3f17e8246396ead6558e45041df7"
+  },
+  "python": "3.12.13",
+  "platform": "macOS-26.4-arm64-arm-64bit",
+  "machine": "arm64",
+  "device": "cpu",
+  "torch_threads": 4,
+  "seed": 0,
+  "normalized_vectors": true,
+  "distance": "Cosine",
+  "exact_search": true,
+  "packages": {
+    "httpx": "0.28.1",
+    "numpy": "2.2.6",
+    "qdrant-client": "1.20.0",
+    "sentence-transformers": "6.1.0",
+    "torch": "2.15.0",
+    "transformers": "5.20.1",
+    "tokenizers": "0.23.3"
+  },
+  "question_count": 76,
+  "reference_count": 95,
+  "source_characters": 48051,
+  "source_wordpieces": 10631,
+  "budget_content_tokens": 512,
+  "packing": "descending score, then ascending chunk ID; skip chunks that do not fit; no deduplication",
+  "scoring": "unique canonical source WordPiece relevance credit; repeated retrieved positions count in cost",
+  "gold_mapping": "a canonical source token is relevant if its half-open character span intersects a reference",
+  "sentence_boundary_regex": "(?<=[.!?])\\s+|\\n+",
+  "semantic_adjacent_cosine_threshold": 0.5,
+  "configurations": [
+    {
+      "name": "fixed_64_0",
+      "method": "fixed",
+      "cap": 64,
+      "overlap": 0
+    },
+    {
+      "name": "fixed_128_0",
+      "method": "fixed",
+      "cap": 128,
+      "overlap": 0
+    },
+    {
+      "name": "fixed_128_32",
+      "method": "fixed",
+      "cap": 128,
+      "overlap": 32
+    },
+    {
+      "name": "fixed_192_0",
+      "method": "fixed",
+      "cap": 192,
+      "overlap": 0
+    },
+    {
+      "name": "sentence_128_0",
+      "method": "sentence",
+      "cap": 128,
+      "overlap": 0
+    },
+    {
+      "name": "recursive_128_0",
+      "method": "recursive",
+      "cap": 128,
+      "overlap": 0
+    },
+    {
+      "name": "semantic_128_0",
+      "method": "semantic",
+      "cap": 128,
+      "overlap": 0
+    }
+  ],
+  "model_load_seconds": 0.08808945899363607,
+  "query_embedding_seconds": 0.06587424990721047,
+  "timing_notes": "one warm CPU run per configuration; semantic boundary inference included in split_seconds; query embeddings shared; no network download or model load in per-configuration timings",
+  "answer_generation": false,
+  "limitations": "one speech, 76 published synthetic questions, incomplete excerpt labels; no reranking or generated-answer evaluation; not a universal chunker ranking"
+}

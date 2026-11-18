@@ -48,9 +48,8 @@ function decisionFlow() {
   const steps = [
     'Inspect sources',
     'Choose boundary',
-    'Set size and overlap',
-    'Add missing context',
-    'Test final evidence',
+    'Speed up chunking',
+    'Evaluate chunk quality',
   ];
   steps.forEach((label, index) => {
     const y = 20 + index * 64;
@@ -58,9 +57,9 @@ function decisionFlow() {
     drawing.push(text(320, y + 33, label, { anchor: 'middle', weight: 600 }));
     if (index < steps.length - 1) drawing.push(line(320, y + 50, 320, y + 62, { arrow: true }));
   });
-  return document('Five decisions for setting up chunking',
-    'Inspect sources, choose boundary, set size and overlap, add missing context, and test final evidence.',
-    360, drawing);
+  return document('Four decisions for setting up chunking',
+    'Inspect sources, choose boundary, speed up chunking, and evaluate chunk quality.',
+    296, drawing);
 }
 
 function fixed() {

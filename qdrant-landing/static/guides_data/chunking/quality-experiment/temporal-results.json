@@ -1,0 +1,2262 @@
+{
+  "experiment": "AVHaystacks annotation-only oracle window coverage",
+  "run_date": "2026-11-18",
+  "source": {
+    "repository": "elmoghany/Videos-Dataset-For-LLMs-RAG-That-Require-Audio-Vidoes-And-Text",
+    "revision": "0ff2897e0124bf43fc61b6923fcd21d890f7d8ef",
+    "annotation_path": "QA/3D-printing.json",
+    "download_url": "https://huggingface.co/datasets/elmoghany/Videos-Dataset-For-LLMs-RAG-That-Require-Audio-Vidoes-And-Text/resolve/0ff2897e0124bf43fc61b6923fcd21d890f7d8ef/QA/3D-printing.json",
+    "sha256": "f5b301cfdc534899932d67143f5f8a3ae1a8c02758bf415fc77e3c473307ee2b",
+    "paper": "https://arxiv.org/abs/2506.07016",
+    "media_downloaded": false,
+    "source_durations_used": false,
+    "terms_note": "Author dataset card states 'Google Youtube Fair Use License'; no media is redistributed here."
+  },
+  "selection": {
+    "rule": "Deduplicate (source_file, start, end); sort by SHA-256 of source_file:start_6dp:end_6dp; take the first 50. For duplicate intervals, retain the lowest numeric question ID.",
+    "scope": "One topic: 3D printing. A deterministic smoke test, not a representative benchmark sample.",
+    "qa_records_in_source": 100,
+    "interval_occurrences_in_source": 187,
+    "invalid_interval_occurrences": 0,
+    "valid_distinct_intervals": 87,
+    "selected_intervals": 50,
+    "distinct_sources_selected": 14,
+    "min_evidence_seconds": 4.0,
+    "median_evidence_seconds": 93.5,
+    "max_evidence_seconds": 847.0
+  },
+  "method": {
+    "grid": "Analytical windows [k * stride, k * stride + width], integer k >= 0, anchored at source time zero; no trimming at an unknown media end.",
+    "iou": "Maximum intersection-over-union between the labeled interval and any single grid window.",
+    "containment": "Whether at least one single grid window contains the complete labeled interval.",
+    "coverage": "Minimum number of grid windows whose union covers the complete labeled interval, chosen with oracle access to that interval.",
+    "overlap_cost": "Width / stride is a theoretical asymptotic multiplier for indexed window-seconds. It is not a measured corpus cost or duplicate-seconds total.",
+    "limits": "No media, model, retrieval, ranking, answers, or acoustic boundaries are evaluated. Labels are used as supplied and may be approximate. Results cannot establish an optimal chunk size."
+  },
+  "intervals": [
+    {
+      "interval_key": "14.txt:537.000000:566.000000",
+      "question_id": "97",
+      "source_file": "14.txt",
+      "start_sec": 537.0,
+      "end_sec": 566.0
+    },
+    {
+      "interval_key": "12.txt:541.000000:609.000000",
+      "question_id": "17",
+      "source_file": "12.txt",
+      "start_sec": 541.0,
+      "end_sec": 609.0
+    },
+    {
+      "interval_key": "5.txt:481.000000:557.000000",
+      "question_id": "29",
+      "source_file": "5.txt",
+      "start_sec": 481.0,
+      "end_sec": 557.0
+    },
+    {
+      "interval_key": "9.txt:0.000000:97.000000",
+      "question_id": "40",
+      "source_file": "9.txt",
+      "start_sec": 0.0,
+      "end_sec": 97.0
+    },
+    {
+      "interval_key": "16.txt:325.000000:530.000000",
+      "question_id": "19",
+      "source_file": "16.txt",
+      "start_sec": 325.0,
+      "end_sec": 530.0
+    },
+    {
+      "interval_key": "16.txt:69.000000:166.000000",
+      "question_id": "5",
+      "source_file": "16.txt",
+      "start_sec": 69.0,
+      "end_sec": 166.0
+    },
+    {
+      "interval_key": "11.txt:320.000000:363.000000",
+      "question_id": "42",
+      "source_file": "11.txt",
+      "start_sec": 320.0,
+      "end_sec": 363.0
+    },
+    {
+      "interval_key": "17.txt:480.000000:574.000000",
+      "question_id": "15",
+      "source_file": "17.txt",
+      "start_sec": 480.0,
+      "end_sec": 574.0
+    },
+    {
+      "interval_key": "14.txt:16.000000:306.000000",
+      "question_id": "8",
+      "source_file": "14.txt",
+      "start_sec": 16.0,
+      "end_sec": 306.0
+    },
+    {
+      "interval_key": "7.txt:423.000000:497.000000",
+      "question_id": "22",
+      "source_file": "7.txt",
+      "start_sec": 423.0,
+      "end_sec": 497.0
+    },
+    {
+      "interval_key": "8.txt:0.000000:206.000000",
+      "question_id": "9",
+      "source_file": "8.txt",
+      "start_sec": 0.0,
+      "end_sec": 206.0
+    },
+    {
+      "interval_key": "7.txt:144.000000:281.000000",
+      "question_id": "21",
+      "source_file": "7.txt",
+      "start_sec": 144.0,
+      "end_sec": 281.0
+    },
+    {
+      "interval_key": "14.txt:422.000000:441.000000",
+      "question_id": "19",
+      "source_file": "14.txt",
+      "start_sec": 422.0,
+      "end_sec": 441.0
+    },
+    {
+      "interval_key": "7.txt:281.000000:318.000000",
+      "question_id": "21",
+      "source_file": "7.txt",
+      "start_sec": 281.0,
+      "end_sec": 318.0
+    },
+    {
+      "interval_key": "19.txt:616.000000:654.000000",
+      "question_id": "65",
+      "source_file": "19.txt",
+      "start_sec": 616.0,
+      "end_sec": 654.0
+    },
+    {
+      "interval_key": "13.txt:406.000000:573.000000",
+      "question_id": "52",
+      "source_file": "13.txt",
+      "start_sec": 406.0,
+      "end_sec": 573.0
+    },
+    {
+      "interval_key": "19.txt:552.000000:679.000000",
+      "question_id": "38",
+      "source_file": "19.txt",
+      "start_sec": 552.0,
+      "end_sec": 679.0
+    },
+    {
+      "interval_key": "8.txt:289.000000:333.000000",
+      "question_id": "41",
+      "source_file": "8.txt",
+      "start_sec": 289.0,
+      "end_sec": 333.0
+    },
+    {
+      "interval_key": "13.txt:0.000000:189.000000",
+      "question_id": "7",
+      "source_file": "13.txt",
+      "start_sec": 0.0,
+      "end_sec": 189.0
+    },
+    {
+      "interval_key": "18.txt:0.000000:93.000000",
+      "question_id": "14",
+      "source_file": "18.txt",
+      "start_sec": 0.0,
+      "end_sec": 93.0
+    },
+    {
+      "interval_key": "16.txt:762.000000:881.000000",
+      "question_id": "86",
+      "source_file": "16.txt",
+      "start_sec": 762.0,
+      "end_sec": 881.0
+    },
+    {
+      "interval_key": "18.txt:275.000000:368.000000",
+      "question_id": "39",
+      "source_file": "18.txt",
+      "start_sec": 275.0,
+      "end_sec": 368.0
+    },
+    {
+      "interval_key": "14.txt:235.000000:250.000000",
+      "question_id": "28",
+      "source_file": "14.txt",
+      "start_sec": 235.0,
+      "end_sec": 250.0
+    },
+    {
+      "interval_key": "11.txt:175.000000:256.000000",
+      "question_id": "69",
+      "source_file": "11.txt",
+      "start_sec": 175.0,
+      "end_sec": 256.0
+    },
+    {
+      "interval_key": "9.txt:348.000000:376.000000",
+      "question_id": "48",
+      "source_file": "9.txt",
+      "start_sec": 348.0,
+      "end_sec": 376.0
+    },
+    {
+      "interval_key": "9.txt:376.000000:488.000000",
+      "question_id": "59",
+      "source_file": "9.txt",
+      "start_sec": 376.0,
+      "end_sec": 488.0
+    },
+    {
+      "interval_key": "18.txt:171.000000:275.000000",
+      "question_id": "15",
+      "source_file": "18.txt",
+      "start_sec": 171.0,
+      "end_sec": 275.0
+    },
+    {
+      "interval_key": "2.txt:888.000000:1072.000000",
+      "question_id": "70",
+      "source_file": "2.txt",
+      "start_sec": 888.0,
+      "end_sec": 1072.0
+    },
+    {
+      "interval_key": "0.txt:0.000000:108.000000",
+      "question_id": "1",
+      "source_file": "0.txt",
+      "start_sec": 0.0,
+      "end_sec": 108.0
+    },
+    {
+      "interval_key": "5.txt:625.000000:767.000000",
+      "question_id": "30",
+      "source_file": "5.txt",
+      "start_sec": 625.0,
+      "end_sec": 767.0
+    },
+    {
+      "interval_key": "14.txt:566.000000:635.000000",
+      "question_id": "53",
+      "source_file": "14.txt",
+      "start_sec": 566.0,
+      "end_sec": 635.0
+    },
+    {
+      "interval_key": "5.txt:557.000000:625.000000",
+      "question_id": "71",
+      "source_file": "5.txt",
+      "start_sec": 557.0,
+      "end_sec": 625.0
+    },
+    {
+      "interval_key": "11.txt:50.000000:897.000000",
+      "question_id": "13",
+      "source_file": "11.txt",
+      "start_sec": 50.0,
+      "end_sec": 897.0
+    },
+    {
+      "interval_key": "14.txt:281.000000:298.000000",
+      "question_id": "28",
+      "source_file": "14.txt",
+      "start_sec": 281.0,
+      "end_sec": 298.0
+    },
+    {
+      "interval_key": "18.txt:453.000000:525.000000",
+      "question_id": "81",
+      "source_file": "18.txt",
+      "start_sec": 453.0,
+      "end_sec": 525.0
+    },
+    {
+      "interval_key": "7.txt:568.000000:622.000000",
+      "question_id": "37",
+      "source_file": "7.txt",
+      "start_sec": 568.0,
+      "end_sec": 622.0
+    },
+    {
+      "interval_key": "14.txt:250.000000:254.000000",
+      "question_id": "90",
+      "source_file": "14.txt",
+      "start_sec": 250.0,
+      "end_sec": 254.0
+    },
+    {
+      "interval_key": "19.txt:332.000000:436.000000",
+      "question_id": "12",
+      "source_file": "19.txt",
+      "start_sec": 332.0,
+      "end_sec": 436.0
+    },
+    {
+      "interval_key": "16.txt:562.000000:762.000000",
+      "question_id": "38",
+      "source_file": "16.txt",
+      "start_sec": 562.0,
+      "end_sec": 762.0
+    },
+    {
+      "interval_key": "19.txt:436.000000:552.000000",
+      "question_id": "26",
+      "source_file": "19.txt",
+      "start_sec": 436.0,
+      "end_sec": 552.0
+    },
+    {
+      "interval_key": "14.txt:306.000000:365.000000",
+      "question_id": "31",
+      "source_file": "14.txt",
+      "start_sec": 306.0,
+      "end_sec": 365.0
+    },
+    {
+      "interval_key": "2.txt:576.000000:685.000000",
+      "question_id": "88",
+      "source_file": "2.txt",
+      "start_sec": 576.0,
+      "end_sec": 685.0
+    },
+    {
+      "interval_key": "16.txt:166.000000:325.000000",
+      "question_id": "10",
+      "source_file": "16.txt",
+      "start_sec": 166.0,
+      "end_sec": 325.0
+    },
+    {
+      "interval_key": "16.txt:881.000000:968.000000",
+      "question_id": "83",
+      "source_file": "16.txt",
+      "start_sec": 881.0,
+      "end_sec": 968.0
+    },
+    {
+      "interval_key": "19.txt:73.000000:173.000000",
+      "question_id": "76",
+      "source_file": "19.txt",
+      "start_sec": 73.0,
+      "end_sec": 173.0
+    },
+    {
+      "interval_key": "0.txt:313.000000:435.000000",
+      "question_id": "3",
+      "source_file": "0.txt",
+      "start_sec": 313.0,
+      "end_sec": 435.0
+    },
+    {
+      "interval_key": "13.txt:436.000000:466.000000",
+      "question_id": "44",
+      "source_file": "13.txt",
+      "start_sec": 436.0,
+      "end_sec": 466.0
+    },
+    {
+      "interval_key": "11.txt:835.000000:897.000000",
+      "question_id": "79",
+      "source_file": "11.txt",
+      "start_sec": 835.0,
+      "end_sec": 897.0
+    },
+    {
+      "interval_key": "17.txt:126.000000:231.000000",
+      "question_id": "7",
+      "source_file": "17.txt",
+      "start_sec": 126.0,
+      "end_sec": 231.0
+    },
+    {
+      "interval_key": "11.txt:653.000000:745.000000",
+      "question_id": "27",
+      "source_file": "11.txt",
+      "start_sec": 653.0,
+      "end_sec": 745.0
+    }
+  ],
+  "configurations": [
+    {
+      "window_seconds": 10.0,
+      "overlap_fraction": 0.0,
+      "stride_seconds": 10.0,
+      "mean_best_single_window_iou": 0.158321,
+      "fully_contained_intervals": 1,
+      "fully_contained_fraction": 0.02,
+      "mean_minimum_windows_for_full_coverage": 12.02,
+      "theoretical_long_run_window_seconds_multiplier": 1.0,
+      "per_interval": [
+        {
+          "interval_key": "14.txt:537.000000:566.000000",
+          "best_single_window_iou": 0.344828,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "12.txt:541.000000:609.000000",
+          "best_single_window_iou": 0.147059,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "5.txt:481.000000:557.000000",
+          "best_single_window_iou": 0.131579,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 8
+        },
+        {
+          "interval_key": "9.txt:0.000000:97.000000",
+          "best_single_window_iou": 0.103093,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 10
+        },
+        {
+          "interval_key": "16.txt:325.000000:530.000000",
+          "best_single_window_iou": 0.04878,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 21
+        },
+        {
+          "interval_key": "16.txt:69.000000:166.000000",
+          "best_single_window_iou": 0.103093,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "11.txt:320.000000:363.000000",
+          "best_single_window_iou": 0.232558,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "17.txt:480.000000:574.000000",
+          "best_single_window_iou": 0.106383,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 10
+        },
+        {
+          "interval_key": "14.txt:16.000000:306.000000",
+          "best_single_window_iou": 0.034483,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 30
+        },
+        {
+          "interval_key": "7.txt:423.000000:497.000000",
+          "best_single_window_iou": 0.135135,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 8
+        },
+        {
+          "interval_key": "8.txt:0.000000:206.000000",
+          "best_single_window_iou": 0.048544,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 21
+        },
+        {
+          "interval_key": "7.txt:144.000000:281.000000",
+          "best_single_window_iou": 0.072993,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 15
+        },
+        {
+          "interval_key": "14.txt:422.000000:441.000000",
+          "best_single_window_iou": 0.526316,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "7.txt:281.000000:318.000000",
+          "best_single_window_iou": 0.27027,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "19.txt:616.000000:654.000000",
+          "best_single_window_iou": 0.263158,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "13.txt:406.000000:573.000000",
+          "best_single_window_iou": 0.05988,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 18
+        },
+        {
+          "interval_key": "19.txt:552.000000:679.000000",
+          "best_single_window_iou": 0.07874,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 13
+        },
+        {
+          "interval_key": "8.txt:289.000000:333.000000",
+          "best_single_window_iou": 0.227273,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "13.txt:0.000000:189.000000",
+          "best_single_window_iou": 0.05291,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 19
+        },
+        {
+          "interval_key": "18.txt:0.000000:93.000000",
+          "best_single_window_iou": 0.107527,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 10
+        },
+        {
+          "interval_key": "16.txt:762.000000:881.000000",
+          "best_single_window_iou": 0.084034,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 13
+        },
+        {
+          "interval_key": "18.txt:275.000000:368.000000",
+          "best_single_window_iou": 0.107527,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 10
+        },
+        {
+          "interval_key": "14.txt:235.000000:250.000000",
+          "best_single_window_iou": 0.666667,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "11.txt:175.000000:256.000000",
+          "best_single_window_iou": 0.123457,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 9
+        },
+        {
+          "interval_key": "9.txt:348.000000:376.000000",
+          "best_single_window_iou": 0.357143,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "9.txt:376.000000:488.000000",
+          "best_single_window_iou": 0.089286,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 12
+        },
+        {
+          "interval_key": "18.txt:171.000000:275.000000",
+          "best_single_window_iou": 0.096154,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "2.txt:888.000000:1072.000000",
+          "best_single_window_iou": 0.054348,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 20
+        },
+        {
+          "interval_key": "0.txt:0.000000:108.000000",
+          "best_single_window_iou": 0.092593,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "5.txt:625.000000:767.000000",
+          "best_single_window_iou": 0.070423,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 15
+        },
+        {
+          "interval_key": "14.txt:566.000000:635.000000",
+          "best_single_window_iou": 0.144928,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 8
+        },
+        {
+          "interval_key": "5.txt:557.000000:625.000000",
+          "best_single_window_iou": 0.147059,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 8
+        },
+        {
+          "interval_key": "11.txt:50.000000:897.000000",
+          "best_single_window_iou": 0.011806,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 85
+        },
+        {
+          "interval_key": "14.txt:281.000000:298.000000",
+          "best_single_window_iou": 0.5,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "18.txt:453.000000:525.000000",
+          "best_single_window_iou": 0.138889,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 8
+        },
+        {
+          "interval_key": "7.txt:568.000000:622.000000",
+          "best_single_window_iou": 0.185185,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "14.txt:250.000000:254.000000",
+          "best_single_window_iou": 0.4,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "19.txt:332.000000:436.000000",
+          "best_single_window_iou": 0.096154,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "16.txt:562.000000:762.000000",
+          "best_single_window_iou": 0.05,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 21
+        },
+        {
+          "interval_key": "19.txt:436.000000:552.000000",
+          "best_single_window_iou": 0.086207,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 13
+        },
+        {
+          "interval_key": "14.txt:306.000000:365.000000",
+          "best_single_window_iou": 0.169492,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "2.txt:576.000000:685.000000",
+          "best_single_window_iou": 0.091743,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 12
+        },
+        {
+          "interval_key": "16.txt:166.000000:325.000000",
+          "best_single_window_iou": 0.062893,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 17
+        },
+        {
+          "interval_key": "16.txt:881.000000:968.000000",
+          "best_single_window_iou": 0.114943,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 9
+        },
+        {
+          "interval_key": "19.txt:73.000000:173.000000",
+          "best_single_window_iou": 0.1,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "0.txt:313.000000:435.000000",
+          "best_single_window_iou": 0.081967,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 13
+        },
+        {
+          "interval_key": "13.txt:436.000000:466.000000",
+          "best_single_window_iou": 0.333333,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "11.txt:835.000000:897.000000",
+          "best_single_window_iou": 0.16129,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "17.txt:126.000000:231.000000",
+          "best_single_window_iou": 0.095238,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 12
+        },
+        {
+          "interval_key": "11.txt:653.000000:745.000000",
+          "best_single_window_iou": 0.108696,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 10
+        }
+      ]
+    },
+    {
+      "window_seconds": 10.0,
+      "overlap_fraction": 0.5,
+      "stride_seconds": 5.0,
+      "mean_best_single_window_iou": 0.160086,
+      "fully_contained_intervals": 1,
+      "fully_contained_fraction": 0.02,
+      "mean_minimum_windows_for_full_coverage": 11.78,
+      "theoretical_long_run_window_seconds_multiplier": 2.0,
+      "per_interval": [
+        {
+          "interval_key": "14.txt:537.000000:566.000000",
+          "best_single_window_iou": 0.344828,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "12.txt:541.000000:609.000000",
+          "best_single_window_iou": 0.147059,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "5.txt:481.000000:557.000000",
+          "best_single_window_iou": 0.131579,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 8
+        },
+        {
+          "interval_key": "9.txt:0.000000:97.000000",
+          "best_single_window_iou": 0.103093,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 10
+        },
+        {
+          "interval_key": "16.txt:325.000000:530.000000",
+          "best_single_window_iou": 0.04878,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 21
+        },
+        {
+          "interval_key": "16.txt:69.000000:166.000000",
+          "best_single_window_iou": 0.103093,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "11.txt:320.000000:363.000000",
+          "best_single_window_iou": 0.232558,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "17.txt:480.000000:574.000000",
+          "best_single_window_iou": 0.106383,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 10
+        },
+        {
+          "interval_key": "14.txt:16.000000:306.000000",
+          "best_single_window_iou": 0.034483,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 30
+        },
+        {
+          "interval_key": "7.txt:423.000000:497.000000",
+          "best_single_window_iou": 0.135135,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 8
+        },
+        {
+          "interval_key": "8.txt:0.000000:206.000000",
+          "best_single_window_iou": 0.048544,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 21
+        },
+        {
+          "interval_key": "7.txt:144.000000:281.000000",
+          "best_single_window_iou": 0.072993,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 15
+        },
+        {
+          "interval_key": "14.txt:422.000000:441.000000",
+          "best_single_window_iou": 0.526316,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "7.txt:281.000000:318.000000",
+          "best_single_window_iou": 0.27027,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "19.txt:616.000000:654.000000",
+          "best_single_window_iou": 0.263158,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "13.txt:406.000000:573.000000",
+          "best_single_window_iou": 0.05988,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 17
+        },
+        {
+          "interval_key": "19.txt:552.000000:679.000000",
+          "best_single_window_iou": 0.07874,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 13
+        },
+        {
+          "interval_key": "8.txt:289.000000:333.000000",
+          "best_single_window_iou": 0.227273,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "13.txt:0.000000:189.000000",
+          "best_single_window_iou": 0.05291,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 19
+        },
+        {
+          "interval_key": "18.txt:0.000000:93.000000",
+          "best_single_window_iou": 0.107527,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 10
+        },
+        {
+          "interval_key": "16.txt:762.000000:881.000000",
+          "best_single_window_iou": 0.084034,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 13
+        },
+        {
+          "interval_key": "18.txt:275.000000:368.000000",
+          "best_single_window_iou": 0.107527,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 10
+        },
+        {
+          "interval_key": "14.txt:235.000000:250.000000",
+          "best_single_window_iou": 0.666667,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "11.txt:175.000000:256.000000",
+          "best_single_window_iou": 0.123457,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 9
+        },
+        {
+          "interval_key": "9.txt:348.000000:376.000000",
+          "best_single_window_iou": 0.357143,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "9.txt:376.000000:488.000000",
+          "best_single_window_iou": 0.089286,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 12
+        },
+        {
+          "interval_key": "18.txt:171.000000:275.000000",
+          "best_single_window_iou": 0.096154,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "2.txt:888.000000:1072.000000",
+          "best_single_window_iou": 0.054348,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 19
+        },
+        {
+          "interval_key": "0.txt:0.000000:108.000000",
+          "best_single_window_iou": 0.092593,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "5.txt:625.000000:767.000000",
+          "best_single_window_iou": 0.070423,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 15
+        },
+        {
+          "interval_key": "14.txt:566.000000:635.000000",
+          "best_single_window_iou": 0.144928,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "5.txt:557.000000:625.000000",
+          "best_single_window_iou": 0.147059,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "11.txt:50.000000:897.000000",
+          "best_single_window_iou": 0.011806,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 85
+        },
+        {
+          "interval_key": "14.txt:281.000000:298.000000",
+          "best_single_window_iou": 0.588235,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "18.txt:453.000000:525.000000",
+          "best_single_window_iou": 0.138889,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 8
+        },
+        {
+          "interval_key": "7.txt:568.000000:622.000000",
+          "best_single_window_iou": 0.185185,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "14.txt:250.000000:254.000000",
+          "best_single_window_iou": 0.4,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "19.txt:332.000000:436.000000",
+          "best_single_window_iou": 0.096154,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "16.txt:562.000000:762.000000",
+          "best_single_window_iou": 0.05,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 21
+        },
+        {
+          "interval_key": "19.txt:436.000000:552.000000",
+          "best_single_window_iou": 0.086207,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 12
+        },
+        {
+          "interval_key": "14.txt:306.000000:365.000000",
+          "best_single_window_iou": 0.169492,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "2.txt:576.000000:685.000000",
+          "best_single_window_iou": 0.091743,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "16.txt:166.000000:325.000000",
+          "best_single_window_iou": 0.062893,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 16
+        },
+        {
+          "interval_key": "16.txt:881.000000:968.000000",
+          "best_single_window_iou": 0.114943,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 9
+        },
+        {
+          "interval_key": "19.txt:73.000000:173.000000",
+          "best_single_window_iou": 0.1,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "0.txt:313.000000:435.000000",
+          "best_single_window_iou": 0.081967,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 13
+        },
+        {
+          "interval_key": "13.txt:436.000000:466.000000",
+          "best_single_window_iou": 0.333333,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "11.txt:835.000000:897.000000",
+          "best_single_window_iou": 0.16129,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "17.txt:126.000000:231.000000",
+          "best_single_window_iou": 0.095238,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "11.txt:653.000000:745.000000",
+          "best_single_window_iou": 0.108696,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 10
+        }
+      ]
+    },
+    {
+      "window_seconds": 20.0,
+      "overlap_fraction": 0.0,
+      "stride_seconds": 20.0,
+      "mean_best_single_window_iou": 0.273969,
+      "fully_contained_intervals": 2,
+      "fully_contained_fraction": 0.04,
+      "mean_minimum_windows_for_full_coverage": 6.48,
+      "theoretical_long_run_window_seconds_multiplier": 1.0,
+      "per_interval": [
+        {
+          "interval_key": "14.txt:537.000000:566.000000",
+          "best_single_window_iou": 0.689655,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "12.txt:541.000000:609.000000",
+          "best_single_window_iou": 0.294118,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "5.txt:481.000000:557.000000",
+          "best_single_window_iou": 0.263158,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "9.txt:0.000000:97.000000",
+          "best_single_window_iou": 0.206186,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "16.txt:325.000000:530.000000",
+          "best_single_window_iou": 0.097561,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "16.txt:69.000000:166.000000",
+          "best_single_window_iou": 0.206186,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "11.txt:320.000000:363.000000",
+          "best_single_window_iou": 0.465116,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "17.txt:480.000000:574.000000",
+          "best_single_window_iou": 0.212766,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "14.txt:16.000000:306.000000",
+          "best_single_window_iou": 0.068966,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 16
+        },
+        {
+          "interval_key": "7.txt:423.000000:497.000000",
+          "best_single_window_iou": 0.27027,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "8.txt:0.000000:206.000000",
+          "best_single_window_iou": 0.097087,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "7.txt:144.000000:281.000000",
+          "best_single_window_iou": 0.145985,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 8
+        },
+        {
+          "interval_key": "14.txt:422.000000:441.000000",
+          "best_single_window_iou": 0.857143,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "7.txt:281.000000:318.000000",
+          "best_single_window_iou": 0.5,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "19.txt:616.000000:654.000000",
+          "best_single_window_iou": 0.526316,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "13.txt:406.000000:573.000000",
+          "best_single_window_iou": 0.11976,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 9
+        },
+        {
+          "interval_key": "19.txt:552.000000:679.000000",
+          "best_single_window_iou": 0.15748,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "8.txt:289.000000:333.000000",
+          "best_single_window_iou": 0.454545,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "13.txt:0.000000:189.000000",
+          "best_single_window_iou": 0.10582,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 10
+        },
+        {
+          "interval_key": "18.txt:0.000000:93.000000",
+          "best_single_window_iou": 0.215054,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "16.txt:762.000000:881.000000",
+          "best_single_window_iou": 0.168067,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "18.txt:275.000000:368.000000",
+          "best_single_window_iou": 0.215054,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "14.txt:235.000000:250.000000",
+          "best_single_window_iou": 0.4,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "11.txt:175.000000:256.000000",
+          "best_single_window_iou": 0.246914,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "9.txt:348.000000:376.000000",
+          "best_single_window_iou": 0.5,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "9.txt:376.000000:488.000000",
+          "best_single_window_iou": 0.178571,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "18.txt:171.000000:275.000000",
+          "best_single_window_iou": 0.192308,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "2.txt:888.000000:1072.000000",
+          "best_single_window_iou": 0.108696,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 10
+        },
+        {
+          "interval_key": "0.txt:0.000000:108.000000",
+          "best_single_window_iou": 0.185185,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "5.txt:625.000000:767.000000",
+          "best_single_window_iou": 0.140845,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 8
+        },
+        {
+          "interval_key": "14.txt:566.000000:635.000000",
+          "best_single_window_iou": 0.289855,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "5.txt:557.000000:625.000000",
+          "best_single_window_iou": 0.294118,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "11.txt:50.000000:897.000000",
+          "best_single_window_iou": 0.023613,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 43
+        },
+        {
+          "interval_key": "14.txt:281.000000:298.000000",
+          "best_single_window_iou": 0.85,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "18.txt:453.000000:525.000000",
+          "best_single_window_iou": 0.277778,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "7.txt:568.000000:622.000000",
+          "best_single_window_iou": 0.37037,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "14.txt:250.000000:254.000000",
+          "best_single_window_iou": 0.2,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "19.txt:332.000000:436.000000",
+          "best_single_window_iou": 0.192308,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "16.txt:562.000000:762.000000",
+          "best_single_window_iou": 0.1,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "19.txt:436.000000:552.000000",
+          "best_single_window_iou": 0.172414,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "14.txt:306.000000:365.000000",
+          "best_single_window_iou": 0.338983,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "2.txt:576.000000:685.000000",
+          "best_single_window_iou": 0.183486,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "16.txt:166.000000:325.000000",
+          "best_single_window_iou": 0.125786,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 9
+        },
+        {
+          "interval_key": "16.txt:881.000000:968.000000",
+          "best_single_window_iou": 0.229885,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "19.txt:73.000000:173.000000",
+          "best_single_window_iou": 0.2,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "0.txt:313.000000:435.000000",
+          "best_single_window_iou": 0.163934,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "13.txt:436.000000:466.000000",
+          "best_single_window_iou": 0.666667,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "11.txt:835.000000:897.000000",
+          "best_single_window_iou": 0.322581,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "17.txt:126.000000:231.000000",
+          "best_single_window_iou": 0.190476,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "11.txt:653.000000:745.000000",
+          "best_single_window_iou": 0.217391,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        }
+      ]
+    },
+    {
+      "window_seconds": 20.0,
+      "overlap_fraction": 0.5,
+      "stride_seconds": 10.0,
+      "mean_best_single_window_iou": 0.286066,
+      "fully_contained_intervals": 3,
+      "fully_contained_fraction": 0.06,
+      "mean_minimum_windows_for_full_coverage": 6.28,
+      "theoretical_long_run_window_seconds_multiplier": 2.0,
+      "per_interval": [
+        {
+          "interval_key": "14.txt:537.000000:566.000000",
+          "best_single_window_iou": 0.689655,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "12.txt:541.000000:609.000000",
+          "best_single_window_iou": 0.294118,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "5.txt:481.000000:557.000000",
+          "best_single_window_iou": 0.263158,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "9.txt:0.000000:97.000000",
+          "best_single_window_iou": 0.206186,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "16.txt:325.000000:530.000000",
+          "best_single_window_iou": 0.097561,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "16.txt:69.000000:166.000000",
+          "best_single_window_iou": 0.206186,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "11.txt:320.000000:363.000000",
+          "best_single_window_iou": 0.465116,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "17.txt:480.000000:574.000000",
+          "best_single_window_iou": 0.212766,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "14.txt:16.000000:306.000000",
+          "best_single_window_iou": 0.068966,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 15
+        },
+        {
+          "interval_key": "7.txt:423.000000:497.000000",
+          "best_single_window_iou": 0.27027,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "8.txt:0.000000:206.000000",
+          "best_single_window_iou": 0.097087,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "7.txt:144.000000:281.000000",
+          "best_single_window_iou": 0.145985,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 8
+        },
+        {
+          "interval_key": "14.txt:422.000000:441.000000",
+          "best_single_window_iou": 0.857143,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "7.txt:281.000000:318.000000",
+          "best_single_window_iou": 0.540541,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "19.txt:616.000000:654.000000",
+          "best_single_window_iou": 0.526316,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "13.txt:406.000000:573.000000",
+          "best_single_window_iou": 0.11976,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 9
+        },
+        {
+          "interval_key": "19.txt:552.000000:679.000000",
+          "best_single_window_iou": 0.15748,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "8.txt:289.000000:333.000000",
+          "best_single_window_iou": 0.454545,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "13.txt:0.000000:189.000000",
+          "best_single_window_iou": 0.10582,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 10
+        },
+        {
+          "interval_key": "18.txt:0.000000:93.000000",
+          "best_single_window_iou": 0.215054,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "16.txt:762.000000:881.000000",
+          "best_single_window_iou": 0.168067,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "18.txt:275.000000:368.000000",
+          "best_single_window_iou": 0.215054,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "14.txt:235.000000:250.000000",
+          "best_single_window_iou": 0.75,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "11.txt:175.000000:256.000000",
+          "best_single_window_iou": 0.246914,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "9.txt:348.000000:376.000000",
+          "best_single_window_iou": 0.714286,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "9.txt:376.000000:488.000000",
+          "best_single_window_iou": 0.178571,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "18.txt:171.000000:275.000000",
+          "best_single_window_iou": 0.192308,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "2.txt:888.000000:1072.000000",
+          "best_single_window_iou": 0.108696,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 10
+        },
+        {
+          "interval_key": "0.txt:0.000000:108.000000",
+          "best_single_window_iou": 0.185185,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "5.txt:625.000000:767.000000",
+          "best_single_window_iou": 0.140845,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 8
+        },
+        {
+          "interval_key": "14.txt:566.000000:635.000000",
+          "best_single_window_iou": 0.289855,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "5.txt:557.000000:625.000000",
+          "best_single_window_iou": 0.294118,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "11.txt:50.000000:897.000000",
+          "best_single_window_iou": 0.023613,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 43
+        },
+        {
+          "interval_key": "14.txt:281.000000:298.000000",
+          "best_single_window_iou": 0.85,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "18.txt:453.000000:525.000000",
+          "best_single_window_iou": 0.277778,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "7.txt:568.000000:622.000000",
+          "best_single_window_iou": 0.37037,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "14.txt:250.000000:254.000000",
+          "best_single_window_iou": 0.2,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "19.txt:332.000000:436.000000",
+          "best_single_window_iou": 0.192308,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "16.txt:562.000000:762.000000",
+          "best_single_window_iou": 0.1,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 11
+        },
+        {
+          "interval_key": "19.txt:436.000000:552.000000",
+          "best_single_window_iou": 0.172414,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "14.txt:306.000000:365.000000",
+          "best_single_window_iou": 0.338983,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "2.txt:576.000000:685.000000",
+          "best_single_window_iou": 0.183486,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "16.txt:166.000000:325.000000",
+          "best_single_window_iou": 0.125786,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 9
+        },
+        {
+          "interval_key": "16.txt:881.000000:968.000000",
+          "best_single_window_iou": 0.229885,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "19.txt:73.000000:173.000000",
+          "best_single_window_iou": 0.2,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "0.txt:313.000000:435.000000",
+          "best_single_window_iou": 0.163934,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 7
+        },
+        {
+          "interval_key": "13.txt:436.000000:466.000000",
+          "best_single_window_iou": 0.666667,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "11.txt:835.000000:897.000000",
+          "best_single_window_iou": 0.322581,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "17.txt:126.000000:231.000000",
+          "best_single_window_iou": 0.190476,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "11.txt:653.000000:745.000000",
+          "best_single_window_iou": 0.217391,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        }
+      ]
+    },
+    {
+      "window_seconds": 40.0,
+      "overlap_fraction": 0.0,
+      "stride_seconds": 40.0,
+      "mean_best_single_window_iou": 0.405926,
+      "fully_contained_intervals": 3,
+      "fully_contained_fraction": 0.06,
+      "mean_minimum_windows_for_full_coverage": 3.74,
+      "theoretical_long_run_window_seconds_multiplier": 1.0,
+      "per_interval": [
+        {
+          "interval_key": "14.txt:537.000000:566.000000",
+          "best_single_window_iou": 0.5,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "12.txt:541.000000:609.000000",
+          "best_single_window_iou": 0.588235,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "5.txt:481.000000:557.000000",
+          "best_single_window_iou": 0.506494,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "9.txt:0.000000:97.000000",
+          "best_single_window_iou": 0.412371,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "16.txt:325.000000:530.000000",
+          "best_single_window_iou": 0.195122,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "16.txt:69.000000:166.000000",
+          "best_single_window_iou": 0.412371,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "11.txt:320.000000:363.000000",
+          "best_single_window_iou": 0.930233,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "17.txt:480.000000:574.000000",
+          "best_single_window_iou": 0.425532,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "14.txt:16.000000:306.000000",
+          "best_single_window_iou": 0.137931,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 8
+        },
+        {
+          "interval_key": "7.txt:423.000000:497.000000",
+          "best_single_window_iou": 0.540541,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "8.txt:0.000000:206.000000",
+          "best_single_window_iou": 0.194175,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "7.txt:144.000000:281.000000",
+          "best_single_window_iou": 0.291971,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "14.txt:422.000000:441.000000",
+          "best_single_window_iou": 0.439024,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "7.txt:281.000000:318.000000",
+          "best_single_window_iou": 0.925,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "19.txt:616.000000:654.000000",
+          "best_single_window_iou": 0.444444,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "13.txt:406.000000:573.000000",
+          "best_single_window_iou": 0.239521,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "19.txt:552.000000:679.000000",
+          "best_single_window_iou": 0.314961,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "8.txt:289.000000:333.000000",
+          "best_single_window_iou": 0.584906,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "13.txt:0.000000:189.000000",
+          "best_single_window_iou": 0.21164,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "18.txt:0.000000:93.000000",
+          "best_single_window_iou": 0.430108,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "16.txt:762.000000:881.000000",
+          "best_single_window_iou": 0.336134,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "18.txt:275.000000:368.000000",
+          "best_single_window_iou": 0.430108,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "14.txt:235.000000:250.000000",
+          "best_single_window_iou": 0.222222,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "11.txt:175.000000:256.000000",
+          "best_single_window_iou": 0.493827,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "9.txt:348.000000:376.000000",
+          "best_single_window_iou": 0.307692,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "9.txt:376.000000:488.000000",
+          "best_single_window_iou": 0.357143,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "18.txt:171.000000:275.000000",
+          "best_single_window_iou": 0.384615,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "2.txt:888.000000:1072.000000",
+          "best_single_window_iou": 0.217391,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "0.txt:0.000000:108.000000",
+          "best_single_window_iou": 0.37037,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "5.txt:625.000000:767.000000",
+          "best_single_window_iou": 0.28169,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "14.txt:566.000000:635.000000",
+          "best_single_window_iou": 0.472973,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "5.txt:557.000000:625.000000",
+          "best_single_window_iou": 0.588235,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "11.txt:50.000000:897.000000",
+          "best_single_window_iou": 0.047226,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 22
+        },
+        {
+          "interval_key": "14.txt:281.000000:298.000000",
+          "best_single_window_iou": 0.425,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "18.txt:453.000000:525.000000",
+          "best_single_window_iou": 0.555556,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "7.txt:568.000000:622.000000",
+          "best_single_window_iou": 0.516129,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "14.txt:250.000000:254.000000",
+          "best_single_window_iou": 0.1,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "19.txt:332.000000:436.000000",
+          "best_single_window_iou": 0.384615,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "16.txt:562.000000:762.000000",
+          "best_single_window_iou": 0.2,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "19.txt:436.000000:552.000000",
+          "best_single_window_iou": 0.344828,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "14.txt:306.000000:365.000000",
+          "best_single_window_iou": 0.677966,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "2.txt:576.000000:685.000000",
+          "best_single_window_iou": 0.366972,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "16.txt:166.000000:325.000000",
+          "best_single_window_iou": 0.251572,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "16.txt:881.000000:968.000000",
+          "best_single_window_iou": 0.45977,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "19.txt:73.000000:173.000000",
+          "best_single_window_iou": 0.4,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "0.txt:313.000000:435.000000",
+          "best_single_window_iou": 0.327869,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "13.txt:436.000000:466.000000",
+          "best_single_window_iou": 0.590909,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "11.txt:835.000000:897.000000",
+          "best_single_window_iou": 0.645161,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "17.txt:126.000000:231.000000",
+          "best_single_window_iou": 0.380952,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "11.txt:653.000000:745.000000",
+          "best_single_window_iou": 0.434783,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        }
+      ]
+    },
+    {
+      "window_seconds": 40.0,
+      "overlap_fraction": 0.5,
+      "stride_seconds": 20.0,
+      "mean_best_single_window_iou": 0.434472,
+      "fully_contained_intervals": 6,
+      "fully_contained_fraction": 0.12,
+      "mean_minimum_windows_for_full_coverage": 3.5,
+      "theoretical_long_run_window_seconds_multiplier": 2.0,
+      "per_interval": [
+        {
+          "interval_key": "14.txt:537.000000:566.000000",
+          "best_single_window_iou": 0.604651,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "12.txt:541.000000:609.000000",
+          "best_single_window_iou": 0.588235,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "5.txt:481.000000:557.000000",
+          "best_single_window_iou": 0.526316,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "9.txt:0.000000:97.000000",
+          "best_single_window_iou": 0.412371,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "16.txt:325.000000:530.000000",
+          "best_single_window_iou": 0.195122,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "16.txt:69.000000:166.000000",
+          "best_single_window_iou": 0.412371,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "11.txt:320.000000:363.000000",
+          "best_single_window_iou": 0.930233,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "17.txt:480.000000:574.000000",
+          "best_single_window_iou": 0.425532,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "14.txt:16.000000:306.000000",
+          "best_single_window_iou": 0.137931,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 8
+        },
+        {
+          "interval_key": "7.txt:423.000000:497.000000",
+          "best_single_window_iou": 0.540541,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "8.txt:0.000000:206.000000",
+          "best_single_window_iou": 0.194175,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "7.txt:144.000000:281.000000",
+          "best_single_window_iou": 0.291971,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "14.txt:422.000000:441.000000",
+          "best_single_window_iou": 0.475,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "7.txt:281.000000:318.000000",
+          "best_single_window_iou": 0.925,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "19.txt:616.000000:654.000000",
+          "best_single_window_iou": 0.772727,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "13.txt:406.000000:573.000000",
+          "best_single_window_iou": 0.239521,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "19.txt:552.000000:679.000000",
+          "best_single_window_iou": 0.314961,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "8.txt:289.000000:333.000000",
+          "best_single_window_iou": 0.647059,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "13.txt:0.000000:189.000000",
+          "best_single_window_iou": 0.21164,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "18.txt:0.000000:93.000000",
+          "best_single_window_iou": 0.430108,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "16.txt:762.000000:881.000000",
+          "best_single_window_iou": 0.336134,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "18.txt:275.000000:368.000000",
+          "best_single_window_iou": 0.430108,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "14.txt:235.000000:250.000000",
+          "best_single_window_iou": 0.375,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "11.txt:175.000000:256.000000",
+          "best_single_window_iou": 0.493827,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "9.txt:348.000000:376.000000",
+          "best_single_window_iou": 0.7,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "9.txt:376.000000:488.000000",
+          "best_single_window_iou": 0.357143,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "18.txt:171.000000:275.000000",
+          "best_single_window_iou": 0.384615,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "2.txt:888.000000:1072.000000",
+          "best_single_window_iou": 0.217391,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "0.txt:0.000000:108.000000",
+          "best_single_window_iou": 0.37037,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "5.txt:625.000000:767.000000",
+          "best_single_window_iou": 0.28169,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "14.txt:566.000000:635.000000",
+          "best_single_window_iou": 0.57971,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "5.txt:557.000000:625.000000",
+          "best_single_window_iou": 0.588235,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "11.txt:50.000000:897.000000",
+          "best_single_window_iou": 0.047226,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 22
+        },
+        {
+          "interval_key": "14.txt:281.000000:298.000000",
+          "best_single_window_iou": 0.425,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "18.txt:453.000000:525.000000",
+          "best_single_window_iou": 0.555556,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "7.txt:568.000000:622.000000",
+          "best_single_window_iou": 0.740741,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "14.txt:250.000000:254.000000",
+          "best_single_window_iou": 0.1,
+          "fully_contained_in_one_window": true,
+          "minimum_windows_for_full_coverage": 1
+        },
+        {
+          "interval_key": "19.txt:332.000000:436.000000",
+          "best_single_window_iou": 0.384615,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "16.txt:562.000000:762.000000",
+          "best_single_window_iou": 0.2,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 6
+        },
+        {
+          "interval_key": "19.txt:436.000000:552.000000",
+          "best_single_window_iou": 0.344828,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "14.txt:306.000000:365.000000",
+          "best_single_window_iou": 0.677966,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "2.txt:576.000000:685.000000",
+          "best_single_window_iou": 0.366972,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "16.txt:166.000000:325.000000",
+          "best_single_window_iou": 0.251572,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 5
+        },
+        {
+          "interval_key": "16.txt:881.000000:968.000000",
+          "best_single_window_iou": 0.45977,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "19.txt:73.000000:173.000000",
+          "best_single_window_iou": 0.4,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "0.txt:313.000000:435.000000",
+          "best_single_window_iou": 0.327869,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 4
+        },
+        {
+          "interval_key": "13.txt:436.000000:466.000000",
+          "best_single_window_iou": 0.590909,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "11.txt:835.000000:897.000000",
+          "best_single_window_iou": 0.645161,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 2
+        },
+        {
+          "interval_key": "17.txt:126.000000:231.000000",
+          "best_single_window_iou": 0.380952,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        },
+        {
+          "interval_key": "11.txt:653.000000:745.000000",
+          "best_single_window_iou": 0.434783,
+          "fully_contained_in_one_window": false,
+          "minimum_windows_for_full_coverage": 3
+        }
+      ]
+    }
+  ]
+}
