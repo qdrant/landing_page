@@ -1,64 +1,40 @@
-/* Universal I/O depth-latency scatter. Scoped under .qi-dl; chrome (fg, muted,
-   line) comes from the shared --qi-* tokens on .island, which already follow
-   the page theme. This file maps the three series colours and swaps in the
-   stacked composition when the figure is narrower than 640px. Series hues
-   match the rest of the article: mmap cyan, io_uring neon blue, S3 amaranth.
-   Dark mode lifts each hue so it still reads against the dark surface. */
+/* depth frontier island. Controls and labels come from islands.scss. */
+.qi-pf { display: block; }
 
-.qi-dl {
-  --dl-cyan: #00838f; /* cyan-800 */
-  --dl-blue: #6047ff; /* neon-blue-500 */
-  --dl-red: #dc244c; /* amaranth-500 */
+.qi-pf__grid { stroke: var(--qi-border); stroke-width: 1; opacity: 0.6; }
 
-  display: block;
-  container-type: inline-size;
-  padding: 16px;
-  border: 1px solid var(--qi-line);
-  border-radius: 12px;
+
+.qi-pf__step { fill: none; stroke: var(--qi-muted); stroke-width: 1.5; stroke-dasharray: 5 4; opacity: 0.8; }
+.qi-pf__tag { fill: var(--qi-muted); font-family: var(--qi-mono); font-size: 11px; letter-spacing: 0.04em; }
+
+.qi-pf__line { fill: none; stroke-width: 2; opacity: 0.55; stroke-linejoin: round; }
+.qi-pf__h1 { stroke: var(--qi-cat-3); }
+.qi-pf__h2 { stroke: var(--qi-cat-2); }
+.qi-pf__h3 { stroke: var(--qi-cat-1); }
+
+.qi-pf__pt circle { stroke: var(--qi-surface); stroke-width: 2; }
+.qi-pf__h1 circle { fill: var(--qi-cat-3); }
+.qi-pf__h2 circle { fill: var(--qi-cat-2); }
+.qi-pf__h3 circle { fill: var(--qi-cat-1); }
+.qi-pf__pt circle.is-stub { fill: var(--qi-surface); stroke-width: 2.5; }
+.qi-pf__h1 circle.is-stub { stroke: var(--qi-cat-3); }
+.qi-pf__h2 circle.is-stub { stroke: var(--qi-cat-2); }
+.qi-pf__h3 circle.is-stub { stroke: var(--qi-cat-1); }
+
+.qi-pf__name {
+  fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 11.5px;
+  paint-order: stroke; stroke: var(--qi-surface); stroke-width: 3px;
 }
-
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme='light']) .qi-dl {
-    --dl-cyan: #26c6da; /* cyan-300 */
-    --dl-blue: #9c8cff; /* neon-blue-300 */
-    --dl-red: #ff5c7a; /* amaranth-300 */
-  }
+.qi-pf__series {
+  font-family: var(--qi-mono); font-size: 13px; font-weight: 700; stroke: none;
+  paint-order: stroke; stroke-width: 3.5px;
 }
+.qi-pf__series.qi-pf__h1 { fill: var(--qi-cat-3); stroke: var(--qi-surface); }
+.qi-pf__series.qi-pf__h2 { fill: var(--qi-cat-2); stroke: var(--qi-surface); }
+.qi-pf__series.qi-pf__h3 { fill: var(--qi-cat-1); stroke: var(--qi-surface); }
 
-html[data-theme='dark'] .qi-dl {
-  --dl-cyan: #26c6da;
-  --dl-blue: #9c8cff;
-  --dl-red: #ff5c7a;
+
+.qi-pf p.qi-pf__status {
+  margin: 0; font-size: 14px; line-height: 1.45; font-style: italic;
+  min-height: calc(3 * 1.45em);
 }
-
-.qi-dl .dl-cyan { color: var(--dl-cyan); }
-.qi-dl .dl-blue { color: var(--dl-blue); }
-.qi-dl .dl-red { color: var(--dl-red); }
-
-.qi-dl .dl-title { fill: var(--qi-fg); font-size: 14px; }
-.qi-dl .dl-axlbl { fill: var(--qi-muted); font-size: 14px; }
-.qi-dl .dl-tick { fill: var(--qi-muted); font-size: 13px; }
-.qi-dl .dl-legend { fill: var(--qi-fg); font-size: 14px; }
-.qi-dl .dl-callout { fill: currentColor; font-size: 13px; font-weight: 600; }
-.qi-dl .dl-dot--off { fill: var(--qi-surface, #fff); stroke: currentColor; stroke-width: 2; }
-.qi-dl .dl-callout:not(.dl-blue):not(.dl-cyan):not(.dl-red) { fill: var(--qi-muted); font-weight: 400; }
-.qi-dl .dl-callout--cont { font-weight: 400; }
-.qi-dl .dl-grid { stroke: var(--qi-line); stroke-width: 1; opacity: .45; }
-.qi-dl .dl-axis { stroke: var(--qi-muted); stroke-width: 1.5; fill: none; }
-.qi-dl .dl-outline { stroke: var(--qi-fg); stroke-width: 4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
-.qi-dl .dl-line { stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linejoin: round; stroke-linecap: round; }
-.qi-dl .dl-dot { fill: currentColor; stroke: var(--qi-bg, transparent); stroke-width: 1.5; }
-.qi-dl .dl-hit { fill: transparent; cursor: pointer; }
-.qi-dl .dl-hit:focus-visible { outline: none; stroke: var(--qi-fg); stroke-width: 2; }
-
-.qi-dl__m { display: none; }
-
-@container (max-width: 640px) {
-  .qi-dl { padding: 16px 12px; }
-  .qi-dl__d { display: none; }
-  .qi-dl__m { display: block; }
-}
-
-/* Sequential view keeps the random lines underneath, faded, so the jump is
-   visible without a second figure. They carry no points and no hit targets. */
-.qi-dl .dl-ghost .dl-line { opacity: .25; stroke-width: 2; }

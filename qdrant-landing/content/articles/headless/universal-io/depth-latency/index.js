@@ -1,185 +1,193 @@
 /*
- * depth-latency island: bandwidth against latency, one point per configuration,
- * with a chip toggle between random and sequential reads.
+ * depth-frontier island: bandwidth against latency, with the Pareto frontier.
  *
- * Self-contained on purpose: Hugo bundles this file on its own, so it cannot
- * import a sibling module. generate.mjs imports THIS file to write the static
- * fallback, which keeps the island and the fallback from drifting.
+ * Upper left is better: more MB/s for less wait. The shaded wedge and the step
+ * line mark the frontier, the configurations nothing else beats on both axes.
+ * One chip group swaps the read pattern.
  *
- * x = p50 time from submitting a read to its completion, which is what the
- *     caller waits. Past a backend's pipeline depth it includes queueing.
- * y = MB/s delivered by that configuration.
- *
- * Sequential p50 falls below the axis floor because readahead has already
- * fetched the page, so the read never touches the disk. Those points are
- * drawn hollow on the floor rather than silently moved.
+ * Self-contained on purpose: Hugo bundles this file on its own.
  */
-const XMIN = 0.1, XMAX = 120, YMIN = 0.1, YMAX = 600;
-const XT = [0.1, 1, 10, 100];
-const YT = [0.1, 1, 10, 100];
+const NS = 'http://www.w3.org/2000/svg';
 
 export const SETS = {
   rand: {
     label: 'Random',
-    title: 'MB/s delivered, 4 KiB random reads (log scale)',
+    title: 'MB/s delivered against the wait, 4 KiB random reads. Up and left is better',
     series: [
-      { name: 'mmap', hue: 'cyan', points: [
-        { label: 'batch 1', ms: 0.5524, mb: 7.22 }, { label: 'batch 16', ms: 4.836, mb: 7.15 },
-        { label: 'batch 64', ms: 18.4614, mb: 7.21 }, { label: 'batch 256', ms: 71.2242, mb: 7.22 }] },
-      { name: 'io_uring', hue: 'blue', points: [
-        { label: 'batch 1', ms: 0.5616, mb: 7.15 }, { label: 'batch 2', ms: 0.565, mb: 13.43 },
-        { label: 'batch 4', ms: 0.572, mb: 25.84 }, { label: 'batch 8', ms: 0.5784, mb: 45.71 },
-        { label: 'batch 16', ms: 0.6135, mb: 85.66 }, { label: 'batch 32', ms: 0.9287, mb: 94.34 },
-        { label: 'batch 64', ms: 1.432, mb: 97.32 }, { label: 'batch 128', ms: 2.5331, mb: 105.29 },
-        { label: 'batch 256', ms: 4.8724, mb: 107.67 }, { label: 'batch 512', ms: 9.4183, mb: 110.91 }] },
-      { name: 'S3, same region', hue: 'red', points: [
-        { label: '1 reader', ms: 23.94, mb: 0.167 }, { label: '2 readers', ms: 23.08, mb: 0.329 },
-        { label: '4 readers', ms: 24.82, mb: 0.564 }, { label: '8 readers', ms: 23.98, mb: 1.029 },
-        { label: '16 readers', ms: 23.95, mb: 1.886 }, { label: '32 readers', ms: 23.11, mb: 4.721 },
-        { label: '64 readers', ms: 23.23, mb: 9.398 }, { label: '128 readers', ms: 24.06, mb: 11.323 }] },
+      { name: 'mmap', hue: 1, nameAt: 1, namePlace: 'down', points: [
+        { label: '', ms: 0.5524, mb: 7.22 },
+        { label: '', ms: 4.836, mb: 7.15 },
+        { label: '', ms: 18.4614, mb: 7.21 },
+        { label: 'batch 256', ms: 71.2242, mb: 7.22, place: 'up' }] },
+      { name: 'io_uring', hue: 2, nameAt: 5, namePlace: 'up', points: [
+        { label: 'batch 1', ms: 0.5616, mb: 7.15, place: 'left' },
+        { label: '', ms: 0.572, mb: 25.84 },
+        { label: 'batch 16', ms: 0.6135, mb: 85.66, place: 'up' },
+        { label: '', ms: 1.432, mb: 97.32 },
+        { label: '', ms: 4.8724, mb: 107.67 },
+        { label: 'batch 512', ms: 9.4183, mb: 110.91, place: 'down' }] },
+      { name: 'S3', hue: 3, nameAt: 2, namePlace: 'right', points: [
+        { label: '1 reader', ms: 23.94, mb: 0.167, place: 'left' },
+        { label: '', ms: 23.98, mb: 1.029 },
+        { label: '', ms: 23.11, mb: 4.721 },
+        { label: '128 readers', ms: 24.06, mb: 11.323, place: 'up' }] },
     ],
-    notes: [
-      { ms: 0.75, mb: 33, hue: 'blue', lines: ['depth doubles bandwidth'] },
-      { ms: 18, mb: 3.2, anchor: 'end', hue: 'cyan', lines: ['no pipeline, so batching only queues'] },
-      { ms: 30, mb: 0.6, hue: 'red', lines: ['latency flat at 24 ms'] },
-    ],
-    mobileNotes: [
-      { ms: 0.9, mb: 33, hue: 'blue', lines: ['depth doubles', 'bandwidth'] },
-      { ms: 30, mb: 0.6, hue: 'red', lines: ['flat at 24 ms'] },
-    ],
+    note: 'Every frontier point is <code>io_uring</code>. Batch 16 delivers 12&#215; the bandwidth of batch 1 for 9% more wait. <code>mmap</code> cannot join: its pipeline is one deep, so a bigger batch only queues. S3 sits 43&#215; further right, because each read crosses the network.',
   },
   seq: {
     label: 'Sequential',
-    title: 'MB/s delivered, 4 KiB sequential reads, each run on untouched bytes (log scale)',
+    title: 'The same axes, 4 KiB sequential reads on untouched bytes',
     series: [
-      { name: 'mmap', hue: 'cyan', points: [
-        { label: 'batch 1', ms: 0.0001, mb: 115.13 }, { label: 'batch 16', ms: 0.8671, mb: 117.43 },
-        { label: 'batch 256', ms: 5.0196, mb: 119.48 }] },
-      { name: 'io_uring', hue: 'blue', points: [
-        { label: 'batch 1', ms: 0.0015, mb: 221.69 }, { label: 'batch 256', ms: 2.5136, mb: 208.23 }] },
-      { name: 'S3, same region', hue: 'red', points: [
-        { label: '1 reader', ms: 22.82, mb: 0.181 }, { label: '2 readers', ms: 23.08, mb: 0.350 },
-        { label: '4 readers', ms: 23.55, mb: 0.626 }, { label: '8 readers', ms: 23.54, mb: 1.123 },
-        { label: '16 readers', ms: 23.93, mb: 1.795 }, { label: '32 readers', ms: 23.46, mb: 4.668 },
-        { label: '64 readers', ms: 23.75, mb: 8.912 }, { label: '128 readers', ms: 24.00, mb: 7.773 }] },
+      { name: 'mmap', hue: 1, nameAt: 0, namePlace: 'down', points: [
+        { label: '', ms: 0.08, mb: 115.13, stub: true },
+        { label: '', ms: 0.8671, mb: 117.43 },
+        { label: 'batch 256', ms: 5.0196, mb: 119.48, place: 'down' }] },
+      { name: 'io_uring', hue: 2, nameAt: 0, namePlace: 'up', points: [
+        { label: '', ms: 0.08, mb: 221.69, stub: true },
+        { label: 'batch 256', ms: 2.5136, mb: 208.23, place: 'up' }] },
+      { name: 'S3', hue: 3, nameAt: 2, namePlace: 'right', points: [
+        { label: '1 reader', ms: 22.82, mb: 0.181, place: 'left' },
+        { label: '', ms: 23.54, mb: 1.123 },
+        { label: '', ms: 23.46, mb: 4.668 },
+        { label: '128 readers', ms: 24.0, mb: 7.773, place: 'up' }] },
     ],
-    notes: [
-      { ms: 0.13, mb: 38, hue: 'cyan', lines: ['mmap 117 MB/s, 16&#215; its random rate'] },
-      { ms: 0.13, mb: 430, hue: 'blue', lines: ['io_uring 215 MB/s: bulk reads beat page faults'] },
-      { ms: 110, mb: 3.4, anchor: 'end', hue: 'red', lines: ['S3 unchanged: the network does not read ahead'] },
-      { ms: 100, mb: 0.4, anchor: 'end', lines: ['hollow: p50 under 0.1 ms: the page was already there'] },
-    ],
-    mobileNotes: [
-      { ms: 0.13, mb: 40, hue: 'cyan', lines: ['mmap 117 MB/s,', 'io_uring 215'] },
-      { ms: 100, mb: 0.19, anchor: 'end', lines: ['hollow: p50', 'under 0.1 ms'] },
-    ],
+    note: 'Read in order and the kernel reads ahead, so the frontier jumps to the top left and depth stops mattering. <code>mmap</code> holds about 117 MB/s at every batch, 16&#215; its random rate, and <code>io_uring</code> reaches 221. S3 does not move: nothing reads ahead across network requests.',
   },
 };
 
 export const LABEL = {
-  rand: 'Bandwidth against latency for three read backends on log scales, random reads. io_uring '
-    + 'climbs almost straight up, from 7.15 to 85.66 megabytes per second while latency stays near '
-    + '0.6 milliseconds, then bends right as the last 29 percent of bandwidth costs fifteen times '
-    + 'the wait. mmap runs flat at about 7.2 megabytes per second whatever the batch, because its '
-    + 'pipeline is one deep. S3 climbs straight up at about 24 milliseconds, from 0.17 to 11.3 '
-    + 'megabytes per second as the number of readers rises from 1 to 128.',
-  seq: 'The same axes for sequential reads, each run on bytes no earlier run touched. mmap holds about '
-    + '117 megabytes per second whatever the batch, sixteen times its random rate, and io_uring reaches '
-    + 'about 215. Most reads have a median latency below the axis floor because readahead had already '
-    + 'fetched the page. The S3 line lands on top of its random one at every number of readers, '
-    + 'because object storage does not read ahead.',
+  rand: 'Bandwidth against latency for three read backends on log scales, random reads. Up and left '
+    + 'is better. The frontier is made entirely of io_uring points, which climb from 7.15 MB/s at '
+    + 'batch 1 to 85.66 at batch 16 while the wait stays near 0.6 ms. mmap runs flat at about 7.2 MB/s '
+    + 'whatever the batch, moving only to the right. S3 sits near 24 ms, climbing from 0.17 MB/s with '
+    + 'one reader to 11.3 with 128.',
+  seq: 'The same axes for sequential reads. mmap holds about 117 MB/s at every batch and io_uring '
+    + 'reaches 221, both at the top left, because the kernel reads ahead. S3 is unchanged from random, '
+    + 'climbing from 0.18 to 7.8 MB/s at about 23 ms.',
 };
 
-const GEO = {
-  d: { w: 760, h: 372, L: 54, R: 740, T: 42, B: 246, legendY: 325, legendGap: 250 },
-  m: { w: 480, h: 420, L: 46, R: 466, T: 42, B: 250, legendY: 310, legendStep: 28 },
-};
+const VB = { w: 560, h: 330 };
+const PLOT = { x: 48, y: 38, w: 448, h: 214 };
+const XD = [0.06, 140], YD = [0.1, 480];
+const XT = [0.1, 1, 10, 100], YT = [1, 10, 100];
+const R = 5.5;
 
-export function drawing(setKey, variant) {
-  const set = SETS[setKey];
-  const g = GEO[variant];
-  const { L, R, T, B } = g;
-  const x = ms => L + (Math.log10(Math.max(ms, XMIN)) - Math.log10(XMIN)) / (Math.log10(XMAX) - Math.log10(XMIN)) * (R - L);
-  const y = mb => B - (Math.log10(mb) - Math.log10(YMIN)) / (Math.log10(YMAX) - Math.log10(YMIN)) * (B - T);
-  let s = '';
-  s += `<text class="dl-title" x="${L}" y="20">${set.title}</text>`;
-  for (const t of XT) {
-    s += `<line class="dl-grid" x1="${x(t).toFixed(1)}" y1="${T}" x2="${x(t).toFixed(1)}" y2="${B}"/>`;
-    s += `<text class="dl-tick" x="${x(t).toFixed(1)}" y="${B + 21}" text-anchor="middle">${t}</text>`;
-  }
-  for (const t of YT) {
-    s += `<line class="dl-grid" x1="${L}" y1="${y(t).toFixed(1)}" x2="${R}" y2="${y(t).toFixed(1)}"/>`;
-    s += `<text class="dl-tick" x="${L - 10}" y="${(y(t) + 4).toFixed(1)}" text-anchor="end">${t}</text>`;
-  }
-  s += `<path class="dl-axis" d="M${L} ${T}V${B}H${R}"/>`;
-  if (setKey === 'seq') {
-    for (const ser of SETS.rand.series) {
-      const d = ser.points.map((p, i) => `${i ? 'L' : 'M'}${x(p.ms).toFixed(1)},${y(p.mb).toFixed(1)}`).join(' ');
-      s += `<g class="dl-series dl-ghost dl-${ser.hue}" aria-hidden="true"><path class="dl-line" d="${d}"/></g>`;
-    }
-  }
-  s += `<text class="dl-axlbl" x="${((L + R) / 2).toFixed(0)}" y="${B + 46}" text-anchor="middle">time from submit to completion, p50, in ms (log scale)</text>`;
-  for (const ser of set.series) {
-    const d = ser.points.map((p, i) => `${i ? 'L' : 'M'}${x(p.ms).toFixed(1)},${y(p.mb).toFixed(1)}`).join(' ');
-    s += `<g class="dl-series dl-${ser.hue}"><path class="dl-outline" d="${d}"/><path class="dl-line" d="${d}"/>`;
-    for (const p of ser.points) {
-      const off = p.ms < XMIN;
-      s += `<circle class="dl-dot${off ? ' dl-dot--off' : ''}" cx="${x(p.ms).toFixed(1)}" cy="${y(p.mb).toFixed(1)}" r="3.5"/>`;
-      s += `<circle class="dl-hit" cx="${x(p.ms).toFixed(1)}" cy="${y(p.mb).toFixed(1)}" r="10" tabindex="0" role="button"`
-        + ` aria-label="${ser.name}, ${p.label}, ${p.mb} MB/s at ${off ? 'under 0.1' : p.ms} ms">`
-        + `<title>${ser.name} ${p.label}: ${p.mb} MB/s at ${off ? '&lt;0.1' : p.ms} ms</title></circle>`;
-    }
-    s += '</g>';
-  }
-  for (const n of (variant === 'm' ? set.mobileNotes : set.notes)) {
-    const cls = n.hue ? `dl-callout dl-${n.hue}` : 'dl-callout';
-    n.lines.forEach((line, i) => {
-      s += `<text class="${cls}${i ? ' dl-callout--cont' : ''}" x="${x(n.ms).toFixed(1)}" y="${(y(n.mb) + i * 17).toFixed(1)}"`
-        + `${n.anchor ? ` text-anchor="${n.anchor}"` : ''}>${line}</text>`;
-    });
-  }
-  set.series.forEach((ser, i) => {
-    const lx = variant === 'm' ? L - 20 : L + i * g.legendGap;
-    const ly = variant === 'm' ? g.legendY + i * g.legendStep : g.legendY;
-    s += `<g class="dl-series dl-${ser.hue}">`
-      + `<line class="dl-outline" x1="${lx}" y1="${ly - 5}" x2="${lx + 26}" y2="${ly - 5}"/>`
-      + `<line class="dl-line" x1="${lx}" y1="${ly - 5}" x2="${lx + 26}" y2="${ly - 5}"/>`
-      + `</g><text class="dl-legend" x="${lx + 34}" y="${ly}">${ser.name}</text>`;
-  });
-  return s;
+const lg = Math.log10;
+const fx = (v) => PLOT.x + ((lg(v) - lg(XD[0])) / (lg(XD[1]) - lg(XD[0]))) * PLOT.w;
+const fy = (v) => PLOT.y + PLOT.h - ((lg(v) - lg(YD[0])) / (lg(YD[1]) - lg(YD[0]))) * PLOT.h;
+
+function el(name, attrs, parent, text) {
+  const node = document.createElementNS(NS, name);
+  for (const k in attrs) node.setAttribute(k, attrs[k]);
+  if (text != null) node.textContent = text;
+  if (parent) parent.appendChild(node);
+  return node;
 }
 
-export function svg(setKey, variant) {
-  const g = GEO[variant];
-  return `<svg class="qi-svg qi-dl__${variant}" viewBox="0 0 ${g.w} ${g.h}" role="img" aria-label="${LABEL[setKey]}">${drawing(setKey, variant)}</svg>`;
+/* Points nothing else beats on both axes: no other point is faster AND wider. */
+function frontier(set) {
+  const all = [];
+  set.series.forEach((s) => s.points.forEach((p) => all.push({ ...p, hue: s.hue, name: s.name })));
+  const keep = all.filter((p) => !all.some((q) => q !== p && q.ms <= p.ms && q.mb >= p.mb && (q.ms < p.ms || q.mb > p.mb)));
+  return keep.sort((a, b) => a.ms - b.ms);
 }
-
-export const body = variant => drawing('rand', variant);
 
 export function mount(node) {
-  node.classList.add('qi-dl');
+  node.classList.add('qi-pf');
+
   node.innerHTML = [
     '<div class="qi-fig">',
     '  <div class="qi-controls">',
     '    <div class="qi-group" role="group" aria-label="Read pattern">',
-    Object.entries(SETS).map(([k, v]) =>
-      `<button type="button" class="qi-chip qi-dl__btn" data-mode="${k}" aria-pressed="${k === 'rand'}">${v.label}</button>`).join(''),
+    ['rand', 'seq'].map((k, i) => `<button type="button" class="qi-chip qi-pf__p" data-p="${k}" aria-pressed="${i === 0}">${SETS[k].label}</button>`).join(''),
     '    </div>',
     '  </div>',
-    svg('rand', 'd'),
-    svg('rand', 'm'),
+    `  <svg class="qi-svg qi-pf__svg" viewBox="0 0 ${VB.w} ${VB.h}" role="img" aria-label="${LABEL.rand}"></svg>`,
+    '  <p class="qi-status qi-pf__status" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');
 
-  const btns = [...node.querySelectorAll('.qi-dl__btn')];
-  const figures = { d: node.querySelector('.qi-dl__d'), m: node.querySelector('.qi-dl__m') };
-  const setMode = (key) => {
-    btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === key)));
-    for (const v of ['d', 'm']) {
-      figures[v].innerHTML = drawing(key, v);
-      figures[v].setAttribute('aria-label', LABEL[key]);
+  const svg = node.querySelector('.qi-pf__svg');
+  const statusEl = node.querySelector('.qi-pf__status');
+  let pattern = 'rand';
+
+  const title = el('text', { class: 'qi-label qi-label--strong', x: 0, y: 14 }, svg);
+
+  // Grid and axes, fixed across views.
+  YT.forEach((t) => {
+    el('line', { class: 'qi-pf__grid', x1: PLOT.x, x2: PLOT.x + PLOT.w, y1: fy(t), y2: fy(t) }, svg);
+    el('text', { class: 'qi-label', x: PLOT.x - 8, y: fy(t) + 4, 'text-anchor': 'end' }, svg, String(t));
+  });
+  XT.forEach((t) => {
+    el('line', { class: 'qi-pf__grid', x1: fx(t), x2: fx(t), y1: PLOT.y, y2: PLOT.y + PLOT.h }, svg);
+    el('text', { class: 'qi-label', x: fx(t), y: PLOT.y + PLOT.h + 18, 'text-anchor': 'middle' }, svg, String(t));
+  });
+  el('line', { class: 'qi-axis', x1: PLOT.x, x2: PLOT.x + PLOT.w, y1: PLOT.y + PLOT.h, y2: PLOT.y + PLOT.h }, svg);
+  el('text', { class: 'qi-label', x: PLOT.x + PLOT.w / 2, y: PLOT.y + PLOT.h + 40, 'text-anchor': 'middle' }, svg,
+    'wait per read, p50 in ms (log scale)');
+
+  const front = el('g', { class: 'qi-pf__front' }, svg);
+  const lines = el('g', { class: 'qi-pf__lines' }, svg);
+  const dots = el('g', { class: 'qi-pf__dots' }, svg);
+
+  function render() {
+    const set = SETS[pattern];
+    title.textContent = set.title;
+    svg.setAttribute('aria-label', LABEL[pattern]);
+    front.replaceChildren(); lines.replaceChildren(); dots.replaceChildren();
+
+    // The frontier wedge: a staircase from the top left down to the fastest point.
+    const f = frontier(set);
+    if (f.length) {
+      const steps = [];
+      f.forEach((p, i) => { if (i) steps.push(`L${fx(p.ms)},${fy(f[i - 1].mb)}`); steps.push(`${i ? 'L' : 'M'}${fx(p.ms)},${fy(p.mb)}`); });
+      el('path', { class: 'qi-pf__step', d: steps.join(' ') }, front);
+      const mid = f[f.length > 2 ? 1 : 0];
+      const right = f.length < 2 || fx(mid.ms) < PLOT.x + 120;
+      el('text', {
+        class: 'qi-pf__tag',
+        x: fx(mid.ms) + (right ? 14 : -12),
+        y: fy(mid.mb) + 4,
+        'text-anchor': right ? 'start' : 'end',
+      }, front, f.length < 2 ? 'frontier: one point' : 'frontier');
     }
-  };
-  btns.forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+
+    set.series.forEach((s) => {
+      const pts = s.points;
+      el('polyline', { class: `qi-pf__line qi-pf__h${s.hue}`, points: pts.map((p) => `${fx(p.ms)},${fy(p.mb)}`).join(' ') }, lines);
+      const anchor = pts[Math.min(s.nameAt ?? pts.length - 1, pts.length - 1)];
+      const np = s.namePlace || 'up';
+      el('text', {
+        class: `qi-pf__series qi-pf__h${s.hue}`,
+        x: fx(anchor.ms) + (np === 'right' ? 12 : np === 'left' ? -12 : 0),
+        y: fy(anchor.mb) + (np === 'up' ? -14 : np === 'down' ? 24 : 5),
+        'text-anchor': np === 'right' ? 'start' : np === 'left' ? 'end' : 'middle',
+      }, dots, s.name);
+      pts.forEach((p) => {
+        const g = el('g', { class: `qi-pf__pt qi-pf__h${s.hue}`, transform: `translate(${fx(p.ms)},${fy(p.mb)})` }, dots);
+        el('title', {}, g, `${s.name} ${p.label || ''} ${p.mb} MB/s, ${p.ms} ms`);
+        el('circle', { class: p.stub ? 'is-stub' : '', r: p.label ? R : R - 1.8 }, g);
+        if (p.label) {
+          const at = p.place;
+          el('text', {
+            class: 'qi-pf__name',
+            x: at === 'left' ? -(R + 6) : at === 'right' ? R + 6 : 0,
+            y: at === 'up' ? -(R + 7) : at === 'down' ? R + 16 : 4,
+            'text-anchor': at === 'left' ? 'end' : at === 'right' ? 'start' : 'middle',
+          }, g, p.label);
+        }
+      });
+    });
+
+    statusEl.innerHTML = set.note;
+    node.querySelectorAll('.qi-pf__p').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.p === pattern)));
+  }
+
+  node.addEventListener('click', (e) => {
+    const b = e.target.closest('.qi-pf__p');
+    if (b) { pattern = b.dataset.p; render(); }
+  });
+
+  render();
   node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
 }

@@ -221,10 +221,10 @@ Each point below is one configuration: 4 KiB reads on a 4-core Xeon 8375C in us-
 
 {{< island
     path="content/articles/headless/universal-io/depth-latency"
-    width="760" ratio="760 / 372"
-    title="Latency is p50 from submitting a read to its completion, so past a backend's pipeline depth it includes queueing. Switch to sequential to see what the kernel's readahead does. The faded line is the same reads in random order. Latency and bandwidth were measured in separate runs."
+    width="760" ratio="760 / 448"
+    title="Up and left is better: more MB/s for less wait. The dashed staircase is the frontier, the settings nothing else beats on both axes. Latency is p50 from submitting a read to its completion, so past a backend's pipeline depth it includes queueing."
 >}}
-![Bandwidth against latency for three read backends on log scales. io_uring climbs almost straight up, from 7.15 to 85.66 MB/s while latency stays near 0.6 ms, then bends right. mmap runs flat at about 7.2 MB/s whatever the batch. S3 climbs straight up at about 24 ms, from 0.17 to 11.3 MB/s as the readers go from 1 to 128.](/articles_data/universal-io/uio-depth-latency.svg)
+![Bandwidth against latency for three read backends on log scales, random reads. The frontier is made entirely of io_uring points, which climb from 7.15 MB/s at batch 1 to 85.66 at batch 16 while the wait stays near 0.6 ms. mmap runs flat at about 7.2 MB/s whatever the batch, moving only to the right. S3 sits near 24 ms, climbing from 0.17 MB/s with one reader to 11.3 with 128.](/articles_data/universal-io/uio-depth-latency.svg)
 {{< /island >}}
 
 `io_uring` goes up. Each doubling of the batch doubles the bandwidth and barely moves latency. Bandwidth runs from 7.15 MB/s at batch 1 to 85.66 MB/s at batch 16. Latency rises 9% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 buys 29% more bandwidth, and latency pays for it by rising to 9.4 ms.
@@ -236,6 +236,16 @@ S3 goes up too, starting 43 times further right. One read takes about 24 ms, and
 Read in order and depth stops mattering. Opened with `MADV_SEQUENTIAL`, `mmap` reached 117 MB/s against 7.2 MB/s in random order. The batch changed nothing, from 115 MB/s at batch 1 to 119 MB/s at batch 256. The kernel reads ahead, so most reads never reach the disk.
 
 The backend still matters, though. `io_uring` managed 215 MB/s on the same reads, because bulk reads keep the device busier than page faults do. Object storage gains nothing from order, as expected, because nothing reads ahead across network requests. A read costs about 23 ms either way. Up to 64 readers, the two lines stay within 11% of each other.
+
+The same six settings as bars, so you can read the numbers off directly. Switch the measure to see what the depth costs in latency.
+
+{{< island
+    path="content/articles/headless/universal-io/depth-bars"
+    width="760" ratio="760 / 339"
+    title="Each backend at its shallowest and deepest measured setting. The chips swap the measure, so the bars stay in place and only their lengths change."
+>}}
+![Bar chart of three read backends at their shallowest and deepest setting, random reads. io_uring goes from 7.15 MB/s at batch 1 to 85.66 at batch 16. mmap delivers 7.2 MB/s at both batch 1 and batch 256, but latency rises from 0.55 ms to 71 ms. S3 goes from 0.17 MB/s with one reader to 11.32 with 128, at about 24 ms throughout.](/articles_data/universal-io/uio-depth-bars.svg)
+{{< /island >}}
 
 Depth also only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 24 ms on object storage, however deep the pipeline is.
 

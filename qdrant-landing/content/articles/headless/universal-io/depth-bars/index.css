@@ -1,0 +1,36 @@
+/* depth-latency island. Controls, chips and labels come from islands.scss. */
+.qi-dl { display: block; }
+
+.qi-dl__track { fill: var(--qi-border); opacity: 0.35; }
+
+.qi-dl__bar { transition: width 0.4s ease; }
+.qi-dl__row--h1 .qi-dl__bar { fill: var(--qi-cat-3); }
+.qi-dl__row--h2 .qi-dl__bar { fill: var(--qi-cat-2); }
+.qi-dl__row--h3 .qi-dl__bar { fill: var(--qi-cat-1); }
+.qi-dl__row:not(.is-deep) .qi-dl__bar { opacity: 0.45; }
+
+.qi-dl__name {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 12.5px;
+}
+.qi-dl__row.is-deep .qi-dl__name { font-weight: 600; }
+
+.qi-dl__val {
+  fill: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.qi-dl p.qi-dl__status {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  font-style: italic;
+  min-height: calc(3 * 1.45em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-dl__bar { transition: none; }
+}

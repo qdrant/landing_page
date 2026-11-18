@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 232" font-family="'Mona Sans',Arial,sans-serif" role="img" aria-label="Bar chart of three read backends at their shallowest and deepest setting, random reads. io_uring goes from 7.15 MB/s at batch 1 to 85.66 at batch 16 while latency stays near 0.6 ms. mmap delivers 7.2 MB/s at both batch 1 and batch 256, but latency rises from 0.55 ms to 71 ms. S3 goes from 0.17 MB/s with one reader to 11.32 with 128, at about 24 ms throughout."><style>
+  .qi-label{fill:#656b7f;font-size:13px;font-family:'Mona Sans',Arial,sans-serif}
+  .qi-label--strong{fill:#303547;font-size:14px}
+  .qi-axis{stroke:#656b7f;stroke-width:1.5;fill:none}
+  .qi-pf__grid{stroke:#abb1c7;stroke-width:1;opacity:.55}
+  .qi-pf__step{fill:none;stroke:#656b7f;stroke-width:1.5;stroke-dasharray:5 4;opacity:.8}
+  .qi-pf__tag{fill:#656b7f;font-size:11px;letter-spacing:.04em}
+  .qi-pf__line{fill:none;stroke-width:2;opacity:.55;stroke-linejoin:round}
+  .qi-pf__h1{stroke:#00838f}.qi-pf__h2{stroke:#6047ff}.qi-pf__h3{stroke:#dc244c}
+  .qi-pf__pt circle{stroke:#f0f3fa;stroke-width:2}
+  .qi-pf__h1 circle{fill:#00838f}.qi-pf__h2 circle{fill:#6047ff}.qi-pf__h3 circle{fill:#dc244c}
+  .qi-pf__pt circle.is-stub{fill:#f0f3fa;stroke-width:2.5}
+  .qi-pf__h1 circle.is-stub{stroke:#00838f}.qi-pf__h2 circle.is-stub{stroke:#6047ff}.qi-pf__h3 circle.is-stub{stroke:#dc244c}
+  .qi-pf__name{fill:#303547;font-size:11.5px;paint-order:stroke;stroke:#f0f3fa;stroke-width:3px}
+  .qi-pf__series{font-size:13px;font-weight:700;paint-order:stroke;stroke:#f0f3fa;stroke-width:3.5px}
+  .qi-pf__series.qi-pf__h1{fill:#00838f;stroke:#f0f3fa}
+  .qi-pf__series.qi-pf__h2{fill:#6047ff;stroke:#f0f3fa}
+  .qi-pf__series.qi-pf__h3{fill:#dc244c;stroke:#f0f3fa}
+  .qi-dl__bar{}.qi-dl__row--h1 .qi-dl__bar{fill:#00838f}.qi-dl__row--h2 .qi-dl__bar{fill:#6047ff}
+  .qi-dl__row--h3 .qi-dl__bar{fill:#dc244c}
+  .qi-dl__row:not(.is-deep) .qi-dl__bar{opacity:.45}
+  .qi-dl__name{fill:#303547;font-size:12.5px}
+  .qi-dl__row.is-deep .qi-dl__name{font-weight:600}
+  .qi-dl__val{fill:#303547;font-size:12.5px;font-weight:600}
+</style><rect width="520" height="232" fill="#f0f3fa"/><text class="qi-label qi-label--strong" x="0" y="14">MB/s delivered, 4 KiB reads</text><g class="qi-dl__row qi-dl__row--h1"><text class="qi-dl__name" x="150" y="48" text-anchor="end">mmap · batch 1</text><rect class="qi-dl__bar" x="162" y="36" width="20.90310530002335" height="16" rx="3"></rect><text class="qi-dl__val" y="48" x="190.90310530002336">7.22 MB/s</text></g><g class="qi-dl__row qi-dl__row--h1 is-deep"><text class="qi-dl__name" x="150" y="76" text-anchor="end">mmap · batch 256</text><rect class="qi-dl__bar" x="162" y="64" width="20.90310530002335" height="16" rx="3"></rect><text class="qi-dl__val" y="76" x="190.90310530002336">7.22 MB/s</text></g><g class="qi-dl__row qi-dl__row--h2"><text class="qi-dl__name" x="150" y="112" text-anchor="end">io_uring · batch 1</text><rect class="qi-dl__bar" x="162" y="100" width="20.70044361428905" height="16" rx="3"></rect><text class="qi-dl__val" y="112" x="190.70044361428904">7.15 MB/s</text></g><g class="qi-dl__row qi-dl__row--h2 is-deep"><text class="qi-dl__name" x="150" y="140" text-anchor="end">io_uring · batch 16</text><rect class="qi-dl__bar" x="162" y="128" width="248" height="16" rx="3"></rect><text class="qi-dl__val" y="140" x="418">85.66 MB/s</text></g><g class="qi-dl__row qi-dl__row--h3"><text class="qi-dl__name" x="150" y="176" text-anchor="end">S3 · 1 reader</text><rect class="qi-dl__bar" x="162" y="164" width="2" height="16" rx="3"></rect><text class="qi-dl__val" y="176" x="172">0.17 MB/s</text></g><g class="qi-dl__row qi-dl__row--h3 is-deep"><text class="qi-dl__name" x="150" y="204" text-anchor="end">S3 · 128 readers</text><rect class="qi-dl__bar" x="162" y="192" width="32.77328975017512" height="16" rx="3"></rect><text class="qi-dl__val" y="204" x="202.7732897501751">11.32 MB/s</text></g></svg>
