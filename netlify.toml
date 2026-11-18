@@ -42,9 +42,27 @@ HUGO_PARAMS_onetrustScriptId = "0196246a-3663-7350-9a45-b65f645d6314"
     [headers.values]
         Access-Control-Allow-Origin = "*"
 
+[[headers]]
+    for = "/.well-known/ai-catalog.json"
+    [headers.values]
+        Content-Type = "application/ai-catalog+json"
+        Access-Control-Allow-Origin = "*"
+
 [[redirects]]
     from = "/.well-known/llms.txt"
     to = "/llms.txt"
+    status = 200
+    force = true
+
+[[redirects]]
+    from = "/.well-known/mcp/server-card.json"
+    to = "https://api.cloud.qdrant.io/mcp/server-card"
+    status = 200
+    force = true
+
+[[redirects]]
+    from = "/.well-known/mcp.json"
+    to = "https://api.cloud.qdrant.io/mcp/server-card"
     status = 200
     force = true
 
