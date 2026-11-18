@@ -26,7 +26,7 @@ cards:
     title: Network Isolation and Private Connectivity
     description: Connect your Qdrant Managed Cloud cluster to your VPC using private links, so traffic between your application and the cluster travels over your private network. Private link connectivity is available to Premium customers.
     link:
-      url: /documentation/cloud-pricing-payments/cloud-premium/
+      url: /documentation/cloud-premium/
       text: Learn About Private Connectivity
   - id: 3
     icon:

@@ -7,7 +7,7 @@ weight: 5
 
 # Creating a Qdrant Cloud Cluster
 
-Qdrant Cloud offers two types of clusters: **Free** and **Standard**. [Premium](/documentation/cloud-pricing-payments/cloud-premium/) customers create Standard clusters with additional options.
+Qdrant Cloud offers two types of clusters: **Free** and **Standard**. [Premium](/documentation/cloud-premium/) customers create Standard clusters with additional options.
 
 ## Free Clusters
 

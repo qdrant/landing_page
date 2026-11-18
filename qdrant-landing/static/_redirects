@@ -352,14 +352,11 @@
 /documentation/cloud-tools/*             /documentation/cloud-automation/:splat  301!
 /documentation/cloud-tools               /documentation/cloud-automation/  301!
 
-# Deploy tab reorganization: User Profile, Premium Tier, and Cloud Security moved into the Account,
-# Billing, and Cloud Security groups (Cloud Security is now Security and Compliance under cloud-rbac/)
+# Deploy tab reorganization: User Profile and Cloud Security moved into the Account
+# and Cloud Security groups (Cloud Security is now Security and Compliance under cloud-rbac/)
 /documentation/cloud-security.md      /documentation/cloud-rbac/cloud-security.md  301!
 /documentation/cloud-security/*       /documentation/cloud-rbac/cloud-security/:splat  301!
 /documentation/cloud-security         /documentation/cloud-rbac/cloud-security/  301!
 /documentation/cloud-user-profile.md  /documentation/cloud-account-setup/user-profile.md  301!
 /documentation/cloud-user-profile/*   /documentation/cloud-account-setup/user-profile/:splat  301!
 /documentation/cloud-user-profile     /documentation/cloud-account-setup/user-profile/  301!
-/documentation/cloud-premium.md       /documentation/cloud-pricing-payments/cloud-premium.md  301!
-/documentation/cloud-premium/*        /documentation/cloud-pricing-payments/cloud-premium/:splat  301!
-/documentation/cloud-premium          /documentation/cloud-pricing-payments/cloud-premium/  301!

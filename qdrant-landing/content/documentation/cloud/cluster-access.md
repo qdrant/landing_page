@@ -59,7 +59,7 @@ The Overview tab also contains direct links to explore Qdrant tutorials and samp
 
 By default, any client that holds a valid key can connect from any network. To allow only trusted networks, set **Client IP Restrictions** in the cluster configuration on the Cluster Detail page. Only the ranges you list can reach the cluster. See [Client IP Restrictions](/documentation/cloud/configure-cluster/#client-ip-restrictions) for the setting.
 
-For traffic that never crosses the public internet, Premium clusters support [private network connectivity](/documentation/cloud-pricing-payments/cloud-premium/#private-network-connectivity).
+For traffic that never crosses the public internet, Premium clusters support [private network connectivity](/documentation/cloud-premium/#private-network-connectivity).
 
 ## Troubleshooting Connections
 

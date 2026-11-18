@@ -127,7 +127,7 @@ tabs:
           alt: Git branch
         title: Multi-AZ Replication
         description: Up to 99.95% SLA. Three availability zones with automatic failover.
-        link: /documentation/cloud-pricing-payments/cloud-premium/
+        link: /documentation/cloud-premium/
       - id: 2
         icon:
           src: /icons/outline/database-purple.svg
@@ -181,7 +181,7 @@ tabs:
           alt: Waypoints
         title: Private VPC Links
         description: On Premium, traffic stays on private networks over AWS PrivateLink, GCP Private Service Connect, or Azure Private Link.
-        link: /documentation/cloud-pricing-payments/cloud-premium/
+        link: /documentation/cloud-premium/
       - id: 4
         icon:
           src: /icons/outline/list-filter-turquoise.svg

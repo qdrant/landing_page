@@ -35,7 +35,7 @@ For who is responsible for what in each model, see [Shared Responsibility](/docu
 | Uptime SLA | Not included | 99.5% | 99.9%, or 99.95% for multi-AZ |
 | Support | Best effort | Business hours | 24/7 for Severity 1 and 2 issues |
 
-See [Create a Cluster](/documentation/cloud/create-cluster/) for the free tier limits and [Premium Tier](/documentation/cloud-pricing-payments/cloud-premium/) for the full comparison. Billing is usage-based on CPU, memory, and disk. See [Billing & Payments](/documentation/cloud-pricing-payments/).
+See [Create a Cluster](/documentation/cloud/create-cluster/) for the free tier limits and [Premium Tier](/documentation/cloud-premium/) for the full comparison. Billing is usage-based on CPU, memory, and disk. See [Billing & Payments](/documentation/cloud-pricing-payments/).
 
 ## What Each Cluster Includes
 

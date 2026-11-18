@@ -13,7 +13,7 @@ cards:
       text: Explore Cluster Isolation
   - id: 1
     title: Encryption in Transit, at Rest
-    description: Data protected in transit with TLS and storage volumes encrypted at rest. <a href="/documentation/cloud-pricing-payments/cloud-premium/">Premium</a> customers can encrypt their data at rest using their own keys.
+    description: Data protected in transit with TLS and storage volumes encrypted at rest. <a href="/documentation/cloud-premium/">Premium</a> customers can encrypt their data at rest using their own keys.
     icon:
       src: /icons/outline/lock-keyhole-blue.svg
       alt: Lock
