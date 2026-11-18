@@ -42,17 +42,17 @@ The standalone viewer also supports capture and raw-output inspection:
 
 ```sh
 npx --yes http-server@14.1.1 \
-  qdrant-landing/static/guides_data/chunking/media-demo -a 127.0.0.1 -p 8739 -c-1
+  qdrant-landing/static -a 127.0.0.1 -p 8739 -c-1
 ```
 
 This server supports HTTP Range requests, which browser media seeking needs.
-Open `http://127.0.0.1:8739/`. Select Video or Audio, then select a chunk to
+Open `http://127.0.0.1:8739/guides_data/chunking/media-demo/`. Select Video or Audio, then select a chunk to
 play its source interval. The Capture view link opens the selected result
 without playback controls. Direct capture URLs:
 
-- `/?view=video&capture=1&chunk=v04`
-- `/?view=audio&capture=1&chunk=a04`
-- `/?view=audio&capture=1&chunk=a02,a03` to inspect the incomplete phrase split.
+- `/guides_data/chunking/media-demo/?view=video&capture=1&chunk=v04`
+- `/guides_data/chunking/media-demo/?view=audio&capture=1&chunk=a04`
+- `/guides_data/chunking/media-demo/?view=audio&capture=1&chunk=a02,a03` to inspect the incomplete phrase split.
 
 Capture views are optional exports. The guide renders interactive media rather
 than embedding screenshots of this viewer.

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Video and audio chunking: actual results</title>
   <meta name="description" content="Inspect actual frame windows, speech chunks, and timestamps from a reproducible media processing run.">
-  <link rel="stylesheet" href="viewer.css">
-  <script src="viewer.js" type="module"></script>
+  <link rel="stylesheet" href="/guides_data/chunking/media-demo/viewer.css">
+  <script src="/guides_data/chunking/media-demo/viewer.js" type="module"></script>
 </head>
 <body>
   <main class="demo" aria-busy="true">
@@ -30,8 +30,8 @@
         <h2 id="video-heading" class="sr-only">Video frame windows</h2>
         <div class="player-area">
           <video id="video-player" controls preload="metadata" playsinline aria-label="Source video">
-            <source src="source.mp4" type="video/mp4">
-            <p>Your browser cannot play this video. <a href="source.mp4">Download the source video</a>.</p>
+            <source src="/guides_data/chunking/media-demo/source.mp4" type="video/mp4">
+            <p>Your browser cannot play this video. <a href="/guides_data/chunking/media-demo/source.mp4">Download the source video</a>.</p>
           </video>
           <p class="player-help">Select a window to play its interval.</p>
         </div>
@@ -42,8 +42,8 @@
         <h2 id="audio-heading" class="sr-only">Audio transcript chunks</h2>
         <div class="player-area">
           <audio id="audio-player" controls preload="metadata" aria-label="Extracted audio">
-            <source src="audio.m4a" type="audio/mp4">
-            <p>Your browser cannot play this audio. <a href="audio.m4a">Download the audio</a>.</p>
+            <source src="/guides_data/chunking/media-demo/audio.m4a" type="audio/mp4">
+            <p>Your browser cannot play this audio. <a href="/guides_data/chunking/media-demo/audio.m4a">Download the audio</a>.</p>
           </audio>
           <p class="player-help">Select a transcript chunk to play its interval.</p>
         </div>
@@ -68,8 +68,8 @@
         <p id="source-license"></p>
         <p id="run-date" class="run-date"></p>
         <div class="artifact-links">
-          <a href="results.json" download>Download results JSON</a>
-          <a href="transcript.raw.json" download>Download raw ASR JSON</a>
+          <a href="/guides_data/chunking/media-demo/results.json" download>Download results JSON</a>
+          <a href="/guides_data/chunking/media-demo/transcript.raw.json" download>Download raw ASR JSON</a>
           <a href="https://github.com/qdrant/landing_page/blob/codex/chunking-guide/qdrant-landing/content/documentation/headless/chunking/media-demo/run.py">Reproduction script</a>
           <a id="capture-link" href="?view=video&amp;capture=1">Capture view</a>
         </div>
@@ -82,7 +82,7 @@
         </details>
       </footer>
     </div>
-    <noscript>This viewer needs JavaScript to read the computed results. <a href="results.json">Download the results JSON</a> to inspect them directly.</noscript>
+    <noscript>This viewer needs JavaScript to read the computed results. <a href="/guides_data/chunking/media-demo/results.json">Download the results JSON</a> to inspect them directly.</noscript>
   </main>
 </body>
 </html>
