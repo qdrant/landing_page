@@ -17,7 +17,11 @@ keywords:
 category: qdrant-internals
 ---
 
-All of Qdrant's on-disk data structures (vectors, HNSW graphs, and payload indexes) went through `mmap`, which assumes that an actual disk sits underneath. Then came [serverless mode](https://qdrant.tech/serverless/), where the data sits in object storage instead of on a disk next to the process, and the difference in cost is large. On our test box a cold `mmap` read took 568 µs from an EBS gp3 volume, whereas the same read against a same-region S3 bucket took 24.3 ms, 43 times slower. It also exposes the read to failure modes that disk reads don't have. Faster local storage widens that gap, and so does distance, since the same read against a bucket in another region took 131 ms.
+Qdrant reads all its on-disk data through `mmap`: vectors, HNSW graphs and payload indexes. `mmap` assumes a real disk sits underneath.
+
+In [serverless mode](https://qdrant.tech/serverless/) there is no disk. The data lives in object storage, and the same read gets much slower.
+
+On our test box a cold `mmap` read of an EBS gp3 volume took 568 µs. From a same-region S3 bucket it took 24.3 ms, 43 times slower. From another region, 131 ms. Faster local storage only widens the gap, and a network read can fail in ways a disk read cannot.
 
 One option was to re-implement every one of those interactions against object storage, but that would have meant maintaining two versions of the same logic, which tend to drift apart over time. Every data structure would also have needed to switch between the two versions, which could change the behavior of the local path that already worked well. 
 
