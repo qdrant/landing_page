@@ -1,6 +1,6 @@
 ---
 draft: false
-title: "Universal I/O: one interface for mmap, io_uring and S3"
+title: "Universal I/O: single interface for mmap, io_uring and S3"
 short_description: "How Qdrant talks to different storage backends through a unified I/O interface"
 description: "A deep dive into Qdrant's Universal I/O, which allows consumer code to interact with different storage backends (mmap, io_uring, network-backed) through a unified interface"
 social_preview_image: /articles_data/universal-io/preview/social_preview.jpg
