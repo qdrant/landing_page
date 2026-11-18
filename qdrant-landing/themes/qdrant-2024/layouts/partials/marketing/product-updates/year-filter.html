@@ -1,0 +1,19 @@
+{{- /* Year filter for the changelog. Expects (dict "items" <slice of maps with a date key>). The newest year is preselected. Behavior in js/product-updates.js. */ -}}
+{{- $years := slice -}}
+{{- range .items }}{{ $year := (time.AsTime .date).Year }}{{ if not (in $years $year) }}{{ $years = $years | append $year }}{{ end }}{{ end -}}
+{{- $years = sort $years "value" "desc" -}}
+<div class="product-filter" role="group" aria-label="Filter by year" data-year-filter>
+  {{ range $i, $year := $years }}
+    {{ $count := 0 }}
+    {{ range $.items }}{{ if eq (time.AsTime .date).Year $year }}{{ $count = add $count 1 }}{{ end }}{{ end }}
+    <button
+      type="button"
+      class="product-filter__option{{ if eq $i 0 }} product-filter__option--active{{ end }}"
+      data-year-option="{{ $year }}"
+      aria-pressed="{{ eq $i 0 }}"
+    >
+      {{ $year }}
+      <span class="product-filter__count" data-option-count>{{ $count }}</span>
+    </button>
+  {{ end }}
+</div>

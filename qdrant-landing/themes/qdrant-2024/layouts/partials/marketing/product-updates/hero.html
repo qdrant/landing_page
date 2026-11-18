@@ -1,0 +1,12 @@
+{{ with .Params.hero }}
+  <section class="product-updates-hero">
+    <div class="product-updates-hero__overlay" aria-hidden="true"></div>
+    <div class="container">
+      <div class="product-updates-hero__container">
+        <p class="product-updates-hero__label">{{ .label }}</p>
+        <h1 class="product-updates-hero__title">{{ .title }}</h1>
+        <p class="product-updates-hero__description">{{ .description }}</p>
+      </div>
+    </div>
+  </section>
+{{ end }}

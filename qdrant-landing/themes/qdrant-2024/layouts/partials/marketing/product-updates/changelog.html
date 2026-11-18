@@ -1,0 +1,84 @@
+{{ $entries := sort .Params.entries "date" "desc" }}
+{{ $months := slice }}
+{{ range $entries }}
+  {{ $month := (time.AsTime .date).Format "January 2006" }}
+  {{ if not (in $months $month) }}{{ $months = $months | append $month }}{{ end }}
+{{ end }}
+<section class="changelog">
+  <div class="container">
+    <div class="product-updates-toolbar">
+      {{ partial "marketing/product-updates/filter" (dict "items" $entries) }}
+      {{ partial "marketing/product-updates/year-filter" (dict "items" $entries) }}
+    </div>
+
+    <p class="product-updates-empty" data-filter-empty hidden>No releases for this product in this year.</p>
+
+    <div class="changelog__timeline">
+      {{ range $month := $months }}
+        <div class="changelog__month" data-product-group>
+          <h2 class="changelog__month-title">{{ $month }}</h2>
+          {{ range $entries }}
+            {{ $date := time.AsTime .date }}
+            {{ if eq ($date.Format "January 2006") $month }}
+              {{ $kind := .kind | default (cond (strings.HasSuffix .version ".0") "release" "patch") }}
+              <article
+                class="changelog-entry changelog-entry--{{ .product }} changelog-entry--{{ $kind }}"
+                id="{{ .product }}-{{ .version | urlize }}"
+                data-product-item="{{ .product }}"
+                data-year="{{ $date.Year }}"
+              >
+                <time class="changelog-entry__date" datetime="{{ $date.Format "2006-01-02" }}">{{ $date.Format "Jan 2" }}</time>
+                <span class="changelog-entry__marker" aria-hidden="true"></span>
+                <div class="changelog-entry__card">
+                  <header class="changelog-entry__header">
+                    {{ partial "marketing/product-updates/product-tag" (dict "product" .product "edition" .edition) }}
+                    <h3 class="changelog-entry__version">{{ .version }}</h3>
+                    <span class="changelog-entry__kind">{{ if eq $kind "release" }}Release{{ else }}Patch{{ end }}</span>
+                  </header>
+                  {{ with .summary }}<p class="changelog-entry__summary">{{ . }}</p>{{ end }}
+                  {{ with .description }}<p class="changelog-entry__description">{{ . | markdownify }}</p>{{ end }}
+                  {{ with .highlights }}
+                    <ul class="changelog-entry__highlights">
+                      {{ range . }}<li>{{ . | markdownify }}</li>{{ end }}
+                    </ul>
+                  {{ end }}
+                  {{ if or .blog .url }}
+                    <div class="changelog-entry__links">
+                      {{ with .blog }}
+                        <a class="changelog-entry__link" href="{{ . }}">
+                          Read the release post <span aria-hidden="true">&rarr;</span>
+                        </a>
+                      {{ end }}
+                      {{ with .url }}
+                        <a
+                          class="changelog-entry__link"
+                          href="{{ . }}"
+                          {{ if strings.HasPrefix . "http" }}target="_blank" rel="noopener"{{ end }}
+                        >
+                          Full release notes <span aria-hidden="true">&rarr;</span>
+                        </a>
+                      {{ end }}
+                    </div>
+                  {{ end }}
+                </div>
+              </article>
+            {{ end }}
+          {{ end }}
+        </div>
+      {{ end }}
+    </div>
+
+    <div class="product-updates-cta">
+      <div class="product-updates-cta__text">
+        <h2 class="product-updates-cta__title">See What's Coming Next</h2>
+        <p class="product-updates-cta__description">
+          The roadmap shows what the Qdrant and Qdrant Cloud teams are building now and what they plan to build next.
+        </p>
+      </div>
+      <div class="product-updates-cta__buttons">
+        <a class="button button_contained button_md" href="/roadmap/">View the Roadmap</a>
+        <a class="button button_outlined button_md" href="https://github.com/qdrant/qdrant/releases" target="_blank" rel="noopener">GitHub Releases</a>
+      </div>
+    </div>
+  </div>
+</section>

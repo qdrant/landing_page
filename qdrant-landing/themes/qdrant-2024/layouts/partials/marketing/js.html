@@ -51,6 +51,11 @@
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
 {{ end }}
 
+{{ if in (slice "roadmap" "changelog") .Section }}
+  {{ $productUpdatesJs := resources.Get "marketing/js/product-updates.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $productUpdatesJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if in (slice "customers" "demo") .Section }}
   {{ $catalogFiltersJs := resources.Get "marketing/js/catalog-filters.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $catalogFiltersJs.RelPermalink }}"></script>

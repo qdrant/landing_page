@@ -1,0 +1,222 @@
+@use '../../helpers/functions' as *;
+
+.roadmap {
+  padding-bottom: $spacer * 5;
+  background: $neutral-10;
+
+  &__stage {
+    & + & {
+      margin-top: $spacer * 4;
+    }
+  }
+
+  &__stage-header {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacer;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__stage-indicator {
+    position: relative;
+    flex-shrink: 0;
+    width: pxToRem(14);
+    height: pxToRem(14);
+    margin-top: pxToRem(9);
+    border-radius: 50%;
+  }
+
+  &__stage--in-progress &__stage-indicator {
+    background: $success-70;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: $success-70;
+      animation: roadmap-pulse 2s ease-out infinite;
+    }
+  }
+
+  &__stage--planned &__stage-indicator {
+    border: pxToRem(2) dashed $neutral-60;
+  }
+
+  &__stage-title {
+    display: flex;
+    align-items: center;
+    gap: $spacer * 0.75;
+    margin-bottom: $spacer * 0.25;
+    font-size: $h6-font-size;
+    line-height: pxToRem(32);
+    color: $neutral-98;
+  }
+
+  &__stage-count {
+    padding: 0 pxToRem(8);
+    border-radius: $spacer;
+    background: $neutral-20;
+    font-family: $font-family-monospace;
+    font-size: $font-size-s;
+    font-weight: $font-weight-medium;
+    line-height: $line-height-sm;
+    color: $neutral-70;
+  }
+
+  &__stage-description {
+    margin-bottom: 0;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: $neutral-70;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacer;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $spacer * 7.5;
+
+    &__stage + &__stage {
+      margin-top: $spacer * 5;
+    }
+
+    &__stage-title {
+      font-size: $h5-font-size;
+      line-height: pxToRem(42);
+    }
+
+    &__stage-indicator {
+      margin-top: pxToRem(14);
+    }
+
+    &__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: $spacer * 1.5;
+    }
+  }
+}
+
+.roadmap-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: $spacer * 1.5;
+  border: pxToRem(1) solid $neutral-30;
+  border-radius: $spacer * 0.5;
+  background: $neutral-20;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+
+  &[hidden] {
+    display: none;
+  }
+
+  &:hover {
+    border-color: $neutral-50;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacer * 0.5;
+    margin-bottom: $spacer;
+  }
+
+  &__area {
+    font-family: $font-family-monospace;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    line-height: pxToRem(18);
+    color: $neutral-70;
+    text-transform: uppercase;
+    letter-spacing: pxToRem(0.5);
+  }
+
+  &__title {
+    margin-bottom: $spacer * 0.5;
+    font-size: $font-size-xl;
+    line-height: pxToRem(28);
+    color: $neutral-98;
+  }
+
+  &__description {
+    flex-grow: 1;
+    margin-bottom: 0;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: $neutral-80;
+  }
+
+  &__link {
+    display: inline-flex;
+    gap: pxToRem(6);
+    margin-top: $spacer;
+    font-size: $font-size-s;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-sm;
+    color: $neutral-98;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  // In progress: solid card with a product-colored top edge.
+  .roadmap__stage--in-progress & {
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: pxToRem(3);
+    }
+  }
+
+  // Planned: lighter, outlined card.
+  .roadmap__stage--planned & {
+    border-style: dashed;
+    background: rgba(22, 30, 51, 0.4);
+  }
+
+  @each $product, $colors in $product-updates-colors {
+    .roadmap__stage--in-progress &--#{$product}::before {
+      background: nth($colors, 1);
+    }
+  }
+}
+
+@keyframes roadmap-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roadmap__stage--in-progress .roadmap__stage-indicator::after {
+    animation: none;
+  }
+}
