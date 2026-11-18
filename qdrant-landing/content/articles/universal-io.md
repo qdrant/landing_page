@@ -219,7 +219,7 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 {{< chart id="universal-io/frontier" caption="Each dot is one configuration on a 4-core Xeon 8375C in us-west-2, page cache dropped before each run. Up and left is better: more MB/s for less wait. The dashed staircase is the frontier, the settings nothing else beats on both measures." caption2="The same two measures for reads in order. Local storage jumps to the top left, because the kernel reads ahead. Object storage does not move." >}}
 
-{{< chart id="universal-io/endpoints" caption="The shallowest and deepest setting measured for each backend, on random reads. Hover a bar for its number." caption2="The same two settings by what the caller waits. mmap pays 71 ms for the bandwidth it already had at batch 1." >}}
+{{< chart id="universal-io/endpoints" caption="One read at a time against the most each backend allows, on random reads." caption2="The same two settings by what the caller waits. mmap pays 71 ms for bandwidth it already had one read at a time." >}}
 
 `io_uring` turns depth into bandwidth. Each doubling of the batch doubles it, from 7.15 MB/s at batch 1 to 85.66 MB/s at batch 16. The wait rises 9% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 buys 29% more bandwidth, and the wait rises to 9.4 ms for it.
 

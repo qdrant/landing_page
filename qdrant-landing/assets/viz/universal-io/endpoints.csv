@@ -1,7 +1,7 @@
-backend,depth,mb,ms
-mmap,shallowest,7.22,0.55
-mmap,deepest,7.22,71.22
-io_uring,shallowest,7.15,0.56
-io_uring,deepest,85.66,0.61
-S3,shallowest,0.17,23.94
-S3,deepest,11.32,24.06
+backend,setting,mb,ms
+mmap,one read at a time,7.22,0.55
+mmap,256 at a time,7.22,71.22
+io_uring,one read at a time,7.15,0.56
+io_uring,16 at a time,85.66,0.61
+S3,one reader,0.17,23.94
+S3,128 readers,11.32,24.06
