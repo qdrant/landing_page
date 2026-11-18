@@ -45,8 +45,8 @@ What we needed instead was a single abstract interface (a `trait`, in Rust terms
 
 Because of this gap in cost, the design of the interface seemed to be limited to two approaches, and each with a clear downside:
 
-- **Make everything async.** This is a great fit for network storage, but a poor fit for `mmap` and for data that is already cached, because async isn't free in Rust. It needs a runtime, and the compiler optimizes async code poorly. On our test box a warm 8-byte read took 18 ns. The same read behind an `async fn` inside a Tokio runtime took 106 ns, and 281 ns when a blocking caller entered the runtime once per read. A 568 µs page fault swallows that overhead, but on cached data it is 6 to 15 times the read itself.
-- **Make everything blocking.** This suits the existing `mmap` code, but it is terrible for network requests, which took 43 times longer than a cold disk read, and 231 times longer from another region. When each request blocks until it finishes, that latency piles up quickly.
+- **Make everything async.** This is a great fit for network storage, but a poor fit for `mmap` and for data that is already cached, because async isn't free in Rust. It needs a runtime, and the compiler optimizes async code poorly. On our test box a warm 8-byte read took 18 ns. The same read inside a Tokio runtime took 106 ns. A 568 µs page fault swallows that extra cost. A cached read does not.
+- **Make everything blocking.** This suits the existing `mmap` code, but it is terrible for network requests. A same-region request took 43 times longer than a cold disk read. When each request blocks until it finishes, that wait piles up quickly.
 
 After a few iterations, we settled on a middle ground, a `ReadPipeline` abstraction modeled on `io_uring`, in which you schedule reads (like pushing to a submission queue) and then wait for results (like reading from a completion queue), while each backend implements the pipeline in the way that suits it best.
 
@@ -222,18 +222,20 @@ Each point below is one configuration: 4 KiB reads on a 4-core Xeon 8375C in us-
 {{< island
     path="content/articles/headless/universal-io/depth-latency"
     width="760" ratio="760 / 372"
-    title="Latency is p50 from submitting a read to its completion, so past a backend's pipeline depth it includes queueing. Switch to sequential to see what the kernel's readahead does, where the faded line is the same reads in random order. Latency and bandwidth were measured in separate runs."
+    title="Latency is p50 from submitting a read to its completion, so past a backend's pipeline depth it includes queueing. Switch to sequential to see what the kernel's readahead does. The faded line is the same reads in random order. Latency and bandwidth were measured in separate runs."
 >}}
 ![Bandwidth against latency for three read backends on log scales. io_uring climbs almost straight up, from 7.15 to 85.66 MB/s while latency stays near 0.6 ms, then bends right. mmap runs flat at about 7.2 MB/s whatever the batch. S3 climbs straight up at about 24 ms, from 0.17 to 11.3 MB/s as the readers go from 1 to 128.](/articles_data/universal-io/uio-depth-latency.svg)
 {{< /island >}}
 
-`io_uring` goes up. Each doubling of the batch doubles the bandwidth and leaves latency alone, from 7.15 MB/s at batch 1 to 85.66 MB/s at batch 16, for 9% more latency. Past 16 the ring is full and the extra reads only queue, so batch 512 buys another 29% and waits 9.4 ms for it, fifteen times longer.
+`io_uring` goes up. Each doubling of the batch doubles the bandwidth and barely moves latency. Bandwidth runs from 7.15 MB/s at batch 1 to 85.66 MB/s at batch 16. Latency rises 9% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 buys 29% more bandwidth, and latency pays for it by rising to 9.4 ms.
 
-`mmap` goes right. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency: 7.2 MB/s at every batch, and 71 ms per read at batch 256 against 0.55 ms at batch 1.
+`mmap` goes right. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency. Bandwidth sits at 7.2 MB/s whatever the batch. Latency grows instead, from 0.55 ms per read at batch 1 to 71 ms at batch 256.
 
 S3 goes up too, starting 43 times further right. One read takes about 24 ms, and adding readers does not change that. Bandwidth climbs from 0.17 MB/s with one reader to 11.3 MB/s with 128. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s.
 
-Read in order and depth stops mattering. Opened with `MADV_SEQUENTIAL`, `mmap` reached 117 MB/s against 7.2 MB/s random, and the batch changed nothing: 115 MB/s at batch 1, 119 MB/s at batch 256. The kernel reads ahead, so most reads never reach the disk. The backend still matters, though. `io_uring` managed 215 MB/s on the same reads, because bulk reads keep the device busier than page faults do. Object storage gains nothing from order, as expected, because nothing reads ahead across network requests. A read costs about 23 ms either way, and up to 64 readers the two lines stay within 11% of each other. Depth is what readahead replaces, and it earns its place where readahead cannot help.
+Read in order and depth stops mattering. Opened with `MADV_SEQUENTIAL`, `mmap` reached 117 MB/s against 7.2 MB/s in random order. The batch changed nothing, from 115 MB/s at batch 1 to 119 MB/s at batch 256. The kernel reads ahead, so most reads never reach the disk.
+
+The backend still matters, though. `io_uring` managed 215 MB/s on the same reads, because bulk reads keep the device busier than page faults do. Object storage gains nothing from order, as expected, because nothing reads ahead across network requests. A read costs about 23 ms either way. Up to 64 readers, the two lines stay within 11% of each other. Readahead does the job of depth, but only on a local disk read in order. On object storage there is no readahead, so depth is the only thing left.
 
 Depth also only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 24 ms on object storage, however deep the pipeline is.
 
@@ -241,6 +243,6 @@ Depth also only helps when there is more than one read to issue. One point by ID
 
 Universal I/O started with a narrow question, which was how to read the data structures we already have from storage that isn't a local disk, and the answer turned out to be less about any single backend and more about finding the right interface between them.
 
-With that interface in place, the storage backend really is hot-swappable: the same search code reads vectors from a local `mmap` file on a laptop and from S3 in serverless mode, and the local path keeps using `mmap`. It also costs that local path nothing we can measure, since a warm read through `UniversalRead::read` took 18.00 ns against 18.43 ns for the same read as a plain function call. The price on our side was having to create a complex set of interdependent traits to generalize the I/O interface, but we think it is a trade worth making, since every new backend can now plug into Qdrant without touching the data structures that use it.
+With that interface in place, the storage backend really is hot-swappable: the same search code reads vectors from a local `mmap` file on a laptop and from S3 in serverless mode. The local path keeps using `mmap`, and the interface costs it nothing we can measure. A warm read through `UniversalRead::read` took 18.00 ns, against 18.43 ns for the same read as a plain function call. The price on our side was having to create a complex set of interdependent traits to generalize the I/O interface, but we think it is a trade worth making, since every new backend can now plug into Qdrant without touching the data structures that use it.
 
 If you want to see how it fits together, start with the [`universal_io` module](https://github.com/qdrant/qdrant/tree/master/lib/common/common/src/universal_io) in the Qdrant repository and, if you have any questions about it, join our [Discord Community](https://discord.gg/qdrant) and we'll try to answer there!
