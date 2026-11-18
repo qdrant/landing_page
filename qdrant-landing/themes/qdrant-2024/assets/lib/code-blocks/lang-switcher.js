@@ -80,6 +80,8 @@
 
     // should be used together with changing of the active tab visibility
     #setActiveButton(lang) {
+      // single-language blocks get no tab buttons (see initLangButtons)
+      if (!this.langButtons) return;
       this.langButtons.querySelector('.active').classList.remove('active');
       this.langButtons.querySelector(`[data-lang=${lang}]`).classList.add('active');
     }

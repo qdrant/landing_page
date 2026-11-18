@@ -84,13 +84,11 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
     text-decoration: none;
-    color: $neutral-98;
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
+    color: $primary-60;
+    transition: color 0.3s ease;
 
     &:hover {
-      color: $neutral-98;
-      opacity: 1;
+      color: $primary-70;
       text-decoration: underline;
     }
   }

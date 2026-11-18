@@ -1,0 +1,146 @@
+/* hnsw-graph island: the acorn island's look without filtering. Scoped under
+   .qi-hg. Chips, hints, labels and the status line come from the shared
+   island design system (islands.scss); this file only styles the graph, the
+   traversal arrows and the legend. Traversal colors follow the diagram
+   component families (orange, teal) and are constant across themes. */
+
+.qi-hg {
+  --hg-orange: #ff9800; /* orange-500 */
+  --hg-orange-soft: #ffb74d; /* orange-300 */
+  --hg-teal: #009688; /* teal-500 */
+  /* Vectors are black. On the dark theme they flip to light so they stay
+     visible. */
+  --hg-ok: #111824; /* neutral-900 */
+
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-hg {
+    --hg-ok: var(--qi-fg);
+  }
+}
+html[data-theme='dark'] .qi-hg {
+  --hg-ok: var(--qi-fg);
+}
+
+/* All text uses the vector color, which is darker than the shared --qi-fg
+   and --qi-muted on the light theme. */
+.qi-hg .qi-chip,
+.qi-hg .qi-hg__status {
+  color: var(--hg-ok);
+}
+
+/* --- Graph --- drawn at its natural size and centered, so the controls,
+   legend and status line keep the full island width. */
+.qi-hg__svg {
+  max-width: 280px;
+  margin-inline: auto;
+}
+.qi-hg__area {
+  fill: var(--hg-teal);
+  fill-opacity: 0.12;
+}
+.qi-hg__edge {
+  stroke: var(--hg-ok);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+}
+
+.qi-hg__query {
+  fill: var(--hg-ok);
+}
+.qi-hg__query-ring {
+  fill: none;
+  stroke: var(--hg-teal);
+  stroke-width: 2;
+}
+.qi-hg__entry-ring {
+  fill: none;
+  stroke: var(--hg-orange);
+  stroke-width: 2;
+}
+.qi-hg__entry-label {
+  fill: var(--hg-ok);
+  font-size: 13px;
+}
+
+.qi-hg__dot {
+  fill: var(--hg-ok);
+  transition: fill 0.3s ease;
+}
+.qi-hg__node.is-visited .qi-hg__dot {
+  fill: var(--hg-orange);
+}
+.qi-hg__node.is-best .qi-hg__dot {
+  fill: var(--hg-teal);
+}
+
+/* Halo around the node being expanded, and around the final result. */
+.qi-hg__halo {
+  fill: var(--hg-orange-soft);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.qi-hg__node.is-current .qi-hg__halo {
+  opacity: 0.45;
+}
+.qi-hg__node.is-best .qi-hg__halo {
+  fill: var(--hg-teal);
+  opacity: 0.3;
+}
+
+/* Traversal arrows draw in along their length (pathLength = 1). */
+.qi-hg__arrow {
+  fill: none;
+  stroke: var(--hg-orange);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.5s ease;
+}
+.qi-hg__arrow.is-drawing {
+  stroke-dashoffset: 1;
+  transition: none;
+}
+.qi-hg__head {
+  fill: var(--hg-orange);
+}
+
+/* --- Legend --- scoped under .qi-hg to outrank the docs list styles. */
+.qi-hg .qi-hg__legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qi-hg .qi-hg__legend li {
+  color: var(--hg-ok);
+  font-size: 12px;
+  line-height: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+.qi-hg__legend svg {
+  flex: none;
+}
+.qi-hg__legend-dot--ok {
+  fill: var(--hg-ok);
+}
+.qi-hg__legend-dot--visited {
+  fill: var(--hg-orange);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qi-hg__dot,
+  .qi-hg__halo,
+  .qi-hg__arrow {
+    transition: none;
+  }
+}

@@ -77,7 +77,7 @@ Once provisioned, you can access your cluster on ports 443 and 6333 (REST) and 6
 | High Availability | Sets up 3 or more nodes with replication, as described in [Creating a Production-Ready Cluster](#creating-a-production-ready-cluster). |
 | Multi AZ (Premium) | Spreads nodes across availability zones. Chosen at creation only. Needs at least 3 nodes, and the node count must be a multiple of 3. Available in regions with at least 3 availability zones, at a higher rate to cover cross-zone traffic. |
 | Additional disk | Add disk when your collection configuration needs more disk per GB of RAM, for example with the `cold` memory tier. You can add or remove disk later. |
-| Disk speed tier (AWS) | **Balanced** for disks of 32 GiB or more, **Performance** for disks of 256 GiB or more. Faster tiers help write-heavy workloads and configurations with a low RAM cache ratio. |
+| Disk speed tier (AWS) | **Cost-Optimized** (the default), **Balanced**, or **Performance**, from the least to the most IOPS and throughput. Each tier requires a minimum disk size. Faster tiers help write-heavy workloads and configurations with a low RAM cache ratio. You can [change the tier later](/documentation/cloud/cluster-scaling/#changing-disk-speed). |
 
 ### Choose the Resources
 

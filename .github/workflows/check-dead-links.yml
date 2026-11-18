@@ -29,7 +29,10 @@ jobs:
         id: lychee
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
-          args: 'qdrant-landing/public'
+          args: >-
+            --config .github/lychee-external.toml
+            --root-dir ${{ github.workspace }}/qdrant-landing/public
+            qdrant-landing/public
           fail: false
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

@@ -30,7 +30,7 @@ A quantization-optimized search system that demonstrates:
 ### Prerequisites
 
 * Qdrant Cloud cluster (URL + API key)
-* Python 3.9+ (or Google Colab)
+* Python 3.10+ (or Google Colab)
 * Packages: `qdrant-client`, `numpy`
 
 ### Models
@@ -120,7 +120,7 @@ quantization_configs = {
             scalar=models.ScalarQuantizationConfig(
                 type=models.ScalarType.INT8,
                 quantile=0.99,
-                always_ram=True,
+                memory=models.Memory.PINNED,
             )
         ),
         "expected_speedup": "2x",
@@ -130,7 +130,7 @@ quantization_configs = {
         "config": models.BinaryQuantization(
             binary=models.BinaryQuantizationConfig(
                 encoding=models.BinaryQuantizationEncoding.ONE_BIT,
-                always_ram=True,
+                memory=models.Memory.PINNED,
             )
         ),
         "expected_speedup": "40x",
@@ -140,7 +140,7 @@ quantization_configs = {
         "config": models.BinaryQuantization(
             binary=models.BinaryQuantizationConfig(
                 encoding=models.BinaryQuantizationEncoding.TWO_BITS,
-                always_ram=True,
+                memory=models.Memory.PINNED,
             )
         ),
         "expected_speedup": "20x",
@@ -157,7 +157,7 @@ for method_name, config_info in quantization_configs.items():
         vectors_config=models.VectorParams(
             size=1536,  # Adjust to your embedding size
             distance=models.Distance.COSINE,
-            on_disk=True,  # Store originals on disk
+            memory=models.Memory.COLD,  # Read originals from disk on demand
         ),
         quantization_config=config_info["config"]
     )
@@ -364,7 +364,7 @@ You'll know you've succeeded when:
 
 <input type="checkbox"> You've achieved measurable search speed improvements  
 <input type="checkbox"> You've maintained acceptable accuracy through oversampling optimization  
-<input type="checkbox"> You've demonstrated significant hot memory savings with `on_disk` configuration  
+<input type="checkbox"> You've demonstrated significant hot memory savings with the `cold` memory tier for original vectors  
 <input type="checkbox"> You can make informed recommendations about quantization for your domain
 
 
@@ -416,6 +416,8 @@ You'll know you've succeeded when:
 ```
 
 ## Optional: Go Further
+
+Compare your best result with [4-bit TurboQuant](/documentation/manage-data/quantization/#setting-up-turboquant), using the same queries and measurements.
 
 ### Dynamic Oversampling
 
@@ -473,6 +475,6 @@ collection_info = client.get_collection("quantized_binary")
 print(f"Vectors count: {collection_info.points_count}")
 print(f"Memory usage: Check Qdrant Cloud metrics")
 
-# Compare RAM usage with and without on_disk configuration
+# Compare RAM usage with cached and cold original vectors
 ```
 

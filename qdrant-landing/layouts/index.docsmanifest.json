@@ -1,15 +1,20 @@
 {{- /*
-  Machine-readable index of every published page in the documentation,
-  articles, blog, and course, served at /docs-manifest.json. The docs MCP
-  server at search.qdrant.tech/mcp (qdrant/page-search, in
-  rust_search/src/docs_mcp/) reads it to list pages and resolve aliases, so
-  treat the field names as a public contract: add fields freely, but do not
-  rename or remove them without updating the server.
+  Machine-readable index of every published page that has a Markdown version
+  at `<page>/index.md`, served at /docs-manifest.json. Two readers in
+  qdrant/page-search depend on it, so treat the field names as a public
+  contract: add fields freely, but do not rename or remove them without
+  updating both.
+  - The docs MCP server at search.qdrant.tech/mcp (rust_search/src/docs_mcp/)
+    lists pages and resolves aliases with it. It keeps only the
+    documentation, articles, blog, and course.
+  - `index_pages` (rust_search/src/index_pages.rs) builds the `pages`
+    collection from it, which suggests existing pages in place of missing
+    ones, so it lists every such page, not only the documentation.
 
   Sections with `build: render: never` group pages in the sidebar without a
   page of their own. They are listed with "rendered": false and no URLs.
+  Pages without a Markdown version, such as the home page, are left out.
 */ -}}
-{{- $sections := slice "documentation" "articles" "blog" "course" -}}
 {{- $pages := slice -}}
 {{- range site.Pages.ByWeight -}}
   {{- if not (in (slice "page" "section") .Kind) -}}{{- continue -}}{{- end -}}
@@ -25,11 +30,11 @@
     {{- if ne .Kind "section" -}}{{- continue -}}{{- end -}}
     {{- $path = printf "%s/" .Path -}}
   {{- end -}}
-  {{- /* Path check, not .Section: see "Two traps in the templates" in AGENTS.md. */ -}}
-  {{- if not (in $sections (index (split (strings.Trim $path "/") "/") 0)) -}}{{- continue -}}{{- end -}}
   {{- if eq .Params.sitemapExclude true -}}{{- continue -}}{{- end -}}
   {{- if .Sitemap.Disable -}}{{- continue -}}{{- end -}}
   {{- if eq .Title "" -}}{{- continue -}}{{- end -}}
+  {{- $markdown := .OutputFormats.Get "markdown" -}}
+  {{- if and $rendered (not $markdown) -}}{{- continue -}}{{- end -}}
   {{- $description := "" -}}
   {{- with .Description -}}
     {{- $description = . | plainify | replaceRE `\s+` " " | strings.TrimSpace -}}
@@ -48,7 +53,7 @@
     "aliases" $aliases
   -}}
   {{- if $rendered -}}
-    {{- $entry = merge $entry (dict "url" .Permalink "markdown_url" (printf "%sindex.md" .Permalink)) -}}
+    {{- $entry = merge $entry (dict "url" .Permalink "markdown_url" $markdown.Permalink) -}}
   {{- else -}}
     {{- $entry = merge $entry (dict "rendered" false) -}}
   {{- end -}}

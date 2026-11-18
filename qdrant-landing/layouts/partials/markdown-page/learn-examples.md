@@ -9,7 +9,7 @@
 {{- end -}}
 {{- $content = printf "%s\nChoose an example that matches your data, stack, and operating requirements.\n" $content -}}
 > Explore Qdrant's agent skills catalog at https://skills.qdrant.tech/
-> Search the documentation at https://skills.qdrant.tech/search?query=your+query+here
+> Search the documentation at https://search.qdrant.tech/md/documentation?q=your+query+here
 > Use this file for an index of the main pages: https://qdrant.tech/llms.txt
 
 {{ $content -}}

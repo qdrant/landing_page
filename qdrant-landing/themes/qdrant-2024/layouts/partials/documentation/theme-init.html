@@ -1,0 +1,17 @@
+{{/* Sets data-theme on <html> before any CSS or third-party script loads, so the
+     first painted frame already has the reader's theme. Inline on purpose: an
+     external file waits on the network (and on the HubSpot script ahead of it)
+     and the page can paint without the attribute meanwhile.
+     Mirrors ThemeSwitch.setTheme() in assets/docs/js/theme-switch.js. */}}
+<script>
+  (function () {
+    var theme = 'dark';
+    try {
+      theme = localStorage.getItem('theme') || 'dark';
+    } catch (e) {}
+    if (theme === 'auto') {
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>

@@ -317,7 +317,7 @@ For the complete, most up-to-date list of all available filtering conditions, pl
 | **Match Except** | NOT IN condition | `"match": {"except": ["banned"]}` |
 | **Range** | Numerical ranges | `"range": {"gte": 50, "lte": 200}` |
 | **Datetime Range** | Time-based filtering | `"range": {"gt": "2023-01-01T00:00:00Z"}` |
-| **Full Text** | Substring matching | `"match": {"text": "amazing service"}` |
+| **Full Text** | Word matching | `"match": {"text": "amazing service"}` |
 | **Geospatial** | Location-based | `"geo_radius": {"center": {...}, "radius": 10000}` |
 | **Nested** | Array object filtering | `"nested": {"key": "reviews", "filter": {...}}` |
 | **Has ID** | Specific IDs | `"has_id": [1, 5, 10]` |

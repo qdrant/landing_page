@@ -129,8 +129,8 @@ disableKinds = ["taxonomy", "term"]
   isHTML = false
   notAlternative = true
 
-# Machine-readable index of the documentation, articles, blog, and course at
-# /docs-manifest.json, read by the docs MCP server at search.qdrant.tech/mcp.
+# Machine-readable index of every page with a Markdown version at
+# /docs-manifest.json, read by qdrant/page-search: see the template.
 [outputFormats.DocsManifest]
   mediaType = "application/json"
   baseName = "docs-manifest"

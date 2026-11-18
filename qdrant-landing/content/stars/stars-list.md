@@ -175,6 +175,13 @@ cards:
     name: Srimon Danguria
     position: Independent AI Systems Builder
     description: Solo developer building AI infrastructure, governance tooling, MCP gateways, authentication systems, and local-first knowledge system. Open-source contributor exploring Qdrant's use cases across multiple domains.
+  - id: 20
+    image:
+      src: /img/stars/hafedh-hichri.png
+      alt: Hafedh Hichri Photo
+    name: Hafedh Hichri
+    position: Software Engineer @ Feyn
+    description: Hugging Face Fellow and Chonkie maintainer, passionate about open-source AI and RAG.
 link:
   text: Read the Qdrant Stars Handbook
   url: https://qdrant.github.io/qdrant-stars-handbook/

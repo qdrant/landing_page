@@ -13,6 +13,8 @@ aliases:
 
 Different use cases require different balances between memory usage, search speed, and precision. Qdrant is designed to be flexible and customizable so you can tune it to your specific needs.
 
+The collection settings in this guide, such as quantization, the `memory` parameter, and HNSW options, are set per collection through the API; they work the same on every deployment type. For the node-level settings that Qdrant Cloud exposes, refer to [Configure Qdrant Cloud Clusters](/documentation/cloud/configure-cluster/#advanced-optimizations). To change CPU, memory, or disk, refer to [Scaling Qdrant Cloud Clusters](/documentation/cloud/cluster-scaling/).
+
 This guide will walk you three main optimization strategies:
 
 - High Speed Search & Low Memory Usage

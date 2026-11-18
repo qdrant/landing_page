@@ -1,0 +1,20 @@
+.be-inference { display: block; }
+.be-inference .qi-title { font-size: 14px; }
+.be-inference .qi-label { font-size: 13px; }
+.be-inference .be-flow { fill: none; stroke: var(--qi-line); stroke-width: 1.6; }
+.be-inference .be-arrowhead { fill: var(--qi-muted); }
+.be-inference .be-token { cursor: pointer; }
+.be-inference .be-token rect { fill: var(--qi-surface); stroke: var(--qi-border); stroke-width: 1.5; }
+.be-inference .be-token text { font-family: var(--qi-mono); font-size: 13px; fill: var(--qi-fg); }
+.be-inference .be-token.is-selected rect { stroke: var(--qi-hot); stroke-width: 2.5; }
+.be-inference .be-token:focus-visible rect { stroke: var(--qi-accent); stroke-width: 2.5; }
+.be-inference .be-token:focus { outline: none; }
+.be-inference .be-cell { stroke: none; opacity: 0.45; }
+.be-inference .be-row.is-selected .be-cell { opacity: 1; }
+.be-inference .be-dots { font-size: 14px; fill: var(--qi-muted); }
+.be-inference .be-row.is-1 .be-cell { fill: var(--qi-cat-1); }
+.be-inference .be-row.is-2 .be-cell { fill: var(--qi-cat-2); }
+.be-inference .be-row.is-3 .be-cell { fill: var(--qi-cat-3); }
+.be-inference .be-row.is-4 .be-cell { fill: var(--qi-cat-4); }
+.be-inference .be-pooled { fill: var(--qi-muted); }
+.be-inference .be-final { fill: var(--qi-fg); }

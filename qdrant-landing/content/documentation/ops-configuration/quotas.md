@@ -9,6 +9,8 @@ weight: 7
 
 *Available as of v1.19.0*
 
+<aside role="status">On Qdrant Cloud, you manage capacity per cluster: you choose the cluster's CPU, memory, and disk, and Qdrant Cloud alerts the account owner when memory or disk use is high. Refer to <a href="/documentation/cloud/cluster-scaling/">Scaling Qdrant Cloud Clusters</a> and <a href="/documentation/cloud/cluster-monitoring/#alerts">Alerts</a>.</aside>
+
 Resource quotas stop a node from taking on more data once it's low on memory or disk space. When usage reaches a configured limit, the node rejects updates that would consume more of that resource until usage drops back down.
 
 ## Configuring Quotas
@@ -41,6 +43,15 @@ PUT /quotas?wait=true
 }
 ```
 
+Note the full quotas configuration is replaced. Fields that are not specified are unset. The `enabled` field must always be provided. To disable quotas use:
+
+```http
+PUT /quotas?wait=true
+{
+    "enabled": false
+}
+```
+
 Qdrant propagates the new configuration to every peer and persists it, so it survives restarts.
 
 <aside role="status">Once the quota has been set through <code>PUT /quotas</code>, Qdrant stops reading <code>storage.quotas</code>. See <a href="#configuration-precedence">Configuration Precedence</a>.</aside>
@@ -49,7 +60,7 @@ The following parameters are available:
 
 | Parameter | Description |
 | --- | --- |
-| `enabled` | Whether the limits are enforced. Defaults to `false`. |
+| `enabled` | Whether the limits are enforced. Required. |
 | `max_resident_memory_percent` | Rejects memory-consuming updates once process resident memory reaches this percentage of the memory available to the node. Accepts values in the range 1–100. If unset, no memory quota is applied. |
 | `max_disk_usage_percent` | Rejects disk-consuming updates once the file system holding the storage directory is filled to this percentage of its capacity. Accepts values in the range 1–100. If unset, no disk quota is applied. |
 | `release_margin_percent` | How far a resource has to fall under its limit before the node accepts updates again. Accepts values in the range 0–100. Defaults to 5. |

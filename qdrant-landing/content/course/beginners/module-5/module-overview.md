@@ -21,7 +21,7 @@ isLesson: true
 
 Apply every concept from Modules 1 through 4 in a single end-to-end system: ingest daily news, transcripts, and satellite imagery about your suppliers, cluster them into risk themes, and query all of it from one collection.
 
-**Follow-along code**: [Module 5 notebook](https://github.com/qdrant/examples/blob/master/course/beginners/Module5.ipynb)
+**Follow-along code**: [Module 5 notebook](https://github.com/qdrant/examples/blob/master/beginners-course/Module5.ipynb)
 
 #### Overview
 

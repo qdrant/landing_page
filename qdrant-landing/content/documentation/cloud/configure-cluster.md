@@ -45,7 +45,7 @@ Configures how many CPUs (threads) to allocate for optimization and indexing job
 
 *Async Scorer*
 
-Enables async scorer which uses io_uring when rescoring. See [Qdrant under the hood: io_uring](/articles/io_uring/#and-what-about-qdrant) and [Large Scale Search](/documentation/tutorials-operations/large-scale-search/) for more details.
+Enables async scorer which uses io_uring when rescoring. This setting is deprecated. On clusters running Qdrant v1.20.0 or later, Qdrant Cloud sets the async I/O mode itself and this setting no longer has an effect. Refer to [Qdrant under the hood: io_uring](/articles/io_uring/#and-what-about-qdrant) and [Large Scale Search](/documentation/tutorials-operations/large-scale-search/) for more details.
 
 ## Client IP Restrictions
 

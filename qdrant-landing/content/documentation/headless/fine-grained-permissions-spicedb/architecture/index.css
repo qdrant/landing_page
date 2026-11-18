@@ -1,0 +1,46 @@
+/* Shared typography and theme colors; only the authorization step is accented.
+   Scope every rule to this figure so neighboring figures remain independent. */
+.qi-sp-arch {
+  --qi-sp-ready: 1;
+  container-type: inline-size;
+}
+.qi-sp-arch .qi-sp-arch__node {
+  stroke: var(--qi-muted);
+  stroke-width: 1;
+}
+.qi-sp-arch .qi-sp-arch__node--authorization {
+  stroke: var(--qi-cat-3);
+  stroke-width: 2;
+}
+.qi-sp-arch .qi-sp-arch__title {
+  font-size: 15px;
+  font-weight: 600;
+}
+.qi-sp-arch .qi-sp-arch__endpoint {
+  font-size: 14px;
+  font-weight: 600;
+}
+.qi-sp-arch .qi-sp-arch__boundary-label { font-size: 14px; }
+.qi-sp-arch .qi-sp-arch__service { font-size: 13px; }
+.qi-sp-arch .qi-sp-arch__edge {
+  fill: none;
+  stroke: var(--qi-muted);
+  stroke-width: 1.5;
+}
+.qi-sp-arch .qi-sp-arch__edge--authorized { stroke: var(--qi-cat-3); }
+.qi-sp-arch .qi-sp-arch__head { fill: var(--qi-muted); }
+.qi-sp-arch .qi-sp-arch__head--authorized { fill: var(--qi-cat-3); }
+.qi-sp-arch .qi-sp-arch__narrow {
+  display: none;
+  max-width: 340px;
+  margin-inline: auto;
+}
+@container (max-width: 600px) {
+  .qi-sp-arch .qi-sp-arch__wide { display: none; }
+  .qi-sp-arch .qi-sp-arch__narrow { display: block; }
+}
+
+/* Reserve the narrow fallback before initialization; expand only the live view. */
+.island.is-ready[data-island='content/documentation/headless/fine-grained-permissions-spicedb/architecture'] .island__stage {
+  max-width: 760px !important;
+}

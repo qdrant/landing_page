@@ -1,0 +1,21 @@
+{{ with (.Site.GetPage "/lp-generative/hero") }}
+  <section class="lp-generative-hero">
+    <div class="container">
+      <div class="lp-generative-hero__copy">
+        <p class="lp-generative-hero__label">{{ .Params.label }}</p>
+        <h1 class="lp-generative-hero__title">{{ .Params.title }}</h1>
+        <p class="lp-generative-hero__description">{{ .Params.description | markdownify }}</p>
+        {{ with .Params.proof }}<p class="lp-generative-hero__description lp-generative-hero__proof">{{ . | markdownify }}</p>{{ end }}
+        <div class="lp-generative-hero__actions">
+          {{ with .Params.button }}
+            <a href="{{ .url }}" class="button button_contained button_lg" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+          {{ end }}
+          {{ with .Params.outlineButton }}
+            <a href="{{ .url }}" class="button button_outlined button_lg" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+    {{ if templates.Exists "partials/marketing/lp-customer-logos.html" }}{{ partial "marketing/lp-customer-logos" . }}{{ end }}
+  </section>
+{{ end }}

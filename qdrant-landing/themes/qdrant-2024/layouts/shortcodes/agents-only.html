@@ -1,0 +1,8 @@
+{{- /*
+  agents-only: content for the Markdown output (index.md) only.
+
+  Renders nothing in HTML. The Markdown variant, layouts/shortcodes/agents-only.markdown.md,
+  emits the inner content verbatim. See the README section "Agents-only content".
+*/ -}}
+{{- /* Hugo requires a shortcode with a closing tag to reference .Inner. */ -}}
+{{- $_ := .Inner -}}
