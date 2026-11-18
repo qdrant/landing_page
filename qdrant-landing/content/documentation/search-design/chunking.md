@@ -499,6 +499,14 @@ At 40 seconds, overlap increased single-window coverage from 3 to 6 intervals. M
 
 </details>
 
+## Conclusion
+
+- **Start with the source.** Check extracted text against the original. Use page images when layout carries evidence, and retain timestamped audio and video segments.
+- **Keep chunks usable.** Keep statements with their conditions, stay within the embedding model's token limit, and attach source identifiers for citations.
+- **Establish a simple baseline.** Try fixed, sentence, paragraph, or recursive splitting before adding semantic or LLM-based boundary decisions.
+- **Measure the tradeoffs.** Overlap repeats evidence; model-based boundaries add ingestion work. Profile the pipeline before optimizing it.
+- **Choose with evidence.** Compare methods with fixed questions, models, search settings, and evidence budgets. Measure coverage, duplication, and ingestion cost; check answer correctness separately.
+
 ## Further Reading
 
 - [Is Semantic Chunking Worth the Computational Cost?](https://arxiv.org/abs/2410.13070)
