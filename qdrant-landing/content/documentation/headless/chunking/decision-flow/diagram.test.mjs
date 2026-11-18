@@ -6,6 +6,13 @@ import { JSDOM } from 'jsdom';
 const source = await readFile(new URL('./index.js', import.meta.url));
 const { mount } = await import(`data:text/javascript;base64,${source.toString('base64')}`);
 
+const CHECKLIST_LABELS = [
+  ['Audit Modalities', 'Map Natural Anchors', 'Measure Scale Distributions', 'Flag Artifacts & Noise'],
+  ['Align With Structure', 'Set Window & Overlap', 'Use Semantic Shifts', 'Protect Atomic Units'],
+  ['Leverage Lightweight Heuristics', 'Batch & Parallelize', 'Stream Large Media', 'Cache via Content Hashes'],
+  ['Audit Boundary Integrity', 'Verify Size Compliance', 'Benchmark Retrieval Accuracy', 'Inspect Failure Modes'],
+];
+
 function fixture(t) {
   const dom = new JSDOM('<main><section id="first"></section><section id="second"></section></main>');
   const previousCustomEvent = globalThis.CustomEvent;
@@ -39,18 +46,21 @@ test('each title selects a bullet-only checklist without replacing the focused c
     assert.equal(node.querySelector('.qi-flow__detail'), panel);
     assert.equal(panel.children.length, 1);
     assert.equal(panel.firstElementChild.tagName, 'UL');
-    assert.ok(panel.querySelectorAll('li').length >= 4);
+    const items = [...panel.querySelectorAll('li')];
+    assert.equal(items.length, 4);
+    assert.deepEqual(items.map(item => item.firstElementChild.tagName), ['STRONG', 'STRONG', 'STRONG', 'STRONG']);
+    assert.deepEqual(items.map(item => item.firstElementChild.textContent),
+      CHECKLIST_LABELS[Number(button.dataset.step) - 1].map(label => `${label}:`));
     assert.equal(panel.querySelectorAll('input, button, p, h1, h2, h3').length, 0);
     assert.equal(panel.firstElementChild.getAttribute('aria-label'), `Checklist: ${button.textContent.trim()}`);
     assert.ok(node.querySelector('[role="status"]').textContent.startsWith(button.textContent.trim()));
+    assert.doesNotMatch(node.querySelector('[role="status"]').textContent, /\*\*/);
     checklists.add(panel.textContent);
   }
   assert.equal(checklists.size, 4);
-  assert.match(panel.textContent, /direct text, OCR, VLM parsing, or page images/);
-  node.querySelector('[data-step="2"]').click();
-  assert.deepEqual([...panel.querySelectorAll('li')].map(item => item.textContent.split(':')[0]), [
-    'Fixed chunking', 'Sentence chunking', 'Paragraph chunking', 'Sliding-window chunking',
-    'Semantic chunking', 'Agentic chunking', 'Recursive chunking',
+  node.querySelector('[data-step="4"]').click();
+  assert.deepEqual([...panel.querySelectorAll('li')[2].querySelectorAll('strong')].map(item => item.textContent), [
+    'Benchmark Retrieval Accuracy:', 'Recall@K', 'MRR',
   ]);
   assert.doesNotMatch(node.textContent, /Explore the five decisions|Select a step|Next Action|Situation:|Receipt totals/);
 });
@@ -66,7 +76,7 @@ test('mount announces readiness and selections remain scoped to their own diagra
   assert.deepEqual(ready, [first, second]);
   const initialSecond = second.innerHTML;
   first.querySelector('[data-step="4"]').click();
-  assert.match(first.querySelector('[data-checklist]').textContent, /answer correctness separately from evidence coverage/);
+  assert.match(first.querySelector('[data-checklist]').textContent, /Inspect Failure Modes/);
   assert.equal(second.innerHTML, initialSecond);
   first.querySelector('.qi-flow__checklist li').click();
   assert.equal(first.querySelector('[data-step="4"]').getAttribute('aria-pressed'), 'true');

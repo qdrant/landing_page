@@ -1,46 +1,43 @@
-// Setup checklists apply to direct text, parsed documents, and page images.
+// Setup checklists cover text, audio, and video ingestion.
 export const STEPS = [
   {
     id: 1,
     title: 'Inspect sources',
     checklist: [
-      'Identify the evidence your questions need.',
-      'Check source quality and reading order.',
-      'Choose direct text, OCR, VLM parsing, or page images.',
-      'Retain source IDs and positions.',
+      '**Audit Modalities:** Catalog input formats across text (PDF, Markdown), audio (WAV, MP3), and video (MP4, MKV).',
+      '**Map Natural Anchors:** Identify existing boundaries like document headers, audio silence gaps, speaker changes, or video scene cuts.',
+      '**Measure Scale Distributions:** Check token counts, audio durations, and video frame rates to spot extreme outliers.',
+      '**Flag Artifacts & Noise:** Detect OCR errors, background static, dead air, or black frames that require pre-cleaning.',
     ],
   },
   {
     id: 2,
     title: 'Choose boundary',
     checklist: [
-      'Fixed chunking: length limits',
-      'Sentence chunking: sentence boundaries',
-      'Paragraph chunking: paragraph boundaries',
-      'Sliding-window chunking: overlapping spans',
-      'Semantic chunking: embedding similarity',
-      'Agentic chunking: LLM-selected boundaries',
-      'Recursive chunking: ordered separators',
+      '**Align With Structure:** Split on structural markers first (paragraphs, speaker diarization turns, or visual shot transitions) rather than arbitrary fixed cuts.',
+      '**Set Window & Overlap:** Define target limits (tokens or seconds) and add a 10%–20% overlap buffer so context is not lost mid-sentence or mid-action.',
+      '**Use Semantic Shifts:** Group consecutive units based on embedding similarity or topic shifts when explicit structural markers are missing.',
+      '**Protect Atomic Units:** Keep tables, code blocks, complete spoken thoughts, and continuous visual actions intact.',
     ],
   },
   {
     id: 3,
     title: 'Speed up chunking',
     checklist: [
-      'Time parsing, token counting, splitting, model calls, and indexing.',
-      'Reuse tokenizers and cache repeated token counts.',
-      'Batch or stream when it improves throughput or memory use.',
-      'Compare throughput using matching outputs and settings.',
+      '**Leverage Lightweight Heuristics:** Prioritize fast rule-based cues (regex, Voice Activity Detection, pixel histograms) over heavy neural models during initial splitting.',
+      '**Batch & Parallelize:** Distribute file processing across multi-core CPU workers or GPU batches for high-throughput ingestion.',
+      '**Stream Large Media:** Process long audio tracks and high-resolution videos in memory-mapped streams rather than loading full files at once.',
+      '**Cache via Content Hashes:** Store intermediate transcripts, timestamps, and chunk outputs to skip reprocessing unchanged assets.',
     ],
   },
   {
     id: 4,
     title: 'Evaluate chunk quality',
     checklist: [
-      'Label source evidence for representative questions.',
-      'Keep corpus, models, questions, and final evidence budget fixed.',
-      'Compare evidence coverage, irrelevant text, and duplicates.',
-      'Check answer correctness separately from evidence coverage.',
+      '**Audit Boundary Integrity:** Spot-check random samples to confirm sentences are not cut off and video/audio clips start and end cleanly.',
+      '**Verify Size Compliance:** Check distribution plots to ensure chunks fit within downstream embedding model token or duration limits.',
+      '**Benchmark Retrieval Accuracy:** Measure **Recall@K** and **MRR** against a ground-truth query dataset across all modalities.',
+      '**Inspect Failure Modes:** Trace missed retrievals back to fragmented context or noisy boundaries to tune overlap and split thresholds.',
     ],
   },
 ];
@@ -75,8 +72,8 @@ export function mount(node) {
     });
     const checklist = node.querySelector('[data-checklist]');
     checklist.setAttribute('aria-label', `Checklist: ${step.title}`);
-    checklist.innerHTML = step.checklist.map(item => `<li>${escape(item)}</li>`).join('');
-    node.querySelector('[role="status"]').textContent = `${step.title}. ${step.checklist.join(' ')}`;
+    checklist.innerHTML = step.checklist.map(item => `<li>${escape(item).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')}</li>`).join('');
+    node.querySelector('[role="status"]').textContent = `${step.title}. ${step.checklist.join(' ').replace(/\*\*/g, '')}`;
   }
 
   node.addEventListener('click', event => {
