@@ -217,35 +217,17 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 ## What the Depth Buys
 
-Each point below is one configuration: 4 KiB reads on a 4-core Xeon 8375C in us-west-2, page cache dropped before each run. `mmap` and `io_uring` read an EBS gp3 volume through the same `read_batch` call, where the batch size sets the depth. The S3 points vary the number of concurrent readers instead.
+{{< chart id="universal-io/depth" caption="Random 4 KiB reads on a 4-core Xeon 8375C in us-west-2, page cache dropped before each run. mmap and io_uring read an EBS gp3 volume through the same read_batch call, where the batch size sets the depth. The S3 points vary the number of concurrent readers instead." caption2="The same reads in order. Local storage gets its bandwidth from the kernel reading ahead, so depth stops mattering. Batch 1 is missing from the latency panel because those reads finish under 0.1 ms, below the axis: the page was already there." >}}
 
-{{< island
-    path="content/articles/headless/universal-io/depth-latency"
-    width="760" ratio="760 / 448"
-    title="Up and left is better: more MB/s for less wait. The dashed staircase is the frontier, the settings nothing else beats on both axes. Latency is p50 from submitting a read to its completion, so past a backend's pipeline depth it includes queueing."
->}}
-![Bandwidth against latency for three read backends on log scales, random reads. The frontier is made entirely of io_uring points, which climb from 7.15 MB/s at batch 1 to 85.66 at batch 16 while the wait stays near 0.6 ms. mmap runs flat at about 7.2 MB/s whatever the batch, moving only to the right. S3 sits near 24 ms, climbing from 0.17 MB/s with one reader to 11.3 with 128.](/articles_data/universal-io/uio-depth-latency.svg)
-{{< /island >}}
+`io_uring` turns depth into bandwidth. Each doubling of the batch doubles it, from 7.15 MB/s at batch 1 to 85.66 MB/s at batch 16. The wait rises 9% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 buys 29% more bandwidth, and the wait rises to 9.4 ms for it.
 
-`io_uring` goes up. Each doubling of the batch doubles the bandwidth and barely moves latency. Bandwidth runs from 7.15 MB/s at batch 1 to 85.66 MB/s at batch 16. Latency rises 9% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 buys 29% more bandwidth, and latency pays for it by rising to 9.4 ms.
+`mmap` turns depth into waiting. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency. Bandwidth sits at 7.2 MB/s whatever the batch. The wait grows instead, from 0.55 ms per read at batch 1 to 71 ms at batch 256.
 
-`mmap` goes right. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency. Bandwidth sits at 7.2 MB/s whatever the batch. Latency grows instead, from 0.55 ms per read at batch 1 to 71 ms at batch 256.
-
-S3 goes up too, starting 43 times further right. One read takes about 24 ms, and adding readers does not change that. Bandwidth climbs from 0.17 MB/s with one reader to 11.3 MB/s with 128. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s.
+S3 turns readers into bandwidth, but never into a shorter wait. One read takes about 24 ms however many readers run. Bandwidth climbs from 0.17 MB/s with one reader to 11.3 MB/s with 128. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s.
 
 Read in order and depth stops mattering. Opened with `MADV_SEQUENTIAL`, `mmap` reached 117 MB/s against 7.2 MB/s in random order. The batch changed nothing, from 115 MB/s at batch 1 to 119 MB/s at batch 256. The kernel reads ahead, so most reads never reach the disk.
 
-The backend still matters, though. `io_uring` managed 215 MB/s on the same reads, because bulk reads keep the device busier than page faults do. Object storage gains nothing from order, as expected, because nothing reads ahead across network requests. A read costs about 23 ms either way. Up to 64 readers, the two lines stay within 11% of each other.
-
-The same six settings as bars, so you can read the numbers off directly. Switch the measure to see what the depth costs in latency.
-
-{{< island
-    path="content/articles/headless/universal-io/depth-bars"
-    width="760" ratio="760 / 339"
-    title="Each backend at its shallowest and deepest measured setting. The chips swap the measure, so the bars stay in place and only their lengths change."
->}}
-![Bar chart of three read backends at their shallowest and deepest setting, random reads. io_uring goes from 7.15 MB/s at batch 1 to 85.66 at batch 16. mmap delivers 7.2 MB/s at both batch 1 and batch 256, but latency rises from 0.55 ms to 71 ms. S3 goes from 0.17 MB/s with one reader to 11.32 with 128, at about 24 ms throughout.](/articles_data/universal-io/uio-depth-bars.svg)
-{{< /island >}}
+The backend still matters, though. `io_uring` managed 215 MB/s on the same reads, because bulk reads keep the device busier than page faults do. Object storage gains nothing from order, as expected, because nothing reads ahead across network requests. A read costs about 23 ms either way. Up to 64 readers, the random and sequential numbers stay within 11% of each other.
 
 Depth also only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 24 ms on object storage, however deep the pipeline is.
 

@@ -1,0 +1,21 @@
+metric,depth,mmap,io_uring,s3,mmap_seq,io_uring_seq,s3_seq
+MB/s delivered,1,7.22,7.15,0.17,115.13,221.69,0.18
+MB/s delivered,2,,13.43,0.33,,,0.35
+MB/s delivered,4,,25.84,0.56,,,0.63
+MB/s delivered,8,,45.71,1.03,,,1.12
+MB/s delivered,16,7.15,85.66,1.89,117.43,,1.80
+MB/s delivered,32,,94.34,4.72,,,4.67
+MB/s delivered,64,7.21,97.32,9.40,,,8.91
+MB/s delivered,128,,105.29,11.32,,,7.77
+MB/s delivered,256,7.22,107.67,,119.48,208.23,
+MB/s delivered,512,,110.91,,,,
+Wait per read (ms),1,0.55,0.56,23.94,,,22.82
+Wait per read (ms),2,,0.57,23.08,,,23.08
+Wait per read (ms),4,,0.57,24.82,,,23.55
+Wait per read (ms),8,,0.58,23.98,,,23.54
+Wait per read (ms),16,4.84,0.61,23.95,0.87,,23.93
+Wait per read (ms),32,,0.93,23.11,,,23.46
+Wait per read (ms),64,18.46,1.43,23.23,,,23.75
+Wait per read (ms),128,,2.53,24.06,,,24.00
+Wait per read (ms),256,71.22,4.87,,5.02,2.51,
+Wait per read (ms),512,,9.42,,,,

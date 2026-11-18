@@ -320,7 +320,9 @@ function linesFacet(c) {
       y: { type: c.yScale || 'linear', domain: (c.yDomains && c.yDomains[fv]) || c.yDomain,
            grid: true, label: null,
            tickSize: 0,
-           ticks: c.yScale === 'log' ? decades(c.yDomain)
+           // Plot's SI default prints 0.1 as "100m", which reads as milliseconds.
+           ...(c.yScale === 'log' ? { tickFormat: (v) => String(v) } : {}),
+           ticks: c.yScale === 'log' ? decades((c.yDomains && c.yDomains[fv]) || c.yDomain)
              : ((c.yTicks && c.yTicks[fv]) || undefined) },
       marks: [
         ...(c.refLine
@@ -329,10 +331,15 @@ function linesFacet(c) {
                textAnchor: 'end', fontFamily: FONT, fontSize: viz.type.label,
                text: (d) => d.label, fill: { value: () => MUTED, scale: null } })]
           : []),
-      ].concat(c.series.flatMap((sName, si) => [
-        Plot.line(rows_, { x: c.x, y: sName, stroke: viz.palette.categorical[si], strokeWidth: 2 }),
-        Plot.dot(rows_, { x: c.x, y: sName, fill: viz.palette.categorical[si], r: 3.5 }),
-      ])),
+      ].concat(c.series.flatMap((sName, si) => {
+        // A series need not be measured at every x. Blanks would break the line
+        // into single points, so they are dropped rather than drawn as gaps.
+        const pts = rows_.filter((d) => d[sName] !== '' && d[sName] != null);
+        return [
+          Plot.line(pts, { x: c.x, y: sName, stroke: viz.palette.categorical[si], strokeWidth: 2 }),
+          Plot.dot(pts, { x: c.x, y: sName, fill: viz.palette.categorical[si], r: 3.5 }),
+        ];
+      })),
     });
     const svg = node.tagName.toLowerCase() === 'svg' ? node : node.querySelector('svg');
     let plotted = svg.innerHTML.replaceAll('<g aria-label="text"', '<g text-anchor="middle" aria-label="text"');
