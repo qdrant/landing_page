@@ -12,7 +12,7 @@ Qdrant Cloud uses three kinds of credentials. Each one protects a different surf
 | Credential | Protects | Created in | Sent as |
 |---|---|---|---|
 | Database API key | A cluster's REST and gRPC APIs, plus its `/metrics` and `/sys_metrics` endpoints | **API Keys** on the Cluster Detail page | The `api-key` header, or `Authorization: Bearer <key>` |
-| Cloud Management Key | The [Cloud API](/documentation/cloud-api/), the [`qcloud` CLI](/documentation/cloud-cli/), and [Terraform](/documentation/cloud-tools/terraform/) | **Access Management** > **Cloud Management Keys** | `Authorization: apikey <key>` |
+| Cloud Management Key | The [Cloud API](/documentation/cloud-automation/cloud-api/), the [`qcloud` CLI](/documentation/cloud-automation/cloud-cli/), and [Terraform](/documentation/cloud-automation/terraform/) | **Access Management** > **Cloud Management Keys** | `Authorization: apikey <key>` |
 | Console sign-in | The Cloud Console | Email, Google, GitHub, or [SSO](/documentation/cloud-account-setup/#enterprise-single-sign-on-sso) | A session. What a user can do is set by [Cloud RBAC](/documentation/cloud-rbac/) |
 
 These credentials are independent: a key from one does not grant access to the others. SSO covers Console sign-in only.

@@ -34,7 +34,7 @@ Your enterprise-grade AI applications demand more than just a powerful vector da
 
 Skip the UI—manage Qdrant entirely through code. The [**Qdrant Cloud API**](https://qdrant.tech/documentation/qdrant-cloud-api/?) lets you automate cluster creation, updates, and scaling, ensuring repeatable, version-controlled deployments. You can also programmatically generate and revoke API keys, update configurations, and adapt infrastructure as workloads change.
 
-You can manage the Qdrant Cloud lifecycle with Qdrant’s [**Terraform Provider**](https://qdrant.tech/documentation/cloud-tools/terraform/). With this support, you can define and automate cluster provisioning using Infrastructure-as-Code (IaC) best practices.
+You can manage the Qdrant Cloud lifecycle with Qdrant’s [**Terraform Provider**](https://qdrant.tech/documentation/cloud-automation/terraform/). With this support, you can define and automate cluster provisioning using Infrastructure-as-Code (IaC) best practices.
 
 **Why it matters:** By automating cluster management and scaling, Qdrant helps you focus on building AI-powered applications, not maintaining infrastructure.
 

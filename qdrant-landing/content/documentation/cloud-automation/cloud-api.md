@@ -2,9 +2,10 @@
 title: Qdrant Cloud API
 short_description: "Automate Qdrant Cloud with the gRPC and REST/JSON management API: provision clusters, backups, auth, and Hybrid Cloud resources."
 description: "Use the Qdrant Cloud API over gRPC or REST/JSON to automate clusters, backups, authentication, and Hybrid Cloud environments programmatically."
-weight: 245
+weight: 10
 partition: deploy
 aliases:
+  - /documentation/cloud-api/
   - /documentation/qdrant-cloud-api/
 ---
 # Qdrant Cloud API: Powerful gRPC and Flexible REST/JSON Interfaces
@@ -77,4 +78,4 @@ For a complete workflow with `curl`, see [Automate Qdrant Cloud](/documentation/
 
 ## Terraform Provider
 
-Qdrant Cloud also provides a Terraform provider to manage your Qdrant Cloud resources. [Learn more](/documentation/cloud-tools/terraform/).
+Qdrant Cloud also provides a Terraform provider to manage your Qdrant Cloud resources. [Learn more](/documentation/cloud-automation/terraform/).

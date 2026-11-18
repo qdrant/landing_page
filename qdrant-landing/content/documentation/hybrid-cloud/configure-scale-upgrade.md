@@ -7,7 +7,7 @@ weight: 15
 
 # Configure, Scale & Update Qdrant Hybrid Cloud Clusters
 
-You manage Hybrid Cloud clusters in the Qdrant Cloud Console, with the [`qcloud` CLI](/documentation/cloud-cli/), the [Cloud API](/documentation/cloud-api/), or [Terraform](/documentation/cloud-tools/terraform/). The Operator in your Kubernetes cluster applies the change. Change cluster resources through one of these tools, and not with `kubectl`, because the Operator owns the numbers.
+You manage Hybrid Cloud clusters in the Qdrant Cloud Console, with the [`qcloud` CLI](/documentation/cloud-automation/cloud-cli/), the [Cloud API](/documentation/cloud-automation/cloud-api/), or [Terraform](/documentation/cloud-automation/terraform/). The Operator in your Kubernetes cluster applies the change. Change cluster resources through one of these tools, and not with `kubectl`, because the Operator owns the numbers.
 
 ## Configure Clusters
 

@@ -12,7 +12,7 @@ Your user profile holds personal, user-level settings that apply to you across e
 
 Open the **user menu** at the bottom left of the Qdrant Cloud Console to access:
 
-* **Get Started**: the *Explore Qdrant Cloud* landing page. See [Getting Started](/documentation/cloud-getting-started/).
+* **Get Started**: the *Explore Qdrant Cloud* landing page. See [Getting Started](/documentation/cloud/getting-started/).
 * **Preferences**: your profile details, color scheme, and cookie consent.
 * **Invitations**: pending invitations to join other accounts.
 * **Security**: secure your login with multi-factor authentication.

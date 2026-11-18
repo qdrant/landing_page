@@ -2,8 +2,10 @@
 title: Qdrant Cloud CLI
 short_description: "Manage Qdrant Cloud from your terminal with qcloud: create clusters, rotate keys, and switch between accounts and environments."
 description: "Install and use the qcloud CLI to manage Qdrant Cloud clusters, API keys, and accounts directly from your terminal with scriptable commands."
-weight: 250
+weight: 20
 partition: deploy
+aliases:
+  - /documentation/cloud-cli/
 ---
 
 # Qdrant Cloud CLI
@@ -142,7 +144,7 @@ qcloud context show
 
 ### Named Contexts
 
-Named contexts allow you to also use Cloud Management API Keys for an account. Create a [management API](/documentation/cloud-api/) key and note your account ID from the [Qdrant Cloud Console](https://cloud.qdrant.io).
+Named contexts allow you to also use Cloud Management API Keys for an account. Create a [management API](/documentation/cloud-automation/cloud-api/) key and note your account ID from the [Qdrant Cloud Console](https://cloud.qdrant.io).
 
 ```sh
 qcloud context set my-cloud --api-key <KEY> --account-id <ID>

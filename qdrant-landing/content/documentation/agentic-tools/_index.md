@@ -66,7 +66,7 @@ Skills and prompts tell your agent what to do. The Qdrant Cloud CLI and the Qdra
 
 | Tool | What your agent can do with it | Works with |
 | --- | --- | --- |
-| [Qdrant Cloud CLI (qcloud)](/documentation/cloud-cli/) | Create and manage clusters, database API keys, and backups from the command line. You log in once in your browser with `qcloud auth login`. | Qdrant Cloud |
+| [Qdrant Cloud CLI (qcloud)](/documentation/cloud-automation/cloud-cli/) | Create and manage clusters, database API keys, and backups from the command line. You log in once in your browser with `qcloud auth login`. | Qdrant Cloud |
 | [Qdrant Cloud MCP](/documentation/qdrant-mcp/cloud/) | Manage clusters, serverless spaces, backups, access, and billing through tool calls. You sign in with OAuth. It also searches the documentation. | Qdrant Cloud |
 | [Qdrant Docs MCP](/documentation/qdrant-mcp/docs/) | Search the documentation, articles, blog, and courses, and find code snippets. No account needed. | Any deployment |
 | [Qdrant MCP (open source)](/documentation/qdrant-mcp/oss/) | Store and retrieve information in a Qdrant collection, as semantic memory or code search. | Any deployment, including local |

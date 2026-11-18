@@ -31,7 +31,7 @@ Once you sign in, the Qdrant Cloud Console is organized around three areas:
 
 ![Qdrant Cloud Console overview](/documentation/cloud/console-overview.png)
 
-The **Get Started** page (**Explore Qdrant Cloud**) is your landing page for connecting to clusters, loading sample data, migrating data, and using Cloud Inference. See [Getting Started](/documentation/cloud-getting-started/) for a guided walkthrough.
+The **Get Started** page (**Explore Qdrant Cloud**) is your landing page for connecting to clusters, loading sample data, migrating data, and using Cloud Inference. See [Getting Started](/documentation/cloud/getting-started/) for a guided walkthrough.
 
 ## Switching Between Accounts
 
