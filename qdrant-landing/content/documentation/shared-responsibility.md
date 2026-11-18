@@ -2,7 +2,7 @@
 title: Shared Responsibility
 short_description: "Compare Managed Cloud, Hybrid Cloud, and Private Cloud: where the data plane runs, and who is responsible for infrastructure, upgrades, networking, access control, availability, and monitoring."
 description: "Who is responsible for what in Qdrant Managed Cloud, Hybrid Cloud, and Private Cloud: infrastructure, Kubernetes, upgrades, networking, access control, backups, failover, monitoring, and logging."
-weight: 232
+weight: 250
 partition: deploy
 ---
 
