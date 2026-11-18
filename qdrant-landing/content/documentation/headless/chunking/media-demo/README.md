@@ -29,6 +29,15 @@ The HTML, CSS, and JavaScript viewer files remain unchanged.
 
 ## Inspect and capture
 
+The guide embeds the recording directly through the `inline-media` island.
+Select one of six thumbnails to inspect its sampled video frame, then use
+Play clip to replay that interval. The audio player exposes eight transcript
+chunks, their timestamps, and the measured waveform. Both players use the same
+committed outputs and remain on the guide page. Native media controls remain
+available if JavaScript is disabled or the interactive component fails.
+
+The standalone viewer also supports capture and raw-output inspection:
+
 ```sh
 npx --yes http-server@14.1.1 \
   qdrant-landing/static/guides_data/chunking/media-demo -a 127.0.0.1 -p 8739 -c-1
@@ -43,8 +52,8 @@ without playback controls. Direct capture URLs:
 - `/?view=audio&capture=1&chunk=a04`
 - `/?view=audio&capture=1&chunk=a02,a03` to inspect the incomplete phrase split.
 
-The guide screenshots are browser captures of those first two views, not
-generated illustrations. Re-capture them if the processing output changes.
+Capture views are optional exports. The guide renders interactive media rather
+than embedding screenshots of this viewer.
 
 ## What the output means
 

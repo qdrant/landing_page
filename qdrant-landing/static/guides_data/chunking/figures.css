@@ -37,13 +37,56 @@
   min-width: 0;
 }
 
-.documentation .chunking-source-example > .chunking-run-example {
+.documentation .chunking-inline-media {
+  min-width: 0;
+}
+
+.documentation .chunking-inline-media > .island {
+  margin: 0;
+}
+
+.documentation .chunking-inline-media .island__fallback {
   position: static;
 }
 
-.documentation .chunking-source-example .chunking-run-example img {
+html:not(.islands-js) .chunking-inline-media .island__stage,
+.chunking-inline-media .island.is-failed .island__stage {
+  aspect-ratio: auto !important;
+}
+
+.documentation .chunking-media-fallback {
+  display: grid;
+  gap: 1rem;
+}
+
+.documentation .chunking-media-fallback video,
+.documentation .chunking-media-fallback audio {
+  display: block;
   width: 100%;
-  max-height: none;
+  max-width: 100%;
+}
+
+.documentation .chunking-media-fallback video {
+  aspect-ratio: 4 / 3;
+}
+
+.documentation .chunking-media-fallback p {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.documentation .chunking-media-fallback .chunking-media-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+html[data-theme='dark'] .chunking-media-fallback {
+  color-scheme: dark;
+}
+
+html[data-theme='light'] .chunking-media-fallback {
+  color-scheme: light;
 }
 
 @media (max-width: 700px) {
@@ -415,6 +458,10 @@ html[data-theme='dark'] .chunking-figure > .chunking-figure__dark {
 }
 
 @media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .chunking-media-fallback {
+    color-scheme: dark;
+  }
+
   html:not([data-theme='light']) .chunking-figure > picture:not(.chunking-figure__dark) {
     display: none;
   }

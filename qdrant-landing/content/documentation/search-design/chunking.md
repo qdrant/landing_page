@@ -114,19 +114,27 @@ When visual marks matter, test page-image retrieval. Preserve the scan, check le
 ### Video Chunking
 
 <div class="chunking-source-example">
-<figure class="chunking-run-example">
-  <a href="/guides_data/chunking/media-demo/?view=video&amp;chunk=v04" aria-label="Open the actual video chunking results and play the recording">
-    <img src="/guides_data/chunking/video-run.png" alt="Actual FFmpeg output from NASA's Apollo 11 recording: window 4 of 6 spans 00:36–00:48, with a source frame extracted at 00:42." width="640" height="1089" loading="lazy">
-  </a>
-  <figcaption>Actual run on NASA footage. Open the recording and all six video windows.</figcaption>
-</figure>
+<div class="chunking-inline-media" data-media-kind="video">
+
+{{< island path="documentation/headless/chunking/inline-media" ratio="4/5" >}}
+<div class="chunking-media-fallback">
+  <p class="chunking-media-title">Apollo 11 first steps on the moon</p>
+  <video controls playsinline preload="none" poster="/guides_data/chunking/media-demo/frames/video-01.jpg" aria-label="Apollo 11 first steps on the moon">
+    <source src="/guides_data/chunking/media-demo/source.mp4" type="video/mp4">
+    <a href="/guides_data/chunking/media-demo/source.mp4">Play the Apollo 11 recording</a>
+  </video>
+  <p>Source: <a href="https://commons.wikimedia.org/wiki/File:Apollo_11_Landing_-_first_steps_on_the_moon.ogv">NASA</a></p>
+</div>
+{{< /island >}}
+
+</div>
 <div class="chunking-source-example__text">
 
 - **Boundary:** Start with fixed-duration windows; use scene or topic boundaries when they preserve a complete action. [TwelveLabs supports fixed and dynamic segmentation](https://docs.twelvelabs.io/docs/guides/create-embeddings/at-scale/video).
 - **Evidence:** Link frames, transcript, and clip through a source ID and start/end timestamps. Transcript embeddings alone cannot recover actions the speaker does not describe. Check frame sampling and model duration limits.
 - **Actual run:** The script divides a 61.5-second NASA recording into six ranges capped at 12 seconds; FFmpeg extracts each midpoint frame. One frame can miss an action: replay the complete interval before judging its evidence.
 
-[Explore the results](/guides_data/chunking/media-demo/?view=video) or [reproduce the run](https://github.com/qdrant/landing_page/blob/codex/chunking-guide/qdrant-landing/content/documentation/headless/chunking/media-demo/README.md).
+[Reproduce the example](https://github.com/qdrant/landing_page/blob/codex/chunking-guide/qdrant-landing/content/documentation/headless/chunking/media-demo/README.md).
 
 </div>
 </div>
@@ -134,19 +142,27 @@ When visual marks matter, test page-image retrieval. Preserve the scan, check le
 ### Voice and Audio Chunking
 
 <div class="chunking-source-example">
-<figure class="chunking-run-example">
-  <a href="/guides_data/chunking/media-demo/?view=audio&amp;chunk=a04" aria-label="Open the actual audio chunking results and replay the source">
-    <img src="/guides_data/chunking/audio-run.png" alt="Actual Whisper base.en output: eight timestamped text chunks and a waveform computed from NASA audio. Selected chunk 4 spans 00:12.30–00:21.16; its raw transcript contains a recognition error, fine green." width="640" height="1039" loading="lazy">
-  </a>
-  <figcaption>Measured audio and uncorrected ASR output. Open the results to replay each chunk.</figcaption>
-</figure>
+<div class="chunking-inline-media" data-media-kind="audio">
+
+{{< island path="documentation/headless/chunking/inline-media" ratio="4/5" >}}
+<div class="chunking-media-fallback">
+  <p class="chunking-media-title">Apollo 11 first steps on the moon</p>
+  <audio controls preload="none" aria-label="Apollo 11 first steps on the moon audio">
+    <source src="/guides_data/chunking/media-demo/audio.m4a" type="audio/mp4">
+    <a href="/guides_data/chunking/media-demo/audio.m4a">Play the Apollo 11 audio</a>
+  </audio>
+  <p>Source: <a href="https://commons.wikimedia.org/wiki/File:Apollo_11_Landing_-_first_steps_on_the_moon.ogv">NASA</a></p>
+</div>
+{{< /island >}}
+
+</div>
 <div class="chunking-source-example__text">
 
 - **Boundary:** Use ASR timestamps; add diarization when speaker identity matters. Keep dependent turns together. Pauses can occur inside a sentence.
 - **Evidence:** Retain recording IDs and source offsets. Non-speech events require the original audio and a suitable [audio embedding model](https://docs.twelvelabs.io/docs/guides/create-embeddings/at-scale/audio).
 - **Actual run:** A Whisper base.en transcript is split into eight chunks using punctuation, ASR word gaps of at least 0.8 seconds, and a 12-second cap. It misrecognizes "fine-grained" as "fine green"; the gap rule also splits an unfinished phrase. Repair recognition and boundary errors before embedding.
 
-[Replay the chunks and inspect the raw output](/guides_data/chunking/media-demo/?view=audio). This single-speaker example does not run diarization or retrieval.
+[Inspect the raw transcript](/guides_data/chunking/media-demo/transcript.raw.json). This single-speaker example does not run diarization or retrieval.
 
 </div>
 </div>
