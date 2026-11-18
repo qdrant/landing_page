@@ -506,9 +506,118 @@ function groupedColumns(c) {
     + wrapPlot(plotted) + zones + legendRow;
 }
 
+// A scatter: one dot per configuration, two measures against each other. Unlike
+// lines-facet the x axis is a measurement, not a swept setting, so points are
+// labelled where they sit and the optional frontier marks what nothing beats.
+function scatter(c) {
+  const all = readCsv(c.data);
+  const rows = c.where
+    ? all.filter((d) => Object.entries(c.where).every(([k, v]) => String(d[k]) === String(v)))
+    : all;
+  const names = [...new Set(rows.map((d) => d[c.series]))];
+  const bySeries = names.map((n) => rows.filter((d) => d[c.series] === n));
+  const logTicks = (scale, domain) => (scale === 'log'
+    ? { ticks: decades(domain), tickFormat: (v) => String(v) } : {});
+
+  const node = Plot.plot({
+    document: dom.window.document,
+    width: c.width, height: c.height,
+    marginLeft: LAYOUT.left, marginRight: LAYOUT.right,
+    marginTop: LAYOUT.top, marginBottom: LAYOUT.bottom,
+    style: { fontFamily: FONT, fontSize: `${viz.type.axis}px`, background: 'none', color: MUTED },
+    x: { type: c.xScale || 'linear', domain: c.xDomain, grid: true, label: null, tickSize: 0,
+         ...logTicks(c.xScale, c.xDomain) },
+    y: { type: c.yScale || 'linear', domain: c.yDomain, grid: true, label: null, tickSize: 0,
+         ...logTicks(c.yScale, c.yDomain) },
+    marks: bySeries.flatMap((pts, si) => [
+      ...(c.connect === false ? [] : [Plot.line(pts, { x: c.x, y: c.y, stroke: viz.palette.categorical[si], strokeWidth: 2, strokeOpacity: 0.45 })]),
+      Plot.dot(pts, { x: c.x, y: c.y, fill: viz.palette.categorical[si], r: 5, stroke: 'none' }),
+    ]),
+  });
+  const svg = node.tagName.toLowerCase() === 'svg' ? node : node.querySelector('svg');
+  let plotted = svg.innerHTML.replaceAll('<g aria-label="text"', '<g text-anchor="middle" aria-label="text"');
+
+  // Each dot mark was given one series' rows, so its circles come back in that
+  // series' row order. That is the only mapping from pixels back to a row.
+  const dotGroups = [...plotted.matchAll(/<g aria-label="dot"[\s\S]*?<\/g>/g)].map((m) => m[0]);
+  const at = dotGroups.map((g) => [...g.matchAll(/cx="([-\d.]+)" cy="([-\d.]+)"/g)]
+    .map((m) => ({ x: Number(m[1]), y: Number(m[2]) })));
+
+  let gi = 0;
+  plotted = plotted.replace(/<g aria-label="dot"[\s\S]*?<\/g>/g, (g) => {
+    const si = gi++;
+    let ri = 0;
+    return g.replace(/<circle /g, () => `<circle data-viz-key="s${si}-p${ri++}" `);
+  });
+
+  const PLACE = {
+    up: { dx: 0, dy: -11, anchor: 'middle' },
+    down: { dx: 0, dy: 19, anchor: 'middle' },
+    left: { dx: -10, dy: 4, anchor: 'end' },
+    right: { dx: 10, dy: 4, anchor: 'start' },
+  };
+  const halo = (fill, size, weight) => `font-family="${FONT}" font-size="${size}"`
+    + ` font-weight="${weight}" fill="${fill}" paint-order="stroke" stroke="var(--qi-surface)" stroke-width="3.5"`;
+
+  const labels = bySeries.flatMap((pts, si) => pts.map((d, ri) => {
+    const text = c.pointLabel ? d[c.pointLabel] : '';
+    if (text === '' || text == null || !at[si] || !at[si][ri]) return '';
+    const pl = PLACE[d[c.place]] || PLACE.up;
+    return `<text x="${at[si][ri].x + pl.dx}" y="${at[si][ri].y + pl.dy}" text-anchor="${pl.anchor}"`
+      + ` ${halo(INK, viz.type.label, 500)}>${esc(text)}</text>`;
+  })).join('');
+
+  // The series names its own line, so no legend box and no colour-only key.
+  const seriesNames = bySeries.map((pts, si) => {
+    const ri = Math.min(Number(c.seriesNameAt ?? pts.length - 1), pts.length - 1);
+    const pl = PLACE[pts[ri][c.seriesNamePlace] || c.seriesNamePlace] || PLACE.up;
+    if (!at[si] || !at[si][ri]) return '';
+    return `<text x="${at[si][ri].x + pl.dx * 1.4}" y="${at[si][ri].y + pl.dy * 1.4}" text-anchor="${pl.anchor}"`
+      + ` ${halo(viz.palette.categorical[si], viz.type.subtitle, 700)}>${esc(names[si])}</text>`;
+  }).join('');
+
+  // The frontier: configurations nothing else beats on both measures at once.
+  let frontier = '';
+  if (c.frontier) {
+    const flat = bySeries.flatMap((pts, si) => pts.map((d, ri) => ({ d, p: at[si] && at[si][ri] })))
+      .filter((o) => o.p);
+    const better = flat.filter((o) => !flat.some((q) => q !== o
+      && q.d[c.x] <= o.d[c.x] && q.d[c.y] >= o.d[c.y]
+      && (q.d[c.x] < o.d[c.x] || q.d[c.y] > o.d[c.y])))
+      .sort((a, b) => a.d[c.x] - b.d[c.x]);
+    const steps = better.map((o, i) => (i ? `L${o.p.x},${better[i - 1].p.y} L${o.p.x},${o.p.y}` : `M${o.p.x},${o.p.y}`));
+    if (better.length > 1) {
+      frontier = `<path d="${steps.join(' ')}" fill="none" stroke="${MUTED}" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.8"/>`;
+    }
+    const tag = better[0];
+    if (tag) {
+      const right = tag.p.x < LAYOUT.left + 140;
+      frontier += `<text x="${tag.p.x + (right ? 16 : -14)}" y="${tag.p.y - 14}" text-anchor="${right ? 'start' : 'end'}"`
+        + ` font-family="${FONT}" font-size="${viz.type.label}" fill="${MUTED}">${esc(c.frontier)}</text>`;
+    }
+  }
+
+  const zones = bySeries.flatMap((pts, si) => pts.map((d, ri) => {
+    if (!at[si] || !at[si][ri]) return '';
+    const rows2 = [{ k: c.yLabel, v: `${d[c.y]}`, c: viz.palette.categorical[si] },
+                   { k: c.xLabel, v: `${d[c.x]}`, c: viz.palette.categorical[si] }];
+    const title = `${names[si]}${c.pointLabel && d[c.pointLabel] ? ' · ' + d[c.pointLabel] : ''}`;
+    return `<rect data-viz-zone data-viz-key="s${si}-p${ri}"`
+      + ` data-viz-title="${esc(title)}" data-viz-rows="${esc(JSON.stringify(rows2))}"`
+      + ` tabindex="0" role="button" aria-label="${esc(title)}"`
+      + ` x="${at[si][ri].x - 11}" y="${at[si][ri].y - 11}" width="22" height="22" fill="transparent"/>`;
+  })).join('');
+
+  const xlab = `<text x="${c.width / 2}" y="${c.height - LAYOUT.bottom + 56}" text-anchor="middle"`
+    + ` font-family="${FONT}" font-size="${viz.type.label}" fill="${MUTED}">${esc(c.xLabel)}</text>`;
+  return panelHead(c.width, c.title, c.subtitle) + yAxisLabel(c.height, c.yLabel)
+    + wrapPlot(plotted) + frontier + labels + seriesNames + xlab + zones;
+}
+
 function draw(c) {
   if (c.kind === 'grouped-columns') return groupedColumns(c);
   if (c.kind === 'lines-facet') return linesFacet(c);
+  if (c.kind === 'scatter') return scatter(c);
   if (c.kind !== 'columns-2panel') throw new Error(`unsupported kind ${c.kind}`);
   const data = readCsv(c.data);
   const gap = LAYOUT.gap;

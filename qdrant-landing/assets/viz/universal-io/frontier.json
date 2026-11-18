@@ -1,0 +1,23 @@
+{
+  "title": "Bandwidth against the wait, one dot per configuration",
+  "kind": "scatter",
+  "x": "ms",
+  "y": "mb",
+  "xScale": "log",
+  "yScale": "log",
+  "xDomain": [0.06, 140],
+  "yDomain": [0.1, 480],
+  "xLabel": "wait per read, p50 in ms (log scale)",
+  "yLabel": "MB/s delivered (log scale)",
+  "series": "backend",
+  "pointLabel": "setting",
+  "place": "place",
+  "seriesNameAt": 1,
+  "seriesNamePlace": "up",
+  "frontier": "frontier",
+  "height": 380,
+  "views": [
+    { "label": "Random", "subtitle": "4 KiB random reads. Up and left is better", "where": { "pattern": "random" } },
+    { "label": "Sequential", "subtitle": "4 KiB sequential reads on untouched bytes. Up and left is better", "where": { "pattern": "sequential" } }
+  ]
+}

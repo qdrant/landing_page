@@ -1,0 +1,24 @@
+pattern,backend,setting,place,ms,mb
+random,mmap,,down,0.5524,7.22
+random,mmap,,up,4.836,7.15
+random,mmap,,up,18.4614,7.21
+random,mmap,batch 256,up,71.2242,7.22
+random,io_uring,batch 1,left,0.5616,7.15
+random,io_uring,,up,0.572,25.84
+random,io_uring,batch 16,up,0.6135,85.66
+random,io_uring,,up,1.432,97.32
+random,io_uring,,up,4.8724,107.67
+random,io_uring,batch 512,down,9.4183,110.91
+random,S3,1 reader,left,23.94,0.167
+random,S3,,up,23.98,1.029
+random,S3,,up,23.11,4.721
+random,S3,128 readers,up,24.06,11.323
+sequential,mmap,,up,0.08,115.13
+sequential,mmap,,up,0.8671,117.43
+sequential,mmap,batch 256,down,5.0196,119.48
+sequential,io_uring,,up,0.08,221.69
+sequential,io_uring,batch 256,up,2.5136,208.23
+sequential,S3,1 reader,left,22.82,0.181
+sequential,S3,,up,23.54,1.123
+sequential,S3,,up,23.46,4.668
+sequential,S3,128 readers,up,24.0,7.773

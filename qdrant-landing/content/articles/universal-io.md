@@ -217,7 +217,9 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 ## What the Depth Buys
 
-{{< chart id="universal-io/depth" caption="Random 4 KiB reads on a 4-core Xeon 8375C in us-west-2, page cache dropped before each run. mmap and io_uring read an EBS gp3 volume through the same read_batch call, where the batch size sets the depth. The S3 points vary the number of concurrent readers instead." caption2="The same reads in order. Local storage gets its bandwidth from the kernel reading ahead, so depth stops mattering. Batch 1 is missing from the latency panel because those reads finish under 0.1 ms, below the axis: the page was already there." >}}
+{{< chart id="universal-io/frontier" caption="Each dot is one configuration on a 4-core Xeon 8375C in us-west-2, page cache dropped before each run. Up and left is better: more MB/s for less wait. The dashed staircase is the frontier, the settings nothing else beats on both measures." caption2="The same two measures for reads in order. Local storage jumps to the top left, because the kernel reads ahead. Object storage does not move." >}}
+
+{{< chart id="universal-io/endpoints" caption="The shallowest and deepest setting measured for each backend, on random reads. Hover a bar for its number." caption2="The same two settings by what the caller waits. mmap pays 71 ms for the bandwidth it already had at batch 1." >}}
 
 `io_uring` turns depth into bandwidth. Each doubling of the batch doubles it, from 7.15 MB/s at batch 1 to 85.66 MB/s at batch 16. The wait rises 9% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 buys 29% more bandwidth, and the wait rises to 9.4 ms for it.
 

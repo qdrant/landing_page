@@ -1,0 +1,14 @@
+{
+  "title": "What the deepest setting buys, against the shallowest",
+  "kind": "grouped-columns",
+  "group": "backend",
+  "series": "depth",
+  "labelTop": "backend",
+  "labelBottom": "depth",
+  "colors": ["muted", 1],
+  "height": 360,
+  "views": [
+    { "label": "Bandwidth", "subtitle": "4 KiB random reads, higher is better", "y": "mb", "yLabel": "MB/s delivered", "yMax": 95 },
+    { "label": "Wait", "subtitle": "4 KiB random reads, lower is better", "y": "ms", "yLabel": "p50 ms per read", "yMax": 78 }
+  ]
+}
