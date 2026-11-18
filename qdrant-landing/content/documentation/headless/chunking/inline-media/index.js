@@ -184,7 +184,7 @@ function render(node, kind, data) {
       <h4 class="qi-inline-media__title">${TITLE}</h4>
       ${kind === 'video'
         ? `<video class="qi-inline-media__player" controls playsinline preload="metadata" poster="${BASE}${escape(chunks[0].frame_path)}" aria-label="${TITLE}"><source src="${BASE}source.mp4" type="video/mp4"></video>`
-        : `<audio class="qi-inline-media__player" controls preload="metadata" aria-label="${TITLE}"><source src="${BASE}audio.m4a" type="audio/mp4"></audio>
+        : `<audio hidden preload="metadata"><source src="${BASE}audio.m4a" type="audio/mp4"></audio>
           <svg class="qi-inline-media__waveform" viewBox="0 0 600 90" role="img" aria-label="Normalized RMS computed from the recording">
             <rect data-band y="0" height="90"></rect><path data-wave></path>
           </svg>`}
@@ -241,6 +241,10 @@ function render(node, kind, data) {
     interacted = true;
     if (button.hasAttribute('data-index')) {
       const index = Number(button.dataset.index);
+      if (kind === 'audio' && index === selected && !player.paused) {
+        player.pause();
+        return;
+      }
       select(index);
       if (kind === 'video') void control.browse(chunks[index].frame_time_sec);
       else void control.play(chunks[index]);
@@ -248,6 +252,15 @@ function render(node, kind, data) {
       error.hidden = true;
       void control.play(chunks[selected]);
     }
+  };
+  const labelAudioControls = () => {
+    if (kind !== 'audio') return;
+    node.querySelectorAll('[data-index]').forEach(button => {
+      const index = Number(button.dataset.index);
+      const action = index === selected && !player.paused ? 'Pause' : 'Play';
+      button.setAttribute('aria-label', `${action} chunk ${index + 1}, ${range(chunks[index])}`);
+      button.title = `${action} chunk ${index + 1}`;
+    });
   };
   const followAudio = () => {
     if (kind !== 'audio' || player.seeking) return;
@@ -262,7 +275,10 @@ function render(node, kind, data) {
   node.addEventListener('click', click);
   player.addEventListener('timeupdate', followAudio);
   player.addEventListener('seeked', followAudio);
+  player.addEventListener('play', labelAudioControls);
+  player.addEventListener('pause', labelAudioControls);
   select(0);
+  labelAudioControls();
   return {
     async initialize(signal) {
       await control.initialize(signal);
@@ -274,6 +290,8 @@ function render(node, kind, data) {
       node.removeEventListener('click', click);
       player.removeEventListener('timeupdate', followAudio);
       player.removeEventListener('seeked', followAudio);
+      player.removeEventListener('play', labelAudioControls);
+      player.removeEventListener('pause', labelAudioControls);
     },
   };
 }

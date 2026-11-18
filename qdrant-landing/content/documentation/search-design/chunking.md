@@ -151,10 +151,7 @@ When visual marks matter, test page-image retrieval. Preserve the scan, check le
 {{< island path="documentation/headless/chunking/inline-media" ratio="4/5" >}}
 <div class="chunking-media-fallback">
   <p class="chunking-media-title">Apollo 11 first steps on the moon</p>
-  <audio controls preload="none" aria-label="Apollo 11 first steps on the moon audio">
-    <source src="/guides_data/chunking/media-demo/audio.m4a" type="audio/mp4">
-    <a href="/guides_data/chunking/media-demo/audio.m4a">Play the Apollo 11 audio</a>
-  </audio>
+  <p><a href="/guides_data/chunking/media-demo/audio.m4a">Play the Apollo 11 audio</a></p>
   <p>Source: <a href="https://commons.wikimedia.org/wiki/File:Apollo_11_Landing_-_first_steps_on_the_moon.ogv">NASA</a></p>
 </div>
 {{< /island >}}

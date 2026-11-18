@@ -138,21 +138,28 @@ test('audio selection preserves raw ASR, highlights its interval, and pauses the
   assert.equal(get(player).paused, true);
 });
 
-test('rapid audio selections cancel stale autoplay; native pause and seeking remain authoritative', async t => {
+test('rapid audio selections cancel stale autoplay; chunk buttons pause and replay without native controls', async t => {
   const { dom, document, mount, get } = await fixture(t);
   const node = document.querySelector('#audio');
   await mount(node);
   const player = node.querySelector('audio');
+  assert.equal(player.controls, false);
+  assert.equal(player.hidden, true);
   node.querySelector('[data-index="1"]').click();
   node.querySelector('[data-index="3"]').click();
   await flush();
   assert.equal(get(player).plays, 1);
   assert.equal(player.currentTime, data.audio.chunks[3].start_sec);
-  player.pause();
+  assert.match(node.querySelector('[data-index="3"]').getAttribute('aria-label'), /^Pause chunk 4/);
+  node.querySelector('[data-index="3"]').click();
   await flush();
   assert.equal(get(player).paused, true);
   assert.equal(get(player).plays, 1);
-  await player.play();
+  assert.match(node.querySelector('[data-index="3"]').getAttribute('aria-label'), /^Play chunk 4/);
+  node.querySelector('[data-index="3"]').click();
+  await flush();
+  assert.equal(get(player).paused, false);
+  assert.equal(player.currentTime, data.audio.chunks[3].start_sec);
   player.currentTime = 50;
   await flush();
   player.dispatchEvent(new dom.window.Event('timeupdate'));

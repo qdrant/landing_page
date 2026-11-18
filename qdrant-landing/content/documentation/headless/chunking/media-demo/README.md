@@ -32,9 +32,11 @@ The HTML, CSS, and JavaScript viewer files remain unchanged.
 The guide embeds the recording directly through the `inline-media` island.
 Select one of six thumbnails to inspect its sampled video frame, then use
 Play clip to replay that interval. The audio player exposes eight transcript
-chunks, their timestamps, and the measured waveform. Both players use the same
-committed outputs and remain on the guide page. Native media controls remain
-available if JavaScript is disabled or the interactive component fails.
+chunks, their timestamps, and the measured waveform. Select a numbered audio
+chunk to play it; select it again to pause. Both players use the same committed
+outputs and remain on the guide page. If JavaScript is disabled or the
+interactive component fails, the guide provides native video controls and a
+direct link to the audio recording.
 
 The standalone viewer also supports capture and raw-output inspection:
 
