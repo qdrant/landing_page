@@ -14,7 +14,7 @@
  * fetched the page, so the read never touches the disk. Those points are
  * drawn hollow on the floor rather than silently moved.
  */
-const XMIN = 0.1, XMAX = 120, YMIN = 0.1, YMAX = 300;
+const XMIN = 0.1, XMAX = 120, YMIN = 0.1, YMAX = 600;
 const XT = [0.1, 1, 10, 100];
 const YT = [0.1, 1, 10, 100];
 
@@ -33,10 +33,10 @@ export const SETS = {
         { label: 'batch 64', ms: 1.432, mb: 97.32 }, { label: 'batch 128', ms: 2.5331, mb: 105.29 },
         { label: 'batch 256', ms: 4.8724, mb: 107.67 }, { label: 'batch 512', ms: 9.4183, mb: 110.91 }] },
       { name: 'S3, same region', hue: 'red', points: [
-        { label: '1 in flight', ms: 24.32, mb: 0.149 }, { label: '2 in flight', ms: 24.28, mb: 0.267 },
-        { label: '4 in flight', ms: 25.33, mb: 0.565 }, { label: '8 in flight', ms: 23.79, mb: 0.895 },
-        { label: '16 in flight', ms: 24.16, mb: 2.248 }, { label: '32 in flight', ms: 23.99, mb: 3.346 },
-        { label: '128 in flight', ms: 25.1, mb: 12.55 }] },
+        { label: '1 reader', ms: 23.94, mb: 0.167 }, { label: '2 readers', ms: 23.08, mb: 0.329 },
+        { label: '4 readers', ms: 24.82, mb: 0.564 }, { label: '8 readers', ms: 23.98, mb: 1.029 },
+        { label: '16 readers', ms: 23.95, mb: 1.886 }, { label: '32 readers', ms: 23.11, mb: 4.721 },
+        { label: '64 readers', ms: 23.23, mb: 9.398 }, { label: '128 readers', ms: 24.06, mb: 11.323 }] },
     ],
     notes: [
       { ms: 0.75, mb: 33, hue: 'blue', lines: ['depth doubles bandwidth'] },
@@ -58,13 +58,15 @@ export const SETS = {
       { name: 'io_uring', hue: 'blue', points: [
         { label: 'batch 1', ms: 0.0015, mb: 221.69 }, { label: 'batch 256', ms: 2.5136, mb: 208.23 }] },
       { name: 'S3, same region', hue: 'red', points: [
-        { label: '1 in flight', ms: 23.05, mb: 0.17 }, { label: '16 in flight', ms: 23.42, mb: 1.91 },
-        { label: '256 in flight', ms: 30.01, mb: 10.46 }] },
+        { label: '1 reader', ms: 22.82, mb: 0.181 }, { label: '2 readers', ms: 23.08, mb: 0.350 },
+        { label: '4 readers', ms: 23.55, mb: 0.626 }, { label: '8 readers', ms: 23.54, mb: 1.123 },
+        { label: '16 readers', ms: 23.93, mb: 1.795 }, { label: '32 readers', ms: 23.46, mb: 4.668 },
+        { label: '64 readers', ms: 23.75, mb: 8.912 }, { label: '128 readers', ms: 24.00, mb: 7.773 }] },
     ],
     notes: [
-      { ms: 0.13, mb: 42, hue: 'cyan', lines: ['mmap 117 MB/s, 16&#215; its random rate'] },
-      { ms: 0.13, mb: 400, hue: 'blue', lines: ['io_uring 215 MB/s: bulk reads beat page faults'] },
-      { ms: 0.75, mb: 2.1, lines: ['the same reads, in random order'] },
+      { ms: 0.13, mb: 38, hue: 'cyan', lines: ['mmap 117 MB/s, 16&#215; its random rate'] },
+      { ms: 0.13, mb: 430, hue: 'blue', lines: ['io_uring 215 MB/s: bulk reads beat page faults'] },
+      { ms: 110, mb: 3.4, anchor: 'end', hue: 'red', lines: ['S3 unchanged: the network does not read ahead'] },
       { ms: 100, mb: 0.4, anchor: 'end', lines: ['hollow: p50 under 0.1 ms: the page was already there'] },
     ],
     mobileNotes: [
@@ -79,12 +81,13 @@ export const LABEL = {
     + 'climbs almost straight up, from 7.15 to 85.66 megabytes per second while latency stays near '
     + '0.6 milliseconds, then bends right as the last 29 percent of bandwidth costs fifteen times '
     + 'the wait. mmap runs flat at about 7.2 megabytes per second whatever the batch, because its '
-    + 'pipeline is one deep. S3 climbs straight up at about 24 milliseconds, from 0.15 to 12.55 '
-    + 'megabytes per second.',
+    + 'pipeline is one deep. S3 climbs straight up at about 24 milliseconds, from 0.17 to 11.3 '
+    + 'megabytes per second as the number of readers rises from 1 to 128.',
   seq: 'The same axes for sequential reads, each run on bytes no earlier run touched. mmap holds about '
     + '117 megabytes per second whatever the batch, sixteen times its random rate, and io_uring reaches '
     + 'about 215. Most reads have a median latency below the axis floor because readahead had already '
-    + 'fetched the page. S3 gains little from reading in order.',
+    + 'fetched the page. The S3 line lands on top of its random one at every number of readers, '
+    + 'because object storage does not read ahead.',
 };
 
 const GEO = {

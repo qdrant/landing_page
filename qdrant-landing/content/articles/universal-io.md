@@ -217,25 +217,25 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 ## What the Depth Buys
 
-Each point below is one configuration: 4 KiB random reads on a 4-core Xeon 8375C in us-west-2 with an EBS gp3 volume, page cache dropped before each run, all three backends going through the same `read_batch` call.
+Each point below is one configuration: 4 KiB reads on a 4-core Xeon 8375C in us-west-2, page cache dropped before each run. `mmap` and `io_uring` read an EBS gp3 volume through the same `read_batch` call, where the batch size sets the depth. The S3 points vary the number of concurrent readers instead.
 
 {{< island
     path="content/articles/headless/universal-io/depth-latency"
     width="760" ratio="760 / 372"
-    title="Latency is p50 from submitting a read to its completion, so past a backend's pipeline depth it includes queueing. Switch to sequential to see what the kernel's readahead does. Latency and bandwidth were measured in separate runs."
+    title="Latency is p50 from submitting a read to its completion, so past a backend's pipeline depth it includes queueing. Switch to sequential to see what the kernel's readahead does, where the faded line is the same reads in random order. Latency and bandwidth were measured in separate runs."
 >}}
-![Bandwidth against latency for three read backends on log scales. io_uring climbs almost straight up, from 7.15 to 85.66 MB/s while latency stays near 0.6 ms, then bends right. mmap runs flat at about 7.2 MB/s whatever the batch. S3 climbs straight up at about 24 ms, from 0.15 to 12.55 MB/s.](/articles_data/universal-io/uio-depth-latency.svg)
+![Bandwidth against latency for three read backends on log scales. io_uring climbs almost straight up, from 7.15 to 85.66 MB/s while latency stays near 0.6 ms, then bends right. mmap runs flat at about 7.2 MB/s whatever the batch. S3 climbs straight up at about 24 ms, from 0.17 to 11.3 MB/s as the readers go from 1 to 128.](/articles_data/universal-io/uio-depth-latency.svg)
 {{< /island >}}
 
 `io_uring` goes up. Each doubling of the batch doubles the bandwidth and leaves latency alone, from 7.15 MB/s at batch 1 to 85.66 MB/s at batch 16, for 9% more latency. Past 16 the ring is full and the extra reads only queue, so batch 512 buys another 29% and waits 9.4 ms for it, fifteen times longer.
 
 `mmap` goes right. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency: 7.2 MB/s at every batch, and 71 ms per read at batch 256 against 0.55 ms at batch 1.
 
-S3 goes up too, starting 43 times further right. One read takes 24.3 ms, but that barely moves as concurrency rises, 25.1 ms with 128 in flight, so bandwidth climbs from 0.15 to 12.55 MB/s. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s.
+S3 goes up too, starting 43 times further right. One read takes 23.9 ms, and that barely moves as readers are added, 24.1 ms with 128 of them, so bandwidth climbs from 0.17 to 11.3 MB/s. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s.
 
-Read in order and depth stops mattering. Opened with `MADV_SEQUENTIAL`, `mmap` reached 117 MB/s against 7.2 MB/s random, and the batch changed nothing: 115 MB/s at batch 1, 119 MB/s at batch 256. The kernel reads ahead, so most reads never reach the disk. The backend still matters, though. `io_uring` managed 215 MB/s on the same reads, because bulk reads keep the device busier than page faults do. Depth is what readahead replaces, and it earns its place where readahead cannot help, which is random access and object storage.
+Read in order and depth stops mattering. Opened with `MADV_SEQUENTIAL`, `mmap` reached 117 MB/s against 7.2 MB/s random, and the batch changed nothing: 115 MB/s at batch 1, 119 MB/s at batch 256. The kernel reads ahead, so most reads never reach the disk. The backend still matters, though. `io_uring` managed 215 MB/s on the same reads, because bulk reads keep the device busier than page faults do. Object storage gains nothing from order, as expected, because nothing reads ahead across network requests. A read costs about 23 ms either way, and up to 64 readers the two lines stay within 11% of each other. Depth is what readahead replaces, and it earns its place where readahead cannot help.
 
-Depth also only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 25 ms on object storage, however deep the pipeline is.
+Depth also only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 24 ms on object storage, however deep the pipeline is.
 
 ## The Best of All Worlds (Almost)
 

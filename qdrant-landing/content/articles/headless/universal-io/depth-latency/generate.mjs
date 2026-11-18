@@ -17,7 +17,7 @@ const CHROME = `
   .dl-cyan{color:#00838f}.dl-blue{color:#6047ff}.dl-red{color:#dc244c}`;
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 372" `
-  + `font-family="'Mona Sans',Arial,sans-serif" role="img" aria-label="${LABEL}">`
+  + `font-family="'Mona Sans',Arial,sans-serif" role="img" aria-label="${LABEL.rand}">`
   + `<style>${CHROME}</style><rect width="760" height="372" fill="#f0f3fa"/>`
   + body('d') + '</svg>';
 
