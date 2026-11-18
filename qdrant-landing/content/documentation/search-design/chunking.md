@@ -78,20 +78,6 @@ ColPali/ColQwen encode page patches and query tokens as multivectors. Qdrant's `
 
 [Qdrant's PDF tutorial](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) combines pooled candidate retrieval with full multivector reranking. Measure storage and latency; check image budgets.
 
-#### What Visual Retrieval Benchmarks Show
-
-[ColPali Table 2](https://arxiv.org/html/2407.01449v6#S5.T2) reports average **nDCG@5 (0–100)** across **ten ViDoRe v1 tasks**, using the paper's configuration:
-
-| Pipeline | Average nDCG@5 |
-| --- | --- |
-| ColPali | 81.3 |
-| Unstructured + OCR + BGE-M3 | 66.1 |
-| Unstructured + captioning + BGE-M3 | 67.0 |
-
-These scores measure ranking, not answer correctness.
-
-[ViDoRe v3](https://arxiv.org/abs/2601.08620) adds answer generation and visual grounding. Its [2026 pipeline comparison](https://huggingface.co/blog/antoineedy/vidore-v3-pipeline-framework-and-leaderboard) placed text-input Jina embeddings v4 + ZeRank2 first for retrieval at release. Compare complete pipelines on your data.
-
 </div>
 </div>
 
