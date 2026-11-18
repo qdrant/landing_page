@@ -36,7 +36,7 @@ npx --yes http-server@14.1.1 \
 
 This server supports HTTP Range requests, which browser media seeking needs.
 Open `http://127.0.0.1:8739/`. Select Video or Audio, then select a chunk to
-play its source interval. The Screenshot view link opens the selected result
+play its source interval. The Capture view link opens the selected result
 without playback controls. Direct capture URLs:
 
 - `/?view=video&capture=1&chunk=v04`
