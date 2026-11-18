@@ -37,7 +37,7 @@ Before selecting a chunking strategy, assess whether your source files need layo
 
 **Question:** Why is the total $87.00 rather than $70.00?
 
-The extracted text must preserve these label-value pairs:
+OCR recognizes characters; layout analysis must reconnect labels with their amounts. Preserve the receipt's rows and discount sign before serializing the result as text or Markdown:
 
 | Label | Value |
 | --- | --- |
@@ -46,9 +46,15 @@ The extracted text must preserve these label-value pairs:
 | Discount | −$0.50 |
 | Total | $87.00 |
 
-The answer follows from **$70.00 + $17.50 − $0.50 = $87.00**. Check the amounts, labels, and discount sign against the image before embedding.
+These fields explain **$70.00 + $17.50 − $0.50 = $87.00**. Keep the totals together in the embedding input; splitting off the tax or discount removes evidence needed for this question.
 
-Start with **OCR followed by text chunking**. Keep this short receipt as one chunk if it fits the embedding budget, with its receipt ID, date, and source-image reference. Separating the total from the tax and discount would lose the explanation. Visual retrieval adds little for this question when extraction preserves those fields.
+#### When to Use VLMs or Text Chunking
+
+Use OCR followed by text chunking when extraction preserves the required fields. A scan alone does not require visual retrieval. For PDFs with embedded text, inspect native extraction before adding OCR.
+
+Table reconstruction and caption association often rely on layout rules. A rule tuned to one template can fail when columns or headers move, even within the same domain. When this repeatedly corrupts evidence, compare a better parser, a generative VLM that produces structured Markdown, and [page-image retrieval](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/). Verify generated Markdown against the source image.
+
+Keep this short receipt as one chunk if it fits the embedding limit. Retain receipt ID, date, page number, source-image reference, and available line or cell coordinates in [payload](/documentation/manage-data/payload/). Embed the extracted content; those payload fields support filtering and tracing but do not automatically become embedding input.
 
 </div>
 </div>
@@ -66,11 +72,38 @@ Start with **OCR followed by text chunking**. Keep this short receipt as one chu
 
 **Question:** Does the U.S. or the world have the higher projected share of seniors across the chart's 2015–2060 range?
 
-The **U.S. curve stays above the World curve**. OCR that returns only the labels and axis values omits this relationship.
+The **U.S. curve stays above the World curve**. Extracting the labels alone loses that relationship. This is a historical projection, not a current demographic estimate.
 
-Test **visual retrieval**: ColPali or ColQwen can retrieve the page; an image-capable answering model must then read the chart. Keep the title, axes, curves, series labels, and "projected" qualifier together, whether you supply the page or a chart region. Check that small labels remain readable after resizing.
+#### Diagrams, Charts, and Graphs
 
-If verified chart extraction already captures this relationship, text retrieval can also answer it. See [VLMs or text chunking](#when-to-use-vlms-or-text-chunking) for the model and storage choices.
+Use text retrieval when verified chart data preserves the required relationship. Otherwise, retrieve the page image or a complete figure region and supply it to an image-capable answering model. Keep axes, units, legends, captions, and relevant footnotes together. For flowcharts and network graphs, preserve connected nodes, arrow direction, and edge labels.
+
+Store `document_id`, page number, and bounding-box coordinates with each region; retain a link to the full page. [Docling's document representation](https://docling-project.github.io/docling/reference/docling_document/) supports picture elements, captions, and provenance. Prefer source data or verified tables for exact values. Check small labels after resizing and verify any generated description against the image.
+
+#### ColPali, ColQwen, and Other Qdrant Options
+
+ColPali and ColQwen encode pages into patch-associated multivectors and queries into token vectors. Qdrant's `MAX_SIM` comparator sums each query vector's best similarity to a page vector. Embedding generation and answer generation remain separate inference stages.
+
+- [ColPali v1.3](https://huggingface.co/Qdrant/colpali-v1.3-fp16): FastEmbed-compatible ONNX export; resizes pages to **448 × 448** pixels.
+- [ColQwen2 v1.0](https://huggingface.co/vidore/colqwen2-v1.0): dynamic resolution and preserved aspect ratio; the patch budget controls detail and memory use.
+- [ColModernVBERT](https://huggingface.co/Qdrant/colmodernvbert): approximately **250 million parameters**, with FastEmbed CPU/GPU inference and multivector output.
+- [Voyage multimodal 3.5](/documentation/embeddings/voyage/#embed-images): a dense-vector alternative for mixed text/image inputs.
+
+[Qdrant's PDF retrieval tutorial](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) demonstrates pooled candidate retrieval followed by full multivector reranking. Measure vector storage and inference/search latency, and check the answering model's image budget.
+
+#### What Visual Retrieval Benchmarks Show
+
+The [ColPali paper's Table 2](https://arxiv.org/html/2407.01449v6#S5.T2) reports these averages across **ten ViDoRe v1 tasks**, using the paper's ColPali configuration:
+
+| Pipeline | Average nDCG@5 |
+| --- | --- |
+| ColPali | 81.3 |
+| Unstructured + OCR + BGE-M3 | 66.1 |
+| Unstructured + captioning + BGE-M3 | 67.0 |
+
+Scores use a **0–100 scale**. nDCG@5 measures ranking quality among the first five results; assess answer correctness separately.
+
+[ViDoRe v3](https://arxiv.org/abs/2601.08620) extends evaluation to answer generation and visual grounding. In the authors' [2026 pipeline comparison](https://huggingface.co/blog/antoineedy/vidore-v3-pipeline-framework-and-leaderboard), a text-input pipeline using Jina embeddings v4 and ZeRank2 led the retrieval leaderboard at release. Parsing, retrieval, and reranking choices can change the outcome. Compare complete pipelines on your documents and questions.
 
 </div>
 </div>
@@ -90,9 +123,59 @@ If verified chart extraction already captures this relationship, text retrieval 
 
 The reference transcription is **"How often did I think of you"**.
 
-Compare handwriting-recognition or generative VLM output with the scan, marking uncertain words for review. A VLM transcription also needs verification. Index verified text with page and line references, and retain the scan so a result can be checked against the original.
+Use handwriting recognition or a generative VLM to produce text, then check uncertain words against the scan. Preserve reading order, original wording, and page/line references. If the extractor supplies region coordinates, retain them so a retrieved passage can be shown beside its source. Keep any normalized search text distinguishable from the transcription used for quotations.
 
-A mistranscribed word is a recognition error. Changing chunk size cannot recover the missing wording. Once recognition is reliable, group lines into complete passages rather than treating every handwritten line as an independent chunk.
+Group verified lines into a complete passage, subject to the embedding model's token limit. A visual line break is a candidate boundary; it does not establish that the line makes sense independently. A mistranscribed word must be repaired in extraction before comparing splitters.
+
+When the question depends on visual marks or recognition repeatedly loses the required wording, test page-image retrieval alongside the transcript. The retrieval encoder selects the image; an image-capable answering model reads it. Check legibility after resizing, preserve the original scan, and verify the quoted answer against it.
+
+</div>
+</div>
+
+### Video Chunking
+
+<div class="chunking-source-example">
+<figure>
+  <a href="/guides_data/chunking/video-example.svg" aria-label="Open the full-size video chunking timeline">
+    <img src="/guides_data/chunking/video-example.svg" alt="Illustrative video timeline: the export menu opens at 00:00, PDF is selected at 00:03, and the download is ready at 00:06. The spoken words Choose this format do not name PDF. A 00:00–00:08 clip preserves the action and result." width="640" height="570" loading="lazy">
+  </a>
+  <figcaption>Illustrative timeline, not recorded footage. Select the diagram to inspect its timestamps.</figcaption>
+</figure>
+<div class="chunking-source-example__text">
+
+**Question:** Which export format did the presenter select?
+
+In this illustrative clip, the menu opens at **00:00**, **PDF** is selected at **00:03**, and the download is ready at **00:06**. The transcript says only "Choose this format" at **00:02–00:04**. Retrieving that sentence cannot establish the format; the answer requires the frame showing the selection.
+
+Use a **bounded time range** as the retrieval unit. Here, **00:00–00:08** preserves the action and its result. Fixed-duration clips provide a simple baseline; scene or topic boundaries can adapt to the recording, but a camera cut does not guarantee a complete explanation. [TwelveLabs supports fixed and dynamic temporal segmentation](https://docs.twelvelabs.io/docs/guides/create-embeddings/at-scale/video).
+
+Link the transcript, sampled frames, and original clip through the same source video ID and start/end timestamps. Store those references in each point's payload so the application can fetch the matching evidence. Payload timestamps alone do not add visual information to a text embedding.
+
+Check the embedding and answering models' duration, resolution, and frame limits. Sparse sampling could omit the decisive **00:03** frame even when the clip boundaries are correct. Retrieve visual embeddings for unspoken actions and give an image- or video-capable answering model the matching frames or clip.
+
+</div>
+</div>
+
+### Voice and Audio Chunking
+
+<div class="chunking-source-example">
+<figure>
+  <a href="/guides_data/chunking/audio-example.svg" aria-label="Open the full-size audio chunking timeline">
+    <img src="/guides_data/chunking/audio-example.svg" alt="Illustrative call: Speaker A asks when the update ships at 00:00–00:03. Speaker B answers Friday, if the load test passes at 00:03–00:07. An alarm sounds at 00:08–00:10. The exchange belongs in one transcript chunk; the alarm needs audio evidence." width="640" height="590" loading="lazy">
+  </a>
+  <figcaption>Illustrative timeline, not a recording or measured waveform. Select the diagram to inspect its segments.</figcaption>
+</figure>
+<div class="chunking-source-example__text">
+
+**Question:** What must happen before the update ships?
+
+In this illustrative conversation, speaker A asks "When do we ship the update?" at **00:00–00:03**. Speaker B replies "Friday, if the load test passes" at **00:03–00:07**. Keep this **00:00–00:07** exchange together: the answer is conditional on passing the load test. A chunk containing only "Friday" loses that condition.
+
+For spoken-content retrieval, transcribe with automatic speech recognition (ASR), retain speaker labels through diarization, and preserve utterance or word timestamps. [AssemblyAI's utterance representation](https://assemblyai.github.io/assemblyai-node-sdk/types/TranscriptUtterance.html) includes text, speaker, start/end times, and word records. Treat speaker changes and pauses as candidate boundaries; merge turns when an answer depends on the preceding question. Check recognition errors before changing the splitter.
+
+The alarm at **00:08–00:10** needs a different representation. A speech transcript cannot reliably answer "When did the alarm sound?" Retain the original audio and embed bounded audio segments with a model that represents non-speech sounds, such as [TwelveLabs' audio embeddings](https://docs.twelvelabs.io/docs/guides/create-embeddings/at-scale/audio). Check its duration and input limits.
+
+Store recording ID, speaker labels, and source offsets with each chunk, then fetch the corresponding audio for playback or an audio-capable answering model.
 
 </div>
 </div>
@@ -341,66 +424,6 @@ Compare the simplest suitable baseline with a method that addresses a specific f
 Chonky and Chonkie are separate projects; Chonkie also offers a [neural chunker using Chonky models](https://docs.chonkie.ai/oss/chunkers/neural-chunker). [Sentence Transformers](https://www.sbert.net/docs/sentence_transformer/usage/semantic_textual_similarity.html) can supply sentence embeddings for a semantic splitter, but the splitting rule and thresholds still need to be defined.
 
 The word "semantic" in a package description does not always mean embedding-based boundary detection. `text-splitter` uses structural and Unicode boundaries; semchunk's default mode also follows structural rules, while its optional AI mode calls an enrichment model. Inspect the implementation you actually configure. For throughput, see [Speed Up Chunking After Finding the Bottleneck](#speed-up-chunking-after-finding-the-bottleneck).
-
-## Beyond Text: Choose the Evidence Unit
-
-Text remains the focus of this guide, but a text splitter can only preserve information that extraction captures. For visually rich documents, recordings, and audio, first decide which representation can carry the answer. Then choose its boundaries.
-
-### When to Use VLMs or Text Chunking
-
-Many traditional PDF retrieval pipelines combine text extraction, **optical character recognition (OCR)** for scanned content, and layout analysis with rules tailored to particular document types. Reconstructing tables, associating captions with figures, and interpreting charts require more than recognizing words. Rules tuned to one template may fail on another, even within the same domain: an annual report can move its headers, change its columns, or encode a comparison in a chart. These ingestion failures are part of the motivation for [Qdrant's visual document retrieval approach](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/). Changing the text splitter cannot recover information that extraction discarded.
-
-Use **text chunking** when extracted text or structured tables preserve the evidence your questions need. Use a **vision-language model (VLM) adapted for retrieval** when answers depend on visual relationships that extraction repeatedly loses. ColPali and ColQwen are examples of such retrievers. They embed page images directly, avoiding a separate OCR and layout-reconstruction pipeline for indexing. You still render and preprocess the images, choose a page or region as the retrieval unit, and respect the model's input limits.
-
-| Document and question | Starting approach |
-| --- | --- |
-| Readable policies or manuals; the answer is stated in prose | Use text chunks with useful headings and source references. Page images add little when the relevant evidence already survives extraction. |
-| Scanned, mostly textual pages with reliable OCR | OCR followed by text chunking remains a reasonable baseline. Being a scan alone does not require visual retrieval. |
-| Charts, flowcharts, or complex tables; the answer depends on a trend, arrow, legend, or row/column relationship missing from extraction | Test VLM-based page retrieval and give the retrieved image to an image-capable answering model. |
-| Reports in one domain but with changing layouts; parsing repeatedly scrambles evidence | Compare visual retrieval with repairing the parser. Page-image indexing can reduce dependence on template-specific rules. |
-| Explanatory prose and figures both carry required evidence | Keep linked text and image representations, and assemble both when needed. |
-
-#### ColPali, ColQwen, and Other Qdrant Options
-
-ColPali and ColQwen encode a page into multiple vectors associated with image patches, and a text query into token vectors. **Late interaction** matches each query vector against the page vectors and combines those matches into a page score. Qdrant can store these multivectors and compute that matching with its `MAX_SIM` comparator. Generating the embeddings is a separate model-inference step.
-
-| Visual retriever | Documented Qdrant route and practical distinction |
-| --- | --- |
-| [ColPali v1.3](https://huggingface.co/Qdrant/colpali-v1.3-fp16) | Qdrant provides a FastEmbed-compatible ONNX model and multivector search example. This variant resizes pages to 448 × 448 pixels; inspect whether small text and dense figures remain usable. |
-| [ColQwen2 v1.0](https://huggingface.co/vidore/colqwen2-v1.0) | Uses dynamic image resolution while preserving aspect ratio. Its patch budget trades image detail against memory use. The [Qdrant ColPali/ColQwen tutorial](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) documents the family integration, including pooled candidates followed by full multivector reranking. |
-| [ColModernVBERT](https://huggingface.co/Qdrant/colmodernvbert) | A smaller, approximately 250-million-parameter visual retriever. Qdrant's ONNX export supports CPU/GPU inference through FastEmbed, making it another candidate when local inference resources matter. It also produces multivectors. |
-
-Visual retrieval can also use a single dense vector per input. For example, Qdrant's [Voyage AI integration](/documentation/embeddings/voyage/#embed-images) shows how to embed mixed text/image inputs with `voyage-multimodal-3.5` through the provider API and store the resulting vectors. This is a different storage and scoring choice from patch-level multivectors.
-
-Choose a retrieval encoder separately from the model that reads the retrieved evidence and writes an answer. A generative VLM can also describe a figure before text embedding, but its description may omit a value or relationship. Preserve the original image and verify generated descriptions. For page retrieval, inspect small labels after resizing, measure vector storage and inference/search latency, and check the image budget of the answering model. Visual retrieval changes the representation; it does not remove size limits or guarantee correct answers.
-
-For the implementation, follow [Qdrant Multivector Document Retrieval with ColPali/ColQwen](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/). It walks through page embeddings, pooling for candidate retrieval, and reranking with the original multivectors.
-
-#### What Visual Retrieval Benchmarks Show
-
-The original **Visual Document Retrieval benchmark, ViDoRe (v1)**, provides a concrete reason to test this approach. In the [ColPali paper's Table 2](https://arxiv.org/html/2407.01449v6#S5.T2), the paper's ColPali configuration achieved **81.3 average nDCG@5**, compared with **66.1** for Unstructured + OCR + BGE-M3 and **67.0** for Unstructured + captioning + BGE-M3 across ten tasks. These are page-ranking scores on a 0–100 scale: nDCG@5 measures the quality of the top five ranked results, not the percentage of questions answered correctly. The result supports testing visual retrieval on visually rich documents; it does not rank every current model or PDF pipeline.
-
-Newer [ViDoRe v3 evaluations](https://arxiv.org/abs/2601.08620) also examine answer generation and visual grounding. In the authors' [2026 comparison of retrieval pipelines](https://huggingface.co/blog/antoineedy/vidore-v3-pipeline-framework-and-leaderboard), a text-input pipeline using Jina embeddings v4 and ZeRank2 led the leaderboard at its release, despite the advantage of visual models in single-retriever comparisons. That ranking measures retrieval quality. OCR quality, retrieval, reranking, and the evidence supplied to the answer all affect the outcome. Use benchmark results to choose candidates, then judge the complete pipeline against your own documents and questions.
-
-### Diagrams, Charts, and Graphs
-
-Treat a figure and the context needed to interpret it as a unit. For a chart, preserve axes, units, legend, caption, and relevant footnotes. For a flowchart or network graph, preserve connected nodes, arrow direction, and edge labels. Cropping away the legend or an arrow endpoint can lose evidence just as cutting away an exception does in text.
-
-If a page contains unrelated figures, test separate figure regions while retaining their captions and a link to the full page. Store document ID, page number, and bounding-box coordinates alongside each region. [Docling's document representation](https://docling-project.github.io/docling/reference/docling_document/) provides picture elements, captions, and source provenance for this kind of pipeline. Prefer source data or verified extracted tables when exact chart values matter; a generated summary should not be the only record of them.
-
-### Video Chunking
-
-Use time ranges as chunks. Fixed-duration clips are a baseline; scene, topic, or demonstration boundaries may keep an action and its outcome together more reliably. [TwelveLabs' video embedding interface](https://docs.twelvelabs.io/docs/guides/create-embeddings/at-scale/video) illustrates fixed and content-adaptive temporal segmentation. A camera cut alone does not establish a complete explanation.
-
-Link each clip's transcript, sampled frames, and source video with the same video ID and start/end timestamps. Text chunks can retrieve what a speaker said; they cannot recover an unspoken action visible only on screen. For that question, retrieve visual evidence and supply it to a model that can use it. Check frame sampling as well as clip boundaries: a brief but decisive event can fall between sampled frames.
-
-### Voice and Audio Chunking
-
-For meetings, interviews, and podcasts, start with transcript chunks that preserve a complete statement or exchange. Keep speaker labels and timestamps so a match can lead back to the recording; [timestamped utterances](https://assemblyai.github.io/assemblyai-node-sdk/types/TranscriptUtterance.html) provide one useful source unit. A speaker change or pause is a candidate boundary, but a question and its answer may need to remain together. Check transcription errors before blaming the splitter.
-
-Retain the audio when questions concern sounds absent from the transcript, such as an alarm or music. Use suitable audio embeddings and bounded time segments for those questions; [audio-content and transcript representations](https://docs.twelvelabs.io/docs/guides/create-embeddings/at-scale/audio) carry different evidence. Check the chosen model's duration and input limits, and ensure the answering stage receives the relevant audio or verified evidence extracted from it.
-
-Across these modalities, retain a path to the original source and inspect the complete unit the model receives. For the handbook's text pipeline, the next decision is how much text each stage can accept.
 
 ## 3. Fit Size and Overlap to Your Constraints
 
