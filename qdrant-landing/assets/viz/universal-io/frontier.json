@@ -1,5 +1,5 @@
 {
-  "title": "Bandwidth against the wait, one dot per configuration",
+  "title": "Throughput against latency, one dot per configuration",
   "kind": "scatter",
   "x": "ms",
   "y": "mb",
@@ -7,8 +7,8 @@
   "yScale": "log",
   "xDomain": [0.06, 140],
   "yDomain": [0.1, 480],
-  "xLabel": "wait per read, p50 in ms (log scale)",
-  "yLabel": "MB/s delivered (log scale)",
+  "xLabel": "p50 latency per read, ms (log scale)",
+  "yLabel": "throughput, MB/s (log scale)",
   "series": "backend",
   "pointLabel": "setting",
   "place": "place",

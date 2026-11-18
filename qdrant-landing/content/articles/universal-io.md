@@ -46,7 +46,7 @@ What we needed instead was a single abstract interface (a `trait`, in Rust terms
 Because of this gap in cost, the design of the interface seemed to be limited to two approaches, and each with a clear downside:
 
 - **Make everything async.** This is a great fit for network storage, but a poor fit for `mmap` and for data that is already cached, because async isn't free in Rust. It needs a runtime, and the compiler optimizes async code poorly. On our test box a warm 8-byte read took 18 ns. The same read inside a Tokio runtime took 106 ns. The extra 88 ns matters on cached data and not on a 568 µs cold read.
-- **Make everything blocking.** This suits the existing `mmap` code, but it is terrible for network requests. A same-region request took 43 times longer than a cold disk read. When each request blocks until it finishes, that wait piles up quickly.
+- **Make everything blocking.** This suits the existing `mmap` code, but it is terrible for network requests. A same-region request took 43 times longer than a cold disk read. When each request blocks until it finishes, that latency piles up quickly.
 
 After a few iterations, we settled on a middle ground, a `ReadPipeline` abstraction modeled on `io_uring`, in which you schedule reads (like pushing to a submission queue) and then wait for results (like reading from a completion queue), while each backend implements the pipeline in the way that suits it best.
 
@@ -219,13 +219,13 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 {{< chart id="universal-io/frontier" caption="Each dot is one configuration on a 4-core Xeon 8375C in us-west-2, page cache dropped before each run. mmap and io_uring vary the batch, meaning how many reads one call submits. S3 varies the number of readers, each with one request open. Up and left is better, and the dashed staircase is the frontier, the settings nothing else beats on both measures." caption2="The same two measures for reads in order. Local storage jumps to the top left, because the kernel reads ahead. Object storage does not move." >}}
 
-`io_uring` turns concurrency into bandwidth. Each doubling of the batch doubles it, from 7.15 MB/s at batch 1 to 85.66 MB/s at batch 16. The wait rises 9% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 buys 29% more bandwidth, and the wait rises to 9.4 ms for it.
+`io_uring` turns concurrency into throughput. Each doubling of the batch doubles it, from 7.15 MB/s at batch 1 to 85.66 MB/s at batch 16. Latency rises 9% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 buys 29% more throughput, and latency rises to 9.4 ms for it.
 
-`mmap` runs one read at a time whatever you ask for. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency. Bandwidth sits at 7.2 MB/s whatever the batch. The wait grows instead, from 0.55 ms per read at batch 1 to 71 ms at batch 256.
+`mmap` runs one read at a time whatever you ask for. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency. Throughput sits at 7.2 MB/s whatever the batch. Latency grows instead, from 0.55 ms per read at batch 1 to 71 ms at batch 256.
 
-S3 turns readers into bandwidth, but never into a shorter wait. One read takes about 24 ms however many readers run. Bandwidth climbs from 0.17 MB/s with one reader to 11.3 MB/s with 128. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s.
+S3 turns readers into throughput, but never into lower latency. One read takes about 24 ms however many readers run. Throughput climbs from 0.17 MB/s with one reader to 11.3 MB/s with 128. Qdrant's own blob pipeline, which is 256 deep, reached 34.7 MB/s.
 
-{{< chart id="universal-io/endpoints" caption="One read at a time against the most each backend allows, on random reads." caption2="The same two settings by what the caller waits. mmap pays 71 ms for bandwidth it already had one read at a time." >}}
+{{< chart id="universal-io/endpoints" caption="One read at a time against the most each backend allows, on random reads." caption2="The same two settings by latency. mmap pays 71 ms for throughput it already had one read at a time." >}}
 
 Read in order and concurrency stops mattering. Opened with `MADV_SEQUENTIAL`, `mmap` reached 117 MB/s against 7.2 MB/s in random order. The batch changed nothing, from 115 MB/s at batch 1 to 119 MB/s at batch 256. The kernel reads ahead, so most reads never reach the disk.
 
