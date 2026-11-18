@@ -19,7 +19,7 @@ category: qdrant-internals
 
 Qdrant reads all its on-disk data through `mmap`: vectors, HNSW graphs and payload indexes. `mmap` assumes a real disk sits underneath.
 
-In [serverless mode](https://qdrant.tech/serverless/) the data lives in object storage, not on a disk next to the process. The same read gets much slower.
+In [serverless mode](https://qdrant.tech/serverless/) the source of truth is object storage, which Qdrant caches on local disk. A read that misses that cache crosses the network, and it gets much slower.
 
 On our test box a cold `mmap` read of an EBS gp3 volume took 568 µs. From a same-region S3 bucket it took 24.3 ms, 43 times slower. From another region, 131 ms. Faster local storage only widens the gap, and a network read can fail in ways a disk read cannot.
 
