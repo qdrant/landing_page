@@ -21,7 +21,7 @@ Qdrant reads all its on-disk data through `mmap`: vectors, HNSW graphs and paylo
 
 In [serverless mode](https://qdrant.tech/serverless/) the source of truth is object storage, which Qdrant caches on local disk. A read that misses that cache crosses the network, and it gets much slower.
 
-On our test box a cold `mmap` read of an EBS gp3 volume took 573 µs. From a same-region S3 bucket it took 26 ms, 45 times slower. From another region, 131 ms. Faster local storage only widens the gap, and a network read can fail in ways a disk read cannot.
+On our test box a cold `mmap` read of an EBS gp3 volume took 733 µs. From a same-region S3 bucket it took 26 ms, 36 times slower. From another region, 131 ms. Faster local storage only widens the gap, and a network read can fail in ways a disk read cannot.
 
 One option was to re-implement every one of those interactions against object storage, but that would have meant maintaining two versions of the same logic, which tend to drift apart over time. Every data structure would also have needed to switch between the two versions, which could change the behavior of the local path that already worked well. 
 
@@ -37,7 +37,7 @@ We therefore decided to build a single interface that lets us hot-swap the stora
 
 What we needed instead was a single abstract interface (a `trait`, in Rust terms, similar to interfaces in Go and protocols in Python) that standardizes the contract for every backend, rather than a separate concrete implementation for each component. That interface had to cover at least three backends, and they behave very differently from each other:
 
-- **`mmap`**: synchronous. Very cheap when the data is already in RAM, but a read of cold data blocks on a page fault (573 µs on the EBS gp3 volume we measured on).
+- **`mmap`**: synchronous. Very cheap when the data is already in RAM, but a read of cold data blocks on a page fault (733 µs on the EBS gp3 volume we measured on).
 - **`io_uring`**: queued. Many reads can run concurrently, but works only on Linux kernel v5.1 or later (it was introduced in 2019).
 - **Network I/O**: asynchronous. Very expensive when the data isn't cached locally (26 ms per round trip to a bucket in the same region, and 131 ms to one in another region), and exposed to failure modes that disk reads don't have.
 
@@ -45,8 +45,8 @@ What we needed instead was a single abstract interface (a `trait`, in Rust terms
 
 Because of this gap in cost, the design of the interface seemed to be limited to two approaches, and each with a clear downside:
 
-- **Make everything async.** This is a great fit for network storage, but a poor fit for `mmap` and for data that is already cached, because async isn't free in Rust. It needs a runtime, and the compiler optimizes async code poorly. On our test box a warm 8-byte read took 18 ns. The same read inside a Tokio runtime took 106 ns. The extra 88 ns matters on cached data and not on a 573 µs cold read.
-- **Make everything blocking.** This suits the existing `mmap` code, but it is terrible for network requests. A same-region request took 45 times longer than a cold disk read. When each request blocks until it finishes, that latency piles up quickly.
+- **Make everything async.** This is a great fit for network storage, but a poor fit for `mmap` and for data that is already cached, because async isn't free in Rust. It needs a runtime, and the compiler optimizes async code poorly. On our test box a warm 8-byte read took 18 ns. The same read inside a Tokio runtime took 106 ns. The extra 88 ns matters on cached data and not on a 733 µs cold read.
+- **Make everything blocking.** This suits the existing `mmap` code, but it is terrible for network requests. A same-region request took 36 times longer than a cold disk read. When each request blocks until it finishes, that latency piles up quickly.
 
 After a few iterations, we settled on a middle ground, a `ReadPipeline` abstraction modeled on `io_uring`, in which you schedule reads (like pushing to a submission queue) and then wait for results (like reading from a completion queue), while each backend implements the pipeline in the way that suits it best.
 
@@ -211,25 +211,27 @@ fn read(range) -> Slice {
 }
 ```
 
-Once every block is local, the `fully_populated` flag lets reads skip the bitmap and its lock entirely. At that point a read is just a slice of the local `MmapFile`, the same kind of operation the `mmap` backend performs. The first read of a block still costs a 26 ms round trip. Every read after it costs 573 µs, the price of a local `mmap`.
+Once every block is local, the `fully_populated` flag lets reads skip the bitmap and its lock entirely. At that point a read is just a slice of the local `MmapFile`, the same kind of operation the `mmap` backend performs. The first read of a block still costs a 26 ms round trip. Every read after it costs 733 µs, the price of a local `mmap`.
 
 Append-only files can also grow, and reopening one would mean fetching everything again, so `DiskCache` grows the mirror in two phases: it first *stages* the change by learning the new remote size and prefetching the new tail, without any visible effect for readers, and then *applies* it by growing and remapping the local file. This lets Qdrant stage reloads for many files at once and pay only for the slowest one.
 
 ## What Concurrency Buys
 
-{{< chart id="universal-io/frontier" caption="One dot per configuration, 4 KiB reads on a gp3 volume provisioned to 16,000 IOPS, page cache dropped before each run. Up and left is better. The dashed staircase marks the frontier, the settings nothing else beats on both measures." caption2="The same reads in order. Readahead gets there first, so concurrency stops buying anything." >}}
+{{< chart id="universal-io/frontier" caption="One dot per concurrency level, 4 KiB random reads on a gp3 volume provisioned to 16,000 IOPS, page cache dropped before each run. Up and left is better. The fourth line is fio on the same volume and the same file, which is what the device itself can do." caption2="The same reads in order. Readahead gets there first, so concurrency stops buying anything." >}}
 
-These figures are timed from the moment the caller asks for the batch, so queueing for a free pipeline slot counts towards a read.
+Every figure here is reads in flight, measured rather than requested. Each backend caps concurrency at its own pipeline depth, so asking for more than it holds changes nothing.
 
-`io_uring` turns concurrency into throughput. Each doubling of the batch doubles it, from 7.16 MB/s at batch 1 to 87.36 MB/s at batch 16. Latency rises 7% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 delivers 68.48 MB/s, less than batch 16 does, and waits 14.9 ms per read against 0.61 ms.
+`io_uring` turns concurrency into throughput, and it gets nearly everything the device has. One read at a time gives 5.26 MB/s, and sixteen in flight give 66.60 MB/s. fio reading the same file on the same volume reaches 68.26 MB/s at that depth, so the pipeline costs about 2% against raw device access.
 
-`mmap` runs one read at a time whatever you ask for. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency. Throughput sits at 7.15 MB/s whatever the batch. Latency grows instead, from 0.57 ms at batch 1 to 146 ms at batch 512. At that batch the median read queues behind 255 others.
+Sixteen is where it stops, for two reasons at once. The ring holds 16, so asking for 32 in flight still measures 16. The volume is finished by then too: fio gets 16,303 IOPS at depth 32 against 17,066 at depth 16, so a bigger ring would buy nothing here.
 
-Concurrency can only buy what the disk has left to give. The same sweep on a gp3 volume at the 3,000 IOPS baseline turns batch 1 into batch 16 for 1.8 times the throughput, not 12, because one thread reading on its own already takes more than half of what that volume can serve.
+`mmap` runs one read at a time whatever you ask for. Ask it for sixteen in flight and the measurement comes back as one. Throughput sits at 5.61 MB/s, and a read takes 0.73 ms whether anything else is pending or not.
 
-S3 turns concurrency into throughput, but never into lower latency. A read takes about 26 ms at any batch the 256-slot pipeline holds at once. At batch 512 the extra reads queue for a slot and the figure reaches 42.25 ms. Throughput climbs from 0.13 MB/s at batch 1 to 9.53 MB/s at batch 512. Those figures are per `read_batch` call, where the caller waits for the whole batch. Keep the pipeline fed instead and the same box reads at 35.93 MB/s, with 228 of its 256 slots busy at once.
+Concurrency can only buy what the disk has left to give. The same sweep on a gp3 volume at the 3,000 IOPS baseline turns one read in flight into sixteen for 1.8 times the throughput, not 12, because one thread reading on its own already takes more than half of what that volume can serve.
 
-{{< chart id="universal-io/endpoints" caption="One read at a time against deeper batches." caption2="By median latency. mmap pays 8x the latency for throughput it never gets. S3 holds about 26 ms whether the batch is 1 or 16." caption3="And by tail latency. io_uring batch 16 is 0.80 ms at p99, the same as batch 1, so the throughput is free at the tail." >}}
+S3 turns concurrency into throughput, but never into lower latency. Throughput doubles at every doubling of concurrency, from 0.15 MB/s with one read in flight to 34.29 MB/s with 256. A read still takes about 26 ms at every one of those levels. Across that whole range the median moves only between 25.52 ms and 26.42 ms.
+
+{{< chart id="universal-io/endpoints" caption="One read at a time against each backend's own depth." caption2="By median latency. Nothing here is deeper than its backend holds, so no read waits for a slot and these are the devices' own times." caption3="And by tail latency. io_uring is 1.33 ms at p99 with sixteen reads in flight against 1.05 ms with one, so twelve times the throughput costs little at the tail." >}}
 
 Read in order and concurrency stops mattering. Opened with `MADV_SEQUENTIAL`, `io_uring` held about 247 MB/s at batch 1, 16 and 256 alike, against 7.16 MB/s in random order. The kernel reads ahead, so most reads never reach the disk and there is nothing left for the ring to overlap.
 

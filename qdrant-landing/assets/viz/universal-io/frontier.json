@@ -6,7 +6,7 @@
   "y": "mb",
   "xScale": "log",
   "yScale": "log",
-  "xLabel": "latency per read including queueing, ms (log scale). Dot is p50, whisker runs to p99",
+  "xLabel": "latency per read, ms (log scale). Dot is p50, whisker runs to p99",
   "yLabel": "throughput, MB/s (log scale)",
   "series": "backend",
   "pointLabel": "setting",
@@ -20,8 +20,8 @@
       "label": "Random",
       "subtitle": "4 KiB random reads. Up and left is better",
       "where": { "pattern": "random" },
-      "xDomain": [0.35, 320],
-      "yDomain": [0.1, 200]
+      "xDomain": [0.5, 320],
+      "yDomain": [0.1, 120]
     },
     {
       "label": "Sequential",

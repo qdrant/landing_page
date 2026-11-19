@@ -1,8 +1,8 @@
 backend,setting,mb,ms,p99
-mmap,batch 1,7.15,0.57,0.80
-mmap,batch 16,7.13,4.87,9.56
-io_uring,batch 1,7.16,0.57,0.80
-io_uring,batch 16,87.36,0.61,0.80
-S3,batch 1,0.13,25.95,106.73
-S3,batch 16,0.99,25.55,89.39
-S3,batch 512,9.53,42.25,100.84
+mmap,depth 1,5.61,0.73,0.97
+mmap,depth 16,5.20,0.79,1.05
+io_uring,depth 1,5.26,0.78,1.05
+io_uring,depth 16,66.60,0.99,1.33
+S3,depth 1,0.15,25.85,76.39
+S3,depth 16,2.01,26.09,138.72
+S3,depth 256,34.29,25.60,110.92

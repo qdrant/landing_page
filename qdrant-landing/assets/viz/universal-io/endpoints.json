@@ -10,23 +10,23 @@
   "views": [
     {
       "label": "Throughput",
-      "yMax": 95,
+      "yMax": 72,
       "panels": [
         { "title": "Throughput", "subtitle": "4 KiB random reads, higher is better", "y": "mb", "axis": "MB/s", "unit": "MB/s" }
       ]
     },
     {
       "label": "p50 latency",
-      "yMax": 45,
+      "yMax": 28,
       "panels": [
-        { "title": "Median latency", "subtitle": "4 KiB random reads, queueing included, lower is better", "y": "ms", "axis": "p50 latency, queueing included (ms)", "unit": "ms" }
+        { "title": "Median latency", "subtitle": "4 KiB random reads at that concurrency, lower is better", "y": "ms", "axis": "p50 latency (ms)", "unit": "ms" }
       ]
     },
     {
       "label": "p99 latency",
-      "yMax": 115,
+      "yMax": 145,
       "panels": [
-        { "title": "Tail latency", "subtitle": "4 KiB random reads, the slowest 1%, queueing included, lower is better", "y": "p99", "axis": "p99 latency, queueing included (ms)", "unit": "ms" }
+        { "title": "Tail latency", "subtitle": "4 KiB random reads at that concurrency, the slowest 1%, lower is better", "y": "p99", "axis": "p99 latency (ms)", "unit": "ms" }
       ]
     }
   ],
