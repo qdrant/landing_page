@@ -5,8 +5,9 @@
 // `Accept: text/markdown` preferred over text/html gets the Markdown, about a
 // twentieth of the bytes. Everyone else gets the HTML, untouched.
 //
-// Only paths ending in a slash reach this function (see `config`), so assets
-// never pay for it.
+// Netlify runs this function only for requests that could get Markdown (see
+// `config`): paths ending in a slash, with `text/markdown` in the Accept
+// header. Browsers, assets, and direct requests for index.md never invoke it.
 
 import type { Config, Context } from "@netlify/edge-functions";
 
@@ -45,5 +46,8 @@ export default async (request: Request, context: Context) => {
 };
 
 export const config: Config = {
+  // Page URLs only. Excludes .md files, CSS, JS, images, and llms.txt.
   pattern: "^/(.*/)?$",
+  // Accept mentions text/markdown. prefersMarkdown() still checks the ranking.
+  header: { accept: "text/markdown" },
 };
