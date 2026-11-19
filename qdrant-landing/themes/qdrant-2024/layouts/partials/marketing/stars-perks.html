@@ -51,10 +51,7 @@
             <p class="stars-perks__banner-text">{{ .text }}</p>
           </div>
           {{ with .link }}
-            <a href="{{ .url }}" class="stars-perks__banner-link" target="_blank" rel="noopener noreferrer">
-              {{ .text }}
-              {{ partial "common/svg.html" (dict "icon" "arrow-link-light" "path" $iconPath "stroke" "currentColor") }}
-            </a>
+            <a href="{{ .url }}" class="link link_md stars-perks__banner-link" target="_blank" rel="noopener noreferrer">{{ .text }}</a>
           {{ end }}
         </div>
       {{ end }}

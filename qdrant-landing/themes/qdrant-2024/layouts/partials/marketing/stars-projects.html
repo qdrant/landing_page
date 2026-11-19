@@ -16,10 +16,7 @@
           <p class="stars-projects__description">{{ .Params.description }}</p>
           {{ with .Params.link }}
             {{ if .url }}
-              <a href="{{ .url }}" class="stars-projects__link">
-                {{ .text }}
-                <img src="{{ $icons }}arrow-link-red.svg" alt="" width="6" height="11" />
-              </a>
+              <a href="{{ .url }}" class="link link_md">{{ .text }}</a>
             {{ end }}
           {{ end }}
         </div>

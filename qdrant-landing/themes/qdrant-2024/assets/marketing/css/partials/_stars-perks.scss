@@ -49,10 +49,31 @@
     background: none;
     color: $neutral-20;
     cursor: pointer;
+    transition: color 0.2s ease;
 
     svg {
       width: auto;
       height: auto;
+      transition: transform 0.2s ease;
+    }
+
+    // Enabled arrows nudge toward their direction and take the link color.
+    &:not(:disabled):hover {
+      color: $primary-50;
+    }
+
+    &[data-stars-perks-prev]:not(:disabled):hover svg {
+      transform: translateX(pxToRem(-4));
+    }
+
+    &[data-stars-perks-next]:not(:disabled):hover svg {
+      transform: translateX(pxToRem(4));
+    }
+
+    &:focus-visible {
+      outline: 2px solid $primary-50;
+      outline-offset: 2px;
+      border-radius: pxToRem(4);
     }
 
     &:disabled {
@@ -160,26 +181,11 @@
     color: $neutral-20;
   }
 
+  // Arrow and hover come from the shared .link component.
   &__banner-link {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: pxToRem(7);
-    font-size: pxToRem(16);
-    font-weight: 500;
+    flex: none;
     line-height: 1.5;
     white-space: nowrap;
-    text-decoration: none;
-    color: $primary-50;
-
-    svg {
-      width: pxToRem(6);
-      height: auto;
-    }
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 
   @include media-breakpoint-up(md) {
@@ -326,9 +332,23 @@
       background: linear-gradient(180deg, rgba(0, 77, 64, 0.4), rgba(11, 15, 25, 0));
     }
 
-    &__banner-text,
+    &__banner-text {
+      color: $neutral-98;
+    }
+
+    // White variant of .link on the dark banner (same as .link_white).
     &__banner-link {
       color: $neutral-98;
+
+      &::before {
+        background: linear-gradient(to right, $neutral-98 50%, transparent 50%);
+        background-size: 200% 100%;
+        background-position: -100% 0;
+      }
+
+      &::after {
+        background: $neutral-98;
+      }
     }
   }
 }
