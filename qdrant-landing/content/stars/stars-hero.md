@@ -1,7 +1,7 @@
 ---
 title: The Developers Building And Sharing Great Things With Qdrant.
 label: Qdrant Stars · Ambassador Program
-description: Qdrant Stars is our ambassador program for the developers teaching everyone else. Talks, tutorials, workshops, and open-source — recognized, rewarded, and amplified.
+description: "Qdrant Stars is our ambassador program for the developers teaching everyone else. Talks, tutorials, workshops, and open‑source: recognized, rewarded, and amplified."
 button:
   text: Become a Star
   url: https://forms.gle/vTuy8Fe9RFdt4SiB9
@@ -11,18 +11,20 @@ secondaryButton:
 portraits:
   left: /img/stars-program/hero-portrait-left.png
   right: /img/stars-program/hero-portrait-right.png
+# Stats bar. A stat renders only when it has a value; the bar renders when at least one does.
+# "{count}" is replaced with the number of cards in stars-list.md.
 stats:
 - icon: stat-user
-  value: "21"
+  value: "{count}"
   label: Active Stars
 - icon: stat-map-pin
-  value: "13"
+  value: ""
   label: Countries
 - icon: stat-mic-vocal
-  value: "38"
+  value: ""
   label: Talks in 2026
 - icon: stat-heart
-  value: 120K+
+  value: ""
   label: Developers Reached
 sitemapExclude: true
 ---

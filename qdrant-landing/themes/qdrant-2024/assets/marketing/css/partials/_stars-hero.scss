@@ -60,50 +60,37 @@
   }
 
   // Portraits are placed in percentages of the visual box so the pair scales with it.
-  // Narrow screens follow the mobile design (335 x 390, two 154px portraits);
-  // wide screens use the desktop "Headshots" frame (463 x 522).
+  // Narrow screens follow the mobile design (335 x 390 box, 154px portraits);
+  // wide screens the desktop one (445 x 405 box, 160px portraits), top-aligned with the text.
   &__visual {
     position: relative;
     width: 100%;
-    max-width: pxToRem(463);
+    max-width: pxToRem(445);
     margin: 0 auto;
     aspect-ratio: 335 / 390;
-
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(30% 40% at 28% 48%, rgba(88, 77, 255, 0.16), transparent 70%),
-        radial-gradient(30% 38% at 70% 30%, rgba(88, 77, 255, 0.16), transparent 70%);
-      pointer-events: none;
-    }
   }
 
+  // The card carries the design's upward purple glow (stacked drop shadows) and its two
+  // blurred-ellipse masks. The masks reach past the card (mask-clip: no-clip) so the glow
+  // above it stays visible while the card's lower edge fades out.
   &__portrait {
     position: absolute;
     width: 46.044%;
     height: 79.101%;
-    overflow: hidden;
-    border-radius: pxToRem(8);
-    background:
-      linear-gradient(232.76deg, rgba(57, 38, 137, 0.7) 10.217%, rgba(126, 117, 255, 0.7) 98.029%),
-      #0b0f19;
-    filter: drop-shadow(0 -6px 7px rgba(88, 77, 255, 0.1)) drop-shadow(0 -26px 13px rgba(88, 77, 255, 0.09));
-
-    // Grain texture at 30% opacity, as in the design.
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url('/img/stars-program/hero-texture.webp') top left / pxToRem(546.8);
-      opacity: 0.3;
-    }
+    filter:
+      drop-shadow(0 -6px 7px rgba(88, 77, 255, 0.1))
+      drop-shadow(0 -26px 13px rgba(88, 77, 255, 0.09))
+      drop-shadow(0 -58px 17.5px rgba(88, 77, 255, 0.05))
+      drop-shadow(0 -103px 20.5px rgba(88, 77, 255, 0.01));
+    mask-repeat: no-repeat;
+    mask-clip: no-clip;
 
     &_left {
       top: 21.012%;
       left: 0;
-      mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+      mask-image: url('/img/stars-program/hero-mask-glow.svg'), url('/img/stars-program/hero-mask-left.svg');
+      mask-size: pxToRem(772.906) pxToRem(810.449), pxToRem(463) pxToRem(685);
+      mask-position: pxToRem(-231.173) pxToRem(-282.816), pxToRem(-153) pxToRem(-253);
 
       .stars-hero__portrait-image {
         top: -5.493%;
@@ -116,7 +103,9 @@
     &_right {
       top: 0;
       left: 53.483%;
-      mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+      mask-image: url('/img/stars-program/hero-mask-glow.svg'), url('/img/stars-program/hero-mask-right.svg');
+      mask-size: pxToRem(772.906) pxToRem(810.449), pxToRem(463) pxToRem(648);
+      mask-position: pxToRem(-421.173) pxToRem(-197.816), pxToRem(-143) pxToRem(-205);
 
       .stars-hero__portrait-image {
         top: -4.214%;
@@ -125,6 +114,25 @@
         height: 105.026%;
         opacity: 0.95;
       }
+    }
+  }
+
+  &__portrait-frame {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: pxToRem(8.153);
+    background:
+      linear-gradient(232.76deg, rgba(57, 38, 137, 0.7) 10.217%, rgba(126, 117, 255, 0.7) 98.029%),
+      #0b0f19;
+
+    // Grain texture. The design shows it at 30% opacity; the exported image already has
+    // that opacity baked into its alpha, so it is used as is.
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('/img/stars-program/hero-texture.webp') top left / pxToRem(546.8);
     }
   }
 
@@ -179,8 +187,9 @@
       gap: pxToRem(24);
     }
 
+    // Fill the row whatever the number of stats shown.
     &__stats {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(pxToRem(220), 1fr));
     }
   }
 
@@ -212,21 +221,20 @@
       align-self: flex-start;
     }
 
-    // Matches the design: the portraits start 105px above the content and
-    // reach 14px past the container edge.
+    // The design's 445 x 405 "Visual" box, top-aligned with the text column.
     &__visual {
-      flex: 0 0 pxToRem(463);
-      margin: pxToRem(-105) pxToRem(-14) 0 0;
-      aspect-ratio: 463 / 522;
+      flex: 0 0 pxToRem(445);
+      margin: 0;
+      aspect-ratio: 445 / 405;
     }
 
     &__portrait {
-      width: 34.557%;
-      height: 61.303%;
+      width: 35.955%;
+      height: 79.012%;
 
       &_left {
-        top: 16.284%;
-        left: 11.447%;
+        top: 20.988%;
+        left: 11.011%;
 
         .stars-hero__portrait-image {
           top: -2.5%;
@@ -238,7 +246,7 @@
 
       &_right {
         top: 0;
-        left: 52.484%;
+        left: 53.708%;
 
         .stars-hero__portrait-image {
           top: -1.5%;
@@ -249,8 +257,9 @@
       }
     }
 
+    // One column per stat shown (set inline from the number of stats with a value).
     &__stats {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(var(--stars-hero-stats, 4), minmax(0, 1fr));
     }
   }
 }

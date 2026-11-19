@@ -20,17 +20,31 @@
         {{ with .Params.portraits }}
           <div class="stars-hero__visual" aria-hidden="true">
             <div class="stars-hero__portrait stars-hero__portrait_left">
-              {{ partial "marketing/picture" (dict "src" .left "class" "stars-hero__portrait-image" "width" "354" "height" "367" "fetchpriority" "high") }}
+              <div class="stars-hero__portrait-frame">
+                {{ partial "marketing/picture" (dict "src" .left "class" "stars-hero__portrait-image" "width" "354" "height" "367" "fetchpriority" "high") }}
+              </div>
             </div>
             <div class="stars-hero__portrait stars-hero__portrait_right">
-              {{ partial "marketing/picture" (dict "src" .right "class" "stars-hero__portrait-image" "width" "276" "height" "370" "fetchpriority" "high") }}
+              <div class="stars-hero__portrait-frame">
+                {{ partial "marketing/picture" (dict "src" .right "class" "stars-hero__portrait-image" "width" "276" "height" "370" "fetchpriority" "high") }}
+              </div>
             </div>
           </div>
         {{ end }}
       </div>
 
-      {{ with .Params.stats }}
-        <ul class="stars-hero__stats">
+      {{/* A stat shows only when it has a value; "{count}" is the number of Stars. */}}
+      {{ $count := 0 }}
+      {{ with site.GetPage "/stars/stars-list" }}{{ $count = len .Params.cards }}{{ end }}
+      {{ $stats := slice }}
+      {{ range .Params.stats }}
+        {{ $value := replace (string (.value | default "")) "{count}" (string $count) }}
+        {{ if $value }}
+          {{ $stats = $stats | append (dict "icon" .icon "value" $value "label" .label) }}
+        {{ end }}
+      {{ end }}
+      {{ with $stats }}
+        <ul class="stars-hero__stats" style="--stars-hero-stats: {{ len . }}">
           {{ range . }}
             <li class="stars-hero__stat">
               <span class="stars-hero__stat-value">
