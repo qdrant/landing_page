@@ -1,0 +1,17 @@
+{{ define "main" }}
+  {{ partial "marketing/lp-header" . }}
+
+  {{ partial "marketing/lp-full-text-search/hero" . }}
+
+  {{ partial "marketing/lp-full-text-search/why-qdrant" . }}
+
+  {{ partial "marketing/lp-full-text-search/what-you-get" . }}
+
+  {{ partial "marketing/lp-full-text-search/get-started" . }}
+
+  {{ partial "marketing/lp-full-text-search/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-full-text-search/cta-banner") }}
+    {{ partial "marketing/cta-banner" . }}
+  {{ end }}
+{{ end }}
