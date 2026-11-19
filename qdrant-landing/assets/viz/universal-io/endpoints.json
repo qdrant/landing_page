@@ -17,14 +17,14 @@
     },
     {
       "label": "p50 latency",
-      "yMax": 155,
+      "yMax": 45,
       "panels": [
         { "title": "Median latency", "subtitle": "4 KiB random reads, lower is better", "y": "ms", "axis": "p50 latency (ms)", "unit": "ms" }
       ]
     },
     {
       "label": "p99 latency",
-      "yMax": 300,
+      "yMax": 115,
       "panels": [
         { "title": "Tail latency", "subtitle": "4 KiB random reads, the slowest 1%, lower is better", "y": "p99", "axis": "p99 latency (ms)", "unit": "ms" }
       ]

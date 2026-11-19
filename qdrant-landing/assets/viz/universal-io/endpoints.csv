@@ -1,6 +1,6 @@
 backend,setting,mb,ms,p99
 mmap,batch 1,7.15,0.57,0.80
-mmap,batch 512,7.15,146.41,290.50
+mmap,batch 16,7.13,4.87,9.56
 io_uring,batch 1,7.16,0.57,0.80
 io_uring,batch 16,87.36,0.61,0.80
 S3,batch 1,0.13,25.95,106.73

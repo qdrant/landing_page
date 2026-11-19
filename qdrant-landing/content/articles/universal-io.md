@@ -227,7 +227,7 @@ Concurrency can only buy what the disk has left to give. The same sweep on a gp3
 
 S3 turns concurrency into throughput, but never into lower latency. One read takes about 26 ms however deep the batch is. Throughput climbs from 0.13 MB/s at batch 1 to 9.53 MB/s at batch 512. Those figures are per `read_batch` call, where the caller waits for the whole batch. Keep the pipeline fed instead and the same box reads at 35.93 MB/s, with 228 of its 256 slots busy at once.
 
-{{< chart id="universal-io/endpoints" caption="One read at a time against the most each backend allows." caption2="The same two settings by median latency. mmap pays 146 ms for throughput it already had one read at a time." caption3="And by tail latency. io_uring batch 16 is 0.80 ms at p99, the same as batch 1, so the throughput is free at the tail." >}}
+{{< chart id="universal-io/endpoints" caption="One read at a time against a deeper batch." caption2="The same two settings by median latency. mmap gets no throughput from the deeper batch and pays 8x the latency for it." caption3="And by tail latency. io_uring batch 16 is 0.80 ms at p99, the same as batch 1, so the throughput is free at the tail." >}}
 
 Read in order and concurrency stops mattering. Opened with `MADV_SEQUENTIAL`, `io_uring` held about 247 MB/s at batch 1, 16 and 256 alike, against 7.16 MB/s in random order. The kernel reads ahead, so most reads never reach the disk and there is nothing left for the ring to overlap.
 
