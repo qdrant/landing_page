@@ -16,23 +16,23 @@
       ]
     },
     {
-      "label": "Median wait",
+      "label": "p50 latency",
       "yMax": 45,
       "panels": [
-        { "title": "Median wait per read", "subtitle": "4 KiB random reads, counted from the start of the batch, lower is better", "y": "ms", "axis": "median wait (ms)", "unit": "ms" }
+        { "title": "Median latency", "subtitle": "4 KiB random reads, queueing included, lower is better", "y": "ms", "axis": "p50 latency, queueing included (ms)", "unit": "ms" }
       ]
     },
     {
-      "label": "Tail wait",
+      "label": "p99 latency",
       "yMax": 115,
       "panels": [
-        { "title": "Tail wait per read", "subtitle": "4 KiB random reads, the slowest 1%, counted from the start of the batch, lower is better", "y": "p99", "axis": "slowest 1% wait (ms)", "unit": "ms" }
+        { "title": "Tail latency", "subtitle": "4 KiB random reads, the slowest 1%, queueing included, lower is better", "y": "p99", "axis": "p99 latency, queueing included (ms)", "unit": "ms" }
       ]
     }
   ],
   "tooltip": {
     "mb": "throughput",
-    "ms": "median wait",
-    "p99": "slowest 1% wait"
+    "ms": "p50 latency",
+    "p99": "p99 latency"
   }
 }
