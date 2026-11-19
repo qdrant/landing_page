@@ -6,7 +6,7 @@ description: "A deep dive into Qdrant's Universal I/O, which allows consumer cod
 social_preview_image: /articles_data/universal-io/preview/social_preview.jpg
 preview_dir: /articles_data/universal-io/preview
 weight: 1
-author: Luis Cossío, Clelia Bertelli
+author: Luis Cossío, Clelia Bertelli, Kumar Shivendu
 date: 2026-10-12T00:00:00Z
 keywords:
   - rust
