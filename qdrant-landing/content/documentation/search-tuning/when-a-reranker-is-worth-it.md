@@ -185,7 +185,7 @@ Grouping fits collections that store each chunk of a document as its own point. 
 
 Formula Query rescores the same candidates with an expression over payload fields, such as recency or popularity, and needs a payload index on each field the formula references.
 
-Test a [late interaction model](/documentation/fastembed/fastembed-colbert/) when a cross-encoder is too slow. Document vectors are built at ingest, so only the query goes through the model per request, and the rescoring runs inside Qdrant in the same multi-stage query. Storage grows to a vector per token. [Multivectors and Late Interaction](/documentation/tutorials-search-engineering/using-multivector-representations/) walks the full setup.
+Test a [late interaction model](/documentation/search-tuning/reranking-guide/) when a cross-encoder is too slow. Document vectors are built at ingest, so only the query goes through the model per request, and the rescoring runs inside Qdrant in the same multi-stage query. Storage grows to a vector per token. [Multivectors and Late Interaction](/documentation/tutorials-search-engineering/using-multivector-representations/) walks the full setup.
 
 ## What to Tune Next
 
