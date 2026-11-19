@@ -191,4 +191,4 @@ Test a [late interaction model](/documentation/search-tuning/reranking-guide/) w
 
 After a win, the work moves to throughput, where the candidate count you can serve decides how much of the gain survives. After a loss, the gap is still there and the candidates are what to change, so revisit retrieval and [candidate depth](/documentation/search-tuning/candidate-depth/) before adding another ranking stage.
 
-Next, if memory is the constraint, [measure what memory placement and rescoring add to query latency](/documentation/search-tuning/when-your-collection-outgrows-ram/).
+Next, if a cross-encoder is too slow or you want to compare it with rescoring inside Qdrant, [see how late interaction, MUVERA, and cross-encoders behave as depth grows](/documentation/search-tuning/reranking-guide/).

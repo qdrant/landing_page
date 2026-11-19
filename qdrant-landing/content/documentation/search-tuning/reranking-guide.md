@@ -1,5 +1,5 @@
 ---
-title: "Reranking in Qdrant: When It Helps, What It Costs, and How to Tune It"
+title: "Reranking in Qdrant: When It Helps, What It Costs"
 short_description: "Compare late interaction rescoring, MUVERA, and cross-encoders by what each one improves, what it costs, and how it behaves as candidate depth grows."
 description: "Choose and tune a reranker in Qdrant: late interaction, MUVERA, or a cross-encoder, with measured quality, latency, and memory across depths."
 preview_dir: /articles_data/reranking-guide/preview
@@ -18,7 +18,7 @@ keywords:
 guide_series: true
 ---
 
-# Reranking in Qdrant: When It Helps, What It Costs, and How to Tune It
+# Reranking in Qdrant: When It Helps, What It Costs
 
 Retrieval models differ in when the query and the document meet. A dense embedding model encodes each document on its own, before any query exists. At search time, Qdrant encodes the query and compares its vector with the stored ones. Because the documents are already encoded, a search over a large collection costs one query encoding and a set of fast vector comparisons. BM25 is similar: the index stores term frequencies, document lengths, and collection statistics, and at search time it scores each document on the query terms it contains.
 
@@ -179,3 +179,7 @@ These patterns held for every reranker we tested, and most follow from how the m
 1. Look at the queries that got worse, not only the mean. Check whether they include queries that matter to your users, and read some of them: some will be real errors, others correct answers your labels missed.
 2. Measure memory per named vector, and check whether the multivectors can go in the `cold` memory tier.
 3. If you use MUVERA, calibrate the FDE on your corpus before you trust its results.
+
+## What to Tune Next
+
+Next, if multivector memory is the constraint, [measure what memory placement and rescoring add to query latency](/documentation/search-tuning/when-your-collection-outgrows-ram/).
