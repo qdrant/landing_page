@@ -21,7 +21,7 @@ Qdrant reads all its on-disk data through `mmap`: vectors, HNSW graphs and paylo
 
 In [serverless mode](https://qdrant.tech/serverless/) the source of truth is object storage, which Qdrant caches on local disk. A read that misses that cache crosses the network, and it gets much slower.
 
-On our test box a cold `mmap` read of an EBS gp3 volume took 573 µs. From a same-region S3 bucket it took 24.0 ms, 42 times slower. From another region, 131 ms. Faster local storage only widens the gap, and a network read can fail in ways a disk read cannot.
+On our test box a cold `mmap` read of an EBS gp3 volume took 573 µs. From a same-region S3 bucket it took 25 ms, 44 times slower. From another region, 131 ms. Faster local storage only widens the gap, and a network read can fail in ways a disk read cannot.
 
 One option was to re-implement every one of those interactions against object storage, but that would have meant maintaining two versions of the same logic, which tend to drift apart over time. Every data structure would also have needed to switch between the two versions, which could change the behavior of the local path that already worked well. 
 
@@ -39,14 +39,14 @@ What we needed instead was a single abstract interface (a `trait`, in Rust terms
 
 - **`mmap`**: synchronous. Very cheap when the data is already in RAM, but a read of cold data blocks on a page fault (573 µs on the EBS gp3 volume we measured on).
 - **`io_uring`**: queued. Many reads can run concurrently, but works only on Linux kernel v5.1 or later (it was introduced in 2019).
-- **Network I/O**: asynchronous. Very expensive when the data isn't cached locally (24.0 ms per round trip to a bucket in the same region, and 131 ms to one in another region), and exposed to failure modes that disk reads don't have.
+- **Network I/O**: asynchronous. Very expensive when the data isn't cached locally (25 ms per round trip to a bucket in the same region, and 131 ms to one in another region), and exposed to failure modes that disk reads don't have.
 
 ## Neither Async nor Blocking Fits
 
 Because of this gap in cost, the design of the interface seemed to be limited to two approaches, and each with a clear downside:
 
 - **Make everything async.** This is a great fit for network storage, but a poor fit for `mmap` and for data that is already cached, because async isn't free in Rust. It needs a runtime, and the compiler optimizes async code poorly. On our test box a warm 8-byte read took 18 ns. The same read inside a Tokio runtime took 106 ns. The extra 88 ns matters on cached data and not on a 573 µs cold read.
-- **Make everything blocking.** This suits the existing `mmap` code, but it is terrible for network requests. A same-region request took 42 times longer than a cold disk read. When each request blocks until it finishes, that latency piles up quickly.
+- **Make everything blocking.** This suits the existing `mmap` code, but it is terrible for network requests. A same-region request took 44 times longer than a cold disk read. When each request blocks until it finishes, that latency piles up quickly.
 
 After a few iterations, we settled on a middle ground, a `ReadPipeline` abstraction modeled on `io_uring`, in which you schedule reads (like pushing to a submission queue) and then wait for results (like reading from a completion queue), while each backend implements the pipeline in the way that suits it best.
 
@@ -211,7 +211,7 @@ fn read(range) -> Slice {
 }
 ```
 
-Once every block is local, the `fully_populated` flag lets reads skip the bitmap and its lock entirely. At that point a read is just a slice of the local `MmapFile`, the same kind of operation the `mmap` backend performs. The first read of a block still costs a 24.0 ms round trip. Every read after it costs 573 µs, the price of a local `mmap`.
+Once every block is local, the `fully_populated` flag lets reads skip the bitmap and its lock entirely. At that point a read is just a slice of the local `MmapFile`, the same kind of operation the `mmap` backend performs. The first read of a block still costs a 25 ms round trip. Every read after it costs 573 µs, the price of a local `mmap`.
 
 Append-only files can also grow, and reopening one would mean fetching everything again, so `DiskCache` grows the mirror in two phases: it first *stages* the change by learning the new remote size and prefetching the new tail, without any visible effect for readers, and then *applies* it by growing and remapping the local file. This lets Qdrant stage reloads for many files at once and pay only for the slowest one.
 
@@ -225,15 +225,15 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 Concurrency can only buy what the disk has left to give. The same sweep on a gp3 volume at the 3,000 IOPS baseline turns batch 1 into batch 16 for 1.8 times the throughput, not 12, because one thread reading on its own already takes more than half of what that volume can serve.
 
-S3 turns concurrency into throughput, but never into lower latency. One read takes about 24 ms however deep the batch is. Throughput climbs from 0.16 MB/s at batch 1 to 8.83 MB/s at batch 256, the deepest the blob pipeline goes.
+S3 turns concurrency into throughput, but never into lower latency. One read takes about 25 ms however deep the batch is. Throughput climbs from 0.15 MB/s at batch 1 to 7.95 MB/s at batch 256, the deepest the blob pipeline goes.
 
 {{< chart id="universal-io/endpoints" caption="One read at a time against the most each backend allows." caption2="The same two settings by median latency. mmap pays 146 ms for throughput it already had one read at a time." caption3="And by tail latency. io_uring batch 16 is 0.80 ms at p99, the same as batch 1, so the throughput is free at the tail." >}}
 
 Read in order and concurrency stops mattering. Opened with `MADV_SEQUENTIAL`, `io_uring` held about 247 MB/s at batch 1, 16 and 256 alike, against 7.16 MB/s in random order. The kernel reads ahead, so most reads never reach the disk and there is nothing left for the ring to overlap.
 
-`mmap` is the exception. It reaches 253.84 MB/s reading one at a time, and half that from batch 16 onwards, so batching costs it rather than buying anything. Object storage gains nothing from order either, because nothing reads ahead across network requests.
+`mmap` is the exception. It reaches 253.84 MB/s reading one at a time, and half that from batch 16 onwards, so batching costs it rather than buying anything. Object storage gains nothing from order either. A read costs about 25 ms whichever way it goes.
 
-Concurrency only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 24 ms on object storage, however many reads the pipeline allows.
+Concurrency only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 25 ms on object storage, however many reads the pipeline allows.
 
 ## The Best of All Worlds (Almost)
 

@@ -7,10 +7,10 @@ random,io_uring,batch 1,left,,0.5716,0.8015,7.16
 random,io_uring,batch 16,up,,0.6126,0.8043,87.36
 random,io_uring,batch 64,,,1.7844,3.9458,74.35
 random,io_uring,batch 512,down,,14.9229,31.4734,68.48
-random,S3,batch 1,left,,24.0181,77.1325,0.16
-random,S3,batch 16,,,23.7625,47.2622,1.60
-random,S3,batch 64,,,23.8685,58.4953,3.58
-random,S3,batch 256,up,,24.1734,51.4117,8.83
+random,S3,batch 1,left,,25.5000,83.4688,0.15
+random,S3,batch 16,,,24.9547,65.2373,1.31
+random,S3,batch 64,,,24.8903,59.7080,3.77
+random,S3,batch 256,up,,25.8040,82.0482,7.95
 sequential,mmap,batch 1,up,1,0.0005,0.7994,253.84
 sequential,mmap,batch 16,,,0.7829,1.2735,125.82
 sequential,mmap,batch 256,down,,4.7989,9.0980,125.98
