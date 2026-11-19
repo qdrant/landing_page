@@ -1,0 +1,6 @@
+panel,depth,scidocs,scifact,fiqa,nfcorpus
+ColBERTv2 rescoring vs dense alone,10,-1.8,-0.8,-0.5,2.3
+ColBERTv2 rescoring vs dense alone,25,-8.0,-1.6,1.6,4.5
+ColBERTv2 rescoring vs dense alone,50,-11.9,-2.0,-1.2,4.2
+ColBERTv2 rescoring vs dense alone,100,-15.3,-2.7,-2.3,3.8
+ColBERTv2 rescoring vs dense alone,200,-16.7,-3.3,-2.4,4.2

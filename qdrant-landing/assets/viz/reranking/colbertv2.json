@@ -1,0 +1,18 @@
+{
+  "title": "Change in nDCG@10 from ColBERTv2 rescoring, relative to dense alone",
+  "kind": "lines-facet",
+  "facet": "panel",
+  "facetLabel": "{}",
+  "x": "depth",
+  "xLabel": "candidates rescored (depth)",
+  "xSuffix": "",
+  "yLabel": "% change in nDCG@10",
+  "yScale": "linear",
+  "yDomain": [-18, 6],
+  "refLine": { "value": 0, "label": "dense alone" },
+  "series": ["scidocs", "scifact", "fiqa", "nfcorpus"],
+  "seriesLabels": ["SCIDOCS", "SciFact", "FiQA", "NFCorpus"],
+  "unit": "%",
+  "height": 340,
+  "subtitle": "higher is better"
+}
