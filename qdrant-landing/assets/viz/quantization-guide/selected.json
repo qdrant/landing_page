@@ -1,0 +1,46 @@
+{
+  "title": "Development-selected operating points, evaluated on held-out test queries at k=10",
+  "kind": "grouped-columns",
+  "group": "method",
+  "series": "dataset",
+  "colors": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "height": 430,
+  "width": 980,
+  "textScale": 1.0,
+  "legendLayout": "row",
+  "views": [
+    {
+      "label": "Recall, Cohere 1024-d",
+      "subtitle": "Fastest dev point with recall >= 0.95 and nDCG@10 within 0.01 of exact, then 150 held-out queries, Cohere embed-english-v3.0, higher is better",
+      "y": "recall_cohere",
+      "yLabel": "recall@10 vs exact float32",
+      "yMax": 1.0
+    },
+    {
+      "label": "Recall, BGE 384-d",
+      "subtitle": "Same rule and queries, BGE-small-en-v1.5, higher is better",
+      "y": "recall_bge",
+      "yLabel": "recall@10 vs exact float32",
+      "yMax": 1.0
+    },
+    {
+      "label": "p95, Cohere 1024-d",
+      "subtitle": "Server-side p95 at the frozen points, 8-vCPU VM, concurrency 1, 3 builds x 5 passes, lower is better",
+      "y": "p95_cohere",
+      "yLabel": "server p95 (ms)",
+      "yMax": 1.4
+    },
+    {
+      "label": "p95, BGE 384-d",
+      "subtitle": "Server-side p95 at the frozen points, BGE-small-en-v1.5, lower is better",
+      "y": "p95_bge",
+      "yLabel": "server p95 (ms)",
+      "yMax": 1.4
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+method,workload,qps,server_p95_ms
+SQ int8,Quora / Cohere 1024-d,5567,0.78
+TQ 4-bit,Quora / Cohere 1024-d,6138,0.64
+BQ 1-bit,Quora / Cohere 1024-d,6674,0.53
+PQ x8,Quora / Cohere 1024-d,2720,2.71
+float32,Quora / Cohere 1024-d,4187,1.34
+SQ int8,Quora / BGE 384-d,7262,0.57
+TQ 4-bit,Quora / BGE 384-d,7708,0.50
+BQ 1-bit,Quora / BGE 384-d,7209,0.62
+PQ x8,Quora / BGE 384-d,4794,1.33
+float32,Quora / BGE 384-d,5768,0.93
+SQ int8,FiQA / Cohere 1024-d,6174,0.64
+TQ 4-bit,FiQA / Cohere 1024-d,6337,0.61
+BQ 1-bit,FiQA / Cohere 1024-d,6509,0.56
+PQ x8,FiQA / Cohere 1024-d,2826,2.51
+float32,FiQA / Cohere 1024-d,4512,1.22
+SQ int8,FiQA / BGE 384-d,7368,0.53
+TQ 4-bit,FiQA / BGE 384-d,8184,0.45
+BQ 1-bit,FiQA / BGE 384-d,4665,1.36
+PQ x8,FiQA / BGE 384-d,4490,1.44
+float32,FiQA / BGE 384-d,6644,0.69

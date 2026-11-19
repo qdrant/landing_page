@@ -1,0 +1,19 @@
+method,rescore,recall_quora_cohere,recall_quora_bge,recall_fiqa_cohere,recall_fiqa_bge
+SQ int8,rescore off,0.981,0.962,0.981,0.926
+SQ int8,rescore on,0.993,0.993,0.996,0.988
+TQ 4-bit,rescore off,0.972,0.950,0.960,0.932
+TQ 4-bit,rescore on,0.994,0.994,0.996,0.988
+TQ 2-bit,rescore off,0.928,0.868,0.880,0.789
+TQ 2-bit,rescore on,0.994,0.985,0.991,0.958
+TQ 1.5-bit,rescore off,0.881,0.809,0.811,0.653
+TQ 1.5-bit,rescore on,0.986,0.963,0.958,0.840
+TQ 1-bit,rescore off,0.863,0.774,0.782,0.610
+TQ 1-bit,rescore on,0.980,0.938,0.947,0.791
+BQ 2-bit,rescore off,0.835,0.766,0.705,0.584
+BQ 2-bit,rescore on,0.974,0.920,0.888,0.766
+BQ 1-bit,rescore off,0.788,0.675,0.627,0.420
+BQ 1-bit,rescore on,0.943,0.838,0.794,0.560
+PQ x8,rescore off,0.955,0.934,0.951,0.905
+PQ x8,rescore on,0.991,0.996,0.997,0.987
+PQ x16,rescore off,0.913,0.830,0.885,0.731
+PQ x16,rescore on,0.991,0.973,0.994,0.905
