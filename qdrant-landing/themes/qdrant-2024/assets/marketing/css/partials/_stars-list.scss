@@ -1,199 +1,192 @@
 @use '../helpers/functions' as *;
 
+// "Meet The Stars" card grid on /stars/.
 .stars-list {
-  position: relative;
-  overflow: hidden;
-  background-color: $neutral-10;
-  padding-top: $spacer * 4;
-  padding-bottom: $spacer * 4;
+  padding: pxToRem(64) 0;
+  // The purple glow is the edge of a large ellipse centered above the section.
+  background:
+    radial-gradient(
+      175.2% 147.2% at 50% -8.6%,
+      rgba(67, 37, 174, 0) 64.97%,
+      rgba(96, 71, 255, 0.3) 78.16%,
+      rgb(97, 67, 224) 100%
+    ),
+    $neutral-10;
 
-  &__title {
-    position: relative;
-    margin-bottom: $spacer * 2.5;
-    font-size: $spacer * 2.5;
-    line-height: $spacer * 3;
-    color: $neutral-98;
-    text-align: center;
-    z-index: 1;
-  }
-
-  &__cards {
-    row-gap: pxToRem(30);
-
-    &:first-of-type {
-      margin-bottom: pxToRem(30);
-    }
-  }
-
-  &__card {
-    position: relative;
-    width: 100%;
-    max-width: pxToRem(255);
-    height: 100%;
-    min-height: pxToRem(375);
-    margin: 0 auto;
-    padding: $spacer * 1.5;
-    border-radius: pxToRem(12);
-    background: linear-gradient($neutral-20, #0e1424);
-    overflow: hidden;
-    text-align: center;
-    z-index: 1;
-
-    &-image {
-      position: relative;
-      width: 100%;
-      margin-bottom: $spacer;
-      border-radius: pxToRem(6);
-      z-index: 1;
-    }
-
-    &-title {
-      margin-bottom: 0;
-      font-size: pxToRem(20);
-      line-height: pxToRem(30);
-      color: $neutral-98;
-    }
-
-    &-subtitle {
-      margin-bottom: $spacer * 0.5;
-      font-size: pxToRem(14);
-      line-height: pxToRem(21);
-      font-weight: 600;
-      color: $neutral-90;
-    }
-
-    &-description {
-      margin-bottom: 0;
-      font-size: pxToRem(14);
-      line-height: pxToRem(21);
-      color: $neutral-60;
-    }
-
-    &-overlay {
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: pxToRem(124);
-      height: pxToRem(124);
-      background-image: url('/img/blurred/blurred-light-21.svg');
-      background-position: top;
-      background-size: cover;
-    }
-  }
-
-  &__main-card {
+  &__header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: none;
-    min-height: auto;
-    padding: pxToRem(30);
-
-    &-image {
-      width: 100%;
-      margin-bottom: pxToRem(30);
-      border-radius: pxToRem(6);
-    }
-
-    &-head {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: $spacer * 0.5;
-      margin-bottom: $spacer * 0.5;
-      font-size: pxToRem(14);
-      line-height: pxToRem(21);
-      color: $secondary-violet-70;
-
-      img {
-        width: $spacer;
-        height: $spacer;
-      }
-    }
-
-    &-title {
-      margin-bottom: $spacer * 0.5;
-      font-size: $spacer * 2;
-      line-height: $spacer * 2.5;
-      color: $neutral-98;
-    }
-
-    &-subtitle {
-      color: $neutral-90;
-    }
-
-    &-description {
-      margin-bottom: 0;
-      font-size: pxToRem(14);
-      line-height: pxToRem(21);
-      color: $neutral-60;
-    }
-
-    &-overlay {
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: pxToRem(124);
-      height: pxToRem(321);
-      background-image: url('/img/blurred/blurred-light-20.svg');
-      background-position: top;
-      background-size: cover;
-    }
-  }
-
-  &__link {
-    position: relative;
-    z-index: 1;
+    gap: pxToRem(24);
+    margin-bottom: pxToRem(48);
     text-align: center;
-    margin-top: $spacer * 4;
   }
 
-  &__overlay-top {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: pxToRem(323);
-    height: pxToRem(320);
-    background-image: url('/img/blurred/blurred-light-4.png');
-    background-position: top;
-    background-size: cover;
+  &__title {
+    margin: 0;
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    color: $neutral-98;
   }
 
-  &__overlay-bottom {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: pxToRem(637);
-    height: pxToRem(444);
-    background-image: url('/img/blurred/blurred-light-19.svg');
-    background-position: bottom;
-    background-size: cover;
+  &__subtitle {
+    margin: 0;
+    font-size: pxToRem(18);
+    line-height: 1.5;
+    color: $neutral-70;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: pxToRem(30);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(16);
+    padding: pxToRem(32) pxToRem(24);
+    border: 1px solid $neutral-20;
+    border-radius: pxToRem(8);
+    background:
+      linear-gradient(180deg, rgba(148, 148, 255, 0.008) 0%, rgba(148, 148, 255, 0.08) 100%),
+      $neutral-10;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background:
+        linear-gradient(180deg, rgba(148, 148, 255, 0.02) 0%, rgba(148, 148, 255, 0.14) 100%),
+        $neutral-10;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: pxToRem(8);
+  }
+
+  &__photo {
+    width: pxToRem(64);
+    height: pxToRem(64);
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  // The badge artwork (sparkle and "Distinguished" lettering) is a mask over a violet gradient.
+  &__badge {
+    flex: none;
+    width: pxToRem(108);
+    height: pxToRem(21);
+    background: linear-gradient(90deg, #7e75ff, #4325ae);
+    mask: url('/img/stars-program/icons/distinguished-badge.svg') no-repeat center / 100% 100%;
+  }
+
+  &__info {
+    flex: 1 0 auto;
+    padding-bottom: pxToRem(16);
+    border-bottom: 0.5px solid $neutral-30;
+  }
+
+  &__name {
+    margin: 0;
+    font-size: pxToRem(18);
+    font-weight: 600;
+    line-height: 1.5;
+    color: $neutral-98;
+  }
+
+  &__position {
+    margin: 0;
+    font-size: pxToRem(18);
+    line-height: 1.5;
+    color: $neutral-80;
+  }
+
+  &__tags {
+    margin: 0;
+    padding-top: pxToRem(4);
+    overflow: hidden;
+    font-family: $font-family-monospace;
+    font-size: pxToRem(14);
+    line-height: 1.5;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: $neutral-80;
+    mask-image: linear-gradient(90deg, #000 77%, transparent 100%);
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: pxToRem(4) pxToRem(16);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__meta-item {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(2);
+    font-size: pxToRem(14);
+    line-height: 1.5;
+    white-space: nowrap;
+    color: $neutral-80;
+  }
+
+  &__more {
+    display: flex;
+    justify-content: center;
+    margin-top: pxToRem(48);
+  }
+
+  &__more-button {
+    box-shadow: 0 0 0 1px $neutral-70;
+    color: $neutral-98;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    &__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &__title {
+      font-size: pxToRem(40);
+    }
   }
 
   @include media-breakpoint-up(lg) {
-    padding-top: $spacer * 7.5;
-    padding-bottom: pxToRem(211);
+    padding: pxToRem(80) 0;
 
-    &__title {
-      margin-bottom: $spacer * 5;
-      font-size: $spacer * 3.5;
-      line-height: pxToRem(67);
+    &__header {
+      margin-bottom: pxToRem(80);
     }
 
-    &__cards {
-      row-gap: $spacer * 2.5;
-
-      &:first-of-type {
-        margin-bottom: $spacer * 5;
-      }
+    &__grid {
+      grid-template-columns: repeat(4, 1fr);
+      row-gap: pxToRem(56);
     }
 
-    &__main-card {
-      min-height: pxToRem(571);
-    }
-
-    &__link {
-      margin-top: $spacer * 7.5;
+    &__more {
+      margin-top: pxToRem(80);
     }
   }
 }

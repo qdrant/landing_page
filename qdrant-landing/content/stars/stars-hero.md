@@ -1,12 +1,28 @@
 ---
-title: Qdrant Stars
-description: A program for developers building, sharing, and leading in the Qdrant community.<br/><br/>Qdrant Stars recognizes and supports our most active contributors. If you’re helping others get more out of Qdrant, this program is for you.
+title: The Developers Building And Sharing Great Things With Qdrant.
+label: Qdrant Stars · Ambassador Program
+description: Qdrant Stars is our ambassador program for the developers teaching everyone else. Talks, tutorials, workshops, and open source, recognized, rewarded, and amplified.
 button:
   text: Become a Star
   url: https://forms.gle/vTuy8Fe9RFdt4SiB9
-image:
-  src: /img/stars-hero.svg
-  alt: Stars
+secondaryButton:
+  text: View the Handbook
+  url: https://qdrant.github.io/qdrant-stars-handbook/
+portraits:
+  left: /img/stars-program/hero-portrait-left.png
+  right: /img/stars-program/hero-portrait-right.png
+stats:
+- icon: stat-user
+  value: "21"
+  label: Active Stars
+- icon: stat-map-pin
+  value: "13"
+  label: Countries
+- icon: stat-mic-vocal
+  value: "38"
+  label: Talks in 2026
+- icon: stat-heart
+  value: 120K+
+  label: Developers Reached
 sitemapExclude: true
 ---
-

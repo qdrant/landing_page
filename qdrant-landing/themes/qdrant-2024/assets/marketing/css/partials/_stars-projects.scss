@@ -1,0 +1,186 @@
+@use '../helpers/functions' as *;
+
+// "Projects The Community Is Building" list on /stars/.
+.stars-projects {
+  $raised-shadow:
+    0 0 1px rgba(0, 0, 0, 0.4),
+    0 1px 1px rgba(0, 0, 0, 0.04),
+    0 2px 4px rgba(0, 0, 0, 0.04);
+
+  padding: pxToRem(64) 0;
+  background-color: $neutral-94;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(32);
+    margin-bottom: pxToRem(48);
+  }
+
+  &__heading {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(24);
+  }
+
+  &__label {
+    margin: 0;
+    font-family: $font-family-monospace;
+    font-size: pxToRem(14);
+    font-weight: 500;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: $neutral-30;
+  }
+
+  &__title {
+    max-width: pxToRem(445);
+    margin: 0;
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+  }
+
+  &__intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: pxToRem(24);
+    max-width: pxToRem(350);
+  }
+
+  &__description {
+    margin: 0;
+    font-size: pxToRem(18);
+    line-height: 1.5;
+    color: $neutral-30;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: pxToRem(7);
+    font-size: pxToRem(16);
+    font-weight: 500;
+    line-height: 1.5;
+    color: $primary-50;
+    text-decoration: none;
+
+    &:hover {
+      color: $primary-40;
+    }
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  // Narrow screens: logo and badge share the first row, then name and description.
+  &__item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      'logo badge'
+      'name name'
+      'description description';
+    align-items: center;
+    gap: pxToRem(16) pxToRem(24);
+    padding: pxToRem(24) 0;
+    border-top: 1px solid $neutral-90;
+  }
+
+  &__logo {
+    grid-area: logo;
+    width: pxToRem(64);
+    height: pxToRem(64);
+    border-radius: 50%;
+    background-color: $neutral-98;
+    object-fit: contain;
+    box-shadow: $raised-shadow;
+  }
+
+  &__name {
+    grid-area: name;
+  }
+
+  &__item-title {
+    margin: 0;
+    font-size: pxToRem(16);
+    font-weight: 600;
+    line-height: 1.5;
+    color: $neutral-20;
+  }
+
+  &__author {
+    margin: 0;
+    font-size: pxToRem(14);
+    line-height: 1.5;
+    color: $neutral-20;
+  }
+
+  &__item-description {
+    grid-area: description;
+    margin: 0;
+    font-size: pxToRem(16);
+    line-height: 1.5;
+    color: $neutral-20;
+  }
+
+  &__badge {
+    grid-area: badge;
+    justify-self: end;
+    align-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: pxToRem(8);
+    padding: pxToRem(4) pxToRem(10) pxToRem(4) pxToRem(8);
+    border-radius: pxToRem(4);
+    background-color: $neutral-98;
+    box-shadow: $raised-shadow;
+    font-family: $font-family-monospace;
+    font-size: pxToRem(12);
+    line-height: 1.5;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: $neutral-20;
+  }
+
+  @include media-breakpoint-up(md) {
+    &__title {
+      font-size: pxToRem(40);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding: pxToRem(80) 0;
+
+    &__header {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: pxToRem(64);
+    }
+
+    // One row: logo, name (245), description (444), badge.
+    &__item {
+      grid-template-columns: pxToRem(48) pxToRem(245) minmax(0, pxToRem(444)) 1fr;
+      grid-template-areas: 'logo name description badge';
+      column-gap: pxToRem(64);
+    }
+
+    &__logo {
+      align-self: start;
+      width: pxToRem(48);
+      height: pxToRem(48);
+    }
+
+    // The logo sits 24px from the name, closer than the 64px between the other columns.
+    &__name {
+      margin-left: pxToRem(-40);
+    }
+  }
+}

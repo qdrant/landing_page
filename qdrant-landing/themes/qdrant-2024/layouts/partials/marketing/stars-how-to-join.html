@@ -1,0 +1,28 @@
+{{ with (.Site.GetPage "/stars/stars-how-to-join") }}
+  <section class="stars-join">
+    <div class="container">
+      <div class="stars-join__header">
+        {{ with .Params.label }}<p class="stars-join__label">{{ . }}</p>{{ end }}
+        <h2 class="stars-join__title">{{ .Title }}</h2>
+      </div>
+
+      <ol class="stars-join__steps">
+        {{ range $i, $step := .Params.steps }}
+          <li class="stars-join__step stars-join__step_{{ $step.accent }}">
+            <span class="stars-join__number">{{ printf "%02d" (add $i 1) }}</span>
+            <div class="stars-join__content">
+              <h3 class="stars-join__step-title">{{ $step.title }}</h3>
+              <p class="stars-join__step-description">{{ $step.description }}</p>
+            </div>
+            {{ with $step.duration }}
+              <p class="stars-join__duration">
+                <img src="/img/stars-program/icons/step-timer.svg" alt="Duration:" width="14" height="14" />
+                {{ . }}
+              </p>
+            {{ end }}
+          </li>
+        {{ end }}
+      </ol>
+    </div>
+  </section>
+{{ end }}

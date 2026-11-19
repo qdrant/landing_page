@@ -1,0 +1,264 @@
+@use '../helpers/functions' as *;
+
+// "Perks That Take Your Work Further" carousel and handbook banner on /stars/.
+.stars-perks {
+  // Icon tile backgrounds, one per perk.
+  $icon-backgrounds: (
+    rewards: #fff3e0,
+    amplification: #fdecef,
+    travel: #e1f5fe,
+    handbook: #e5e8ff,
+    beta: #f3e5f5,
+    recognition: #e5e8ff,
+  );
+
+  padding: pxToRem(64) 0;
+  background-color: $neutral-94;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: pxToRem(24);
+    margin-bottom: pxToRem(48);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    text-align: center;
+    color: $neutral-20;
+  }
+
+  &__controls {
+    display: none;
+    gap: pxToRem(32);
+  }
+
+  &__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(40);
+    height: pxToRem(40);
+    padding: 0;
+    border: none;
+    background: none;
+    color: $neutral-20;
+    cursor: pointer;
+
+    svg {
+      width: auto;
+      height: auto;
+    }
+
+    &:disabled {
+      color: $neutral-80;
+      cursor: default;
+    }
+  }
+
+  &__track {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(30);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(16);
+    padding: pxToRem(32);
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(16);
+    background-color: $neutral-98;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(40);
+    height: pxToRem(40);
+    margin-bottom: pxToRem(8);
+    border-radius: pxToRem(8);
+
+    @each $name, $color in $icon-backgrounds {
+      &_#{$name} {
+        background-color: $color;
+      }
+    }
+  }
+
+  &__card-title {
+    margin: 0;
+    font-size: pxToRem(24);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+  }
+
+  &__card-description {
+    margin: 0;
+    font-size: pxToRem(18);
+    line-height: 1.5;
+    color: $neutral-30;
+  }
+
+  // Narrow screens show the banner as a light card; wide screens as the dark space banner.
+  &__banner {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: pxToRem(24);
+    margin-top: pxToRem(30);
+    padding: pxToRem(32);
+    overflow: hidden;
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(16);
+    background-color: $neutral-98;
+  }
+
+  &__banner-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: pxToRem(24);
+  }
+
+  &__banner-icon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(48);
+    height: pxToRem(48);
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(8);
+    background: linear-gradient(180deg, rgba(0, 77, 64, 0.12), rgba(11, 15, 25, 0));
+  }
+
+  &__banner-text {
+    max-width: pxToRem(530);
+    margin: 0;
+    font-size: pxToRem(16);
+    line-height: 1.5;
+    color: $neutral-20;
+  }
+
+  &__banner-link {
+    display: inline-flex;
+    align-items: center;
+    gap: pxToRem(7);
+    font-size: pxToRem(16);
+    font-weight: 500;
+    line-height: 1.5;
+    white-space: nowrap;
+    text-decoration: none;
+    color: $primary-50;
+
+    svg {
+      width: pxToRem(6);
+      height: auto;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &__title {
+      font-size: pxToRem(40);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding: pxToRem(80) 0;
+
+    &__header {
+      justify-content: space-between;
+      margin-bottom: pxToRem(64);
+    }
+
+    &__title {
+      text-align: left;
+    }
+
+    &__controls {
+      display: flex;
+    }
+
+    &__track {
+      flex-direction: row;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    &__card {
+      flex: 0 0 pxToRem(350);
+      scroll-snap-align: start;
+    }
+
+    &__banner {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: pxToRem(32) pxToRem(32) pxToRem(32) pxToRem(33);
+      border-color: $neutral-90;
+      background:
+        linear-gradient(270deg, rgba(0, 0, 0, 0.486) 0%, rgba(0, 0, 0, 0) 20.54%, rgba(0, 0, 0, 0) 58.01%, rgba(0, 0, 0, 0.405) 100%),
+        radial-gradient(100% 185% at 100% 4.5%, rgba(87, 0, 201, 0.4) 5.03%, rgba(36, 0, 91, 0.12) 25.96%, rgba(0, 0, 0, 0) 78.45%),
+        radial-gradient(
+          90.2% 121.2% at 50% 7.6%,
+          rgba(0, 0, 0, 0) 9.46%,
+          rgba(9, 14, 26, 0.08) 45.41%,
+          rgba(0, 24, 72, 0.24) 68.94%,
+          rgba(0, 64, 161, 0.4) 78.19%
+        ),
+        $neutral-10;
+
+      // Grain texture from the design's space background.
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: url('/img/stars-program/banner-texture.webp') top left / pxToRem(819.2);
+        mix-blend-mode: overlay;
+        opacity: 0.32;
+        pointer-events: none;
+      }
+    }
+
+    &__banner-content {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    &__banner-icon {
+      border-color: $neutral-20;
+      background: linear-gradient(180deg, rgba(0, 77, 64, 0.4), rgba(11, 15, 25, 0));
+    }
+
+    &__banner-text,
+    &__banner-link {
+      color: $neutral-98;
+    }
+  }
+}

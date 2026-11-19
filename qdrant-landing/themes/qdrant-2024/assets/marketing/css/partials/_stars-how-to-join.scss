@@ -1,0 +1,137 @@
+@use '../helpers/functions' as *;
+
+// "Joining Is Simple" steps on /stars/.
+.stars-join {
+  // Each step: accent line and number color, number tile background.
+  $accents: (
+    'primary': ($primary-50, $primary-90),
+    'blue': ($secondary-blue-50, $secondary-blue-90),
+    'teal': ($secondary-teal-50, $secondary-teal-90),
+    'violet': ($secondary-violet-50, $secondary-violet-90),
+  );
+
+  padding: pxToRem(64) 0;
+  background-color: $neutral-94;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: pxToRem(24);
+    margin-bottom: pxToRem(48);
+    text-align: center;
+  }
+
+  &__label {
+    margin: 0;
+    font-family: $font-family-monospace;
+    font-size: pxToRem(14);
+    font-weight: 500;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: $neutral-30;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+  }
+
+  &__steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: pxToRem(40) pxToRem(30);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__step {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: pxToRem(24);
+    padding-left: pxToRem(16);
+    border-left: 2px solid;
+
+    @each $name, $colors in $accents {
+      &_#{$name} {
+        border-left-color: nth($colors, 1);
+
+        .stars-join__number {
+          background-color: nth($colors, 2);
+          color: nth($colors, 1);
+        }
+      }
+    }
+  }
+
+  &__number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(40);
+    height: pxToRem(32);
+    border-radius: 2px;
+    font-size: pxToRem(18);
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(4);
+  }
+
+  &__step-title {
+    margin: 0;
+    font-size: pxToRem(18);
+    font-weight: 600;
+    line-height: 1.5;
+    color: $neutral-20;
+  }
+
+  &__step-description {
+    margin: 0;
+    font-size: pxToRem(18);
+    line-height: 1.5;
+    color: $neutral-30;
+  }
+
+  &__duration {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(4);
+    margin: auto 0 0;
+    font-size: pxToRem(14);
+    line-height: 1.5;
+    color: $neutral-50;
+  }
+
+  @include media-breakpoint-up(md) {
+    &__title {
+      font-size: pxToRem(40);
+    }
+
+    &__steps {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding: pxToRem(80) 0;
+
+    &__header {
+      margin-bottom: pxToRem(64);
+    }
+
+    &__steps {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}

@@ -1,20 +1,47 @@
+{{ $icons := "/img/stars-program/icons/" }}
 {{ with (.Site.GetPage "/stars/stars-hero") }}
   <section class="stars-hero">
     <div class="container">
-      <div class="row align-items-lg-center">
-        <div class="stars-hero__content col-12 col-lg-6">
-          <h1 class="stars-hero__title">{{ .Params.title }}</h1>
-          <p class="stars-hero__description">{{ .Params.description | safeHTML }}</p>
-          <a href="{{ .Params.button.url }}" class="button button_contained button_md">
-            {{ .Params.button.text }}
-          </a>
+      <div class="stars-hero__main">
+        <div class="stars-hero__content">
+          {{ with .Params.label }}<p class="stars-hero__label">{{ . }}</p>{{ end }}
+          <h1 class="stars-hero__title">{{ .Title }}</h1>
+          <p class="stars-hero__description">{{ .Params.description }}</p>
+          <div class="stars-hero__actions">
+            {{ with .Params.button }}
+              <a href="{{ .url }}" class="button button_contained button_lg stars-hero__button" target="_blank" rel="noopener noreferrer">{{ .text }}</a>
+            {{ end }}
+            {{ with .Params.secondaryButton }}
+              <a href="{{ .url }}" class="button button_outlined button_lg stars-hero__button" target="_blank" rel="noopener noreferrer">{{ .text }}</a>
+            {{ end }}
+          </div>
         </div>
 
-        <div class="stars-hero__preview col-12 col-lg-6">
-          <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
-        </div>
+        {{ with .Params.portraits }}
+          <div class="stars-hero__visual" aria-hidden="true">
+            <div class="stars-hero__portrait stars-hero__portrait_left">
+              {{ partial "marketing/picture" (dict "src" .left "class" "stars-hero__portrait-image" "width" "354" "height" "367" "fetchpriority" "high") }}
+            </div>
+            <div class="stars-hero__portrait stars-hero__portrait_right">
+              {{ partial "marketing/picture" (dict "src" .right "class" "stars-hero__portrait-image" "width" "276" "height" "370" "fetchpriority" "high") }}
+            </div>
+          </div>
+        {{ end }}
       </div>
+
+      {{ with .Params.stats }}
+        <ul class="stars-hero__stats">
+          {{ range . }}
+            <li class="stars-hero__stat">
+              <span class="stars-hero__stat-value">
+                <img src="{{ $icons }}{{ .icon }}.svg" alt="" width="24" height="24" />
+                {{ .value }}
+              </span>
+              <span class="stars-hero__stat-label">{{ .label }}</span>
+            </li>
+          {{ end }}
+        </ul>
+      {{ end }}
     </div>
-    <div class="stars-hero__overlay"></div>
   </section>
 {{ end }}
