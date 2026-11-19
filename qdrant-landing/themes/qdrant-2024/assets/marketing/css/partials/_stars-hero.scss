@@ -59,14 +59,15 @@
     white-space: nowrap;
   }
 
-  // The visual box is the Figma "Headshots" frame (463 x 522); portraits are placed in
-  // percentages of it so the pair scales down on narrow screens.
+  // Portraits are placed in percentages of the visual box so the pair scales with it.
+  // Narrow screens follow the mobile design (335 x 390, two 154px portraits);
+  // wide screens use the desktop "Headshots" frame (463 x 522).
   &__visual {
     position: relative;
     width: 100%;
     max-width: pxToRem(463);
     margin: 0 auto;
-    aspect-ratio: 463 / 522;
+    aspect-ratio: 335 / 390;
 
     &::before {
       content: '';
@@ -81,8 +82,8 @@
 
   &__portrait {
     position: absolute;
-    width: 34.557%;
-    height: 61.303%;
+    width: 46.044%;
+    height: 79.101%;
     overflow: hidden;
     border-radius: pxToRem(8);
     background:
@@ -100,28 +101,28 @@
     }
 
     &_left {
-      top: 16.284%;
-      left: 11.447%;
+      top: 21.012%;
+      left: 0;
       mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
 
       .stars-hero__portrait-image {
-        top: -2.5%;
-        left: -65.625%;
-        width: 221.25%;
-        height: 114.688%;
+        top: -5.493%;
+        left: -62.238%;
+        width: 212.646%;
+        height: 109.888%;
       }
     }
 
     &_right {
       top: 0;
-      left: 52.484%;
+      left: 53.483%;
       mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
 
       .stars-hero__portrait-image {
-        top: -1.5%;
-        left: -35.625%;
-        width: 172.5%;
-        height: 115.469%;
+        top: -4.214%;
+        left: -32.524%;
+        width: 165.966%;
+        height: 105.026%;
         opacity: 0.95;
       }
     }
@@ -130,6 +131,7 @@
   &__portrait-image {
     position: absolute;
     max-width: none;
+    object-fit: cover;
   }
 
   // Cells share borders: the list draws the top and left edges, each cell the right and bottom.
@@ -200,6 +202,12 @@
       font-size: pxToRem(48);
     }
 
+    // Figma renders Mona Sans a touch wider than browsers do; 560px reproduces the
+    // design's line breaks ("developers / teaching ... open-source / — recognized").
+    &__description {
+      max-width: pxToRem(560);
+    }
+
     &__actions {
       align-self: flex-start;
     }
@@ -209,6 +217,36 @@
     &__visual {
       flex: 0 0 pxToRem(463);
       margin: pxToRem(-105) pxToRem(-14) 0 0;
+      aspect-ratio: 463 / 522;
+    }
+
+    &__portrait {
+      width: 34.557%;
+      height: 61.303%;
+
+      &_left {
+        top: 16.284%;
+        left: 11.447%;
+
+        .stars-hero__portrait-image {
+          top: -2.5%;
+          left: -65.625%;
+          width: 221.25%;
+          height: 114.688%;
+        }
+      }
+
+      &_right {
+        top: 0;
+        left: 52.484%;
+
+        .stars-hero__portrait-image {
+          top: -1.5%;
+          left: -35.625%;
+          width: 172.5%;
+          height: 115.469%;
+        }
+      }
     }
 
     &__stats {

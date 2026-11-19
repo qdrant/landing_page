@@ -1,7 +1,7 @@
 ---
 title: The Developers Building And Sharing Great Things With Qdrant.
 label: Qdrant Stars · Ambassador Program
-description: Qdrant Stars is our ambassador program for the developers teaching everyone else. Talks, tutorials, workshops, and open source – recognized, rewarded, and amplified.
+description: Qdrant Stars is our ambassador program for the developers teaching everyone else. Talks, tutorials, workshops, and open-source — recognized, rewarded, and amplified.
 button:
   text: Become a Star
   url: https://forms.gle/vTuy8Fe9RFdt4SiB9
