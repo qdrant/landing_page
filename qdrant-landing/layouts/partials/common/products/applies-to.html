@@ -1,0 +1,82 @@
+{{- /*
+  Resolve a heading's products and version tags into the note shown under it.
+
+  Input: a dict with
+    "products": optional, space- or comma-separated product keys, each with an
+                optional version in brackets: "clusters[1.20.0], serverless"
+    "version":  optional, a version such as "1.9.0", shown as its own sentence
+    "where":    a description of the caller, used in error messages
+  Returns: a dict with
+    "note": the line shown under the heading in HTML:
+            "Only applies to dedicated clusters as of v1.20.0."
+            "Applies to Qdrant Edge as of v0.9.0 and dedicated clusters as of v1.20.0."
+            "Available as of v1.9.0."
+    "tag":  the same text without its "Only applies to" / "Applies to" opening,
+            for the products attribute of the Markdown tag:
+            "dedicated clusters as of v1.20.0"
+            "Qdrant Edge as of v0.9.0 and dedicated clusters as of v1.20.0"
+            "Available as of v1.9.0."
+  Products are listed in registry order. Fails the build on an unknown,
+  repeated, or malformed product, an empty tag, or a malformed version.
+*/ -}}
+{{- $where := .where -}}
+{{- $versionRE := `^\d+\.\d+(\.\d+)?$` -}}
+{{- $note := slice -}}
+{{- $tag := slice -}}
+{{- with .products -}}
+  {{- $known := slice -}}
+  {{- range site.Data.products }}{{ $known = $known | append .key }}{{ end -}}
+  {{- $versions := dict -}}
+  {{- range split (replace (string .) "," " ") " " -}}
+    {{- with trim . " " -}}
+      {{- $m := findRESubmatch `^([a-z][a-z0-9-]*)(?:\[([^\]]*)\])?$` . 1 -}}
+      {{- if not $m -}}
+        {{- errorf "%s: malformed product %q (expected for example clusters or clusters[1.9.0])" $where . -}}
+      {{- else -}}
+        {{- $key := index (index $m 0) 1 -}}
+        {{- $ver := index (index $m 0) 2 -}}
+        {{- if not (in $known $key) -}}
+          {{- errorf "%s: unknown product %q (known: %s)" $where $key (delimit $known ", ") -}}
+        {{- end -}}
+        {{- if isset $versions $key -}}
+          {{- errorf "%s: product %q listed twice" $where $key -}}
+        {{- end -}}
+        {{- if and $ver (not (findRE $versionRE $ver 1)) -}}
+          {{- errorf "%s: malformed version %q for %s (expected for example 1.9.0)" $where $ver $key -}}
+        {{- end -}}
+        {{- $versions = merge $versions (dict $key $ver) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $items := slice -}}
+  {{- range site.Data.products -}}
+    {{- if isset $versions .key -}}
+      {{- $item := .label -}}
+      {{- with index $versions .key }}{{ $item = printf "%s as of v%s" $item . }}{{ end -}}
+      {{- $items = $items | append $item -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $n := len $items -}}
+  {{- $text := "" -}}
+  {{- if eq $n 0 -}}
+    {{- errorf "%s: empty products tag" $where -}}
+  {{- else if eq $n 1 -}}
+    {{- $text = index $items 0 -}}
+  {{- else if eq $n 2 -}}
+    {{- $text = printf "%s and %s" (index $items 0) (index $items 1) -}}
+  {{- else -}}
+    {{- $text = printf "%s, and %s" (delimit (first (sub $n 1) $items) ", ") (index $items (sub $n 1)) -}}
+  {{- end -}}
+  {{- $note = $note | append (printf "%s %s." (cond (eq $n 1) "Only applies to" "Applies to") $text) -}}
+  {{- $tag = $tag | append $text -}}
+{{- end -}}
+{{- with .version -}}
+  {{- $version := trim (string .) " " -}}
+  {{- if not (findRE $versionRE $version 1) -}}
+    {{- errorf "%s: malformed version %q (expected for example 1.9.0)" $where $version -}}
+  {{- end -}}
+  {{- $sentence := printf "Available as of v%s." $version -}}
+  {{- $note = $note | append $sentence -}}
+  {{- $tag = $tag | append $sentence -}}
+{{- end -}}
+{{- return (dict "note" (delimit $note " ") "tag" (delimit $tag ". ")) -}}

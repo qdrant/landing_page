@@ -16,6 +16,7 @@
     - [Article preview](#article-preview)
   - [Documentation](#documentation)
     - [Metadata](#metadata-1)
+    - [Product and version tags](#product-and-version-tags)
     - [Preview images for documentation pages](#preview-images-for-documentation-pages)
     - [Documentation sidebar](#documentation-sidebar)
       - [Delimiter](#delimiter)
@@ -261,6 +262,28 @@ canonicalUrl: https://qdrant.io/documentation/ # Optional. This is the canonical
 hideInSidebar: true # Optional. If true, the page will not be shown in the sidebar. It can be used in regular documentation pages and in documentation section pages (_index.md).
 ---
 ```
+
+### Product and version tags
+
+Tag a section of a documentation page with the products it applies to, the version it's available as of, or both, by adding attributes to its heading:
+
+```markdown
+## Quantization {products="clusters"}
+## Quantization {version="1.9.0"}
+## Quantization {products="clusters[1.20.0], edge[0.9.0], serverless"}
+```
+
+- `products`: one or more product keys from `data/products.yaml`, separated by commas or spaces. To give a product a version, add it in brackets after the key.
+- `version`: for sections that only need to be labeled for a version (where the product is implied or clear from the context). For product-specific sections, use bracketed versions instead.
+
+How it's rendered:
+
+- The HTML page shows an italic note under the heading, for example *Only applies to dedicated clusters as of v1.20.0.* or *Applies to Qdrant Edge as of v0.9.0, dedicated clusters as of v1.20.0, and Serverless.* "Only" is used when exactly one product is listed.
+- The Markdown output (`index.md`) wraps the section in `<only-applies-to products="...">` and `</only-applies-to>` tags, and the attributes are removed from the heading.
+
+A section runs to the next heading of the same or a higher level, so its subsections are included.
+
+The build fails on an unknown or repeated product, a malformed version, or any heading attribute other than `id`, `class`, `products`, and `version`. To add a product, add a `key` and `label` to `data/products.yaml`. The list order is the order products are named in the note.
 
 ### Preview images for documentation pages
 
