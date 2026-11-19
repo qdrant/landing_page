@@ -27,6 +27,8 @@ We'll build a SmolAgents tool that can query a Qdrant collection. This tool will
 
 Initially, we'll be populating a Qdrant collection with information about 1000 movies from IMDb that we can search across.
 
+We'll use Qdrant 1.16.1 to restore the IMDb snapshot. Start it locally with `docker run -p 6333:6333 qdrant/qdrant:v1.16.1`.
+
 ```py
 from fastembed import TextEmbedding
 from qdrant_client import QdrantClient
