@@ -1,5 +1,5 @@
 # @hide-start
-# mypy: disable-error-code="arg-type,index"
+# mypy: disable-error-code="arg-type"
 import numpy as np
 from qdrant_client import QdrantClient, models
 
@@ -7,7 +7,6 @@ client = QdrantClient(url="http://localhost:6333")
 dense_query: list[float] = [0.0] * 384
 late_interaction_query: list[list[float]] = [[0.0] * 128]
 query_tokens = np.zeros((32, 128), dtype=np.float32)
-query_text = "What do you understand by nested loop?"
 # @hide-end
 
 # @block-start late-interaction-rescoring
@@ -60,27 +59,3 @@ client.query_points(
 )
 # @block-end muvera
 
-# @block-start cross-encoder
-from fastembed.common.model_description import ModelSource
-from fastembed.rerank.cross_encoder import TextCrossEncoder
-
-# FastEmbed doesn't ship this model, so register its ONNX export first.
-TextCrossEncoder.add_custom_model(
-    model="Alibaba-NLP/gte-reranker-modernbert-base",
-    sources=ModelSource(hf="Alibaba-NLP/gte-reranker-modernbert-base"),
-    model_file="onnx/model.onnx",
-    size_in_gb=0.6,
-)
-reranker = TextCrossEncoder(model_name="Alibaba-NLP/gte-reranker-modernbert-base")
-
-hits = client.query_points(
-    collection_name="docs",
-    query=dense_query,
-    using="dense",
-    limit=50,
-    with_payload=["text"],
-).points
-
-scores = list(reranker.rerank(query_text, [hit.payload["text"] for hit in hits]))
-reranked = [hit for _, hit in sorted(zip(scores, hits), key=lambda pair: -pair[0])][:10]
-# @block-end cross-encoder
