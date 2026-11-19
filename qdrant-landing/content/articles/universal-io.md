@@ -217,7 +217,7 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 ## What Concurrency Buys
 
-{{< chart id="universal-io/frontier" caption="Each dot is one configuration: 4 KiB reads on a 16-vCPU Xeon 8375C in us-west-2, against an EBS gp3 volume provisioned to 16,000 IOPS, page cache dropped before each run. All three backends go through the same read_batch call, where the batch size sets how many reads are in flight. Up and left is better, and the dashed staircase is the frontier, the settings nothing else beats on both measures." caption2="The same reads in order. Readahead fetches the page before the caller asks, so most reads never reach the disk and concurrency stops buying anything." >}}
+{{< chart id="universal-io/frontier" caption="One dot per configuration, 4 KiB reads on a gp3 volume provisioned to 16,000 IOPS, page cache dropped before each run. Up and left is better. The dashed staircase marks the frontier, the settings nothing else beats on both measures." caption2="The same reads in order. Readahead gets there first, so concurrency stops buying anything." >}}
 
 `io_uring` turns concurrency into throughput. Each doubling of the batch doubles it, from 7.16 MB/s at batch 1 to 87.36 MB/s at batch 16. Latency rises 7% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 delivers 68.48 MB/s, less than batch 16 does, and waits 14.9 ms per read against 0.61 ms.
 
@@ -225,7 +225,7 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 S3 turns concurrency into throughput, but never into lower latency. One read takes about 24 ms however deep the batch is. Throughput climbs from 0.16 MB/s at batch 1 to 8.83 MB/s at batch 256, the deepest the blob pipeline goes.
 
-{{< chart id="universal-io/endpoints" caption="One read at a time against the most each backend allows, 4 KiB random reads on a gp3 volume provisioned to 16,000 IOPS." caption2="The same two settings by latency. mmap pays 146 ms for throughput it already had one read at a time." >}}
+{{< chart id="universal-io/endpoints" caption="One read at a time against the most each backend allows." caption2="The same two settings by median latency. mmap pays 146 ms for throughput it already had one read at a time." caption3="And by tail latency. io_uring batch 16 is 0.80 ms at p99, the same as batch 1, so the throughput is free at the tail." >}}
 
 Read in order and concurrency stops mattering. Opened with `MADV_SEQUENTIAL`, `io_uring` held about 247 MB/s at batch 1, 16 and 256 alike, against 7.16 MB/s in random order. The kernel reads ahead, so most reads never reach the disk and there is nothing left for the ring to overlap.
 

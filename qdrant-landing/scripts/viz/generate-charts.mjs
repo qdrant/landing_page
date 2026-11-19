@@ -516,6 +516,7 @@ function scatter(c) {
     : all;
   const names = [...new Set(rows.map((d) => d[c.series]))];
   const bySeries = names.map((n) => rows.filter((d) => d[c.series] === n));
+  const bySeriesHue = names.map((_, i) => i + 1);
   const logTicks = (scale, domain) => (scale === 'log'
     ? { ticks: decades(domain), tickFormat: (v) => String(v) } : {});
 
@@ -549,6 +550,33 @@ function scatter(c) {
     let ri = 0;
     return g.replace(/<circle /g, () => `<circle data-viz-key="s${si}-p${ri++}" `);
   });
+
+  // A dot is p50; the whisker runs to p99, so the tail is visible without a
+  // second chart. Plot drew the p50 dots, so recover its x scale from two of
+  // them rather than re-deriving the margins: on a log axis pixel = a + b*log10(v).
+  let xPix = null;
+  if (c.xHigh) {
+    const seen = [];
+    bySeries.forEach((pts, si) => pts.forEach((d, ri) => {
+      if (at[si] && at[si][ri]) seen.push([Number(d[c.x]), at[si][ri].x]);
+    }));
+    const lg = (v) => (c.xScale === 'log' ? Math.log10(v) : v);
+    const a0 = seen[0];
+    const a1 = seen.find((q) => Math.abs(lg(q[0]) - lg(a0[0])) > 1e-9);
+    if (a1) {
+      const b = (a1[1] - a0[1]) / (lg(a1[0]) - lg(a0[0]));
+      xPix = (v) => a0[1] + b * (lg(v) - lg(a0[0]));
+    }
+  }
+  const whiskers = !xPix ? '' : bySeries.flatMap((pts, si) => pts.map((d, ri) => {
+    const hi = Number(d[c.xHigh]);
+    if (!at[si] || !at[si][ri] || !Number.isFinite(hi) || hi <= Number(d[c.x])) return '';
+    const x1 = at[si][ri].x, x2 = xPix(hi), y = at[si][ri].y;
+    if (!Number.isFinite(x2) || x2 - x1 < 1.5) return '';
+    return `<g class="qi-pf__h${bySeriesHue[si]}">`
+      + `<line class="qi-pf__whisker" x1="${x1}" y1="${y}" x2="${x2}" y2="${y}"/>`
+      + `<line class="qi-pf__cap" x1="${x2}" y1="${y - 3.5}" x2="${x2}" y2="${y + 3.5}"/></g>`;
+  })).join('');
 
   const PLACE = {
     up: { dx: 0, dy: -11, anchor: 'middle' },
@@ -613,7 +641,7 @@ function scatter(c) {
   const xlab = `<text x="${c.width / 2}" y="${c.height - LAYOUT.bottom + 56}" text-anchor="middle"`
     + ` font-family="${FONT}" font-size="${viz.type.label}" fill="${MUTED}">${esc(c.xLabel)}</text>`;
   return panelHead(c.width, c.title, c.subtitle) + yAxisLabel(c.height, c.yLabel)
-    + wrapPlot(plotted) + frontier + labels + seriesNames + xlab + zones;
+    + wrapPlot(plotted) + frontier + whiskers + labels + seriesNames + xlab + zones;
 }
 
 function draw(c) {
