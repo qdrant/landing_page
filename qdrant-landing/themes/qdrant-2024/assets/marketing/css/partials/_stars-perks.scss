@@ -211,7 +211,8 @@
     }
 
     &__card {
-      flex: 0 0 pxToRem(350);
+      // Three cards fill the visible track exactly (350px each in the 1110px design).
+      flex: 0 0 calc((100% - 2 * #{pxToRem(30)}) / 3);
       scroll-snap-align: start;
     }
 

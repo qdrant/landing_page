@@ -40,7 +40,7 @@
 
   &__grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: pxToRem(30);
     margin: 0;
     padding: 0;
@@ -51,6 +51,7 @@
     display: flex;
     flex-direction: column;
     gap: pxToRem(16);
+    min-width: 0;
     padding: pxToRem(32) pxToRem(24);
     border: 1px solid $neutral-20;
     border-radius: pxToRem(8);
@@ -74,10 +75,12 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    gap: pxToRem(12);
     margin-bottom: pxToRem(8);
   }
 
   &__photo {
+    flex: none;
     width: pxToRem(64);
     height: pxToRem(64);
     border-radius: 50%;
@@ -163,7 +166,7 @@
 
   @include media-breakpoint-up(sm) {
     &__grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
@@ -181,12 +184,18 @@
     }
 
     &__grid {
-      grid-template-columns: repeat(4, 1fr);
       row-gap: pxToRem(56);
     }
 
     &__more {
       margin-top: pxToRem(80);
+    }
+  }
+
+  // Four columns need the full 1110px container, or the photo and badge collide.
+  @include media-breakpoint-up(xl) {
+    &__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 }

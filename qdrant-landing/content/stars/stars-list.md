@@ -11,7 +11,7 @@ cards:
   - name: M K Pavan Kumar
     distinguished: true
     image:
-      src: /img/stars/m-k-pavan-kumar.jpg
+      src: /img/stars-program/headshots/m-k-pavan-kumar.png
       alt: M K Pavan Kumar Photo
     position: Data Scientist & Lead GenAI
     tags: [rag, genai, cloud]
@@ -22,7 +22,7 @@ cards:
   - name: Robert Caulk
     distinguished: true
     image:
-      src: /img/stars/robert-caulk.jpg
+      src: /img/stars-program/headshots/robert-caulk.png
       alt: Robert Caulk Photo
     position: Founder, Emergent Methods
     tags: [news, ingestion, realtime]
@@ -33,7 +33,7 @@ cards:
   - name: Tarun Jain
     distinguished: true
     image:
-      src: /img/stars/tarun-jain.jpg
+      src: /img/stars-program/headshots/tarun-jain.png
       alt: Tarun Jain Photo
     position: Founding Engineer, Kaivid Labs
     tags: [gde, education, rag]
@@ -43,7 +43,7 @@ cards:
     description: Google Developer Expert in AI and two-time Google Summer of Code contributor (Red Hen Lab and caMicroscope). Creates educational AI content on YouTube and regularly speaks at tech events.
   - name: Nicola Procopio
     image:
-      src: /img/stars/nicola-procopio.jpg
+      src: /img/stars-program/headshots/nicola-procopio.png
       alt: Nicola Procopio Photo
     position: Senior Data Scientist, ACSoftware
     tags: [fastembed, haystack, opensource]
@@ -53,7 +53,7 @@ cards:
     description: Data scientist and contributor to FastEmbed, Haystack, and Cheshire Cat A.I., powered by Qdrant. Active in open source since 2009, sharing insights through talks and tutorials.
   - name: Astra Clelia Bertelli
     image:
-      src: /img/stars/astra-clelia-bertelli.jpg
+      src: /img/stars-program/headshots/astra-clelia-bertelli.png
       alt: Astra Clelia Bertelli Photo
     position: Open Sourceress, LlamaIndex
     tags: [llamaindex, bio, rag]
@@ -63,7 +63,7 @@ cards:
     description: Foundation Engineer at Criad LTD and Bioinformatics Researcher at the Natural History Museum Vienna. Writes about AI, tech, the environment, and biology, using Qdrant for vector search.
   - name: Miguel Otero Pedrido
     image:
-      src: /img/stars/miguel-otero.jpg
+      src: /img/stars-program/headshots/miguel-otero-pedrido.png
       alt: Miguel Otero Pedrido Photo
     position: Founder, The Neural Maze
     tags: [education, courses, mlops]
@@ -73,7 +73,7 @@ cards:
     description: Machine Learning Engineer with 7+ years of experience. Creates in-depth tutorials and courses on building AI applications from scratch, and loves Qdrant for vector search.
   - name: Benito Martin
     image:
-      src: /img/stars/benito-martin.jpg
+      src: /img/stars-program/headshots/benito-martin.png
       alt: Benito Martin Photo
     position: Independent Consultant
     tags: [mlops, llm, consulting]
@@ -83,7 +83,7 @@ cards:
     description: Process engineer, with a passion for ML and AI. Benito developed and documented multiple MLOps and LLM projects using Qdrant.
   - name: Eduardo Vasquez
     image:
-      src: /img/stars/eduardo-vasquez.jpg
+      src: /img/stars-program/headshots/eduardo-vasquez.png
       alt: Eduardo Vasquez Photo
     position: Data Scientist & MLOps Engineer
     tags: [rag, fine-tuning, youtube]
