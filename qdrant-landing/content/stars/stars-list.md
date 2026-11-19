@@ -42,13 +42,6 @@ cards:
     name: Nicola Procopio
     position: Senior Data Scientist @ ACSoftware
     description: Data scientist and contributor to FastEmbed, Haystack, and Cheshire Cat A.I., powered by Qdrant. Active in open source since 2009, sharing insights through talks and tutorials.
-  - id: 1
-    image:
-      src: /img/stars/astra-clelia-bertelli.jpg
-      alt: Astra Clelia Bertelli Photo
-    name: Astra Clelia Bertelli
-    position: Open Sourceress @ LlamaIndex
-    description: Foundation Engineer at Criad LTD and Bioinformatics Researcher at the Natural History Museum Vienna. Writes about AI, tech, the environment, and biology, using Qdrant for vector search.
   - id: 2
     image:
       src: /img/stars/miguel-otero.jpg
