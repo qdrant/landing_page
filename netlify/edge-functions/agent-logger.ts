@@ -66,7 +66,8 @@ export default (request: Request, context: Context) => {
 
 export const config: Config = {
   path: "/*",
-  header: { "netlify-agent-category": "^(ai-agent|crawler)$" },
+  // The value is "<category>[;<sub-category>]", e.g. "ai-agent;user" or "crawler;ai".
+  header: { "netlify-agent-category": "^(ai-agent|crawler)(;|$)" },
   // If the function ever throws, serve the request as if it did not exist
   // instead of an error page.
   onError: "bypass",
