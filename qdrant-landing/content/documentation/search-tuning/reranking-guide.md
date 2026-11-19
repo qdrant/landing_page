@@ -1,7 +1,7 @@
 ---
 title: "Reranking in Qdrant: When It Helps, What It Costs"
 short_description: "Compare late interaction rescoring, MUVERA, and cross-encoders by what each one improves, what it costs, and how it behaves as candidate depth grows."
-description: "Choose and tune a reranker in Qdrant: late interaction, MUVERA, or a cross-encoder, with measured quality, latency, and memory across depths."
+description: "Measure what late interaction, MUVERA, and cross-encoder reranking add in Qdrant: quality, latency, and memory across candidate depths."
 preview_dir: /articles_data/reranking-guide/preview
 social_preview_image: /articles_data/reranking-guide/preview/social_preview.jpg
 weight: 155
@@ -32,7 +32,7 @@ More interaction means more work per document. A cross-encoder over a collection
 
 This leaves two decisions: which reranker to use, and how many candidates to give it. The [candidate depth guide](/documentation/search-tuning/candidate-depth/) covers the second decision in general terms, including why a deeper pool raises the ceiling on what any reranker can reach. This guide covers two approaches to reranking with Qdrant: late interaction rescoring and cross-encoders. It also introduces MUVERA, which retrieves candidates with a single vector built from the multivectors and then rescores them with the multivectors themselves. For each one, it describes what the method is meant to improve, what it costs, and how it behaves as the pool grows. It also shows that adding a reranker doesn't guarantee better results, and can make them worse. If you only need a cross-encoder, [When Is a Reranker Worth It?](/documentation/search-tuning/when-a-reranker-is-worth-it/) covers testing one on your data.
 
-The evidence comes from a benchmark on five public datasets. We ran one model per method, so the numbers describe how each method behaves, not which method is best. A different model can change the outcome, and the late interaction results include one such case. Late interaction and MUVERA ran to depth 1,000, ColBERTv2 to depth 200, and the cross-encoder to depth 50.
+The evidence comes from a benchmark on five BEIR datasets: NFCorpus (medical), SciFact (scientific claims), SCIDOCS (citation prediction), FiQA (financial questions), and Quora (duplicate questions). It ran on Qdrant 1.20.0, on one shard, on a 16 vCPU machine with no GPU. "Significant" in this guide means the difference passed a paired test on per-query nDCG@10, Bonferroni-corrected across all depths and pairs. We ran one model per method, so the numbers describe how each method behaves, not which method is best. A different model can change the outcome, and the late interaction results include one such case. Late interaction and MUVERA ran to depth 1,000, ColBERTv2 to depth 200, and the cross-encoder to depth 50.
 
 ## Late Interaction Rescoring: Token-Level Precision
 
@@ -54,7 +54,7 @@ With a dense first stage, every query is encoded twice: once with the dense mode
 
 MaxSim itself is cheap. With a dense first stage, going from 10 to 1,000 candidates, 100 times as many, made the Qdrant query only 3 to 6 times slower (2.8 to 6.2 times). The low end is Quora, whose multivectors were in the `cold` tier. As a result, query encoding dominates the end-to-end latency, measured from encoding the query to receiving the reranked results from Qdrant. It accounted for about 80% of that time at a depth of 10, and still more than half at a depth of 1,000:
 
-{{< chart id="reranking/encoding-share" caption="Query encoding's share of end-to-end latency fell on every dataset as depth grew, from 78% to 87% at depth 10 to 52% to 58% at depth 1,000. All timings are medians, measured on CPU with one query at a time. Quora's multivectors were in the cold tier." >}}
+{{< chart id="reranking/encoding-share" caption="Query encoding's share of end-to-end latency fell on every dataset as depth grew, from 78% to 87% at depth 10 to 52% to 58% at depth 1,000. All timings are medians, measured on CPU with one query at a time, so treat them as a lower bound under real load. Quora's multivectors were in the cold tier." >}}
 
 The other cost is memory, because a multivector stores one vector per token. Its size follows the total number of tokens in your corpus, not the number of documents. Each of LateOn's 128-dimension token vectors takes 512 bytes as float32, but the measured cost including Qdrant's storage overhead was 555 to 904 bytes per token, higher on the smaller collections. This chart compares the multivectors' memory with the dense vectors, alongside the MUVERA vectors from the MUVERA section:
 
@@ -94,9 +94,9 @@ The FDE is an approximation, and at shallow depths the approximation shows. At d
 
 How deep you need to go varies by corpus, and you can measure it before building the full pipeline. Take a set of held-out queries. For each one, compute exact MaxSim over the whole corpus and keep its top 10. Then rank the corpus by FDE similarity and check what share of those 10 documents falls within each depth. This tells you whether an FDE prefetch at that depth keeps the documents exact MaxSim would have picked. Average that share over the queries and set a target for it at the depth you plan to run. We required at least 80% at depth 500. This chart shows the share for four of our datasets:
 
-{{< chart id="reranking/calibration" caption="NFCorpus, SciFact, and SCIDOCS cleared the 80% target at depth 500. FiQA reached 75% there and 87% at depth 1,000." >}}
+{{< chart id="reranking/calibration" caption="Measured with dot product. NFCorpus, SciFact, and SCIDOCS cleared the 80% target at depth 500. FiQA reached 75% there and 87% at depth 1,000." >}}
 
-Recall at depth 10 lined up with the quality loss at depth 10: SciFact lost the least and SCIDOCS the most. FiQA missed our 80% target at depth 500, so its MUVERA results come from an FDE that didn't meet the bar we set. A poor FDE doesn't raise an error. It returns worse results than you expect, which is why the check is worth running.
+The share at depth 10 lined up with the quality loss at depth 10: SciFact lost the least and SCIDOCS the most. FiQA missed our 80% target at depth 500, so its MUVERA results come from an FDE that didn't meet the bar we set. A poor FDE doesn't raise an error. It returns worse results than you expect, which is why the check is worth running.
 
 We ran this check with dot product, the similarity MUVERA's FDEs are designed around, and compared it with cosine on NFCorpus, SciFact, and SCIDOCS. Cosine recovered as much of the exact MaxSim top 10 as dot product or more at every depth, so our Qdrant collection stores the FDEs with cosine distance.
 
@@ -168,13 +168,13 @@ Even LateOn on FiQA, the largest gain over dense in the benchmark, made 12% of q
 These patterns held for every reranker we tested, and most follow from how the methods work. Check them against your own models:
 
 - **The first stage sets the headroom.** Both rerankers gained more over BM25 than over dense wherever dense was the stronger first stage. The better the first stage ranks, the less a reranker has left to fix.
-- **Where the reranker runs decides what depth costs.** Rescoring inside Qdrant took 3 to 7 times as long at depth 1,000 as at depth 10, across both first stages. A cross-encoder's cost grows in proportion to the number of candidates.
+- **Where the reranker runs decides what depth costs.** Rescoring inside Qdrant took 3 to 7 times as long at depth 1,000 as at depth 10, across both first stages. A cross-encoder's cost grows in proportion to the number of candidates, because each one takes a full model pass; [Size Reranking for Production](/documentation/search-tuning/when-a-reranker-is-worth-it/#size-reranking-for-production) measures it.
 - **Each method's memory follows a different variable.** Multivectors grow with total tokens, MUVERA vectors with document count, and a cross-encoder adds nothing to Qdrant. Estimate each against your own corpus.
 - **Deeper pools stop paying off.** Every reranker plateaued or dipped on at least one dataset. The [best possible score section of the candidate depth guide](/documentation/search-tuning/candidate-depth/#more-candidates-can-raise-the-best-possible-score) explains why the ceiling keeps rising while the measured score doesn't.
 
 ## How to Evaluate a Reranker on Your Data
 
-[When Is a Reranker Worth It?](/documentation/search-tuning/when-a-reranker-is-worth-it/) covers the base workflow: a labeled baseline, held-out queries, candidate count, and throughput. ColBERTv2 and the Quora results both show that a reranker can make results worse. The only way to know is to measure on your own queries:
+[When Is a Reranker Worth It?](/documentation/search-tuning/when-a-reranker-is-worth-it/) covers the base workflow: a labeled baseline, held-out queries, candidate count, and throughput. ColBERTv2 and the Quora results both show that a reranker can make results worse. Beyond that workflow, check three things specific to these methods:
 
 1. Look at the queries that got worse, not only the mean. Check whether they include queries that matter to your users, and read some of them: some will be real errors, others correct answers your labels missed.
 2. Measure memory per named vector, and check whether the multivectors can go in the `cold` memory tier.
