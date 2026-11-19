@@ -45,7 +45,7 @@ cards:
     title: Access Control and RBAC
     description: Qdrant Cloud lets you manage permissions for cloud resources at the collection-level inside the Qdrant Cloud Management Cloud Console.
     link:
-      url: /documentation/cloud-rbac/role-management/
+      url: /documentation/cloud-account-setup/role-management/
       text: Configure RBAC
 sitemapExclude: true
 ---

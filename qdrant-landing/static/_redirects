@@ -352,11 +352,14 @@
 /documentation/cloud-tools/*             /documentation/cloud-automation/:splat  301!
 /documentation/cloud-tools               /documentation/cloud-automation/  301!
 
-# Deploy tab reorganization: User Profile and Cloud Security moved into the Account
-# and Cloud Security groups (Cloud Security is now Security and Compliance under cloud-rbac/)
-/documentation/cloud-security.md      /documentation/cloud-rbac/cloud-security.md  301!
-/documentation/cloud-security/*       /documentation/cloud-rbac/cloud-security/:splat  301!
-/documentation/cloud-security         /documentation/cloud-rbac/cloud-security/  301!
+# Deploy tab reorganization: User Profile and the Cloud RBAC pages moved into the
+# Account & Access group. The RBAC overview is now cloud-account-setup/rbac/, so its
+# rules come before the splat, which would otherwise send it to the Account page.
+/documentation/cloud-rbac.md          /documentation/cloud-account-setup/rbac.md  301!
+/documentation/cloud-rbac/index.md    /documentation/cloud-account-setup/rbac/index.md  301!
+/documentation/cloud-rbac/            /documentation/cloud-account-setup/rbac/  301!
+/documentation/cloud-rbac             /documentation/cloud-account-setup/rbac/  301!
+/documentation/cloud-rbac/*           /documentation/cloud-account-setup/:splat  301!
 /documentation/cloud-user-profile.md  /documentation/cloud-account-setup/user-profile.md  301!
 /documentation/cloud-user-profile/*   /documentation/cloud-account-setup/user-profile/:splat  301!
 /documentation/cloud-user-profile     /documentation/cloud-account-setup/user-profile/  301!

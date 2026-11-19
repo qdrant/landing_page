@@ -106,7 +106,7 @@ Qdrant Cloud supports the following identity providers:
 - PingFederate
 - SAML
 
-To turn on SSO for your account, open a ticket in the [Qdrant support portal](https://support.qdrant.io/). To control what each user can do after they sign in, use [Cloud RBAC](/documentation/cloud-rbac/). For a video walkthrough, see [Enterprise Single-Sign-On](/documentation/cloud-account-setup/#enterprise-single-sign-on-sso).
+To turn on SSO for your account, open a ticket in the [Qdrant support portal](https://support.qdrant.io/). To control what each user can do after they sign in, use [Cloud RBAC](/documentation/cloud-account-setup/rbac/). For a video walkthrough, see [Enterprise Single-Sign-On](/documentation/cloud-account-setup/#enterprise-single-sign-on-sso).
 
 ## Private Network Connectivity
 

@@ -18,7 +18,7 @@ This page takes you from no account to a connected, production-ready cluster. Ea
 |---|---|
 | A Cloud account | Sign up with email, Google, or GitHub at [cloud.qdrant.io](https://cloud.qdrant.io/signup). Each user can own up to 5 accounts. See [Account Setup](/documentation/cloud-account-setup/). |
 | Billing details | Free clusters need no credit card. Standard clusters need a credit card or an AWS, GCP, or Azure Marketplace subscription, set up on the Billing Details screen. If you have a custom payment agreement, create your account first, then [contact support](https://support.qdrant.io/). See [Billing & Payments](/documentation/cloud-pricing-payments/). |
-| A role that can create clusters | The Owner and Admin roles can. For custom roles, see [Cloud RBAC](/documentation/cloud-rbac/). |
+| A role that can create clusters | The Owner and Admin roles can. For custom roles, see [Cloud RBAC](/documentation/cloud-account-setup/rbac/). |
 
 ## Choose a Cluster Type
 
@@ -117,8 +117,8 @@ For the same workflow in each tool, see [Automate Qdrant Cloud](/documentation/c
 
 | To do this | Read |
 |---|---|
-| Invite teammates and set roles | [Cloud RBAC](/documentation/cloud-rbac/) |
+| Invite teammates and set roles | [Cloud RBAC](/documentation/cloud-account-setup/rbac/) |
 | Change cluster size | [Scale Clusters](/documentation/cloud/cluster-scaling/) |
 | Tune defaults and restart behavior | [Configure Clusters](/documentation/cloud/configure-cluster/) |
-| Review compliance and network isolation | [Cloud Security](/documentation/cloud-rbac/cloud-security/) |
+| Review compliance and network isolation | [Security and Compliance](/documentation/cloud-security/) |
 | Compare Standard and Premium | [Premium Tier](/documentation/cloud-premium/) |

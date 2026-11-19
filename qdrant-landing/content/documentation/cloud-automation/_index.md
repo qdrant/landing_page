@@ -25,7 +25,7 @@ Everything you can do in the Cloud Console can be scripted. This page helps you 
 
 1. **Create a Cloud Management Key.** In the Cloud Console, go to **Access Management** > **Cloud Management Keys**. Creating one needs the `write:management_keys` permission. See [Authentication](/documentation/cloud/authentication/) for how it differs from a Database API key.
 2. **Find your Account ID.** It is on the account **Settings** page. See [Account Setup](/documentation/cloud-account-setup/#account-settings).
-3. **Check the permissions.** The workflow on this page needs `write:clusters` and `write:api_keys` for the account that the key acts on. See the [permission reference](/documentation/cloud-rbac/permission-reference/).
+3. **Check the permissions.** The workflow on this page needs `write:clusters` and `write:api_keys` for the account that the key acts on. See the [permission reference](/documentation/cloud-account-setup/permission-reference/).
 
 <aside role="alert">
     A Cloud Management Key is <strong>not</strong> revoked when the user who created it is removed from the account. Keep keys in a secret store, use one key per pipeline, and revoke a user's keys when they leave. See <a href="/documentation/cloud/authentication/#when-a-user-leaves">When a User Leaves</a>.

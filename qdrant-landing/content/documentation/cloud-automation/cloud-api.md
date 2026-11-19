@@ -45,7 +45,7 @@ You can create a Cloud Management Keys in the Cloud Console UI. Go to **Access M
     A Cloud Management Key is <strong>not</strong> deleted or revoked when the user who created it is removed or deleted from the account. The key keeps working with whatever permissions it was granted, so it can still be used to manage the account even after its creator no longer has access. Revoke any Cloud Management Keys tied to a user before or when removing them from the account.
 </aside>
 
-Each method requires RBAC permissions, such as `read:clusters` to list clusters. A key can only call methods that its permissions allow. See the [permission reference](/documentation/cloud-rbac/permission-reference/).
+Each method requires RBAC permissions, such as `read:clusters` to list clusters. A key can only call methods that its permissions allow. See the [permission reference](/documentation/cloud-account-setup/permission-reference/).
 
 ### First Request
 

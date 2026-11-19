@@ -117,4 +117,4 @@ The environment endpoints are under `/api/hybrid/v1/accounts/<ACCOUNT_ID>`:
 | Delete an environment | `DELETE /hybrid-cloud-environments/<ENV_ID>` | `delete:hybrid_cloud_environments` |
 | Generate the bootstrap commands | `POST /hybrid-cloud-environments/<ENV_ID>/bootstrap-commands` | `write:hybrid_cloud_environments` and `write:management_keys` |
 
-Send the key in the `Authorization: apikey <CLOUD_MANAGEMENT_KEY>` header. For the permissions, see the [permission reference](/documentation/cloud-rbac/permission-reference/).
+Send the key in the `Authorization: apikey <CLOUD_MANAGEMENT_KEY>` header. For the permissions, see the [permission reference](/documentation/cloud-account-setup/permission-reference/).

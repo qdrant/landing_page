@@ -160,21 +160,21 @@ tabs:
           alt: Shield check
         title: Compliance
         description: Reports available under NDA. SOC 2 Type II, HIPAA with BAA, and GDPR with DPA.
-        link: /documentation/cloud-rbac/cloud-security/
+        link: /documentation/cloud-security/
       - id: 1
         icon:
           src: /icons/outline/lock-open-turquoise.svg
           alt: Lock open
         title: Encryption in Transit
         description: End-to-end protection in flight. TLS 1.2+ on every API endpoint and replication channel.
-        link: /documentation/cloud-rbac/cloud-security/
+        link: /documentation/cloud-security/
       - id: 2
         icon:
           src: /icons/outline/hard-drive-turquoise.svg
           alt: Hard drive
         title: Encryption at Rest
         description: Storage protected by default; Premium adds customer-managed keys. AES-256 on storage volumes.
-        link: /documentation/cloud-rbac/cloud-security/
+        link: /documentation/cloud-security/
       - id: 3
         icon:
           src: /icons/outline/waypoints-turquoise.svg
@@ -195,7 +195,7 @@ tabs:
           alt: Key
         title: Single Sign-On (SSO)
         description: On Premium, manage Cloud Console sign-in through your identity provider. SAML or OpenID Connect with Okta, Azure AD, Google Workspace, and others.
-        link: /documentation/cloud-rbac/user-management/
+        link: /documentation/cloud-account-setup/user-management/
   - id: 4
     tab: Monitoring and Recovery
     title: Monitoring and Observability Toolkit

@@ -1,7 +1,7 @@
 ---
-title: Account
-short_description: "Set up your Qdrant Cloud account: register, switch between accounts, invite teammates, and manage account settings and ownership."
-description: "Register a Qdrant Cloud account with email, Google, GitHub, or SSO. Create and switch between multiple Cloud accounts, manage account settings, and transfer ownership."
+title: Account & Access
+short_description: "Set up your Qdrant Cloud account: register, switch between accounts, invite teammates, manage roles and permissions, and transfer ownership."
+description: "Register a Qdrant Cloud account with email, Google, GitHub, or SSO. Create and switch between multiple Cloud accounts, manage account settings, control access with Cloud RBAC, and transfer ownership."
 weight: 210
 partition: deploy
 aliases:
@@ -77,7 +77,7 @@ Use **Edit Account Details** to rename an account or update its company name. If
 
 Every account has exactly one owner. The owner has full admin permissions plus the unique ability to delete the account or transfer its ownership.
 
-To transfer ownership, on the account **Settings** page choose **Transfer Ownership** and select another member of the account. The new owner must already be a member, so invite them first from the [Access Management](/documentation/cloud-rbac/) page if needed.
+To transfer ownership, on the account **Settings** page choose **Transfer Ownership** and select another member of the account. The new owner must already be a member, so invite them first from the [Access Management](/documentation/cloud-account-setup/rbac/) page if needed.
 
 ### Deleting an Account
 
@@ -87,7 +87,7 @@ Use **Delete Account** to permanently delete an account you own, along with all 
 
 You can invite additional users to an account and manage their permissions on the **Access Management** page in the Qdrant Cloud Console. Invited users receive an email with an invitation link. Once they sign up, they can accept the invitation from their personal [Invitations](/documentation/cloud-account-setup/user-profile/#invitations) page.
 
-For roles and permissions, see [Cloud RBAC](/documentation/cloud-rbac/).
+For the steps, see [User Management](/documentation/cloud-account-setup/user-management/). To control what each user can do, see [Cloud RBAC](/documentation/cloud-account-setup/rbac/).
 
 ## Enterprise Single-Sign-On (SSO)
 

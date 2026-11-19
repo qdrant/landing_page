@@ -2,12 +2,14 @@
 title: User Management
 short_description: "Invite users, assign roles, and transfer account ownership in Qdrant Cloud through the User Management console."
 description: "Invite teammates, assign or revoke roles, transfer account ownership, and remove users from your Qdrant Cloud account through User Management."
-weight: 10
+weight: 40
+aliases:
+  - /documentation/cloud-rbac/user-management/
 ---
 
 # User Management
 
-> 💡 You can access this in **Access Management > User & Role Management** *see [this page for details](/documentation/cloud-rbac/).*
+> 💡 You can access this in **Access Management > User & Role Management** *see [this page for details](/documentation/cloud-account-setup/rbac/).*
 
 ## Inviting Users to an Account
 

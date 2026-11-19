@@ -58,7 +58,7 @@ Qdrant Cloud has two independent access-control systems, and it helps to keep th
 
 ### Cloud RBAC 
 
-[Cloud RBAC](https://qdrant.tech/documentation/cloud-rbac/) governs what a user can do inside the Qdrant cloud console and account: managing clusters, billing, identity and access management, Hybrid Cloud, and account settings. 
+[Cloud RBAC](https://qdrant.tech/documentation/cloud-account-setup/rbac/) governs what a user can do inside the Qdrant cloud console and account: managing clusters, billing, identity and access management, Hybrid Cloud, and account settings. 
 
 Qdrant Cloud includes some built-in roles for common use-cases. 
 A Role contains a set of permissions that define the ability to perform or control specific actions in Qdrant Cloud. 
@@ -72,7 +72,7 @@ The keys associated with this layer are Cloud Management Keys, which authenticat
 
 ![Creating Cloud Management Keys](/articles_data/data-privacy/cloud_management_keys.png)
 
-Cloud roles do not control access to collection data, and removing a user does not remove the keys they created. Cloud Management Keys and Database API Keys keep working with the permissions they were granted, so [revoke a departing user's keys](/documentation/cloud-rbac/user-management/) separately.
+Cloud roles do not control access to collection data, and removing a user does not remove the keys they created. Cloud Management Keys and Database API Keys keep working with the permissions they were granted, so [revoke a departing user's keys](/documentation/cloud-account-setup/user-management/) separately.
 
 ### Database API Keys
 

@@ -9,7 +9,7 @@ cards:
       src: /icons/outline/vectors-blue.svg
       alt: Vectors
     link:
-      url: /documentation/cloud-rbac/cloud-security/#managed-cloud
+      url: /documentation/cloud-security/#managed-cloud
       text: Explore Cluster Isolation
   - id: 1
     title: Encryption in Transit, at Rest
@@ -18,7 +18,7 @@ cards:
       src: /icons/outline/lock-keyhole-blue.svg
       alt: Lock
     link:
-      url: /documentation/cloud-rbac/cloud-security/#managed-cloud
+      url: /documentation/cloud-security/#managed-cloud
       text: See How Encryption Works
   - id: 2
     title: Telemetry and Logs

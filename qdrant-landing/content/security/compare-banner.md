@@ -3,6 +3,6 @@ variant: small
 title: Compare Deployment Modes
 button: 
   text: Compare
-  url: /documentation/cloud-rbac/cloud-security/
+  url: /documentation/cloud-security/
 sitemapExclude: true
 ---

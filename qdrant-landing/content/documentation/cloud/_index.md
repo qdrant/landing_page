@@ -21,7 +21,7 @@ To create your first cluster, start with [Getting Started](/documentation/cloud/
 | Where clusters run | Qdrant-owned infrastructure on AWS, GCP, or Azure | Your Kubernetes clusters, in any environment | Your Kubernetes clusters, in any environment |
 | Who operates the database | Qdrant | Qdrant Cloud, through an Operator in your cluster | You, with the Qdrant Operator |
 | Management | Cloud Console, [Cloud API](/documentation/cloud-automation/cloud-api/), [CLI](/documentation/cloud-automation/cloud-cli/), and [Terraform](/documentation/cloud-automation/terraform/) | The same tools as Managed Cloud | Kubernetes resources, with no connection to Qdrant Cloud |
-| Where your data lives | Qdrant-managed volumes, [encrypted at rest](/documentation/cloud-rbac/cloud-security/) | Inside your network | Inside your network |
+| Where your data lives | Qdrant-managed volumes, [encrypted at rest](/documentation/cloud-security/) | Inside your network | Inside your network |
 | Read more | This section | [Hybrid Cloud](/documentation/hybrid-cloud/) | [Private Cloud](/documentation/private-cloud/) |
 
 For who is responsible for what in each model, see [Shared Responsibility](/documentation/shared-responsibility/).
@@ -46,7 +46,7 @@ See [Create a Cluster](/documentation/cloud/create-cluster/) for the free tier l
 | Upgrades | Rolling, zero-downtime upgrades when collections have a replication factor of 2 or more | [Update Clusters](/documentation/cloud/cluster-upgrades/) |
 | Backups | Scheduled backups with retention, restored in place or into a new cluster | [Backup Clusters](/documentation/cloud/backups/) |
 | Monitoring | Metrics, logs, email alerts, and a Prometheus-compatible endpoint with a Grafana dashboard | [Monitor Clusters](/documentation/cloud/cluster-monitoring/) |
-| Access control | Database API keys with per-collection permissions, IP allowlists, and role-based access to the Console | [Authentication](/documentation/cloud/authentication/), [Cloud RBAC](/documentation/cloud-rbac/) |
+| Access control | Database API keys with per-collection permissions, IP allowlists, and role-based access to the Console | [Authentication](/documentation/cloud/authentication/), [Cloud RBAC](/documentation/cloud-account-setup/rbac/) |
 | Audit logging | A record of API calls on paid clusters | [Configure Clusters](/documentation/cloud/configure-cluster/#audit-logging) |
 | Inference | Embedding models hosted by Qdrant, or proxied to external providers | [Inference](/documentation/cloud/inference/) |
 | Encryption | Storage volumes encrypted at rest, with customer-managed keys on Premium | [Encryption at Rest](/documentation/cloud/encryption/) |
