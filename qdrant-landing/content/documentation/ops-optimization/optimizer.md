@@ -180,9 +180,7 @@ Three settings control how much CPU the optimizer uses:
 
 For guidance on balancing optimization against search load, see [Troubleshoot Read-Write Contention](/documentation/ops-optimization/read-write-contention/).
 
-## Prevent Reads from Large Unindexed Segments
-
-*Available as of v1.17.1*
+## Prevent Reads from Large Unindexed Segments {version="1.17.1"}
 
 <aside role="alert"><code>prevent_unoptimized</code> is an experimental feature; its behavior may change slightly in future releases, so use it with care.</aside>
 
@@ -222,9 +220,7 @@ You can check the number of deferred points in a collection in the `update_queue
 
 A non-zero deferred point count means the optimizer is processing a backlog. This is expected under heavy write load; monitor the count to confirm that it is decreasing over time.
 
-## Optimization Monitoring
-
-*Available as of v1.17.0*
+## Optimization Monitoring {version="1.17.0"}
 
 The `/collections/{collection_name}/optimizations` API endpoint returns information about the optimization of a specific collection, including:
 - A summary of optimization activity, with the number of queued optimizations, queued segments, queued points, and idle segments (segments that need no optimization).

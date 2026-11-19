@@ -69,9 +69,7 @@ We will be glad to consult you on an optimal strategy for scaling.
 
 [Let us know](/documentation/support/) your needs and decide together on a proper solution.
 
-## Resharding
-
-*Available as of Qdrant v1.13.0*
+## Resharding {version="1.13.0"}
 
 <aside role="status">Resharding is exclusively available on multi-node clusters across our <a href="/documentation/deploy-intro/">cloud</a> offering, including <a href="/documentation/hybrid-cloud/">Hybrid</a> and <a href="/documentation/private-cloud/">Private</a> Cloud.</aside>
 

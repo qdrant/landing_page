@@ -69,9 +69,7 @@ For more information, refer to [Disable Retrieving via Non Indexed Payload](/doc
 
 Beyond selecting the field type, you can set parameters on a payload index to fine-tune how it is stored and which filtering conditions it can serve. The available parameters depend on the field type, and are described in the subsections below.
 
-#### Using `lookup` and `range` in Integer Indices
-
-*Available as of v1.8.0*
+#### Using `lookup` and `range` in Integer Indices {version="1.8.0"}
 
 The parameterized variant of the `integer` index allows you to fine-tune indexing and search performance.
 
@@ -106,9 +104,7 @@ supports only range filters:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/integer-with-params/" >}}
 
-#### Prefix Matching in Keyword Indices
-
-*Available as of v1.19.0*
+#### Prefix Matching in Keyword Indices {version="1.19.0"}
 
 By default, a `keyword` index only supports exact matching. Set the `prefix` flag to `true` to additionally enable prefix matching, so that you can filter for keyword values that start with a given string using the [Prefix Match](/documentation/search/filtering/#prefix-match) condition. The `prefix` flag also speeds up [Substring Match](/documentation/search/filtering/#substring-match) conditions.
 
@@ -128,9 +124,7 @@ The `prefix` flag can be enabled on a new index. Enabling it on an existing keyw
 
 When [strict mode](/documentation/ops-configuration/administration/#strict-mode) is enabled with `unindexed_filtering_retrieve` or `unindexed_filtering_update` set to `false`, a prefix condition on a field that does not have a prefix-enabled keyword index is rejected.
 
-#### On-Disk Payload Index
-
-*Available as of v1.11.0*
+#### On-Disk Payload Index {version="1.11.0"}
 
 Payload indexes are always persisted to disk. By default, they are also loaded into the `pinned` [memory tier](/documentation/ops-configuration/memory-tiers/). This keeps the index on the heap, so payload values can be accessed during search without extra disk I/O.
 
@@ -144,9 +138,7 @@ To configure a payload index's memory tier, use the `memory` parameter:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/keyword-on-disk/" >}}
 
-#### Tenant Index
-
-*Available as of v1.11.0*
+#### Tenant Index {version="1.11.0"}
 
 Many vector search use-cases require multitenancy. In a multi-tenant scenario the collection is expected to contain multiple subsets of data, where each subset belongs to a different tenant.
 
@@ -171,9 +163,7 @@ Tenant optimization is supported for the following datatypes:
 * `keyword`
 * `uuid`
 
-#### Principal Index
-
-*Available as of v1.11.0*
+#### Principal Index {version="1.11.0"}
 
 Similar to the tenant index, the principal index is used to optimize storage for faster search, assuming that the search request is primarily filtered by the principal field.
 
@@ -187,9 +177,7 @@ Principal optimization is supported for following types:
 * `float`
 * `datetime`
 
-#### Per-Element Index for Arrays of Objects
-
-*Available as of v1.20.0*
+#### Per-Element Index for Arrays of Objects {version="1.20.0"}
 
 Payloads often contain arrays of objects. For example, an e-commerce platform might store each product with several offers, each with its own shop and price. A [nested object filter](/documentation/search/filtering/#nested-object-filter) finds points where a single element matches all conditions, such as an offer from a specific shop below a certain price.
 
@@ -235,9 +223,7 @@ To create a full-text index for a field, create a payload index of type `text`. 
 
 Every full-text index supports filtering on words. Filtering on phrases requires [phrase matching](#phrase-matching), and ranking with BM25 requires [BM25 scoring](#bm25-scoring). The two are independent, so you can enable either or both.
 
-### BM25 Scoring
-
-*Available as of v1.20.0*
+### BM25 Scoring {version="1.20.0"}
 
 With scoring enabled, a full-text index can rank points by how relevant their text is to a query, using the [BM25](/documentation/search/text-search/full-text-search/#bm25) ranking function. To enable scoring, set the `scoring` type to `bm25` when you create the index:
 
@@ -277,9 +263,7 @@ The `multilingual` tokenizer is based on multiple packages like [charabia](https
 
 See the [charabia documentation](https://github.com/meilisearch/charabia) for a full list of supported languages and normalization options. For the Japanese language, Qdrant relies on the `vaporetto` project, which has much less overhead compared to `charabia`, while maintaining comparable performance.
 
-#### Code
-
-*Available as of v1.20.0*
+#### Code {version="1.20.0"}
 
 The `code` tokenizer is designed for source code. It splits identifiers into their parts, so a name matches regardless of its naming convention. For example, filtering on `getUserName`, `get_user_name`, or `user name` finds text that contains any of these spellings.
 
@@ -313,9 +297,7 @@ Lowercasing is enabled by default. To use case-sensitive full-text search, confi
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/lowercase-full-text/" >}}
 
-### ASCII Folding
-
-*Available as of v1.16.0*
+### ASCII Folding {version="1.16.0"}
 
 When enabled, ASCII folding converts Unicode characters into their corresponding ASCII equivalents, for example, by removing diacritics. For instance, the character `ã` is changed into `a`, `ç` becomes `c`, and `é` is converted to `e`.
 
@@ -426,9 +408,7 @@ You can find more information on this approach in our [article](/articles/filter
 
 <aside role="status">For the HNSW graph to be optimized for filtered search, it's highly recommended to create all payload indices immediately after collection creation, before ingesting data. Extra edges for the HNSW graph can only be generated after payload index creation.</aside>
 
-### The ACORN Search Algorithm
-
-*Available as of v1.16.0*
+### The ACORN Search Algorithm {version="1.16.0"}
 
 In some cases, the additional edges built for Qdrant's filterable HNSW may not be sufficient.
 These extra edges are added for each payload index separately, but not for every possible combination of payload indices.
@@ -437,9 +417,7 @@ The same can happen when there are a large number of soft-deleted points in the 
 In such cases, use the [ACORN Search Algorithm](/documentation/search/search/#acorn-search-algorithm).
 When using ACORN, during graph traversal, it explores not just direct neighbors (first hop), but also neighbors of neighbors (second hop) when direct neighbors are filtered out. This improves search accuracy at the cost of performance.
 
-### Disable the Creation of Extra Edges for Payload Fields
-
-*Available as of v1.17.0*
+### Disable the Creation of Extra Edges for Payload Fields {version="1.17.0"}
 
 Not all payload indices may be intended for use with dense vector search. For example, when a collection contains both dense and sparse vectors, some payload fields may only be used to filter sparse vector searches. Since sparse vector search does not use the HNSW index, it is unnecessary to build extra edges in the HNSW graph for these fields. Creating extra edges adds indexing latency and increases the size of the HNSW graph, which consumes memory as well as disk space, so you may want to disable it for fields that do not require it. 
 
@@ -465,9 +443,7 @@ Next, update the collection with the value of `ef_construct` incremented by `1`:
 
 Don’t immediately revert the value of `ef_construct` to its original value. Keep it set to the new value.
 
-## Sparse Vector Index
-
-*Available as of v1.7.0*
+## Sparse Vector Index {version="1.7.0"}
 
 Sparse vectors in Qdrant are indexed with a special data structure, which is optimized for vectors that have a high proportion of zeroes. In some ways, this indexing method is similar to the inverted index, which is used in text search engines.
 
@@ -496,9 +472,7 @@ Unlike a dense vector index, a sparse vector index does not require a predefined
 
 **Note:** A sparse vector index only supports dot-product similarity searches. It does not support other distance metrics.
 
-### IDF Modifier
-
-*Available as of v1.10.0*
+### IDF Modifier {version="1.10.0"}
 
 For many search algorithms, it is important to consider how often an item occurs in a collection.
 Intuitively speaking, the less frequently an item appears in a collection, the more important it is in a search.

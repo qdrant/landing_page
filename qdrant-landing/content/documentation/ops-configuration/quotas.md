@@ -5,9 +5,7 @@ description: "Configure cluster-wide memory and disk quotas in Qdrant, understan
 weight: 7
 ---
 
-# Resource Quotas
-
-*Available as of v1.19.0*
+# Resource Quotas {version="1.19.0"}
 
 <aside role="status">On Qdrant Cloud, you manage capacity per cluster: you choose the cluster's CPU, memory, and disk, and Qdrant Cloud alerts the account owner when memory or disk use is high. Refer to <a href="/documentation/cloud/cluster-scaling/">Scaling Qdrant Cloud Clusters</a> and <a href="/documentation/cloud/cluster-monitoring/#alerts">Alerts</a>.</aside>
 

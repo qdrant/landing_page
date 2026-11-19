@@ -9,9 +9,7 @@ aliases:
 hideInSidebar: false
 ---
 
-# Hybrid and Multi-Stage Queries
-
-_Available as of v1.10.0_
+# Hybrid and Multi-Stage Queries {version="1.10.0"}
 
 You can search the same data in several ways: with dense vectors for semantic search, with sparse vectors from learned models like SPLADE++, and with [BM25 full-text search](/documentation/search/text-search/full-text-search/) on text payload fields that have a [full-text index](/documentation/manage-data/indexing/#full-text-index). Often, the best results come from combining these queries, or from searching in more than one stage, for example, fetching candidates with a fast query and re-scoring them with a more accurate one.
 
@@ -69,15 +67,13 @@ You can fuse any combination of queries as prefetches. For example, this query f
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf-sparse/" >}}
 
-#### Setting RRF Constant k
-_Available as of v1.16.0_
+#### Setting RRF Constant k {version="1.16.0"}
 
 To set the constant $k$ in the formula:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rrf-k/" >}}
 
-#### Weighted RRF
-_Available as of v1.17.0_
+#### Weighted RRF {version="1.17.0"}
 
 By default, each query is assigned an equal weight. In reality, one retriever is often stronger than the other for a given workload. For example, a dense retriever may dominate on natural-language queries, while BM25 may win on identifier-heavy ones. Assigning equal weight to both can let the weaker retriever drag down results. To address this, you can assign greater weight to rankers that perform well on your evaluation set.
 
@@ -94,9 +90,7 @@ Weights are a configuration choice, not something you can tune arbitrarily. The 
 
 Retune when your retrievers change (new embedding model, new chunking), when your corpus drifts substantially, or on a fixed cadence with a fresh eval sample.
 
-### Distribution-Based Score Fusion (DBSF)
-
-_Available as of v1.11.0_
+### Distribution-Based Score Fusion (DBSF) {version="1.11.0"}
 
 <a href=https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18 target="_blank">DBSF</a> keeps the raw scores from each query but normalizes their distributions before combining. For each retriever's returned set, it computes the mean $\mu$ and sample standard deviation $\sigma$, then normalizes every score using the 3-sigma extremes as endpoints:
 
@@ -175,9 +169,7 @@ Fetch 100 results using a dense vector, then re-score them with a BM25 text quer
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-rescoring-text/" >}}
 
-### Custom Scoring with a Formula Query
-
-_Available as of v1.14.0_
+### Custom Scoring with a Formula Query {version="1.14.0"}
 
 A formula query lets you compose a final score from prefetch scores (`$score`), payload fields, and built-in helpers like exponential or Gaussian decay. The typical pattern is to fuse retrievers with RRF or DBSF in a prefetch, then wrap that prefetch in a formula query that layers ranking logic on top: recency decay, popularity boosts, geo decay, or category-conditional multipliers.
 
@@ -193,9 +185,7 @@ The previous example puts the fusion inside a prefetch. In a multi-shard collect
 
 To fuse across shards, make the fusion the main query. A main query is a single operation, so it cannot be both a fusion and a formula. To keep a formula rescore over fused results, use a single shard.
 
-## Grouping
-
-_Available as of v1.11.0_
+## Grouping {version="1.11.0"}
 
 It is possible to group results by a certain field. This is useful when you have multiple points for the same item, and you want to avoid redundancy of the same item in the results.
 

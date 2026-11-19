@@ -5,9 +5,7 @@ description: "Use the Qdrant Web UI or API to monitor a collection's disk, RAM, 
 weight: 7
 ---
 
-# Monitor Collection Memory Usage
-
-*Available as of v1.18.0*
+# Monitor Collection Memory Usage {version="1.18.0"}
 
 Qdrant lets you inspect a collection's disk space, RAM, and OS page cache usage, summed up across the whole cluster and broken down by component. Use this to plan capacity, diagnose memory pressure, or understand which parts of a collection are resident in memory.
 

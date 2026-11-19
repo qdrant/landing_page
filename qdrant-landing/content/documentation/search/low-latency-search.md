@@ -33,9 +33,7 @@ When querying a collection, Qdrant reads from one replica of each given shard. E
 
 However, keep in mind that replicas are not free. You need more hardware to run more peers. Because writes need to be replicated across all replicas, increasing the replication factor can increase write latency. Therefore, it's important to find the right balance between read performance and resource usage when configuring the replication factor.
 
-## Use Delayed Fan-Outs
-
-*Available as of v1.17.0*
+## Use Delayed Fan-Outs {version="1.17.0"}
 
 By default, a search operation queries a single replica of each shard in a collection. If a replica responds slowly due to load or network issues, overall search latency can increase. This phenomenon, where a single slow replica increases the 95th or 99th percentile latency of the entire system, is known as "tail latency." High tail latency can noticeably degrade the user experience.
 
@@ -66,17 +64,13 @@ Search latency can vary depending on where the data is in this process. Querying
 
 If your application requires a consistently low search latency, Qdrant offers two mechanisms to avoid searching unindexed data. You can either use the `indexed_only` query parameter, or enable the `prevent_unoptimized` optimizer setting. Choose one of these methods; there's no need to use both.
 
-### `indexed_only` Search Parameter
-
-*Available as of v1.7.0*
+### `indexed_only` Search Parameter {version="1.7.0"}
 
 To restrict searches to indexed data and small segments below the indexing threshold, set the `indexed_only` [search parameter](/documentation/search/search/#search-api) to `true`. This ensures more consistent and lower response times. However, the tradeoff is that the most recent data might not be included in search results until it has been indexed.
 
 A side-effect of using `indexed_only` is that it can cause "blinking" points in search results. When an unoptimized segment is below the indexing threshold, all its points are visible in `indexed_only` searches. But once inserts push the segment over the threshold, all its points temporarily disappear from search results until the segment has been indexed. Updates can also cause blinking points, since Qdrant implements them as a delete followed by an insert. To mitigate "blinking" points, use `prevent_unoptimized` instead, as described in the next section.
 
-### `prevent_unoptimized` Optimizer Setting
-
-*Available as of v1.17.1*
+### `prevent_unoptimized` Optimizer Setting {version="1.17.1"}
 
 <aside role="alert"><code>prevent_unoptimized</code> is an experimental feature; its behavior may change slightly in future releases and it must be used with care.</aside>
 
@@ -88,9 +82,7 @@ Refer to [Prevent Reads from Large Unindexed Segments](/documentation/ops-optimi
 Set the <code>wait</code> parameter to <code>false</code> on write requests when <code>prevent_unoptimized</code> is enabled. See <a href="/documentation/ops-optimization/optimizer/#effect-on-waittrue">Effect on <code>wait=true</code></a>.
 </aside>
 
-### Pin Reads with Route Affinity
-
-*Available as of v1.19.0*
+### Pin Reads with Route Affinity {version="1.19.0"}
 
 Enabling `prevent_unoptimized` makes cross-replica "blinking" more prominent: points held back until a segment is optimized become visible on each replica at slightly different times, and because reads are spread across replicas, successive requests for the same query can land on different replicas and see a point appear, disappear, then reappear. To keep reads stable for a given client, send the `X-Qdrant-Route-Affinity` HTTP header with a stable value (such as a user or session ID) to pin all of that client's reads to the same replica, without giving up load balancing across other clients. Refer to [Read Affinity](/documentation/scaling/consistency-guarantees/#read-affinity) for details.
 

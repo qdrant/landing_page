@@ -94,9 +94,7 @@ Now you can run a search with sparse vectors:
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/sparse-vectors/" >}}
 
-### Multivectors
-
-**Available as of v1.10.0**
+### Multivectors {version="1.10.0"}
 
 Qdrant supports the storing of a variable amount of same-shaped dense vectors in a single point. 
 This means that instead of a single dense vector, you can upload a matrix of dense vectors.
@@ -170,9 +168,7 @@ To search with named vectors (available in `query` API):
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/named-vector/" >}}
 
-### Adding and Removing Named Vectors
-
-*Available as of v1.18.0*
+### Adding and Removing Named Vectors {version="1.18.0"}
 
 Named vectors can be added to or removed from an existing collection without having to recreate the collection.
 
@@ -197,9 +193,7 @@ Similarly, you can use inference at query time by providing the text or image to
 
 {{< code-snippet path="/documentation/headless/snippets/inference/query/" >}}
 
-## Datatypes
-
-*Available as of v1.9.0*
+## Datatypes {version="1.9.0"}
 
 By default, Qdrant stores each vector dimension as a 32-bit floating-point number. This isn't always necessary: you may not need that level of precision for your use case, or the embedding model you're using may already produce lower-precision vectors, for example 8-bit integers.
 
@@ -226,9 +220,7 @@ TurboQuant datatypes accept regular floating-point vectors and compress them whe
 Don't confuse TurboQuant datatypes with <a href="/documentation/manage-data/quantization/#turboquant-quantization">TurboQuant quantization</a>. Quantization keeps the original vectors and adds a compressed copy alongside them. A TurboQuant datatype replaces the original vectors with their compressed form, so no full-precision copy is kept.
 </aside>
 
-#### Turbo16
-
-*Available as of v1.20.0*
+#### Turbo16 {version="1.20.0"}
 
 The `turbo16` datatype stores each vector as a 16-bit representation per dimension instead of a 32-bit floating-point number. This shrinks vector storage to about half of its original size.
 
@@ -238,9 +230,7 @@ To use `turbo16`, specify the `turbo16` datatype for the vector when creating a 
 
 Compared to [`float16`](#float16), `turbo16` is nearly the same size but stays about 7.5x closer to your original `float32` vectors. `float16` keeps the same relative error for every value, so in embeddings where a few very large values dominate the score, their rounding errors don't cancel out. This happens with models like OpenAI's `text-embedding-ada-002`, CLIP, and Cohere. Because each vector is rotated first, its values have a similar spread, so a 16-bit grid with one scale per vector covers them well.
 
-#### Turbo8
-
-*Available as of v1.20.0*
+#### Turbo8 {version="1.20.0"}
 
 The `turbo8` datatype stores each vector as an 8-bit representation per dimension instead of a 32-bit floating-point number. This shrinks vector storage to about one-quarter of its original size.
 
@@ -248,9 +238,7 @@ To use `turbo8`, specify the `turbo8` datatype for the vector when creating a co
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-turbo8/" >}}
 
-#### Turbo4
-
-*Available as of v1.19.0*
+#### Turbo4 {version="1.19.0"}
 
 The `turbo4` datatype stores each vector as a compact 4-bit representation per dimension instead of a 32-bit floating-point number. This shrinks vector storage to about one-eighth of its original size. Each rotated value is stored as one of 16 levels (the maximum 4 bits can represent).
 

@@ -50,9 +50,7 @@ In the case of not having any negative examples, the search vector will simply b
 
 This is the default strategy that's going to be set implicitly, but you can explicitly define it by setting `"strategy": "average_vector"` in the recommendation request.
 
-### Best Score Strategy
-
-*Available as of v1.6.0*
+### Best Score Strategy {version="1.6.0"}
 
 A new strategy introduced in v1.6, is called `best_score`. It is based on the idea that the best way to find similar vectors is to find the ones that are closer to a positive example, while avoiding the ones that are closer to a negative one.
 The way it works is that each candidate is measured against every example, then we select the best positive and best negative scores. The final score is chosen with this step formula:
@@ -102,9 +100,7 @@ where $Q^+$ is the set of positive examples, $Q^-$ is the set of negative exampl
 
 As with `best_score`, this strategy also allows using only negative examples.
 
-### Multiple Vectors
-
-*Available as of v0.10.0*
+### Multiple Vectors {version="0.10.0"}
 
 If the collection was created with multiple vectors, the name of the vector should be specified in the recommendation request:
 
@@ -112,9 +108,7 @@ If the collection was created with multiple vectors, the name of the vector shou
 
 Parameter `using` specifies which stored vectors to use for the recommendation.
 
-### Lookup Vectors From Another Collection
-
-*Available as of v0.11.6*
+### Lookup Vectors From Another Collection {version="0.11.6"}
 
 If you have collections with vectors of the same dimensionality,
 and you want to look for recommendations in one collection based on the vectors of another collection,
@@ -129,9 +123,7 @@ Vectors are retrieved from the external collection by ids provided in the `posit
 These vectors then used to perform the recommendation in the current collection, comparing against the "using" or default vector.
 
 
-## Batch Recommendation API
-
-*Available as of v0.10.0*
+## Batch Recommendation API {version="0.10.0"}
 
 Similar to the batch search API in terms of usage and advantages, it enables the batching of recommendation requests.
 
@@ -158,9 +150,7 @@ The result of this API contains one array per recommendation requests.
 }
 ```
 
-## Discovery API
-
-*Available as of v1.7*
+## Discovery API {version="1.7"}
 
 In this API, Qdrant introduces the concept of `context`, which is used for splitting the space. Context is a set of positive-negative pairs, and each pair divides the space into positive and negative zones. In that mode, the search operation prefers points based on how many positive zones they belong to (or how much they avoid negative zones).
 
@@ -239,9 +229,7 @@ Notes about context search:
 
 </aside>
 
-## Distance Matrix
-
-*Available as of v1.12.0*
+## Distance Matrix {version="1.12.0"}
 
 The distance matrix API allows to calculate the distance between sampled pairs of vectors and to return the result as a sparse matrix.
 

@@ -148,18 +148,14 @@ The simplest kind of condition is one that checks if the stored value equals the
 If several values are stored, at least one of them should match the condition.
 You can apply it to [keyword](/documentation/manage-data/payload/#keyword), [integer](/documentation/manage-data/payload/#integer), [bool](/documentation/manage-data/payload/#bool) and [UUID](/documentation/manage-data/payload/#uuid) payloads.
 
-##### UUID Match
-
-_Available as of v1.11.0_
+##### UUID Match {version="1.11.0"}
 
 Matching of UUID values works similarly to the regular `match` condition for strings.
 Functionally, it will work with `keyword` and `uuid` indexes exactly the same, but `uuid` index is more memory efficient.
 
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/match-uuid/" >}}
 
-#### Match Any
-
-*Available as of v1.1.0*
+#### Match Any {version="1.1.0"}
 
 In case you want to check if the stored value is one of multiple values, you can use the Match Any condition.
 Match Any works as a logical OR for the given values. It can also be described as a `IN` operator.
@@ -174,9 +170,7 @@ In this example, the condition will be satisfied if the stored value is either `
 
 If the stored value is an array, it should have at least one value matching any of the given values. For example, if the stored value is `["black", "green"]`, the condition will be satisfied, because `"black"` is in `["black", "yellow"]`.
 
-#### Match Except
-
-*Available as of v1.2.0*
+#### Match Except {version="1.2.0"}
 
 In case you want to check if the stored value is not one of multiple values, you can use the Match Except condition.
 Match Except works as a logical NOR for the given values.
@@ -192,9 +186,7 @@ In this example, the condition will be satisfied if the stored value is neither 
 
 If the stored value is an array, it should have at least one value not matching any of the given values. E.g. if the stored value is `["black", "green"]`, the condition will be satisfied, because `"green"` does not match `"black"` nor `"yellow"`.
 
-#### Prefix Match
-
-*Available as of v1.19.0*
+#### Prefix Match {version="1.19.0"}
 
 A match `prefix` condition matches [keyword](/documentation/manage-data/payload/#keyword) values that start with the specified string.
 
@@ -208,9 +200,7 @@ Matching is byte-wise and, for valid UTF-8 strings, therefore character-wise. It
     For efficient prefix matching, create a <a href="/documentation/manage-data/indexing/#prefix-matching-in-keyword-indices">keyword index with the <code>prefix</code> option</a> on the field. Without it, the condition still returns correct results but is not accelerated (it is checked per point rather than served by the index). When <a href="/documentation/ops-configuration/administration/#strict-mode">strict mode</a> is enabled with <code>unindexed_filtering_retrieve</code> or <code>unindexed_filtering_update</code> set to <code>false</code>, a prefix condition is rejected unless the field has a prefix-enabled keyword index — a plain keyword index (<code>prefix: false</code>) does not qualify.
 </aside>
 
-#### Substring Match
-
-*Available as of v1.20.0*
+#### Substring Match {version="1.20.0"}
 
 <aside role="status">
     Substring matching is computationally expensive. Qdrant rejects substring match conditions on any field whenever <a href="/documentation/ops-configuration/administration/#strict-mode">strict mode</a> is enabled, which it is by default on Qdrant Cloud. Use a <a href="#prefix-match">prefix match</a> or a <a href="#full-text-match">full-text match</a> instead where possible.
@@ -228,9 +218,7 @@ A [keyword index](/documentation/manage-data/indexing/#payload-index) on the fie
 
 ### Text Match
 
-#### Full-Text Match
-
-*Available as of v0.10.0*
+#### Full-Text Match {version="0.10.0"}
 
 The `text` match condition supports [full-text filtering](/documentation/search/text-search/text-filtering/#full-text-filtering).
 It matches text fields that contain *all* of the provided query terms.
@@ -241,9 +229,7 @@ For efficient matching, create a [full-text index](/documentation/manage-data/in
 
 Without a full-text index, Qdrant applies the `word` tokenizer and lowercases the text for case-insensitive matching.
 
-#### Full-Text Any
-
-*Available as of v1.16.0*
+#### Full-Text Any {version="1.16.0"}
 
 The `text_any` full-text match condition is similar to the `text` condition, but with a key difference: while `text` only matches text fields that contain *all* the query terms, `text_any` matches fields that contain *any* of the query terms. In other words, even if a text field contains just one of the query terms, it is considered a match.
 
@@ -255,9 +241,7 @@ For efficient matching, create a [full-text index](/documentation/manage-data/in
 
 Without a full-text index, Qdrant applies the `word` tokenizer and lowercases the text for case-insensitive matching.
 
-#### Phrase Match
-
-*Available as of v1.15.0*
+#### Phrase Match {version="1.15.0"}
 
 A match `phrase` condition matches phrases. For example, the text `"quick brown fox"` matches the query `"brown fox"`, but not `"fox brown"`.
 
@@ -327,9 +311,7 @@ A match is considered any point location inside or on the boundaries of the give
 If several location values are stored for a point, then any of them matching will include that point as a candidate in the resultset.
 These conditions can only be applied to payloads that match the [geo-data format](/documentation/manage-data/payload/#geo).
 
-### Nested Key
-
-*Available as of v1.1.0*
+### Nested Key {version="1.1.0"}
 
 Payloads are JSON objects. A field you want to filter on can be nested inside another object or an array. To filter on a nested field, set the condition's `key` to the path of the field. The path syntax is similar to [jq](https://jqlang.github.io/jq/manual/#basic-filters): use a dot (`.`) to step into an object, and `[]` to step into the elements of an array.
 
@@ -392,9 +374,7 @@ And the leaf nested field can also be an array.
 
 This query would only output the point with id 2 as only Japan has a city with the "Osaka Castle" as part of the sightseeing.
 
-#### Nested Object Filter
-
-*Available as of v1.2.0*
+#### Nested Object Filter {version="1.2.0"}
 
 By default, each condition in a filter is checked against the whole payload of a point. If a filter has several conditions on fields inside the same array, each condition can match a different element of the array.
 
@@ -516,9 +496,7 @@ Filtered points would be:
 ```
 
 
-### Has Vector
-
-*Available as of v1.13.0*
+### Has Vector {version="1.13.0"}
 
 This condition enables filtering by the presence of a given named vector on a point.
 
@@ -552,9 +530,7 @@ This is how you can search for points which have the dense `image` vector define
 
 {{< code-snippet path="/documentation/headless/snippets/scroll-points/with-filter-has-vector/" >}}
 
-### Slice
-
-*Available as of v1.19.0*
+### Slice {version="1.19.0"}
 
 The `slice` condition divides a collection into a specific number of deterministic, disjoint subsets and matches all points in one of those subsets.
 

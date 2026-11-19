@@ -33,9 +33,7 @@ When API key authentication is enabled, which is always the case on Qdrant Cloud
 
 On Qdrant Cloud, a key that was created moments ago can return `403`. Wait a few seconds and retry. If connections fail before any `401` or `403` response, check the port, TLS, and [IP restrictions](/documentation/cloud/cluster-access/#troubleshooting-connections).
 
-## Cloud cluster health problems
-
-*Applies to Qdrant Cloud.*
+## Cloud cluster health problems {products="cloud"}
 
 If a cluster has an unhealthy node, doesn't finish an update, or gets slower over several days, start in the Cloud Console. The **Metrics** and **Requests** sections of the Cluster Details page show how the cluster behaves, and [Alerts](/documentation/cloud/cluster-monitoring/#alerts) tell you what to fix. Refer to [Cluster Alerts](/documentation/cloud/cluster-alerts/) for every alert with its trigger, meaning, and resolution.
 
@@ -45,9 +43,7 @@ If a cluster has an unhealthy node, doesn't finish an update, or gets slower ove
 
 If a cluster is stuck and these steps don't help, contact support. Paying customers can open a ticket through the support portal in the Console. Refer to [Support](/documentation/support/).
 
-## Too many files open (OS error 24)
-
-*Applies to self-hosted deployments.*
+## Too many files open (OS error 24) {products="self-hosted"}
 
 Each collection segment needs some files to be open. At some point you may encounter the following errors in your server log:
 
@@ -71,9 +67,7 @@ ulimit -n 10000
 
 Please note, the command should be executed before you run Qdrant server.
 
-## Insufficient storage (HTTP 507)
-
-*Available as of v1.19.0*
+## Insufficient storage (HTTP 507) {version="1.19.0"}
 
 When nodes have been configured with a [resource quotas](/documentation/ops-configuration/quotas/) no nodes may be availabe with replicas that accept writes. In that case, clients see an HTTP 507 Insufficient Storage, or gRPC `ResourceExhausted` error:
 
@@ -93,9 +87,7 @@ To resolve it, either free the resource or raise the limit:
 
 Writes don't resume the instant usage drops. A tripped limit clears only once usage has fallen under the [release margin](/documentation/ops-configuration/quotas/#release-margin), which defaults to 5 percentage points under the limit.
 
-## Incompatible file system
-
-*Applies to self-hosted deployments.*
+## Incompatible file system {products="self-hosted"}
 
 Qdrant have a [set of requirements](/documentation/installation/#storage) for persistent file storage.
 The most important requirement is that file system **must** be [POSIX-compatible](https://www.quobyte.com/storage-explained/posix-filesystem/).
@@ -156,9 +148,7 @@ docker run --rm -it \
 
 The above keeps the volume inside the Linux container, preventing issues with a mount shared with Windows.
 
-## Can't open Collections meta Wal
-
-*Applies to self-hosted deployments.*
+## Can't open Collections meta Wal {products="self-hosted"}
 
 When starting a Qdrant instance as part of a distributed deployment, you may
 come across an error message similar to this:

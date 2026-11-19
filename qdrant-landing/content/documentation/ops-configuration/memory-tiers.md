@@ -83,9 +83,7 @@ If the accuracy loss is acceptable, you can disable rescoring against the origin
 
 Async I/O lets Qdrant issue disk reads concurrently instead of one at a time, reducing how long a query waits on disk when structures are `cold`. This uses [io_uring](/articles/io_uring/), a Linux kernel interface for asynchronous I/O, and requires a kernel that supports it. Async I/O helps most for vector rescoring, where the original vectors are `cold` and quantization is enabled, since rescoring the top candidates against the on-disk originals is where sequential disk reads would otherwise add up. It also applies to payload storage, so it helps whenever a `cold` payload is read from disk.
 
-#### `io_uring` Setting
-
-*Available as of v1.19.0.* 
+#### `io_uring` Setting {version="1.19.0"}
 
 On managed Qdrant Cloud, async I/O is enabled by default on clusters that run Qdrant v1.20.0 or later.
 
@@ -103,9 +101,7 @@ storage:
 QDRANT__STORAGE__PERFORMANCE__IO_URING=auto
 ```
 
-#### `async_scorer` Setting
-
-*Available as of v1.3.0.*
+#### `async_scorer` Setting {version="1.3.0"}
 
 An older setting that applies async I/O to vector rescoring only. It is deprecated: prefer `io_uring` unless you're on a version older than 1.19. You can enable it in the configuration file:
 
@@ -127,9 +123,7 @@ On managed Qdrant Cloud clusters, `async_scorer` is available under **Advanced O
 
 On-disk retrieval benefits from fast, local storage. If you're self hosting Qdrant, use NVMe or SSD drives attached directly to the machine. Avoid network-attached storage. It is too slow for the sequential reads that vector search requires.
 
-### Inline Storage
-
-*Available as of v1.16.0*
+### Inline Storage {version="1.16.0"}
 
 Avoid putting the HNSW vector index in the `cold` tier. If you must store it on disk and use quantization, consider enabling [inline storage](/documentation/ops-optimization/optimize/#inline-storage-in-hnsw-index). This reduces I/O operations at the cost of more disk usage.
 

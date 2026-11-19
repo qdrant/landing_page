@@ -82,9 +82,7 @@ Setting `m` to 0 isn't the same as exact search. If the effective `payload_m` is
 
 <span id="per-tenant-idf-statistics"></span>
 
-### Per-Tenant Scoring Statistics
-
-*Available as of v1.19.0*
+### Per-Tenant Scoring Statistics {version="1.19.0"}
 
 [BM25 full-text search](/documentation/search/text-search/full-text-search/) and sparse vector searches with the [IDF modifier](/documentation/manage-data/indexing/#idf-modifier), such as [miniCOIL](/documentation/search/text-search/sparse-vector-search/#minicoil), score matching documents with statistics computed over the stored data:
 
@@ -106,9 +104,7 @@ This filter is independent of the retrieval filter. The filter that determines t
 - If the corpus filter matches no points, the statistics do not fall back to shard-wide statistics. Instead, every term gets the same constant weight, so ranking degenerates to plain TF with no rarity signal. For BM25 text queries, document length normalization is also disabled.
 - When using [user-defined sharding](#user-defined-sharding), routing a search request to a single tenant's dedicated shard already scopes IDF to that tenant's data. This shard locality also applies to the `idf` filter: if it matches points that live in a different shard than the one being queried, Qdrant does not reach across shards to satisfy it. It silently computes statistics from whatever overlap exists locally, which can be empty or partial.
 
-## User-Defined Sharding
-
-*Available as of v1.7.0*
+## User-Defined Sharding {version="1.7.0"}
 
 Instead of filtering tenants by a payload field, another way to separate tenants is to give each tenant its own dedicated shard. Qdrant lets you specify the shard for each point individually, so operations for a tenant only ever touch that tenant's shard. This trades some resource overhead (each shard has its own storage and index structures) for stronger isolation, and works best for a modest number of large tenants.
 
@@ -128,9 +124,7 @@ Specify the same `shard_key` in query requests to search only within that tenant
 
 Shards require significant resources, so keep the number of tenants low enough that each can have its own shard. For large numbers of tenants, use [partition by payload](#partition-by-payload) or [tiered multitenancy](#tiered-multitenancy) instead.
 
-## Tiered Multitenancy
-
-*Available as of v1.16.0*
+## Tiered Multitenancy {version="1.16.0"}
 
 In some real-world applications, tenants aren't always equally distributed. For example, a SaaS application might have a few large customers and many small ones.
 Large tenants might require more resources and isolation, while small tenants shouldn't add too much overhead.

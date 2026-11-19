@@ -63,9 +63,7 @@ See [schema definitions](https://api.qdrant.tech/api-reference/collections/creat
 Qdrant always [stores vectors on disk](/documentation/manage-data/storage/#vector-storage). You can configure a [memory tier](/documentation/ops-configuration/memory-tiers/) for each vector to control how much of that data also lives in memory.
 
 
-### Collection with Multiple Vectors
-
-*Available as of v0.10.0*
+### Collection with Multiple Vectors {version="0.10.0"}
 
 It is possible to have multiple vectors per record.
 This feature allows for multiple vector storages per collection. 
@@ -90,9 +88,7 @@ search performance on a vector level.
 Qdrant always [stores vectors on disk](/documentation/manage-data/storage/#vector-storage). On a per-vector basis, you can configure a [memory tier](/documentation/ops-configuration/memory-tiers/) to control how much of that data also lives in memory.
 
 
-### Vector Datatypes
-
-*Available as of v1.9.0*
+### Vector Datatypes {version="1.9.0"}
 
 By default, Qdrant stores each vector dimension as a 32-bit float. Memory and storage grow linearly with dimensionality, so for large vectors this adds up quickly. To reduce that cost, or to store vectors that are already lower precision, you can configure a different datatype: `float16` (half-precision), `uint8` (unsigned 8-bit integers), or one of the TurboQuant datatypes: `turbo4` (4 bits), `turbo8` (8 bits), or `turbo16` (16 bits).
 
@@ -103,9 +99,7 @@ For example, to create a collection with `uint8` embeddings:
 See [Datatypes](/documentation/manage-data/vectors/#datatypes) for the full set of options and their tradeoffs.
 
 
-### Collection with Sparse Vectors
-
-*Available as of v1.7.0*
+### Collection with Sparse Vectors {version="1.7.0"}
 
 Qdrant supports sparse vectors as a first-class citizen.
 
@@ -140,9 +134,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
     --migration.batch-size 64
 ```
 
-## Check Collection Existence
-
-*Available as of v1.8.0*
+## Check Collection Existence {version="1.8.0"}
 
 {{< code-snippet path="/documentation/headless/snippets/check-collection-exists/simple/" >}}
 
@@ -179,9 +171,7 @@ Calls to this endpoint may be blocking as it waits for existing optimizers to
 finish. We recommended against using this in a production database as it may
 introduce huge overhead due to the rebuilding of the index.
 
-### Update Vector Schema
-
-*Available as of v1.18.0*
+### Update Vector Schema {version="1.18.0"}
 
 Named vectors can be added to or removed from an existing collection without having to recreate the collection. This is useful for [embedding model migration](/documentation/tutorials-operations/embedding-model-migration/): you can add a new vector for the new model, re-embed points in the background, and then remove the old vector when you're ready. 
 
@@ -209,9 +199,7 @@ To delete a named vector from an existing collection:
 
 Deleting a named vector removes its schema and all associated data. Existing points are otherwise unaffected.
 
-### Update Vector Parameters
-
-*Available as of v1.4.0*
+### Update Vector Parameters {version="1.4.0"}
 
 <aside role="status">To update vector parameters using the collection update API, you must always specify a vector name. If your collection does not have named vectors, use an empty (<code>""</code>) name.</aside>
 
@@ -312,9 +300,7 @@ The following color statuses are possible:
 
 Collection info also includes a `created_at` field with the time Qdrant created the collection. Collections created before v1.20.0 have no creation time, so the field is absent for them. Recovering a collection from a snapshot keeps the original value.
 
-### Grey Collection Status
-
-_Available as of v1.9.0_
+### Grey Collection Status {version="1.9.0"}
 
 A collection may have the grey ⚫ status or show "optimizations pending,
 awaiting update operation" as optimization status. This state is normally caused
@@ -367,9 +353,7 @@ created and `indexed_vectors_count` might be equal to `0`.
 
 It is possible to reduce the `indexing_threshold` for an existing collection by [updating collection parameters](#update-collection-parameters).
 
-### Collection Metadata
-
-*Available as of v1.16.0*
+### Collection Metadata {version="1.16.0"}
 
 For convenience and better data organization, Qdrant allows attaching custom metadata to collections in the form of key-value pairs.
 Adding metadata is treated as a part of collection configuration and synchronized across all nodes in a cluster with consensus protocol.

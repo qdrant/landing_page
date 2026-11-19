@@ -141,9 +141,7 @@ Example of single and multiple `geo` values:
 
 Coordinate should be described as an object containing two fields: `lon` - for longitude, and `lat` - for latitude.
 
-### Datetime
-
-*Available as of v1.8.0*
+### Datetime {version="1.8.0"}
 
 `datetime` - date and time in [RFC 3339] format.
 
@@ -177,9 +175,7 @@ Notes about the format:
 
 [RFC 3339]: https://datatracker.ietf.org/doc/html/rfc3339#section-5.6
 
-### UUID
-
-*Available as of v1.11.0*
+### UUID {version="1.11.0"}
 
 In addition to the basic `keyword` type, Qdrant supports `uuid` type for storing UUID values.
 Functionally, it works the same as `keyword`, internally stores parsed UUID values.
@@ -325,9 +321,7 @@ Payload schema example:
 }
 ```
 
-## Facet counts
-
-*Available as of v1.12.0*
+## Facet counts {version="1.12.0"}
 
 Faceting is a special counting technique that can be used for various purposes:
 - Know which unique values exist for a payload key.
