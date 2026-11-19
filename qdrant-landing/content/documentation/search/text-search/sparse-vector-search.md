@@ -116,9 +116,7 @@ The tokenizer breaks down text into individual tokens (words). By default, the s
 
 {{< code-snippet path="/documentation/headless/snippets/text-search/query-bm25-multilingual-tokenizer/" >}}
 
-#### Language-neutral Text Processing
-
-*Available as of v1.19.0*
+#### Language-neutral Text Processing {version="1.19.0"}
 
 In some situations, you may want to disable language-specific processing altogether. For example, when searching for author names, that don't necessarily conform to the rules of a specific language.
 

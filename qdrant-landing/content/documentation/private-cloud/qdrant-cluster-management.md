@@ -99,9 +99,7 @@ On a multi-node cluster with replicated collections, a restart rolls through the
 
 Private Cloud has no resource reservation. You set the CPU and memory in the spec, and Kubernetes tries to allocate exactly these resources for each pod. Because nothing is held back for you, leave room for the operating system and the Kubernetes system components when you choose the size of your nodes. See [Capacity Planning](/documentation/capacity-planning/) for sizing guidance.
 
-### Scaling Down Disk Space
-
-*Available as of Qdrant Private Cloud 1.13.0*
+### Scaling Down Disk Space {products="private-cloud[1.13.0]"}
 
 You can reduce `storage` in the QdrantCluster spec as well as increase it. A volume cannot be shrunk in place, so the Operator replaces the nodes instead. For each node, the Operator creates a new node with the smaller volume, lets the cluster manager move all shards from the old node to the new node, and deletes the old node once the cluster manager confirms it is no longer needed. It repeats this one node at a time until every node has the new disk size.
 

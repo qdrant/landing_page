@@ -86,9 +86,7 @@ A read with `consistency=majority` returns the value most replicas hold.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/with-consistency-majority/" >}}
 
-### Read Affinity
-
-*Available as of v1.19.0*
+### Read Affinity {version="1.19.0"}
 
 Read `consistency` resolves inconsistencies by querying multiple replicas and comparing their results, at the cost of extra load. When you only need repeated reads to stay stable for a given client, read affinity is a lighter-weight alternative.
 

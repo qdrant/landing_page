@@ -270,9 +270,7 @@ spec:
           key: tls.key
 ```
 
-### Configuring TLS for Inter-cluster Communication
-
-*Available as of Operator v2.2.0*
+### Configuring TLS for Inter-cluster Communication {products="operator[2.2.0]"}
 
 <aside role="alert">
 You can enable this feature only when you create the cluster. Later changes are not possible.

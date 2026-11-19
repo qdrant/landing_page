@@ -59,9 +59,7 @@ Alternatively, use the `Authorization: Bearer` header:
 
 {{< code-snippet path="/documentation/headless/snippets/authentication/bearer/" >}}
 
-### Admin API Key
-
-*Available as of v1.2.0*
+### Admin API Key {version="1.2.0"}
 
 The admin API key is the primary key that grants full access to all operations and collections. It is configured with the `api_key` setting in the configuration file.
 
@@ -94,9 +92,7 @@ section.
 
 <aside role="alert">Internal gRPC uses port 6335 by default if running in distributed mode. As of v1.20.0, the internal API requires an API key by default, but only when you configure an API key. Without an API key, internal communication channels are <strong>not</strong> protected. In versions before v1.20.0, they are not protected by an API key nor bearer tokens by default. You must ensure that this port is not publicly reachable and can only be used for node communication. For details, see <a href="#enforce-authentication-on-internal-communication">Enforce Authentication on Internal Communication</a>.</aside>
 
-#### Rotate an Admin API Key
-
-*Available as of v1.17.0*
+#### Rotate an Admin API Key {version="1.17.0"}
 
 In a distributed deployment, you can rotate an admin API key without downtime. Use the `alt_api_key` setting to temporarily configure a second API key that acts identically to the primary `api_key`, allowing both the old and new API keys to be active at the same time.
 
@@ -116,9 +112,9 @@ To rotate an API key without downtime:
 
 <aside role="alert">When <a href="#enforce-authentication-on-internal-communication">internal authentication</a> is enforced, which is the default as of v1.20.0, every peer must accept the key its peers send. Configure both keys on every peer before you promote the new key. Keep the old key as <code>alt_api_key</code> until every peer uses the new key. Otherwise, peers can't reach each other during the rotation.</aside>
 
-#### Enforce Authentication on Internal Communication
+#### Enforce Authentication on Internal Communication {version="1.18.0"}
 
-*Available as of v1.18.0. Enabled by default as of v1.20.0.*
+*Enabled by default as of v1.20.0.*
 
 In a distributed deployment, peers talk to each other over the internal gRPC API (port 6335 by default). Every peer attaches its admin `api_key` to outgoing internal requests. As of v1.19.2, if `api_key` is unset, peers send `alt_api_key` instead, so a configuration with only an `alt_api_key` works.
 
@@ -154,9 +150,7 @@ Every peer must accept the key its peers send. Set the same `api_key` on every p
 
 <aside role="alert">Enforcing authentication does not replace network isolation for the internal port. Keep port 6335 unreachable from outside the cluster, and enable <a href="#tls">TLS for internal communication</a> so the API key is not sent in plain text between peers.</aside>
 
-### Read-Only API Key
-
-*Available as of v1.7.0*
+### Read-Only API Key {version="1.7.0"}
 
 Qdrant also supports a read-only API key.
 This key can be used to access read-only operations on the instance.
@@ -174,9 +168,7 @@ export QDRANT__SERVICE__READ_ONLY_API_KEY=your_secret_read_only_api_key_here
 
 Admin and read-only API keys can be used simultaneously.
 
-### Granular Access API Keys
-
-*Available as of v1.9.0*
+### Granular Access API Keys {version="1.9.0"}
 
 Granular access API keys let you assign read or write permissions on individual collections, enabling [Role-based access control (RBAC)](https://en.wikipedia.org/wiki/Role-based_access_control). They're built on the [JSON Web Tokens (JWT)](https://jwt.io/) standard.
 
@@ -379,9 +371,7 @@ This is also applicable to using api keys instead of tokens. In that case, `api_
 | telemetry | ✅ | ✅ | ❌ | ❌ |
 | metrics | ✅ | ✅ | ❌ | ❌ |
 
-## Audit Logging
-
-*Available as of v1.17.0*
+## Audit Logging {version="1.17.0"}
 
 Audit logging records all API operations that require authentication or authorization, and writes them in JSON format, by default to log files.
 
@@ -406,9 +396,7 @@ By default, audit logs are rotated daily, and the seven most recent log files ar
 
 <aside role="state">When Qdrant writes audit logs to files, they are verbose and can grow in size rapidly. Ensure that you have sufficient disk space.</aside>
 
-### Audit Log Output
-
-*Available as of v1.20.0*
+### Audit Log Output {version="1.20.0"}
 
 The `output` setting controls where Qdrant writes audit log entries:
 
@@ -426,9 +414,7 @@ The `rotation` and `max_log_files` settings apply only when Qdrant writes to fil
 
 Qdrant adds `"kind": "audit"` to every audit log line. Use this field to identify audit entries when they share a stream with regular logs. The field appears only in the written logs., not in entries returned by the [`/audit/logs` API](#query-audit-logs). Older log files without this field remain readable.
 
-### Tracing IDs
-
-*Available as of v1.18.0*
+### Tracing IDs {version="1.18.0"}
 
 You can attach a tracing ID to individual requests. When audit logging is enabled, Qdrant includes the tracing ID in the audit log entry, enabling the correlation of client-side operations with their corresponding log entries.
 
@@ -436,9 +422,7 @@ Qdrant reads the tracing ID from the first matching header in the following orde
 
 {{< code-snippet path="/documentation/headless/snippets/audit-tracing-id/simple/" >}}
 
-### Query Audit Logs
-
-*Available as of v1.18.0*
+### Query Audit Logs {version="1.18.0"}
 
 The audit log can be queried via the `/audit/logs` API (requires [manage-level access](#table-of-access)). The API reads the entries that Qdrant wrote to files. If `output` is `stdout` or `stderr`, there are no local files to read, so the API returns no entries for that node. It doesn't serve old files left over from an earlier `file` configuration. For example:
 
@@ -504,9 +488,7 @@ environment variable like this:
 QDRANT__SERVICE__HOST=127.0.0.1 ./qdrant
 ```
 
-### Bind the Internal Port
-
-*Available as of v1.19.2*
+### Bind the Internal Port {version="1.19.2"}
 
 In a distributed deployment, peers talk to each other over the internal gRPC port (`6335` by default). By default, the REST, gRPC, and internal ports all bind to `service.host`, so the internal port is reachable on whichever interface serves the public API.
 
@@ -547,9 +529,7 @@ Restrictions](/documentation/cloud/configure-cluster/#client-ip-restrictions).
 Cloud](/documentation/private-cloud/security-exposure/#exposing-a-cluster)
 deployments have their own kind of configuration.
 
-## TLS
-
-*Available as of v1.2.0*
+## TLS {version="1.2.0"}
 
 TLS for encrypted connections can be enabled on your Qdrant instance to secure
 connections.

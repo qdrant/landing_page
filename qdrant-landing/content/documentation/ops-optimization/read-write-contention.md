@@ -11,9 +11,9 @@ Qdrant is designed to index and optimize data as it arrives. While serving searc
 
 This guide walks through a set of configuration changes to improve read latency under heavy write load. The steps are ordered by impact: start with step 1 and stop when your latency target is met. After each step, measure read latency and write throughput. If a change doesn't improve latency enough or causes unacceptable throughput loss, revert it and move to the next step.
 
-## Step 1: Prevent Reads from Large Unindexed Segments
+## Step 1: Prevent Reads from Large Unindexed Segments {version="1.17.1"}
 
-*Requires Qdrant v1.17.1 or later. `prevent_unoptimized` is an experimental feature.*
+*`prevent_unoptimized` is an experimental feature.*
 
 Under heavy write load, the optimizer can fall behind. When that happens, searches need to perform a full scan over large unindexed segments, which increases query latency. The [`prevent_unoptimized` setting](/documentation/ops-optimization/optimizer/#prevent-reads-from-large-unindexed-segments) addresses this. Set it to `true` to prevent searching over unindexed data.
 
@@ -88,9 +88,9 @@ Keep `max_indexing_threads` below 16. If your node has fewer than eight cores, l
 
 `optimizer_cpu_budget` (step 3) sets the node-wide CPU ceiling for all optimizer work. `max_optimization_threads` and `max_indexing_threads` control how that budget is distributed across jobs and shards. Use Step 3 to cap the total, and Step 4 to shape how work is scheduled within that cap.
 
-## Step 5: Use Delayed Fan-Outs
+## Step 5: Use Delayed Fan-Outs {version="1.17.0"}
 
-*Requires replicas. Available as of v1.17.0.*
+*Requires replicas.*
 
 This step applies only if your collection has a replication factor greater than one. If you're running without replicas, skip to step 6.
 
@@ -118,9 +118,7 @@ If your vectors or payload are on disk, [async I/O](/articles/io_uring/) can red
 
 Async I/O relies on `io_uring`, so verify kernel support before enabling in production.
 
-### `io_uring` Setting
-
-*Available as of v1.19.0.* 
+### `io_uring` Setting {version="1.19.0"}
 
 On managed Qdrant Cloud, async I/O is enabled by default on clusters that run Qdrant v1.20.0 or later.
 
@@ -138,9 +136,7 @@ or via an environment variable:
 QDRANT__STORAGE__PERFORMANCE__IO_URING=auto
 ```
 
-### `async_scorer` Setting
-
-*Available as of v1.3.0.*
+### `async_scorer` Setting {version="1.3.0"}
 
 An older setting that applies async I/O to vector rescoring only, not payload. It is deprecated: prefer `io_uring` unless you're on a version older than 1.19. Setting `io_uring` takes precedence over `async_scorer` for the structures it covers.
 

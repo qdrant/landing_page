@@ -9,9 +9,7 @@ aliases:
   - /documentation/operations/snapshots
 ---
 
-# Snapshots
-
-*Available as of v0.8.4*
+# Snapshots {version="0.8.4"}
 
 Snapshots are `tar` archive files that contain data and configuration of a specific collection on a specific node at a specific time. In a distributed setup, when you have multiple nodes in your cluster, you must create snapshots for each node separately when dealing with a single collection.
 
@@ -31,9 +29,7 @@ To create a new snapshot for an existing collection:
 
 This is a synchronous operation for which a `tar` archive file will be generated into the `snapshot_path`.
 
-### Delete snapshot
-
-*Available as of v1.0.0*
+### Delete snapshot {version="1.0.0"}
 
 {{< code-snippet path="/documentation/headless/snippets/snapshots/delete-collection-snapshot/" >}}
 
@@ -64,9 +60,7 @@ Snapshots can be restored in three possible ways:
 Regardless of the method used, Qdrant will extract the shard data from the snapshot and properly register shards in the cluster.
 If there are other active replicas of the recovered shards in the cluster, Qdrant will replicate them to the newly recovered node by default to maintain data consistency.
 
-### Recover from a URL or local file
-
-*Available as of v0.11.3*
+### Recover from a URL or local file {version="0.11.3"}
 
 This method of recovery requires the snapshot file to be downloadable from a URL or exist as a local file on the node (like if you [created the snapshot](#create-snapshot) on this node previously). If instead you need to upload a snapshot file, see the next section.
 
@@ -132,9 +126,7 @@ To recover from a URL, you specify an additional parameter in the request body:
 
 {{< code-snippet path="/documentation/headless/snippets/snapshots/recover-snapshot-with-priority/" >}}
 
-## Snapshots for the whole storage
-
-*Available as of v0.8.5*
+## Snapshots for the whole storage {version="0.8.5"}
 
 Sometimes it might be handy to create snapshot not just for a single collection, but for the whole storage, including collection aliases.
 Qdrant provides a dedicated API for that as well. It is similar to collection-level snapshots, but does not require `collection_name`.
@@ -147,9 +139,7 @@ Qdrant provides a dedicated API for that as well. It is similar to collection-le
 
 {{< code-snippet path="/documentation/headless/snippets/snapshots/create-full-snapshot/" >}}
 
-### Delete full storage snapshot
-
-*Available as of v1.0.0*
+### Delete full storage snapshot {version="1.0.0"}
 
 {{< code-snippet path="/documentation/headless/snippets/snapshots/delete-full-snapshot/" >}}
 
@@ -204,9 +194,7 @@ storage:
   temp_path: /tmp
 ```
 
-### S3
-
-*Available as of v1.10.0*
+### S3 {version="1.10.0"}
 
 Rather than storing snapshots on the local file system, you may also configure
 to store snapshots in an S3-compatible storage service. To enable this, you must
@@ -242,9 +230,7 @@ storage:
 
 Fields you leave unset in `s3_config` are read from the `AWS_*` environment variables and the default AWS credential chain.
 
-### Google Cloud Storage
-
-*Available as of v1.20.0*
+### Google Cloud Storage {version="1.20.0"}
 
 To store snapshots in Google Cloud Storage (GCS), set `snapshots_storage` to `gcs` and configure `gcs_config` in the [configuration](/documentation/ops-configuration/configuration/) file:
 
@@ -276,9 +262,7 @@ If you set none of them, Qdrant uses Application Default Credentials. These come
 
 You can also set each option with an environment variable.
 
-### Azure Blob Storage
-
-*Available as of v1.20.0*
+### Azure Blob Storage {version="1.20.0"}
 
 To store snapshots in an Azure Blob Storage container, set `snapshots_storage` to `azure` and configure `azure_config` in the [configuration](/documentation/ops-configuration/configuration/) file:
 
@@ -313,9 +297,7 @@ If you set none of them, Qdrant uses the default credential chain. This chain re
 
 You can also set each option with an environment variable.
 
-### Share a bucket between deployments
-
-*Available as of v1.20.0*
+### Share a bucket between deployments {version="1.20.0"}
 
 Each of `s3_config`, `gcs_config`, and `azure_config` accepts an optional `prefix`. Qdrant stores objects as `<prefix>/snapshots/...`, so several deployments can share one bucket or container without overwriting each other's snapshots.
 

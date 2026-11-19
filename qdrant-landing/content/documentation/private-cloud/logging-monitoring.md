@@ -43,9 +43,7 @@ spec:
 
 The log levels of the Operator and the cluster exporter are Helm values: `operator.settings.logLevel` and `qdrant-cluster-exporter.config.logLevel`. Both accept `DEBUG`, `INFO`, `WARN`, and `ERROR`, and both default to `INFO`. See [Configuration](/documentation/private-cloud/configuration/).
 
-### Audit Logging
-
-*Available as of Qdrant v1.17.0*
+### Audit Logging {version="1.17.0"}
 
 Audit logging records API operations that require authentication or authorization as JSON entries, by default to log files on the database volume. It is disabled by default. Enable it under `spec.config.audit` on the `QdrantCluster`:
 

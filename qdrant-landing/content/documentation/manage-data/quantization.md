@@ -47,9 +47,7 @@ Depending on your requirements for recall, compression, and distance metrics, co
 | 32          | **1-bit TurboQuant** and **1-bit binary quantization** offer similar results at this compression level. Binary quantization is faster, but TurboQuant provides better recall. |
 | Up to 64  | Use **Product Quantization** if the memory footprint is the top priority and accuracy and speed are not critical. |
 
-## TurboQuant Quantization
-
-*Available as of v1.18.0*
+## TurboQuant Quantization {version="1.18.0"}
 
 TurboQuant is [a quantization method developed by Google](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/). It operates by applying a fast random rotation to vectors before compression, which evenly redistributes data across coordinates. This allows applying a single pre-computed, globally optimized quantization mapping across the dataset, enabling TurboQuant to work effectively with any vector distribution and overcoming a key limitation found in binary quantization.
 
@@ -97,9 +95,7 @@ Lower bit depths lose more precision, so Qdrant rescores them by default:
 
 To override the default for a query, set the `rescore` search parameter. See [Searching with Quantization](#searching-with-quantization).
 
-## Scalar Quantization
-
-*Available as of v1.1.0*
+## Scalar Quantization {version="1.1.0"}
 
 [Scalar quantization](/articles/scalar-quantization/), in the context of vector search engines, is a compression technique that compresses vectors by reducing the number of bits used to represent each vector component.
 
@@ -118,9 +114,7 @@ In our experiments, we found that the error introduced by scalar quantization is
 However, this value depends on the data and the quantization parameters.
 Please refer to the [Quantization Tips](#quantization-tips) section for more information on how to optimize the quantization parameters for your use case.
 
-## Binary Quantization
-
-*Available as of v1.5.0*
+## Binary Quantization {version="1.5.0"}
 
 Binary quantization is an extreme case of scalar quantization.
 This feature lets you represent each vector component as a single bit, effectively reducing the memory footprint by a factor of 32. This is the fastest quantization method, since it lets you perform a vector comparison with a few CPU instructions. Binary quantization can achieve up to a 40x speedup compared to the original vectors.
@@ -190,9 +184,7 @@ Specifically, if original vectors contain `{-1, 1}` as possible values, then the
 As you can see, both functions are equal up to a constant factor, which makes similarity search equivalent.
 Binary quantization makes it efficient to compare vectors using this representation.
 
-### 1.5-Bit and 2-Bit Quantization
-
-*Available as of v1.15.0*
+### 1.5-Bit and 2-Bit Quantization {version="1.15.0"}
 
 **Binary quantization** storage can use **2 and 1.5 bits** per dimension, improving precision for smaller vectors. One-bit compression resulted in significant data loss and precision drops for vectors smaller than a thousand dimensions, often requiring expensive rescoring. 2-bit quantization offers 16X compression compared to 32X with one bit, improving performance for smaller vector dimensions. The 1.5-bit quantization compression offers about 21X compression and intermediate accuracy.
 
@@ -217,9 +209,7 @@ In order to build 2-bit representation, Qdrant computes values distribution and 
 
 See how to set up 1.5-bit and 2-bit quantization in the [following section](#set-up-bit-depth).
 
-### Asymmetric Quantization
-
-*Available as of v1.15.0*
+### Asymmetric Quantization {version="1.15.0"}
 
 The **Asymmetric Quantization** technique allows Qdrant to use different vector encoding algorithms for stored vectors and queries.
 A particularly interesting combination is binary stored vectors and Scalar quantized queries.
@@ -239,9 +229,7 @@ This is particularly useful for indexing millions of vectors as it improves prec
 
 See how to set up Asymmetric Quantization in the [following section](#set-up-asymmetric-quantization)
 
-## Product Quantization
-
-*Available as of v1.2.0*
+## Product Quantization {version="1.2.0"}
 
 [Product quantization](/articles/product-quantization/) is a method of compressing vectors to minimize their memory usage by dividing them into
 chunks and quantizing each segment individually.

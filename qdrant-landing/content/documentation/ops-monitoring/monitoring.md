@@ -140,9 +140,7 @@ when distributed mode is enabled.
 
 [^metrics-distributed]: Only reported if distributed mode (cluster mode) is enabled. Enabled by default in all Qdrant Cloud environments. See `cluster.enabled` in the [configuration](/documentation/ops-configuration/configuration/).
 
-### Metrics Configuration
-
-*Available as of v1.16.0*
+### Metrics Configuration {version="1.16.0"}
 
 In self-hosted environments you have further configuration options for metrics.
 
@@ -156,9 +154,7 @@ To achieve this you may use the following environment variable for example:
 QDRANT__SERVICE__METRICS_PREFIX="qdrant_"
 ```
 
-### Per-Collection API Metrics
-
-*Available as of v1.18.0*
+### Per-Collection API Metrics {version="1.18.0"}
 
 By default, the API response metrics (`rest_responses_*`, `grpc_responses_*`) are global — they don't distinguish between collections. To request per-collection breakdowns, add `?per_collection=true` to the `/metrics` endpoint:
 
@@ -190,9 +186,7 @@ The `/telemetry` endpoint reports from the point of view of the peer being queri
 This includes less information than `/telemetry`, but provides information like shard transfer progress more reliably.
 You can find the full documentation for this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/cluster-telemetry).
 
-## Kubernetes Health Endpoints
-
-*Available as of v1.5.0*
+## Kubernetes Health Endpoints {version="1.5.0"}
 
 Qdrant exposes three endpoints, namely
 [`/healthz`](http://localhost:6333/healthz),

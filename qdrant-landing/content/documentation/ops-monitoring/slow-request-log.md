@@ -5,9 +5,9 @@ description: "Use the Slow Request Log REST endpoint to find which queries are r
 weight: 9
 ---
 
-# Slow Request Log
+# Slow Request Log {version="1.16.0"}
 
-*Available as of v1.16.0 (beta). Behavior may change in future releases.*
+*This feature is in beta. Behavior may change in future releases.*
 
 The slow request log records the slowest unique operations on a node since startup. Use it to identify which queries are responsible for high latency.
 

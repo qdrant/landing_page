@@ -168,9 +168,7 @@ In this case, it means that points with the same id will be overwritten when re-
 Idempotence property is useful if you use, for example, a message queue that doesn't provide an exactly-once guarantee.
 Even with such a system, Qdrant ensures data consistency.
 
-### Update Mode
-
-_Available as of v1.17.0_
+### Update Mode {version="1.17.0"}
 
 By default, an upsert operation inserts a point if it does not exist, or updates it if it does. To change this behavior, use the `update_mode` parameter:
 
@@ -188,9 +186,7 @@ For example, to use `insert_only` mode:
 
 `update_only` mode is useful with [conditional updates](#conditional-updates). Because upserts default to inserts for non-existing points, a conditional update without an explicit `update_mode` will insert a new point even if the condition is not met, which is not the intended behavior in most cases.
 
-### Named Vectors
-
-_Available as of v0.10.0_
+### Named Vectors {version="0.10.0"}
 
 If the collection was created with multiple vectors, each vector data can be provided using the vector's name:
 
@@ -207,9 +203,7 @@ then it is inserted with just the specified vectors. In other words, the entire
 point is replaced, and any unspecified vectors are set to null. To keep existing
 vectors unchanged and only update specified vectors, see [update vectors](#update-vectors).
 
-### Sparse Vectors
-
-_Available as of v1.7.0_
+### Sparse Vectors {version="1.7.0"}
 
 Points can contain dense and sparse vectors.
 
@@ -264,9 +258,7 @@ Qdrant uses the model to generate the embeddings and store the point with the re
 To change a point, you can modify its vectors or its payload. There are several
 ways to do this.
 
-### Update Vectors
-
-_Available as of v1.2.0_
+### Update Vectors {version="1.2.0"}
 
 This method updates the specified vectors on the given points. Unspecified
 vectors are kept unchanged. All given points must exist.
@@ -278,9 +270,7 @@ REST API ([Schema](https://api.qdrant.tech/api-reference/points/update-vectors))
 To update points and replace all of their vectors, see [uploading
 points](#upload-points).
 
-### Delete Vectors
-
-_Available as of v1.2.0_
+### Delete Vectors {version="1.2.0"}
 
 This method deletes just the specified vectors from the given points. Other
 vectors are kept unchanged. Points are never deleted.
@@ -307,9 +297,7 @@ An alternative way to specify which points to remove is to use a filter.
 
 This example removes all points with `{ "color": "red" }` from the collection.
 
-## Conditional Updates
-
-_Available as of v1.16.0_
+## Conditional Updates {version="1.16.0"}
 
 All update operations (including point insertion, vector updates, payload updates, and deletions) support configurable pre-conditions based on filters.
 
@@ -389,9 +377,7 @@ If the value of the `next_page_offset` field is `null` - the last page is reache
 
 <aside role="status">To scroll a collection in parallel, add a <a href="/documentation/search/filtering/#slice">slice filter condition</a> to each worker's request, one <code>index</code> per worker. Each worker then scrolls a disjoint, exhaustive share of the collection instead of paging through it sequentially.</aside>
 
-### Order Points by Payload Key
-
-_Available as of v1.8.0_
+### Order Points by Payload Key {version="1.8.0"}
 
 When using the [`scroll`](#scroll-points) API, you can sort the results by payload key. For example, you can retrieve points in chronological order if your payloads have a `"timestamp"` field, as shown in the following example:
 
@@ -407,9 +393,7 @@ You need to use the `order_by` `key` parameter to specify the payload key. Then 
 
 When sorting is based on a non-unique value, it is not possible to rely on an ID offset. Thus, next_page_offset is not returned within the response. However, you can still do pagination by combining `"order_by": { "start_from": ... }` with a `{ "must_not": [{ "has_id": [...] }] }` filter.
 
-## Counting Points
-
-_Available as of v0.8.4_
+## Counting Points {version="0.8.4"}
 
 Sometimes it can be useful to know how many points fit the filter conditions without doing a real search.
 
@@ -433,9 +417,7 @@ Returns the number of points matching the given filtering conditions:
 
 By default, the count is approximate for performance reasons. To get an exact count, set `"exact": true` in the request.
 
-## Batch Update
-
-_Available as of v1.5.0_
+## Batch Update {version="1.5.0"}
 
 You can batch multiple point update operations. This includes inserting,
 updating and deleting points, vectors and payload.

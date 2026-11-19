@@ -9,9 +9,7 @@ aliases:
   - /documentation/operations/distributed_deployment
 ---
 
-# Distributed Deployment
-
-*Available since Qdrant v0.8.0*
+# Distributed Deployment {version="0.8.0"}
 
 Qdrant supports a distributed deployment mode.
 In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.
@@ -157,9 +155,7 @@ How existing shards get rebalanced across nodes depends on how you've deployed t
 - In Qdrant Cloud, shards are [rebalanced across the nodes automatically](/documentation/cloud/configure-cluster/#shard-rebalancing) on an ongoing basis to keep total shard count and size even per node across all of your collections. You can choose to balance by count, by size, or by both (the default), or disable automatic rebalancing.
 - If your cluster is not running in Qdrant Cloud, you need to [manually balance shards](#moving-shards).
 
-### Resharding
-
-*Available as of v1.13.0 in Cloud*
+### Resharding {products="cloud[1.13.0]"}
 
 <aside role="alert">Resharding a large collection can take a long time. It's better to set the desired shard count when <a href="#choosing-the-right-number-of-shards">creating a collection</a>.</aside>
 
@@ -169,9 +165,7 @@ Resharding can change the number of shards both up and down, without having to r
 
 Please refer to the [Resharding](/documentation/cloud/cluster-scaling/#resharding) section in our cloud documentation for more details.
 
-### Moving Shards
-
-*Available as of v0.9.0*
+### Moving Shards {version="0.9.0"}
 
 Qdrant allows moving shards between nodes in the cluster and removing nodes from the cluster. This functionality unlocks the ability to dynamically scale the cluster size without downtime. It also allows you to upgrade or migrate nodes without downtime.
 
@@ -208,9 +202,7 @@ After that, Qdrant will exclude the node from the consensus, and the instance wi
 
 <aside role="status">On Qdrant Cloud, if <a href="/documentation/cloud/configure-cluster/#shard-rebalancing">automatic shard rebalancing</a> is active, a manual move that leaves a node's shard count or size outside the cluster's balance target can be corrected by automatic rebalancing. Disable automatic rebalancing first to manually control shard distribution across nodes.</aside>
 
-### User-Defined Sharding
-
-*Available as of v1.7.0*
+### User-Defined Sharding {version="1.7.0"}
 
 Qdrant allows you to specify the shard for each point individually. This feature is useful if you want to control the shard placement of your data, so that operations can hit only the subset of shards they actually need. In big clusters, this can significantly improve the performance of operations that do not require the whole collection to be scanned.
 
@@ -270,9 +262,7 @@ Another use case for user-defined sharding is time-based sharding, where you rou
 ![Time-based sharding across daily shards](/documentation/tutorials/time-based-sharding/time-based-sharding.png)
 {{< /island >}}
 
-### Shard Transfer Method
-
-*Available as of v1.7.0*
+### Shard Transfer Method {version="1.7.0"}
 
 There are different methods for transferring a shard, such as moving or
 replicating, to another node. Depending on what performance and guarantees you'd

@@ -12,9 +12,7 @@ aliases:
 
 By default, Qdrant ranks search results based on vector similarity scores. However, you may wish to consider additional factors when ranking results. Qdrant offers several tools to help you accomplish this.
 
-## Score Boosting
-
-_Available as of v1.14.0_
+## Score Boosting {version="1.14.0"}
 
 When introducing vector search to specific applications, sometimes business logic needs to be considered for ranking the final list of results.
 
@@ -82,9 +80,7 @@ If there is no variable and no defined default, a default value of `0.0` is used
 - Payload variables used within the formula also benefit from having payload indices. Please try to always have a payload index set up for the variables used in the formula for better performance.
 </aside>
 
-### Max and Min
-
-_Available as of v1.19.1_
+### Max and Min {version="1.19.1"}
 
 `max` and `min` take an array of expressions and return the largest or the smallest value. An empty array returns an error.
 
@@ -117,9 +113,7 @@ Place `defaults` alongside `formula`, and include the `$` in each score key. Qdr
 
 </aside>
 
-### Hyperbolic Distance
-
-_Available as of v1.19.1_
+### Hyperbolic Distance {version="1.19.1"}
 
 The `acosh` expression returns the inverse hyperbolic cosine of a single expression, like `sqrt`, `ln`, and `exp`. Use it to rescore hyperbolic embeddings, which place hierarchical data in the Poincaré ball or on the Lorentz hyperboloid, by their exact geodesic distance.
 
@@ -192,9 +186,7 @@ That's how it will look for an application where, after 1 day, results start bei
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/score-boost-time/" >}}
 
-## Maximal Marginal Relevance (MMR)
-
-_Available as of v1.15.0_
+## Maximal Marginal Relevance (MMR) {version="1.15.0"}
 
 [Maximal Marginal Relevance (MMR)](https://www.cs.cmu.edu/~jgc/publication/The_Use_MMR_Diversity_Based_LTMIR_1998.pdf) is an algorithm to improve the diversity of the results. It excels when the dataset has many redundant or very similar points for a query.
 
@@ -214,9 +206,7 @@ This is implemented in Qdrant as a parameter of a nearest neighbors query. You d
 
 **Caveat:** Since MMR ranks one point at a time, the scores produced by MMR in Qdrant refer to the similarity to the query vector. This means that the response will not be ordered by score, but rather by the order of selection of MMR.
 
-## Relevance Feedback
-
-*Available as of 1.17*
+## Relevance Feedback {version="1.17"}
 
 Relevance feedback distills signals from current search results into the next retrieval iteration to surface more relevant documents.
 

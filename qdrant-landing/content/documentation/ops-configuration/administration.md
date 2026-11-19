@@ -13,9 +13,7 @@ aliases:
 
 Qdrant exposes administration tools which enable to modify at runtime the behavior of a qdrant instance without changing its configuration manually.
 
-## Recovery Mode
-
-*Available as of v1.2.0*
+## Recovery Mode {version="1.2.0"}
 
 Recovery mode can help in situations where Qdrant fails to start repeatedly.
 When starting in recovery mode, Qdrant only loads collection metadata to prevent
@@ -36,9 +34,7 @@ If using a Qdrant binary, recovery mode can be enabled by setting a recovery
 message in an environment variable, such as
 `QDRANT__STORAGE__RECOVERY_MODE="My recovery message"`.
 
-## Low Memory Mode
-
-*Available as of v1.18.0*
+## Low Memory Mode {version="1.18.0"}
 
 Low memory mode reduces memory requirements at startup. On memory-constrained hosts, the normal startup process can exhaust available memory before the node becomes reachable resulting in a crash loop. Low memory mode lets you bring the node up with a reduced memory footprint so you can make configuration changes to reduce memory usage. Revert it once the node is stable.
 
@@ -65,9 +61,7 @@ QDRANT__STORAGE__LOW_MEMORY_MODE=no_populate
 
 Low memory mode takes effect on the next restart. It doesn't modify the [memory tier](/documentation/ops-configuration/memory-tiers/) settings persisted in your collections — it only overrides where data gets loaded for that startup.
 
-## Strict Mode
-
-*Available as of v1.13.0*
+## Strict Mode {version="1.13.0"}
 
 Strict mode is a feature to restrict certain type of operations on a collection in order to protect the Qdrant cluster. The goal is to prevent inefficient usage patterns that could overload the system.
 

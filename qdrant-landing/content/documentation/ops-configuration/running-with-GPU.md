@@ -11,9 +11,7 @@ aliases:
   - /documentation/operations/running-with-gpu
 ---
 
-# Running Qdrant with GPU Support
-
-*Available as of v1.13.0*
+# Running Qdrant with GPU Support {version="1.13.0"}
 
 Qdrant can use a GPU to build vector indices faster than a CPU can. This helps most with write-heavy workloads, such as a large initial upload or frequent updates to a big collection, because new data is indexed sooner. GPU acceleration applies to vector indexing. How you enable GPUs depends on how you deploy Qdrant. Refer to the section for your deployment type.
 

@@ -17,9 +17,7 @@ It could be, for example, texts with similar meanings, visually similar pictures
 
 {{< figure src="/docs/encoders.png" caption="This is how vector similarity works" width="70%" >}}
 
-## Query API
-
-*Available as of v1.10.0*
+## Query API {version="1.10.0"}
 
 Qdrant provides a single interface for all kinds of search and exploration requests - the `Query API`.
 Here is a reference list of what kind of queries you can perform with the `Query API` in Qdrant:
@@ -187,9 +185,7 @@ It is possible to target nested fields using a dot notation:
 
 Accessing array elements by index is currently not supported.
 
-### ACORN Search Algorithm
-
-*Available as of v1.16.0*
+### ACORN Search Algorithm {version="1.16.0"}
 
 For filtered vector search, you are recommended to create a [payload index](/documentation/manage-data/indexing/#payload-index) for the fields you want to filter by.
 During the search, Qdrant will use a combined [filterable index](/documentation/manage-data/indexing/#filterable-hnsw-index).
@@ -531,9 +527,7 @@ The looked-up result appears under `lookup` in each group. Below, chunk id 1 sho
 
 For a collection of 20 000 documents with around 24 chunks each, duplicating ~3 KB of document-level data on every chunk adds up to ~1.4 GB. Storing those fields once per document in the `documents` collection brings that down to ~60 MB. The split pays off when the shared fields are large or change often, since updating one point in `documents` shows up under every chunk's group at query time.
 
-## Random Sampling
-
-*Available as of v1.11.0*
+## Random Sampling {version="1.11.0"}
 
 In some cases it might be useful to retrieve a random sample of points from the collection. This can be useful for debugging, testing, or for providing entry points for exploration.
 
