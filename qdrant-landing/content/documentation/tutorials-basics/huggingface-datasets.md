@@ -40,7 +40,7 @@ create it, along with the DOI (Digital Object Identifier).
 }
 ```
 
-You can find a detailed description of the dataset in the [Practice Datasets](/documentation/datasets/#journal-article-titles) 
+You can find a detailed description of the dataset in the [Practice Datasets](/documentation/datasets/#arxivorg-titles)
 section. If you prefer loading the dataset from a Qdrant snapshot, it is also linked there.
 
 The recommended way to load it is streaming. With `streaming=True`, `load_dataset` does not download the dataset first; records are fetched from the Hub as you iterate, so you can start ingesting within seconds and nothing is written to the local cache ahead of time. You can read more about it in the [Hugging Face documentation](https://huggingface.co/docs/datasets/stream).

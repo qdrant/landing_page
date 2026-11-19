@@ -58,7 +58,7 @@ library, as this is the easiest way to get started.
 
 ## The dataset
 
-The demo is based on the [Wolt](https://wolt.com/) dataset. It contains over 2M images of dishes from different restaurants along with some additional metadata. 
+The demo is based on the [Wolt](https://wolt.com/) dataset. It contains about 1.7M images of dishes from different restaurants along with some additional metadata.
 This is how a payload for a single dish looks like (long values are shortened):
 
 ```json
@@ -79,7 +79,7 @@ This is how a payload for a single dish looks like (long values are shortened):
 ```
 
 Processing this amount of records takes some time, so we precomputed the CLIP embeddings, stored them in a Qdrant collection and exported the collection as 
-a snapshot. You may [download it here](https://storage.googleapis.com/common-datasets-snapshots/wolt-clip-ViT-B-32.snapshot).
+a snapshot. You may [download it here](https://snapshots.qdrant.io/wolt-clip-2108082541245612-2026-06-04-09-56-17.snapshot).
 
 ## Different search modes
 
@@ -262,7 +262,7 @@ docker-compose up -d
 
 The demo will be available at `http://localhost:8001`, but you won't be able to search anything until you [import the snapshot into your Qdrant 
 instance](/documentation/snapshots/#recover-from-a-url-or-local-file). If you don't want to bother with hosting a local one, you can use the [Qdrant 
-Cloud](https://cloud.qdrant.io/) cluster. 4 GB RAM is enough to load all the 2 million entries.
+Cloud](https://cloud.qdrant.io/) cluster. 4 GB RAM is enough to load all the 1.7 million entries.
 
 ## Fork and reuse
 
