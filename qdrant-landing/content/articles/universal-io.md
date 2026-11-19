@@ -21,7 +21,7 @@ Qdrant reads all its on-disk data through `mmap`: vectors, HNSW graphs and paylo
 
 In [serverless mode](https://qdrant.tech/serverless/) the source of truth is object storage, which Qdrant caches on local disk. A read that misses that cache crosses the network, and it gets much slower.
 
-On our test box a cold `mmap` read of an EBS gp3 volume took 568 µs. From a same-region S3 bucket it took 24.3 ms, 43 times slower. From another region, 131 ms. Faster local storage only widens the gap, and a network read can fail in ways a disk read cannot.
+On our test box a cold `mmap` read of an EBS gp3 volume took 573 µs. From a same-region S3 bucket it took 24.0 ms, 42 times slower. From another region, 131 ms. Faster local storage only widens the gap, and a network read can fail in ways a disk read cannot.
 
 One option was to re-implement every one of those interactions against object storage, but that would have meant maintaining two versions of the same logic, which tend to drift apart over time. Every data structure would also have needed to switch between the two versions, which could change the behavior of the local path that already worked well. 
 
@@ -37,16 +37,16 @@ We therefore decided to build a single interface that lets us hot-swap the stora
 
 What we needed instead was a single abstract interface (a `trait`, in Rust terms, similar to interfaces in Go and protocols in Python) that standardizes the contract for every backend, rather than a separate concrete implementation for each component. That interface had to cover at least three backends, and they behave very differently from each other:
 
-- **`mmap`**: synchronous. Very cheap when the data is already in RAM, but a read of cold data blocks on a page fault (568 µs on the EBS gp3 volume we measured on).
+- **`mmap`**: synchronous. Very cheap when the data is already in RAM, but a read of cold data blocks on a page fault (573 µs on the EBS gp3 volume we measured on).
 - **`io_uring`**: queued. Many reads can run concurrently, but works only on Linux kernel v5.1 or later (it was introduced in 2019).
-- **Network I/O**: asynchronous. Very expensive when the data isn't cached locally (24.3 ms per round trip to a bucket in the same region, and 131 ms to one in another region), and exposed to failure modes that disk reads don't have.
+- **Network I/O**: asynchronous. Very expensive when the data isn't cached locally (24.0 ms per round trip to a bucket in the same region, and 131 ms to one in another region), and exposed to failure modes that disk reads don't have.
 
 ## Neither Async nor Blocking Fits
 
 Because of this gap in cost, the design of the interface seemed to be limited to two approaches, and each with a clear downside:
 
-- **Make everything async.** This is a great fit for network storage, but a poor fit for `mmap` and for data that is already cached, because async isn't free in Rust. It needs a runtime, and the compiler optimizes async code poorly. On our test box a warm 8-byte read took 18 ns. The same read inside a Tokio runtime took 106 ns. The extra 88 ns matters on cached data and not on a 568 µs cold read.
-- **Make everything blocking.** This suits the existing `mmap` code, but it is terrible for network requests. A same-region request took 43 times longer than a cold disk read. When each request blocks until it finishes, that latency piles up quickly.
+- **Make everything async.** This is a great fit for network storage, but a poor fit for `mmap` and for data that is already cached, because async isn't free in Rust. It needs a runtime, and the compiler optimizes async code poorly. On our test box a warm 8-byte read took 18 ns. The same read inside a Tokio runtime took 106 ns. The extra 88 ns matters on cached data and not on a 573 µs cold read.
+- **Make everything blocking.** This suits the existing `mmap` code, but it is terrible for network requests. A same-region request took 42 times longer than a cold disk read. When each request blocks until it finishes, that latency piles up quickly.
 
 After a few iterations, we settled on a middle ground, a `ReadPipeline` abstraction modeled on `io_uring`, in which you schedule reads (like pushing to a submission queue) and then wait for results (like reading from a completion queue), while each backend implements the pipeline in the way that suits it best.
 
@@ -211,7 +211,7 @@ fn read(range) -> Slice {
 }
 ```
 
-Once every block is local, the `fully_populated` flag lets reads skip the bitmap and its lock entirely. At that point a read is just a slice of the local `MmapFile`, the same kind of operation the `mmap` backend performs. The first read of a block still costs a 24.3 ms round trip. Every read after it costs 568 µs, the price of a local `mmap`.
+Once every block is local, the `fully_populated` flag lets reads skip the bitmap and its lock entirely. At that point a read is just a slice of the local `MmapFile`, the same kind of operation the `mmap` backend performs. The first read of a block still costs a 24.0 ms round trip. Every read after it costs 573 µs, the price of a local `mmap`.
 
 Append-only files can also grow, and reopening one would mean fetching everything again, so `DiskCache` grows the mirror in two phases: it first *stages* the change by learning the new remote size and prefetching the new tail, without any visible effect for readers, and then *applies* it by growing and remapping the local file. This lets Qdrant stage reloads for many files at once and pay only for the slowest one.
 

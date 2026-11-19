@@ -3,5 +3,5 @@ mmap,batch 1,7.15,0.57
 mmap,batch 512,7.15,146.41
 io_uring,batch 1,7.16,0.57
 io_uring,batch 16,87.36,0.61
-S3,1 reader,0.17,23.94
-S3,128 readers,11.32,24.06
+S3,batch 1,0.16,24.02
+S3,batch 256,8.83,24.17
