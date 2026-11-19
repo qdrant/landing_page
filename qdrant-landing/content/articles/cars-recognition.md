@@ -39,7 +39,7 @@ However, similarity learning comes with its own difficulties such as:
 3. Changing architectures between training and inference.
 
 Quaterion is a fine tuning framework built to tackle such problems in similarity learning.
-It uses [PyTorch Lightning](https://www.pytorchlightning.ai/)
+It uses [PyTorch Lightning](https://lightning.ai/docs/pytorch/stable/)
 as a backend, which is advertised with the motto, "spend more time on research, less on engineering."
 This is also true for Quaterion, and it includes:
 
@@ -206,7 +206,7 @@ class CarsDataset(Dataset):
 Now it's time to review one of the most exciting building blocks of Quaterion: [TrainableModel](https://quaterion.qdrant.tech/quaterion.train.trainable_model.html#module-quaterion.train.trainable_model).
 It is the base class for models you would like to configure for training,
 and it provides several hook methods starting with `configure_` to set up every aspect of the training phase
-just like [`pl.LightningModule`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.core.LightningModule.html), its own base class.
+just like [`pl.LightningModule`](https://lightning.ai/docs/pytorch/stable/common/lightning_module.html), its own base class.
 It is central to fine tuning with Quaterion, so we will break down this essential code in [`models.py`](https://github.com/qdrant/quaterion/blob/master/examples/cars/models.py)
 and review each method separately. Let's begin with the imports:
 

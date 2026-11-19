@@ -107,7 +107,7 @@ os.environ["OPENAI_API_KEY"] = "<your-openai-api-key>"        # for GPT
 ### Step 2: Building the knowledge base
 
 We also need some facts from which the answers will be generated. There is plenty of public datasets available, and
-[Natural Questions](https://ai.google.com/research/NaturalQuestions/visualization) is one of them - a collection of real Google search queries paired
+[Natural Questions](https://github.com/google-research-datasets/natural-questions) is one of them - a collection of real Google search queries paired
 with the relevant passage from Wikipedia that answers them. Rather than parsing the raw, HTML-heavy release ourselves, we can pull the
 already-cleaned `query`/`answer` pairs published on the Hugging Face Hub, which gets us two lists of strings - one for questions and the other one for
 the answers - in a single call.

@@ -39,7 +39,7 @@ Retrieval Augmented Generation is not without its challenges and limitations. On
 
 [LangChain](https://www.langchain.com/) is a framework that makes developing RAG-based applications much easier. It unifies interfaces to different libraries, including major embedding providers like OpenAI or Cohere and vector stores like Qdrant. With LangChain, you can focus on creating tangible GenAI applications instead of writing your logic from the ground up. 
 
-> Qdrant is one of the **top supported vector stores** on LangChain, with [extensive documentation](https://python.langchain.com/docs/integrations/vectorstores/qdrant) and [examples](https://python.langchain.com/docs/integrations/retrievers/self_query/qdrant_self_query).
+> Qdrant is one of the **top supported vector stores** on LangChain, with [extensive documentation](https://python.langchain.com/docs/integrations/vectorstores/qdrant) and [examples](https://github.com/langchain-ai/langchain/blob/1fc4ac32f0bf2a0ac643c2f72bf4d99fc304c685/docs/docs/integrations/retrievers/self_query/qdrant_self_query.ipynb).
 
 **How it Works:** LangChain receives a query and retrieves the query vector from an embedding model. Then, it dispatches the vector to a vector database, retrieving relevant documents. Finally, both the query and the retrieved documents are sent to the large language model to generate an answer.
 

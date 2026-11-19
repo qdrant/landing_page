@@ -47,7 +47,6 @@ Let’s dive into the top projects and what we liked about each of them.
 
 **Stack:** Gemini/Flash, Nano Banana, Qdrant, Freepik
 
-Repo: [Prometheus](https://github.com/resilienthike/Prometheus)
 
 ---
 

@@ -55,7 +55,7 @@ The [Haystack](https://haystack.deepset.ai/) framework leverages two pipelines, 
 
 ### Deploy the LLM to OpenShift
 
-Follow the steps in [Chapter 6. Serving large language models](https://access.redhat.com/documentation/en-us/red_hat_openshift_ai_self-managed/2.5/html/working_on_data_science_projects/serving-large-language-models_serving-large-language-models#doc-wrapper). This will download the LLM from the [HuggingFace](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.1), and deploy it to OpenShift using a *single model serving platform*. 
+Deploy [Mistral-7B-Instruct-v0.1](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.1) on the [OpenShift AI single-model serving platform](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/2.25/html-single/deploying_models/index#deploying_models_on_the_single_model_serving_platform).
 
 Your LLM service will have a URL. The tutorial talks to it through Haystack's chat generator, so the model server needs to expose an OpenAI-compatible chat API, which both vLLM and Text Generation Inference do. Store the URL as an environment variable. The generator also expects an API key; if your model server does not require one, any value works:
 
@@ -462,7 +462,7 @@ chat message:
 
 ## Next steps
 
-- In this example, [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) is the infrastructure of choice for proprietary chatbots. [Read more](https://access.redhat.com/documentation/en-us/red_hat_openshift_ai_self-managed/2.8) about how to host AI projects in their [extensive documentation](https://access.redhat.com/documentation/en-us/red_hat_openshift_ai_self-managed/2.8).
+- In this example, [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) is the infrastructure of choice for proprietary chatbots. See the [OpenShift AI Self-Managed documentation](https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/2.25) for deployment guidance.
 
 - [Haystack's documentation](https://docs.haystack.deepset.ai/docs/kubernetes) describes [how to deploy the Hayhooks service in a Kubernetes 
 environment](https://docs.haystack.deepset.ai/docs/kubernetes), so you can easily move it to your own OpenShift infrastructure.

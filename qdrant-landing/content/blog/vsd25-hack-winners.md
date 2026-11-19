@@ -196,11 +196,9 @@ A **multi-modal classroom assistant** that captures **speech, video, slides, ima
 
 * **OmniVault** (*Lone Qdrantic Agent*)  
   A **fully local, privacy-first personal knowledge companion**. Indexes local files \+ web browsing, provides multimodal semantic search, and even has Chrome extensions that highlight and scroll to recalled text. Stack: Qdrant \+ Redis \+ CLIP \+ Ollama.  
-  **Repo**: [OmniVault](https://github.com/kanungle/omni-vault)
 
 * **Drawland** (*Drawland*)  
   A **kid-friendly creativity playground** that uses vector retrieval to fuel interactive drawing and storytelling. A reminder that serious tech can spark playful experiences.  
-  **Repo**: [Drawland](https://github.com/kanungle/drawland)
 
 ---
 

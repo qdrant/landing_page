@@ -255,6 +255,6 @@ There you have it, an Airflow pipeline that interfaces with Qdrant! Feel free to
 ## Further reading
 
 - [Introduction to Airflow](https://docs.astronomer.io/learn/intro-to-airflow)
-- [Airflow Concepts](https://docs.astronomer.io/learn/category/airflow-concepts)
+- [Introduction to Airflow](https://www.astronomer.io/docs/airflow/intro-to-airflow)
 - [Airflow Reference](https://airflow.apache.org/docs/)
 - [Astronomer Documentation](https://docs.astronomer.io/)

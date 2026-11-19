@@ -493,4 +493,4 @@ See how Qdrant integrates with:
 - [Autogen](https://qdrant.tech/documentation/frameworks/autogen/)
 - [CrewAI](https://qdrant.tech/documentation/frameworks/crewai/)
 - [LangGraph](https://qdrant.tech/documentation/frameworks/langgraph/)
-- [Swarm](https://qdrant.tech/documentation/frameworks/swarm/)
+- [Swarm](https://github.com/openai/swarm)

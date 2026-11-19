@@ -47,5 +47,5 @@ Before exporting, you must create a collection with a vector name that matches t
 
 ## Further Reading
 
-- [CocoIndex Documentation](https://cocoindex.io/docs/ops/storages#qdrant)
+- [CocoIndex Documentation](https://github.com/cocoindex-io/cocoindex/blob/3f808f8a04f11724061f0f8ff96079b856b09403/docs/docs/ops/storages.md#qdrant)
 - [Example Code to build text embeddings with Qdrant](https://github.com/cocoindex-io/cocoindex/tree/main/examples/text_embedding_qdrant)

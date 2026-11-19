@@ -41,7 +41,7 @@ For this workflow, we'll use the following nodes:
 
 - [GitHub Document Loader](https://docs.n8n.io/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.documentgithubloader/): Configure the GitHub access token, repository name, and branch. In this example, we'll use [qdrant/demo-food-discovery@main](https://github.com/qdrant/demo-food-discovery).
 
-- [Embeddings OpenAI](https://docs.n8n.io/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.embeddingsopenai/): Configure with OpenAI credentials and the embedding model options. We use the [text-embedding-ada-002](https://platform.openai.com/docs/models/embeddings) model.
+- [Embeddings OpenAI](https://docs.n8n.io/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.embeddingsopenai/): Configure with OpenAI credentials and the embedding model options. We use the [text-embedding-ada-002](https://developers.openai.com/api/docs/models/text-embedding-ada-002) model.
 
 - [Recursive Character Text Splitter](https://docs.n8n.io/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.textsplitterrecursivecharactertextsplitter/): Configure the [text splitter options](https://docs.n8n.io/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.textsplitterrecursivecharactertextsplitter/#node-parameters ). We use the defaults in this example.
 
@@ -57,9 +57,9 @@ The workflow use the following nodes:
 
 - [Retrieval Q&A Chain](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.chainretrievalqa/): Configure with default values.
 
-- [Embeddings OpenAI](https://docs.n8n.io/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.embeddingsopenai/): Configure with OpenAI credentials and the embedding model options. We use the [text-embedding-ada-002](https://platform.openai.com/docs/models/embeddings) model.
+- [Embeddings OpenAI](https://docs.n8n.io/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.embeddingsopenai/): Configure with OpenAI credentials and the embedding model options. We use the [text-embedding-ada-002](https://developers.openai.com/api/docs/models/text-embedding-ada-002) model.
 
-- [OpenAI Chat Model](https://docs.n8n.io/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatopenai/): Configure with OpenAI credentials and the chat model name. We use [gpt-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5) for the demo.
+- [OpenAI Chat Model](https://docs.n8n.io/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatopenai/): Configure with OpenAI credentials and the chat model name. We use [gpt-3.5-turbo](https://developers.openai.com/api/docs/models/gpt-3.5-turbo) for the demo.
 
 Once configured, hit the "Chat" button to initiate the chat interface and begin a conversation with your codebase.
 

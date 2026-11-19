@@ -98,7 +98,7 @@ So searching "receptor binding affinity curve" returns the figure itself, not ju
 
 For the people querying the platform, two things matter most. The first is latency. Users expect responses in under 10 seconds, so a research query that takes longer to return a simple answer erodes the experience. Fast retrieval is a core part of that budget, and Qdrant is a major component of it.
 
-The second is retrieval quality. Grounded, high-quality answers are what keep users satisfied and drive measurable productivity gains. Hallucinations do the opposite. This is where [hybrid search](https://qdrant.tech/documentation/concepts/hybrid-queries/) became decisive. Two years ago, semantic search alone was not enough. The combination of keyword and semantic retrieval in a single query proved far more capable, and it is now central to how Bayer's agents find relevant context.
+The second is retrieval quality. Grounded, high-quality answers are what keep users satisfied and drive measurable productivity gains. Hallucinations do the opposite. This is where [hybrid search](/documentation/search/hybrid-queries/) became decisive. Two years ago, semantic search alone was not enough. The combination of keyword and semantic retrieval in a single query proved far more capable, and it is now central to how Bayer's agents find relevant context.
 
 {{< quote
   text="You want your retrieval to be very fast. A low-latency platform helps the user experience a lot. And the second point is the quality of retrieval inside that latency. It's important that your vector search supports hybrid search, for example. That's great."

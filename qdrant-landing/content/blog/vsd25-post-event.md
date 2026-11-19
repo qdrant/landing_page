@@ -26,7 +26,7 @@ That sense of ownership showed up everywhere, even after the talks. Astronaut-th
 
 ![astronauts](/blog/vsd25-post-event/astronaut3.png)
 
-*(Thanks Emil \- [we love these](https://www.linkedin.com/posts/ugcPost-7378046497935740928-U-9I?utm_source=share&utm_medium=member_desktop&rcm=ACoAABQp8ysBnS0IBNNy1YubFmEo1fObKF8ZsiI)\!* 😎*)*
+*(Thanks, Emil! 😎)*
 
 Seeing the community make it their own \- from playful photo edits to serious technical exchanges \- showed us how alive that vision really is. 🚀
 

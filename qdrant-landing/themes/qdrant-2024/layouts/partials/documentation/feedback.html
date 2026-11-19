@@ -25,7 +25,7 @@
       {{ .Params.positiveFeedback | safeHTML }}
     </p>
     <p class="docs-feedback__response docs-feedback__response_no" id="feedback__response_no">
-      {{ $negativeFeedback := replace (.Params.negativeFeedback | .RenderString) "#edit" (path.Join $.Site.Params.githubDocPrefix (path.Clean $.File.Path)) }}
+      {{ $negativeFeedback := replace (.Params.negativeFeedback | .RenderString) "#edit" (printf "%s%s" $.Site.Params.githubDocPrefix (path.Clean $.File.Path)) }}
       {{ $negativeFeedback = replace $negativeFeedback "#issue" $.Site.Params.githubIssueLink }}
       {{ $negativeFeedback | safeHTML }}
     </p>
