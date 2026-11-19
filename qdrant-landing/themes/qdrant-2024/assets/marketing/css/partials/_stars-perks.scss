@@ -128,6 +128,11 @@
     background-color: $neutral-98;
   }
 
+  // Desktop only; the light mobile banner has no space background.
+  &__space {
+    display: none;
+  }
+
   &__banner-content {
     display: flex;
     flex-direction: column;
@@ -156,6 +161,7 @@
   }
 
   &__banner-link {
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: pxToRem(7);
@@ -233,21 +239,84 @@
           rgba(0, 64, 161, 0.4) 78.19%
         ),
         $neutral-10;
+    }
 
-      // Grain texture from the design's space background.
-      &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        z-index: -1;
-        background: url('/img/stars-program/banner-texture.webp') top left / pxToRem(819.2);
-        mix-blend-mode: overlay;
-        opacity: 0.32;
-        pointer-events: none;
+    // The design's "Space-Background" frame: a 1110 x 112 layer centered on the banner.
+    // It and its children stay at z-index auto so their blend modes mix with the banner's
+    // own background instead of an isolated group. The content follows it in the markup,
+    // so it paints on top.
+    &__space {
+      display: block;
+      position: absolute;
+      top: calc(50% - #{pxToRem(56)});
+      left: calc(50% - #{pxToRem(555)});
+      width: pxToRem(1110);
+      height: pxToRem(112);
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    &__space-stars {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      mix-blend-mode: color-dodge;
+    }
+
+    // Light streaks: the Figma "Line-Blur" boxes and transforms, in px of the 1110 x 112 layer.
+    &__space-line {
+      position: absolute;
+      top: pxToRem(-726.11);
+      left: pxToRem(-343.21);
+      width: pxToRem(1573.2);
+      height: pxToRem(1423.07);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      mix-blend-mode: plus-lighter;
+    }
+
+    &__space-line-shape {
+      position: relative;
+      flex: none;
+      width: pxToRem(1251.28);
+      height: pxToRem(1554.23);
+      transform: rotate(91.31deg) scale(-1, 1) skewX(5.05deg);
+    }
+
+    &__space-line-image {
+      position: absolute;
+      max-width: none;
+
+      &_1 {
+        top: -12.7%;
+        left: -6.89%;
+        width: 121.34%;
+        height: 124.88%;
+      }
+
+      &_2 {
+        top: -3.79%;
+        left: 4.63%;
+        width: 99.86%;
+        height: 107.49%;
       }
     }
 
+    &__space-texture {
+      position: absolute;
+      top: pxToRem(-116.5);
+      left: 0;
+      width: 100%;
+      height: pxToRem(552);
+      background: url('/img/stars-program/banner-texture.webp') top left / pxToRem(819.2);
+      mix-blend-mode: overlay;
+      opacity: 0.32;
+    }
+
     &__banner-content {
+      position: relative;
       flex-direction: row;
       align-items: center;
     }

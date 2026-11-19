@@ -29,6 +29,21 @@
 
       {{ with .Params.banner }}
         <div class="stars-perks__banner">
+          {{/* Decorative space background from the design: star field, light streaks, and grain. */}}
+          <div class="stars-perks__space" aria-hidden="true">
+            <img class="stars-perks__space-stars" src="/img/stars-program/banner-stars.svg" alt="" width="1110" height="112" />
+            <div class="stars-perks__space-line">
+              <div class="stars-perks__space-line-shape">
+                <img class="stars-perks__space-line-image stars-perks__space-line-image_1" src="/img/stars-program/banner-line-1.svg" alt="" />
+              </div>
+            </div>
+            <div class="stars-perks__space-line">
+              <div class="stars-perks__space-line-shape">
+                <img class="stars-perks__space-line-image stars-perks__space-line-image_2" src="/img/stars-program/banner-line-2.svg" alt="" />
+              </div>
+            </div>
+            <div class="stars-perks__space-texture"></div>
+          </div>
           <div class="stars-perks__banner-content">
             <span class="stars-perks__banner-icon">
               <img src="{{ $icons }}banner-book-open-text.svg" alt="" width="24" height="24" />
