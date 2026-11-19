@@ -1,0 +1,15 @@
+{{/* Paid landing pages: customer logo strip at the bottom of the dark hero. Reuses the /cloud hero strip's markup and styles (qdrant-cloud/qdrant-cloud-hero.html); logos live in content/headless/lp-customer-logos.md */}}
+{{ with (.Site.GetPage "/headless/lp-customer-logos") }}
+  <div class="container">
+    <div class="qdrant-cloud-hero__customers">
+      <p class="qdrant-cloud-hero__customers-title">{{ .Params.title }}</p>
+      <div class="qdrant-cloud-hero__customers-list">
+        {{ range first 5 .Params.logos }}
+          <div class="qdrant-cloud-hero__customers-logo">
+            <img src="{{ .src }}" alt="{{ .alt }}" loading="lazy" />
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+{{ end }}
