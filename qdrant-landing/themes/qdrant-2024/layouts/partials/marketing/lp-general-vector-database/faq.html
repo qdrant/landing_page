@@ -1,0 +1,8 @@
+{{ with (.Site.GetPage "/lp-general-vector-database/faq") }}
+  <section class="lp-general-vector-database-faq">
+    <div class="container">
+      <h2 class="lp-general-vector-database-faq__title">{{ .Params.title }}</h2>
+      {{ partial "marketing/accordion" . }}
+    </div>
+  </section>
+{{ end }}

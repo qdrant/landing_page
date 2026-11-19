@@ -92,7 +92,7 @@ Two changes reduce that read. More memory keeps the originals resident, and a lo
 
 Set placement for the footprint instead. Pin the quantized copy, which is a fraction of the originals' size and fits where they cannot, and leave the originals `cold`.
 
-Async I/O then makes those `cold` reads cheaper without more memory. Set [`storage.performance.io_uring` to `auto`](/documentation/ops-configuration/memory-tiers/#async-io) in the configuration file, and Qdrant issues a query's rereads together and waits for them in parallel rather than one after another. It is disabled by default, covers `cold` structures only, and needs a Linux kernel that supports io_uring.
+Async I/O then makes those `cold` reads cheaper without more memory. Set [`storage.performance.io_uring` to `auto`](/documentation/ops-configuration/memory-tiers/#async-io) in the configuration file, and Qdrant issues a query's rereads together and waits for them in parallel rather than one after another. On self-hosted deployments, it is disabled by default and needs a Linux kernel that supports io_uring. It covers `cold` structures only. Managed Qdrant Cloud enables async I/O automatically from 1.20.
 
 <aside role="status">
 Latency validation: we ran five rounds for each of the six configurations and excluded 10 of 30 with inconsistent block-read counters or page-cache state. The 12 GiB rescoring row retains two runs, so treat it as directional.

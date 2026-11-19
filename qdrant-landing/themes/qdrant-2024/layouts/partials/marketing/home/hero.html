@@ -15,14 +15,15 @@
              data-metric-loc="hero">{{ .Params.learnMore.text }}</a>
         </div>
         {{ with .Params.agentPrompt }}
+          {{ $text := strings.TrimSpace (site.GetPage (printf "documentation/headless/prompts/%s" .prompt)).RawContent }}
           <div class="hero__agent">
             <p class="hero__agent-label" id="hero-agent-label">{{ .label }}</p>
             <div class="hero__agent-snippet">
-              <code class="hero__agent-text" aria-labelledby="hero-agent-label">{{ .text }}</code>
+              <code class="hero__agent-text" aria-labelledby="hero-agent-label">{{ $text }}</code>
               <button
                 type="button"
                 class="hero__agent-copy js-copy-text"
-                data-copy-text="{{ .text }}"
+                data-copy-text="{{ $text }}"
                 data-metric-loc="hero"
                 data-metric-label="Copy agent prompt"
                 aria-label="Copy the prompt"

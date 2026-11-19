@@ -15,6 +15,8 @@
       align-items: center;
       min-height: pxToRem(98);
       margin-bottom: 0;
+      font-size: $h6-font-size;
+      font-weight: $headings-font-weight;
       padding: math.div($spacer, 4) $spacer * 3 math.div($spacer, 4) 0;
       color: $neutral-20;
       line-height: 1.3;

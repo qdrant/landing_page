@@ -1,0 +1,21 @@
+{{ define "main" }}
+  {{ partial "marketing/lp-header" . }}
+
+  {{ partial "marketing/lp-indexing/hero" . }}
+
+  {{ partial "marketing/lp-indexing/hnsw-index" . }}
+
+  {{ partial "marketing/lp-indexing/payload-indexes" . }}
+
+  {{ partial "marketing/lp-indexing/llm-infrastructure" . }}
+
+  {{ partial "marketing/lp-indexing/results" . }}
+
+  {{ partial "marketing/lp-indexing/getting-started" . }}
+
+  {{ partial "marketing/lp-indexing/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-indexing/cta-banner") }}
+    {{ partial "marketing/cta-banner" . }}
+  {{ end }}
+{{ end }}

@@ -1,8 +1,14 @@
 <head>
+  {{/* Paid landing pages (sections lp-*) let visitors pinch-zoom: Lighthouse fails a viewport that
+       blocks it (meta-viewport, 2026-11-16). The rest of the site keeps its viewport until Mila reviews it. */}}
+  {{ if hasPrefix .Section "lp-" }}
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {{ else }}
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui"
   />
+  {{ end }}
   <meta charset="UTF-8" />
   {{ if partial "common/is-docs-part.html" . }}
     {{ partial "documentation/theme-init.html" . }}

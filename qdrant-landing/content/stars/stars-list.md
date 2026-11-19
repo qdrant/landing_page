@@ -51,16 +51,6 @@ cards:
     talks: 14
     posts: 27
     description: Data scientist and contributor to FastEmbed, Haystack, and Cheshire Cat A.I., powered by Qdrant. Active in open source since 2009, sharing insights through talks and tutorials.
-  - name: Astra Clelia Bertelli
-    image:
-      src: /img/stars-program/headshots/astra-clelia-bertelli.png
-      alt: Astra Clelia Bertelli Photo
-    position: Open Sourceress, LlamaIndex
-    tags: [llamaindex, bio, rag]
-    location: Austria
-    talks: 7
-    posts: 19
-    description: Foundation Engineer at Criad LTD and Bioinformatics Researcher at the Natural History Museum Vienna. Writes about AI, tech, the environment, and biology, using Qdrant for vector search.
   - name: Miguel Otero Pedrido
     image:
       src: /img/stars-program/headshots/miguel-otero-pedrido.png
@@ -181,5 +171,11 @@ cards:
       alt: Srimon Danguria Photo
     position: Independent AI Systems Builder
     description: Solo developer building AI infrastructure, governance tooling, MCP gateways, authentication systems, and local-first knowledge system. Open-source contributor exploring Qdrant's use cases across multiple domains.
+  - name: Hafedh Hichri
+    image:
+      src: /img/stars/hafedh-hichri.png
+      alt: Hafedh Hichri Photo
+    position: Software Engineer, Feyn
+    description: Hugging Face Fellow and Chonkie maintainer, passionate about open-source AI and RAG.
 sitemapExclude: true
 ---

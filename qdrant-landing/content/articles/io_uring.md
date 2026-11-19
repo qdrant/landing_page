@@ -145,8 +145,9 @@ storage:
 or `QDRANT__STORAGE__PERFORMANCE__ASYNC_SCORER=true`.
 
 You can return to the mmap based backend by either deleting the `async_scorer`
-entry or setting the value to `false`. On Qdrant Cloud, `async_scorer` is
-available under **Advanced Optimizations** in the cluster **Configuration** tab.
+entry or setting the value to `false`.
+
+On Qdrant Cloud versions before 1.20, `async_scorer` is available under **Advanced Optimizations** in the cluster **Configuration** tab. On managed Qdrant Cloud 1.20+, async I/O is enabled automatically, and `async_scorer` no longer has an effect.
 
 ## Benchmarks
 
