@@ -90,7 +90,7 @@ proj = client.projects.create(name="Gitlab Employee Assistant")
 
 For this case study, we'll be using the GitLab legal policies dataset, but you can easily swap in your own dataset. Datasets are critical in Relari’s approach to evaluating and improving [LLM applications](/rag/). The dataset serves as the "ground truth" or reference point for testing the accuracy and performance of an LLM pipeline. 
 
-Relari’s data-driven approach ensures that the evaluation is reliable and thorough. You can learn more about how Relari handles datasets [here](https://docs.relari.ai/getting-started/datasets/intro).
+Relari’s data-driven approach ensures that the evaluation is reliable and thorough. You can learn more about how Relari handles datasets [here](https://github.com/relari-ai/continuous-eval/blob/main/continuous_eval/eval/dataset.py).
 
 ```python
 !wget https://ceevaldata.blob.core.windows.net/examples/gitlab/gitlab_legal_policies.zip
@@ -279,7 +279,7 @@ base_prompt = Prompt(
 
 The prompt uses the variables`question` & `ground_truth_context`. These help measure how faithful the generated answer is to the ground truth context (i.e., it's not hallucinating).
 
-For more details on other metrics, visit the [Relari documentation site](https://docs.relari.ai/metrics/PromptOptimization/supported_metrics)
+For more evaluation metrics, see the [Continuous Eval metrics library](https://github.com/relari-ai/continuous-eval/tree/main/continuous_eval/metrics).
 
 #### Set up task id
 
@@ -296,7 +296,7 @@ task_id = client.prompts.optimize(
 print(f"Optimization task submitted with ID: {task_id}")
 ```
 
-The [CORRECTNESS](https://docs.relari.ai/metrics/Generation/Deterministic/correctness) metric measures how close the generated answer is the the ground truth reference answers.
+The CORRECTNESS metric compares the generated answer with the reference answers. See the [implementation in Continuous Eval](https://github.com/relari-ai/continuous-eval/blob/main/continuous_eval/metrics/generation/text/deterministic.py).
 
 ### Analyze Prompts
 

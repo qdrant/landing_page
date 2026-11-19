@@ -58,8 +58,6 @@ Qdrant Cloud serves as Sentinel's semantic memory core. Without Qdrant's ability
 
 ## Try Sentinel Yourself
 
-**Live Demo:** [sentinel-checker.lovable.app](https://sentinel-checker.lovable.app)
-
 **Demo Video:** [Watch the Walkthrough](https://vimeo.com/1179503292?fl=pl&fe=sh)
 
 **GitHub Repository:** [github.com/Ali-Aoun5/sentinel](https://github.com/Ali-Aoun5/sentinel)

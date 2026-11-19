@@ -36,7 +36,7 @@ In this article, we’ll break down a RAG Optimization workflow experiment that 
 
 Alongside Qdrant we will use Quotient, which provides a seamless way to evaluate your RAG implementation, accelerating and improving the experimentation process.
 
-[Quotient](https://www.quotientai.co/) is a platform that provides tooling for AI developers to build [evaluation frameworks](https://qdrant.tech/rag/rag-evaluation-guide/) and conduct experiments on their products. Evaluation is how teams surface the shortcomings of their applications and improve performance in key benchmarks such as faithfulness, and semantic similarity. Iteration is key to building innovative AI products that will deliver value to end users.
+[Quotient](https://github.com/quotientai/sdk-examples) is a platform that provides tooling for AI developers to build [evaluation frameworks](https://qdrant.tech/rag/rag-evaluation-guide/) and conduct experiments on their products. Evaluation is how teams surface the shortcomings of their applications and improve performance in key benchmarks such as faithfulness, and semantic similarity. Iteration is key to building innovative AI products that will deliver value to end users.
 
 > 💡 The [accompanying notebook](https://github.com/qdrant/qdrant-rag-eval/tree/master/workshop-rag-eval-qdrant-quotient) for this exercise can be found on GitHub for future reference.
 
@@ -216,7 +216,7 @@ def get_documents(collection_name, query, num_documents=3):
 
 ### Setting up Quotient
 
-You will need an account log in, which you can get by requesting access on [Quotient's website](https://www.quotientai.co/). Once you have an account, you can create an API key by running the `quotient authenticate` CLI command. 
+This example requires an existing Quotient account. Follow the [Quotient CLI instructions](https://github.com/quotientai/quotient-cli) to authenticate.
 
 <aside>
 💡 Be sure to save your API key, since it will only be displayed once (Note: you will not have to repeat this step again until your API key expires).

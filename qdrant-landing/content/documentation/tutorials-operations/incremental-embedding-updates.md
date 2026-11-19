@@ -267,7 +267,7 @@ step_6 = {
 
 # the migration page moved: same texts, new addresses
 moved = [
-    {**c, "url": "https://qdrant.tech/documentation/tutorials-operations/migration-guide/"}
+    {**c, "url": "https://qdrant.tech/documentation/tutorials-operations/embedding-model-migration/"}
     for c in CHUNKS
     if c["url"] == "https://qdrant.tech/documentation/tutorials-operations/migration/"
 ]

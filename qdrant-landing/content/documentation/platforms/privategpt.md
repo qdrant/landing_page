@@ -22,7 +22,7 @@ qdrant:
     api_key: "<your-api-key>"
 ```
 
-The available [configuration options](https://docs.privategpt.dev/manual/storage/vector-stores#qdrant-configuration) are:
+The available configuration options are:
 | Field        | Description |
 |--------------|-------------|
 | location     | If `:memory:` - use in-memory Qdrant instance.<br>If `str` - use it as a `url` parameter.|

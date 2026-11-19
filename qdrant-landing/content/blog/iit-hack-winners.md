@@ -51,7 +51,6 @@ Qdrant serves as the system’s persistent vector memory layer. It stores signal
 
 **Demo App:** [SignalWeave](https://signalweave.vercel.app/)
 
-**Repo:** [SignalWeave Repo](https://github.com/Yaser-123/signalweave)
 
 ### 📸 Project Showcase
 

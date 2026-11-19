@@ -62,7 +62,7 @@ Our inaugural Qdrant Stars are a diverse and talented lineup who have shown exce
   <div style="display: flex; align-items: center; margin-bottom: 20px;">
     <img src="/blog/qdrant-stars-announcement/ai-headshot-Nick-K.jpg" alt="Nick" style="width: 200px; height: 200px; object-fit: cover; object-position: center; margin-right: 20px; margin-top: 20px;">
     <div>
-      <p>Nick is a founder and product engineer at <a href="https://trieve.ai/">Trieve</a>  and has been using Qdrant since late 2022. He has a low level understanding of the Qdrant API, especially the Rust client, and knows a lot about how to make the most of Qdrant on an application level.</p>
+      <p>Nick is a founder and product engineer at <a href="https://github.com/devflowinc/trieve">Trieve</a>  and has been using Qdrant since late 2022. He has a low level understanding of the Qdrant API, especially the Rust client, and knows a lot about how to make the most of Qdrant on an application level.</p>
     </div>
   </div>
       <blockquote>
@@ -75,7 +75,7 @@ Our inaugural Qdrant Stars are a diverse and talented lineup who have shown exce
   <div style="display: flex; align-items: center; margin-bottom: 20px;">
     <img src="/blog/qdrant-stars-announcement/Prof-Owen-Colegrove.jpeg" alt="Owen Colegrove" style="width: 200px; height: 200px; object-fit: cover; object-position: center; margin-right: 20px; margin-top: 20px;">
     <div>
-      <p>Owen Colegrove is the Co-Founder of <a href="https://www.sciphi.ai/">SciPhi</a>, making it easy build, deploy, and scale RAG systems using Qdrant vector search technology. He has Ph.D. in Physics and was previously a Quantitative Strategist at Citadel and a Researcher at CERN.</p>
+      <p>Owen Colegrove is the Co-Founder of <a href="https://github.com/SciPhi-AI/R2R">SciPhi</a>, making it easy build, deploy, and scale RAG systems using Qdrant vector search technology. He has Ph.D. in Physics and was previously a Quantitative Strategist at Citadel and a Researcher at CERN.</p>
     </div>
   </div>
   <blockquote>

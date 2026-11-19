@@ -401,4 +401,4 @@ Start with diversity=0.5 and then adjust based on whether you want more explorat
 
 Try it with your own fashion dataset on [Qdrant Cloud's free tier](https://cloud.qdrant.io/).
 
-If you enjoyed this article, give me a follow on [LinkedIn](https://www.linkedin.com/in/thierrydamiba/) or [Twitter](https://twitter.com/thierrydamiba) to stay up to date with more guides involving vector search and retrieval optimization.
+If you enjoyed this article, give me a follow on [LinkedIn](https://www.linkedin.com/in/thierrydamiba/) to stay up to date with more guides involving vector search and retrieval optimization.

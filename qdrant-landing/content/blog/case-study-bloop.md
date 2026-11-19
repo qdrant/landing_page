@@ -15,7 +15,7 @@ aliases:
 partition: case-studies
 ---
 
-Founded in early 2021, [bloop](https://bloop.ai/) was one of the first companies to tackle semantic 
+Founded in early 2021, bloop was one of the first companies to tackle semantic
 search for codebases. A fast, reliable Vector Search Database is a core component of a semantic 
 search engine, and bloop surveyed the field of available solutions and even considered building 
 their own. They found Qdrant to be the top contender and now use it in production.
@@ -27,7 +27,7 @@ field and want to find out if Qdrant is a good solution for their use case.
 
 ![](/case-studies/bloop/screenshot.png)
 
-[bloop](https://bloop.ai/) is a fast code-search engine that combines semantic search, regex search 
+[bloop](https://github.com/BloopAI/bloop) is a fast code-search engine that combines semantic search, regex search
 and precise code navigation into a single lightweight desktop application that can be run locally. It 
 helps developers understand and navigate large codebases, enabling them to discover internal libraries, 
 reuse code and avoid dependency bloat. bloop’s chat interface explains complex concepts in simple 
@@ -92,7 +92,7 @@ requests.
 
 ## The Upshot
 
-[bloop](https://bloop.ai/) are really happy with how Qdrant has slotted into their semantic code search engine: 
+bloop are really happy with how Qdrant has slotted into their semantic code search engine:
 it’s performant and reliable, even for large codebases. And it’s written in Rust(!) with an easy to integrate 
 qdrant-client crate. In short, Qdrant has helped keep bloop’s code search fast, accurate and reliable.
 

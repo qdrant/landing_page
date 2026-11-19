@@ -6,7 +6,7 @@ description: "Integrate Vectorize.io with Qdrant to deploy real-time RAG pipelin
 
 # Vectorize.io
 
-[Vectorize](https://vectorize.io/) is a SaaS platform that automates data extraction from [several sources](https://docs.vectorize.io/integrations/source-connectors) and lets you quickly deploy real-time RAG pipelines for your unstructured data. It also includes evaluation to help figure out the best strategies for the RAG system.
+[Vectorize](https://vectorize.io/) is a SaaS platform that automates data extraction from [several sources](https://docs.vectorize.io/build-deploy/connect-your-data/) and lets you quickly deploy real-time RAG pipelines for your unstructured data. It also includes evaluation to help figure out the best strategies for the RAG system.
 
 Vectorize pipelines natively integrate with Qdrant by converting unstructured data into vector embeddings and storing them in a collection. When a pipeline is running, any new change in the source data is immediately processed, keeping the vector index up-to-date.
 
@@ -48,4 +48,3 @@ Your Vectorize pipeline powered by Qdrant should now be up and ready to be sched
 ## Further Reading
 
 - Vectorize [Documentation](https://docs.vectorize.io)
-- Vectorize [Tutorials](https://docs.vectorize.io/tutorials/).

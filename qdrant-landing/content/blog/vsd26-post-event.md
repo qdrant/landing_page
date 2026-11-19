@@ -103,7 +103,7 @@ Picking only three winners was genuinely hard. The submissions ranged from early
 
 * **1st Place: [MemoryAtlas](https://www.youtube.com/watch?v=0RzoS6exGZ8)** by Aritra Mazumder, which catches the early pattern of a mental health spiral and uses the Recommend API to retrieve proof from the user's own history that they have recovered before, storing each memory as six named vectors under one point ID.  
 * **2nd Place: [Crowd Whisperer](https://www.youtube.com/watch?v=VERtvTuRuYs)** by Latent DJs, which simulates how hundreds of distinct musical personas react to a set in real time and shows whether the room is converging or polarizing around the music.  
-* **3rd Place: [Synthara](https://www.youtube.com/watch?v=02au1NLX3-I)** by Mohammed Roqa, a memory-driven role-playing game where every choice becomes a vector embedding, forming a searchable "soul history" that NPCs reference across play sessions.
+* **3rd Place: [Synthara](/blog/vector-space-hackathon-winners-2026/#3rd-place-synthara-mohammed-roqa)** by Mohammed Roqa, a memory-driven role-playing game where every choice becomes a vector embedding, forming a searchable "soul history" that NPCs reference across play sessions.
 
 Our honorable mentions were DejaPlay, Cardinal, Sprouty, Afterimage, and Black Swan. You can read the full breakdown of these projects in the [Vector Space Hackathon 2026 winners blog](https://qdrant.tech/blog/vector-space-hackathon-winners-2026/).
 

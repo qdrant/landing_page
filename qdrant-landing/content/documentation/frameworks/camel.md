@@ -94,9 +94,9 @@ retrieved_info = ar.run_vector_retriever(
 print(retrieved_info)
 ```
 
-You can refer to the Camel [documentation](https://docs.camel-ai.org/index.html) for more information about the retrieval mechanisms.
+You can refer to the Camel [documentation](https://docs.camel-ai.org/get_started/introduction) for more information about the retrieval mechanisms.
 
 ## End-To-End Examples
 
-- [Camel RAG Cookbook](https://docs.camel-ai.org/cookbooks/agents_with_rag.html)
-- [Customer Service Discord Bot with Agentic RAG](https://docs.camel-ai.org/cookbooks/customer_service_Discord_bot_with_agentic_RAG.html)
+- [Camel RAG Cookbook](https://docs.camel-ai.org/cookbooks/advanced_features/agents_with_rag)
+- [Customer Service Discord Bot with Agentic RAG](https://docs.camel-ai.org/cookbooks/applications/customer_service_Discord_bot_with_agentic_RAG)

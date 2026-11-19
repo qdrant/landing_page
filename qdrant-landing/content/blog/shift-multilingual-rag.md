@@ -99,7 +99,7 @@ We wanted a setup that resembles a real collection and check it first under exac
 
 > XRAG ships no language labels, which the shift needs in order to pick an offset per language, so we tagged documents with a simple language detector (about 74% accurate overall, reliable for Arabic and Chinese, noisier on German and Spanish)
 
-**The sensibility check.** We also ran [Multi-EuP](https://huggingface.co/datasets/MultiEuP) (parliamentary debate passages) and [XQuAD](https://huggingface.co/datasets/google/xquad) (question-answer paragraphs) on their English/German/Spanish slices as a sanity check, to see whether the paper's result replicates on our small model.
+**The sensibility check.** We also ran [Multi-EuP](https://huggingface.co/datasets/unimelb-nlp/Multi-EuP) (parliamentary debate passages) and [XQuAD](https://huggingface.co/datasets/google/xquad) (question-answer paragraphs) on their English/German/Spanish slices as a sanity check, to see whether the paper's result replicates on our small model.
 
 **The metric.** Recall@10, split three ways: **overall** (all relevant answers), **same-language** (only answers in the query's language), and **cross-language** (only answers in other languages). Same- and cross-language recall are macro-averaged across query languages.  
 We chose @10 over the paper's @20 deliberately: in production RAG, the fewer chunks you feed the model, the less you distract it.

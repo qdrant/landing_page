@@ -13,7 +13,7 @@ aliases: [ ../integrations/cheshire-cat/ ]
 
 ## Cheshire Cat and Qdrant
 
-Cheshire Cat uses Qdrant as the default [Vector Memory](https://cheshire-cat-ai.github.io/docs/faq/llm-concepts/vector-memory/) for ingesting and retrieving documents.
+Cheshire Cat uses Qdrant as the default [vector memory](https://cheshire-cat-ai.github.io/docs/1/faq/llm-concepts/vector-memory/) for ingesting and retrieving documents.
 
 ```
 # Decide host and port for your Cat. Default will be localhost:1865

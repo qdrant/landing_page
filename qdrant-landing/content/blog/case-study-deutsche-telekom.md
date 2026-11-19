@@ -19,7 +19,7 @@ partition: case-studies
 
 ![Deutsche Telekom's AI Competence Center team leading the LMOS platform development](/blog/case-study-deutsche-telekom/dtag-team.jpg)
 
-[Arun Joseph](https://www.linkedin.com/in/arun-joseph-ab47102a/), who leads engineering and architecture for [Deutsche Telekom's AI Competence Center (AICC)](https://www.telekom.com/en/company/digital-responsibility/details/artificial-intelligence-at-deutsche-telekom-1055154), faced a critical challenge: how do you efficiently and scalably deploy AI-powered assistants across a vast enterprise ecosystem? The goal was to deploy GenAI for customer sales and service operations to resolve customer queries faster across the 10 countries where Deutsche Telekom operates in Europe. 
+[Arun Joseph](https://www.linkedin.com/in/arun-joseph-ab47102a/), who leads engineering and architecture for [Deutsche Telekom's AI Competence Center (AICC)](https://www.telekom.com/en/newsroom/topic-hubs/technology-and-innovation/ai/shape-take-responsibility-act-ai-at-telekom), faced a critical challenge: how do you efficiently and scalably deploy AI-powered assistants across a vast enterprise ecosystem? The goal was to deploy GenAI for customer sales and service operations to resolve customer queries faster across the 10 countries where Deutsche Telekom operates in Europe.
 
 To achieve this, Telekom developed [*Frag Magenta OneBOT*](https://www.telekom.de/hilfe/frag-magenta?samChecked=true) *(Eng: Ask Magenta)*, a platform that includes chatbots and voice bots, built as a Platform as a Service (PaaS) to ensure scalability across Deutsche Telekom's ten European subsidiaries.
 

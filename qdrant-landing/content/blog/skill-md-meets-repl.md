@@ -28,7 +28,7 @@ Most agent failures trace back to one of these. Mintlify's SKILL.md approach add
 
 ## What SKILL.md Gives You
 
-[SKILL.md](https://github.com/AgenticSkills/skills) is an emerging open standard for shipping knowledge to agents before they write code. The idea has roots in the [Cloudflare RFC](https://blog.cloudflare.com/ai-agents-open-standard), the [agentskills proposal](https://agentskills.org), and Vercel's skills CLI. [Mintlify's blog post](https://mintlify.com/blog/skill-md) by [Michael Ryaboy](https://www.linkedin.com/in/michael-ryaboy-software-engineer) showed how to apply it in practice. Decision tables for component selection, explicit gotchas sections, and auto-generating skill files from existing docs. A SKILL.md isn't documentation. It's a briefing. Decision tables, not tutorials. Gotchas, not explanations.
+[SKILL.md](https://agentskills.io/specification) is an emerging open standard for shipping knowledge to agents before they write code. The idea has roots in the [Cloudflare RFC](https://github.com/cloudflare/agent-skills-discovery-rfc) and Vercel's skills CLI. [Mintlify's blog post](https://mintlify.com/blog/skill-md) by [Michael Ryaboy](https://www.linkedin.com/in/michael-ryaboy-software-engineer) showed how to apply it in practice. Decision tables for component selection, explicit gotchas sections, and auto-generating skill files from existing docs. A SKILL.md isn't documentation. It's a briefing. Decision tables, not tutorials. Gotchas, not explanations.
 
 For Qdrant, a SKILL.md might include:
 
@@ -74,7 +74,7 @@ This prevents the agent from using `client.search()` (deprecated), creating a co
 
 ## What REPL-First MCP Gives You
 
-[Armin Ronacher](https://lucumr.pocoo.org/), creator of Flask and now building [Earendil](https://earendil.dev/), proposed a [different approach](https://lucumr.pocoo.org/2025/1/22/what-i-want-for-ai-tools/). Instead of 30 narrow MCP tools, give the agent a Python shell with the SDK pre-configured:
+[Armin Ronacher](https://lucumr.pocoo.org/), creator of Flask and now building [Earendil](https://earendil.com/), proposed a [different approach](https://lucumr.pocoo.org/2025/8/18/code-mcps/). Instead of 30 narrow MCP tools, give the agent a Python shell with the SDK pre-configured:
 
 ```python
 # Agent can just run this
@@ -169,14 +169,10 @@ The goal isn't perfect agents. The goal is agents that fail for interesting reas
 
 ## Try It
 
-The [Qdrant Python skill](https://github.com/qdrant/skills/tree/main/skills/qdrant-python) is just 94 lines, and there's also a [Rust skill](https://github.com/qdrant/skills/tree/main/skills/qdrant-rust) for the gRPC client. Both are minimal, adaptable examples for your own setup. The repo also includes the `AGENTS.md` format alongside `SKILL.md` for flexible configuration.
-
-Drop it into your project:
+Install the [Qdrant Advisor](https://skills.qdrant.tech/meta/qdrant-advisor/SKILL.md) to let your coding agent load the relevant Qdrant skills as it works.
 
 ```bash
-mkdir -p .claude/skills/qdrant
-curl -o .claude/skills/qdrant/SKILL.md \
-  https://raw.githubusercontent.com/qdrant/skills/main/skills/qdrant-python/SKILL.md
+npx skills add qdrant/skills/meta/qdrant-advisor
 ```
 
 For the REPL side, configure the [Qdrant MCP server with REPL](https://github.com/thierrypdamiba/mcp-server-qdrant-repl). It's a fork of the official [Qdrant MCP server](https://github.com/qdrant/mcp-server-qdrant) that adds a `qdrant-repl` tool giving agents a stateful Python shell with a pre-configured `QdrantClient`. For docs lookup, [mcp-code-snippets](https://github.com/qdrant/mcp-code-snippets) gives agents semantic search over Qdrant documentation and code examples. The REPL fork layers exploratory access on top. The agent gets the briefing, the docs, and the toolkit.

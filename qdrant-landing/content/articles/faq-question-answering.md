@@ -121,7 +121,7 @@ This class makes model's building process fast and convenient.
 
 `TrainableModel` is a wrapper around [pytorch_lightning.LightningModule](https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_module.html). 
 
-[Lightning](https://www.pytorchlightning.ai/) handles all the training process complexities, like training loop, device managing, etc. and saves user from a necessity to implement all this routine manually.
+[Lightning](https://lightning.ai/docs/pytorch/stable/) handles all the training process complexities, like training loop, device managing, etc. and saves user from a necessity to implement all this routine manually.
 Also Lightning's modularity is worth to be mentioned. 
 It improves separation of responsibilities, makes code more readable, robust and easy to write.
 All these features make Pytorch Lightning a perfect training backend for Quaterion.

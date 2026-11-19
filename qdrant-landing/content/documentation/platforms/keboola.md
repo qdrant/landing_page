@@ -44,4 +44,3 @@ A common use case is to build a RAG (Retrieval Augmented Generation) system wher
 
 - [Keboola Documentation](https://help.keboola.com/)
 - [Keboola Academy](https://academy.keboola.com/)
-- [Data Operations with Keboola](https://www.keboola.com/blog/data-operations)

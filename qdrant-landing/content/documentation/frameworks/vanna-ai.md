@@ -20,7 +20,7 @@ pip install 'vanna[qdrant]'
 
 ## Setup
 
-You can set up a Vanna agent using Qdrant as your vector store and any of the [LLMs supported by Vanna](https://vanna.ai/docs/postgres-openai-vanna-vannadb/).
+Follow the [Vanna example with Qdrant](https://try.vanna.ai/docs/duckdb-other-llm-qdrant/index.html) to see how to connect a vector store and LLM.
 
 We'll use OpenAI for demonstration.
 
@@ -43,7 +43,7 @@ vn = MyVanna(config={
 
 ## Usage
 
-Once a Vanna agent is instantiated, you can connect it to [any SQL database](https://vanna.ai/docs/FAQ/#can-i-use-this-with-my-sql-database) of your choosing.
+Once a Vanna agent is instantiated, you can connect it to [any SQL database](https://try.vanna.ai/docs/FAQ/#can-i-use-this-with-my-sql-database) of your choosing.
 
 For example, Postgres.
 
@@ -79,6 +79,6 @@ vn.ask(question="<YOUR_QUESTION>")
 
 ## Further reading
 
-- [Getting started with Vanna.AI](https://vanna.ai/docs/app/)
+- [Getting started with Vanna.AI](https://try.vanna.ai/docs/app/)
 - [Vanna.AI documentation](https://vanna.ai/docs/)
 - [Source Code](https://github.com/vanna-ai/vanna/tree/main/src/vanna/integrations/qdrant)

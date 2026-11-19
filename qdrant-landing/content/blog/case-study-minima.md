@@ -71,7 +71,7 @@ Qdrant's p95 query time was 43.2 milliseconds, less than 0.3% of the 20.8-second
 
 ## How Minima Accelerated Every Model Call
 
-Minima stored Qwen3.6-27B weights in NVFP4 W4A4 and ran them with native Blackwell kernels. Recent and anchor KV stayed in FP8. Stale pages moved to the 3-bit TQ3 tier. Minima disabled Qdrant vector [quantization](https://qdrant.tech/documentation/guides/quantization/) so the retrieval and LLM inference effects stayed separate.
+Minima stored Qwen3.6-27B weights in NVFP4 W4A4 and ran them with native Blackwell kernels. Recent and anchor KV stayed in FP8. Stale pages moved to the 3-bit TQ3 tier. Minima disabled Qdrant vector [quantization](/documentation/manage-data/quantization/) so the retrieval and LLM inference effects stayed separate.
 
 | Metric | BF16 Reference | Minima | Result |
 |---|:---:|:---:|:---:|

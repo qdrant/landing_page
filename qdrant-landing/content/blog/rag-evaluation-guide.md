@@ -157,7 +157,7 @@ Evaluating LLMs involves several key metrics and methods. You can use these metr
 | [HELM](https://github.com/stanford-crfm/helm) | A framework to evaluate LLMs, focusing on 12 different aspects that are important in real-world model deployments. |
 | Diversity | Assesses the variety and uniqueness of responses, with higher scores indicating more diverse outputs. |
 
-Many LLM evaluation frameworks offer flexibility to accommodate domain-specific or custom evaluations, addressing the key RAG metrics for your use case. These frameworks utilize either LLM-as-a-Judge or the [OpenAI Moderation API](https://platform.openai.com/docs/guides/moderation/overview) to ensure the moderation of responses from your AI applications.
+Many LLM evaluation frameworks offer flexibility to accommodate domain-specific or custom evaluations, addressing the key RAG metrics for your use case. These frameworks utilize either LLM-as-a-Judge or the [OpenAI Moderation API](https://developers.openai.com/api/docs/guides/moderation) to ensure the moderation of responses from your AI applications.
 
 ## Working with custom datasets
 

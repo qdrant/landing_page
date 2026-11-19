@@ -34,7 +34,7 @@ Legal applications often operate in a high-stakes environment where false positi
 
 When your dataset contains millions (or billions) of legal vectors, every unnecessary comparison wastes time and compute. Pre-filtering cuts through the noise by narrowing the search space before retrieval even begins.
 
-[Filterable HNSW](https://qdrant.tech/documentation/search-design/vector-search-filtering/) indexing improves speed, precision, and cost efficiency by applying filters before the search. It maintains speed advantages of vector search while allowing for precise filtering, addressing the inefficiencies that can occur when applying filters after the vector search. The [Garden Intel case study](https://qdrant.tech/case-studies/) exemplifies how its used in practice for a LegalTech use case.
+[Filterable HNSW](https://qdrant.tech/documentation/search-design/vector-search-filtering/) indexing improves speed, precision, and cost efficiency by applying filters before the search. It maintains speed advantages of vector search while allowing for precise filtering, addressing the inefficiencies that can occur when applying filters after the vector search. The [Garden Intel case study](/blog/case-study-garden-intel/) exemplifies how its used in practice for a LegalTech use case.
 
 ![pre-filtering vectors](/blog/legal-tech-builders-guide/filterable-hnsw.png)
 
