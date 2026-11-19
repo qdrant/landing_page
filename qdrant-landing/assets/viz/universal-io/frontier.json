@@ -1,0 +1,34 @@
+{
+  "title": "Throughput against latency, one dot per configuration",
+  "kind": "scatter",
+  "x": "ms",
+  "xHigh": "p99",
+  "y": "mb",
+  "xScale": "log",
+  "yScale": "log",
+  "xLabel": "latency per read, ms (log scale). Dot is p50, whisker runs to p99",
+  "yLabel": "throughput, MB/s (log scale)",
+  "series": "backend",
+  "pointLabel": "setting",
+  "place": "place",
+  "seriesNameAt": 1,
+  "seriesNamePlace": "down",
+  "frontier": "frontier",
+  "height": 380,
+  "views": [
+    {
+      "label": "Random",
+      "subtitle": "4 KiB random reads. Up and left is better",
+      "where": { "pattern": "random" },
+      "xDomain": [0.5, 320],
+      "yDomain": [0.1, 120]
+    },
+    {
+      "label": "Sequential",
+      "subtitle": "4 KiB sequential reads. Hollow dots read faster than the axis can show",
+      "where": { "pattern": "sequential" },
+      "xDomain": [0.0004, 20],
+      "yDomain": [80, 400]
+    }
+  ]
+}

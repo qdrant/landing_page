@@ -1,0 +1,30 @@
+pattern,backend,setting,place,stub,ms,p99,mb
+random,mmap,depth 1,left,,0.7327,0.9724,5.61
+random,io_uring,depth 1,left,,0.7829,1.0537,5.26
+random,io_uring,depth 2,,,0.7009,0.9883,11.52
+random,io_uring,depth 4,,,0.7573,1.0495,21.64
+random,io_uring,depth 8,,,0.6762,0.8998,48.85
+random,io_uring,depth 16,up,,0.9932,1.3335,66.60
+random,io_uring,depth 32,,,0.9932,1.3283,66.66
+random,S3,depth 1,left,,25.8543,76.3895,0.15
+random,S3,depth 2,,,25.8744,154.0202,0.26
+random,S3,depth 4,,,25.5165,148.2847,0.52
+random,S3,depth 8,,,26.4198,122.0606,1.02
+random,S3,depth 16,left,,26.0916,138.7180,2.01
+random,S3,depth 32,,,26.0920,233.0656,3.86
+random,S3,depth 64,,,26.3777,148.3643,7.84
+random,S3,depth 128,,,25.7934,153.7595,16.40
+random,S3,depth 256,up,,25.5972,110.9210,34.29
+random,fio (raw device),depth 1,,,0.7168,0.9462,5.46
+random,fio (raw device),depth 2,,,0.7168,0.9953,10.92
+random,fio (raw device),depth 4,,,0.6676,0.9216,23.30
+random,fio (raw device),depth 8,,,0.6840,0.9871,45.68
+random,fio (raw device),depth 16,,,0.9544,1.3353,68.26
+random,fio (raw device),depth 32,,,1.9907,2.3429,65.21
+random,fio (raw device),depth 64,down,,3.9485,4.4237,65.19
+sequential,mmap,batch 1,up,1,0.0005,0.7994,253.84
+sequential,mmap,batch 16,,,0.7829,1.2735,125.82
+sequential,mmap,batch 256,down,,4.7989,9.0980,125.98
+sequential,io_uring,batch 1,left,1,0.0008,0.8545,246.03
+sequential,io_uring,batch 16,,,0.0232,1.1155,248.41
+sequential,io_uring,batch 256,up,,2.3767,4.6217,247.74
