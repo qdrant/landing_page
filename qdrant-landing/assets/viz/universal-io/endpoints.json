@@ -3,10 +3,10 @@
   "kind": "columns-2panel",
   "horizontal": true,
   "width": 700,
-  "height": 340,
+  "height": 385,
   "labelTop": "backend",
   "labelBottom": "setting",
-  "colors": [0, 0, 1, 1, 2, 2],
+  "colors": [0, 0, 1, 1, 2, 2, 2],
   "views": [
     {
       "label": "Throughput",
