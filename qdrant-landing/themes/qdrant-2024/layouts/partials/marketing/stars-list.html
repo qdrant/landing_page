@@ -1,11 +1,12 @@
 {{ $icons := "/img/stars-program/icons/" }}
 {{ with (.Site.GetPage "/stars/stars-list") }}
   {{ $pageSize := .Params.pageSize | default 8 }}
+  {{ $count := len .Params.cards }}
   <section class="stars-list" data-stars-list data-page-size="{{ $pageSize }}">
     <div class="container">
       <div class="stars-list__header">
         <h2 class="stars-list__title">{{ .Title }}</h2>
-        {{ with .Params.subtitle }}<p class="stars-list__subtitle">{{ . }}</p>{{ end }}
+        {{ with .Params.subtitle }}<p class="stars-list__subtitle">{{ replace . "{count}" (string $count) }}</p>{{ end }}
       </div>
 
       <ul class="stars-list__grid">
@@ -25,7 +26,8 @@
                 <span class="stars-list__badge" role="img" aria-label="Distinguished"></span>
               {{ end }}
             </div>
-            <div class="stars-list__info">
+            {{ $hasDetails := or .tags .location .talks .posts }}
+            <div class="stars-list__info{{ if $hasDetails }} stars-list__info_divided{{ end }}">
               <h3 class="stars-list__name">{{ .name }}</h3>
               <p class="stars-list__position">{{ .position }}</p>
             </div>

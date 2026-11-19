@@ -11,13 +11,15 @@
 {{ end -}}
 {{ with .Params.secondaryButton }}- [{{ .text }}]({{ .url }})
 {{ end }}
-{{ range .Params.stats }}- {{ .label }}: {{ .value }}
-{{ end -}}
+{{ $count := len (site.GetPage "/stars/stars-list").Params.cards -}}
+{{ range .Params.stats }}{{ $value := replace (string (.value | default "")) "{count}" (string $count) }}{{ if $value }}- {{ .label }}: {{ $value }}
+{{ end }}{{ end -}}
 {{ end }}
 {{ with site.GetPage "/stars/stars-list" -}}
+{{ $count := len .Params.cards -}}
 ## {{ .Title }}
 
-{{ with .Params.subtitle }}{{ . }}
+{{ with .Params.subtitle }}{{ replace . "{count}" (string $count) }}
 {{ end }}
 {{ range .Params.cards -}}
 ### {{ .name }}{{ if .distinguished }} (Distinguished Ambassador){{ end }}

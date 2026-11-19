@@ -91,8 +91,13 @@
 
   &__info {
     flex: 1 0 auto;
-    padding-bottom: pxToRem(16);
-    border-bottom: 0.5px solid $neutral-30;
+
+    // The divider separates the name from tags, location, and counts, so it only
+    // appears on cards that have any of them.
+    &_divided {
+      padding-bottom: pxToRem(16);
+      border-bottom: 0.5px solid $neutral-30;
+    }
   }
 
   &__name {
