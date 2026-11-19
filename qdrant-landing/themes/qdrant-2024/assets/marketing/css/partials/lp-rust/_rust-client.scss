@@ -1,0 +1,17 @@
+@use '../../helpers/functions' as *;
+
+.lp-rust-rust-client {
+  @include lp-rust-band(true);
+  background:
+    radial-gradient(60% 45% at 50% 100%, rgba(97, 67, 224, 0.55) 0%, rgba(67, 37, 174, 0.25) 45%, rgba(67, 37, 174, 0) 75%),
+    $neutral-10;
+  @include lp-rust-header('lp-rust-rust-client', true, true);
+  @include lp-rust-cell('lp-rust-rust-client');
+  @include lp-rust-single('lp-rust-rust-client');
+  @include lp-rust-callout('lp-rust-rust-client', $secondary-violet-50, rgba($neutral-98, 0.06), $neutral-80);
+  &__label { color: $neutral-70; }
+}
+
+.lp-rust-rust-client__header { display: block; text-align: left; }
+.lp-rust-rust-client__heading, .lp-rust-rust-client__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
+.lp-rust-rust-client__description { margin-top: $spacer; }

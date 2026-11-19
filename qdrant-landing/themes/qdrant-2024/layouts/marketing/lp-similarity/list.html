@@ -1,0 +1,21 @@
+{{ define "main" }}
+  {{ partial "marketing/lp-header" . }}
+
+  {{ partial "marketing/lp-similarity/hero" . }}
+
+  {{ partial "marketing/lp-similarity/approximate-nearest-neighbor" . }}
+
+  {{ partial "marketing/lp-similarity/similarity-search" . }}
+
+  {{ partial "marketing/lp-similarity/vector-similarity-search" . }}
+
+  {{ partial "marketing/lp-similarity/results" . }}
+
+  {{ partial "marketing/lp-similarity/getting-started" . }}
+
+  {{ partial "marketing/lp-similarity/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-similarity/cta-banner") }}
+    {{ partial "marketing/cta-banner" . }}
+  {{ end }}
+{{ end }}

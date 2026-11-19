@@ -1,0 +1,8 @@
+{{ with (.Site.GetPage "/lp-rust/faq") }}
+  <section class="lp-rust-faq">
+    <div class="container">
+      <h2 class="lp-rust-faq__title">{{ .Params.title }}</h2>
+      {{ partial "marketing/accordion" . }}
+    </div>
+  </section>
+{{ end }}

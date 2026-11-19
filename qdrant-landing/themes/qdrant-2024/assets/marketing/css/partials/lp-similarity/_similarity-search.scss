@@ -1,0 +1,17 @@
+@use '../../helpers/functions' as *;
+
+.lp-similarity-similarity-search {
+  @include lp-similarity-band(true);
+  background:
+    radial-gradient(60% 45% at 50% 100%, rgba(97, 67, 224, 0.55) 0%, rgba(67, 37, 174, 0.25) 45%, rgba(67, 37, 174, 0) 75%),
+    $neutral-10;
+  @include lp-similarity-header('lp-similarity-similarity-search', true, true);
+  @include lp-similarity-cell('lp-similarity-similarity-search');
+  @include lp-similarity-single('lp-similarity-similarity-search');
+  @include lp-similarity-callout('lp-similarity-similarity-search', $secondary-violet-50, rgba($neutral-98, 0.06), $neutral-80);
+  &__label { color: $neutral-70; }
+}
+
+.lp-similarity-similarity-search__header { display: block; text-align: left; }
+.lp-similarity-similarity-search__heading, .lp-similarity-similarity-search__description { max-width: none; margin-left: 0; margin-right: 0; }   // full width, like the cards below
+.lp-similarity-similarity-search__description { margin-top: $spacer; }

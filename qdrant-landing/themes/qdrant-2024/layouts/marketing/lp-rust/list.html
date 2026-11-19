@@ -1,0 +1,21 @@
+{{ define "main" }}
+  {{ partial "marketing/lp-header" . }}
+
+  {{ partial "marketing/lp-rust/hero" . }}
+
+  {{ partial "marketing/lp-rust/written-in-rust" . }}
+
+  {{ partial "marketing/lp-rust/rust-client" . }}
+
+  {{ partial "marketing/lp-rust/deployment" . }}
+
+  {{ partial "marketing/lp-rust/results" . }}
+
+  {{ partial "marketing/lp-rust/getting-started" . }}
+
+  {{ partial "marketing/lp-rust/faq" . }}
+
+  {{ with (.Site.GetPage "/lp-rust/cta-banner") }}
+    {{ partial "marketing/cta-banner" . }}
+  {{ end }}
+{{ end }}
