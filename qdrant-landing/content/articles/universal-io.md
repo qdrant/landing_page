@@ -219,15 +219,17 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 {{< chart id="universal-io/frontier" caption="One dot per configuration, 4 KiB reads on a gp3 volume provisioned to 16,000 IOPS, page cache dropped before each run. Up and left is better. The dashed staircase marks the frontier, the settings nothing else beats on both measures." caption2="The same reads in order. Readahead gets there first, so concurrency stops buying anything." >}}
 
-`io_uring` turns concurrency into throughput. Each doubling of the batch doubles it, from 7.16 MB/s at batch 1 to 87.36 MB/s at batch 16. Latency rises 7% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 delivers 68.48 MB/s, less than batch 16 does, and waits 14.9 ms per read against 0.61 ms.
+These figures count a read from the moment the caller asks for the batch, so a read that waited for a free slot carries that wait.
 
-`mmap` runs one read at a time whatever you ask for. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency. Throughput sits at 7.15 MB/s whatever the batch. Latency grows instead, from 0.57 ms per read at batch 1 to 146 ms at batch 512.
+`io_uring` turns concurrency into throughput. Each doubling of the batch doubles it, from 7.16 MB/s at batch 1 to 87.36 MB/s at batch 16. The wait rises 7% over that range. Past 16 the ring is full and the extra reads only queue. Batch 512 delivers 68.48 MB/s, less than batch 16 does, and waits 14.9 ms per read against 0.61 ms.
+
+`mmap` runs one read at a time whatever you ask for. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency. Throughput sits at 7.15 MB/s whatever the batch. The wait grows instead, from 0.57 ms at batch 1 to 146 ms at batch 512. At that batch the middle read sits behind 255 others.
 
 Concurrency can only buy what the disk has left to give. The same sweep on a gp3 volume at the 3,000 IOPS baseline turns batch 1 into batch 16 for 1.8 times the throughput, not 12, because one thread reading on its own already takes more than half of what that volume can serve.
 
-S3 turns concurrency into throughput, but never into lower latency. One read takes about 26 ms at any batch the 256-slot pipeline holds at once, and 42.25 ms at batch 512, where the extra reads queue for a slot. Throughput climbs from 0.13 MB/s at batch 1 to 9.53 MB/s at batch 512. Those figures are per `read_batch` call, where the caller waits for the whole batch. Keep the pipeline fed instead and the same box reads at 35.93 MB/s, with 228 of its 256 slots busy at once.
+S3 turns concurrency into throughput, but never into a faster read. A read waits about 26 ms at any batch the 256-slot pipeline holds at once. At batch 512 the extra reads sit behind a slot and the figure reaches 42.25 ms. Throughput climbs from 0.13 MB/s at batch 1 to 9.53 MB/s at batch 512. Those figures are per `read_batch` call, where the caller waits for the whole batch. Keep the pipeline fed instead and the same box reads at 35.93 MB/s, with 228 of its 256 slots busy at once.
 
-{{< chart id="universal-io/endpoints" caption="One read at a time against deeper batches." caption2="By median latency. mmap pays 8x the latency for throughput it never gets. S3 holds about 26 ms whether the batch is 1 or 16." caption3="And by tail latency. io_uring batch 16 is 0.80 ms at p99, the same as batch 1, so the throughput is free at the tail." >}}
+{{< chart id="universal-io/endpoints" caption="One read at a time against deeper batches." caption2="By median wait. mmap pays 8x the wait for throughput it never gets. S3 holds about 26 ms whether the batch is 1 or 16." caption3="And by the tail. io_uring batch 16 is 0.80 ms at p99, the same as batch 1, so the throughput is free at the tail." >}}
 
 Read in order and concurrency stops mattering. Opened with `MADV_SEQUENTIAL`, `io_uring` held about 247 MB/s at batch 1, 16 and 256 alike, against 7.16 MB/s in random order. The kernel reads ahead, so most reads never reach the disk and there is nothing left for the ring to overlap.
 
