@@ -1,13 +1,19 @@
-pattern,backend,setting,place,ms,mb
-random,mmap,batch 1,,0.5729,7.15
-random,mmap,batch 16,,4.8680,7.13
-random,mmap,batch 64,,18.6044,7.16
-random,mmap,batch 512,up,146.4065,7.15
-random,io_uring,batch 1,left,0.5716,7.16
-random,io_uring,batch 16,up,0.6126,87.36
-random,io_uring,batch 64,,1.7844,74.35
-random,io_uring,batch 512,down,14.9229,68.48
-random,S3,1 reader,left,23.94,0.167
-random,S3,8 readers,,23.98,1.029
-random,S3,32 readers,,23.11,4.721
-random,S3,128 readers,up,24.06,11.323
+pattern,backend,setting,place,stub,ms,mb
+random,mmap,batch 1,,,0.5729,7.15
+random,mmap,batch 16,,,4.8680,7.13
+random,mmap,batch 64,,,18.6044,7.16
+random,mmap,batch 512,up,,146.4065,7.15
+random,io_uring,batch 1,left,,0.5716,7.16
+random,io_uring,batch 16,up,,0.6126,87.36
+random,io_uring,batch 64,,,1.7844,74.35
+random,io_uring,batch 512,down,,14.9229,68.48
+random,S3,batch 1,left,,24.0181,0.16
+random,S3,batch 16,,,23.7600,1.60
+random,S3,batch 64,,,23.8700,3.58
+random,S3,batch 256,up,,24.1700,8.83
+sequential,mmap,batch 1,up,1,0.0005,253.84
+sequential,mmap,batch 16,,,0.7829,125.82
+sequential,mmap,batch 256,down,,4.7989,125.98
+sequential,io_uring,batch 1,left,1,0.0008,246.03
+sequential,io_uring,batch 16,,,0.0232,248.41
+sequential,io_uring,batch 256,up,,2.3767,247.74

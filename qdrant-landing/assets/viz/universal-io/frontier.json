@@ -1,13 +1,10 @@
 {
   "title": "Throughput against latency, one dot per configuration",
-  "subtitle": "4 KiB random reads. Up and left is better",
   "kind": "scatter",
   "x": "ms",
   "y": "mb",
   "xScale": "log",
   "yScale": "log",
-  "xDomain": [0.35, 320],
-  "yDomain": [0.1, 200],
   "xLabel": "p50 latency per read, ms (log scale)",
   "yLabel": "throughput, MB/s (log scale)",
   "series": "backend",
@@ -16,5 +13,21 @@
   "seriesNameAt": 1,
   "seriesNamePlace": "down",
   "frontier": "frontier",
-  "height": 380
+  "height": 380,
+  "views": [
+    {
+      "label": "Random",
+      "subtitle": "4 KiB random reads. Up and left is better",
+      "where": { "pattern": "random" },
+      "xDomain": [0.35, 320],
+      "yDomain": [0.1, 200]
+    },
+    {
+      "label": "Sequential",
+      "subtitle": "4 KiB sequential reads. Hollow dots read faster than the axis can show",
+      "where": { "pattern": "sequential" },
+      "xDomain": [0.0004, 20],
+      "yDomain": [80, 400]
+    }
+  ]
 }
