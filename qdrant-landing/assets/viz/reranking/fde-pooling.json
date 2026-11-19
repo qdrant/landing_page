@@ -1,0 +1,49 @@
+{
+  "title": "Share of the exact MaxSim top 10 found within each depth",
+  "kind": "lines-facet",
+  "facet": "dataset",
+  "facetLabel": "{}",
+  "x": "depth",
+  "xLabel": "candidates retrieved (depth)",
+  "xSuffix": "",
+  "yLabel": "% of exact top 10",
+  "yScale": "linear",
+  "yDomain": [
+    0,
+    100
+  ],
+  "yTicks": {
+    "NFCorpus": [
+      0,
+      25,
+      50,
+      75,
+      100
+    ],
+    "SciFact": [
+      0,
+      25,
+      50,
+      75,
+      100
+    ],
+    "SCIDOCS": [
+      0,
+      25,
+      50,
+      75,
+      100
+    ]
+  },
+  "series": [
+    "fde",
+    "mean_pooling"
+  ],
+  "seriesLabels": [
+    "MUVERA FDE",
+    "mean pooling"
+  ],
+  "unit": "%",
+  "height": 340,
+  "subtitle": "higher is better"
+}
