@@ -223,6 +223,8 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 `mmap` runs one read at a time whatever you ask for. Its pipeline is one deep, so a bigger batch buys a queue rather than concurrency. Throughput sits at 7.15 MB/s whatever the batch. Latency grows instead, from 0.57 ms per read at batch 1 to 146 ms at batch 512.
 
+Concurrency can only buy what the disk has left to give. The same sweep on a gp3 volume at the 3,000 IOPS baseline turns batch 1 into batch 16 for 1.8 times the throughput, not 12, because one thread reading on its own already takes more than half of what that volume can serve.
+
 S3 turns concurrency into throughput, but never into lower latency. One read takes about 24 ms however deep the batch is. Throughput climbs from 0.16 MB/s at batch 1 to 8.83 MB/s at batch 256, the deepest the blob pipeline goes.
 
 {{< chart id="universal-io/endpoints" caption="One read at a time against the most each backend allows." caption2="The same two settings by median latency. mmap pays 146 ms for throughput it already had one read at a time." caption3="And by tail latency. io_uring batch 16 is 0.80 ms at p99, the same as batch 1, so the throughput is free at the tail." >}}
