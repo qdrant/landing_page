@@ -19,6 +19,8 @@
 import type { Config, Context } from "https://edge.netlify.com";
 
 const TIMEOUT_MS = 2000;
+// Longer Accept values are cut to this many characters to keep events small.
+const MAX_ACCEPT_LENGTH = 1024;
 
 export default (request: Request, context: Context) => {
   const url = Netlify.env.get("AGENT_LOG_URL");
@@ -35,6 +37,7 @@ export default (request: Request, context: Context) => {
     ts: new Date().toISOString(),
     cat: request.headers.get("netlify-agent-category"),
     ua: request.headers.get("user-agent"),
+    accept: request.headers.get("accept")?.slice(0, MAX_ACCEPT_LENGTH) ?? null,
     host,
     path: pathname,
     method: request.method,
