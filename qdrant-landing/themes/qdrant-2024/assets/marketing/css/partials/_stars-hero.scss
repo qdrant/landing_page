@@ -59,61 +59,51 @@
     white-space: nowrap;
   }
 
-  // Portraits are placed in percentages of the visual box so the pair scales with it.
-  // Narrow screens follow the mobile design (335 x 390 box, 154px portraits);
-  // wide screens the desktop one (445 x 405 box, 160px portraits), top-aligned with the text.
+  // Three staggered portraits, placed in percentages of the visual box so they scale with it.
+  // Every card is 30% of the box wide and twice as tall as it is wide; the box's aspect
+  // ratio keeps that true on both narrow (335 x 305) and wide (445 x 405) screens.
   &__visual {
     position: relative;
     width: 100%;
     max-width: pxToRem(445);
     margin: 0 auto;
-    aspect-ratio: 335 / 390;
+    aspect-ratio: 335 / 305;
   }
 
-  // The card carries the design's upward purple glow (stacked drop shadows) and its two
-  // blurred-ellipse masks. The masks reach past the card (mask-clip: no-clip) so the glow
-  // above it stays visible while the card's lower edge fades out.
+  // The card carries the design's upward purple glow (stacked drop shadows) and two
+  // blurred-ellipse masks: a shared glow behind all three cards, and the card's own ellipse,
+  // which fades its lower edge. The masks reach past the card (mask-clip: no-clip) so the
+  // glow above it stays visible. Mask offsets are in pixels for the 335px-wide box.
   &__portrait {
     position: absolute;
-    width: 46.044%;
-    height: 79.101%;
+    width: 30%;
+    height: 66%;
     filter:
       drop-shadow(0 -6px 7px rgba(88, 77, 255, 0.1))
       drop-shadow(0 -26px 13px rgba(88, 77, 255, 0.09))
       drop-shadow(0 -58px 17.5px rgba(88, 77, 255, 0.05))
       drop-shadow(0 -103px 20.5px rgba(88, 77, 255, 0.01));
+    mask-image: url('/img/stars-program/hero-mask-glow.svg'), url('/img/stars-program/hero-mask-left.svg');
+    mask-size: pxToRem(772.906) pxToRem(810.449), pxToRem(290.8) pxToRem(430.2);
     mask-repeat: no-repeat;
     mask-clip: no-clip;
 
-    &_left {
-      top: 21.012%;
+    &_1 {
+      top: 34%;
       left: 0;
-      mask-image: url('/img/stars-program/hero-mask-glow.svg'), url('/img/stars-program/hero-mask-left.svg');
-      mask-size: pxToRem(772.906) pxToRem(810.449), pxToRem(463) pxToRem(685);
-      mask-position: pxToRem(-231.173) pxToRem(-282.816), pxToRem(-153) pxToRem(-253);
-
-      .stars-hero__portrait-image {
-        top: -5.493%;
-        left: -62.238%;
-        width: 212.646%;
-        height: 109.888%;
-      }
+      mask-position: pxToRem(-236.45) pxToRem(-346.9), pxToRem(-95.2) pxToRem(-158.8);
     }
 
-    &_right {
+    &_2 {
       top: 0;
-      left: 53.483%;
-      mask-image: url('/img/stars-program/hero-mask-glow.svg'), url('/img/stars-program/hero-mask-right.svg');
-      mask-size: pxToRem(772.906) pxToRem(810.449), pxToRem(463) pxToRem(648);
-      mask-position: pxToRem(-421.173) pxToRem(-197.816), pxToRem(-143) pxToRem(-205);
+      left: 35%;
+      mask-position: pxToRem(-353.7) pxToRem(-243.2), pxToRem(-95.2) pxToRem(-158.8);
+    }
 
-      .stars-hero__portrait-image {
-        top: -4.214%;
-        left: -32.524%;
-        width: 165.966%;
-        height: 105.026%;
-        opacity: 0.95;
-      }
+    &_3 {
+      top: 17%;
+      left: 70%;
+      mask-position: pxToRem(-470.95) pxToRem(-295.05), pxToRem(-95.2) pxToRem(-158.8);
     }
   }
 
@@ -138,6 +128,10 @@
 
   &__portrait-image {
     position: absolute;
+    top: -1.5%;
+    left: -35.625%;
+    width: 172.5%;
+    height: 115.469%;
     max-width: none;
     object-fit: cover;
   }
@@ -228,32 +222,20 @@
       aspect-ratio: 445 / 405;
     }
 
+    // Same placement, with the mask offsets recomputed for the 445px-wide box.
     &__portrait {
-      width: 35.955%;
-      height: 79.012%;
+      mask-size: pxToRem(772.906) pxToRem(810.449), pxToRem(386.2) pxToRem(571.4);
 
-      &_left {
-        top: 20.988%;
-        left: 11.011%;
-
-        .stars-hero__portrait-image {
-          top: -2.5%;
-          left: -65.625%;
-          width: 221.25%;
-          height: 114.688%;
-        }
+      &_1 {
+        mask-position: pxToRem(-186.45) pxToRem(-327.9), pxToRem(-126.3) pxToRem(-210.9);
       }
 
-      &_right {
-        top: 0;
-        left: 53.708%;
+      &_2 {
+        mask-position: pxToRem(-342.2) pxToRem(-190.2), pxToRem(-126.3) pxToRem(-210.9);
+      }
 
-        .stars-hero__portrait-image {
-          top: -1.5%;
-          left: -35.625%;
-          width: 172.5%;
-          height: 115.469%;
-        }
+      &_3 {
+        mask-position: pxToRem(-497.95) pxToRem(-259.05), pxToRem(-126.3) pxToRem(-210.9);
       }
     }
 

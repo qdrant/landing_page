@@ -8,9 +8,13 @@ button:
 secondaryButton:
   text: View the Handbook
   url: https://qdrant.github.io/qdrant-stars-handbook/
+# Hero portraits of Distinguished Stars, up to three, shown left to right.
+# Each is 552 x 739 with a transparent background: head about 265px wide,
+# centered horizontally, 30 to 60px from the top, and the body reaching the bottom edge.
 portraits:
-  left: /img/stars-program/hero-portrait-left.png
-  right: /img/stars-program/hero-portrait-right.png
+- /img/stars-program/hero-portrait-1.png
+- /img/stars-program/hero-portrait-2.png
+- /img/stars-program/hero-portrait-3.png
 # Stats bar. A stat renders only when it has a value; the bar renders when at least one does.
 # "{count}" is replaced with the number of cards in stars-list.md.
 stats:

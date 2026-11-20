@@ -18,17 +18,15 @@
         </div>
 
         {{ with .Params.portraits }}
+          {{/* Up to three portraits, staggered left to right in content order. */}}
           <div class="stars-hero__visual" aria-hidden="true">
-            <div class="stars-hero__portrait stars-hero__portrait_left">
-              <div class="stars-hero__portrait-frame">
-                {{ partial "marketing/picture" (dict "src" .left "class" "stars-hero__portrait-image" "width" "354" "height" "367" "fetchpriority" "high") }}
+            {{ range $i, $src := first 3 . }}
+              <div class="stars-hero__portrait stars-hero__portrait_{{ add $i 1 }}">
+                <div class="stars-hero__portrait-frame">
+                  {{ partial "marketing/picture" (dict "src" $src "class" "stars-hero__portrait-image" "width" "276" "height" "370" "fetchpriority" "high") }}
+                </div>
               </div>
-            </div>
-            <div class="stars-hero__portrait stars-hero__portrait_right">
-              <div class="stars-hero__portrait-frame">
-                {{ partial "marketing/picture" (dict "src" .right "class" "stars-hero__portrait-image" "width" "276" "height" "370" "fetchpriority" "high") }}
-              </div>
-            </div>
+            {{ end }}
           </div>
         {{ end }}
       </div>
