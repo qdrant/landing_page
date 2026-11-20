@@ -229,9 +229,8 @@ First, consult OVHcloud's managed Kubernetes instructions, linked at the end of 
 
 ### More on Service Managed Kubernetes by OVHcloud
 
-- [Getting Started with OVH Managed Kubernetes](https://help.ovhcloud.com/csm/en-in-documentation-public-cloud-containers-orchestration-managed-kubernetes-k8s-getting-started)
-- [OVH Managed Kubernetes Documentation](https://help.ovhcloud.com/csm/en-in-documentation-public-cloud-containers-orchestration-managed-kubernetes-k8s)
-- [OVH Managed Kubernetes Tutorials](https://help.ovhcloud.com/csm/en-in-documentation-public-cloud-containers-orchestration-managed-kubernetes-k8s-tutorials)
+- [Getting Started with OVH Managed Kubernetes](https://docs.ovhcloud.com/en/guides/public-cloud/containers-orchestration/managed-kubernetes/create-cluster)
+- [OVH Managed Kubernetes Documentation](https://docs.ovhcloud.com/en/guides/public-cloud/containers-orchestration/managed-kubernetes/overview)
 
 ![Red Hat](/documentation/cloud/cloud-providers/redhat.jpg)
 
@@ -271,15 +270,15 @@ First, consult Scaleway's managed Kubernetes instructions, linked at the end of 
 
 ## STACKIT
 
-[STACKIT Kubernetes Engine (SKE)](https://www.stackit.de/en/product/kubernetes/) is a robust, scalable, and managed Kubernetes service. SKE supplies a CNCF-compliant Kubernetes cluster and makes it easy to provide standard Kubernetes applications and containerized workloads. User-defined Kubernetes clusters can be created as self-service without complications using the STACKIT Portal.
+[STACKIT Kubernetes Engine (SKE)](https://stackit.com/en/products/runtime/stackit-kubernetes-engine) is a robust, scalable, and managed Kubernetes service. SKE supplies a CNCF-compliant Kubernetes cluster and makes it easy to provide standard Kubernetes applications and containerized workloads. User-defined Kubernetes clusters can be created as self-service without complications using the STACKIT Portal.
 
 First, consult STACKIT's managed Kubernetes instructions, linked at the end of this section. Then, **to set up Qdrant Hybrid Cloud on STACKIT**, follow our [step-by-step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
 ### More on STACKIT Kubernetes Engine
 
-- [Getting Started with SKE](https://docs.stackit.cloud/stackit/en/getting-started-ske-10125565.html)
-- [SKE Tutorials](https://docs.stackit.cloud/stackit/en/tutorials-ske-66683162.html)
-- [Frequently Asked Questions on SKE](https://docs.stackit.cloud/stackit/en/faq-known-issues-of-ske-28476393.html)
+- [Getting Started with SKE](https://docs.stackit.cloud/products/runtime/kubernetes-engine/getting-started/create-cluster/)
+- [SKE Documentation](https://docs.stackit.cloud/products/runtime/kubernetes-engine/)
+- [Frequently Asked Questions on SKE](https://docs.stackit.cloud/products/runtime/kubernetes-engine/faq/)
 
 To allow backups and restores, you need to create a VolumeSnapshotClass:
 

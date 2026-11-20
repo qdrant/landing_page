@@ -50,7 +50,7 @@ Our [benchmark tool](https://github.com/qdrant/vector-db-benchmark) is inspired 
 | [dbpedia-openai-1M-angular](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) |  1M  | 1536       | cosine            |
 | [deep-image-96-angular](http://sites.skoltech.ru/compvision/noimi/)                               |  10M | 96         | cosine            |
 | [gist-960-euclidean](http://corpus-texmex.irisa.fr/)                                              |  1M  | 960        | euclidean         |
-| [glove-100-angular](https://nlp.stanford.edu/projects/glove/)                                     | 1.2M | 100        | cosine            |
+| [glove-100-angular](https://github.com/stanfordnlp/GloVe)                                         | 1.2M | 100        | cosine            |
 
 </div>
 
