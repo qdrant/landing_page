@@ -1,0 +1,42 @@
+name: ARD Conformance
+
+on:
+  pull_request:
+    paths:
+      - 'qdrant-landing/static/.well-known/ard.json'
+      - '.github/workflows/ard-conformance.yaml'
+
+permissions:
+  contents: read
+
+jobs:
+  ard-conformance:
+    name: Validate ard.json
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # The conformance tool reads the schema from ../../spec/schemas relative to itself.
+      - name: Checkout ARD spec
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ards-project/ard-spec
+          ref: f073b1ea9b01a5f068d0b0986426f2ea49fa30b2
+          path: ard-spec
+          persist-credentials: false
+          sparse-checkout: |
+            conformance
+            spec/schemas
+
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.13'
+
+      # Without jsonschema the tool silently skips the JSON Schema check.
+      - name: Install jsonschema
+        run: pip install jsonschema==4.26.0
+
+      - name: Run conformance test
+        run: python -I ard-spec/conformance/bin/conformance-test manifest qdrant-landing/static/.well-known/ard.json
