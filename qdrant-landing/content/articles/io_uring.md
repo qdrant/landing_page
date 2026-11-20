@@ -180,6 +180,11 @@ datasets:
 * [mmap only](https://storage.googleapis.com/common-datasets-snapshots/laion-768-6m-mmap.snapshot)
 * [with scalar quantization](https://storage.googleapis.com/common-datasets-snapshots/laion-768-6m-sq-m16-mmap.shapshot)
 
+<aside role="status">
+These snapshots were created in 2023 and need an older Qdrant version. Use the
+<code>qdrant/qdrant:v1.16.1</code> Docker image to load them.
+</aside>
+
 Running the benchmark, we get the following IOPS, CPU loads and wall clock times:
 
 |          | oversampling | parallel | ~max IOPS | CPU% (of 4 cores) | time (s) (avg of 3) |

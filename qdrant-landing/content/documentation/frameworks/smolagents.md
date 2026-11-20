@@ -13,7 +13,7 @@ and [reaches higher performance on difficult benchmarks](https://huggingface.co/
 
 ## Usage with Qdrant
 
-We'll demonstrate how you can pair SmolAgents with Qdrant's retrieval by building a movie recommendation agent.
+We'll demonstrate how you can pair SmolAgents with Qdrant's retrieval by building a product search agent.
 
 ### Installation
 
@@ -25,7 +25,9 @@ pip install smolagents qdrant-client fastembed
 
 We'll build a SmolAgents tool that can query a Qdrant collection. This tool will vectorise queries locally using [FastEmbed](https://github.com/qdrant/fastembed).
 
-Initially, we'll be populating a Qdrant collection with information about 1000 movies from IMDb that we can search across.
+Initially, we'll be populating a Qdrant collection with about 45,000 products from the [Amazon Berkeley Objects](/documentation/datasets/#amazon-berkeley-objects) dataset that we can search across. Each product is represented by a CLIP embedding of its image, so we'll embed text queries with the matching CLIP text model.
+
+The snapshot requires Qdrant 1.20 or later. Start it locally with `docker run --pull=always -p 6333:6333 qdrant/qdrant`.
 
 ```py
 from fastembed import TextEmbedding
@@ -35,7 +37,7 @@ from smolagents import Tool
 
 class QdrantQueryTool(Tool):
     name = "qdrant_query"
-    description = "Uses semantic search to retrieve movies from a Qdrant collection."
+    description = "Uses semantic search to retrieve products from a Qdrant collection."
     inputs = {
         "query": {
             "type": "string",
@@ -46,15 +48,15 @@ class QdrantQueryTool(Tool):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.collection_name = "smolagents"
-        self.client = QdrantClient()
+        self.collection_name = "smolagents_products"
+        self.client = QdrantClient(timeout=120)
 
         if not self.client.collection_exists(self.collection_name):
             self.client.recover_snapshot(
                 collection_name=self.collection_name,
-                location="https://snapshots.qdrant.io/imdb-1000-jina.snapshot",
+                location="https://snapshots.qdrant.io/amazon-berkeley-objects.snapshot",
             )
-        self.embedder = TextEmbedding(model_name="jinaai/jina-embeddings-v2-base-en")
+        self.embedder = TextEmbedding(model_name="Qdrant/clip-ViT-B-32-text")
 
     def forward(self, query: str) -> str:
         points = self.client.query_points(
@@ -63,8 +65,8 @@ class QdrantQueryTool(Tool):
         docs = "Retrieved documents:\n" + "".join(
             [
                 f"== Document {str(i)} ==\n"
-                + f"MOVIE TITLE: {point.payload['movie_name']}\n"
-                + f"MOVIE SUMMARY: {point.payload['description']}\n"
+                + f"PRODUCT NAME: {point.payload['name']}\n"
+                + f"BRAND: {point.payload.get('brand', '')}\n"
                 for i, point in enumerate(points)
             ]
         )
@@ -74,7 +76,7 @@ class QdrantQueryTool(Tool):
 
 ### Define the agent
 
-We can now set up `CodeAgent` to use our `QdrantQueryTool`.
+We can now set up `CodeAgent` to use our `QdrantQueryTool`. `InferenceClientModel` needs a Hugging Face token with the "Make calls to Inference Providers" permission, and Inference Providers credits on your account.
 
 ```python
 from smolagents import CodeAgent, InferenceClientModel, LogLevel
@@ -85,26 +87,18 @@ import os
 os.environ["HF_TOKEN"] = "----------"
 
 agent = CodeAgent(
-    tools=[QdrantQueryTool()], model=InferenceClientModel(), max_steps=4, verbosity_level=LogLevel.DEBUG
+    tools=[QdrantQueryTool()], model=InferenceClientModel(model_id="openai/gpt-oss-120b"), max_steps=4, verbosity_level=LogLevel.DEBUG
 )
 ```
 
 Finally, we can run the agent with a user query.
 
 ```python
-agent_output = agent.run("Movie about people taking a strong action for justice")
+agent_output = agent.run("I need a comfortable chair for my home office. What do you recommend?")
 print(agent_output)
 ```
 
-We should results similar to:
-
-```console
-[...truncated]
-
-Out - Final answer: Jai Bhim
-[Step 1: Duration 0.25 seconds| Input tokens: 4,497 | Output tokens: 134]
-Jai Bhim
-```
+The agent can call `qdrant_query` to find products and use the results in its recommendation.
 
 ## Further Reading
 
