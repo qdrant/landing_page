@@ -21,8 +21,8 @@ stats:
   value: "8"
   label: Countries
 - icon: stat-mic-vocal
-  value: ""
-  label: Talks in 2026
+  value: "10+"
+  label: Talks Given
 - icon: stat-heart
   value: "10,000+"
   label: Developers Reached
