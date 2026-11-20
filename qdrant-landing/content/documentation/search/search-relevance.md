@@ -80,6 +80,8 @@ If there is no variable and no defined default, a default value of `0.0` is used
 - Payload variables used within the formula also benefit from having payload indices. Please try to always have a payload index set up for the variables used in the formula for better performance.
 </aside>
 
+A payload key can also serve as the whole score. For example, `{"mult": [-1, "price"]}` ranks the cheapest candidates first, because formula results sort in descending order. This works on a field with or without a payload index, although an index is faster. To sort by a payload field with `order_by` instead, see [Sort Results by a Payload Field](/documentation/search/hybrid-queries/#sort-results-by-a-payload-field).
+
 ### Max and Min {version="1.19.1"}
 
 `max` and `min` take an array of expressions and return the largest or the smallest value. An empty array returns an error.

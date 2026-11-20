@@ -1,0 +1,1 @@
+This code snippet shows how to sort search results by a payload field with the Query API. The prefetch runs a vector search with a price filter and keeps 100 candidates. The main query then orders those candidates by price, ascending, and returns the 10 cheapest. The payload field needs a payload index that supports range conditions, such as `float` or `integer`.
