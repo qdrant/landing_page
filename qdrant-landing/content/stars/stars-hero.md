@@ -18,13 +18,13 @@ stats:
   value: "{count}"
   label: Active Stars
 - icon: stat-map-pin
-  value: ""
+  value: "8"
   label: Countries
 - icon: stat-mic-vocal
   value: ""
   label: Talks in 2026
 - icon: stat-heart
-  value: ""
+  value: "10,000+"
   label: Developers Reached
 sitemapExclude: true
 ---
