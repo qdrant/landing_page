@@ -40,6 +40,7 @@ On its previous provider, those daily bulk deletes kept crashing the database. T
   name_url="https://www.linkedin.com/in/davidwooduk/"
   role="Co-Founder and CTO"
   company="Moonsift"
+  avatar="/img/customers/david-wood.png"
   logo="/img/customers-case-studies-logo/moonsift.svg"
   featured="true" >}}
 
@@ -93,6 +94,7 @@ It wasn't all automatic. When the collection doubled, from about 4 million to 8 
   name_url="https://www.linkedin.com/in/davidwooduk/"
   role="Co-Founder and CTO"
   company="Moonsift"
+  avatar="/img/customers/david-wood.png"
   logo="/img/customers-case-studies-logo/moonsift.svg" >}}
 
 ## How a Search Moves Through Moonsift
@@ -117,6 +119,7 @@ Each evaluator ranks every result in an evaluation interface, marking what they 
   name_url="https://www.linkedin.com/in/davidwooduk/"
   role="Co-Founder and CTO"
   company="Moonsift"
+  avatar="/img/customers/david-wood.png"
   logo="/img/customers-case-studies-logo/moonsift.svg" >}}
 
 The evaluators also told the team something useful for scaling: they rate production results higher than staging, partly because production has more products to choose from. That's a big reason for growing the catalog. Since launch, Moonsift also tracks a live signal: whether shoppers save items from their search results.
