@@ -17,7 +17,7 @@ perks:
 - title: Handbook & Content Library
   icon: perk-book-open-text
   accent: handbook
-  description: Travel funding for conferences, a co-reviewed CFP, and an intro letter from Qdrant to help you land the slot.
+  description: You will be equipped with the assets and knowledge to organize and execute successful talks and events. Get access to our content library with slide decks, templates, and more.
 - title: Beta Access & Insight Brief
   icon: perk-lightbulb
   accent: beta
