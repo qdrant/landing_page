@@ -1,74 +1,247 @@
 @use '../helpers/functions' as *;
 
+// Hero and stats bar of /stars/. Both sit on the same dark surface.
 .stars-hero {
   position: relative;
-  padding-top: $spacer * 2.5;
-  padding-bottom: $spacer * 5;
   overflow: hidden;
-  background: url('/img/stars-pattern.png') $neutral-10;
+  padding-bottom: pxToRem(80);
+  background-color: $neutral-10;
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(64);
+    padding: pxToRem(64) 0 pxToRem(48);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: pxToRem(32);
+    text-align: center;
+  }
+
+  &__label {
+    margin: 0;
+    font-family: $font-family-monospace;
+    font-size: pxToRem(14);
+    font-weight: 500;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: $neutral-80;
+  }
 
   &__title {
-    margin-bottom: $spacer * 1.5;
-    font-size: $spacer * 2.5;
-    line-height: $spacer * 3;
+    margin: 0;
+    font-size: pxToRem(40);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
     color: $neutral-98;
   }
 
   &__description {
-    margin-bottom: $spacer * 1.5;
+    margin: 0;
     font-size: pxToRem(18);
-    line-height: pxToRem(27);
-    color: $neutral-70;
+    line-height: 1.5;
+    color: $neutral-80;
   }
 
-  &__preview {
-    position: relative;
-    margin-top: $spacer * 1.5;
-    z-index: 1;
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    gap: pxToRem(16);
+  }
 
-    img {
-      display: block;
-      width: 100%;
-      max-width: pxToRem(480);
-      margin: 0 auto;
+  &__button {
+    white-space: nowrap;
+  }
+
+  // Three staggered portraits, placed in percentages of the visual box so they scale with it.
+  // Every card is 30% of the box wide and twice as tall as it is wide; the box's aspect
+  // ratio keeps that true on both narrow (335 x 305) and wide (445 x 405) screens.
+  &__visual {
+    position: relative;
+    width: 100%;
+    max-width: pxToRem(445);
+    margin: 0 auto;
+    aspect-ratio: 335 / 305;
+  }
+
+  // The card carries the design's upward purple glow (stacked drop shadows) and two
+  // blurred-ellipse masks: a shared glow behind all three cards, and the card's own ellipse,
+  // which fades its lower edge. The masks reach past the card (mask-clip: no-clip) so the
+  // glow above it stays visible. Mask offsets are in pixels for the 335px-wide box.
+  &__portrait {
+    position: absolute;
+    width: 30%;
+    height: 66%;
+    filter:
+      drop-shadow(0 -6px 7px rgba(88, 77, 255, 0.1))
+      drop-shadow(0 -26px 13px rgba(88, 77, 255, 0.09))
+      drop-shadow(0 -58px 17.5px rgba(88, 77, 255, 0.05))
+      drop-shadow(0 -103px 20.5px rgba(88, 77, 255, 0.01));
+    mask-image: url('/img/stars-program/hero-mask-glow.svg'), url('/img/stars-program/hero-mask-left.svg');
+    mask-size: pxToRem(772.906) pxToRem(810.449), pxToRem(290.8) pxToRem(430.2);
+    mask-repeat: no-repeat;
+    mask-clip: no-clip;
+
+    &_1 {
+      top: 34%;
+      left: 0;
+      mask-position: pxToRem(-236.45) pxToRem(-346.9), pxToRem(-95.2) pxToRem(-158.8);
+    }
+
+    &_2 {
+      top: 0;
+      left: 35%;
+      mask-position: pxToRem(-353.7) pxToRem(-243.2), pxToRem(-95.2) pxToRem(-158.8);
+    }
+
+    &_3 {
+      top: 17%;
+      left: 70%;
+      mask-position: pxToRem(-470.95) pxToRem(-295.05), pxToRem(-95.2) pxToRem(-158.8);
     }
   }
 
-  &__overlay {
+  &__portrait-frame {
     position: absolute;
-    right: 0;
-    left: 0;
-    bottom: -24px;
-    width: 100%;
-    height: pxToRem(200);
-    background-image: url('/img/blurred/blurred-light-12.svg');
-    background-position: center;
-    background-size: cover;
-    pointer-events: none;
+    inset: 0;
+    overflow: hidden;
+    border-radius: pxToRem(8.153);
+    background:
+      linear-gradient(232.76deg, rgba(57, 38, 137, 0.7) 10.217%, rgba(126, 117, 255, 0.7) 98.029%),
+      #0b0f19;
+
+    // Grain texture. The design shows it at 30% opacity; the exported image already has
+    // that opacity baked into its alpha, so it is used as is.
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('/img/stars-program/hero-texture.webp') top left / pxToRem(546.8);
+    }
+  }
+
+  &__portrait-image {
+    position: absolute;
+    top: -1.5%;
+    left: -35.625%;
+    width: 172.5%;
+    height: 115.469%;
+    max-width: none;
+    object-fit: cover;
+  }
+
+  // Cells share borders: the list draws the top and left edges, each cell the right and bottom.
+  &__stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid $neutral-20;
+    border-left: 1px solid $neutral-20;
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(8);
+    padding: pxToRem(24);
+    border-right: 1px solid $neutral-20;
+    border-bottom: 1px solid $neutral-20;
+  }
+
+  &__stat-value {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(8);
+    font-size: pxToRem(24);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    color: $neutral-98;
+  }
+
+  &__stat-label {
+    font-size: pxToRem(16);
+    line-height: 1.5;
+    color: $neutral-80;
+  }
+
+  @include media-breakpoint-up(sm) {
+    &__actions {
+      flex-direction: row;
+      justify-content: center;
+      align-self: center;
+      gap: pxToRem(24);
+    }
+
+    // Fill the row whatever the number of stats shown.
+    &__stats {
+      grid-template-columns: repeat(auto-fit, minmax(pxToRem(220), 1fr));
+    }
   }
 
   @include media-breakpoint-up(lg) {
-    padding-top: $spacer * 5;
+    &__main {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: pxToRem(120) 0;
+    }
+
+    &__content {
+      flex: 0 1 pxToRem(570);
+      align-items: flex-start;
+      text-align: left;
+    }
 
     &__title {
-      font-size: $spacer * 4;
-      line-height: pxToRem(76);
+      font-size: pxToRem(48);
     }
 
+    // Figma renders Mona Sans a touch wider than browsers do; 560px reproduces the
+    // design's line breaks ("developers / teaching ... open-source / — recognized").
     &__description {
-      max-width: pxToRem(466);
-      font-size: pxToRem(20);
-      line-height: pxToRem(30);
+      max-width: pxToRem(560);
     }
 
-    &__preview {
-      position: relative;
-      margin-top: $spacer * 1.5;
-      z-index: 1;
+    &__actions {
+      align-self: flex-start;
+    }
 
-      img {
-        margin-right: 0;
+    // The design's 445 x 405 "Visual" box, top-aligned with the text column.
+    &__visual {
+      flex: 0 0 pxToRem(445);
+      margin: 0;
+      aspect-ratio: 445 / 405;
+    }
+
+    // Same placement, with the mask offsets recomputed for the 445px-wide box.
+    &__portrait {
+      mask-size: pxToRem(772.906) pxToRem(810.449), pxToRem(386.2) pxToRem(571.4);
+
+      &_1 {
+        mask-position: pxToRem(-186.45) pxToRem(-327.9), pxToRem(-126.3) pxToRem(-210.9);
       }
+
+      &_2 {
+        mask-position: pxToRem(-342.2) pxToRem(-190.2), pxToRem(-126.3) pxToRem(-210.9);
+      }
+
+      &_3 {
+        mask-position: pxToRem(-497.95) pxToRem(-259.05), pxToRem(-126.3) pxToRem(-210.9);
+      }
+    }
+
+    // One column per stat shown (set inline from the number of stats with a value).
+    &__stats {
+      grid-template-columns: repeat(var(--stars-hero-stats, 4), minmax(0, 1fr));
     }
   }
 }

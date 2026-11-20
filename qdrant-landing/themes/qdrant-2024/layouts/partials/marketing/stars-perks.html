@@ -1,0 +1,60 @@
+{{ $iconPath := "themes/qdrant-2024/static/img/stars-program/icons/" }}
+{{ $icons := "/img/stars-program/icons/" }}
+{{ with (.Site.GetPage "/stars/stars-perks") }}
+  <section class="stars-perks" data-stars-perks>
+    <div class="container">
+      <div class="stars-perks__header">
+        <h2 class="stars-perks__title" id="stars-perks-title">{{ .Title }}</h2>
+        <div class="stars-perks__controls">
+          <button type="button" class="stars-perks__arrow" data-stars-perks-prev aria-label="Previous perks" disabled>
+            {{ partial "common/svg.html" (dict "icon" "carousel-arrow-left" "path" $iconPath "stroke" "currentColor") }}
+          </button>
+          <button type="button" class="stars-perks__arrow" data-stars-perks-next aria-label="Next perks">
+            {{ partial "common/svg.html" (dict "icon" "carousel-arrow-right" "path" $iconPath "stroke" "currentColor") }}
+          </button>
+        </div>
+      </div>
+
+      <ul class="stars-perks__track" data-stars-perks-track aria-labelledby="stars-perks-title">
+        {{ range .Params.perks }}
+          <li class="stars-perks__card">
+            <span class="stars-perks__icon stars-perks__icon_{{ .accent }}">
+              <img src="{{ $icons }}{{ .icon }}.svg" alt="" width="20" height="20" />
+            </span>
+            <h3 class="stars-perks__card-title">{{ .title }}</h3>
+            <p class="stars-perks__card-description">{{ .description }}</p>
+          </li>
+        {{ end }}
+      </ul>
+
+      {{ with .Params.banner }}
+        <div class="stars-perks__banner">
+          {{/* Decorative space background from the design: star field, light streaks, and grain. */}}
+          <div class="stars-perks__space" aria-hidden="true">
+            <img class="stars-perks__space-stars" src="/img/stars-program/banner-stars.svg" alt="" width="1110" height="112" />
+            <div class="stars-perks__space-line">
+              <div class="stars-perks__space-line-shape">
+                <img class="stars-perks__space-line-image stars-perks__space-line-image_1" src="/img/stars-program/banner-line-1.svg" alt="" />
+              </div>
+            </div>
+            <div class="stars-perks__space-line">
+              <div class="stars-perks__space-line-shape">
+                <img class="stars-perks__space-line-image stars-perks__space-line-image_2" src="/img/stars-program/banner-line-2.svg" alt="" />
+              </div>
+            </div>
+            <div class="stars-perks__space-texture"></div>
+          </div>
+          <div class="stars-perks__banner-content">
+            <span class="stars-perks__banner-icon">
+              <img src="{{ $icons }}banner-book-open-text.svg" alt="" width="24" height="24" />
+            </span>
+            <p class="stars-perks__banner-text">{{ .text }}</p>
+          </div>
+          {{ with .link }}
+            <a href="{{ .url }}" class="link link_md stars-perks__banner-link" target="_blank" rel="noopener noreferrer">{{ .text }}</a>
+          {{ end }}
+        </div>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

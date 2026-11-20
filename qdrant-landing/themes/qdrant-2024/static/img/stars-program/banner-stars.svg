@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1110" height="112" viewBox="0 0 1110 112" fill="none">
+<!-- Star field of the "Perks" handbook banner (Figma node 21822:43319). Generated from the design's
+     star positions; the page applies the color-dodge blend to this whole image. -->
+<defs>
+<radialGradient id="g-l" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(7 7) scale(6.75464)"><stop offset="0.08" stop-color="#fff"/><stop offset="1" stop-color="#5700C9" stop-opacity="0"/></radialGradient>
+<radialGradient id="g-m" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(5.06598 5.06598) scale(5.06598)"><stop offset="0.04" stop-color="#FFFFF7"/><stop offset="1" stop-color="#C90000" stop-opacity="0"/></radialGradient>
+<radialGradient id="g-s" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(7 7) scale(3.37732)"><stop offset="0.01" stop-color="#FFFFF7"/><stop offset="1" stop-color="#000F66" stop-opacity="0"/></radialGradient>
+<radialGradient id="g-gv" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(17 17) scale(1.68866 16.8866)"><stop offset="0.08" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<radialGradient id="g-gh" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(17 17) scale(16.8866 1.68866)"><stop offset="0.08" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<symbol id="star-l" overflow="visible"><circle cx="7" cy="7" r="6.75464" fill="url(#g-l)"/></symbol>
+<symbol id="star-m" overflow="visible"><circle cx="5.06598" cy="5.06598" r="5.06598" fill="url(#g-m)"/></symbol>
+<symbol id="star-s" overflow="visible"><circle cx="7" cy="7" r="3.37732" fill="url(#g-s)"/></symbol>
+<symbol id="glare" overflow="visible"><ellipse cx="17" cy="17" rx="1.68866" ry="16.8866" fill="url(#g-gv)"/><ellipse cx="17" cy="17" rx="16.8866" ry="1.68866" fill="url(#g-gh)"/></symbol>
+</defs>
+<use href="#star-m" x="33.64" y="88.09" opacity="0.56"/>
+<use href="#star-m" x="794.49" y="46.87" opacity="0.56"/>
+<use href="#star-m" x="857.65" y="2.71" opacity="0.56"/>
+<use href="#star-m" x="491.85" y="105.77" opacity="0.56"/>
+<use href="#star-m" x="425.47" y="64.54" opacity="0.56"/>
+<use href="#star-m" x="70.77" y="88.09" opacity="0.56"/>
+<use href="#star-s" x="48.65" y="30.47" opacity="0.40"/>
+<use href="#star-s" x="840.69" y="104.08" opacity="0.40"/>
+<use href="#star-s" x="885.59" y="12.81" opacity="0.40"/>
+<use href="#star-s" x="325.26" y="83.47" opacity="0.40"/>
+<use href="#star-s" x="243.89" y="107.02" opacity="0.40"/>
+<use href="#star-s" x="180.07" y="68.74" opacity="0.40"/>
+<use href="#glare" transform="translate(1031.48 7.38) rotate(-45) translate(-17 -17)" opacity="0.8"/>
+</svg>

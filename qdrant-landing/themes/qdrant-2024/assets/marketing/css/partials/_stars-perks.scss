@@ -1,0 +1,354 @@
+@use '../helpers/functions' as *;
+
+// "Perks That Take Your Work Further" carousel and handbook banner on /stars/.
+.stars-perks {
+  // Icon tile backgrounds, one per perk.
+  $icon-backgrounds: (
+    rewards: #fff3e0,
+    amplification: #fdecef,
+    travel: #e1f5fe,
+    handbook: #e5e8ff,
+    beta: #f3e5f5,
+    recognition: #e5e8ff,
+  );
+
+  padding: pxToRem(64) 0;
+  background-color: $neutral-94;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: pxToRem(24);
+    margin-bottom: pxToRem(48);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: pxToRem(32);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    text-align: center;
+    color: $neutral-20;
+  }
+
+  &__controls {
+    display: none;
+    gap: pxToRem(32);
+  }
+
+  &__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(40);
+    height: pxToRem(40);
+    padding: 0;
+    border: none;
+    background: none;
+    color: $neutral-20;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    svg {
+      width: auto;
+      height: auto;
+      transition: transform 0.2s ease;
+    }
+
+    // Enabled arrows nudge toward their direction and take the link color.
+    &:not(:disabled):hover {
+      color: $primary-50;
+    }
+
+    &[data-stars-perks-prev]:not(:disabled):hover svg {
+      transform: translateX(pxToRem(-4));
+    }
+
+    &[data-stars-perks-next]:not(:disabled):hover svg {
+      transform: translateX(pxToRem(4));
+    }
+
+    &:focus-visible {
+      outline: 2px solid $primary-50;
+      outline-offset: 2px;
+      border-radius: pxToRem(4);
+    }
+
+    &:disabled {
+      color: $neutral-80;
+      cursor: default;
+    }
+  }
+
+  &__track {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(30);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: pxToRem(16);
+    padding: pxToRem(32);
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(16);
+    background-color: $neutral-98;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(40);
+    height: pxToRem(40);
+    margin-bottom: pxToRem(8);
+    border-radius: pxToRem(8);
+
+    @each $name, $color in $icon-backgrounds {
+      &_#{$name} {
+        background-color: $color;
+      }
+    }
+  }
+
+  &__card-title {
+    margin: 0;
+    font-size: pxToRem(24);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    color: $neutral-20;
+  }
+
+  &__card-description {
+    margin: 0;
+    font-size: pxToRem(18);
+    line-height: 1.5;
+    color: $neutral-30;
+  }
+
+  // Narrow screens show the banner as a light card; wide screens as the dark space banner.
+  &__banner {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: pxToRem(24);
+    margin-top: pxToRem(30);
+    padding: pxToRem(32);
+    overflow: hidden;
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(16);
+    background-color: $neutral-98;
+  }
+
+  // Desktop only; the light mobile banner has no space background.
+  &__space {
+    display: none;
+  }
+
+  &__banner-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: pxToRem(24);
+  }
+
+  &__banner-icon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(48);
+    height: pxToRem(48);
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(8);
+    background: linear-gradient(180deg, rgba(0, 77, 64, 0.12), rgba(11, 15, 25, 0));
+  }
+
+  &__banner-text {
+    max-width: pxToRem(530);
+    margin: 0;
+    font-size: pxToRem(16);
+    line-height: 1.5;
+    color: $neutral-20;
+  }
+
+  // Arrow and hover come from the shared .link component.
+  &__banner-link {
+    flex: none;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  @include media-breakpoint-up(md) {
+    &__title {
+      font-size: pxToRem(40);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding: pxToRem(80) 0;
+
+    &__header {
+      justify-content: space-between;
+      margin-bottom: pxToRem(64);
+    }
+
+    &__title {
+      text-align: left;
+    }
+
+    &__controls {
+      display: flex;
+    }
+
+    &__track {
+      flex-direction: row;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    &__card {
+      // Three cards fill the visible track exactly (350px each in the 1110px design).
+      flex: 0 0 calc((100% - 2 * #{pxToRem(30)}) / 3);
+      scroll-snap-align: start;
+    }
+
+    &__banner {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: pxToRem(32) pxToRem(32) pxToRem(32) pxToRem(33);
+      border-color: $neutral-90;
+      background:
+        linear-gradient(270deg, rgba(0, 0, 0, 0.486) 0%, rgba(0, 0, 0, 0) 20.54%, rgba(0, 0, 0, 0) 58.01%, rgba(0, 0, 0, 0.405) 100%),
+        radial-gradient(100% 185% at 100% 4.5%, rgba(87, 0, 201, 0.4) 5.03%, rgba(36, 0, 91, 0.12) 25.96%, rgba(0, 0, 0, 0) 78.45%),
+        radial-gradient(
+          90.2% 121.2% at 50% 7.6%,
+          rgba(0, 0, 0, 0) 9.46%,
+          rgba(9, 14, 26, 0.08) 45.41%,
+          rgba(0, 24, 72, 0.24) 68.94%,
+          rgba(0, 64, 161, 0.4) 78.19%
+        ),
+        $neutral-10;
+    }
+
+    // The design's "Space-Background" frame: a 1110 x 112 layer centered on the banner.
+    // It and its children stay at z-index auto so their blend modes mix with the banner's
+    // own background instead of an isolated group. The content follows it in the markup,
+    // so it paints on top.
+    &__space {
+      display: block;
+      position: absolute;
+      top: calc(50% - #{pxToRem(56)});
+      left: calc(50% - #{pxToRem(555)});
+      width: pxToRem(1110);
+      height: pxToRem(112);
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    &__space-stars {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      mix-blend-mode: color-dodge;
+    }
+
+    // Light streaks: the Figma "Line-Blur" boxes and transforms, in px of the 1110 x 112 layer.
+    &__space-line {
+      position: absolute;
+      top: pxToRem(-726.11);
+      left: pxToRem(-343.21);
+      width: pxToRem(1573.2);
+      height: pxToRem(1423.07);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      mix-blend-mode: plus-lighter;
+    }
+
+    &__space-line-shape {
+      position: relative;
+      flex: none;
+      width: pxToRem(1251.28);
+      height: pxToRem(1554.23);
+      transform: rotate(91.31deg) scale(-1, 1) skewX(5.05deg);
+    }
+
+    &__space-line-image {
+      position: absolute;
+      max-width: none;
+
+      &_1 {
+        top: -12.7%;
+        left: -6.89%;
+        width: 121.34%;
+        height: 124.88%;
+      }
+
+      &_2 {
+        top: -3.79%;
+        left: 4.63%;
+        width: 99.86%;
+        height: 107.49%;
+      }
+    }
+
+    &__space-texture {
+      position: absolute;
+      top: pxToRem(-116.5);
+      left: 0;
+      width: 100%;
+      height: pxToRem(552);
+      background: url('/img/stars-program/banner-texture.webp') top left / pxToRem(819.2);
+      mix-blend-mode: overlay;
+      opacity: 0.32;
+    }
+
+    &__banner-content {
+      position: relative;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    &__banner-icon {
+      border-color: $neutral-20;
+      background: linear-gradient(180deg, rgba(0, 77, 64, 0.4), rgba(11, 15, 25, 0));
+    }
+
+    &__banner-text {
+      color: $neutral-98;
+    }
+
+    // White variant of .link on the dark banner (same as .link_white).
+    &__banner-link {
+      color: $neutral-98;
+
+      &::before {
+        background: linear-gradient(to right, $neutral-98 50%, transparent 50%);
+        background-size: 200% 100%;
+        background-position: -100% 0;
+      }
+
+      &::after {
+        background: $neutral-98;
+      }
+    }
+  }
+}
