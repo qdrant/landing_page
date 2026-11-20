@@ -57,6 +57,7 @@ cards:
       src: /img/stars/benito-martin.jpg
       alt: Benito Martin Photo
     position: Independent Consultant
+    location: Switzerland
     description: Process engineer, with a passion for ML and AI. Benito developed and documented multiple MLOps and LLM projects using Qdrant.
   - name: Eduardo Vasquez
     image:

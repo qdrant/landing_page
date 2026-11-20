@@ -18,7 +18,7 @@ stats:
   value: "{count}"
   label: Active Stars
 - icon: stat-map-pin
-  value: "8"
+  value: "9"
   label: Countries
 - icon: stat-mic-vocal
   value: "10+"
