@@ -184,7 +184,7 @@ As of v1.19.0, telemetry includes a top-level `quota` field. See [Monitoring Quo
 The `/telemetry` endpoint reports from the point of view of the peer being queried. Qdrant also provides a `/cluster/telemetry` endpoint, which aggregates telemetry from all peers.
 
 This includes less information than `/telemetry`, but provides information like shard transfer progress more reliably.
-You can find the full documentation for this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/cluster-telemetry).
+You can find the full documentation for this endpoint in the [API reference](https://api.qdrant.tech/api-reference/distributed/cluster-telemetry).
 
 ## Kubernetes Health Endpoints {version="1.5.0"}
 
