@@ -1,0 +1,14 @@
+{
+  "title": "Memory of multivectors and MUVERA FDEs, relative to dense vectors",
+  "kind": "grouped-columns",
+  "subtitle": "labels show tokens per document, lower is better",
+  "group": "dataset",
+  "series": "store",
+  "y": "ratio",
+  "yLabel": "× dense vector memory",
+  "yMax": 120,
+  "colors": [0, 1],
+  "height": 400,
+  "textScale": 1.35,
+  "legendLayout": "auto"
+}

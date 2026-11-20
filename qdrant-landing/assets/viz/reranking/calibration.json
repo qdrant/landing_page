@@ -1,0 +1,18 @@
+{
+  "title": "MUVERA calibration: share of the exact MaxSim top 10 within each FDE depth",
+  "kind": "lines-facet",
+  "facet": "panel",
+  "facetLabel": "{}",
+  "x": "depth",
+  "xLabel": "candidates retrieved (depth)",
+  "xSuffix": "",
+  "yLabel": "% of exact top 10",
+  "yScale": "linear",
+  "yDomain": [0, 100],
+  "refLine": { "value": 80, "label": "80% target" },
+  "series": ["nfcorpus", "scifact", "scidocs", "fiqa"],
+  "seriesLabels": ["NFCorpus", "SciFact", "SCIDOCS", "FiQA"],
+  "unit": "%",
+  "height": 340,
+  "subtitle": "higher is better"
+}
