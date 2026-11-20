@@ -1,47 +1,4 @@
 {{ define "main" }}
   {{ partial "marketing/site-header" . }}
-
-  {{ partial "marketing/rethink-reranking/hero" . }}
-
-  {{ partial "marketing/rethink-reranking/what-does-it-take-to-put-the-right-answer-first" . }}
-
-  {{ with (.Site.GetPage "/rethink-reranking/rescore-rerank-or-fuse-pick-the-trade-by-memory-") }}
-    <section class="rethink-reranking-rescore-rerank-or-fuse-pick-the-trade-by-memory-"><div class="container">
-      <div class="rethink-reranking-rescore-rerank-or-fuse-pick-the-trade-by-memory-__header">
-        <div class="rethink-reranking-rescore-rerank-or-fuse-pick-the-trade-by-memory-__heading">
-          {{ with .Params.label }}<p class="rethink-reranking-rescore-rerank-or-fuse-pick-the-trade-by-memory-__label">{{ . }}</p>{{ end }}
-          <h2 class="rethink-reranking-rescore-rerank-or-fuse-pick-the-trade-by-memory-__title">{{ .Params.title }}</h2>
-        </div>
-        {{ with .Params.description }}<p class="rethink-reranking-rescore-rerank-or-fuse-pick-the-trade-by-memory-__description">{{ . | markdownify }}</p>{{ end }}
-      </div>
-      {{ partial "marketing/features-table" (dict "cols" .Params.cols "features" .Params.features) }}
-      {{ with .Params.button }}
-        <a class="link rethink-reranking-rescore-rerank-or-fuse-pick-the-trade-by-memory-__link" href="{{ .url }}" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
-      {{ end }}
-    </div></section>
-  {{ end }}
-
-  {{ partial "marketing/rethink-reranking/focus-rerankers-on-judgment-calls" . }}
-
-  {{ partial "marketing/rethink-reranking/keyword-meets-vector-and-the-query-does-the-merg" . }}
-
-  {{ partial "marketing/rethink-reranking/ship-each-a-b-test-as-a-formula-change" . }}
-
-  {{ partial "marketing/rethink-reranking/bring-rare-sizes-and-cross-language-names-up-to-" . }}
-
-  {{ partial "marketing/rethink-reranking/hand-your-model-the-short-list-it-deserves" . }}
-
-  {{ partial "marketing/rethink-reranking/give-regulated-data-exact-answers-and-spend-ram-" . }}
-
-  {{ partial "marketing/rethink-reranking/what-would-moving-the-ranking-save-you" . }}
-
-  {{ with (.Site.GetPage "/rethink-reranking/find-your-pattern-by-experiment") }}
-    {{ partial "landing/steps-icon-flow" . }}
-  {{ end }}
-
-  {{ partial "marketing/rethink-reranking/logo-strip" . }}
-
-  {{ with (.Site.GetPage "/rethink-reranking/cta-banner") }}
-    {{ partial "marketing/cta-banner" . }}
-  {{ end }}
+  {{ partial "marketing/rethink-reranking/landing" . }}
 {{ end }}
