@@ -1,0 +1,14 @@
+<section class="partners-hero integrations-hero">
+  <div class="partners-hero__overlay"></div>
+  <div class="container">
+    <h1 class="partners-hero__title">{{ .Params.hero.title }}</h1>
+    <p class="partners-hero__description">{{ .Params.hero.description }}</p>
+    {{ with .Params.hero.buttons }}
+      <div class="partners-hero__buttons integrations-hero__buttons">
+        {{ range . }}
+          <a href="{{ .url }}" class="button button_{{ .style | default "contained" }} button_lg">{{ .text }}</a>
+        {{ end }}
+      </div>
+    {{ end }}
+  </div>
+</section>

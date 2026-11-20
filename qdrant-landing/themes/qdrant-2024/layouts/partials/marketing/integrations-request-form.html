@@ -1,0 +1,76 @@
+{{ $f := .Params.requestForm }}
+<section class="integrations-request" id="request-integration">
+  <div class="container">
+    <div class="integrations-request__box">
+      <h2 class="integrations-request__title">{{ $f.title }}</h2>
+      <p class="integrations-request__description">{{ $f.description | safeHTML }}</p>
+
+      {{/* Filled from the HubSpot form's request type options once the form loads. */}}
+      <div class="integrations-request__modes" role="radiogroup" aria-label="Request type" hidden></div>
+
+      <script>
+        // One HubSpot form covers both request types: its "What brings you here?" question reveals
+        // the fields for that type. These pills pick the type from the top of the form; the
+        // question itself is hidden and the fields it reveals move below the shared fields (CSS).
+        // Without this script the HubSpot question stays visible and works as is.
+        (function () {
+          var root = document.getElementById('request-integration');
+          if (!root) return;
+          var pills = root.querySelector('.integrations-request__modes');
+          var fieldName = {{ $f.typeField }};
+
+          function radios() {
+            return root.querySelectorAll('.integrations-request__form input[type="radio"][name="' + fieldName + '"]');
+          }
+
+          function select(value) {
+            radios().forEach(function (radio) {
+              if (radio.value === value && !radio.checked) radio.click();
+            });
+          }
+
+          function init() {
+            if (pills.childElementCount) return;
+            var options = radios();
+            if (!options.length) return;
+
+            var preselected = null;
+            options.forEach(function (radio) {
+              if (radio.checked) preselected = radio.value;
+
+              var label = document.createElement('label');
+              label.className = 'integrations-request__mode';
+              var input = document.createElement('input');
+              input.type = 'radio';
+              input.name = 'integrationRequestChoice';
+              input.value = radio.value;
+              input.addEventListener('change', function () { select(radio.value); });
+              var text = document.createElement('span');
+              text.textContent = radio.parentNode.textContent.trim() || radio.value;
+              label.appendChild(input);
+              label.appendChild(text);
+              pills.appendChild(label);
+            });
+
+            var first = preselected || options[0].value;
+            pills.querySelectorAll('input').forEach(function (input) {
+              input.checked = input.value === first;
+            });
+            select(first);
+
+            pills.hidden = false;
+            root.classList.add('integrations-request_pills');
+          }
+
+          // The HubSpot embed posts this message when the form is in the page.
+          window.addEventListener('message', function (event) {
+            if (event.data && event.data.type === 'hsFormCallback' && event.data.eventName === 'onFormReady') init();
+          });
+          init();
+        })();
+      </script>
+
+      {{ partial "marketing/hubspot-form" (dict "id" $f.id "hubspotFormOptions" $f.hubspotFormOptions "context" . "classes" "integrations-request__form") }}
+    </div>
+  </div>
+</section>

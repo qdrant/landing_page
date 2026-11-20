@@ -1,0 +1,239 @@
+@use '../helpers/functions' as *;
+
+.integrations-request {
+  padding: $spacer * 3 0 $spacer * 5;
+  background-color: $neutral-10;
+
+  &__box {
+    max-width: pxToRem(880);
+    margin: 0 auto;
+    padding: $spacer * 2;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: pxToRem(16);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  &__title {
+    font-size: pxToRem(32);
+    color: $neutral-98;
+    text-align: center;
+    margin-bottom: $spacer * 0.75;
+  }
+
+  &__description {
+    color: $neutral-70;
+    text-align: center;
+    margin-bottom: $spacer * 2;
+  }
+
+  &__modes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $spacer * 0.75;
+    margin-bottom: $spacer * 2;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__mode {
+    cursor: pointer;
+
+    input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    span {
+      display: block;
+      padding: $spacer * 0.5 $spacer * 1.25;
+      color: $neutral-98;
+      border: 1px solid $neutral-70;
+      border-radius: pxToRem(100);
+    }
+
+    input:checked + span {
+      background: $neutral-98;
+      color: $neutral-10;
+    }
+
+    input:focus-visible + span {
+      outline: 2px solid $neutral-98;
+      outline-offset: 2px;
+    }
+  }
+
+  // Once the pills drive it, HubSpot's own request type question is hidden. In HubSpot it is the
+  // first question, so the wrapper holding it and the fields it reveals moves after the shared
+  // fields (see `order` below).
+  &_pills &__form .hs-dependent-field > .hs-fieldtype-radio:first-child {
+    display: none;
+  }
+
+  // A type with no fields of its own ("Other") leaves the wrapper empty; drop it so it adds no gap.
+  &_pills &__form .hs-dependent-field:not(:has(> div:nth-child(2))) {
+    display: none;
+  }
+
+  // The HubSpot form renders inline ("css": "" in hubspotFormOptions), so page styles apply.
+  // Base input styles come from _hubspot-form.scss.
+  &__form {
+    color: $neutral-98;
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: $spacer * 1.25 pxToRem(20);
+
+      // Hide a leading form heading if HubSpot adds one, but never the first field. Here the first
+      // block is the request type wrapper, which must stay.
+      & > div:first-of-type:not(.hs-form-field):not(.hs-dependent-field) {
+        display: none;
+      }
+
+      & > div {
+        width: 100%;
+      }
+
+      // Shared fields first, then the request type's own questions, then legal text and submit.
+      & > .hs-dependent-field {
+        order: 1;
+      }
+
+      & > .legal-consent-container,
+      & > .hs-richtext,
+      & > .hs_submit,
+      & > .hs_error_rollup {
+        order: 2;
+      }
+
+      // "What brings you here?" and the fields it reveals share one wrapper.
+      .hs-dependent-field {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: $spacer * 1.25 pxToRem(20);
+
+        & > div {
+          width: 100%;
+        }
+      }
+
+      label {
+        margin-bottom: pxToRem(6);
+        font-size: pxToRem(14);
+        line-height: pxToRem(21);
+        color: $neutral-70;
+      }
+
+      select {
+        // _hubspot-form.scss leaves selects transparent; the option list needs a solid background.
+        background-color: $neutral-10;
+      }
+
+      // HubSpot injects .hs-custom-style rules with long :not() chains that flatten inputs to 27px;
+      // !important is the practical way to outrank them.
+      .input .hs-input:not([type='radio']):not([type='checkbox']) {
+        min-height: pxToRem(48) !important;
+        padding: pxToRem(12) $spacer !important;
+      }
+
+      textarea {
+        height: pxToRem(130);
+      }
+
+      .inputs-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: pxToRem(8) $spacer * 1.5;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        label {
+          display: flex;
+          align-items: center;
+          gap: pxToRem(8);
+          margin-bottom: 0;
+          font-size: pxToRem(16);
+          color: $neutral-98;
+          cursor: pointer;
+        }
+      }
+
+      // _hubspot-form.scss stretches every input to 100%; keep radios and checkboxes square.
+      .input input[type='radio'],
+      .input input[type='checkbox'] {
+        flex: none;
+        width: pxToRem(16);
+        height: pxToRem(16);
+        padding: 0;
+        accent-color: $neutral-98;
+      }
+
+      .hs-error-msgs {
+        margin: pxToRem(6) 0 0;
+        padding: 0;
+        list-style: none;
+
+        label {
+          margin-bottom: 0;
+          font-size: pxToRem(12);
+          color: $error-70;
+        }
+      }
+
+      .hs-richtext {
+        font-size: pxToRem(12);
+        line-height: pxToRem(18);
+        color: $neutral-60;
+        text-align: center;
+
+        p {
+          margin-bottom: 0;
+        }
+
+        // The legal text arrives with inline dark-on-white styles from the HubSpot editor.
+        * {
+          background-color: transparent !important;
+          color: inherit !important;
+          font-weight: inherit !important;
+        }
+
+        a {
+          text-decoration: underline;
+        }
+      }
+
+      .hs_submit input[type='submit'] {
+        width: 100%;
+      }
+    }
+
+    .submitted-message {
+      padding: $spacer * 2 0;
+      color: $neutral-98;
+      text-align: center;
+    }
+
+    @include media-breakpoint-up(md) {
+      form {
+        .hs-firstname,
+        .hs-lastname,
+        .hs-company,
+        .hs-jobtitle,
+        .hs-category,
+        .hs-tool_or_product_name,
+        // Type-specific fields that pair up on one row.
+        .hs-dependent-field > .hs_how_do_you_use_qdrant_today,
+        .hs-dependent-field > .hs_integration_status:has(+ .hs_github_repository_or_sdk_link),
+        .hs-dependent-field > .hs_github_repository_or_sdk_link {
+          width: calc(50% - #{pxToRem(10)});
+        }
+      }
+    }
+  }
+}
