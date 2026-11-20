@@ -103,7 +103,7 @@ It wasn't all automatic. When the collection doubled, from about 4 million to 8 
 
 **Ranking.** Ranking runs outside Qdrant, and it's where most of Moonsift's product work goes. Shoppers look at about the top 40 results. Raw embedding similarity has quirks for shopping: it returns ten products from one retailer because their photos share a style, or because the same model wears all of them. It also has to decide what to do with one product sold by several retailers. Moonsift's postprocessing dedupes, scores, and spreads the candidates before ranking them, highest fit first.
 
-## Shipping on Evals, Not Gut Feel
+## Shipping on Human Evals
 
 What most sets Moonsift apart is how it decides what ships. It has a team of human evaluators who match its target shoppers, and they have scored almost every release. They don't test made-up queries. They shop for things they want to buy, because shopping for a hypothetical is nothing like shopping for real.
 
