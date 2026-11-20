@@ -48,18 +48,10 @@ HUGO_PARAMS_onetrustScriptId = "0196246a-3663-7350-9a45-b65f645d6314"
         Content-Type = "application/json"
         Access-Control-Allow-Origin = "*"
 
-# The ARD predecessor's name for the same manifest, listed separately because
-# header rules match the requested path, not the rewrite target.
-[[headers]]
-    for = "/.well-known/ai-catalog.json"
-    [headers.values]
-        Content-Type = "application/json"
-        Access-Control-Allow-Origin = "*"
-
 [[redirects]]
     from = "/.well-known/ai-catalog.json"
     to = "/.well-known/ard.json"
-    status = 200
+    status = 301
     force = true
 
 [[redirects]]
