@@ -29,11 +29,20 @@ categories:
   - id: observability
     title: Observability
     section: /documentation/observability
-# Request form. Set `action` to the endpoint that receives submissions (e.g. a HubSpot or Netlify form URL).
 requestForm:
-  action: ""
   title: Request an integration
   description: Missing a tool you rely on, or building one that should work with Qdrant?<br>Tell us which one and we'll get back to you.
+  id: integrations-form
+  # Internal name of the HubSpot radio question that picks the request type.
+  # The pills above the form are built from its options and drive it.
+  typeField: what_type_of_integration
+  hubspotFormOptions: '{
+    "region": "eu1",
+    "portalId": "139603372",
+    "formId": "2dac74a7-c3bc-4cca-b575-e88db1f7499e",
+    "submitButtonClass": "button button_contained",
+    "css": "",
+  }'
 build:
   render: always
 cascade:
