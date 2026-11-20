@@ -37,6 +37,7 @@ On its previous provider, those daily bulk deletes kept crashing the database. T
 {{< quote
   text="We had so many weeks where we'd made real improvements, got to the company testing session, and the database had crashed again. Three of us were spending so much time on it that we couldn't do any product work."
   name="David Wood"
+  name_url="https://www.linkedin.com/in/davidwooduk/"
   role="Co-Founder and CTO"
   company="Moonsift"
   logo="/img/customers-case-studies-logo/moonsift.svg"
@@ -89,6 +90,7 @@ It wasn't all automatic. When the collection doubled, from about 4 million to 8 
 {{< quote
   text="For the past year and a half, Qdrant has just worked, and we haven't had to worry about it. Our data comes in through several pipelines scraping data from all over the place, and something in those is always failing somewhere. Having the part that's a relatively new technology be the reliable one is super important."
   name="David Wood"
+  name_url="https://www.linkedin.com/in/davidwooduk/"
   role="Co-Founder and CTO"
   company="Moonsift"
   logo="/img/customers-case-studies-logo/moonsift.svg" >}}
@@ -112,6 +114,7 @@ Each evaluator ranks every result in an evaluation interface, marking what they 
 {{< quote
   text="Once we had a system that kind of worked, it was very easy to fix one particular problem and improve that case, while having no idea how all your other cases were performing. You don't know unless you have proper evals."
   name="David Wood"
+  name_url="https://www.linkedin.com/in/davidwooduk/"
   role="Co-Founder and CTO"
   company="Moonsift"
   logo="/img/customers-case-studies-logo/moonsift.svg" >}}
