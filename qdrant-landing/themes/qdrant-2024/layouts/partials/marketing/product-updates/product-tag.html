@@ -1,0 +1,6 @@
+{{- $product := index (where (partial "marketing/product-updates/products" .) "key" .product) 0 -}}
+<span class="product-tag product-tag--{{ .product }}">
+  <span class="product-tag__dot" aria-hidden="true"></span>
+  {{- $product.name -}}
+  {{- with .edition }}<span class="product-tag__edition">{{ . }}</span>{{ end -}}
+</span>

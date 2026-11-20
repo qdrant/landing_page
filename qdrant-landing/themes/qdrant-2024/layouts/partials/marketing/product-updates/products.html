@@ -1,0 +1,6 @@
+{{- /* The products the roadmap and changelog distinguish, in display order. key is the `product` value in their front matter. Pages show only the products they have items for. */ -}}
+{{- return (slice
+  (dict "key" "qdrant" "name" "Qdrant" "detail" "Open-source vector search")
+  (dict "key" "cloud" "name" "Qdrant Cloud" "detail" "Managed and Hybrid Cloud")
+  (dict "key" "private-cloud" "name" "Qdrant Private Cloud" "detail" "Self-hosted on Kubernetes")
+) -}}

@@ -1,0 +1,248 @@
+@use '../../helpers/functions' as *;
+
+$changelog-date-width: pxToRem(96);
+$changelog-marker-size: pxToRem(12);
+
+.changelog {
+  padding-bottom: $spacer * 5;
+  background: $neutral-10;
+
+  &__timeline {
+    position: relative;
+    max-width: pxToRem(920);
+    margin: 0 auto;
+
+    // the timeline rail, behind the markers
+    &::before {
+      content: '';
+      position: absolute;
+      top: $spacer;
+      bottom: 0;
+      left: calc($changelog-marker-size / 2 - pxToRem(1));
+      width: pxToRem(2);
+      background: linear-gradient(180deg, $neutral-30 0%, $neutral-30 85%, rgba(40, 50, 77, 0) 100%);
+    }
+  }
+
+  &__month {
+    position: relative;
+
+    & + & {
+      margin-top: $spacer * 2.5;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__month-title {
+    margin: 0 0 $spacer * 1.5 $spacer * 2;
+    font-family: $font-family-monospace;
+    font-size: $font-size-s;
+    font-weight: $font-weight-medium;
+    line-height: $line-height-sm;
+    color: $neutral-70;
+    text-transform: uppercase;
+    letter-spacing: pxToRem(1);
+  }
+
+  @include media-breakpoint-up(md) {
+    &__timeline::before {
+      left: calc($changelog-date-width + $spacer + $changelog-marker-size / 2 - pxToRem(1));
+    }
+
+    &__month-title {
+      margin-left: calc($changelog-date-width + $spacer * 2 + $changelog-marker-size);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $spacer * 7.5;
+  }
+}
+
+.changelog-entry {
+  display: grid;
+  grid-template-columns: $changelog-marker-size 1fr;
+  grid-template-areas:
+    'marker date'
+    '. card';
+  column-gap: $spacer * 1.25;
+  row-gap: $spacer * 0.5;
+
+  & + & {
+    margin-top: $spacer * 1.5;
+  }
+
+  &[hidden] {
+    display: none;
+  }
+
+  &__date {
+    grid-area: date;
+    font-family: $font-family-monospace;
+    font-size: $font-size-s;
+    font-weight: $font-weight-medium;
+    line-height: $line-height-sm;
+    color: $neutral-80;
+  }
+
+  &__marker {
+    grid-area: marker;
+    position: relative;
+    z-index: 1;
+    width: $changelog-marker-size;
+    height: $changelog-marker-size;
+    margin-top: pxToRem(5);
+    border-radius: 50%;
+    border: pxToRem(2) solid $neutral-10;
+  }
+
+  &__card {
+    grid-area: card;
+    padding: $spacer * 1.25 $spacer * 1.5;
+    border: pxToRem(1) solid $neutral-30;
+    border-left-width: pxToRem(3);
+    border-radius: $spacer * 0.5;
+    background: $neutral-20;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: $neutral-50;
+    }
+  }
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $spacer * 0.5 $spacer * 0.75;
+  }
+
+  &__version {
+    margin: 0;
+    font-family: $font-family-monospace;
+    font-size: $font-size-l;
+    font-weight: $font-weight-medium;
+    line-height: $line-height-lg;
+    color: $neutral-98;
+  }
+
+  &__kind {
+    margin-left: auto;
+    font-family: $font-family-monospace;
+    font-size: $font-size-xs;
+    line-height: pxToRem(18);
+    color: $neutral-70;
+    text-transform: uppercase;
+    letter-spacing: pxToRem(0.5);
+  }
+
+  &__summary {
+    margin: $spacer * 0.75 0 0;
+    font-size: $font-size-l;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-lg;
+    color: $neutral-98;
+  }
+
+  // A description is prose set like the highlights, not like a summary.
+  &__description,
+  &__highlights {
+    margin: $spacer * 0.75 0 0;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: $neutral-80;
+
+    a {
+      color: $neutral-98;
+      text-decoration: underline;
+      text-decoration-color: $neutral-50;
+      text-underline-offset: pxToRem(3);
+
+      &:hover {
+        text-decoration-color: currentColor;
+      }
+    }
+
+    // beats the global `article code:not([class])` light-theme chip
+    code:not([class]) {
+      padding: pxToRem(1) pxToRem(5);
+      border-radius: pxToRem(4);
+      background: $neutral-30;
+      font-size: 0.875em;
+      color: $neutral-94;
+    }
+  }
+
+  &__highlights {
+    padding-left: $spacer * 1.25;
+
+    li + li {
+      margin-top: $spacer * 0.25;
+    }
+
+    li::marker {
+      color: $neutral-50;
+    }
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer * 0.5 $spacer * 1.5;
+    margin-top: $spacer;
+  }
+
+  &__link {
+    display: inline-flex;
+    gap: pxToRem(6);
+    font-size: $font-size-s;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-sm;
+    color: $neutral-98;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  // Patches stay compact so feature releases stand out.
+  &--patch &__card {
+    padding-top: $spacer;
+    padding-bottom: $spacer;
+    background: rgba(22, 30, 51, 0.5);
+  }
+
+  &--patch &__version {
+    font-size: $font-size-md;
+  }
+
+  @each $product, $colors in $product-updates-colors {
+    &--#{$product} &__marker {
+      background: nth($colors, 1);
+      box-shadow: 0 0 0 pxToRem(3) rgba(nth($colors, 1), 0.25);
+    }
+
+    &--#{$product}.changelog-entry--release &__card {
+      border-left-color: nth($colors, 1);
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    grid-template-columns: $changelog-date-width $changelog-marker-size 1fr;
+    grid-template-areas: 'date marker card';
+    column-gap: $spacer;
+
+    &__date {
+      padding-top: pxToRem(1);
+      text-align: right;
+    }
+
+    &__card {
+      margin-left: $spacer;
+    }
+  }
+}

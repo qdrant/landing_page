@@ -1,0 +1,250 @@
+@use '../../helpers/functions' as *;
+
+$product-updates-colors: (
+  // dot and accent, readable text on dark surfaces
+  'qdrant': ($primary-50, $primary-70),
+  'cloud': (#6047ff, #c2c5ff),
+  'private-cloud': ($secondary-teal-50, $secondary-teal-70),
+);
+
+.product-updates-hero {
+  position: relative;
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 4;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 80% at 15% 0%, rgba(220, 36, 76, 0.22) 0%, rgba(220, 36, 76, 0) 70%),
+    radial-gradient(60% 80% at 85% 0%, rgba(96, 71, 255, 0.24) 0%, rgba(96, 71, 255, 0) 70%),
+    $neutral-10;
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: url('/img/stars-pattern.png') left top / auto repeat;
+    opacity: 0.4;
+  }
+
+  &__container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  &__label {
+    margin-bottom: $spacer;
+    font-family: $font-family-monospace;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-s;
+    line-height: $line-height-sm;
+    color: $neutral-70;
+    text-transform: uppercase;
+    letter-spacing: pxToRem(1);
+  }
+
+  &__title {
+    max-width: pxToRem(800);
+    margin: 0 auto $spacer * 1.5;
+    font-size: $h4-font-size;
+    line-height: $spacer * 3;
+    color: $neutral-98;
+  }
+
+  &__description {
+    max-width: pxToRem(760);
+    margin: 0 auto;
+    font-size: $font-size-l;
+    line-height: $line-height-lg;
+    color: $neutral-80;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      font-size: $h2-font-size;
+      line-height: pxToRem(62);
+    }
+
+    &__description {
+      font-size: $font-size-xl;
+      line-height: pxToRem(30);
+    }
+  }
+}
+
+.product-updates-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $spacer * 0.5 $spacer;
+  padding: $spacer 0;
+  margin-bottom: $spacer * 2;
+  background: rgba(9, 14, 26, 0.85);
+  backdrop-filter: blur(pxToRem(8));
+}
+
+.product-filter {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $spacer * 0.25;
+  padding: $spacer * 0.25;
+  border: pxToRem(1) solid $neutral-30;
+  border-radius: $spacer * 2;
+  background: $neutral-20;
+
+  &__option {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacer * 0.5;
+    padding: $spacer * 0.5 $spacer;
+    border: none;
+    border-radius: $spacer * 2;
+    background: transparent;
+    font-size: $font-size-s;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-sm;
+    color: $neutral-80;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+
+    &:hover {
+      color: $neutral-98;
+    }
+
+    &:focus-visible {
+      outline: pxToRem(2) solid $neutral-98;
+      outline-offset: pxToRem(2);
+    }
+
+    &--active {
+      background: $neutral-30;
+      color: $neutral-98;
+    }
+  }
+
+  &__dot {
+    width: pxToRem(8);
+    height: pxToRem(8);
+    border-radius: 50%;
+  }
+
+  &__count {
+    min-width: pxToRem(22);
+    padding: 0 pxToRem(6);
+    border-radius: $spacer;
+    background: rgba(240, 243, 250, 0.08);
+    font-family: $font-family-monospace;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    line-height: pxToRem(18);
+    color: $neutral-70;
+  }
+
+  @each $product, $colors in $product-updates-colors {
+    &__option--#{$product} &__dot {
+      background: nth($colors, 1);
+    }
+  }
+}
+
+.product-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: pxToRem(6);
+  padding: pxToRem(2) pxToRem(10);
+  border-radius: $spacer;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  line-height: pxToRem(18);
+  white-space: nowrap;
+
+  &__dot {
+    width: pxToRem(6);
+    height: pxToRem(6);
+    border-radius: 50%;
+  }
+
+  &__edition {
+    padding-left: pxToRem(6);
+    border-left: pxToRem(1) solid currentColor;
+    font-weight: $font-weight-medium;
+    opacity: 0.8;
+  }
+
+  @each $product, $colors in $product-updates-colors {
+    &--#{$product} {
+      color: nth($colors, 2);
+      background: rgba(nth($colors, 1), 0.14);
+      box-shadow: inset 0 0 0 pxToRem(1) rgba(nth($colors, 1), 0.4);
+    }
+
+    &--#{$product} &__dot {
+      background: nth($colors, 1);
+    }
+  }
+}
+
+.product-updates-empty {
+  margin: 0;
+  padding: $spacer * 2 $spacer * 1.5;
+  border: pxToRem(1) dashed $neutral-30;
+  border-radius: $spacer * 0.5;
+  font-size: $font-size-md;
+  line-height: $spacer * 1.5;
+  color: $neutral-70;
+  text-align: center;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.product-updates-cta {
+  display: flex;
+  flex-direction: column;
+  gap: $spacer * 1.5;
+  margin-top: $spacer * 4;
+  padding: $spacer * 2;
+  border: pxToRem(1) solid $neutral-30;
+  border-radius: $spacer;
+  background:
+    radial-gradient(80% 140% at 100% 0%, rgba(96, 71, 255, 0.18) 0%, rgba(96, 71, 255, 0) 70%),
+    $neutral-20;
+
+  &__title {
+    margin-bottom: $spacer * 0.5;
+    font-size: $h6-font-size;
+    line-height: pxToRem(32);
+    color: $neutral-98;
+  }
+
+  &__description {
+    max-width: pxToRem(600);
+    margin-bottom: 0;
+    font-size: $font-size-md;
+    line-height: $spacer * 1.5;
+    color: $neutral-80;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacer;
+  }
+
+  @include media-breakpoint-up(lg) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacer * 2.5 $spacer * 3;
+
+    &__buttons {
+      flex-shrink: 0;
+    }
+  }
+}

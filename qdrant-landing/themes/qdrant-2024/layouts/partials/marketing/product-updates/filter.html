@@ -1,0 +1,20 @@
+{{- /* Product filter for the roadmap and changelog. Expects (dict "items" <slice of maps with a product key>). Qdrant is preselected; the others are a click away. Behavior in js/product-updates.js. */ -}}
+{{- $items := .items -}}
+<div class="product-filter" role="group" aria-label="Filter by product" data-product-filter>
+  {{ range partial "marketing/product-updates/products" . }}
+    {{ $count := len (where $items "product" .key) }}
+    {{ if $count }}
+    <button
+      type="button"
+      class="product-filter__option product-filter__option--{{ .key }}{{ if eq .key "qdrant" }} product-filter__option--active{{ end }}"
+      data-product-option="{{ .key }}"
+      aria-pressed="{{ eq .key "qdrant" }}"
+      title="{{ .detail }}"
+    >
+      <span class="product-filter__dot" aria-hidden="true"></span>
+      {{ .name }}
+      <span class="product-filter__count" data-option-count>{{ $count }}</span>
+    </button>
+    {{ end }}
+  {{ end }}
+</div>

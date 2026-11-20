@@ -39,6 +39,17 @@ menuItems:
 #         name: Private Cloud
 #         icon: private-cloud.svg
 #         url: /private-cloud/
+      - id: mainMenu-0-1
+        name: Updates
+        subMenuItems:
+        - id: subMenu-0-7
+          name: Changelog
+          icon: changelog.svg
+          url: /changelog/
+        - id: subMenu-0-8
+          name: Roadmap
+          icon: roadmap.svg
+          url: /roadmap/
   - id: menu-1
     name: Solutions
     mainMenuItems:

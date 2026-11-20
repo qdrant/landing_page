@@ -1,0 +1,69 @@
+{{ $items := .Params.items }}
+{{ $stages := slice
+  (dict "key" "in-progress" "title" "In Progress" "description" "Actively being designed or built. Expect these first.")
+  (dict "key" "planned" "title" "Planned" "description" "Next on our list for the near future. Scope and order may still change.")
+}}
+<section class="roadmap">
+  <div class="container">
+    <div class="product-updates-toolbar">
+      {{ partial "marketing/product-updates/filter" (dict "items" $items) }}
+    </div>
+
+    {{ range $i, $stage := $stages }}
+      {{ $stageItems := where $items "status" $stage.key }}
+      <div class="roadmap__stage roadmap__stage--{{ $stage.key }}" data-product-group>
+        <div class="roadmap__stage-header">
+          <span class="roadmap__stage-indicator" aria-hidden="true"></span>
+          <div class="roadmap__stage-heading">
+            <h2 class="roadmap__stage-title">
+              {{ $stage.title }}
+              <span class="roadmap__stage-count" data-product-count>{{ len $stageItems }}</span>
+            </h2>
+            <p class="roadmap__stage-description">{{ $stage.description }}</p>
+          </div>
+        </div>
+
+        <div class="roadmap__grid">
+          {{ range $stageItems }}
+            <article class="roadmap-card roadmap-card--{{ .product }}" data-product-item="{{ .product }}">
+              <div class="roadmap-card__meta">
+                {{ partial "marketing/product-updates/product-tag" (dict "product" .product) }}
+                {{ with .area }}<span class="roadmap-card__area">{{ . }}</span>{{ end }}
+              </div>
+              <h3 class="roadmap-card__title">{{ .title }}</h3>
+              <p class="roadmap-card__description">{{ .description }}</p>
+              {{ with .link }}
+                {{ $external := strings.HasPrefix . "http" }}
+                <a
+                  class="roadmap-card__link"
+                  href="{{ . }}"
+                  {{ if $external }}target="_blank" rel="noopener"{{ end }}
+                >
+                  {{ if strings.Contains . "github.com" }}Track on GitHub{{ else }}Learn more{{ end }}
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+              {{ end }}
+            </article>
+          {{ end }}
+        </div>
+
+        <p class="product-updates-empty" data-product-empty {{ if $stageItems }}hidden{{ end }}>
+          Nothing announced here yet. Check back soon, or tell us what you'd like to see.
+        </p>
+      </div>
+    {{ end }}
+
+    <div class="product-updates-cta">
+      <div class="product-updates-cta__text">
+        <h2 class="product-updates-cta__title">Missing Something?</h2>
+        <p class="product-updates-cta__description">
+          The roadmap is shaped by the people who run Qdrant in production. Open a feature request or bring it to the community.
+        </p>
+      </div>
+      <div class="product-updates-cta__buttons">
+        <a class="button button_contained button_md" href="https://github.com/qdrant/qdrant/issues/new/choose" target="_blank" rel="noopener">Request a Feature</a>
+        <a class="button button_outlined button_md" href="https://qdrant.to/discord" target="_blank" rel="noopener">Join Discord</a>
+      </div>
+    </div>
+  </div>
+</section>
