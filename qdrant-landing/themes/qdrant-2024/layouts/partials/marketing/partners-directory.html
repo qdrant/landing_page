@@ -1,0 +1,42 @@
+{{ with (.Site.GetPage "/partners/partners-directory") }}
+  <section class="partners-directory" id="partner-directory">
+    <div class="container">
+      <h3 class="partners-directory__title">{{ .Params.title }}</h3>
+      <p class="partners-directory__description">{{ .Params.description }}</p>
+
+      {{ range .Params.groups }}
+        <div class="partners-directory__group partners-directory__group_{{ .id }}" id="{{ .id }}-partners">
+          <h4 class="partners-directory__group-title">{{ .title }}</h4>
+          <p class="partners-directory__group-description">{{ .description }}</p>
+          <div class="row g-4">
+            {{ range .partners }}
+              <div class="col-12 col-md-6 col-xl-4">
+                <div class="partners-directory__card">
+                  <div class="partners-directory__logo">
+                    {{ if .logo }}
+                      <img src="{{ .logo }}" alt="{{ .name }} logo" {{ with .logoHeight }}style="max-height: {{ . }}px"{{ end }} />
+                    {{ else }}
+                      <span class="partners-directory__logo-placeholder" aria-hidden="true">{{ substr .name 0 1 }}</span>
+                    {{ end }}
+                  </div>
+                  <h5 class="partners-directory__card-title">{{ .name }}</h5>
+                  <p class="partners-directory__card-description">{{ .description }}</p>
+                  {{ if .url }}
+                    <a
+                      href="{{ .url }}"
+                      class="partners-directory__card-link link link_md"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {{ .linkText | default "Visit site" }}
+                    </a>
+                  {{ end }}
+                </div>
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

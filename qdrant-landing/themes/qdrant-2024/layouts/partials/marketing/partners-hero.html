@@ -4,6 +4,19 @@
     <div class="container">
       <h3 class="partners-hero__title">{{ .Params.title }}</h3>
       <p class="partners-hero__description">{{ .Params.description }}</p>
+      {{ with .Params.buttons }}
+        <div class="partners-hero__buttons">
+          {{ range . }}
+            <a
+              href="{{ .url }}"
+              class="button button_{{ .style | default "contained" }} button_lg"
+              {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}
+            >
+              {{ .text }}
+            </a>
+          {{ end }}
+        </div>
+      {{ end }}
     </div>
     <img class="partners-hero__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
     <img class="partners-hero__image-mobile" src="{{ .Params.image.srcMobile }}" alt="{{ .Params.image.alt }}" />
