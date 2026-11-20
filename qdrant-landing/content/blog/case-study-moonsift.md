@@ -118,7 +118,9 @@ Each evaluator ranks every result in an evaluation interface, marking what they 
 
 The evaluators also told the team something useful for scaling: they rate production results higher than staging, partly because production has more products to choose from. That's a big reason for growing the catalog. Since launch, Moonsift also tracks a live signal: whether shoppers save items from their search results.
 
-## Results
+## Lower Risk: The Team Ships Product Instead of Fixing Search
+
+David sums up what Qdrant changed in one word: risk. Before the move, any week could end with search down, a testing session lost, and three people pulled off the product to fix it. Now the team plans around what it wants to ship, not around whether search will still be up.
 
 - Moonsift rolled its shopping AI out to all users in 2026, and some shoppers already come back to it regularly.
 - The machine learning engineer works on models and ranking again, and the lead software engineer and David are back on product. For the past six months, the team's focus has been personalization and ranking, and it has barely had to touch Qdrant.
