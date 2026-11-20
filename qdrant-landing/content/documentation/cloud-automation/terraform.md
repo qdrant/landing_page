@@ -2,8 +2,9 @@
 title: Terraform
 short_description: "Manage the Qdrant Cloud lifecycle declaratively with the Terraform provider: version, share, and reuse vector database infrastructure across teams."
 description: "Provision Qdrant Cloud clusters and database keys with the official Terraform provider to manage vector database infrastructure as code on AWS, GCP, and Azure."
-weight: 10
+weight: 30
 aliases:
+  - /documentation/cloud-tools/terraform/
   - /documentation/infrastructure/terraform/
 ---
 
@@ -18,7 +19,7 @@ With the [Qdrant Terraform Provider](https://registry.terraform.io/providers/qdr
 To use the Qdrant Terraform Provider, you'll need:
 
 1. A [Terraform installation](https://developer.hashicorp.com/terraform/install).
-2. An [API key](/documentation/cloud-api/#authentication) to access the Qdrant cloud API.
+2. An [API key](/documentation/cloud-automation/cloud-api/#authentication) to access the Qdrant cloud API.
 
 ## Example Usage
 

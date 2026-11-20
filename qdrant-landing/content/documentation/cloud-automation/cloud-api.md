@@ -2,9 +2,10 @@
 title: Qdrant Cloud API
 short_description: "Automate Qdrant Cloud with the gRPC and REST/JSON management API: provision clusters, backups, auth, and Hybrid Cloud resources."
 description: "Use the Qdrant Cloud API over gRPC or REST/JSON to automate clusters, backups, authentication, and Hybrid Cloud environments programmatically."
-weight: 245
+weight: 10
 partition: deploy
 aliases:
+  - /documentation/cloud-api/
   - /documentation/qdrant-cloud-api/
 ---
 # Qdrant Cloud API: Powerful gRPC and Flexible REST/JSON Interfaces
@@ -44,7 +45,7 @@ You can create a Cloud Management Keys in the Cloud Console UI. Go to **Access M
     A Cloud Management Key is <strong>not</strong> deleted or revoked when the user who created it is removed or deleted from the account. The key keeps working with whatever permissions it was granted, so it can still be used to manage the account even after its creator no longer has access. Revoke any Cloud Management Keys tied to a user before or when removing them from the account.
 </aside>
 
-Each method requires RBAC permissions, such as `read:clusters` to list clusters. A key can only call methods that its permissions allow. See the [permission reference](/documentation/cloud-rbac/permission-reference/).
+Each method requires RBAC permissions, such as `read:clusters` to list clusters. A key can only call methods that its permissions allow. See the [permission reference](/documentation/cloud-account-setup/permission-reference/).
 
 ### First Request
 
@@ -77,4 +78,4 @@ For a complete workflow with `curl`, see [Automate Qdrant Cloud](/documentation/
 
 ## Terraform Provider
 
-Qdrant Cloud also provides a Terraform provider to manage your Qdrant Cloud resources. [Learn more](/documentation/cloud-tools/terraform/).
+Qdrant Cloud also provides a Terraform provider to manage your Qdrant Cloud resources. [Learn more](/documentation/cloud-automation/terraform/).

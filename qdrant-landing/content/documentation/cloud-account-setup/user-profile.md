@@ -2,8 +2,10 @@
 title: User Profile
 short_description: "Manage your Qdrant Cloud user profile: profile details, color scheme, cookie consent, account invitations, multi-factor authentication, and deactivation."
 description: "Manage your personal Qdrant Cloud user profile: profile details, appearance and color scheme, cookie consent, pending account invitations, multi-factor authentication and user deactivation."
-weight: 215
+weight: 10
 partition: deploy
+aliases:
+  - /documentation/cloud-user-profile/
 ---
 
 # Your User Profile & Preferences
@@ -12,7 +14,7 @@ Your user profile holds personal, user-level settings that apply to you across e
 
 Open the **user menu** at the bottom left of the Qdrant Cloud Console to access:
 
-* **Get Started**: the *Explore Qdrant Cloud* landing page. See [Getting Started](/documentation/cloud-getting-started/).
+* **Get Started**: the *Explore Qdrant Cloud* landing page. See [Getting Started](/documentation/cloud/getting-started/).
 * **Preferences**: your profile details, color scheme, and cookie consent.
 * **Invitations**: pending invitations to join other accounts.
 * **Security**: secure your login with multi-factor authentication.
@@ -47,7 +49,7 @@ When someone invites you to their account, the invitation appears on your **Invi
 
 ![Pending invitations](/documentation/cloud/pending-invitations.png)
 
-> **Note:** This page is for invitations *you* have received. To invite other users to an account you manage, use the **Access Management** page instead. See [Inviting Users to an Account](/documentation/cloud-rbac/user-management/#inviting-users-to-an-account).
+> **Note:** This page is for invitations *you* have received. To invite other users to an account you manage, use the **Access Management** page instead. See [Inviting Users to an Account](/documentation/cloud-account-setup/user-management/#inviting-users-to-an-account).
 
 ## Security
 

@@ -1,9 +1,11 @@
 ---
-title: Automate Qdrant Cloud
+title: Automation
 short_description: "Choose between the Cloud API, the qcloud CLI, Terraform, and Pulumi, and see the same cluster and key workflow in each."
 description: "Automate Qdrant Cloud with the qcloud CLI, the Cloud API, Terraform, or Pulumi: prerequisites, the same create-cluster and create-key workflow in each tool, and a map of common operations."
-weight: 242
+weight: 255
 partition: deploy
+aliases:
+  - /documentation/cloud-tools/
 ---
 
 # Automating Qdrant Cloud
@@ -14,16 +16,16 @@ Everything you can do in the Cloud Console can be scripted. This page helps you 
 
 | Tool | Use it for | Interface | Read more |
 |---|---|---|---|
-| `qcloud` CLI | Terminal sessions, shell scripts, and CI jobs. Waits for readiness with `--wait`, and prints JSON with `--json` | gRPC API, at `grpc.cloud.qdrant.io:443` | [Cloud CLI](/documentation/cloud-cli/) |
-| Cloud API | Services, custom tooling, and any language with an HTTP or gRPC client | REST at `https://api.cloud.qdrant.io`, gRPC at `grpc.cloud.qdrant.io:443` | [Cloud API](/documentation/cloud-api/) |
-| Terraform | Declarative, version-controlled infrastructure with plan and apply | The [Qdrant Cloud provider](https://registry.terraform.io/providers/qdrant/qdrant-cloud/latest) | [Terraform](/documentation/cloud-tools/terraform/) |
-| Pulumi | The same resources, defined in a general-purpose language | An SDK generated from the Terraform provider | [Pulumi](/documentation/cloud-tools/pulumi/) |
+| `qcloud` CLI | Terminal sessions, shell scripts, and CI jobs. Waits for readiness with `--wait`, and prints JSON with `--json` | gRPC API, at `grpc.cloud.qdrant.io:443` | [Cloud CLI](/documentation/cloud-automation/cloud-cli/) |
+| Cloud API | Services, custom tooling, and any language with an HTTP or gRPC client | REST at `https://api.cloud.qdrant.io`, gRPC at `grpc.cloud.qdrant.io:443` | [Cloud API](/documentation/cloud-automation/cloud-api/) |
+| Terraform | Declarative, version-controlled infrastructure with plan and apply | The [Qdrant Cloud provider](https://registry.terraform.io/providers/qdrant/qdrant-cloud/latest) | [Terraform](/documentation/cloud-automation/terraform/) |
+| Pulumi | The same resources, defined in a general-purpose language | An SDK generated from the Terraform provider | [Pulumi](/documentation/cloud-automation/pulumi/) |
 
 ## Before You Start
 
 1. **Create a Cloud Management Key.** In the Cloud Console, go to **Access Management** > **Cloud Management Keys**. Creating one needs the `write:management_keys` permission. See [Authentication](/documentation/cloud/authentication/) for how it differs from a Database API key.
 2. **Find your Account ID.** It is on the account **Settings** page. See [Account Setup](/documentation/cloud-account-setup/#account-settings).
-3. **Check the permissions.** The workflow on this page needs `write:clusters` and `write:api_keys` for the account that the key acts on. See the [permission reference](/documentation/cloud-rbac/permission-reference/).
+3. **Check the permissions.** The workflow on this page needs `write:clusters` and `write:api_keys` for the account that the key acts on. See the [permission reference](/documentation/cloud-account-setup/permission-reference/).
 
 <aside role="alert">
     A Cloud Management Key is <strong>not</strong> revoked when the user who created it is removed from the account. Keep keys in a secret store, use one key per pipeline, and revoke a user's keys when they leave. See <a href="/documentation/cloud/authentication/#when-a-user-leaves">When a User Leaves</a>.
@@ -101,11 +103,11 @@ To restrict a key to collections, use `collectionAccess` rules with the collecti
 
 ### Terraform
 
-The [Terraform page](/documentation/cloud-tools/terraform/) creates a cluster and a Database API key. The cluster resource is `qdrant-cloud_accounts_cluster`, and the key resource is `qdrant-cloud_accounts_database_api_key_v2`.
+The [Terraform page](/documentation/cloud-automation/terraform/) creates a cluster and a Database API key. The cluster resource is `qdrant-cloud_accounts_cluster`, and the key resource is `qdrant-cloud_accounts_database_api_key_v2`.
 
 ### Pulumi
 
-The Pulumi SDK is generated from the Terraform provider, so each resource has the same name in the language's casing. For example, `qdrant-cloud_accounts_cluster` is `AccountsCluster` and `qdrant-cloud_accounts_database_api_key_v2` is `AccountsDatabaseApiKeyV2`. The [Pulumi page](/documentation/cloud-tools/pulumi/) creates a cluster and a key in Python and TypeScript.
+The Pulumi SDK is generated from the Terraform provider, so each resource has the same name in the language's casing. For example, `qdrant-cloud_accounts_cluster` is `AccountsCluster` and `qdrant-cloud_accounts_database_api_key_v2` is `AccountsDatabaseApiKeyV2`. The [Pulumi page](/documentation/cloud-automation/pulumi/) creates a cluster and a key in Python and TypeScript.
 
 ## Common Operations
 

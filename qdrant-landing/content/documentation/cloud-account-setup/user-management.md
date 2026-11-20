@@ -2,12 +2,14 @@
 title: User Management
 short_description: "Invite users, assign roles, and transfer account ownership in Qdrant Cloud through the User Management console."
 description: "Invite teammates, assign or revoke roles, transfer account ownership, and remove users from your Qdrant Cloud account through User Management."
-weight: 10
+weight: 40
+aliases:
+  - /documentation/cloud-rbac/user-management/
 ---
 
 # User Management
 
-> 💡 You can access this in **Access Management > User & Role Management** *see [this page for details](/documentation/cloud-rbac/).*
+> 💡 You can access this in **Access Management > User & Role Management** *see [this page for details](/documentation/cloud-account-setup/rbac/).*
 
 ## Inviting Users to an Account
 
@@ -57,5 +59,5 @@ Users can be removed from an account by clicking on their name in either **User
 ![image.png](/documentation/cloud/role-based-access-control/remove-user.png)
 
 <aside role="alert">
-    Removing or deleting a user does <strong>not</strong> delete the <a href="/documentation/cloud-api/">Cloud Management Keys</a> or <a href="/documentation/cloud/authentication/">Database API keys</a> they created. Those keys keep working with the permissions they were granted, and can still be used to manage the account or access its clusters. Revoke a departing user's keys separately if they should no longer have access.
+    Removing or deleting a user does <strong>not</strong> delete the <a href="/documentation/cloud-automation/cloud-api/">Cloud Management Keys</a> or <a href="/documentation/cloud/authentication/">Database API keys</a> they created. Those keys keep working with the permissions they were granted, and can still be used to manage the account or access its clusters. Revoke a departing user's keys separately if they should no longer have access.
 </aside>

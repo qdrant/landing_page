@@ -2,12 +2,14 @@
 title: Role Management
 short_description: "Build custom Qdrant Cloud roles with fine-grained permissions, or assign built-in Base, Admin, and Owner roles to your team."
 description: "Create, edit, and assign custom Qdrant Cloud roles with fine-grained permissions, or use built-in Base, Admin, and Owner roles for access control."
-weight: 5
+weight: 30
+aliases:
+  - /documentation/cloud-rbac/role-management/
 ---
 
 # Role Management
 
-> 💡 You can access this in **Access Management > User & Role Management** *see [this page for details](/documentation/cloud-rbac/).*
+> 💡 You can access this in **Access Management > User & Role Management** *see [this page for details](/documentation/cloud-account-setup/rbac/).*
 
 A **Role** contains a set of **permissions** that define the ability to perform or control specific actions in Qdrant Cloud. Permissions are accessible through the Permissions tab in the Role Details page and offer fine-grained access control, logically grouped for easy identification.
 

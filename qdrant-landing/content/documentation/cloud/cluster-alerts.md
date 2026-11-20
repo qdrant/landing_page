@@ -7,7 +7,7 @@ weight: 31
 
 # Cluster Alerts
 
-The account owner receives these alerts by email. Each row gives the condition that triggers the alert, what it means for your cluster, and how to resolve it. For the metrics behind them, see [Monitor Clusters](/documentation/cloud/cluster-monitoring/). To read firing and resolved alerts in your own automation, run `qcloud cluster alert list <CLUSTER_ID>` in the [Cloud CLI](/documentation/cloud-cli/) or call the `ListClusterAlerts` method of the [Cloud API](/documentation/cloud-api/).
+The account owner receives these alerts by email. Each row gives the condition that triggers the alert, what it means for your cluster, and how to resolve it. For the metrics behind them, see [Monitor Clusters](/documentation/cloud/cluster-monitoring/). To read firing and resolved alerts in your own automation, run `qcloud cluster alert list <CLUSTER_ID>` in the [Cloud CLI](/documentation/cloud-automation/cloud-cli/) or call the `ListClusterAlerts` method of the [Cloud API](/documentation/cloud-automation/cloud-api/).
 
 ## Capacity
 

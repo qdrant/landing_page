@@ -336,3 +336,30 @@
 /articles/tuning-qdrant-optimizer  /documentation/operate-and-maintain/predictable-search-latency/  301!
 /documentation/qdrant-mcp-server.md  /documentation/qdrant-mcp/cloud.md  301!
 /documentation/qdrant-mcp-server  /documentation/qdrant-mcp/cloud/  301!
+
+# Deploy tab reorganization: Getting Started moved into Managed Cloud (cloud/),
+# and the Cloud API, CLI, Terraform, and Pulumi pages moved under cloud-automation/
+/documentation/cloud-getting-started.md  /documentation/cloud/getting-started.md  301!
+/documentation/cloud-getting-started/*   /documentation/cloud/getting-started/:splat  301!
+/documentation/cloud-getting-started     /documentation/cloud/getting-started/  301!
+/documentation/cloud-api.md              /documentation/cloud-automation/cloud-api.md  301!
+/documentation/cloud-api/*               /documentation/cloud-automation/cloud-api/:splat  301!
+/documentation/cloud-api                 /documentation/cloud-automation/cloud-api/  301!
+/documentation/cloud-cli.md              /documentation/cloud-automation/cloud-cli.md  301!
+/documentation/cloud-cli/*               /documentation/cloud-automation/cloud-cli/:splat  301!
+/documentation/cloud-cli                 /documentation/cloud-automation/cloud-cli/  301!
+/documentation/cloud-tools.md            /documentation/cloud-automation.md  301!
+/documentation/cloud-tools/*             /documentation/cloud-automation/:splat  301!
+/documentation/cloud-tools               /documentation/cloud-automation/  301!
+
+# Deploy tab reorganization: User Profile and the Cloud RBAC pages moved into the
+# Account & Access group. The RBAC overview is now cloud-account-setup/rbac/, so its
+# rules come before the splat, which would otherwise send it to the Account page.
+/documentation/cloud-rbac.md          /documentation/cloud-account-setup/rbac.md  301!
+/documentation/cloud-rbac/index.md    /documentation/cloud-account-setup/rbac/index.md  301!
+/documentation/cloud-rbac/            /documentation/cloud-account-setup/rbac/  301!
+/documentation/cloud-rbac             /documentation/cloud-account-setup/rbac/  301!
+/documentation/cloud-rbac/*           /documentation/cloud-account-setup/:splat  301!
+/documentation/cloud-user-profile.md  /documentation/cloud-account-setup/user-profile.md  301!
+/documentation/cloud-user-profile/*   /documentation/cloud-account-setup/user-profile/:splat  301!
+/documentation/cloud-user-profile     /documentation/cloud-account-setup/user-profile/  301!

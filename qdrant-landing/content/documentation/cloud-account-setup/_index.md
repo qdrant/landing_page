@@ -1,7 +1,7 @@
 ---
-title: Account Setup
-short_description: "Set up your Qdrant Cloud account: register, switch between accounts, invite teammates, and manage account settings and ownership."
-description: "Register a Qdrant Cloud account with email, Google, GitHub, or SSO. Create and switch between multiple Cloud accounts, manage account settings, and transfer ownership."
+title: Account & Access
+short_description: "Set up your Qdrant Cloud account: register, switch between accounts, invite teammates, manage roles and permissions, and transfer ownership."
+description: "Register a Qdrant Cloud account with email, Google, GitHub, or SSO. Create and switch between multiple Cloud accounts, manage account settings, control access with Cloud RBAC, and transfer ownership."
 weight: 210
 partition: deploy
 aliases:
@@ -27,11 +27,11 @@ Once you sign in, the Qdrant Cloud Console is organized around three areas:
 
 * The **left navigation** gives you access to your account resources like the account's clusters, backups, access management, or billing.
 * The **account switcher** at the top left lets you switch between the accounts you own or have been invited to, create new accounts, and open the accounts overview.
-* The **user menu** at the bottom left contains your personal, user-level options, like your user specific settings, invitations, and the management of your accounts. These are documented on the [User Profile](/documentation/cloud-user-profile/) page.
+* The **user menu** at the bottom left contains your personal, user-level options, like your user specific settings, invitations, and the management of your accounts. These are documented on the [User Profile](/documentation/cloud-account-setup/user-profile/) page.
 
 ![Qdrant Cloud Console overview](/documentation/cloud/console-overview.png)
 
-The **Get Started** page (**Explore Qdrant Cloud**) is your landing page for connecting to clusters, loading sample data, migrating data, and using Cloud Inference. See [Getting Started](/documentation/cloud-getting-started/) for a guided walkthrough.
+The **Get Started** page (**Explore Qdrant Cloud**) is your landing page for connecting to clusters, loading sample data, migrating data, and using Cloud Inference. See [Getting Started](/documentation/cloud/getting-started/) for a guided walkthrough.
 
 ## Switching Between Accounts
 
@@ -77,17 +77,17 @@ Use **Edit Account Details** to rename an account or update its company name. If
 
 Every account has exactly one owner. The owner has full admin permissions plus the unique ability to delete the account or transfer its ownership.
 
-To transfer ownership, on the account **Settings** page choose **Transfer Ownership** and select another member of the account. The new owner must already be a member, so invite them first from the [Access Management](/documentation/cloud-rbac/) page if needed.
+To transfer ownership, on the account **Settings** page choose **Transfer Ownership** and select another member of the account. The new owner must already be a member, so invite them first from the [Access Management](/documentation/cloud-account-setup/rbac/) page if needed.
 
 ### Deleting an Account
 
-Use **Delete Account** to permanently delete an account you own, along with all of its database clusters and associated data. This action cannot be undone and is only available to the account owner. Deleting an account does not delete your user. You can create other accounts afterward. You can delete your user completely in the [User Settings](/documentation/cloud-user-profile/).
+Use **Delete Account** to permanently delete an account you own, along with all of its database clusters and associated data. This action cannot be undone and is only available to the account owner. Deleting an account does not delete your user. You can create other accounts afterward. You can delete your user completely in the [User Settings](/documentation/cloud-account-setup/user-profile/).
 
 ## Inviting Users to an Account
 
-You can invite additional users to an account and manage their permissions on the **Access Management** page in the Qdrant Cloud Console. Invited users receive an email with an invitation link. Once they sign up, they can accept the invitation from their personal [Invitations](/documentation/cloud-user-profile/#invitations) page.
+You can invite additional users to an account and manage their permissions on the **Access Management** page in the Qdrant Cloud Console. Invited users receive an email with an invitation link. Once they sign up, they can accept the invitation from their personal [Invitations](/documentation/cloud-account-setup/user-profile/#invitations) page.
 
-For roles and permissions, see [Cloud RBAC](/documentation/cloud-rbac/).
+For the steps, see [User Management](/documentation/cloud-account-setup/user-management/). To control what each user can do, see [Cloud RBAC](/documentation/cloud-account-setup/rbac/).
 
 ## Enterprise Single-Sign-On (SSO)
 

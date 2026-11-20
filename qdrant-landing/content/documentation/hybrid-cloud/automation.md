@@ -7,7 +7,7 @@ weight: 35
 
 # Automating Hybrid Cloud
 
-You can create Hybrid Cloud environments and clusters without the Console. This page shows how with the [`qcloud` CLI](/documentation/cloud-cli/), [Terraform](/documentation/cloud-tools/terraform/), and the [Cloud API](/documentation/cloud-api/). All of them authenticate with a [Cloud Management Key](/documentation/cloud-api/#authentication). Hybrid Cloud access must be enabled for your account by the Qdrant sales team.
+You can create Hybrid Cloud environments and clusters without the Console. This page shows how with the [`qcloud` CLI](/documentation/cloud-automation/cloud-cli/), [Terraform](/documentation/cloud-automation/terraform/), and the [Cloud API](/documentation/cloud-automation/cloud-api/). All of them authenticate with a [Cloud Management Key](/documentation/cloud-automation/cloud-api/#authentication). Hybrid Cloud access must be enabled for your account by the Qdrant sales team.
 
 The workflow has three steps:
 
@@ -63,7 +63,7 @@ resource "qdrant-cloud_accounts_hybrid_cloud_environment" "example" {
 }
 ```
 
-The [resource documentation](https://registry.terraform.io/providers/qdrant/qdrant-cloud/latest/docs/resources/accounts_hybrid_cloud_environment) shows how to write the bootstrap commands to a script file. The commands contain credentials, so keep the file private. Run the script against your Kubernetes cluster, and wait until the environment is healthy before you create a cluster. Changing `bootstrap_commands_version` generates new commands and rotates the credentials, so you must run them against the cluster again. For the provider setup, see [Terraform](/documentation/cloud-tools/terraform/).
+The [resource documentation](https://registry.terraform.io/providers/qdrant/qdrant-cloud/latest/docs/resources/accounts_hybrid_cloud_environment) shows how to write the bootstrap commands to a script file. The commands contain credentials, so keep the file private. Run the script against your Kubernetes cluster, and wait until the environment is healthy before you create a cluster. Changing `bootstrap_commands_version` generates new commands and rotates the credentials, so you must run them against the cluster again. For the provider setup, see [Terraform](/documentation/cloud-automation/terraform/).
 
 To create a cluster in the environment, set `cloud_provider` to `"hybrid"`, and set `cloud_region` to the ID of the environment. It is not a region name:
 
@@ -117,4 +117,4 @@ The environment endpoints are under `/api/hybrid/v1/accounts/<ACCOUNT_ID>`:
 | Delete an environment | `DELETE /hybrid-cloud-environments/<ENV_ID>` | `delete:hybrid_cloud_environments` |
 | Generate the bootstrap commands | `POST /hybrid-cloud-environments/<ENV_ID>/bootstrap-commands` | `write:hybrid_cloud_environments` and `write:management_keys` |
 
-Send the key in the `Authorization: apikey <CLOUD_MANAGEMENT_KEY>` header. For the permissions, see the [permission reference](/documentation/cloud-rbac/permission-reference/).
+Send the key in the `Authorization: apikey <CLOUD_MANAGEMENT_KEY>` header. For the permissions, see the [permission reference](/documentation/cloud-account-setup/permission-reference/).

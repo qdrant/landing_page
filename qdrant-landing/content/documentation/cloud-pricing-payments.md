@@ -1,13 +1,13 @@
 ---
-title: Billing & Payments
+title: Billing
 short_description: "Understand Qdrant Cloud pricing based on CPU, memory, and storage, and pay by credit card or AWS, GCP, or Azure Marketplace."
 description: "Qdrant Cloud billing explained: usage-based pricing for CPU, memory, and disk, with payment via credit card or AWS, GCP, and Azure Marketplaces."
-weight: 235
+weight: 256
 partition: deploy
 aliases:
-  - aws-marketplace
-  - gcp-marketplace
-  - azure-marketplace
+  - /documentation/aws-marketplace/
+  - /documentation/gcp-marketplace/
+  - /documentation/azure-marketplace/
   - /documentation/cloud/pricing-payments/
 ---
 
@@ -107,7 +107,7 @@ How you reactivate a cluster depends on why it was suspended.
 
 #### Free Clusters
 
-In the [Qdrant Cloud Console](https://cloud.qdrant.io/), open the cluster and select **Reactivate your cluster**, or select **Reactivate** in the cluster list. You can also use the [Cloud CLI](/documentation/cloud-cli/) (`qcloud cluster unsuspend <CLUSTER_ID>`) or the [Cloud API](/documentation/cloud-api/) (`POST /clusters/<CLUSTER_ID>/unsuspend`).
+In the [Qdrant Cloud Console](https://cloud.qdrant.io/), open the cluster and select **Reactivate your cluster**, or select **Reactivate** in the cluster list. You can also use the [Cloud CLI](/documentation/cloud-automation/cloud-cli/) (`qcloud cluster unsuspend <CLUSTER_ID>`) or the [Cloud API](/documentation/cloud-automation/cloud-api/) (`POST /clusters/<CLUSTER_ID>/unsuspend`).
 
 #### Paid Clusters
 
