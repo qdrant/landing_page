@@ -1,0 +1,29 @@
+// Hand-ported from the Daniel pass board: parts the FPO page builder does not generate yet
+// (section diagrams, the two-step hero intro, the savings calculator, the logo strip).
+@use '../../helpers/functions' as *;
+
+.rethink-reranking-hero__intro { margin-top: pxToRem(16); font-size: pxToRem(18); line-height: 1.5; opacity: 0.72; }
+.rethink-reranking-hero__description { font-weight: 500; }
+
+.rethink-reranking-figure { display: block; width: 100%; height: auto; margin-top: pxToRem(32); border-radius: pxToRem(12); }
+
+.rethink-reranking-calc {
+  margin-top: pxToRem(32); padding: pxToRem(24); border: 1px solid rgba(127, 127, 127, 0.25); border-radius: pxToRem(16);
+  &__note { margin: 0 0 pxToRem(16); font-size: pxToRem(14); opacity: 0.72; }
+  &__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(pxToRem(220), 1fr)); gap: pxToRem(16); }
+  label { display: flex; flex-direction: column; gap: pxToRem(6); font-size: pxToRem(14); line-height: 1.4; }
+  input { min-height: pxToRem(44); padding: pxToRem(8) pxToRem(12); border: 1px solid rgba(127, 127, 127, 0.4); border-radius: pxToRem(8); background: transparent; color: inherit; font: inherit; font-variant-numeric: tabular-nums; }
+  &__out { margin: pxToRem(24) 0 pxToRem(16); }
+  &__out > div { display: flex; justify-content: space-between; align-items: baseline; gap: pxToRem(16); padding: pxToRem(10) 0; border-bottom: 1px solid rgba(127, 127, 127, 0.2); }
+  dt { display: flex; flex-direction: column; font-weight: 500; }
+  dt span { font-size: pxToRem(13); font-weight: 400; opacity: 0.72; }
+  dd { margin: 0; font-variant-numeric: tabular-nums; text-align: right; }
+  &__total dt, &__total dd { font-weight: 600; }
+}
+
+.rethink-reranking-logos {
+  padding: pxToRem(48) 0;
+  &__list { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: pxToRem(24) pxToRem(48); margin: 0; padding: 0; list-style: none; }
+  a { display: flex; align-items: center; min-height: pxToRem(44); padding: pxToRem(4); }
+  img { display: block; width: auto; height: auto; max-width: pxToRem(140); max-height: pxToRem(36); }
+}

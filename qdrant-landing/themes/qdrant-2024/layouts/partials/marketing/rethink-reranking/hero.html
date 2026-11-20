@@ -1,0 +1,22 @@
+{{ with (.Site.GetPage "/rethink-reranking/hero") }}
+  <section class="rethink-reranking-hero">
+    <div class="container">
+      <div class="rethink-reranking-hero__copy">
+        {{ with .Params.label }}<p class="rethink-reranking-hero__label">{{ . }}</p>{{ end }}
+        <h1 class="rethink-reranking-hero__title">{{ .Params.title }}</h1>
+        {{ with .Params.intro }}<p class="rethink-reranking-hero__intro">{{ . | markdownify }}</p>{{ end }}
+        <p class="rethink-reranking-hero__description">{{ .Params.description | markdownify }}</p>
+        {{ with .Params.proof }}<p class="rethink-reranking-hero__description rethink-reranking-hero__proof">{{ . | markdownify }}</p>{{ end }}
+        <div class="rethink-reranking-hero__actions">
+          {{ with .Params.button }}
+            <a href="{{ .url }}" class="button button_contained button_lg" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+          {{ end }}
+          {{ with .Params.outlineButton }}
+            <a href="{{ .url }}" class="button button_outlined button_lg" {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer"{{ end }}>{{ .text }}</a>
+          {{ end }}
+        </div>
+      </div>
+      {{ with .Params.figure }}<img class="rethink-reranking-figure" src="{{ . }}" alt="{{ $.Params.figureAlt }}" loading="lazy" />{{ end }}
+    </div>
+  </section>
+{{ end }}

@@ -1,0 +1,89 @@
+@use '../helpers/functions' as *;
+
+// Figma How-It-Works / Option D (22196:48417): centred header; the stages sit in one N98 card
+// (radius 16, hairline border, 40/48 padding) with a connector line running behind the 56px icon
+// tiles; a banner row below carries the proof text and the arrow links.
+// ponytail: the frame's tiles cycle violet/blue/teal with matching icons; the theme's outline icons
+// are blue, so every tile is the blue stage — per-colour icon sets are the upgrade path.
+.landing-steps--icon-flow {
+  .landing-steps__header { text-align: center; }
+  .landing-steps__title,
+  .landing-steps__description { max-width: pxToRem(760); margin-left: auto; margin-right: auto; }
+
+  .landing-steps__flow {
+    position: relative;
+    overflow: hidden;
+    padding: $spacer * 2 $spacer * 1.5;
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(16);
+    background-color: $neutral-98;
+  }
+
+  .landing-steps__icon {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: pxToRem(56);
+    height: pxToRem(56);
+    margin-bottom: $spacer * 1.5;
+    border: 1px solid $secondary-blue-70;
+    border-radius: pxToRem(12);
+    background-color: $secondary-blue-90;
+
+    img { width: $spacer * 1.5; height: $spacer * 1.5; }
+  }
+
+  .landing-steps__banner {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+    margin-top: pxToRem(30);
+    padding: $spacer * 2;
+    border: 1px solid $neutral-90;
+    border-radius: pxToRem(16);
+    background-color: $neutral-98;
+    box-shadow: 0 2px 1.5px rgba(0, 0, 0, 0.04);
+  }
+  .landing-steps__banner-text { margin: 0; font-size: $font-size-md; line-height: 1.5; color: $neutral-30; }
+
+  // ONE proof-callout treatment on a page: the same bordered blockquote the section partials render. The steps section
+  // used to show proof as a plain banner paragraph, so filterable-hnsw (its only callout is under How it works) never
+  // showed the pattern at all and hybrid-search showed two different ones (PMM, 2026-10-02).
+  .landing-steps__callout {
+    margin: pxToRem(30) 0 0;
+    padding: $spacer * 1.5;
+    border-left: 3px solid $secondary-blue-70;
+    border-radius: 0 pxToRem(8) pxToRem(8) 0;
+    background: $neutral-98;
+    color: $neutral-30;
+    font-size: $font-size-md;
+    line-height: 1.5;
+    a { margin-left: $spacer * 0.5; white-space: nowrap; color: $secondary-blue-70; }
+  }
+  .landing-steps__banner-links { display: flex; flex-wrap: wrap; gap: $spacer * 1.5; }
+
+  @include media-breakpoint-up(lg) {
+    .landing-steps__flow { padding: $spacer * 3 $spacer * 2.5; }
+    .landing-steps__list { gap: pxToRem(72); }
+
+    // the connector: one hairline across the icon row, behind the tiles
+    .landing-steps__flow::before {
+      content: '';
+      position: absolute;
+      top: calc(#{$spacer * 3} + #{pxToRem(28)});
+      left: $spacer * 2.5;
+      right: $spacer * 2.5;
+      height: 2px;
+      background-color: $neutral-90;
+    }
+
+    .landing-steps__banner {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .landing-steps__banner-text { max-width: pxToRem(465); }
+  }
+}
