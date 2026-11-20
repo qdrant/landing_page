@@ -23,7 +23,7 @@
       </div>
 
       <ul class="stars-projects__list">
-        {{ range .Params.projects }}
+        {{ range $project := .Params.projects }}
           {{ $type := index $types .type }}
           <li class="stars-projects__item">
             <img
@@ -36,7 +36,13 @@
               decoding="async"
             />
             <div class="stars-projects__name">
-              <h3 class="stars-projects__item-title">{{ .name }}</h3>
+              <h3 class="stars-projects__item-title">
+                {{- with .url -}}
+                  <a class="stars-projects__item-link" href="{{ . }}" target="_blank" rel="noopener">{{ $project.name }}</a>
+                {{- else -}}
+                  {{ $project.name }}
+                {{- end -}}
+              </h3>
               <p class="stars-projects__author">by {{ .author }}</p>
             </div>
             <p class="stars-projects__item-description">{{ .description }}</p>

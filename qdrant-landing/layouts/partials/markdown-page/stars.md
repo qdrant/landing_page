@@ -35,8 +35,8 @@
 
 {{ .Params.description }}
 
-{{ range .Params.projects -}}
-- **{{ .name }}** by {{ .author }} ({{ replace .type "-" " " }}): {{ .description }}
+{{ range $project := .Params.projects -}}
+- **{{ with .url }}[{{ $project.name }}]({{ . }}){{ else }}{{ $project.name }}{{ end }}** by {{ .author }} ({{ replace .type "-" " " }}): {{ .description }}
 {{ end }}
 {{ end -}}
 {{ with site.GetPage "/stars/stars-perks" -}}
