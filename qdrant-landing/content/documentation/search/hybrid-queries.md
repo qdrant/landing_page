@@ -179,6 +179,19 @@ A formula query lets you compose a final score from prefetch scores (`$score`), 
 
 The [Choosing a Fusion Method notebook](https://githubtocolab.com/qdrant/examples/blob/master/fusion-methods/Choosing_a_Fusion_Method.ipynb) shows this pattern end-to-end with exponential decay on a `published_at` payload field. For full formula query and decay function syntax, see the [Search Relevance reference](/documentation/search/search-relevance/).
 
+### Sort Results by a Payload Field
+
+The Query API accepts `order_by` as the main query. Each query runs on the results of its prefetches, so you can rank by relevance first and then sort the candidates by a payload field, for example price. Run the vector search with a filter in the prefetch, then order the candidates by price in the main query.
+
+{{< code-snippet path="/documentation/headless/snippets/query-points/hybrid-order-by/" >}}
+
+Two details shape the result:
+
+- `order_by` sorts only the prefetched candidates. The prefetch `limit` sets how many points compete for the top spots, so the main query returns the cheapest 10 of the 100 candidates, not the cheapest 10 in the collection.
+- The field needs a payload index that supports range conditions, such as `float` or `integer`. Without one, the request fails with `No range index for 'order_by' key`. See [Order Points by Payload Key](/documentation/manage-data/points/#order-points-by-payload-key).
+
+A [formula query](#custom-scoring-with-a-formula-query) gives the same order. A formula reads a payload key as a number and ranks the highest score first, so `{"mult": [-1, "price"]}` puts the cheapest candidates first. Unlike `order_by`, a formula also runs on a field with no payload index, so you can sort by a numeric field before you add an index.
+
 ### Fusion in Distributed Collections
 
 The previous example puts the fusion inside a prefetch. In a multi-shard collection, a fusion merges results across all shards only when it is the main query, held in the top-level `query` field with the retrievers as its prefetches, as in the [RRF](#reciprocal-rank-fusion-rrf) and [DBSF](#distribution-based-score-fusion-dbsf) examples. When it instead sits inside a prefetch, each shard computes the fusion on its local results, so the fused ranking is per shard rather than global.

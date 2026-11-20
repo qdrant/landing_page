@@ -393,6 +393,8 @@ You need to use the `order_by` `key` parameter to specify the payload key. Then 
 
 When sorting is based on a non-unique value, it is not possible to rely on an ID offset. Thus, next_page_offset is not returned within the response. However, you can still do pagination by combining `"order_by": { "start_from": ... }` with a `{ "must_not": [{ "has_id": [...] }] }` filter.
 
+`order_by` also works as a [Query API](/documentation/search/hybrid-queries/#sort-results-by-a-payload-field) query. It then sorts the results of a prefetch, such as a filtered vector search, instead of scrolling the collection. The same payload index requirement applies.
+
 ## Counting Points {version="0.8.4"}
 
 Sometimes it can be useful to know how many points fit the filter conditions without doing a real search.
