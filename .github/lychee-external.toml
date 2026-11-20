@@ -29,3 +29,6 @@ exclude = [
   '^https://www\.hpe\.com/',
   '^https://www\.opentable\.com/',
 ]
+
+# Bundled third-party font files, not our content
+exclude_path = ['qdrant-landing/public/fonts/']
