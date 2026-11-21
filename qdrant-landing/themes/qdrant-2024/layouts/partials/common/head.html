@@ -76,6 +76,9 @@
     <link rel="alternate" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Page.Title }}" />
   {{ end }}
 
+  <link rel="ard" href="/.well-known/ard.json" />
+  <link rel="ai-catalog" href="/.well-known/ai-catalog.json" />
+
   {{ partial "common/seo_schema" . }}
   {{ partial "common/js-head" . }}
 </head>

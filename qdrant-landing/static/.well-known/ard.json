@@ -1,0 +1,60 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Qdrant",
+    "identifier": "did:web:qdrant.tech",
+    "documentationUrl": "https://qdrant.tech/documentation/"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:qdrant.tech:docs:mcp:server",
+      "displayName": "Qdrant Docs MCP server",
+      "type": "application/json",
+      "url": "https://search.qdrant.tech/mcp",
+      "description": "The Qdrant Docs MCP server endpoint (streamable HTTP) for searching and reading the Qdrant documentation, articles, blog, course, and code snippets from MCP clients. No sign-in required.",
+      "tags": ["mcp", "server", "agents"],
+      "representativeQueries": [
+        "search the Qdrant documentation from my coding agent",
+        "find a Qdrant code example for hybrid search in Python",
+        "look up how to configure quantization in Qdrant"
+      ]
+    },
+    {
+      "identifier": "urn:air:qdrant.tech:skills",
+      "displayName": "Qdrant Agent Skills",
+      "type": "application/agent-skills+json",
+      "url": "https://qdrant.tech/.well-known/agent-skills/index.json",
+      "description": "Agent skills for building with, operating, and troubleshooting Qdrant.",
+      "tags": ["skills", "agents", "vector-search"],
+      "representativeQueries": [
+        "set up hybrid search with dense and sparse vectors in Qdrant",
+        "diagnose slow search or high memory usage in my Qdrant cluster"
+      ]
+    },
+    {
+      "identifier": "urn:air:qdrant.tech:llms-txt",
+      "displayName": "Qdrant llms.txt",
+      "type": "text/markdown",
+      "url": "https://qdrant.tech/llms.txt",
+      "description": "Entry point for AI agents: how to use Qdrant and an index of the documentation in Markdown.",
+      "tags": ["documentation", "llms", "markdown"],
+      "representativeQueries": [
+        "how do I create a collection and upsert points in Qdrant",
+        "Qdrant filtering and payload indexing documentation"
+      ]
+    },
+    {
+      "identifier": "urn:air:qdrant.tech:catalog:cloud-qdrant-io",
+      "displayName": "Qdrant Cloud Resources",
+      "type": "application/ai-catalog+json",
+      "url": "https://cloud.qdrant.io/.well-known/ard.json",
+      "description": "Catalog of Qdrant Cloud resources for agents, including the Qdrant Cloud MCP server.",
+      "representativeQueries": [
+        "create a Qdrant Cloud cluster from my coding agent",
+        "check the health and metrics of my Qdrant Cloud cluster",
+        "list and restore backups of a Qdrant Cloud cluster",
+        "manage Qdrant Cloud users, roles, and billing with an MCP server"
+      ]
+    }
+  ]
+}
