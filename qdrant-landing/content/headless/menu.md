@@ -27,6 +27,10 @@ menuItems:
           name: Qdrant Hybrid Cloud
           icon: hybrid-cloud.svg
           url: /hybrid-cloud/
+        - id: subMenu-0-4
+          name: Qdrant Private Cloud
+          icon: private-cloud.svg
+          url: /private-cloud/
         - id: subMenu-0-5
           name: Qdrant Edge (Beta)
           icon: edge.svg
@@ -35,10 +39,6 @@ menuItems:
           name: Qdrant Serverless (Waitlist)
           icon: serverless.svg
           url: /serverless/
-#       - id: subMenu-0-4
-#         name: Private Cloud
-#         icon: private-cloud.svg
-#         url: /private-cloud/
   - id: menu-1
     name: Solutions
     mainMenuItems:
