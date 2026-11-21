@@ -24,7 +24,7 @@
 {{ range .Params.cards -}}
 ### {{ .name }}{{ if .distinguished }} (Distinguished Ambassador){{ end }}
 
-{{ .position }}{{ with .location }} ({{ . }}){{ end }}
+{{ .position }}{{ with .location }} ({{ . }}){{ end }}{{ with .linkedin }}. [LinkedIn]({{ . }}){{ end }}
 
 {{ with .description }}{{ . }}
 {{ end }}

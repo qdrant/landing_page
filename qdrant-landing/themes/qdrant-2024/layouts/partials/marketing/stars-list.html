@@ -10,7 +10,7 @@
       </div>
 
       <ul class="stars-list__grid">
-        {{ range .Params.cards }}
+        {{ range $card := .Params.cards }}
           <li class="stars-list__card" data-stars-card>
             <div class="stars-list__card-header">
               <img
@@ -22,8 +22,24 @@
                 loading="lazy"
                 decoding="async"
               />
-              {{ if .distinguished }}
-                <span class="stars-list__badge" role="img" aria-label="Distinguished"></span>
+              {{ if or .distinguished .linkedin }}
+                <div class="stars-list__card-end">
+                  {{ if .distinguished }}
+                    <span class="stars-list__badge" role="img" aria-label="Distinguished"></span>
+                  {{ end }}
+                  {{ with .linkedin }}
+                    <a
+                      class="stars-list__linkedin"
+                      href="{{ . }}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="{{ $card.name }} on LinkedIn"
+                      title="{{ $card.name }} on LinkedIn"
+                    >
+                      {{- partial "common/svg.html" (dict "icon" "linkedin" "path" "static/img/components/icons/" "fill" "currentColor") -}}
+                    </a>
+                  {{ end }}
+                </div>
               {{ end }}
             </div>
             {{ $hasDetails := or .tags .location .talks .posts }}

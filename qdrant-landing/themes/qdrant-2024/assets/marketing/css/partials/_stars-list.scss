@@ -81,6 +81,30 @@
   }
 
   // The badge artwork (sparkle and "Distinguished" lettering) is a mask over a violet gradient.
+  // The Distinguished badge and the LinkedIn link, at the end of the header row.
+  &__card-end {
+    display: flex;
+    align-items: center;
+    gap: pxToRem(12);
+  }
+
+  &__linkedin {
+    display: flex;
+    flex: none;
+    color: $neutral-70;
+    transition: color 0.2s ease;
+
+    svg {
+      width: pxToRem(20);
+      height: pxToRem(20);
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: $neutral-98;
+    }
+  }
+
   &__badge {
     flex: none;
     width: pxToRem(108);
