@@ -1,0 +1,1 @@
+Retrieve fictional film locations, apply eligibility filters, and combine facility and geographic score boosts. These Python blocks accompany the film-location search tutorial and its self-contained notebook.
