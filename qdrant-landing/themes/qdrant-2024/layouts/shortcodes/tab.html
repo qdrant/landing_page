@@ -1,0 +1,18 @@
+{{- /* One tab inside {{< tabs >}}. See tabs.html. */ -}}
+{{- $label := .Get "label" -}}
+{{- if not $label -}}
+  {{- errorf "%s: tab shortcode without a label" .Page.File.Path -}}
+{{- end -}}
+{{- if or (not .Parent) (ne .Parent.Name "tabs") -}}
+  {{- errorf "%s: tab %q must be inside a tabs shortcode" .Page.File.Path $label -}}
+{{- end -}}
+{{- /* IDs link each tab to its panel (aria-controls, aria-labelledby). The
+       prefix must match the one built in tabs.html. */ -}}
+{{- $group := printf "tabs-%s-%d" (substr (md5 .Page.Path) 0 6) .Parent.Ordinal -}}
+{{- $i := len (.Parent.Store.Get "labels" | default slice) -}}
+{{- .Parent.Store.Add "labels" (slice $label) -}}
+{{- /* hidden="until-found" keeps hidden tabs searchable with the browser's
+       find; tabs.js opens the tab on a match. */ -}}
+<div class="tabs__panel" role="tabpanel" id="{{ $group }}-panel-{{ $i }}" aria-labelledby="{{ $group }}-tab-{{ $i }}" tabindex="0" data-label="{{ $label }}"{{ if gt $i 0 }} hidden="until-found"{{ end }}>
+{{ .Inner | .Page.RenderString (dict "display" "block") }}
+</div>

@@ -42,6 +42,7 @@
         - [⚙️ Parameters](#-parameters)
         - [🖥️ Deployment Variants](#-deployment-variants)
         - [📄 Markdown Output](#-markdown-output)
+      - [🧩 Tabs](#-tabs)
 
 
 
@@ -927,6 +928,29 @@ A snippet can have a separate variant per deployment type, in the `_server/`, `_
 ##### 📄 Markdown Output
 
 In the Markdown version of a page (`index.md`), the shortcode shows only the first language, and the first variant if there are several. It links to a standalone page with all languages under `/documentation/snippets/`.
+
+#### 🧩 Tabs
+
+Tabs show alternative versions of the same content, for example one workflow done in the Cloud UI, with the CLI, and with the API. Each tab has a label of your choice.
+
+Example:
+```
+{{< tabs >}}
+{{< tab label="UI" >}}
+1. Open **Clusters**.
+2. Click **Create**.
+{{< /tab >}}
+{{< tab label="CLI" >}}
+Run `qcloud cluster create`.
+{{< /tab >}}
+{{< /tabs >}}
+```
+
+- Choosing a tab also selects the tab with the same label in every other tab group on the page. Groups without that label don't change. The choice is remembered on other pages.
+- Write the tab content as regular Markdown. `code-snippet` works inside a tab. Other shortcodes that output indented HTML don't yet: see how `code-snippet.html` de-indents its output.
+- Leave a blank line after a shortcode inside a tab, or the text that follows renders as raw text.
+- Use `{{< >}}`, not `{{% %}}`. Headings inside a tab don't appear in the page's table of contents.
+- In the Markdown version of a page (`index.md`), every tab appears in order, under its label in bold.
 
 ## SEO
 

@@ -1,3 +1,11 @@
+{{- /*
+  The template body lives in an inline partial so its output can be de-indented.
+  Inside a Markdown context (for example a {{< tab >}}), lines indented by four
+  or more spaces count as an indented code block and the HTML would be escaped.
+  Chroma starts every code line with a <span>, so code indentation is kept.
+*/ -}}
+{{- partial "inline/code-snippet-body.html" . | replaceRE `(?m)^(?:[ ]{4,}|\t+)<` "<" | safeHTML -}}
+{{- define "partials/inline/code-snippet-body.html" -}}
 <!-- Example usage: -->
 {{/* {{< code-snippet path="/documentation/headless/snippets/points-id/" order="python http go" > */}}
 <!-- Shortcode to render code snippets from a specified path -->
@@ -191,3 +199,4 @@
   </div>
 
 {{ end }}
+{{- end -}}
