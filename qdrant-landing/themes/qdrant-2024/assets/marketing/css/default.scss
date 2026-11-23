@@ -79,8 +79,6 @@
 @import 'partials/common-hero';
 @import 'partials/features-table';
 @import 'partials/nested-accordion';
-// used by landing pages under /lp/ (e.g. /lp/lucene)
-@import 'partials/elastic-lucene/index';
 @import 'partials/vsd/index';
 @import 'partials/vsd-recap/index';
 @import 'partials/vsd/vsd-agenda';
@@ -93,16 +91,3 @@
 @import 'partials/security';
 @import 'partials/resilience';
 @import 'partials/gpu-indexing';
-@import 'partials/lp-ai';
-@import 'partials/lp-ai-agents';
-@import 'partials/lp-general-search';
-@import 'partials/lp-ai-retrieval';
-@import 'partials/lp-semantic';
-@import 'partials/lp-open-source';
-@import 'partials/lp-general-vector-database';
-@import 'partials/lp-generative';
-@import 'partials/lp-indexing';
-@import 'partials/lp-benchmarks-comparison';
-@import 'partials/lp-rust';
-@import 'partials/lp-similarity';
-@import 'partials/lp-full-text-search';

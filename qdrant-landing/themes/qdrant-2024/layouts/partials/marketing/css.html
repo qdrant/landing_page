@@ -60,9 +60,12 @@
   {{ $bundles = slice "benchmarks" }}
 {{ else if eq .Section "hybrid-cloud" }}
   {{ $bundles = slice "hybrid-cloud" }}
+{{ else if or (hasPrefix .Section "lp-") (eq .Section "elastic-lucene") }}
+  {{/* /lp/* landing pages: the lp-* sections and elastic-lucene (/lp/lucene/) publish under /lp/ via `url:` */}}
+  {{ $bundles = slice "lp" }}
 {{ else if eq .Section "pricing" }}
   {{ $bundles = slice "pricing" }}
-{{ else if in (slice "industries" "edge" "elastic-lucene" "healthcare") .Section }}
+{{ else if in (slice "industries" "edge" "healthcare") .Section }}
   {{ $bundles = slice "industries" }}
 {{ else if in (slice "partners" "integrations" "customers" "stars" "community" "qdrant-for-startups" "brand-resources") .Section }}
   {{ $bundles = slice "partners-customers" }}
