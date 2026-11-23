@@ -9,7 +9,7 @@
 // `config`): paths ending in a slash, with `text/markdown` in the Accept
 // header. Browsers, assets, and direct requests for index.md never invoke it.
 
-import type { Config, Context } from "@netlify/edge-functions";
+import type { Config, Context } from "https://edge.netlify.com";
 
 // True when the Accept header ranks text/markdown above text/html. A bare
 // `*/*` or a missing header is a browser or a generic client: serve HTML.
@@ -50,4 +50,6 @@ export const config: Config = {
   pattern: "^/(.*/)?$",
   // Accept mentions text/markdown. prefersMarkdown() still checks the ranking.
   header: { accept: "text/markdown" },
+  // If the function ever throws, serve the HTML as if it did not exist.
+  onError: "bypass",
 };
