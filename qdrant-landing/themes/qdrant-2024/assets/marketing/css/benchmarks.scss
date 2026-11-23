@@ -67,3 +67,10 @@
     margin-left: 0;
   }
 }
+
+// iOS zooms the page when a field under 16px gets focus.
+.benchmark__plot-wrapper .form-select {
+  @media (pointer: coarse) {
+    font-size: 1rem;
+  }
+}
