@@ -1,0 +1,39 @@
+{
+  "kind": "lines-facet",
+  "facet": "metric",
+  "facetLabel": "{}",
+  "x": "lambda",
+  "xLabel": "weight multiplier",
+  "xSuffix": "",
+  "yScale": "linear",
+  "unit": "",
+  "width": 760,
+  "height": 440,
+  "title": "Freshness boost by fade length",
+  "yLabel": "change in nDCG@10",
+  "yDomain": [
+    -0.12,
+    0.02
+  ],
+  "yTicks": [
+    -0.1,
+    -0.05,
+    0
+  ],
+  "refLine": {
+    "value": 0,
+    "label": "no boost"
+  },
+  "series": [
+    "fade30",
+    "fade90",
+    "fade180",
+    "fade365"
+  ],
+  "seriesLabels": [
+    "30-day fade",
+    "90-day fade",
+    "180-day fade",
+    "365-day fade"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "kind": "lines-facet",
+  "facet": "metric",
+  "facetLabel": "{}",
+  "x": "lambda",
+  "xLabel": "weight multiplier",
+  "xSuffix": "",
+  "yScale": "linear",
+  "unit": "",
+  "width": 760,
+  "height": 420,
+  "title": "Popularity boost with and without a cap",
+  "yLabel": "value",
+  "yDomains": {
+    "Share of the top 10 from the 5% most popular products": [
+      0,
+      0.4
+    ],
+    "nDCG@10": [
+      0.5,
+      0.75
+    ]
+  },
+  "yLabels": {
+    "Share of the top 10 from the 5% most popular products": "share of top 10",
+    "nDCG@10": "nDCG@10"
+  },
+  "yTicks": {
+    "Share of the top 10 from the 5% most popular products": [
+      0,
+      0.1,
+      0.2,
+      0.3,
+      0.4
+    ],
+    "nDCG@10": [
+      0.5,
+      0.6,
+      0.7
+    ]
+  },
+  "series": [
+    "uncapped",
+    "capped"
+  ],
+  "seriesLabels": [
+    "Uncapped",
+    "Capped at one spread"
+  ]
+}

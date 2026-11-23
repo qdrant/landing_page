@@ -1,0 +1,54 @@
+{
+  "kind": "lines-facet",
+  "facet": "metric",
+  "facetLabel": "{}",
+  "x": "lambda",
+  "xLabel": "weight multiplier",
+  "xSuffix": "",
+  "yScale": "linear",
+  "unit": "",
+  "width": 760,
+  "height": 420,
+  "title": "Filter against boost",
+  "yLabel": "change in nDCG@10",
+  "yDomains": {
+    "Price range": [
+      -0.18,
+      0.02
+    ],
+    "In stock": [
+      -0.02,
+      0.01
+    ]
+  },
+  "yLabels": {
+    "Price range": "change in nDCG@10",
+    "In stock": "change in nDCG@10"
+  },
+  "yTicks": {
+    "Price range": [
+      -0.15,
+      -0.1,
+      -0.05,
+      0
+    ],
+    "In stock": [
+      -0.02,
+      -0.01,
+      0,
+      0.01
+    ]
+  },
+  "refLine": {
+    "value": 0,
+    "label": "no boost"
+  },
+  "series": [
+    "boost",
+    "filter"
+  ],
+  "seriesLabels": [
+    "Boost",
+    "Filter"
+  ]
+}

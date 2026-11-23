@@ -1,0 +1,15 @@
+search,lambda,raw weight,scaled weight
+dense only,0,0.7046,0.7048
+dense only,0.05,0.7033,0.7057
+dense only,0.1,0.6911,0.7066
+dense only,0.2,0.6522,0.7067
+dense only,0.5,0.5747,0.7004
+dense only,1,0.5312,0.6811
+dense only,2,0.5117,0.6365
+hybrid (RRF),0,0.6998,0.7009
+hybrid (RRF),0.05,0.7007,0.701
+hybrid (RRF),0.1,0.6999,0.701
+hybrid (RRF),0.2,0.6974,0.6997
+hybrid (RRF),0.5,0.6723,0.6919
+hybrid (RRF),1,0.6061,0.6522
+hybrid (RRF),2,0.5272,0.5727

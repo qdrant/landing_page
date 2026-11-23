@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="1200" height="420" role="img" aria-labelledby="t d">
+<title id="t">A formula query reorders the candidates of a prefetch</title>
+<desc id="d">A prefetch returns 100 candidates with similarity scores. A formula adds boosts from payload fields, popularity and stock, to each score. The ranked list shows four sofas: the Leather sofa first at 1.00, the Velvet loveseat second at 0.98, the out-of-stock Linen 3-seater third at 0.88, and the Sectional fourth at 0.86. Scores are illustrative.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#303547"/></marker></defs>
+<rect x="0.75" y="0.75" width="1198.5" height="418.5" rx="6" fill="#ffffff" stroke="#d3d9eb" stroke-width="1.5"/>
+<path d="M270 95 H335" stroke="#303547" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M485 250 V150" stroke="#303547" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<path d="M635 95 H700" stroke="#303547" stroke-width="2" fill="none" marker-end="url(#a)"/>
+<rect x="15" y="40" width="255" height="110" rx="10" fill="#c0f0f0" stroke="#038585" stroke-width="1.5"/>
+<text x="142.5" y="85" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="#004f4f">Prefetch</text>
+<text x="142.5" y="120" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="22" fill="#004f4f">100 candidates</text>
+<rect x="335" y="40" width="300" height="110" rx="10" fill="#ffdadb" stroke="#dc244c" stroke-width="1.5"/>
+<text x="485.0" y="85" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="#91012a">Formula</text>
+<text x="485.0" y="120" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="22" fill="#91012a">$score + boosts</text>
+<rect x="335" y="250" width="300" height="110" rx="10" fill="none" stroke-dasharray="7 6" stroke="#6047ff" stroke-width="2"/>
+<text x="485.0" y="295" text-anchor="middle" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="#5700c9">Payload fields</text>
+<text x="485.0" y="330" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="22" fill="#5700c9">popularity · stock</text>
+<rect x="700" y="15" width="485" height="390" rx="10" fill="none" stroke="#d3d9eb" stroke-width="1.5"/>
+<text x="725" y="55" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="22" fill="#656b7f">Ranked by formula score</text>
+<text x="725" y="104" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="22" fill="#656b7f">1</text>
+<text x="760" y="104" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="#303547">Leather sofa</text>
+<rect x="760.0" y="116" width="234.0" height="22" fill="#00838f"/>
+<rect x="994.0" y="116" width="42.0" height="22" fill="#6047ff"/>
+<rect x="1036.0" y="116" width="24.0" height="22" fill="#dc244c"/>
+<text x="1080" y="136" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="24" fill="#303547">1.00</text>
+<text x="725" y="182" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="22" fill="#656b7f">2</text>
+<text x="760" y="182" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="#303547">Velvet loveseat</text>
+<rect x="760.0" y="194" width="240.0" height="22" fill="#00838f"/>
+<rect x="1000.0" y="194" width="30.0" height="22" fill="#6047ff"/>
+<rect x="1030.0" y="194" width="24.0" height="22" fill="#dc244c"/>
+<text x="1080" y="214" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="24" fill="#303547">0.98</text>
+<text x="725" y="260" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="22" fill="#656b7f">3</text>
+<text x="760" y="260" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="#303547">Linen 3-seater</text>
+<text x="1170" y="260" text-anchor="end" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="22" fill="#656b7f">out of stock</text>
+<rect x="760.0" y="272" width="258.0" height="22" fill="#00838f"/>
+<rect x="1018.0" y="272" width="6.0" height="22" fill="#6047ff"/>
+<text x="1080" y="292" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="24" fill="#303547">0.88</text>
+<text x="725" y="338" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="22" fill="#656b7f">4</text>
+<text x="760" y="338" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="#303547">Sectional</text>
+<rect x="760.0" y="350" width="222.0" height="22" fill="#00838f"/>
+<rect x="982.0" y="350" width="12.0" height="22" fill="#6047ff"/>
+<rect x="994.0" y="350" width="24.0" height="22" fill="#dc244c"/>
+<text x="1080" y="370" font-family="'Geist Mono', ui-monospace, Menlo, Consolas, monospace" font-size="24" fill="#303547">0.86</text>
+<rect x="15" y="250" width="20" height="20" rx="3" fill="#00838f"/>
+<text x="47" y="267" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="22" fill="#303547">Similarity</text>
+<rect x="15" y="294" width="20" height="20" rx="3" fill="#6047ff"/>
+<text x="47" y="311" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="22" fill="#303547">Popularity boost</text>
+<rect x="15" y="338" width="20" height="20" rx="3" fill="#dc244c"/>
+<text x="47" y="355" font-family="'Mona Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="22" fill="#303547">In-stock boost</text>
+</svg>

@@ -1,0 +1,9 @@
+metric,pool,unrelated,related
+nDCG@10,50,0.7336,0.7636
+nDCG@10,100,0.7354,0.7644
+nDCG@10,200,0.7359,0.7655
+nDCG@10,500,0.7356,0.7653
+Share of the top 10 that matches the shopper,50,0.272,0.6373
+Share of the top 10 that matches the shopper,100,0.2778,0.6396
+Share of the top 10 that matches the shopper,200,0.2782,0.6377
+Share of the top 10 that matches the shopper,500,0.2788,0.6392
