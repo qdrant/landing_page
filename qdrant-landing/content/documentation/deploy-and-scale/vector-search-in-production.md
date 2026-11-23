@@ -476,7 +476,7 @@ tls:
 
 **Use Case:** A large enterprise needed to implement access controls where "team A is able to access only collection A, B and C but not collection D" in their Qdrant database.
 
-[**Set up Role-Based Access Control (RBAC)**](https://qdrant.tech/documentation/cloud-rbac/) to restrict actions by user or service.
+[**Set up Role-Based Access Control (RBAC)**](https://qdrant.tech/documentation/cloud-account-setup/rbac/) to restrict actions by user or service.
 
 Users can be invited attached to a specific role by inviting them through the **Role Details** page - just click on the Users tab and follow the prompts. Once accepted, they'll be assigned that role's permissions, along with the base role.
 
@@ -493,7 +493,7 @@ For users of Qdrant's managed cloud service, there's an option to configure RBAC
 
 ||
 |-|
-|**Read More:** [**Cloud RBAC Documentation**](https://qdrant.tech/documentation/cloud-rbac/)|
+|**Read More:** [**Cloud RBAC Documentation**](https://qdrant.tech/documentation/cloud-account-setup/rbac/)|
 
 ### Remember to Avoid These Common Pitfalls
 

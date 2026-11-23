@@ -34,7 +34,7 @@ In this tutorial, you'll set up HNSW indexing on Qdrant Cloud, measure its effec
 
 ## Setting Up a GPU-Powered Cluster
 
-You can set up a GPU-powered cluster on Qdrant Cloud either through the [dedicated UI](/documentation/cloud/create-cluster/), or, as this tutorial does, with the [`qcloud` CLI](/documentation/cloud-cli/), a command-line application for managing Qdrant Cloud clusters.
+You can set up a GPU-powered cluster on Qdrant Cloud either through the [dedicated UI](/documentation/cloud/create-cluster/), or, as this tutorial does, with the [`qcloud` CLI](/documentation/cloud-automation/cloud-cli/), a command-line application for managing Qdrant Cloud clusters.
 
 ### Install the CLI
 
@@ -61,7 +61,7 @@ qcloud version
 
 Create a context linked to your [Qdrant Cloud account](https://cloud.qdrant.io), which serves as the base for all subsequent operations.
 
-For authentication, you need a [Management API key](/documentation/cloud-api/) and your account ID. Export them as environment variables:
+For authentication, you need a [Management API key](/documentation/cloud-automation/cloud-api/) and your account ID. Export them as environment variables:
 
 ```bash
 export QDRANT_MANAGEMENT_KEY="..."

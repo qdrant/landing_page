@@ -2,7 +2,7 @@
 title: Premium Tier
 short_description: "Qdrant Cloud Premium adds a 99.9% uptime SLA (99.95% multi-AZ), 24/7 support, SSO, private networking, and customer-managed encryption keys."
 description: "Compare Qdrant Cloud Premium with Standard: uptime SLA, support response times by severity, multi-AZ clusters, SSO, private links, encryption keys, and how to upgrade."
-weight: 240
+weight: 257
 partition: deploy
 aliases:
   - /documentation/cloud/premium/
@@ -106,7 +106,7 @@ Qdrant Cloud supports the following identity providers:
 - PingFederate
 - SAML
 
-To turn on SSO for your account, open a ticket in the [Qdrant support portal](https://support.qdrant.io/). To control what each user can do after they sign in, use [Cloud RBAC](/documentation/cloud-rbac/). For a video walkthrough, see [Enterprise Single-Sign-On](/documentation/cloud-account-setup/#enterprise-single-sign-on-sso).
+To turn on SSO for your account, open a ticket in the [Qdrant support portal](https://support.qdrant.io/). To control what each user can do after they sign in, use [Cloud RBAC](/documentation/cloud-account-setup/rbac/). For a video walkthrough, see [Enterprise Single-Sign-On](/documentation/cloud-account-setup/#enterprise-single-sign-on-sso).
 
 ## Private Network Connectivity
 

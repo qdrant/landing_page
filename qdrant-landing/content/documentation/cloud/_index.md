@@ -1,8 +1,8 @@
 ---
-title: Managed Cloud
+title: Dedicated Clusters
 short_description: "Run Qdrant as a managed SaaS on AWS, GCP, or Azure with high availability, automatic scaling, backups, and zero-downtime upgrades."
 description: "Run Qdrant as a managed service on AWS, GCP, or Azure with high availability, automatic scaling, backups, and zero-downtime version upgrades."
-weight: 220
+weight: 265
 aliases:
   - /documentation/overview/qdrant-alternatives/documentation/cloud/
 partition: deploy
@@ -12,7 +12,7 @@ partition: deploy
 
 Qdrant Managed Cloud runs Qdrant clusters for you on AWS, GCP, or Azure. You use the same APIs and client libraries as with open source Qdrant. The only differences are the cluster URL and a [Database API key](/documentation/cloud/authentication/) on every request.
 
-To create your first cluster, start with [Getting Started](/documentation/cloud-getting-started/).
+To create your first cluster, start with [Getting Started](/documentation/cloud/getting-started/).
 
 ## Choose a Deployment Model
 
@@ -20,7 +20,7 @@ To create your first cluster, start with [Getting Started](/documentation/cloud-
 |---|---|---|---|
 | Where clusters run | Qdrant-owned infrastructure on AWS, GCP, or Azure | Your Kubernetes clusters, in any environment | Your Kubernetes clusters, in any environment |
 | Who operates the database | Qdrant | Qdrant Cloud, through an Operator in your cluster | You, with the Qdrant Operator |
-| Management | Cloud Console, [Cloud API](/documentation/cloud-api/), [CLI](/documentation/cloud-cli/), and [Terraform](/documentation/cloud-tools/terraform/) | The same tools as Managed Cloud | Kubernetes resources, with no connection to Qdrant Cloud |
+| Management | Cloud Console, [Cloud API](/documentation/cloud-automation/cloud-api/), [CLI](/documentation/cloud-automation/cloud-cli/), and [Terraform](/documentation/cloud-automation/terraform/) | The same tools as Managed Cloud | Kubernetes resources, with no connection to Qdrant Cloud |
 | Where your data lives | Qdrant-managed volumes, [encrypted at rest](/documentation/cloud-security/) | Inside your network | Inside your network |
 | Read more | This section | [Hybrid Cloud](/documentation/hybrid-cloud/) | [Private Cloud](/documentation/private-cloud/) |
 
@@ -46,7 +46,7 @@ See [Create a Cluster](/documentation/cloud/create-cluster/) for the free tier l
 | Upgrades | Rolling, zero-downtime upgrades when collections have a replication factor of 2 or more | [Update Clusters](/documentation/cloud/cluster-upgrades/) |
 | Backups | Scheduled backups with retention, restored in place or into a new cluster | [Backup Clusters](/documentation/cloud/backups/) |
 | Monitoring | Metrics, logs, email alerts, and a Prometheus-compatible endpoint with a Grafana dashboard | [Monitor Clusters](/documentation/cloud/cluster-monitoring/) |
-| Access control | Database API keys with per-collection permissions, IP allowlists, and role-based access to the Console | [Authentication](/documentation/cloud/authentication/), [Cloud RBAC](/documentation/cloud-rbac/) |
+| Access control | Database API keys with per-collection permissions, IP allowlists, and role-based access to the Console | [Authentication](/documentation/cloud/authentication/), [Cloud RBAC](/documentation/cloud-account-setup/rbac/) |
 | Audit logging | A record of API calls on paid clusters | [Configure Clusters](/documentation/cloud/configure-cluster/#audit-logging) |
 | Inference | Embedding models hosted by Qdrant, or proxied to external providers | [Inference](/documentation/cloud/inference/) |
 | Encryption | Storage volumes encrypted at rest, with customer-managed keys on Premium | [Encryption at Rest](/documentation/cloud/encryption/) |

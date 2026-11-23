@@ -195,7 +195,7 @@ tabs:
           alt: Key
         title: Single Sign-On (SSO)
         description: On Premium, manage Cloud Console sign-in through your identity provider. SAML or OpenID Connect with Okta, Azure AD, Google Workspace, and others.
-        link: /documentation/cloud-rbac/user-management/
+        link: /documentation/cloud-account-setup/user-management/
   - id: 4
     tab: Monitoring and Recovery
     title: Monitoring and Observability Toolkit

@@ -383,4 +383,4 @@ cosign verify registry.cloud.qdrant.io/qdrant/operator:latest \
   --certificate-identity-regexp='https://github.com/qdrant/.*'
 ```
 
-If you [mirror the images](/documentation/private-cloud/private-cloud-setup/#mirroring-images-and-charts) into your own registry, run the checks against the mirror, or before you mirror. See [Cloud Security](/documentation/cloud-security/) for more on how Qdrant secures its software.
+If you [mirror the images](/documentation/private-cloud/private-cloud-setup/#mirroring-images-and-charts) into your own registry, run the checks against the mirror, or before you mirror. See [Security and Compliance](/documentation/cloud-security/) for more on how Qdrant secures its software.

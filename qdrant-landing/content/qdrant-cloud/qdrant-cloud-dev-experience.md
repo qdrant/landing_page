@@ -17,7 +17,7 @@ features:
     alt: Infrastructure as Code
   link: 
     text: Infrastructure as Code
-    url: /documentation/cloud-tools/terraform/
+    url: /documentation/cloud-automation/terraform/
 - id: 2
   img:
     src: /img/qdrant-cloud/migrate.svg

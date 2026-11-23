@@ -2,8 +2,9 @@
 title: Pulumi
 short_description: "Provision Qdrant Cloud clusters with Pulumi using your preferred language to define, deploy, and manage vector database infrastructure as code."
 description: "Use Pulumi to provision and manage Qdrant Cloud clusters as code, defining clusters, API keys, and packages in Python, TypeScript, Go, or other supported languages."
-weight: 5
+weight: 40
 aliases:
+  - /documentation/cloud-tools/pulumi/
   - /documentation/infrastructure/pulumi/
 ---
 
@@ -16,7 +17,7 @@ A Qdrant SDK in any of Pulumi's supported languages can be generated based on th
 ## Pre-requisites
 
 1. A [Pulumi Installation](https://www.pulumi.com/docs/install/).
-2. An [API key](/documentation/cloud-api/#authentication) to access the Qdrant cloud API.
+2. An [API key](/documentation/cloud-automation/cloud-api/#authentication) to access the Qdrant cloud API.
 
 ## Setup
 

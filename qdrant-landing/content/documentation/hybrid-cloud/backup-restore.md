@@ -7,7 +7,7 @@ weight: 20
 
 # Backing up and Restoring Qdrant Hybrid Cloud Clusters
 
-Backups in Hybrid Cloud work like backups in [Managed Cloud](/documentation/cloud/backups/). You create schedules and restores in the Qdrant Cloud Console, with the [`qcloud` CLI](/documentation/cloud-cli/), the [Cloud API](/documentation/cloud-api/), or [Terraform](/documentation/cloud-tools/terraform/). The difference is where the data lives: each backup is a volume snapshot in your own Kubernetes cluster and cloud account. Qdrant has no access to it.
+Backups in Hybrid Cloud work like backups in [Managed Cloud](/documentation/cloud/backups/). You create schedules and restores in the Qdrant Cloud Console, with the [`qcloud` CLI](/documentation/cloud-automation/cloud-cli/), the [Cloud API](/documentation/cloud-automation/cloud-api/), or [Terraform](/documentation/cloud-automation/terraform/). The difference is where the data lives: each backup is a volume snapshot in your own Kubernetes cluster and cloud account. Qdrant has no access to it.
 
 ## Requirements
 

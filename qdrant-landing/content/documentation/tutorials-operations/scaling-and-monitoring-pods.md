@@ -22,7 +22,7 @@ Scaling a Qdrant cluster on Hybrid Cloud looks like a Kubernetes problem from th
 ## Prerequisites
 
 - A Qdrant Hybrid Cloud environment with a `QdrantCluster` already running. See the [Hybrid Cloud setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup/) if you don't have one yet.
-- The [`qcloud` CLI](/documentation/cloud-cli/), authenticated against your account.
+- The [`qcloud` CLI](/documentation/cloud-automation/cloud-cli/), authenticated against your account.
 - `kubectl` configured against your Hybrid Cloud cluster.
 
 ## Scale CPU, Memory, and Disk

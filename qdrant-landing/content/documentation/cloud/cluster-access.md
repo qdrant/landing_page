@@ -47,7 +47,7 @@ Use the cluster endpoint for everything except the operations that must reach a 
 
 ## Cluster UI
 
-Open the [Cluster UI](/documentation/web-ui/) from the Cluster Details page in the Qdrant Cloud Console. Authentication is automatic if your Cloud user has the [`read:cluster_data` or `write:cluster_data` permission](/documentation/cloud-rbac/permission-reference/). Without the correct permissions, the UI prompts you for an [API key](/documentation/cloud/authentication/).
+Open the [Cluster UI](/documentation/web-ui/) from the Cluster Details page in the Qdrant Cloud Console. Authentication is automatic if your Cloud user has the [`read:cluster_data` or `write:cluster_data` permission](/documentation/cloud-account-setup/permission-reference/). Without the correct permissions, the UI prompts you for an [API key](/documentation/cloud/authentication/).
 
 ![Cluster Cluster UI](/documentation/cloud/cloud-db-dashboard.png)
 

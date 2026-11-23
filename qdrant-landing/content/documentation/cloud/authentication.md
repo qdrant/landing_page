@@ -12,12 +12,12 @@ Qdrant Cloud uses three kinds of credentials. Each one protects a different surf
 | Credential | Protects | Created in | Sent as |
 |---|---|---|---|
 | Database API key | A cluster's REST and gRPC APIs, plus its `/metrics` and `/sys_metrics` endpoints | **API Keys** on the Cluster Detail page | The `api-key` header, or `Authorization: Bearer <key>` |
-| Cloud Management Key | The [Cloud API](/documentation/cloud-api/), the [`qcloud` CLI](/documentation/cloud-cli/), and [Terraform](/documentation/cloud-tools/terraform/) | **Access Management** > **Cloud Management Keys** | `Authorization: apikey <key>` |
-| Console sign-in | The Cloud Console | Email, Google, GitHub, or [SSO](/documentation/cloud-account-setup/#enterprise-single-sign-on-sso) | A session. What a user can do is set by [Cloud RBAC](/documentation/cloud-rbac/) |
+| Cloud Management Key | The [Cloud API](/documentation/cloud-automation/cloud-api/), the [`qcloud` CLI](/documentation/cloud-automation/cloud-cli/), and [Terraform](/documentation/cloud-automation/terraform/) | **Access Management** > **Cloud Management Keys** | `Authorization: apikey <key>` |
+| Console sign-in | The Cloud Console | Email, Google, GitHub, or [SSO](/documentation/cloud-account-setup/#enterprise-single-sign-on-sso) | A session. What a user can do is set by [Cloud RBAC](/documentation/cloud-account-setup/rbac/) |
 
 These credentials are independent: a key from one does not grant access to the others. SSO covers Console sign-in only.
 
-This page covers Database API keys. Creating one needs the `write:api_keys` permission, and revoking one needs `delete:api_keys`. See the [permission reference](/documentation/cloud-rbac/permission-reference/#api-keys).
+This page covers Database API keys. Creating one needs the `write:api_keys` permission, and revoking one needs `delete:api_keys`. See the [permission reference](/documentation/cloud-account-setup/permission-reference/#api-keys).
 
 ## Create Database API Keys
 
@@ -76,7 +76,7 @@ Use one key per application or environment, so that revoking one key interrupts 
     A Database API key or Cloud Management Key is <strong>not</strong> deleted or revoked when the user who created it is removed or deleted from the account. The key keeps working with whatever permissions it was granted.
 </aside>
 
-Before or when you [remove a user from an account](/documentation/cloud-rbac/user-management/#removing-a-user-from-an-account):
+Before or when you [remove a user from an account](/documentation/cloud-account-setup/user-management/#removing-a-user-from-an-account):
 
 1. Revoke every Database API key that the user created, in the **API Keys** section of each cluster.
 2. Revoke every Cloud Management Key that the user created, in **Access Management** > **Cloud Management Keys**.

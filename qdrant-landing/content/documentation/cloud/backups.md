@@ -25,7 +25,7 @@ You can create multiple schedules for one cluster.
 
 ### Schedule With the CLI
 
-With the [`qcloud` CLI](/documentation/cloud-cli/), the schedule is a cron expression in UTC, and the retention is between 1 and 365 days:
+With the [`qcloud` CLI](/documentation/cloud-automation/cloud-cli/), the schedule is a cron expression in UTC, and the retention is between 1 and 365 days:
 
 ```sh
 # Back up every day at 02:00 UTC and keep each backup for 7 days
@@ -44,7 +44,7 @@ qcloud backup schedule list
 
 ### Schedule With the Cloud API
 
-The [Cloud API](/documentation/cloud-api/) creates a schedule with a `POST` request. The `retentionPeriod` is a duration in seconds, from `86400s` (1 day) to `31536000s` (365 days). If you leave it out, backups are kept indefinitely.
+The [Cloud API](/documentation/cloud-automation/cloud-api/) creates a schedule with a `POST` request. The `retentionPeriod` is a duration in seconds, from `86400s` (1 day) to `31536000s` (365 days). If you leave it out, backups are kept indefinitely.
 
 ```sh
 API=https://api.cloud.qdrant.io/api/cluster/backup/v1/accounts/<ACCOUNT_ID>
@@ -74,7 +74,7 @@ curl -X POST "$API/backup_schedules" \
 
 ### Schedule With Terraform
 
-With the [Terraform provider](/documentation/cloud-tools/terraform/), a schedule is a resource that refers to a cluster:
+With the [Terraform provider](/documentation/cloud-automation/terraform/), a schedule is a resource that refers to a cluster:
 
 ```terraform
 resource "qdrant-cloud_accounts_backup_schedule" "daily" {
