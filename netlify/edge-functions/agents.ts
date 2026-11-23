@@ -106,7 +106,8 @@ async function markdownFor(request: Request): Promise<Response | undefined> {
   const headers = new Headers(markdown.headers);
   headers.set("Content-Type", "text/markdown; charset=utf-8");
   headers.set("Vary", "Accept");
-  headers.set("Content-Location", url.pathname);
+  // The final URL: an old page's index.md can redirect to the new page's.
+  headers.set("Content-Location", new URL(markdown.url).pathname);
   return new Response(markdown.body, { status: 200, headers });
 }
 
