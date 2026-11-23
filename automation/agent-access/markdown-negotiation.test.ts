@@ -1,9 +1,9 @@
-// Checks the Accept parsing in netlify/edge-functions/markdown.ts.
+// Checks the Accept parsing in netlify/edge-functions/agents.ts.
 //
 //   node --experimental-strip-types automation/agent-access/markdown-negotiation.test.ts
 
 import assert from "node:assert/strict";
-import { prefersMarkdown } from "../../netlify/edge-functions/markdown.ts";
+import { prefersMarkdown } from "../../netlify/edge-functions/agents.ts";
 
 const cases: [string | null, boolean][] = [
   [null, false],

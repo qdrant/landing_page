@@ -39,7 +39,7 @@ Three things about the build cause more lost time than everything else combined:
 | `qdrant-landing/content/headless/`, `.../documentation/headless/` | Page bundles that are never published as URLs: code snippets, prompts |
 | `qdrant-landing/themes/qdrant-2024/` | The theme: layouts, shortcodes, SCSS, JS |
 | `qdrant-landing/layouts/` | Project layouts, which override the theme's |
-| `netlify/edge-functions/` | Netlify Edge Functions (Deno). `agent-skills.ts` serves `/.well-known/agent-skills/` from skills.qdrant.tech. `agent-logger.ts` runs only for requests Netlify classifies as AI agents or crawlers, to count them. `markdown.ts` serves a page's `index.md` to requests whose Accept header prefers `text/markdown` |
+| `netlify/edge-functions/` | Netlify Edge Functions (Deno). `agent-skills.ts` serves `/.well-known/agent-skills/` from skills.qdrant.tech. `agents.ts` runs only for requests Netlify classifies as AI agents or crawlers: it counts them, and serves a page's `index.md` to the ones whose Accept header prefers `text/markdown` |
 | `automation/` | Checks and generators, each with its own README |
 | `.github/workflows/` | CI |
 
