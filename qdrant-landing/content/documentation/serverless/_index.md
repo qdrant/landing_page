@@ -6,7 +6,7 @@ weight: 270
 partition: deploy
 ---
 
-# Understanding Serverless
+# About Qdrant Serverless
 
 Vector search usually means committing to infrastructure before you understand the workload: how many nodes, how much RAM, which quantization scheme, what HNSW parameters. Underestimate and you're adding capacity under load. Get it right and you still pay for headroom during quiet hours.
 
@@ -18,15 +18,15 @@ Qdrant and you split the responsibilities as follows:
 
 | Area | Owner |
 |---|---|
-| **Quantization and memory tiering** | Qdrant |
-| **HNSW index parameters** | Qdrant |
-| **Optimizer scheduling and segment layout** | Qdrant |
-| **Scaling, up and down** | Qdrant |
-| **Sharding and replication** | Qdrant |
-| **Spaces and collections** | You |
-| **Vector schema of each collection** | You |
-| **Precision tier of each vector** | You |
-| **Payload indexes** | You |
+| Quantization and memory tiering | Qdrant |
+| HNSW index parameters | Qdrant |
+| Optimizer scheduling and segment layout | Qdrant |
+| Scaling, up and down | Qdrant |
+| Sharding and replication | Qdrant |
+| Spaces and collections | You |
+| Vector schema of each collection | You |
+| Precision tier of each vector | You |
+| Payload indexes | You |
 
 ## What Serverless Is Good For
 

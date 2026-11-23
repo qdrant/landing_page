@@ -7,7 +7,7 @@ weight: 10
 
 # Manage Spaces
 
-A space is a container for collections. You can create several spaces to keep applications, use cases, or deployment environments separate. This page covers creating a space and changing it afterward. For how spaces, collections, and points fit together, see [Understanding Serverless](/documentation/serverless/).
+A space is a container for collections. You can create several spaces to keep applications, use cases, or deployment environments separate. This page covers creating a space and changing it afterward. For more about spaces, see [About Qdrant Serverless](/documentation/serverless/#spaces).
 
 ## Create a Space
 
