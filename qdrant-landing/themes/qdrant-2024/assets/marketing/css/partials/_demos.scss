@@ -160,6 +160,11 @@
       font-weight: $font-weight-medium;
       color: $neutral-30;
 
+      // iOS zooms the page when a field under 16px gets focus.
+      @media (pointer: coarse) {
+        font-size: 1rem;
+      }
+
       &::placeholder {
         color: $neutral-30;
       }
