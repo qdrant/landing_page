@@ -1,9 +1,9 @@
-// Checks the Accept parsing in netlify/edge-functions/agents.ts.
+// Checks the Accept parsing and the page allowlist in netlify/edge-functions/agents.ts.
 //
 //   node --experimental-strip-types automation/agent-access/markdown-negotiation.test.ts
 
 import assert from "node:assert/strict";
-import { prefersMarkdown } from "../../netlify/edge-functions/agents.ts";
+import { MARKDOWN_PAGES, prefersMarkdown } from "../../netlify/edge-functions/agents.ts";
 
 const cases: [string | null, boolean][] = [
   [null, false],
@@ -22,4 +22,21 @@ const cases: [string | null, boolean][] = [
 for (const [accept, expected] of cases) {
   assert.equal(prefersMarkdown(accept), expected, `Accept: ${accept}`);
 }
-console.log(`ok: ${cases.length} cases`);
+const paths: [string, boolean][] = [
+  ["/documentation/", true],
+  ["/documentation/search/hybrid-queries/", true],
+  ["/articles/", true],
+  ["/course/essentials/day-1/embedding-models/", true],
+  ["/learn/", true],
+  ["/blog/case-study-faz/", true],
+  ["/blog/", false],
+  ["/", false],
+  ["/cloud/", false],
+  ["/lp/rust/", false],
+  ["/documentation/index.md", false],
+  ["/documentation", false],
+];
+for (const [path, expected] of paths) {
+  assert.equal(MARKDOWN_PAGES.test(path), expected, `path: ${path}`);
+}
+console.log(`ok: ${cases.length + paths.length} cases`);

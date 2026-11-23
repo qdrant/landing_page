@@ -85,11 +85,17 @@ export function prefersMarkdown(accept: string | null): boolean {
   return markdown > 0 && markdown > html;
 }
 
+// Pages whose index.md carries the full content: the docs part and blog posts.
+// Marketing pages built from headless sections (/cloud/, /lp/*, the /blog/
+// index, ...) render a Markdown file with only a title, so they keep the HTML.
+// ponytail: prefix allowlist; drop it once those layouts get Markdown templates.
+export const MARKDOWN_PAGES =
+  /^\/(documentation|articles|course|learn)\/(.*\/)?$|^\/blog\/[^/]+\/$/;
+
 // The page's index.md as a response, or undefined to serve the HTML.
 async function markdownFor(request: Request): Promise<Response | undefined> {
   const url = new URL(request.url);
-  // Page URLs only, not index.md itself, CSS, JS, images, or llms.txt.
-  if (!url.pathname.endsWith("/")) return;
+  if (!MARKDOWN_PAGES.test(url.pathname)) return;
   if (!prefersMarkdown(request.headers.get("accept"))) return;
 
   url.pathname += "index.md";
