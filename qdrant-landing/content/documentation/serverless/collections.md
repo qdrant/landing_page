@@ -97,6 +97,8 @@ You can also open a collection's configuration or metrics directly from the list
 
 Listing returns a page of collections with their point counts and sizes. The default page size is 20 and the maximum is 100. Larger accounts page through the results with an opaque token, which you pass back to get the next page.
 
+{{< code-snippet path="/documentation/headless/snippets/serverless/list-collections/" >}}
+
 Fetching a single collection returns the configuration it was created with, along with:
 
 - Its **status**: `green` when all segments are optimized, or `yellow` when optimization is pending or running. The collection stays searchable in both states.
@@ -113,6 +115,8 @@ Deleting a collection removes it and all of its points.
 
 To delete a collection in the console, open the space, go to the **Collections** tab, open the collection's actions menu (**…**), and select **Delete**.
 
-When you delete a collection with the API, the response reports how many stored objects were removed.
+When you delete a collection with the API, the response reports whether the collection existed and was deleted.
+
+{{< code-snippet path="/documentation/headless/snippets/serverless/delete-collection/" >}}
 
 Deletion is permanent. If you might need the data again, take a backup of the collection first. See [Back Up and Restore](/documentation/serverless/backups/).

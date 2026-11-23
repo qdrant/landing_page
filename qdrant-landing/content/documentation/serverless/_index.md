@@ -14,20 +14,19 @@ Qdrant Serverless removes these decisions: it offers cloud-based vector search w
 
 Qdrant Serverless delivers the same retrieval capabilities as a dedicated cluster: dense and sparse vectors, multivectors, payload filtering, and hybrid queries are all supported.
 
-The platform owns:
+Qdrant and you split the responsibilities as follows:
 
-- Quantization and memory tiering
-- HNSW index parameters
-- Optimizer scheduling and segment layout
-- Scaling, up and down
-- Sharding and replication
-
-You decide:
-
-- Which spaces and collections to create
-- Each collection's vector schema
-- The precision tier for each vector
-- Which payload fields to index
+| Area | Owner |
+|---|---|
+| **Quantization and memory tiering** | Qdrant |
+| **HNSW index parameters** | Qdrant |
+| **Optimizer scheduling and segment layout** | Qdrant |
+| **Scaling, up and down** | Qdrant |
+| **Sharding and replication** | Qdrant |
+| **Spaces and collections** | You |
+| **Vector schema of each collection** | You |
+| **Precision tier of each vector** | You |
+| **Payload indexes** | You |
 
 ## What Serverless Is Good For
 
@@ -53,10 +52,6 @@ Each space has:
 - A set of collections
 
 You can create multiple spaces to logically separate sets of collections. You can use spaces to logically separate use cases, applications, or deployment environments.
-
-### Collections and Points
-
-A collection is the container for a set of points that share the same vector schema: the same vectors, dimensions, and distance metrics. Each point holds one or more vectors and an optional JSON payload.
 
 ### Precision Tiers
 

@@ -34,11 +34,9 @@ Treat the API key like any other credential: keep it out of source control, and 
 
 ### Connect Asynchronously
 
-Python also ships an async client. `AsyncQdrantServerless` takes the same arguments as the synchronous one and exposes the same methods, each awaitable.
+The Rust client is async-only. Python ships both a synchronous and an async client. `AsyncQdrantServerless` takes the same arguments as the synchronous one and exposes the same methods, each awaitable.
 
 {{< code-snippet path="/documentation/headless/snippets/serverless/connect-async/" >}}
-
-The Rust client is async throughout, so it has no separate variant.
 
 ## Verify the Connection
 

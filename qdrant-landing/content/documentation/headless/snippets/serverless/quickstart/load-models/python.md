@@ -9,12 +9,12 @@ dense_model = TextEmbedding(DENSE_MODEL)
 bm25_model = SparseTextEmbedding(BM25_MODEL)
 
 
-def dense(texts, query=False):
+def dense(texts: list[str], query: bool = False) -> list[list[float]]:
     embeddings = dense_model.query_embed(texts) if query else dense_model.embed(texts)
     return [embedding.tolist() for embedding in embeddings]
 
 
-def sparse(texts, query=False):
+def sparse(texts: list[str], query: bool = False) -> list[SparseVector]:
     embeddings = bm25_model.query_embed(texts) if query else bm25_model.embed(texts)
     return [
         SparseVector(indices=e.indices.tolist(), values=e.values.tolist())
