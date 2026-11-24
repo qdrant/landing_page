@@ -1,0 +1,1 @@
+Not supported for Rust on Qdrant Edge
