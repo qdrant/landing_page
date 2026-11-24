@@ -225,6 +225,13 @@ html .viz-tip[data-viz-theme='light'] {
     z-index: 2;
   }
 
+  // The focus ring and the pressed fill were both --qi-accent, one offset 1px
+  // from the other, so on the active toggle they read as a red-black-red double
+  // border with the page showing through the gap. Ink contrasts against the fill.
+  &[aria-pressed='true']:focus-visible {
+    outline-color: var(--qi-accent-ink);
+  }
+
   &[aria-pressed='true'] {
     z-index: 1;
     border-color: var(--qi-accent);
