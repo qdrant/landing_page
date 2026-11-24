@@ -1,0 +1,23 @@
+package snippet
+
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+func Main() {
+	// @hide-start
+	client, err := qdrant.NewClient(&qdrant.Config{
+		Host: "localhost",
+		Port: 6334,
+	})
+
+	if err != nil { panic(err) }
+	// @hide-end
+
+	client.QueryGroups(context.Background(), &qdrant.QueryPointGroups{
+		CollectionName: "{collection_name}",
+		Query:          qdrant.NewQuerySample(qdrant.Sample_Random),
+	})
+}
