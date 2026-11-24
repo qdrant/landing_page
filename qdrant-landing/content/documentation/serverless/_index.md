@@ -77,27 +77,21 @@ Write your application so it tolerates this delay. Reading a point back immediat
 
 ### Account Quotas
 
-Each account has a maximum number of spaces, which can be raised on request. A space supports far more collections than a dedicated cluster, though each collection is soft limited at around 1 million vectors. Each space also has a collection size cap: once a collection reaches it, further writes are rejected. See [Quotas and Limits](/documentation/serverless/quotas-and-limits/).
+Each account has a maximum number of spaces, which can be raised on request. A space supports far more collections than a dedicated cluster, though each collection is soft limited at around 1 million vectors. Each space also limits the storage per collection: once a collection reaches the limit, further writes are rejected. You can also limit a space's total storage and monthly spend. See [Quotas and Limits](/documentation/serverless/quotas-and-limits/) and [Cost Control and Quotas](/documentation/serverless/spaces/#cost-control-and-quotas).
 
 ## Limitations and Differences
 
-Serverless exposes a smaller surface than a dedicated cluster. Some of that is temporary and will close. The rest is the trade you're making: the platform can only take capacity, tuning, and scaling off your hands by owning them outright.
+Serverless exposes a smaller surface than a dedicated cluster. Some features aren't supported. Other differences are the trade you're making: the platform can only take capacity, tuning, and scaling off your hands by owning them outright.
 
-### Not Yet Supported
+### Not Supported
 
 **Changing a collection after creation.** You can't add or remove a named vector, add a payload index, or change vector parameters. Declare the full schema when you create the collection.
 
-To change a schema today, create a new collection with the configuration you want, upload your points again, then delete the old collection. This mainly affects embedding model migration: plan to upload your points again instead of adding a new vector in place.
-
-**Collection aliases.** Not available yet.
+To change a schema, create a new collection with the configuration you want, upload your points again, then delete the old collection. This mainly affects embedding model migration: plan to upload your points again instead of adding a new vector in place.
 
 **Cloud Inference.** Compute embeddings yourself, for example with [FastEmbed](https://github.com/qdrant/fastembed).
 
-**Private links.** Not available yet.
-
-**Data encryption with customer-managed keys.** Not available yet.
-
-**Audit logging.** Not available yet.
+**Other features.** Collection aliases, private links, data encryption with customer-managed keys, and audit logging aren't supported.
 
 ### Differences by Design
 
@@ -114,7 +108,7 @@ To change a schema today, create a new collection with the configuration you wan
 | Cloud provider | Handled by the platform. You choose only the region. | You choose AWS, GCP, or Azure |
 | Qdrant version | Handled by the platform | You choose it and schedule upgrades |
 | Index and quantization tuning | One precision tier per vector | Full control over HNSW, quantization, and storage |
-| Collection changes after creation | Not yet supported | Supported |
+| Collection changes after creation | Not supported | Supported |
 | Client | `QdrantServerless` | `QdrantClient` |
 | Update visibility | Delayed until search workers reload | Immediate once the write is applied |
 | Update operations | Upserts and deletes by point ID | Full, including update and delete by filter |

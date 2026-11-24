@@ -11,7 +11,7 @@ You create collections in the Qdrant Cloud console or through the [API](/documen
 
 That means no HNSW parameters, no quantization settings, no segment or storage options. Qdrant Serverless just asks for one precision tier per vector. See [About Qdrant Serverless](/documentation/serverless/#precision-tiers) for the tiers.
 
-<aside role="status">You can't change a collection after you create it yet. That means no adding or removing a named vector, no adding a payload index, and no changing vector parameters. Declare the full schema up front. To change a schema, create a new collection, upload your points again, then delete the old one.</aside>
+<aside role="status">You can't change a collection after you create it. That means no adding or removing a named vector, no adding a payload index, and no changing vector parameters. Declare the full schema up front. To change a schema, create a new collection, upload your points again, then delete the old one.</aside>
 
 ## Multitenancy: One Collection per Tenant
 
@@ -102,7 +102,7 @@ Listing returns a page of collections with their point counts and sizes. The def
 Fetching a single collection returns the configuration it was created with, along with:
 
 - Its **status**: `green` when all segments are optimized, or `yellow` when optimization is pending or running. The collection stays searchable in both states.
-- Its **size**, an estimate that the collection size cap is checked against, not the exact number of stored bytes
+- Its **size**, an estimate that the storage limit per collection is checked against, not the exact number of stored bytes
 - Its **point count**
 - Its **indexed vector count**, the approximate number of vectors in indexed segments. The rest are searched exhaustively until an optimization indexes them.
 - Its **updates status**: `applied` when every acknowledged write is applied and visible to search, or `pending` when some writes are still queued and not yet visible to search

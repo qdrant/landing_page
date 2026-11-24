@@ -82,6 +82,6 @@ Run both and fuse the results with [reciprocal rank fusion](/documentation/searc
 ## What's Next
 
 - Secure the space with scoped API keys in [Secure a Space](/documentation/serverless/security/)
-- Learn about the collection size cap and other limits in [Quotas and Limits](/documentation/serverless/quotas-and-limits/)
+- Learn about storage limits and other quotas in [Quotas and Limits](/documentation/serverless/quotas-and-limits/)
 - Learn what the platform decides for you in [About Qdrant Serverless](/documentation/serverless/)
 - Schedule backups in [Back Up and Restore](/documentation/serverless/backups/)

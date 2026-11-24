@@ -1,7 +1,7 @@
 ---
 title: Quotas and Limits
 short_description: "Account, space, collection, write, and search limits for Qdrant Serverless."
-description: "Reference of Qdrant Serverless quotas and limits: spaces per account, collection size cap, vector and payload index limits, request and payload sizes, and search limits."
+description: "Reference of Qdrant Serverless quotas and limits: spaces per account, storage per collection, vector and payload index limits, request and payload sizes, and search limits."
 weight: 50
 ---
 
@@ -16,7 +16,10 @@ Spaces share capacity with other workloads, so Serverless enforces stricter limi
 | Spaces per account | A fixed maximum per account, which can be raised on request. |
 | Collections per space | Far more than a dedicated cluster supports. |
 | Vectors per collection | Soft limit of around 1 million |
-| Collection size | Set by the collection size cap on the space, 2 GiB by default. Once a collection reaches the cap, writes are rejected and searches keep working. |
+| Storage per collection | Set per space with **Max Storage per Collection**, 2 GiB on a new space. Once a collection reaches the limit, writes are rejected, while searches and deletes keep working. |
+| Indexed storage per collection | Set per space with **Max Indexed Storage per Collection**, 1 GiB on a new space. |
+
+Each space can also limit its total storage and its monthly spend. See [Cost Control and Quotas](/documentation/serverless/spaces/#cost-control-and-quotas).
 
 ## Collection Limits
 

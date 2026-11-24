@@ -22,14 +22,18 @@ For points and storage, the tab also shows how much they changed in the selected
 
 ## Collect Metrics Externally
 
-To pull metrics into your own monitoring stack, create a metrics-only API key. It can read telemetry and nothing else, so it's safe to hand to a collector. See [Secure a Space](/documentation/serverless/security/).
+A space serves Prometheus-compatible metrics at the `/sys_metrics` path of its endpoint, for example `https://<your-space-endpoint>/sys_metrics`. The metrics cover only that space.
 
-A space exposes its telemetry on a dedicated endpoint, equivalent to `/sys_metrics` on a dedicated cluster.
+To scrape them, create a [metrics-only API key](/documentation/serverless/security/#allowed-operations) and pass it in the `api-key` header. The key can read metrics and nothing else, so it's safe to hand to a collector.
+
+## Alerts
+
+When a space crosses the alert threshold of a limit, or reaches the limit itself, the alert appears on the space's **Alerts** tab. To set limits and thresholds, see [Cost Control and Quotas](/documentation/serverless/spaces/#cost-control-and-quotas).
 
 ## Logs
 
-A space keeps operational logs that cover what the service did, not who asked it to. Serverless has no audit logging. If you need an audit trail for compliance, use a dedicated cluster.
+Serverless doesn't offer operational logs or audit logs. If you need an audit trail for compliance, use a dedicated cluster.
 
 ## Space Health and Platform Health
 
-Your space's metrics tell you about your workload, not about Qdrant Cloud itself. When latency rises or requests fail and your own metrics look normal, check the Qdrant Cloud status page before digging further.
+Your space's metrics tell you about your workload, not about Qdrant Cloud itself. When latency rises or requests fail and your own metrics look normal, check the [Qdrant Cloud status page](https://status.qdrant.io/) before digging further.

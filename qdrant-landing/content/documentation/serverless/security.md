@@ -1,7 +1,7 @@
 ---
 title: Secure a Space
 short_description: "Control access to a Qdrant Serverless space with scoped API keys for applications and account permissions for people."
-description: "Secure a Qdrant Serverless space with global or collection-scoped API keys, read-only and metrics-only access, key expiry, and Serverless permissions in Cloud RBAC."
+description: "Secure a Qdrant Serverless space with global or collection-scoped API keys, read-only and metrics-only access, key expiry, IP and CORS allowlists, and Serverless permissions in Cloud RBAC."
 weight: 40
 ---
 
@@ -13,9 +13,9 @@ Two layers control access to a space: API keys for applications and account perm
 
 **Account permissions** control what a person can do in the Qdrant Cloud console: creating spaces, deleting them, managing keys and backups. They're part of [Cloud role-based access control](/documentation/cloud-account-setup/rbac/).
 
-A space accepts connections from any address, so the API key is what protects your data.
+A space accepts connections from any IP address until you [restrict network access](#restrict-network-access).
 
-<aside role="status">Serverless doesn't support private links or data encryption with customer-managed keys yet. If you need either, use a dedicated cluster.</aside>
+<aside role="status">Serverless doesn't support private links or data encryption with customer-managed keys. If you need either, use a dedicated cluster.</aside>
 
 ## Space API Keys
 
@@ -55,15 +55,29 @@ This key allows querying a single collection and nothing else. Use it anywhere y
 
 This key can't write points, can't create or delete collections, and can't reach any collection you didn't name.
 
+## Restrict Network Access
+
+You can limit which networks and which browser apps can reach a space. Open the space, go to the **Configuration** tab, and find the **Network Access** section. Select **Save** to apply your changes.
+
+### Allowed IP Ranges
+
+Add the IPv4 ranges, in CIDR notation such as `203.0.113.0/24`, that may reach the space. Requests from any other address are rejected. Leave the list empty to allow any IP address.
+
+Include your own IP address. The console's **Collections** and **Points** tabs call the space from your browser, and stop working when your address isn't allowed.
+
+The IP list doesn't affect the allowed origins.
+
+### Allowed Origins
+
+Add the origins of browser apps that call the space directly, using cross-origin resource sharing (CORS). An origin is a scheme and a host with an optional port, such as `https://app.example.com`. Calls from a server, such as through an SDK, don't need an allowed origin.
 ## Account Permissions
 
-Serverless adds its own permission families to Cloud role-based access control, so you can grant console access to spaces without granting it to dedicated clusters:
+Serverless has its own permission families in Cloud role-based access control, so you can grant console access to spaces without granting it to dedicated clusters:
 
 - `serverless_spaces`
-- `serverless_collections`
 - `serverless_data`
 - `serverless_backups`
 - `serverless_backup_schedules`
 - `serverless_api_keys`
 
-Each can be scoped account-wide, to a single space, or to a single collection.
+Each can be scoped account-wide or to a single space.
