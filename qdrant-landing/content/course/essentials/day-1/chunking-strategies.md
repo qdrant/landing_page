@@ -421,7 +421,7 @@ The trade-off is computational cost. You're embedding the full document upfront 
 | **Recursive** | Flexible, handles messy input | Heuristic, sometimes brittle | Scraped web content, mixed sources |
 | **Semantic** | High-quality, meaning-aware | Slower, resource-intensive | Legal, research, critical QA |
 
-**Note**: Sometimes, it's necessary to keep the document intact. If chunking is too complicated, or the document is visually rich (diagrams, graphs etc.), you can use [VLMs](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) to embed the whole page.
+**Note**: Sometimes, it's necessary to keep the document intact. If chunking is too complicated, or the document is visually rich (diagrams, graphs etc.), you can use [vision large language models (VLLMs)](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) to embed the whole page.
 
 ## Adding Meaning with Metadata
 
