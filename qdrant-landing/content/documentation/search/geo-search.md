@@ -42,8 +42,8 @@ Geo search relies on three components:
 |---|---|---|
 | Return only points inside an area | Use a geo filter: `geo_radius`, `geo_bounding_box`, or `geo_polygon`. | [Filter by Location](#filter-by-location) |
 | Prefer nearby points without excluding distant ones | Use a formula query with `geo_distance` and a decay function. | [Rank by Distance](#rank-by-distance) |
-| Combine filtering and ranking | Use a geo filter to restrict the search area, and a formula query to rank the remaining points | [Combine Filtering and Ranking](#combine-filtering-and-ranking) |
-| Keep filtered search fast and accurate | Create a geo payload index before ingesting data | [Create a Geo Index](#create-a-geo-index) |
+| Combine filtering and ranking | Use a geo filter to restrict the search area, and a formula query to rank the remaining points. | [Combine Filtering and Ranking](#combine-filtering-and-ranking) |
+| Keep filtered search fast and accurate | Create a geo payload index before ingesting data. | [Create a Geo Index](#create-a-geo-index) |
 
 ## Store Locations
 
