@@ -74,6 +74,11 @@
   <script src="{{ $customersJs.RelPermalink }}"></script>
 {{ end }}
 
+{{ if eq .Section "stars" }}
+  {{ $starsJs := resources.Get "marketing/js/stars.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $starsJs.RelPermalink }}"></script>
+{{ end }}
+
 {{ if eq .Section "edge" }}
   {{ $customersJs := resources.Get "marketing/js/edge.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $customersJs.RelPermalink }}"></script>

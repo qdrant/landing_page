@@ -1,44 +1,87 @@
+{{ $icons := "/img/stars-program/icons/" }}
 {{ with (.Site.GetPage "/stars/stars-list") }}
-  <section class="stars-list">
+  {{ $pageSize := .Params.pageSize | default 8 }}
+  {{ $count := len .Params.cards }}
+  <section class="stars-list" data-stars-list data-page-size="{{ $pageSize }}">
     <div class="container">
-      <h2 class="stars-list__title">{{ .Params.title }}</h2>
-      <div class="stars-list__cards row gx-4">
-        {{ range .Params.mainCards }}
-          <div class="col-12 col-lg-6">
-            <div class="stars-list__card stars-list__main-card">
-              <img class="stars-list__main-card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
-              <p class="stars-list__main-card-head">
-                {{ .headTitle }}
-                <img src="{{ .headIcon.src }}" alt="{{ .headIcon.alt }}" />
+      <div class="stars-list__header">
+        <h2 class="stars-list__title">{{ .Title }}</h2>
+        {{ with .Params.subtitle }}<p class="stars-list__subtitle">{{ replace . "{count}" (string $count) }}</p>{{ end }}
+      </div>
+
+      <ul class="stars-list__grid">
+        {{ range $card := .Params.cards }}
+          <li class="stars-list__card" data-stars-card>
+            <div class="stars-list__card-header">
+              <img
+                class="stars-list__photo"
+                src="{{ .image.src }}"
+                alt="{{ .image.alt }}"
+                width="64"
+                height="64"
+                loading="lazy"
+                decoding="async"
+              />
+              {{ if or .distinguished .linkedin }}
+                <div class="stars-list__card-end">
+                  {{ if .distinguished }}
+                    <span class="stars-list__badge" role="img" aria-label="Distinguished"></span>
+                  {{ end }}
+                  {{ with .linkedin }}
+                    <a
+                      class="stars-list__linkedin"
+                      href="{{ . }}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="{{ $card.name }} on LinkedIn"
+                      title="{{ $card.name }} on LinkedIn"
+                    >
+                      {{- partial "common/svg.html" (dict "icon" "linkedin" "path" "static/img/components/icons/" "fill" "currentColor") -}}
+                    </a>
+                  {{ end }}
+                </div>
+              {{ end }}
+            </div>
+            {{ $hasDetails := or .tags .location .talks .posts }}
+            <div class="stars-list__info{{ if $hasDetails }} stars-list__info_divided{{ end }}">
+              <h3 class="stars-list__name">{{ .name }}</h3>
+              <p class="stars-list__position">{{ .position }}</p>
+            </div>
+            {{ with .tags }}
+              <p class="stars-list__tags">
+                {{- range $i, $tag := . }}{{ if $i }} {{ end }}#{{ $tag }}{{ end -}}
               </p>
-              <h6 class="stars-list__main-card-title">{{ .name }}</h6>
-              <p class="stars-list__main-card-subtitle">{{ .position }}</p>
-              <p class="stars-list__main-card-description">{{ .description | safeHTML }}</p>
-              <div class="stars-list__main-card-overlay"></div>
-            </div>
-          </div>
+            {{ end }}
+            {{ if or .location .talks .posts }}
+              <ul class="stars-list__meta">
+                {{ with .location }}
+                  <li class="stars-list__meta-item">
+                    <img src="{{ $icons }}card-map-pin.svg" alt="Location:" width="14" height="14" />{{ . }}
+                  </li>
+                {{ end }}
+                {{ with .talks }}
+                  <li class="stars-list__meta-item">
+                    <img src="{{ $icons }}card-mic-vocal.svg" alt="Talks:" width="14" height="14" />{{ . }}
+                  </li>
+                {{ end }}
+                {{ with .posts }}
+                  <li class="stars-list__meta-item">
+                    <img src="{{ $icons }}card-file.svg" alt="Published content:" width="14" height="14" />{{ . }}
+                  </li>
+                {{ end }}
+              </ul>
+            {{ end }}
+          </li>
         {{ end }}
-      </div>
-      <div class="stars-list__cards row gx-4">
-        {{ range .Params.cards }}
-          <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-            <div class="stars-list__card">
-              <img class="stars-list__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
-              <h6 class="stars-list__card-title">{{ .name }}</h6>
-              <p class="stars-list__card-subtitle">{{ .position }}</p>
-              <p class="stars-list__card-description">{{ .description }}</p>
-              <div class="stars-list__card-overlay"></div>
-            </div>
-          </div>
-        {{ end }}
-      </div>
-      <div class="stars-list__link">
-        <a class="link link_xl" href="{{ .Params.link.url }}" target="_blank">
-          {{ .Params.link.text }}
-        </a>
-      </div>
+      </ul>
+
+      {{ if gt (len .Params.cards) $pageSize }}
+        <div class="stars-list__more">
+          <button type="button" class="button button_outlined button_lg stars-list__more-button" data-stars-load-more hidden>
+            {{ .Params.loadMoreText | default "Load More" }}
+          </button>
+        </div>
+      {{ end }}
     </div>
-    <div class="stars-list__overlay-top"></div>
-    <div class="stars-list__overlay-bottom"></div>
   </section>
 {{ end }}

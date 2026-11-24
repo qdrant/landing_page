@@ -1,0 +1,60 @@
+{{ $icons := "/img/stars-program/icons/" }}
+{{ $types := dict
+  "open-source" (dict "label" "Open Source" "icon" "badge-folder")
+  "product" (dict "label" "Product" "icon" "badge-laptop-minimal")
+  "learning" (dict "label" "Learning" "icon" "badge-book-open")
+}}
+{{ with (.Site.GetPage "/stars/stars-projects") }}
+  <section class="stars-projects">
+    <div class="container">
+      <div class="stars-projects__header">
+        <div class="stars-projects__heading">
+          {{ with .Params.label }}<p class="stars-projects__label">{{ . }}</p>{{ end }}
+          <h2 class="stars-projects__title">{{ .Title }}</h2>
+        </div>
+        <div class="stars-projects__intro">
+          <p class="stars-projects__description">{{ .Params.description }}</p>
+          {{ with .Params.link }}
+            {{ if .url }}
+              <a href="{{ .url }}" class="link link_md">{{ .text }}</a>
+            {{ end }}
+          {{ end }}
+        </div>
+      </div>
+
+      <ul class="stars-projects__list">
+        {{ range $project := .Params.projects }}
+          {{ $type := index $types .type }}
+          <li class="stars-projects__item">
+            <img
+              class="stars-projects__logo"
+              src="{{ .logo }}"
+              alt=""
+              width="48"
+              height="48"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="stars-projects__name">
+              <h3 class="stars-projects__item-title">
+                {{- with .url -}}
+                  <a class="stars-projects__item-link" href="{{ . }}" target="_blank" rel="noopener">{{ $project.name }}</a>
+                {{- else -}}
+                  {{ $project.name }}
+                {{- end -}}
+              </h3>
+              <p class="stars-projects__author">by {{ .author }}</p>
+            </div>
+            <p class="stars-projects__item-description">{{ .description }}</p>
+            {{ with $type }}
+              <span class="stars-projects__badge">
+                <img src="{{ $icons }}{{ .icon }}.svg" alt="" width="16" height="16" />
+                {{ .label }}
+              </span>
+            {{ end }}
+          </li>
+        {{ end }}
+      </ul>
+    </div>
+  </section>
+{{ end }}

@@ -1,13 +1,12 @@
 {{ define "main" }}
   {{ partial "marketing/site-header" . }}
   {{ partial "marketing/stars-hero" . }}
-
-  {{ partial "marketing/stars-about" . }}
-  {{ partial "marketing/stars-benefits" . }}
   {{ partial "marketing/stars-list" . }}
-  {{ partial "marketing/stars-marketplaces" . }}
+  {{ partial "marketing/stars-projects" . }}
+  {{ partial "marketing/stars-perks" . }}
+  {{ partial "marketing/stars-how-to-join" . }}
 
-  {{ with (.Site.GetPage "/stars/stars-get-started") }}
-    {{ partial "marketing/get-started-small" (dict "context" . "class" "stars-get-started") }}
+  {{ with (.Site.GetPage "/stars/stars-cta") }}
+    {{ partial "marketing/cta-banner" . }}
   {{ end }}
 {{ end }}
