@@ -3,5 +3,4 @@
 test-results/
 playwright-report/
 results.json
-node_modules/
 .claude/

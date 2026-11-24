@@ -18,12 +18,25 @@ They are for local use by developers and agents:
 
 ## Setup
 
-Run once, from this directory:
+Playwright is a dev dependency in `qdrant-landing/package.json`, so the
+regular `npm install` in `qdrant-landing/` (which `run.sh` runs) installs it.
+Then download the Chromium build that matches the installed Playwright
+version, once and again after each Playwright upgrade:
 
 ```bash
-cd qdrant-landing/test/visual-regression
-npm install --no-workspaces
+cd qdrant-landing
+npm install
 npx playwright install chromium
+```
+
+Commands in this README run from `qdrant-landing/test/visual-regression/`,
+where `npx playwright` picks up `playwright.config.ts` on its own. From
+`qdrant-landing/`, the same runs are available as npm scripts:
+
+```bash
+npm run visual:baseline    # npx playwright test --update-snapshots
+npm run visual:test        # npx playwright test
+npm run visual:test -- --project=mobile   # extra arguments go after --
 ```
 
 The tests start their own `hugo serve` on port 1314, so the usual build
