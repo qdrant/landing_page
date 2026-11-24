@@ -1,0 +1,195 @@
+/* two-kinds-of-near island. Scoped under .qi-gs. Chips, hints and the status
+   line come from the shared island design system (islands.scss); this file only
+   styles the radius control, the two canvases, the legend, and the result cards. */
+
+.qi-gs {
+  display: block;
+}
+
+/* `.qi-chip` and the legend set `display`, which outranks the user agent's
+   `[hidden] { display: none }`. */
+.qi-gs [hidden] {
+  display: none;
+}
+
+.qi-gs__controls {
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.qi-gs__radius {
+  display: flex;
+  flex: 1 1 220px;
+  align-items: center;
+  gap: 10px;
+  min-width: 200px;
+}
+
+.qi-gs__radius input {
+  flex: 1;
+  min-width: 80px;
+  accent-color: var(--qi-accent);
+}
+
+.qi-gs__radius-value {
+  min-width: 4.5em;
+  text-align: right;
+  color: var(--qi-fg);
+}
+
+.qi-gs__panes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.qi-gs__pane {
+  margin: 0;
+  min-width: 0;
+}
+
+.qi-gs__pane figcaption {
+  margin-bottom: 4px;
+  text-align: left;
+}
+
+.qi-gs canvas {
+  display: block;
+  width: 100%;
+  height: 300px;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+  background: var(--qi-surface);
+  touch-action: none; /* dragging the circle must not scroll the page */
+}
+
+.qi-gs canvas[data-map] {
+  cursor: grab;
+}
+
+.qi-gs canvas:focus-visible {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 1px;
+}
+
+.qi-gs__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 10px 0;
+}
+
+.qi-gs__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.qi-gs__dot,
+.qi-gs__ring,
+.qi-gs__line {
+  display: inline-block;
+  flex: none;
+}
+
+.qi-gs__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.qi-gs__dot--in {
+  background: var(--qi-fg);
+}
+
+.qi-gs__dot--out {
+  background: var(--qi-line);
+}
+
+.qi-gs__ring {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--qi-accent);
+  border-radius: 50%;
+}
+
+.qi-gs__ring--missed {
+  border: 2px dashed var(--qi-muted);
+}
+
+.qi-gs__line {
+  width: 16px;
+  height: 0;
+  border-top: 2px solid var(--qi-muted);
+}
+
+.qi-gs__line--extra {
+  border-top-color: var(--qi-cat-1);
+}
+
+.qi-gs__results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.qi-gs__result {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+  background: transparent;
+  color: var(--qi-muted);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.qi-gs__result:hover {
+  border-color: var(--qi-muted);
+}
+
+.qi-gs__result:focus-visible {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 1px;
+}
+
+.qi-gs__result[aria-pressed='true'] {
+  border-color: var(--qi-fg);
+  background: var(--qi-surface);
+  color: var(--qi-fg);
+}
+
+.qi-gs__result-name {
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.qi-gs__result-score {
+  font-size: 26px;
+  line-height: 1.1;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--qi-fg);
+}
+
+.qi-gs__result-why {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+@media (max-width: 720px) {
+  .qi-gs__panes,
+  .qi-gs__results {
+    grid-template-columns: 1fr;
+  }
+
+  .qi-gs canvas {
+    height: 260px;
+  }
+}

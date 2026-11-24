@@ -30,7 +30,7 @@ The following field types support payload indexing:
 * `integer` - for [integer](/documentation/manage-data/payload/#integer) payload, affects [Match](/documentation/search/filtering/#match) and [Range](/documentation/search/filtering/#range) filtering conditions.
 * `float` - for [float](/documentation/manage-data/payload/#float) payload, affects [Range](/documentation/search/filtering/#range) filtering conditions.
 * `bool` - for [bool](/documentation/manage-data/payload/#bool) payload, affects [Match](/documentation/search/filtering/#match) filtering conditions (available as of v1.4.0).
-* `geo` - for [geo](/documentation/manage-data/payload/#geo) payload, affects [Geo Bounding Box](/documentation/search/filtering/#geo-bounding-box) and [Geo Radius](/documentation/search/filtering/#geo-radius) filtering conditions.
+* `geo` - for [geo](/documentation/manage-data/payload/#geo) payload, affects [Geo Bounding Box](/documentation/search/geo-search/#bounding-box), [Geo Radius](/documentation/search/geo-search/#radius), and [Geo Polygon](/documentation/search/geo-search/#polygon) filtering conditions.
 * `datetime` - for [datetime](/documentation/manage-data/payload/#datetime) payload, affects [Range](/documentation/search/filtering/#range) filtering conditions (available as of v1.8.0).
 * `text` - a special kind of index, available for [keyword](/documentation/manage-data/payload/#keyword) / string payloads, affects [Full Text search](/documentation/search/filtering/#full-text-match) filtering conditions. Read more about [text index configuration](#full-text-index)
 * `uuid` - a special type of index, similar to `keyword`, but optimized for [UUID values](/documentation/manage-data/payload/#uuid).
