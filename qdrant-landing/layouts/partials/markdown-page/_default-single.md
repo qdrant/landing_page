@@ -1,7 +1,7 @@
 > Explore Qdrant's agent skills catalog at https://skills.qdrant.tech/
 > Search the documentation at https://search.qdrant.tech/md/documentation?q=your+query+here
 > Use this file for an index of the main pages: https://qdrant.tech/llms.txt
-> Content inside `<only-applies-to>` tags applies only to the named products, or only as of the named version. All other content applies to every Qdrant product. If you know which product the user is on, ignore tagged content for other products.
+> Content inside `<only-applies-to>` tags applies only to the named products, or only as of the named version, and never to products it says it does not apply to. All other content applies to every Qdrant product. If you know which product the user is on, ignore tagged content for other products.
 
 {{ $content := partial "common/products/markdown-sections.html" .RenderShortcodes -}}
 {{- if .Params.retired -}}
