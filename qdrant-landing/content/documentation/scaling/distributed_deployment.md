@@ -373,9 +373,9 @@ This code sample creates a collection with a total of 6 logical shards backed by
 
 Since a replication factor of "2" would require twice as much storage space, it is advised to make sure the hardware can host the additional shard replicas beforehand.
 
-### Creating New Shard Replicas
+### Creating New Shard Replicas {products="!cloud"}
 
-It is possible to create or delete replicas manually on an existing collection using the [Update collection cluster setup API](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster). This is usually only necessary if you run Qdrant open-source. In Qdrant Cloud shard replication is handled and updated automatically, matching the configured `replication_factor`.
+It is possible to create or delete replicas manually on an existing collection using the [Update collection cluster setup API](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster). This is only necessary if you run Qdrant open-source. In Qdrant Cloud shard replication is handled and updated automatically, matching the configured `replication_factor`.
 
 A replica can be added on a specific peer by specifying the peer from which to replicate.
 
