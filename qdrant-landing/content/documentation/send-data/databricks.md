@@ -15,6 +15,7 @@ aliases:
   - /documentation/examples/databricks/
 ---
 
+
 # Ingest Databricks Data into Qdrant
 
 | Time: 30 min | Level: Intermediate | Stack: Python, Databricks, Apache Spark, FastEmbed |
