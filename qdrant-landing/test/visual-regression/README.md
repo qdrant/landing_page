@@ -39,6 +39,9 @@ npm run visual:test        # npx playwright test
 npm run visual:test -- --project=mobile   # extra arguments go after --
 ```
 
+Either way, the run output (`test-results/`, `playwright-report/`, and
+`results.json`) is written to this directory, so open the report from here.
+
 The tests start their own `hugo serve` on port 1314, so the usual build
 requirements apply (Hugo 0.160.1 and Dart Sass, see `AGENTS.md` at the
 repository root). An already running server on port 1314 is reused.
@@ -55,7 +58,7 @@ every page fails although your change did not touch it. A typical sign is
 
 ```bash
 # from the repository root, with your changes committed or stashed
-git stash                               # only if you have uncommitted changes
+git stash -u                            # only if you have uncommitted changes
 git checkout "$(git merge-base HEAD master)"
 
 cd qdrant-landing/test/visual-regression
@@ -66,9 +69,13 @@ git checkout -                          # back to your branch
 git stash pop                           # only if you stashed
 ```
 
-The screenshots are git-ignored, so they stay in place when you switch
-commits. Use plain `git stash`, not `git stash -u`: tracked changes are all
-that needs to move.
+Stash with `-u`, so new files that are not committed yet, such as a new page
+or partial, leave the working tree too. Hugo would otherwise render them into
+the baseline. The screenshots are git-ignored, so `-u` leaves them in place,
+and they stay put when you switch commits.
+
+The baseline run uses `routes.ts` as it is at the merge-base. A route that your
+branch adds gets no baseline here; see [Which pages are covered](#which-pages-are-covered).
 
 If your branch has no commits of its own yet, skip the checkout: stash your
 changes, update the snapshots, and pop the stash.
@@ -118,11 +125,14 @@ later changes are checked against it too. A new route has no baseline yet:
 create one as described in the workflow, or the first run writes it and
 reports the test as failed.
 
-Snapshot names follow the route, for example `/lp/ai/` becomes `lp/ai.png`.
+Screenshots are saved in `pages.spec.ts-snapshots/`, named after the route,
+the width, and the platform: `/lp/ai/` becomes `lp-ai-desktop-darwin.png` and
+`lp-ai-mobile-darwin.png` on macOS. Because the platform is part of the name,
+a baseline made on macOS does not serve a run on Linux.
 
 ## Speed and stability
 
-A full run takes about 3 minutes. These settings keep it that way:
+A full run takes 3 to 4 minutes. These settings keep it that way:
 
 - `playwright.config.ts` runs 4 workers against one `hugo serve`.
 - `pages.spec.ts` blocks every request except `localhost` and

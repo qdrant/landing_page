@@ -4,6 +4,9 @@ const PORT = 1314;
 
 export default defineConfig({
   testDir: ".",
+  // Keep run output in this directory, where .gitignore covers it. Without
+  // these, Playwright writes it next to the nearest package.json (qdrant-landing/).
+  outputDir: "test-results",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: 0,
@@ -51,7 +54,7 @@ export default defineConfig({
   },
   reporter: [
     ["list"],
-    ["html", { open: "never" }],
+    ["html", { outputFolder: "playwright-report", open: "never" }],
     // Per-test durations, to see which pages make a run slow.
     ["json", { outputFile: "results.json" }],
   ],
