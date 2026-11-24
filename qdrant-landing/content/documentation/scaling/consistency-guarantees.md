@@ -40,8 +40,8 @@ This value can range from 1 to the number of replicas you have for each shard.
 {{< code-snippet path="/documentation/headless/snippets/create-collection/with-write-consistency-factor/" >}}
 
 Write operations will fail if fewer than `write_consistency_factor` replicas
-acknowledge them. In this case, the client is expected to send the operation
-again to ensure a consistent state is reached.
+acknowledge them. In this case, send the operation again to ensure a 
+consistent state is reached.
 
 Replicas that are already marked as dead don't receive writes and aren't
 counted. Writes can then succeed on fewer replicas than the
