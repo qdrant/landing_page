@@ -1,0 +1,7 @@
+# Screenshots and run output are local only, never committed.
+*-snapshots/
+test-results/
+playwright-report/
+results.json
+node_modules/
+.claude/

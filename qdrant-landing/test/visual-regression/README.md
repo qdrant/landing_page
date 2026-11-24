@@ -1,0 +1,141 @@
+# Visual regression tests
+
+These tests check that a change did not alter how the site looks by accident.
+They take full-page screenshots of a set of pages, at desktop and mobile
+widths, and compare them with screenshots taken before the change. They use
+[Playwright](https://playwright.dev/) with Chromium.
+
+Use them after adding a page, a section, a shortcode, a style change, or any
+feature that touches shared templates or CSS, to confirm that the pages you did
+not mean to change still look the same.
+
+They are for local use by developers and agents:
+
+- **They do not run in CI.**
+- **Screenshots are never committed.** The snapshot directory, reports, and
+  results are listed in this directory's `.gitignore`. Each person creates a
+  baseline locally, from the commit their change starts from.
+
+## Setup
+
+Run once, from this directory:
+
+```bash
+cd qdrant-landing/test/visual-regression
+npm install --no-workspaces
+npx playwright install chromium
+```
+
+The tests start their own `hugo serve` on port 1314, so the usual build
+requirements apply (Hugo 0.160.1 and Dart Sass, see `AGENTS.md` at the
+repository root). An already running server on port 1314 is reused.
+
+## Workflow
+
+### 1. Create the baseline from the commit your branch starts from
+
+Take the baseline from the merge-base of your branch, not from the latest
+`master`. If `master` moved on since you branched, a newer global element (a
+top banner, a navigation change) shifts every full-page screenshot, and nearly
+every page fails although your change did not touch it. A typical sign is
+`Expected an image 1280px by Npx, received 1280px by (N-36)px`.
+
+```bash
+# from the repository root, with your changes committed or stashed
+git stash                               # only if you have uncommitted changes
+git checkout "$(git merge-base HEAD master)"
+
+cd qdrant-landing/test/visual-regression
+npx playwright test --update-snapshots
+cd -
+
+git checkout -                          # back to your branch
+git stash pop                           # only if you stashed
+```
+
+The screenshots are git-ignored, so they stay in place when you switch
+commits. Use plain `git stash`, not `git stash -u`: tracked changes are all
+that needs to move.
+
+If your branch has no commits of its own yet, skip the checkout: stash your
+changes, update the snapshots, and pop the stash.
+
+### 2. Compare your change against the baseline
+
+```bash
+cd qdrant-landing/test/visual-regression
+npx playwright test
+```
+
+A page that differs by more than 1% of its pixels fails. To see the expected,
+actual, and diff images side by side:
+
+```bash
+npx playwright show-report
+```
+
+### 3. Review the failures
+
+For each failing page, decide whether the difference is intended:
+
+- **Intended**, for example the page you redesigned: nothing to do. You can
+  update the snapshots with `--update-snapshots` to use the new state as the
+  baseline for further work on the same branch.
+- **Not intended**: your change leaks into a page it should not affect. Fix it
+  and run the comparison again.
+
+Report what changed and why when you open the pull request, since reviewers do
+not have the screenshots.
+
+## Which pages are covered
+
+`routes.ts` lists them:
+
+- `ROUTES`: every marketing page and section index, including all `/lp/` pages.
+  Individual posts under `/blog/` and `/articles/` are excluded by
+  `EXCLUDE_PREFIXES`.
+- `SAMPLED_ROUTES`: a fixed sample of documentation, course, article, and blog
+  pages.
+- `SHORTCODE_ROUTES`: one page for each shortcode that has its own assets in
+  `assets/shortcodes/`. Keep it in step with the table in
+  `assets/shortcodes/README.md`.
+
+When you add a page or a shortcode with its own styles, add a route for it, so
+later changes are checked against it too. A new route has no baseline yet:
+create one as described in the workflow, or the first run writes it and
+reports the test as failed.
+
+Snapshot names follow the route, for example `/lp/ai/` becomes `lp/ai.png`.
+
+## Speed and stability
+
+A full run takes about 3 minutes. These settings keep it that way:
+
+- `playwright.config.ts` runs 4 workers against one `hugo serve`.
+- `pages.spec.ts` blocks every request except `localhost` and
+  `cdn.jsdelivr.net` (MathJax, Popper, Chart.js). HubSpot forms, YouTube
+  embeds, analytics, and consent load late and change on their own, so they
+  made runs slow and flaky. They do not appear in screenshots.
+- Animations and transitions are disabled before each capture.
+- Pages get up to 5 seconds to reach network idle, then the test moves on.
+- `expect.timeout` is 15 seconds, because a long desktop page needs a few
+  seconds per capture while four workers run.
+- The JSON reporter writes per-test durations to `results.json`. Passing
+  `--reporter` on the command line replaces the configured reporters, so leave
+  it off when you want the timings.
+
+To run a subset, pass a pattern or a project:
+
+```bash
+npx playwright test -g "lp/ai"          # pages whose name matches
+npx playwright test --project=mobile    # mobile width only
+```
+
+## Notes for agents
+
+- `hugo serve` cannot bind a port inside a sandbox that blocks local binding.
+  Run the tests outside it, or allow local binding.
+- Do not edit site files during a run. `hugo serve` rebuilds, and screenshots
+  taken mid-rebuild fail.
+- Never commit anything from `*-snapshots/`, `test-results/`, or
+  `playwright-report/`.
