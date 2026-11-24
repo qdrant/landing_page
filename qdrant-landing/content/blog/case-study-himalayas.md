@@ -5,7 +5,7 @@ short_description: "Himalayas runs job search, personalized matches, and related
 description: "How Himalayas moved remote job matching from keyword search to hybrid retrieval on Qdrant Cloud: 25M+ requests a month, around 30 ms median time in Qdrant, and a 19-point recall gain."
 preview_image: /blog/case-study-himalayas/social_preview.png
 social_preview_image: /blog/case-study-himalayas/social_preview.png
-date: 2026-09-18T00:00:00.000Z
+date: 2026-10-05T00:00:00.000Z
 author: Daniel Azoulai
 featured: false
 tags:
