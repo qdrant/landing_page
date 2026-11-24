@@ -6,7 +6,7 @@ description: "Use Qdrant in RocketRide to ingest embedded documents, retrieve co
 
 # RocketRide
 
-[RocketRide](https://github.com/rocketride-org/rocketride-server) is an open-source AI development environment and runtime for building, running, and integrating AI systems. Pipelines are portable JSON and execute on a multithreaded C++ engine. You can compose them in the visual IDE, run them from the CLI, integrate them through Python or TypeScript SDKs, or expose them as tools over MCP.
+[RocketRide](https://github.com/rocketride-org/rocketride-server) is an AI meta-harness with an enterprise-grade runtime built on C++, for companies and pro-builders building durable AI at production scale. You use it to build, test and run AI agents and RAG pipelines. Pipelines are portable JSON and execute on a multithreaded C++ engine. You can compose them in the visual IDE, run them from the CLI, integrate them through Python or TypeScript SDKs, or expose them as tools over MCP.
 
 RocketRide's native Qdrant node stores embedded documents, retrieves context for retrieval-augmented generation (RAG), and gives agents tools for searching and updating a Qdrant collection. It supports both Qdrant Cloud and self-hosted deployments.
 
@@ -39,7 +39,7 @@ The example uses a local MiniLM embedding model and OpenAI for answer generation
 rocketride start --pipeline ./rag-pipeline.pipe
 ```
 
-You can also open the same `.pipe` file in the RocketRide IDE extension or start it through the [Python](https://docs.rocketride.org/sdk/python-sdk/) or [TypeScript](https://docs.rocketride.org/sdk/node-sdk/) SDK.
+You can also open the same `.pipe` file in the RocketRide IDE extension or start it through the [Python](https://docs.rocketride.ai/clients/python/) or [TypeScript](https://docs.rocketride.ai/clients/typescript/) SDK.
 
 ## Configure the Qdrant node
 
@@ -87,7 +87,7 @@ The example uses two Qdrant nodes pointed at the same collection:
 - The ingestion node receives document chunks after the embedding step and writes them to Qdrant.
 - The query node receives an embedded question, retrieves matching chunks, and sends both the question and retrieved context to the prompt and LLM nodes.
 
-The pipeline can be edited visually without hand-writing its JSON, but the same file is version-controllable and can be run from the [CLI](https://docs.rocketride.org/cli/) or either SDK. Once running, it can also be exposed as a tool to an MCP-compatible assistant.
+The pipeline can be edited visually without hand-writing its JSON, but the same file is version-controllable and can be run from the [CLI](https://docs.rocketride.ai/connect/cli/) or either SDK. Once running, it can also be exposed as a tool to an MCP-compatible assistant.
 
 ## Use Qdrant from an agent
 
@@ -103,7 +103,7 @@ This lets an agent decide when to retrieve context or update its knowledge base 
 
 ## Further reading
 
-- [RocketRide Qdrant node reference](https://docs.rocketride.org/nodes/qdrant/)
-- [Complete RocketRide RAG example](https://docs.rocketride.org/examples/rag-pipeline/)
-- [RocketRide MCP integration](https://docs.rocketride.org/protocols/mcp/)
+- [RocketRide Qdrant node reference](https://docs.rocketride.ai/nodes/store_qdrant/)
+- [Complete RocketRide RAG example](https://docs.rocketride.ai/examples/rag-pipeline/)
+- [RocketRide MCP integration](https://docs.rocketride.ai/connect/mcp/http/)
 - [RocketRide source code](https://github.com/rocketride-org/rocketride-server)
