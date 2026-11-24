@@ -8,11 +8,9 @@ partition: deploy
 
 # About Qdrant Serverless
 
-Vector search usually means committing to infrastructure before you understand the workload: how many nodes, how much RAM, which quantization scheme, what HNSW parameters. Underestimate and you're adding capacity under load. Get it right and you still pay for headroom during quiet hours.
+Qdrant Serverless is vector search with no nodes to provision, no capacity to plan, and no index parameters to tune. You choose a precision tier for each vector. Qdrant handles quantization and HNSW tuning, and scales capacity with demand.
 
-Qdrant Serverless removes these decisions: it offers cloud-based vector search with no nodes to provision, no capacity to plan, and no quantization or HNSW parameters to tune. Instead, you define a single precision tier per vector. The platform takes care of quantization and HNSW tuning and automatically scales with demand.
-
-Qdrant Serverless delivers the same retrieval capabilities as a dedicated cluster: dense and sparse vectors, multivectors, payload filtering, and hybrid queries are all supported.
+Serverless has the same retrieval features as a dedicated cluster: dense and sparse vectors, multivectors, payload filtering, and hybrid queries.
 
 Qdrant and you split the responsibilities as follows:
 
@@ -28,7 +26,7 @@ Qdrant and you split the responsibilities as follows:
 | Precision tier of each vector | You |
 | Payload indexes | You |
 
-## What Serverless Is Good For
+## When to Use Serverless
 
 Serverless fits workloads where data size and traffic are hard to predict, or vary widely from one part of the workload to another. The platform scales capacity up and down with demand, so you don't size for the peak and then carry that capacity through quiet periods.
 
@@ -36,7 +34,14 @@ Serverless fits workloads where data size and traffic are hard to predict, or va
 - **Low or uneven search traffic.** Workloads with low query volume, or traffic that arrives in bursts, don't need a cluster sized for the busiest hour. Capacity follows the traffic as it rises and falls.
 - **Constantly changing data volumes.** When the amount of data grows and shrinks all the time, you don't resize nodes or plan storage ahead. The platform adjusts quantization, indexing, and memory tiering as your collections change.
 
-Dedicated clusters remain the best fit for larger single-tenant workloads, especially where low latency is critical. They're also the way to go if the cloud provider matters to you, for example for compliance: on a dedicated cluster you choose between AWS, GCP, and Azure, while on Serverless you choose only the region. And they're the better choice if you need fine control over index and quantization settings, update or delete by filter, audit logging, private links, or encryption with customer-managed keys. [Limitations and Differences](#limitations-and-differences), below, covers the differences in detail.
+Use a dedicated cluster instead for larger single-tenant workloads, especially where low latency is critical. A dedicated cluster is also the choice when you need:
+
+- A choice of cloud provider (AWS, GCP, or Azure), for example for compliance, instead of only a region
+- Fine control over index and quantization settings
+- Update or delete by filter
+- Audit logging, private links, or encryption with customer-managed keys
+
+For all differences, see [Limitations and Differences](#limitations-and-differences). For a side-by-side comparison, see [Dedicated Clusters or Serverless](/documentation/managed-cloud/#dedicated-clusters-or-serverless).
 
 ## Qdrant Serverless Concepts
 
@@ -66,19 +71,6 @@ These tiers are available:
 
 We do not publish the exact configuration for each tier. To choose a precision tier, benchmark against your data to get to the precision you need.
 
-### Delayed Update Visibility
-
-Serverless separates the write path from the read path. An update goes onto a queue, a background updater applies it to storage, and search workers reload changed data on their next check. A point isn't searchable the moment the update call returns.
-
-- Setting `wait=true` makes the call return only after the update is applied to storage, confirming durability. Search workers still have to pick up the change, so the point isn't searchable immediately.
-- The point count reflects the last applied write. On a new collection it's absent until the updater has written statistics; a missing or stale count is normal.
-
-Write your application so it tolerates this delay. Reading a point back immediately after writing it and treating a miss as an error will produce false failures.
-
-### Account Quotas
-
-Each account has a maximum number of spaces, which can be raised on request. A space supports far more collections than a dedicated cluster, though each collection is soft limited at around 1 million vectors. Each space also limits the storage per collection: once a collection reaches the limit, further writes are rejected. You can also limit a space's total storage and monthly spend. See [Quotas and Limits](/documentation/serverless/quotas-and-limits/) and [Cost Control and Quotas](/documentation/serverless/spaces/#cost-control-and-quotas).
-
 ## Limitations and Differences
 
 Serverless exposes a smaller surface than a dedicated cluster. Some features aren't supported. Other differences are the trade you're making: the platform can only take capacity, tuning, and scaling off your hands by owning them outright.
@@ -99,20 +91,15 @@ To change a schema, create a new collection with the configuration you want, upl
 - **Updates by ID only.** Upserts and deletes take point IDs. Update by filter and delete by filter are rejected, which keeps writes cheap and independent of search.
 - **Read consistency and shard selection are ignored.** The query API accepts both parameters and ignores them, so existing query code ports over unchanged.
 - **No snapshots API.** Use managed [backups](/documentation/serverless/backups/) instead.
+- **Stricter quotas.** Serverless limits spaces per account, vectors per collection, storage per collection, and request sizes. See [Quotas and Limits](/documentation/serverless/quotas-and-limits/).
 
-### Serverless Compared with a Dedicated Cluster
+#### Delayed Update Visibility
 
-| Capability | Serverless | Dedicated cluster |
-|---|---|---|
-| Sizing and scaling | Handled by the platform | You choose CPU, RAM, and node count |
-| Cloud provider | Handled by the platform. You choose only the region. | You choose AWS, GCP, or Azure |
-| Qdrant version | Handled by the platform | You choose it and schedule upgrades |
-| Index and quantization tuning | One precision tier per vector | Full control over HNSW, quantization, and storage |
-| Collection changes after creation | Not supported | Supported |
-| Client | `QdrantServerless` | `QdrantClient` |
-| Update visibility | Delayed until search workers reload | Immediate once the write is applied |
-| Update operations | Upserts and deletes by point ID | Full, including update and delete by filter |
-| Backups | Managed backups, per space or per collection | Snapshots and managed backups |
-| Dense, sparse, named, and multivectors | Supported | Supported |
-| Hybrid search | Supported | Supported |
-| Distance metrics | Cosine, Dot, Euclid, Manhattan | Cosine, Dot, Euclid, Manhattan |
+Serverless separates the write path from the read path. An update goes onto a queue, a background updater applies it to storage, and search workers reload changed data on their next check. A point isn't searchable the moment the update call returns.
+
+- Setting `wait=true` makes the call return only after the update is applied to storage, confirming durability. Search workers still have to pick up the change, so the point isn't searchable immediately.
+- The point count reflects the last applied write. On a new collection it's absent until the updater has written statistics; a missing or stale count is normal.
+
+Write your application so it tolerates this delay. Reading a point back immediately after writing it and treating a miss as an error will produce false failures.
+
+For a side-by-side comparison of Serverless and dedicated clusters, see [Dedicated Clusters or Serverless](/documentation/managed-cloud/#dedicated-clusters-or-serverless).
