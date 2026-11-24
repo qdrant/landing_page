@@ -1,6 +1,6 @@
 ---
-title: "Serverless Semantic Search"
-short_description: "Build a serverless semantic search service in Rust on AWS Lambda, with Cohere embeddings and Qdrant."
+title: "Semantic Search with Rust and AWS Lambda"
+short_description: "Build a semantic search service in Rust on AWS Lambda, with Cohere embeddings and Qdrant."
 description: "Tutorial: deploy a Rust function on AWS Lambda that embeds a query with Cohere, searches it in Qdrant, and returns JSON, using free tiers only."
 social_preview_image: /articles_data/serverless/preview/social-preview.jpg
 author: Andre Bogus
@@ -8,6 +8,7 @@ author_link: https://llogiq.github.io
 date: 2023-07-12T10:00:00+01:00
 aliases:
   - /articles/serverless/
+  - /documentation/tutorials-develop/serverless-semantic-search/
 weight: 50
 goal: Get Started
 stack:
@@ -16,7 +17,7 @@ stack:
   - Cohere
 ---
 
-# Build a Serverless Semantic Search Service with Rust, AWS Lambda, and Qdrant
+# Build a Semantic Search Service with Rust, AWS Lambda, and Qdrant
 
 | Time: 45 min | Level: Intermediate |
 | --- | ----------- |
