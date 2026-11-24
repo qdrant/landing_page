@@ -41,6 +41,7 @@ aliases: ["/documentation/frameworks/memgpt/"]
 | [Rig-rs](/documentation/frameworks/rig-rs/)                   | Rust library for building scalable, modular, and ergonomic LLM-powered applications.                                 |
 | [RocketRide](/documentation/frameworks/rocketride/)           | Open-source AI development environment and C++ runtime for building RAG pipelines and agents with Qdrant.             |
 | [Semantic Router](/documentation/frameworks/semantic-router/) | Python library to build a decision-making layer for AI applications using vector search.                             |
+| [Semantica](/documentation/frameworks/semantica/)             | Python library for context graphs and decision intelligence, with Qdrant as the vector store backend.               |
 | [SmolAgents](/documentation/frameworks/smolagents/)           | Barebones library for agents. Agents write python code to call tools and orchestrate other agent.                    |
 | [Spring AI](/documentation/frameworks/spring-ai/)             | Java AI framework for building with Spring design principles such as portability and modular design.                 |
 | [Swiftide](/documentation/frameworks/swiftide/)             | Rust library for building LLM applications. Build fast, streaming indexing and querying pipelines, and composable agents. |
