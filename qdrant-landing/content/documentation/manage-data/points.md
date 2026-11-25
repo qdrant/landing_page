@@ -168,7 +168,7 @@ In this case, it means that points with the same id will be overwritten when re-
 Idempotence property is useful if you use, for example, a message queue that doesn't provide an exactly-once guarantee.
 Even with such a system, Qdrant ensures data consistency.
 
-### Update Mode {version="1.17.0"}
+### Update Mode {products="clusters[1.17.0],!serverless"}
 
 By default, an upsert operation inserts a point if it does not exist, or updates it if it does. To change this behavior, use the `update_mode` parameter:
 
@@ -291,13 +291,15 @@ REST API ([Schema](https://api.qdrant.tech/api-reference/points/delete-points)):
 
 {{< code-snippet path="/documentation/headless/snippets/delete-points/simple/" >}}
 
+### Delete Points by Filter {products="!serverless"}
+
 An alternative way to specify which points to remove is to use a filter.
 
 {{< code-snippet path="/documentation/headless/snippets/delete-points/by-filter/" >}}
 
 This example removes all points with `{ "color": "red" }` from the collection.
 
-## Conditional Updates {version="1.16.0"}
+## Conditional Updates {products="clusters[1.16.0],!serverless"}
 
 All update operations (including point insertion, vector updates, payload updates, and deletions) support configurable pre-conditions based on filters.
 

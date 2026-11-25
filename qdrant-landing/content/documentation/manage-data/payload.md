@@ -213,11 +213,6 @@ REST API ([Schema](https://api.qdrant.tech/api-reference/points/set-payload)):
 
 {{< code-snippet path="/documentation/headless/snippets/set-payload/by-point-id/" >}}
 
-You don't need to know the ids of the points you want to modify. The alternative
-is to use filters.
-
-{{< code-snippet path="/documentation/headless/snippets/set-payload/by-filter/" >}}
-
 _Available as of v1.8.0_
 
 It is possible to modify only a specific key of the payload by using the `key` parameter.
@@ -252,6 +247,13 @@ Resulting in the following payload:
 }
 ```
 
+#### Set Payload by Filter {products="!serverless"}
+
+You don't need to know the ids of the points you want to modify. The alternative
+is to use filters.
+
+{{< code-snippet path="/documentation/headless/snippets/set-payload/by-filter/" >}}
+
 ### Overwrite payload
 
 Fully replace any existing payload with the given one.
@@ -260,8 +262,7 @@ REST API ([Schema](https://api.qdrant.tech/api-reference/points/overwrite-payloa
 
 {{< code-snippet path="/documentation/headless/snippets/overwrite-payload/by-point-id/" >}}
 
-Like [set payload](#set-payload), you don't need to know the ids of the points
-you want to modify. The alternative is to use filters.
+On dedicated clusters, you can also use filters instead of point IDs, like with [set payload](#set-payload-by-filter).
 
 ### Clear payload
 
@@ -272,7 +273,7 @@ REST API ([Schema](https://api.qdrant.tech/api-reference/points/clear-payload)):
 {{< code-snippet path="/documentation/headless/snippets/clear-payload/simple/" >}}
 
 <aside role="status">
-You can also use <code>models.FilterSelector</code> to remove the points matching given filter criteria, instead of providing the ids.
+On dedicated clusters, you can also use <code>models.FilterSelector</code> to remove the points matching given filter criteria, instead of providing the ids.
 </aside>
 
 ### Delete payload keys
@@ -282,6 +283,8 @@ Delete specific payload keys from points.
 REST API ([Schema](https://api.qdrant.tech/api-reference/points/delete-payload)):
 
 {{< code-snippet path="/documentation/headless/snippets/delete-payload/by-point-id/" >}}
+
+#### Delete Payload Keys by Filter {products="!serverless"}
 
 Alternatively, you can use filters to delete payload keys from the points.
 
