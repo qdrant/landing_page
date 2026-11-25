@@ -9,7 +9,7 @@ aliases:
   - /documentation/operations/snapshots
 ---
 
-# Snapshots {version="0.8.4"}
+# Snapshots {products="clusters[0.8.4],!serverless"}
 
 Snapshots are `tar` archive files that contain data and configuration of a specific collection on a specific node at a specific time. In a distributed setup, when you have multiple nodes in your cluster, you must create snapshots for each node separately when dealing with a single collection.
 
