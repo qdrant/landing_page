@@ -271,19 +271,21 @@ Tag a section of a documentation page with the products it applies to, the versi
 ## Quantization {products="clusters"}
 ## Quantization {version="1.9.0"}
 ## Quantization {products="clusters[1.20.0], edge[0.9.0], serverless"}
+## Quantization {products="clusters, hybrid-cloud, !serverless"}
+## Quantization {products="!serverless"}
 ```
 
-- `products`: one or more product keys from `data/products.yaml`, separated by commas or spaces. To give a product a version, add it in brackets after the key.
+- `products`: one or more product keys from `data/products.yaml`, separated by commas or spaces. To give a product a version, add it in brackets after the key. To name a product the section does not apply to, prefix its key with `!`. Negated products can't have a version.
 - `version`: for sections that only need to be labeled for a version (where the product is implied or clear from the context). For product-specific sections, use bracketed versions instead.
 
 How it's rendered:
 
-- The HTML page shows an italic note under the heading, for example *Only applies to dedicated clusters as of v1.20.0.* or *Applies to Qdrant Edge as of v0.9.0, dedicated clusters as of v1.20.0, and Serverless.* "Only" is used when exactly one product is listed.
+- The HTML page shows an italic note under the heading, for example *Only applies to dedicated clusters as of v1.20.0.* or *Applies to Qdrant Edge as of v0.9.0, dedicated clusters as of v1.20.0, and Serverless.* "Only" is used when exactly one product is listed. Negated products are named in a separate sentence, for example *Applies to dedicated clusters and Hybrid Cloud. Does not apply to Serverless.* or *Does not apply to Qdrant Edge or Serverless.*
 - The Markdown output (`index.md`) wraps the section in `<only-applies-to products="...">` and `</only-applies-to>` tags, and the attributes are removed from the heading.
 
 A section runs to the next heading of the same or a higher level, so its subsections are included.
 
-The build fails on an unknown or repeated product, a malformed version, or any heading attribute other than `id`, `class`, `products`, and `version`. To add a product, add a `key` and `label` to `data/products.yaml`. The list order is the order products are named in the note.
+The build fails on an unknown or repeated product (including one that's both listed and negated), a version on a negated product, a malformed version, or any heading attribute other than `id`, `class`, `products`, and `version`. To add a product, add a `key` and `label` to `data/products.yaml`. The list order is the order products are named in the note.
 
 ### Preview images for documentation pages
 

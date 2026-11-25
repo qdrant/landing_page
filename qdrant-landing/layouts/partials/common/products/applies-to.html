@@ -3,21 +3,28 @@
 
   Input: a dict with
     "products": optional, space- or comma-separated product keys, each with an
-                optional version in brackets: "clusters[1.20.0], serverless"
+                optional version in brackets: "clusters[1.20.0], serverless".
+                A key prefixed with "!" names a product the section does not
+                apply to: "clusters, !serverless". Negated keys take no version.
     "version":  optional, a version such as "1.9.0", shown as its own sentence
     "where":    a description of the caller, used in error messages
   Returns: a dict with
     "note": the line shown under the heading in HTML:
             "Only applies to dedicated clusters as of v1.20.0."
             "Applies to Qdrant Edge as of v0.9.0 and dedicated clusters as of v1.20.0."
+            "Applies to dedicated clusters and Hybrid Cloud. Does not apply to Serverless."
+            "Does not apply to Qdrant Edge or Serverless."
             "Available as of v1.9.0."
     "tag":  the same text without its "Only applies to" / "Applies to" opening,
             for the products attribute of the Markdown tag:
             "dedicated clusters as of v1.20.0"
             "Qdrant Edge as of v0.9.0 and dedicated clusters as of v1.20.0"
+            "dedicated clusters and Hybrid Cloud. Does not apply to Serverless."
+            "Does not apply to Qdrant Edge or Serverless."
             "Available as of v1.9.0."
   Products are listed in registry order. Fails the build on an unknown,
-  repeated, or malformed product, an empty tag, or a malformed version.
+  repeated, or malformed product, a version on a negated product, an empty
+  tag, or a malformed version.
 */ -}}
 {{- $where := .where -}}
 {{- $versionRE := `^\d+\.\d+(\.\d+)?$` -}}
@@ -27,48 +34,72 @@
   {{- $known := slice -}}
   {{- range site.Data.products }}{{ $known = $known | append .key }}{{ end -}}
   {{- $versions := dict -}}
+  {{- $excluded := dict -}}
   {{- range split (replace (string .) "," " ") " " -}}
     {{- with trim . " " -}}
-      {{- $m := findRESubmatch `^([a-z][a-z0-9-]*)(?:\[([^\]]*)\])?$` . 1 -}}
+      {{- $m := findRESubmatch `^(!?)([a-z][a-z0-9-]*)(?:\[([^\]]*)\])?$` . 1 -}}
       {{- if not $m -}}
-        {{- errorf "%s: malformed product %q (expected for example clusters or clusters[1.9.0])" $where . -}}
+        {{- errorf "%s: malformed product %q (expected for example clusters, clusters[1.9.0], or !serverless)" $where . -}}
       {{- else -}}
-        {{- $key := index (index $m 0) 1 -}}
-        {{- $ver := index (index $m 0) 2 -}}
+        {{- $neg := eq (index (index $m 0) 1) "!" -}}
+        {{- $key := index (index $m 0) 2 -}}
+        {{- $ver := index (index $m 0) 3 -}}
         {{- if not (in $known $key) -}}
           {{- errorf "%s: unknown product %q (known: %s)" $where $key (delimit $known ", ") -}}
         {{- end -}}
-        {{- if isset $versions $key -}}
+        {{- if or (isset $versions $key) (isset $excluded $key) -}}
           {{- errorf "%s: product %q listed twice" $where $key -}}
+        {{- end -}}
+        {{- if and $neg $ver -}}
+          {{- errorf "%s: negated product !%s can't have a version" $where $key -}}
         {{- end -}}
         {{- if and $ver (not (findRE $versionRE $ver 1)) -}}
           {{- errorf "%s: malformed version %q for %s (expected for example 1.9.0)" $where $ver $key -}}
         {{- end -}}
-        {{- $versions = merge $versions (dict $key $ver) -}}
+        {{- if $neg -}}
+          {{- $excluded = merge $excluded (dict $key true) -}}
+        {{- else -}}
+          {{- $versions = merge $versions (dict $key $ver) -}}
+        {{- end -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
   {{- $items := slice -}}
+  {{- $exItems := slice -}}
   {{- range site.Data.products -}}
     {{- if isset $versions .key -}}
       {{- $item := .label -}}
       {{- with index $versions .key }}{{ $item = printf "%s as of v%s" $item . }}{{ end -}}
       {{- $items = $items | append $item -}}
+    {{- else if isset $excluded .key -}}
+      {{- $exItems = $exItems | append .label -}}
     {{- end -}}
   {{- end -}}
-  {{- $n := len $items -}}
-  {{- $text := "" -}}
-  {{- if eq $n 0 -}}
+  {{- if not (or $items $exItems) -}}
     {{- errorf "%s: empty products tag" $where -}}
-  {{- else if eq $n 1 -}}
-    {{- $text = index $items 0 -}}
-  {{- else if eq $n 2 -}}
-    {{- $text = printf "%s and %s" (index $items 0) (index $items 1) -}}
-  {{- else -}}
-    {{- $text = printf "%s, and %s" (delimit (first (sub $n 1) $items) ", ") (index $items (sub $n 1)) -}}
   {{- end -}}
-  {{- $note = $note | append (printf "%s %s." (cond (eq $n 1) "Only applies to" "Applies to") $text) -}}
-  {{- $tag = $tag | append $text -}}
+  {{- $lists := dict -}}
+  {{- range $kind, $list := dict "and" $items "or" $exItems -}}
+    {{- $n := len $list -}}
+    {{- $text := "" -}}
+    {{- if eq $n 1 -}}
+      {{- $text = index $list 0 -}}
+    {{- else if eq $n 2 -}}
+      {{- $text = printf "%s %s %s" (index $list 0) $kind (index $list 1) -}}
+    {{- else if gt $n 2 -}}
+      {{- $text = printf "%s, %s %s" (delimit (first (sub $n 1) $list) ", ") $kind (index $list (sub $n 1)) -}}
+    {{- end -}}
+    {{- $lists = merge $lists (dict $kind $text) -}}
+  {{- end -}}
+  {{- with $lists.and -}}
+    {{- $note = $note | append (printf "%s %s." (cond (eq (len $items) 1) "Only applies to" "Applies to") .) -}}
+    {{- $tag = $tag | append . -}}
+  {{- end -}}
+  {{- with $lists.or -}}
+    {{- $sentence := printf "Does not apply to %s." . -}}
+    {{- $note = $note | append $sentence -}}
+    {{- $tag = $tag | append $sentence -}}
+  {{- end -}}
 {{- end -}}
 {{- with .version -}}
   {{- $version := trim (string .) " " -}}
@@ -79,4 +110,9 @@
   {{- $note = $note | append $sentence -}}
   {{- $tag = $tag | append $sentence -}}
 {{- end -}}
-{{- return (dict "note" (delimit $note " ") "tag" (delimit $tag ". ")) -}}
+{{- /* The products text has no closing period; add one when a sentence follows. */ -}}
+{{- $tagText := delimit $tag " " -}}
+{{- if and (gt (len $tag) 1) (not (hasSuffix (index $tag 0) ".")) -}}
+  {{- $tagText = printf "%s. %s" (index $tag 0) (delimit (after 1 $tag) " ") -}}
+{{- end -}}
+{{- return (dict "note" (delimit $note " ") "tag" $tagText) -}}
