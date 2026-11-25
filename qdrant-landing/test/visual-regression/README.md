@@ -5,16 +5,26 @@ They take full-page screenshots of a set of pages, at desktop and mobile
 widths, and compare them with screenshots taken before the change. They use
 [Playwright](https://playwright.dev/) with Chromium.
 
-Use them after adding a page, a section, a shortcode, a style change, or any
-feature that touches shared templates or CSS, to confirm that the pages you did
-not mean to change still look the same.
-
 They are for local use by developers and agents:
 
 - **They do not run in CI.**
 - **Screenshots are never committed.** The snapshot directory, reports, and
   results are listed in this directory's `.gitignore`. Each person creates a
   baseline locally, from the commit their change starts from.
+
+## When to use them
+
+This approach is expensive. A run needs a baseline taken at the merge-base and
+then a comparison run, each of which builds the site and captures about 190
+full-page screenshots, so the whole check takes several minutes of machine time
+plus the time to review every difference it reports. Do not run it as a routine
+step for every change.
+
+Run it only when there is a strong suspicion that a change might break pages it
+was not meant to touch, for example a change to shared templates, partials,
+global SCSS, the header or footer, or a shortcode used across many pages. For a
+change confined to one page or one section, look at the affected pages in
+`hugo serve` instead.
 
 ## Setup
 
@@ -156,6 +166,10 @@ npx playwright test --project=mobile    # mobile width only
 
 ## Notes for agents
 
+- Do not run this suite by default or as a final check on every task. Run it
+  only when the change touches something shared and a regression elsewhere is
+  a real risk, as described in [When to use them](#when-to-use-them), or when
+  you are asked to.
 - `hugo serve` cannot bind a port inside a sandbox that blocks local binding.
   Run the tests outside it, or allow local binding.
 - Do not edit site files during a run. `hugo serve` rebuilds, and screenshots
