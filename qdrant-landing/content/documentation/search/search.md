@@ -270,6 +270,8 @@ The above example will fetch the default vector from the point with this id, and
 
 If the `using` parameter is also specified, Qdrant will use the vector with that name.
 
+### Query by ID From Another Collection {products="!serverless"}
+
 It is also possible to reference an ID from a different collection, by setting the `lookup_from` parameter.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/by-existing-id-with-lookup/" >}}
@@ -453,7 +455,7 @@ If the `group_by` field of a point is an array (e.g. `"document_id": ["a", "b"]`
 * Only [keyword](/documentation/manage-data/payload/#keyword) and [integer](/documentation/manage-data/payload/#integer) payload values are supported for the `group_by` parameter. Payload values with other types will be ignored.
 * At the moment, pagination is not enabled when using **groups**, so the `offset` parameter is not allowed.
 
-### Lookup in Groups
+### Lookup in Groups {products="!serverless"}
 
 When the points in a group share large fields like titles, abstracts, or full document vectors, copying that data onto every point inflates storage and forces you to rewrite every chunk whenever a shared field changes.
 

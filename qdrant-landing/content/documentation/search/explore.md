@@ -108,7 +108,7 @@ If the collection was created with multiple vectors, the name of the vector shou
 
 Parameter `using` specifies which stored vectors to use for the recommendation.
 
-### Lookup Vectors From Another Collection {version="0.11.6"}
+### Lookup Vectors From Another Collection {products="clusters[0.11.6],!serverless"}
 
 If you have collections with vectors of the same dimensionality,
 and you want to look for recommendations in one collection based on the vectors of another collection,
