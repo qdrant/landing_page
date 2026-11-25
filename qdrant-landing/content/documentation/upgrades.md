@@ -9,7 +9,7 @@ aliases:
   - /documentation/operations/upgrades
 ---
 
-# Upgrading Qdrant
+# Upgrading Qdrant {products="!serverless"}
 
 If you are several versions behind, multiple updates might be required to reach the latest version. When upgrading Qdrant, upgrade to the latest patch version of each intermediate minor version first. For example, if you are running version 1.15 and want to upgrade to 1.17, you must first upgrade all cluster nodes to 1.16.3 before upgrading to 1.17. A Qdrant node with version 1.17 will be compatible with a node with version 1.16, but not with a node with version 1.15. If you run a single node cluster, you also cannot skip versions to ensure that all data migrations are properly applied. Qdrant Cloud does this automatically for you.
 
