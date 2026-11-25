@@ -391,7 +391,11 @@ When specified, metadata is returned as part of collection info:
 ```
 
 
-## Collection Aliases
+## List All Collections
+
+{{< code-snippet path="/documentation/headless/snippets/list-all-collections/simple/" >}}
+
+## Collection Aliases {products="!serverless"}
 
 In a production environment, it is sometimes necessary to switch different versions of vectors seamlessly.
 For example, when upgrading to a new version of the neural network.
@@ -425,8 +429,3 @@ For example, you can switch underlying collection with the following command:
 ### List All Aliases
 
 {{< code-snippet path="/documentation/headless/snippets/collection-aliases/list-all/" >}}
-
-### List All Collections
-
-{{< code-snippet path="/documentation/headless/snippets/list-all-collections/simple/" >}}
-
