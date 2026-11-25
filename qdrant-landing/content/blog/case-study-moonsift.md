@@ -48,7 +48,7 @@ On its previous provider, those daily bulk deletes kept crashing the database. T
 
 Shoppers save products from any online store to Moonsift with a browser extension or the iOS and Android apps, much the way they'd pin an image. Moonsift extracts the product data and adds it to their collections. The point is to make shopping easier and more considered: save now, decide later. In the past year, shoppers saved over 10 million items from about 250,000 retailers.
 
-Co-founders Alex Reed (CEO) and David Wood (CTO) always planned to build an intelligent shopping assistant on top of that data. In the early years they built the wishlist and its user base. Following a successful product-market fit, they raised venture capital to build the AI. The result is a search built for personal taste. Moonsift curates its catalog and has removed most of the mainstream, low-quality brands that fill general shopping results.
+Co-founders Alex Reed (CEO) and David Wood (CTO) always planned to build an intelligent shopping assistant on top of that data. In the early years they built the wishlist and its user base. Following a successful product-market fit, they raised venture capital to build the AI. The result is a search built for personal taste. Whereas a typical shopping search is dominated by mass-market, lower-quality brands, Moonsift focuses on surfacing higher-quality products.
 
 Shoppers can use Moonsift to search in three ways:
 
