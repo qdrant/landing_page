@@ -10,7 +10,7 @@ aliases:
   - /documentation/operations/installation
 ---
 
-# Installation requirements
+# Installation requirements {products="self-hosted"}
 
 The following sections describe the requirements for deploying Qdrant.
 
