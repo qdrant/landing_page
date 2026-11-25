@@ -258,7 +258,7 @@ Common recovery steps:
 
 See also: [Grey collection status](/documentation/manage-data/collections/#grey-collection-status)
 
-### Why are my writes rejected with HTTP 507?
+### Why are my writes rejected with HTTP 507? {products="!serverless"}
 
 An write succeeds once at least [`write_consistency_factor`](/documentation/scaling/consistency-guarantees/) replicas have accepted it. When nodes have been configured with [resource quotas](/documentation/ops-configuration/quotas/), no nodes may be availabe with replicas that accept writes. A 507 means too few replicas were left to reach the `write_consistency_factor`. With the default factor of 1, that means no replica of the shard had room.
 
