@@ -54,7 +54,7 @@ When self-hosting, prevent external access by [binding Qdrant to a private IP or
 
 ---
 
-## 3. Quantization
+## 3. Quantization {products="!serverless"}
 
 Compress vectors to reduce memory footprint. [Quantization](/documentation/manage-data/quantization/) is one of the most impactful changes you can make before going to production.
 

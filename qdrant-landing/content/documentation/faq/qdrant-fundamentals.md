@@ -204,11 +204,11 @@ Yes. Qdrant internally sets `ef = max(ef, limit)` so that the candidate list is 
 
 By default, `hnsw_ef` equals `ef_construct` (default: 100). `ef_construct` is a collection-level configuration that controls the number of neighbors considered during graph construction. `hnsw_ef` is the per-query parameter controlling the size of the dynamic candidate list during search.
 
-### What are the default `rescore` values for different quantization methods?
+### What are the default `rescore` values for different quantization methods? {products="!serverless"}
 
 By default, rescoring is only enabled for four quantization methods: binary quantization, TurboQuant 1 Bit, TurboQuant 1.5 Bit, and TurboQuant 2 Bit. Other quantization methods do not rescore by default. The default behavior can be overridden with the query-time `rescore` parameter.
 
-### What does `ignore=true` do in quantization search params?
+### What does `ignore=true` do in quantization search params? {products="!serverless"}
 
 When `ignore` is `true`, Qdrant still traverses the HNSW graph that was built from quantized vectors, but uses exact (full-precision) distances to score candidates during traversal rather than quantized distances. This can improve recall at some cost, since different neighbors may be selected compared to a fully quantized search.
 
@@ -276,11 +276,11 @@ A good starting point is 64 to 256 points per batch. However, if operations with
 
 See also: [Bulk Upload](/documentation/manage-data/bulk-upload/)
 
-### Can I only store quantized vectors and discard full precision vectors?
+### Can I only store quantized vectors and discard full precision vectors? {products="!serverless"}
 
 No, Qdrant requires full precision vectors for operations like reindexing, rescoring, etc.
 
-### Can I delete the original full-precision vectors after enabling quantization?
+### Can I delete the original full-precision vectors after enabling quantization? {products="!serverless"}
 
 No. Qdrant requires the original full-precision vectors to recompute quantized representations whenever the Vacuum Optimizer rebuilds a segment. Qdrant derives quantization statistics (offset and alpha) from the full-precision vectors in each segment, so removing them would make reindexing impossible.
 
