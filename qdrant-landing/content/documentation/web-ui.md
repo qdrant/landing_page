@@ -9,7 +9,7 @@ aliases:
   - /documentation/interfaces/web-ui/
 ---
 
-# Qdrant Web UI
+# Qdrant Web UI {products="!serverless"}
 
 You can manage both local and cloud Qdrant deployments through the Web UI.
 
