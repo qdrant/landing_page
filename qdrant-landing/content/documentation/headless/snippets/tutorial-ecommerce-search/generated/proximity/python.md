@@ -6,7 +6,9 @@ def make_proximity(origin: models.GeoPoint) -> models.GaussDecayExpression:
     return models.GaussDecayExpression(
         gauss_decay=models.DecayParamsExpression(
             x=models.GeoDistance(
-                geo_distance=models.GeoDistanceParams(origin=origin, to="location")
+                geo_distance=models.GeoDistanceParams(
+                    origin=origin, to="pickup_location"
+                )
             ),
             target=0.0,
             scale=DISTANCE_SCALE_M,
@@ -14,7 +16,7 @@ def make_proximity(origin: models.GeoPoint) -> models.GaussDecayExpression:
         )
     )
 
-proximity = make_proximity(BASE_LOCATION)
+proximity = make_proximity(SHOPPER_LOCATION)
 proximity_boost = (
     await client.query_points(
         collection_name=COLLECTION,

@@ -1,7 +1,7 @@
 ```python
-async def rank_locations(
-    origin: models.GeoPoint = BASE_LOCATION,
-    facility_weight: float = FACILITY_WEIGHT,
+async def rank_products(
+    origin: models.GeoPoint = SHOPPER_LOCATION,
+    returns_weight: float = RETURNS_WEIGHT,
     geo_weight: float = GEO_WEIGHT,
     candidate_limit: int = CANDIDATE_LIMIT,
     limit: int = TOP_K,
@@ -18,7 +18,7 @@ async def rank_locations(
             formula=models.SumExpression(
                 sum=[
                     "$score",
-                    models.MultExpression(mult=[facility_weight, power_condition]),
+                    models.MultExpression(mult=[returns_weight, returns_condition]),
                     models.MultExpression(
                         mult=[geo_weight, make_proximity(origin)]
                     ),
@@ -30,6 +30,6 @@ async def rank_locations(
     )
     return response.points
 
-combined = await rank_locations()
+combined = await rank_products()
 print(show_hits(combined))
 ```
