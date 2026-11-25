@@ -9,7 +9,7 @@ aliases:
   - /documentation/operations/administration
 ---
 
-# Administration
+# Administration {products="!serverless"}
 
 Qdrant exposes administration tools which enable to modify at runtime the behavior of a qdrant instance without changing its configuration manually.
 
