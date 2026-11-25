@@ -21,7 +21,9 @@
   "scripts": {
     "viz:test": "node --test \"test/viz/**/*.test.mjs\"",
     "toc:test": "node --test \"test/toc/**/*.test.mjs\"",
-    "viz:charts": "node scripts/viz/generate-charts.mjs"
+    "viz:charts": "node scripts/viz/generate-charts.mjs",
+    "visual:test": "playwright test --config test/visual-regression/playwright.config.ts",
+    "visual:baseline": "playwright test --config test/visual-regression/playwright.config.ts --update-snapshots"
   },
   "dependencies": {
     "@splidejs/splide": "^4.1.4",
@@ -35,6 +37,7 @@
     "copy-webpack-plugin": "^14.0.0",
     "d3-dsv": "^3.0.1",
     "jsdom": "^25.0.1",
+    "playwright": "^1.60.0",
     "prettier": "^3.8.3",
     "prettier-plugin-go-template": "^0.0.15",
     "webpack": "^5.106.2",

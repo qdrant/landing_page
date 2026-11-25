@@ -1,0 +1,7 @@
+# Screenshots and run output are local only, never committed.
+# Scoped to this suite on purpose: another suite may want to keep its screenshots.
+/pages.spec.ts-snapshots/
+/test-results/
+/playwright-report/
+/results.json
+/.claude/
