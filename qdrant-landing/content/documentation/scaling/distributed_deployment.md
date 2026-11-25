@@ -9,7 +9,7 @@ aliases:
   - /documentation/operations/distributed_deployment
 ---
 
-# Distributed Deployment {version="0.8.0"}
+# Distributed Deployment {products="clusters[0.8.0],!serverless"}
 
 Qdrant supports a distributed deployment mode.
 In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.

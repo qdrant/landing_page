@@ -6,7 +6,7 @@ weight: 148
 partition: deploy
 ---
 
-# Monitoring & Telemetry
+# Monitoring & Telemetry {products="!serverless"}
 
 These pages cover how to observe and measure a running Qdrant deployment using its built-in metrics endpoints and external monitoring tools.
 

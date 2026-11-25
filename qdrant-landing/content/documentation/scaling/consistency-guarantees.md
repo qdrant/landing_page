@@ -5,7 +5,7 @@ description: "Configure Qdrant's consistency guarantees: the write consistency f
 weight: 22
 ---
 
-# Consistency Guarantees
+# Consistency Guarantees {products="!serverless"}
 
 By default, Qdrant focuses on availability and maximum throughput of search operations, which is a preferable trade-off for most use cases. During normal operation, you can search and modify data from any peer in the cluster: reads use a partial fan-out strategy to optimize latency and availability, and writes execute in parallel on all active sharded replicas.
 

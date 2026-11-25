@@ -5,7 +5,7 @@ description: "Learn how replication factor and node count together determine Qdr
 weight: 15
 ---
 
-# Resilience
+# Resilience {products="!serverless"}
 
 Qdrant's fault tolerance is driven by replication and node count. Together, they control whether your data survives a node loss and whether your cluster keeps serving requests when one goes down.
 

@@ -5,7 +5,7 @@ description: "Learn when and how to scale Qdrant vertically by resizing node res
 weight: 5
 ---
 
-# Vertical Scaling
+# Vertical Scaling {products="!serverless"}
 
 Vertical scaling means resizing CPU, RAM, or disk on an existing node. It's simpler than horizontal scaling, avoids distributed system complexity, and is reversible, which makes it the recommended first step whenever a single node's resources are the bottleneck.
 

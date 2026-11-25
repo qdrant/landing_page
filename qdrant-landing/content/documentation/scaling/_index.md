@@ -6,7 +6,7 @@ weight: 115
 partition: deploy
 ---
 
-# Scaling & Resilience
+# Scaling & Resilience {products="!serverless"}
 
 When you get started with Qdrant, you typically deploy a single node: one server that stores your vectors and handles queries. That's enough for most early-stage workloads, but as your dataset and traffic grow, you'll need to scale. Qdrant gives you two options: give your node more resources (vertical scaling), or add more nodes to the cluster (horizontal scaling).
 

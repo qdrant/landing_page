@@ -10,7 +10,7 @@ aliases:
   - /documentation/capacity-planning
   - /documentation/operations/capacity-planning
 ---
-# Capacity Planning
+# Capacity Planning {products="!serverless"}
 
 Sizing a Qdrant cluster means estimating how much storage and memory your collections need and deciding how to distribute that load across nodes. The right setup depends on a few things:
 

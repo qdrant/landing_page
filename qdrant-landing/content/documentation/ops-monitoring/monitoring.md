@@ -9,7 +9,7 @@ aliases:
   - /documentation/operations/monitoring
 ---
 
-# Monitoring & Telemetry
+# Monitoring & Telemetry {products="!serverless"}
 
 On Qdrant Cloud, you can watch a cluster in the Cloud Console, receive email alerts, and scrape metrics into your own monitoring system. Refer to [Monitoring Qdrant Cloud Clusters](/documentation/cloud/cluster-monitoring/) for the Console views and alerts, and [Scrape Metrics with Prometheus and Grafana](/documentation/cloud/cluster-monitoring-prometheus/) for a step-by-step setup. To send metrics to a tool you already run, such as Datadog or New Relic, refer to the [Observability integrations](/documentation/observability/). This page describes the metrics and telemetry endpoints that Qdrant itself provides, on Qdrant Cloud and when self-hosting.
 

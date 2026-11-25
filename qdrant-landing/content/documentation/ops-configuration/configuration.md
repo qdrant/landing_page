@@ -9,7 +9,7 @@ aliases:
   - /documentation/operations/configuration
 ---
 
-# Configuration
+# Configuration {products="!serverless"}
 
 How you configure Qdrant depends on how you deploy it. This page summarizes the options for Managed Cloud, Hybrid Cloud, Private Cloud, and self-hosted deployments.
 

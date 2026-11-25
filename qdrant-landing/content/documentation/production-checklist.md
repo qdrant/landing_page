@@ -6,7 +6,7 @@ partition: deploy
 weight: 147
 ---
 
-# Things to Check Before Taking Qdrant into Production
+# Things to Check Before Taking Qdrant into Production {products="!serverless"}
 
 A practical checklist to ensure Qdrant is optimized, stable, and ready to handle real-world load.
 
@@ -54,7 +54,7 @@ When self-hosting, prevent external access by [binding Qdrant to a private IP or
 
 ---
 
-## 3. Quantization {products="!serverless"}
+## 3. Quantization
 
 Compress vectors to reduce memory footprint. [Quantization](/documentation/manage-data/quantization/) is one of the most impactful changes you can make before going to production.
 
@@ -65,7 +65,7 @@ Some models produce embeddings that can't be quantized efficiently. [Verify](/do
 
 ---
 
-## 4. Storage and Hardware {products="!serverless"}
+## 4. Storage and Hardware
 
 Right-size your RAM, disk type, and storage mode. These decisions are difficult to change once you're in production.
 
@@ -103,7 +103,7 @@ Under heavy write loads, large amounts of data may not be indexed immediately, w
 Hybrid search casts a wide retrieval net, maximizing recall by using multiple retrieval methods, such as combining dense vector search (semantic similarity) with [BM25 full-text search](/documentation/search/text-search/full-text-search/) (keyword matching). Evaluate its effectiveness for your specific dataset and queries.
 
 - **Rerank for maximum search relevance.**
-After initial hybrid retrieval, [rerank](/documentation/search/hybrid-queries/#multi-stage-queries) the results using late interaction embeddings. Reranking can be computationally expensive, so aim for a balance between relevance and speed. On dedicated clusters, save memory by disabling the HNSW index for vectors used only for rescoring and factor the rescoring vector into your capacity planning (disk and RAM).
+After initial hybrid retrieval, [rerank](/documentation/search/hybrid-queries/#multi-stage-queries) the results using late interaction embeddings. Reranking can be computationally expensive, so aim for a balance between relevance and speed. To save memory, disable the HNSW index for vectors used only for rescoring and factor the rescoring vector into your capacity planning (disk and RAM).
 
 - **Implement batch processing for inserts and queries.**
 [Group vector inserts into larger batches](/documentation/manage-data/points/?q=batch#upload-points) rather than individual transactions to reduce write overhead. [Batch multiple queries together](/documentation/search/search/#batch-search-api) to cut round trips to the database.

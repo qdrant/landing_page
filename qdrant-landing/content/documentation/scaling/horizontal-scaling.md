@@ -5,7 +5,7 @@ description: "Learn how Qdrant's distributed model works: sharding, the default 
 weight: 10
 ---
 
-# Horizontal Scaling
+# Horizontal Scaling {products="!serverless"}
 
 Horizontal scaling means adding more nodes to a Qdrant cluster instead of making existing nodes bigger. It's how Qdrant handles data that no longer fits on one node, and it's also the mechanism underlying Qdrant's fault tolerance. This page covers how it works under the hood: sharding, replication, Raft consensus, and consistency guarantees.
 

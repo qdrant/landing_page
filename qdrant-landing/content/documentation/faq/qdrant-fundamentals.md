@@ -337,7 +337,7 @@ Yes. Qdrant supports JWT-based access control that lets you issue signed tokens 
 
 ## Cloud
 
-### Is it possible to scale down a Qdrant Cloud cluster?
+### Is it possible to scale down a Qdrant Cloud cluster? {products="!serverless"}
 
 Yes, it is possible to both vertically and horizontally scale down a Qdrant Cloud cluster.
 This includes reducing the disk size. Because cloud providers don't support shrinking disks, Qdrant Cloud replaces each node with a new node that has the smaller disk, one node at a time and without downtime. See [Scaling Down Disk Space](/documentation/cloud/cluster-scaling/#scaling-down-disk-space).

@@ -6,7 +6,7 @@ weight: 120
 partition: deploy
 ---
 
-# Configuration
+# Configuration {products="!serverless"}
 
 These pages cover the settings and runtime options available for customizing and administering a Qdrant deployment. On Qdrant Cloud, you configure a cluster in the Cloud Console. Self-hosted Qdrant is configured through configuration files or environment variables. Refer to [Configure Qdrant Cloud Clusters](/documentation/cloud/configure-cluster/). 
 
@@ -22,7 +22,7 @@ These pages cover the settings and runtime options available for customizing and
 
 [Administration](/documentation/ops-configuration/administration/) covers runtime administration tools that let you modify instance behavior without restarting, including recovery mode for resolving out-of-memory situations, low memory mode, and strict mode.
 
-## Memory Tiers {products="!serverless"}
+## Memory Tiers
 
 [Memory Tiers](/documentation/ops-configuration/memory-tiers/) explains how the `memory` parameter (`cold`, `cached`, `pinned`) controls RAM residency for vectors, indexes, quantized data, and payloads.
 

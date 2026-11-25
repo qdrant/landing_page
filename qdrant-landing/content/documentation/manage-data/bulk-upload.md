@@ -31,7 +31,7 @@ If [your collection has multiple shards](#create-collections-with-multiple-shard
 
 > The Python client's `upload_points` method [handles batching and parallelization for you](/documentation/manage-data/points/#python-client-optimizations). Pass an iterator of points and set `batch_size` and `parallel` to control throughput without managing batches manually. For other client libraries, you need to implement batching and parallelization yourself.
 
-## Create Collections with Multiple Shards
+## Create Collections with Multiple Shards {products="!serverless"}
 
 In Qdrant, each collection is split into shards. By default, a collection has one shard, but you can specify more when creating the collection.
 By creating multiple shards, you can parallelize the upload of a large dataset. From two to four shards per machine is a reasonable number.
