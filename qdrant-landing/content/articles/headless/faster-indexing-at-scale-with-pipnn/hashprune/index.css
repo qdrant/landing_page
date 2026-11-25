@@ -1,0 +1,34 @@
+/* hashprune island. Scoped under .pn-hp; controls and frames come from the shared island styles. */
+.pn-hp { display: block; }
+.pn-hp .qi-title { font-size: 14px; }
+.pn-hp .qi-label { font-size: 14px; }
+.pn-hp__sw--blue { --swatch: var(--qi-cat-1); }
+.pn-hp__sw--red { --swatch: var(--qi-accent); }
+.pn-hp__sw--muted { --swatch: var(--qi-muted); }
+.pn-hp__cone--blue { fill: var(--qi-cat-1); fill-opacity: 0.16; }
+.pn-hp__cone--red { fill: var(--qi-accent); fill-opacity: 0.16; }
+.pn-hp__plane { stroke: var(--qi-line); stroke-width: 2; }
+.pn-hp__p { fill: var(--qi-fg); }
+.pn-hp__pname { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; font-weight: 700; }
+.pn-hp__cand, .pn-hp__row { transition: opacity 0.25s ease; }
+.pn-hp__cand.is-dim, .pn-hp__row.is-dim { opacity: 0.3; }
+.pn-hp__cand line { stroke-width: 2; }
+.pn-hp__cand text { font-family: var(--qi-mono); font-size: 14px; font-weight: 700; }
+.pn-hp__cand--blue line { stroke: var(--qi-cat-1); }
+.pn-hp__cand--blue circle, .pn-hp__dot--blue { fill: var(--qi-cat-1); }
+.pn-hp__cand--blue text { fill: var(--qi-cat-1); }
+.pn-hp__cand--red line { stroke: var(--qi-accent); }
+.pn-hp__cand--red circle, .pn-hp__dot--red { fill: var(--qi-accent); }
+.pn-hp__cand--red text { fill: var(--qi-accent); }
+.pn-hp__cand--muted line { stroke: var(--qi-muted); }
+.pn-hp__cand--muted circle, .pn-hp__dot--muted { fill: var(--qi-muted); }
+.pn-hp__cand--muted text { fill: var(--qi-muted); }
+.pn-hp__row.is-sel .qi-frame { stroke: var(--qi-hot); stroke-width: 2; }
+.pn-hp__strong { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; font-weight: 700; }
+.pn-hp__val { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; }
+.pn-hp__decision--blue { fill: var(--qi-cat-1); }
+.pn-hp__decision--red { fill: var(--qi-accent); }
+.pn-hp__decision--muted { fill: var(--qi-muted); }
+@media (prefers-reduced-motion: reduce) {
+  .pn-hp__cand, .pn-hp__row { transition: none; }
+}

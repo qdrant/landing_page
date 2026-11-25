@@ -1,0 +1,21 @@
+/* leaf-scores island. Scoped under .pn-ls; controls come from the shared island styles. */
+.pn-ls { display: block; }
+.pn-ls .qi-title { font-size: 14px; }
+.pn-ls .qi-label { font-size: 14px; }
+.pn-ls__axis { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; font-weight: 700; }
+.pn-ls__row, .pn-ls__edge, .pn-ls__node { transition: opacity 0.25s ease; }
+.pn-ls__row.is-dim, .pn-ls__edge.is-dim, .pn-ls__node.is-dim { opacity: 0.25; }
+.pn-ls__self { fill: var(--qi-surface); opacity: 0.6; }
+.pn-ls__cell { fill: var(--qi-cat-1); }
+.pn-ls__cell.is-pick { stroke: var(--qi-cat-1); stroke-width: 3; }
+.pn-ls__score { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; }
+.pn-ls__score.is-pick { font-weight: 700; }
+.pn-ls__edge { stroke: var(--qi-cat-1); stroke-width: 3; }
+.pn-ls__edge--one { stroke: var(--qi-accent); stroke-dasharray: 7 5; }
+.pn-ls__arrowhead { fill: var(--qi-accent); }
+.pn-ls__node circle { fill: var(--qi-surface); stroke: var(--qi-fg); stroke-width: 2; }
+.pn-ls__node text { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; font-weight: 700; }
+.pn-ls__node.is-sel circle { stroke: var(--qi-cat-1); stroke-width: 4; }
+@media (prefers-reduced-motion: reduce) {
+  .pn-ls__row, .pn-ls__edge, .pn-ls__node { transition: none; }
+}

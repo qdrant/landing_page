@@ -1,0 +1,21 @@
+/* ball-carving island. Scoped under .pn-bc; controls and frames come from the shared island styles. */
+.pn-bc { display: block; }
+.pn-bc .qi-title { font-size: 14px; }
+.pn-bc .qi-label { font-size: 14px; }
+.pn-bc__panel { transition: opacity 0.25s ease; }
+.pn-bc__panel.is-dim { opacity: 0.3; }
+.pn-bc__dot { fill: var(--qi-muted); }
+.pn-bc__dot--hot { fill: var(--qi-accent); }
+.pn-bc__leader { fill: var(--qi-cat-1); }
+.pn-bc__leader-label { fill: var(--qi-cat-1); font-family: var(--qi-mono); font-size: 14px; font-weight: 700; }
+.pn-bc__name { fill: var(--qi-accent); font-family: var(--qi-mono); font-size: 14px; font-weight: 700; }
+.pn-bc__legend { fill: var(--qi-cat-1); font-family: var(--qi-mono); font-size: 14px; }
+.pn-bc__legend--red { fill: var(--qi-accent); }
+.pn-bc__arrow { stroke: var(--qi-accent); stroke-width: 2.5; }
+.pn-bc__arrow--dashed { stroke-dasharray: 6 4; }
+.pn-bc__arrowhead { fill: var(--qi-accent); }
+.pn-bc__ball { fill: var(--qi-cat-1); fill-opacity: 0.14; stroke: var(--qi-cat-1); stroke-width: 2; }
+.pn-bc__ball--dashed { stroke-dasharray: 6 4; }
+@media (prefers-reduced-motion: reduce) {
+  .pn-bc__panel { transition: none; }
+}
