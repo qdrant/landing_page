@@ -20,7 +20,7 @@ Combining location constraints with vector search is more complex than adding a 
 
 {{< island
     path="content/documentation/headless/geo-search/two-kinds-of-near"
-    width="100%" ratio="844 / 665"
+    width="85%" ratio="844 / 665"
     title="A simplified simulation on sample data. The first two strategies are generic approaches, not Qdrant settings. Move the circle and change the radius to see how each one finds the venues closest in meaning to the query."
 >}}
 ![A map of venues with a circular search area next to the same venues placed by meaning, with three search strategies compared by how many of the 10 best matches each one finds.](/docs/geo-search-two-kinds-of-near.png)
@@ -71,7 +71,7 @@ A strict filter can leave the HNSW graph with disconnected parts, so a filtered 
 
 {{< island
     path="content/documentation/headless/geo-search/figure"
-    width="100%" ratio="760 / 334"
+    width="85%" ratio="760 / 334"
 >}}
 ![Two copies of the same search area. With regular links only, the venues inside the area form three separate groups. With extra links added, the groups are connected.](/docs/geo-search-extra-links.svg)
 {{< /island >}}
@@ -87,7 +87,7 @@ Qdrant selects a search strategy based on the estimated number of points matchin
 
 {{< island
     path="content/documentation/headless/geo-search/figure"
-    width="100%" ratio="760 / 334"
+    width="85%" ratio="760 / 334"
 >}}
 ![Two copies of the same search area. With few matching venues, each one is checked individually. With many matching venues, the search follows links between them through the graph.](/docs/geo-search-query-planner.svg)
 {{< /island >}}
@@ -126,7 +126,7 @@ For shapes without a dedicated geo condition, such as a corridor along a route, 
 
 {{< island
     path="content/documentation/headless/geo-search/figure"
-    width="75%" ratio="400 / 170"
+    width="60%" ratio="400 / 170"
     title="A radius filter matches the points inside a circle."
 >}}
 ![A circle around a center point with a dashed line marking the radius. Points inside the circle are highlighted.](/docs/geo-search-shape-radius.svg)
@@ -142,7 +142,7 @@ Use a radius for searches such as "within 2 km of me".
 
 {{< island
     path="content/documentation/headless/geo-search/figure"
-    width="75%" ratio="400 / 170"
+    width="60%" ratio="400 / 170"
     title="A bounding box filter matches the points inside a rectangle."
 >}}
 ![A rectangle with its top left and bottom right corners marked. Points inside the rectangle are highlighted.](/docs/geo-search-shape-bounding-box.svg)
@@ -162,7 +162,7 @@ For example, to find points within a lake but exclude an island, define the lake
 
 {{< island
     path="content/documentation/headless/geo-search/figure"
-    width="75%" ratio="400 / 170"
+    width="60%" ratio="400 / 170"
     title="A polygon filter matches the points inside the exterior ring and outside any interior ring."
 >}}
 ![A polygon with a smaller interior shape cut out of it. Points inside the exterior but outside the interior are highlighted.](/docs/geo-search-shape-polygon.svg)
