@@ -117,7 +117,7 @@ Each evaluator ranks every result in an evaluation interface, marking what they 
   text="Qdrant's flexible retrieval strategies allow us to experiment with different ways of capturing shopping intent. Combined with our human evaluation framework, we can continuously refine retrieval and ranking to deliver more relevant results."
   name="I-chun Han"
   name_url="https://www.linkedin.com/in/ichun-han/"
-  role="Machine Learning Engineer"
+  role="Lead Machine Learning Engineer"
   company="Moonsift"
   logo="/img/customers-case-studies-logo/moonsift.svg" >}}
 
