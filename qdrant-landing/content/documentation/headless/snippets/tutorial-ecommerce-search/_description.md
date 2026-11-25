@@ -1,0 +1,1 @@
+Search real WANDS products with simulated pickup offers. Apply stock and radius filters, then combine free-returns and geographic score boosts. These Python blocks accompany the e-commerce search tutorial and its runnable notebook.
