@@ -20,7 +20,7 @@ Combining location constraints with vector search is more complex than adding a 
 
 {{< island
     path="content/documentation/headless/geo-search/two-kinds-of-near"
-    width="85%" ratio="844 / 665"
+    width="100%" ratio="844 / 665"
     title="A simplified simulation on sample data. The first two strategies are generic approaches, not Qdrant settings. Move the circle and change the radius to see how each one finds the venues closest in meaning to the query."
 >}}
 ![A map of venues with a circular search area next to the same venues placed by meaning, with three search strategies compared by how many of the 10 best matches each one finds.](/docs/geo-search-two-kinds-of-near.png)
