@@ -128,10 +128,11 @@ David sums up what Qdrant changed in one word: risk. Before the move, any week c
 - Moonsift rolled its shopping AI out to all users in November 2026, and some shoppers already come back to it regularly.
 - The machine learning engineer works on models and ranking again, and the lead software engineer and David are back on product. For the past six months, the team's focus has been personalization and ranking, and it has barely had to touch Qdrant.
 - The daily delete job runs against a collection of over 15 million products, and scaling up, while shoppers search.
+- In a November 2026 load test, Moonsift ingested over 2 million products in a day.
 
 ## What's Next: 60 Million Products and Personal Taste
 
-Moonsift plans to grow the catalog from 15 million to about 60 million products over the next few months, by adding sources and ingesting up to 2 million products a day. Over the next six months it will be personalizing results for each shopper by learning their style.
+Moonsift plans to grow the catalog from 15 million to about 60 million products over the next few months by adding sources. Over the next six months it will be personalizing results for each shopper by learning their style.
 
 ## From Firefighting to Shipping
 
