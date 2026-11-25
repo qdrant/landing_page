@@ -35,7 +35,7 @@ The search behind it runs over more than 15 million fashion and homeware product
 On its previous provider, those daily bulk deletes kept crashing the database. Three people on a small team, including Moonsift's machine learning engineer, spent their weeks firefighting instead of building, and the shopping AI couldn't ship. After the move to Qdrant, the deletes stopped being an event. The team went back to product work, and in November 2026 Moonsift rolled its shopping AI out to all of its users.
 
 {{< quote
-  text="We had so many weeks where we'd made real improvements, got to the company testing session, and the database had crashed again. Three of us were spending so much time on it that we couldn't do any product work."
+  text="Having a reliable vector database is crucial. It allows us to focus our time where we can be most innovative: building the shopping copilot."
   name="David Wood"
   name_url="https://www.linkedin.com/in/davidwooduk/"
   role="Co-Founder and CTO"
