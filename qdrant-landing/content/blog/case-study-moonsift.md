@@ -19,7 +19,7 @@ tags:
 partition: case-studies
 ---
 
-![Moonsift is a shopping AI for fashion and homeware that searches about 15M products by image and text on Qdrant Cloud. It adds up to 1M products a day and deletes expired ones daily while shoppers search. After moving off a previous provider that crashed on those deletes, three people went back to product work and Moonsift launched its shopping AI to all users.](/blog/case-study-moonsift/bento_box.png)
+![Moonsift is a shopping AI for fashion and homeware that searches millions of products by image and text on Qdrant Cloud. It adds over 1M products a day and deletes expired ones daily while shoppers search. After moving off a previous provider that crashed on those deletes, three people went back to product work and Moonsift launched its shopping AI to all users.](/blog/case-study-moonsift/bento_box.png)
 
 <a href="https://www.moonsift.com/" target="_blank">Moonsift</a> wants to be the best place to keep your shopping context. You save what you're thinking of buying from any store, and a shopping AI that knows your taste finds more of what you'd want across many retailers. The goal is shopping that gets more personal the more you save.
 
@@ -29,7 +29,7 @@ The search behind it runs over more than 15 million fashion and homeware product
   <video autoplay muted loop playsinline controls preload="metadata" width="100%" poster="/blog/case-study-moonsift/moonsift-find-similar-poster.jpg" aria-label="Captioned screen recording: a shopper saves a red dress in Moonsift and asks for more like it, then Qdrant returns similar dresses from across retailers">
     <source src="/blog/case-study-moonsift/moonsift-find-similar.mp4" type="video/mp4">
   </video>
-  <figcaption>A shopper saves a dress, and Qdrant finds similar products across about 15 million items.</figcaption>
+  <figcaption>A shopper saves a dress, and Qdrant finds similar products across more than 15 million items.</figcaption>
 </figure>
 
 On its previous provider, those daily bulk deletes kept crashing the database. Three people on a small team, including Moonsift's machine learning engineer, spent their weeks firefighting instead of building, and the shopping AI couldn't ship. After the move to Qdrant, the deletes stopped being an event. The team went back to product work, and in November 2026 Moonsift rolled its shopping AI out to all of its users.
@@ -99,7 +99,7 @@ It wasn't all automatic. When the collection doubled, from about 4 million to 8 
 
 ## How a Search Moves Through Moonsift
 
-![Moonsift's search pipeline. To keep the catalog current, the latest stock goes through feature extraction and embedding (image, description, and features) and is inserted into Qdrant, which stores about 15M vectors with daily inserts and deletes. At search time, a text search or product search is interpreted by a language model, Moonsift fuses the input and feature vectors into a query vector, Qdrant retrieves candidate products, and Moonsift postprocesses (personalize, dedupe, score, spread) and ranks the results.](/blog/case-study-moonsift/moonsift-search-architecture.png)
+![Moonsift's search pipeline. To keep the catalog current, the latest stock goes through feature extraction and embedding (image, description, and features) and is inserted into Qdrant, which stores 15M+ vectors with daily inserts and deletes. At search time, a text search or product search is interpreted by a language model, Moonsift fuses the input and feature vectors into a query vector, Qdrant retrieves candidate products, and Moonsift postprocesses (personalize, dedupe, score, spread) and ranks the results.](/blog/case-study-moonsift/moonsift-search-architecture.png)
 
 **Ingest.** Products come from the items shoppers save and from catalog sources. Vision-language models extract and standardize product data from very different retailer pages. Making that step affordable took a lot of Moonsift's engineering effort, because sending every full page to a large model would run up costs fast. Moonsift extracts features from each product, embeds its image, description, and features, and upserts it into Qdrant with its payload.
 
