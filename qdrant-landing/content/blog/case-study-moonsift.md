@@ -109,20 +109,17 @@ It wasn't all automatic. When the collection doubled, from about 4 million to 8 
 
 ## Shipping on Human Evals
 
-One thing that sets Moonsift apart is how it decides what ships. It has a team of human evaluators who match its target shoppers, and they have scored almost every release. They don't test made-up queries. They shop for things they want to buy, because shopping for a hypothetical is nothing like shopping for real.
+One thing that sets Moonsift apart is how it decides what ships. It has a team of human evaluators who match its target shoppers, and they have scored almost every release.
 
 Each evaluator ranks every result in an evaluation interface, marking what they like and what they don't, and adds comments. The ratings roll up into a numeric score for each release, and a language model reads the comments to pull out recurring themes. Moonsift built this early, because without it a fix for one problem would quietly make other queries worse and nobody would know.
 
 {{< quote
-  text="Once we had a system that kind of worked, it was very tempting to fix one particular problem and improve that case, while having no idea how all your other cases were performing. You don't know unless you have proper evals."
-  name="David Wood"
-  name_url="https://www.linkedin.com/in/davidwooduk/"
-  role="Co-Founder and CTO"
+  text="Qdrant's flexible retrieval strategies allow us to experiment with different ways of capturing shopping intent. Combined with our human evaluation framework, we can continuously refine retrieval and ranking to deliver more relevant results."
+  name="I-chun Han"
+  name_url="https://www.linkedin.com/in/ichun-han/"
+  role="Machine Learning Engineer"
   company="Moonsift"
-  avatar="/img/customers/david-wood.png"
   logo="/img/customers-case-studies-logo/moonsift.svg" >}}
-
-The evaluators also told the team something useful for scaling: they rate production results higher than staging, partly because production has more products to choose from. That's a big reason for growing the catalog. Since launch, Moonsift also tracks a live signal: whether shoppers save items from their search results.
 
 ## Lower Risk: The Team Ships Product Instead of Fixing Search
 
