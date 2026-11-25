@@ -1,0 +1,1 @@
+This snippet connects to a Qdrant Cloud cluster with the cluster URL and a Database API key. The Python client also turns on Cloud Inference, so that Qdrant Cloud creates the vector embeddings. The curl command lists the collections on the cluster, which confirms that the URL and key work.

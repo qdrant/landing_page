@@ -1,0 +1,1 @@
+This snippet creates a collection named `items` for the menu items. The vector size of 384 matches the `sentence-transformers/all-MiniLM-L6-v2` embedding model, and the distance metric is cosine similarity.
