@@ -247,7 +247,7 @@ If you don't use named vectors, you need to create a new collection. Use an alia
 
 See also: [Migrate to a New Embedding Model](/documentation/tutorials-operations/embedding-model-migration/)
 
-### Why is my collection in "grey" status?
+### Why is my collection in "grey" status? {products="!serverless"}
 
 A collection in grey status means the optimizer has stalled. This can happen if a Qdrant instance is restarted while optimizations are ongoing. During this state, the amount of unindexed data can grow. Because Qdrant falls back to full-scan search on unindexed segments, this degrades query latency. If [`indexed_only` or `prevent_unoptimized` are enabled](/documentation/search/low-latency-search/#query-indexed-data-only), Qdrant doesn't return unindexed data, and search results may be incomplete.
 

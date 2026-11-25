@@ -237,6 +237,8 @@ distributed and indexed.
 
 {{< code-snippet path="/documentation/headless/snippets/collection-info/simple/" >}}
 
+### Collection Info on Dedicated Clusters {products="!serverless"}
+
 <details>
 <summary>Expected result</summary>
 
@@ -304,7 +306,7 @@ The following color statuses are possible:
 
 Collection info also includes a `created_at` field with the time Qdrant created the collection. Collections created before v1.20.0 have no creation time, so the field is absent for them. Recovering a collection from a snapshot keeps the original value.
 
-### Grey Collection Status {version="1.9.0"}
+#### Grey Collection Status {version="1.9.0"}
 
 A collection may have the grey ⚫ status or show "optimizations pending,
 awaiting update operation" as optimization status. This state is normally caused
@@ -319,6 +321,13 @@ For example:
 
 Alternatively you may use the `Trigger Optimizers` button in the [Qdrant Web UI](/documentation/web-ui/).
 It is shown next to the grey collection status on the collection info page.
+
+### Collection Info on Serverless {products="serverless"}
+
+On Serverless, collection info includes the collection's configuration, point count, and size. Its `status` is one of the following:
+
+- 🟢 `green`: the collection is fully optimized.
+- 🟡 `yellow`: optimization is pending or running. The collection is searchable.
 
 ### Approximate Point and Vector Counts
 
