@@ -78,6 +78,8 @@ The mechanism: each float32 coordinate becomes one `int8`, mapped per segment fr
 
 ### Binary Quantization
 
+**Sign imbalance** measures how biased coordinate signs are across your vectors. For each coordinate, take the fraction of vectors with a positive value, calculate its absolute difference from 0.5, and average those differences across coordinates. A score of 0 means every coordinate is positive in half the vectors; higher scores mean less balanced signs.
+
 <details class="qgt qgt--s">
 <summary class="qgt__title">Strengths</summary>
 
@@ -268,7 +270,7 @@ Binary gives the most compression, 32x, and its recall can collapse. If the rati
 
 Binary passed on both Quora models, including the 384-dimensional one, and failed on every other BGE workload. The sign of each coordinate explains the split better than the dimension count does.
 
-Sign imbalance is the mean absolute difference between the share of positive values in a coordinate and one half. Zero is what a sign-only code needs, and the value lines up with binary's best rescored recall across all eight workloads.
+The table compares sign imbalance with binary's best rescored recall across all eight workloads.
 
 | Corpus and model | Sign imbalance | Best binary 1-bit recall@10 |
 |---|---|---|
