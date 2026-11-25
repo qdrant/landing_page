@@ -116,16 +116,17 @@ export function mount(node) {
   let { dims, count, ram } = DEFAULTS;
 
   const group = (label, attr, items, fmtItem) =>
+    `<div class="qscale__control"><span class="qscale__control-label">${label}</span>` +
     `<div class="qi-group" role="group" aria-label="${label}">` +
     items.map((v) => `<button type="button" class="qi-chip" data-${attr}="${v.id ?? v}" aria-pressed="false">${fmtItem(v)}</button>`).join('') +
-    '</div>';
+    '</div></div>';
 
   node.innerHTML = [
     '<div class="qi-fig">',
     '  <div class="qi-controls">',
     group('Embedding dimensions', 'dims', DIMS, (v) => fmt(v)),
     group('Number of vectors', 'count', COUNTS, (v) => v.label),
-    group('RAM available', 'ram', RAMS, (v) => v.label),
+    group('Available RAM', 'ram', RAMS, (v) => v.label),
     '  </div>',
     `  <svg class="qi-svg qscale__svg" viewBox="-6 0 ${VB_W + 12} ${VB_H}" role="img"></svg>`,
     '  <p class="qi-status qscale__status" role="status" aria-live="polite"></p>',

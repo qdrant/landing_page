@@ -13,8 +13,8 @@
  *   p95, QPS    memory.csv and throughput.csv, Quora with both models, shown
  *               as a ratio to float32 HNSW. Only the five methods the guide
  *               measured have them
- *   choice      the guide's selection rules: the least aggressive method that fits,
- *               with TurboQuant preferred for recall and binary for speed
+ *   choice      keep float32 when it fits; otherwise try 4-bit TurboQuant first,
+ *               with scalar as a metric or recall fallback and binary for speed
  *
  * The model and the view are separate: estimate() and recommend() are pure and
  * exported for tests, mount() draws them.
@@ -173,12 +173,13 @@ function verdict(e, input) {
   return { ok: true, tag: 'ok', text: 'Meets every constraint' };
 }
 
-const ORDER = [['f32'], ['sq'], ['tq4'], ['tq2', 'bq2'], ['tq15'], ['tq1', 'bq1'], ['pq8', 'pq16', 'pq64']];
+const ORDER = [['f32'], ['tq4'], ['sq'], ['tq2', 'bq2'], ['tq15'], ['tq1', 'bq1'], ['pq8', 'pq16', 'pq64']];
 
 /**
- * Recall priority: the least aggressive method that fits and meets the target,
- * so the margin is as wide as the budget allows. Within a compression level
- * TurboQuant wins on recall. Product quantization is the last resort.
+ * Recall priority: keep float32 when it fits and meets the target. Otherwise,
+ * start with 4-bit TurboQuant; scalar is the fallback when the metric or recall
+ * target rules it out. Try lower bit depths when the budget requires them,
+ * then product quantization. Every measured candidate must meet the target.
  *
  * Speed priority: the fastest measured method that fits and meets the target.
  * Methods without a measured p95 only come into play when none of the measured
