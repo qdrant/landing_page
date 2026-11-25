@@ -16,7 +16,7 @@ If your search queries include filters, create [payload indexes](/documentation/
 
 Queries that filter on unindexed fields are not only slower; they can also unnecessarily consume cluster resources, negatively impacting the latency of other search queries. Consider [blocking queries that filter on unindexed fields](/documentation/manage-data/indexing/#block-queries-that-filter-on-unindexed-fields). This rejects queries that would degrade performance at the API boundary, surfacing misconfigured indexes as errors rather than latency spikes.
 
-## Scale Horizontally with Replicas
+## Scale Horizontally with Replicas {products="!serverless"}
 
 Qdrant can be deployed in a [distributed configuration](/documentation/scaling/distributed_deployment/). In distributed mode, multiple instances of Qdrant, called peers, operate as a single entity, called a cluster. Data is stored in [collections](/documentation/manage-data/collections/), which are divided into [shards](/documentation/scaling/distributed_deployment/#sharding) that are distributed across the peers. Each shard can have multiple [replicas](/documentation/scaling/distributed_deployment/#replication) for redundancy and load balancing. Because every replica of the same shard contains the same data, read requests can be distributed across replicas, reducing latency and increasing throughput.
 
@@ -33,7 +33,7 @@ When querying a collection, Qdrant reads from one replica of each given shard. E
 
 However, keep in mind that replicas are not free. You need more hardware to run more peers. Because writes need to be replicated across all replicas, increasing the replication factor can increase write latency. Therefore, it's important to find the right balance between read performance and resource usage when configuring the replication factor.
 
-## Use Delayed Fan-Outs {version="1.17.0"}
+## Use Delayed Fan-Outs {products="clusters[1.17.0],!serverless"}
 
 By default, a search operation queries a single replica of each shard in a collection. If a replica responds slowly due to load or network issues, overall search latency can increase. This phenomenon, where a single slow replica increases the 95th or 99th percentile latency of the entire system, is known as "tail latency." High tail latency can noticeably degrade the user experience.
 

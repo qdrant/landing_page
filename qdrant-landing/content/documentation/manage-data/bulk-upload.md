@@ -26,7 +26,7 @@ Aim for **64–256 points per batch**. Smaller batches under-utilize the network
 
 A single upload thread rarely saturates the server. Split your dataset across two to four concurrent threads, each sending its own stream of batches. This keeps Qdrant's internal write workers busy across shards and reduces total upload time.
 
-If [your collection has multiple shards](#create-collections-with-multiple-shards), target one upload thread per shard as a starting point. Each shard has an independent WAL and update worker, so parallel streams map directly onto available write capacity.
+On dedicated clusters, if [your collection has multiple shards](#create-collections-with-multiple-shards), target one upload thread per shard as a starting point. Each shard has an independent WAL and update worker, so parallel streams map directly onto available write capacity.
 
 
 > The Python client's `upload_points` method [handles batching and parallelization for you](/documentation/manage-data/points/#python-client-optimizations). Pass an iterator of points and set `batch_size` and `parallel` to control throughput without managing batches manually. For other client libraries, you need to implement batching and parallelization yourself.
