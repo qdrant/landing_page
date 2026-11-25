@@ -124,7 +124,7 @@ The `prefix` flag can be enabled on a new index. Enabling it on an existing keyw
 
 When [strict mode](/documentation/ops-configuration/administration/#strict-mode) is enabled with `unindexed_filtering_retrieve` or `unindexed_filtering_update` set to `false`, a prefix condition on a field that does not have a prefix-enabled keyword index is rejected.
 
-#### On-Disk Payload Index {version="1.11.0"}
+#### On-Disk Payload Index {products="clusters[1.11.0],!serverless"}
 
 Payload indexes are always persisted to disk. By default, they are also loaded into the `pinned` [memory tier](/documentation/ops-configuration/memory-tiers/). This keeps the index on the heap, so payload values can be accessed during search without extra disk I/O.
 
@@ -138,7 +138,7 @@ To configure a payload index's memory tier, use the `memory` parameter:
 
 {{< code-snippet path="/documentation/headless/snippets/create-payload-index/keyword-on-disk/" >}}
 
-#### Tenant Index {version="1.11.0"}
+#### Tenant Index {products="clusters[1.11.0],!serverless"}
 
 Many vector search use-cases require multitenancy. In a multi-tenant scenario the collection is expected to contain multiple subsets of data, where each subset belongs to a different tenant.
 
@@ -163,7 +163,7 @@ Tenant optimization is supported for the following datatypes:
 * `keyword`
 * `uuid`
 
-#### Principal Index {version="1.11.0"}
+#### Principal Index {products="clusters[1.11.0],!serverless"}
 
 Similar to the tenant index, the principal index is used to optimize storage for faster search, assuming that the search request is primarily filtered by the principal field.
 
@@ -343,7 +343,7 @@ For efficient phrase matching, Qdrant requires building an additional data struc
 
 Use the [Phrase Match](/documentation/search/filtering/#phrase-match) condition to filter on phrases.
 
-## Vector Index
+## Vector Index {products="!serverless"}
 
 A vector index is a data structure built on vectors through a specific mathematical model.
 Through the vector index, we can efficiently query several vectors similar to the target vector.
@@ -450,6 +450,12 @@ Sparse vectors in Qdrant are indexed with a special data structure, which is opt
 - A sparse vector index in Qdrant is exact, meaning it does not use any approximation algorithms.
 - All sparse vectors added to the collection are immediately indexed in the mutable version of a sparse index.
 
+Unlike a dense vector index, a sparse vector index does not require a predefined vector size. It automatically adjusts to the size of the vectors added to the collection.
+
+**Note:** A sparse vector index only supports dot-product similarity searches. It does not support other distance metrics.
+
+### Configure the Sparse Vector Index {products="!serverless"}
+
 With Qdrant, you can benefit from a more compact and efficient immutable sparse index, which is constructed during the same optimization process as the dense vector index.
 
 This approach is particularly useful for collections storing both dense and sparse vectors.
@@ -467,10 +473,6 @@ The sparse vector index is persisted on disk and loaded into heap memory by defa
 The following configuration creates a sparse vector index in the `cold` memory tier:
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/sparse-vector-index-on-disk/" >}}
-
-Unlike a dense vector index, a sparse vector index does not require a predefined vector size. It automatically adjusts to the size of the vectors added to the collection.
-
-**Note:** A sparse vector index only supports dot-product similarity searches. It does not support other distance metrics.
 
 ### IDF Modifier {version="1.10.0"}
 

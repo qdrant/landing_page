@@ -5,7 +5,7 @@ description: "A step-by-step guide to reducing read-write contention in Qdrant w
 weight: 15
 ---
 
-# Troubleshoot Read-Write Contention
+# Troubleshoot Read-Write Contention {products="!serverless"}
 
 Qdrant is designed to index and optimize data as it arrives. While serving search queries, Qdrant's [background optimizer](/documentation/ops-optimization/optimizer/) continuously builds [HNSW indexes](/documentation/manage-data/indexing/#vector-index), merges segments, and applies quantization. Queries and the background optimizer compete for the same CPU time, memory bandwidth, and I/O (read-write contention). Qdrant's defaults don't prioritize either, but you can make several configuration changes to shift the balance.
 

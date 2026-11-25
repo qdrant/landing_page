@@ -38,7 +38,7 @@ Qdrant natively [supports multiple vectors per data point](/documentation/manage
 
 Yes, Qdrant supports migration of embeddings from other vector stores, facilitating easy transitions and adoption of Qdrant’s features.
 
-### Why the amount of indexed vectors doesn't match the amount of vectors in the collection?
+### Why the amount of indexed vectors doesn't match the amount of vectors in the collection? {products="!serverless"}
 
 Qdrant doesn't always need to index all vectors in the collection.
 It stores data is segments, and if the segment is small enough, it is more efficient to perform a full-scan search on it.
@@ -196,11 +196,11 @@ There are three ways to work around this:
 
 See also: [Stable Ordering](/documentation/search/search/#stable-ordering)
 
-### If `limit` is higher than `hnsw_ef`, does Qdrant automatically adjust `hnsw_ef`?
+### If `limit` is higher than `hnsw_ef`, does Qdrant automatically adjust `hnsw_ef`? {products="!serverless"}
 
 Yes. Qdrant internally sets `ef = max(ef, limit)` so that the candidate list is always at least as large as the requested result count.
 
-### What is the default value of `hnsw_ef` during search?
+### What is the default value of `hnsw_ef` during search? {products="!serverless"}
 
 By default, `hnsw_ef` equals `ef_construct` (default: 100). `ef_construct` is a collection-level configuration that controls the number of neighbors considered during graph construction. `hnsw_ef` is the per-query parameter controlling the size of the dynamic candidate list during search.
 
@@ -310,7 +310,7 @@ Create payload indexes before uploading to avoid index rebuilding. However, ther
 
 You should always index first if you know your filters upfront. If you need to index another payload later, you can still do it, but be aware of the performance hit.
 
-### If I need to add a payload index after the HNSW index has already been built, how do I trigger a full reindex?
+### If I need to add a payload index after the HNSW index has already been built, how do I trigger a full reindex? {products="!serverless"}
 
 Changing `m` or `ef_construct` automatically triggers a full background HNSW rebuild. For cases where only a payload index is being added, make a minimal change to `ef_construct` (for example, from 100 to 101). Queries continue to be served by the old index until the new index is complete, so there is no downtime. Don't immediately change the value of `ef_construct` back to its original value, but keep it set to the new value.
 

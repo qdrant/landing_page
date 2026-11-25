@@ -8,7 +8,7 @@ aliases:
   - ../storage
 ---
 
-# Storage
+# Storage {products="!serverless"}
 
 All data within one collection is divided into segments.
 Each segment has its independent vector and payload storage as well as indexes.

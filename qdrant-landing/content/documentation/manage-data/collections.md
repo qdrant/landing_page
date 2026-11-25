@@ -44,6 +44,8 @@ To hand this to an agent instead, the Design a collection prompt makes it ask ab
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/simple/" >}}
 
+### Collection Parameters {products="!serverless"}
+
 In addition to the required options, you can also specify custom values for the following collection options:
 
 * `hnsw_config` - see [indexing](/documentation/manage-data/indexing/#vector-index) for details.
@@ -75,6 +77,8 @@ Each named vector in this mode has its distance and size:
 
 For rare use cases, it is possible to create a collection without any vector storage.
 
+#### Per-Vector Configuration {products="!serverless"}
+
 *Available as of v1.1.1*
 
 For each named vector you can optionally specify
@@ -88,7 +92,7 @@ search performance on a vector level.
 Qdrant always [stores vectors on disk](/documentation/manage-data/storage/#vector-storage). On a per-vector basis, you can configure a [memory tier](/documentation/ops-configuration/memory-tiers/) to control how much of that data also lives in memory.
 
 
-### Vector Datatypes {version="1.9.0"}
+### Vector Datatypes {products="clusters[1.9.0],!serverless"}
 
 By default, Qdrant stores each vector dimension as a 32-bit float. Memory and storage grow linearly with dimensionality, so for large vectors this adds up quickly. To reduce that cost, or to store vectors that are already lower precision, you can configure a different datatype: `float16` (half-precision), `uint8` (unsigned 8-bit integers), or one of the TurboQuant datatypes: `turbo4` (4 bits), `turbo8` (8 bits), or `turbo16` (16 bits).
 
@@ -344,7 +348,7 @@ points or vectors you can query. If you want to know exact counts, refer to the
 
 _Note: these numbers may be removed in a future version of Qdrant._
 
-### Indexing Vectors in HNSW
+### Indexing Vectors in HNSW {products="!serverless"}
 
 In some cases, you might be surprised the value of `indexed_vectors_count` is lower than you expected. This is an intended behaviour and
 depends on the [optimizer configuration](/documentation/ops-optimization/optimizer/). A new index segment is built if the size of non-indexed vectors is higher than the

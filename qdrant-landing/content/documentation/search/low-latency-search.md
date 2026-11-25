@@ -51,7 +51,7 @@ To disable delayed fan-outs after enabling, set this parameter to `0` (default).
 
 An alternative approach to fanning out reads is to always read from multiple replicas, regardless of latency. To enable this, set the `read_fan_out_factor` parameter to the number of additional replicas to read from. Be aware that this increases the load on the cluster and is generally not recommended, as `read_fan_out_delay_ms` can achieve similar tail latency improvements with a much lower additional load on the system.
 
-## Query Indexed Data Only
+## Query Indexed Data Only {products="!serverless"}
 
 Shards store their data in [segments](/documentation/manage-data/storage/). Write operations go through several stages before the changes are fully indexed and searchable:
 

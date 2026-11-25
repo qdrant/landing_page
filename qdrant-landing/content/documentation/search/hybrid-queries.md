@@ -135,7 +135,7 @@ There are a few ways to build search architectures around this idea:
 To get the best of all worlds, Qdrant has a convenient interface to perform the queries in stages,
 such that the coarse results are fetched first, and then they are refined later with larger vectors.
 
-<aside role="status">Disable the HNSW index for vectors used only for rescoring by setting <code>m=0</code> in the vector's HNSW configuration. Rescoring does not use the HNSW index, so disabling it will free up memory.</aside>
+<aside role="status">On dedicated clusters, disable the HNSW index for vectors used only for rescoring by setting <code>m=0</code> in the vector's HNSW configuration. Rescoring does not use the HNSW index, so disabling it will free up memory.</aside>
 
 ### Re-Scoring Examples
 

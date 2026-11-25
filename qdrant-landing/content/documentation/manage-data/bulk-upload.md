@@ -50,7 +50,7 @@ The correct order is:
 
 Following this sequence means Qdrant builds the graph in a single pass, rather than having to rebuild it after the fact.
 
-## Upload Directly to Disk
+## Upload Directly to Disk {products="!serverless"}
 
 When the vectors you upload do not all fit in RAM, you likely want to move them to the
 [`cold` memory tier](/documentation/ops-configuration/memory-tiers/) directly.
@@ -68,7 +68,7 @@ data.
 
 For full configuration details, see [Configuring Memmap Storage](/documentation/manage-data/storage/#configuring-memmap-storage).
 
-## Mitigate Read-Write Contention
+## Mitigate Read-Write Contention {products="!serverless"}
 
 Bulk uploads push a continuous stream of writes through Qdrant's background [optimizer](/documentation/ops-optimization/optimizer/): it must build HNSW indexes, merge segments, and apply quantization as new data arrives. If you are running search queries at the same time, the optimizer and your queries compete for the same CPU time, memory bandwidth, and I/O. This can raise query latency noticeably during ingestion.
 

@@ -22,7 +22,7 @@ These pages cover the settings and runtime options available for customizing and
 
 [Administration](/documentation/ops-configuration/administration/) covers runtime administration tools that let you modify instance behavior without restarting, including recovery mode for resolving out-of-memory situations, low memory mode, and strict mode.
 
-## Memory Tiers
+## Memory Tiers {products="!serverless"}
 
 [Memory Tiers](/documentation/ops-configuration/memory-tiers/) explains how the `memory` parameter (`cold`, `cached`, `pinned`) controls RAM residency for vectors, indexes, quantized data, and payloads.
 
