@@ -298,7 +298,9 @@ For example, using an index for the object ID will be much more efficient, being
 
 In compound queries involving multiple fields, Qdrant will attempt to use the most restrictive index first.
 
-To create index for the field, you can use the following:
+### Create a Payload Index
+
+On dedicated clusters, to create an index for a field, you can use the following:
 
 REST API ([Schema](https://api.qdrant.tech/api-reference/indexes/create-field-index))
 
@@ -320,6 +322,10 @@ Payload schema example:
     }
 }
 ```
+
+On Serverless, create payload indexes when creating a collection:
+
+TODO: add a code snippet for creating payload indexes at collection creation on Serverless.
 
 ## Facet counts {version="1.12.0"}
 

@@ -168,7 +168,7 @@ To search with named vectors (available in `query` API):
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/named-vector/" >}}
 
-### Adding and Removing Named Vectors {version="1.18.0"}
+### Adding and Removing Named Vectors {products="clusters[1.18.0],!serverless"}
 
 Named vectors can be added to or removed from an existing collection without having to recreate the collection.
 

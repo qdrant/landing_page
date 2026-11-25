@@ -40,17 +40,21 @@ Payload indexes occupy additional memory and disk space, so it is recommended to
 If you need to filter by many fields and the memory limits do not allow for indexing all of them, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
 
-### Create a Payload Index
-
-To create a payload index for a field:
-
-{{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-keyword/" >}}
-
 You can use dot notation to specify a nested field for indexing. Similar to specifying [nested filters](/documentation/search/filtering/#nested-key).
 
 When the payload keys themselves are open-ended, indexing each key separately does not scale. Reshape the keys into values under a fixed field and index it at collection setup. See [Indexing Payloads of Random Shape](/documentation/tutorials-search-engineering/index-dynamic-payloads/) for the modeling pattern.
 
+### Create a Payload Index
+
+On dedicated clusters, to create a payload index for a field:
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/simple-keyword/" >}}
+
 **Payload indexes should be created before ingesting data.** [Qdrant's filterable HNSW index](#filterable-hnsw-index) only benefits from additional filter-aware edges when it is generated after the payload indexes have been created. If you create a payload index after data has already been ingested, you need to [rebuild the HNSW index](#rebuild-the-hnsw-index) to take advantage of the new payload indexes.
+
+On Serverless, create payload indexes when creating a collection:
+
+TODO: add a code snippet for creating payload indexes at collection creation on Serverless.
 
 ### Block Queries That Filter on Unindexed Fields
 

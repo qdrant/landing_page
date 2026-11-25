@@ -26,8 +26,8 @@ Qdrant supports these most popular types of metrics:
 
 <aside role="status">For search efficiency, Cosine similarity is implemented as dot-product over normalized vectors. Vectors are automatically normalized during upload</aside>
 
-In addition to metrics and vector size, each collection uses its own set of parameters that controls collection optimization, index construction, and vacuum.
-These settings can be changed at any time by a corresponding request.
+On dedicated clusters, each collection also uses its own set of parameters that control collection optimization, index construction, and vacuum.
+You can change these settings at any time.
 
 To hand this to an agent instead, the Design a collection prompt makes it ask about your data and query shape first, then commit to a vector configuration and the payload indexes to create.
 
@@ -146,7 +146,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 {{< code-snippet path="/documentation/headless/snippets/delete-collection/simple/" >}}
 
-## Update Collection
+## Update Collection {products="!serverless"}
 
 After creating a collection, you can change its configuration, its vectors, and the configuration of its vectors.
 

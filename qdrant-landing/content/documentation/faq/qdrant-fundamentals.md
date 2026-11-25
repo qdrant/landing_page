@@ -118,7 +118,7 @@ You are likely looking for the [scroll](/documentation/manage-data/points/#scrol
 
 Add a [payload index](/documentation/manage-data/indexing/#payload-index) on all the fields you're filtering by. Payload indexing often produces larger speedups for filtered queries than other optimizations such as changes to Hierarchical Navigable Small World (HNSW) parameters.
 
-For best results, create payload indexes **before** uploading data. When uploading data later, rebuild the HNSW index by [making a minimal change](/documentation/manage-data/indexing/#rebuild-the-hnsw-index) to `m` or `ef_construct` (for example, from 100 to 101). Queries continue to be served by the old index until the new index is complete, so there is no downtime. Don't immediately change the value of `ef_construct` back to its original value, but keep it set to the new value.
+On dedicated clusters, create payload indexes **before** uploading data for best results. When uploading data later, rebuild the HNSW index by [making a minimal change](/documentation/manage-data/indexing/#rebuild-the-hnsw-index) to `m` or `ef_construct` (for example, from 100 to 101). Queries continue to be served by the old index until the new index is complete, so there is no downtime. Don't immediately change the value of `ef_construct` back to its original value, but keep it set to the new value.
 
 To prevent clients from filtering on payload fields that don't have a payload index, enable strict mode and [set unindexed\_filtering\_retrieve to false](/documentation/ops-configuration/administration/#disable-retrieving-via-non-indexed-payload).
 
@@ -231,7 +231,7 @@ As a general guideline: named vectors share a point (and its payload). If differ
 
 See also: [Named Vectors](/documentation/manage-data/vectors/#named-vectors)
 
-### Can I switch to a different embedding model without recreating my collection?
+### Can I switch to a different embedding model without recreating my collection? {products="!serverless"}
 
 Yes, if you're using named vectors:
 
@@ -304,11 +304,13 @@ data is automatically migrated to the newer storage format. This migration is no
 
 We only guarantee compatibility when you upgrade from one minor version to the next. If you are more than one minor version behind, upgrade the cluster to the latest patch version of each intermediate minor version before upgrading to the target version. For example, to upgrade from 1.17.x to 1.19.0, first upgrade to the latest 1.18.x patch version. Update your client SDKs after the cluster reaches the target version. See [Upgrades](/documentation/upgrades/) for details.
 
-### Should I create payload indexes before or after uploading? 
+### Should I create payload indexes before or after uploading?
 
-Create payload indexes before uploading to avoid index rebuilding. However, there are scenarios where defining idexes after uploading is okay. For example, you can configure a new filter logic after launch. 
+On dedicated clusters, create payload indexes before uploading to avoid index rebuilding. However, there are scenarios where defining indexes after uploading is okay. For example, you can configure a new filter logic after launch. 
 
 You should always index first if you know your filters upfront. If you need to index another payload later, you can still do it, but be aware of the performance hit.
+
+On Serverless, you define payload indexes when you create a collection, so they always exist before you upload data.
 
 ### If I need to add a payload index after the HNSW index has already been built, how do I trigger a full reindex? {products="!serverless"}
 

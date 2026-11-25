@@ -40,7 +40,7 @@ By creating multiple shards, you can parallelize the upload of a large dataset. 
 
 ## Create Payload Indexes Before Ingesting Data
 
-If your collection uses payload indexes, [create them](/documentation/manage-data/indexing/#create-a-payload-index) before you start uploading points. Qdrant builds extra HNSW links for each payload index to optimize filtered vector search quality. If you add a payload index after the HNSW graph is already built, those links won't exist, and filtered search will fall back to slower query-time strategies until you [rebuild the graph](/documentation/manage-data/indexing/#rebuild-the-hnsw-index), which is resource-intensive and can take a long time.
+On dedicated clusters, if your collection uses payload indexes, [create them](/documentation/manage-data/indexing/#create-a-payload-index) before you start uploading points. Qdrant builds extra HNSW links for each payload index to optimize filtered vector search quality. If you add a payload index after the HNSW graph is already built, those links won't exist, and filtered search will fall back to slower query-time strategies until you [rebuild the graph](/documentation/manage-data/indexing/#rebuild-the-hnsw-index), which is resource-intensive and can take a long time.
 
 The correct order is:
 
@@ -49,6 +49,8 @@ The correct order is:
 3. Upload your points.
 
 Following this sequence means Qdrant builds the graph in a single pass, rather than having to rebuild it after the fact.
+
+On Serverless, you define payload indexes when you create the collection, so they always exist before you upload points.
 
 ## Upload Directly to Disk {products="!serverless"}
 
