@@ -64,7 +64,7 @@ export API=https://api.cloud.qdrant.io
 export AUTH="Authorization: apikey <CLOUD_MANAGEMENT_KEY>"
 export ACCOUNT_ID=<ACCOUNT_ID>
 
-# 1. Find the ID of the free package in your region
+# 1. List the packages in your region, and copy the "id" of the one whose "type" is "free"
 curl -G "$API/api/booking/v1/accounts/$ACCOUNT_ID/packages" \
   --data-urlencode "cloudProviderId=aws" \
   --data-urlencode "cloudProviderRegionId=eu-central-1" \
