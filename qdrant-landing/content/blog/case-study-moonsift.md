@@ -86,7 +86,7 @@ David compared several engines and wanted one that was open source. Before switc
 
 On Qdrant, the daily deletes stopped crashing anything. [Filtering](https://qdrant.tech/documentation/search/filtering/) held up under the delete load, and Qdrant took large write batches and worked through them. David also found search faster than before.
 
-It wasn't all automatic. When the collection doubled, from about 4 million to 8 million points, some settings needed tuning. Qdrant CTO Andrey Vasnetsov and an engineer joined a call with the team late on a Friday evening and worked through the configuration with them. In May 2025, after upgrading and moving payloads out of RAM, memory use dropped to what the team expected, and Moonsift could move to a smaller instance. Today Moonsift runs on [Qdrant Cloud](https://qdrant.tech/cloud/), with separate staging and production clusters.
+It wasn't all automatic. When the collection doubled, from about 4 million to 8 million points, some settings needed tuning. Qdrant CTO Andrey Vasnetsov and an engineer joined a call with the team late on a Friday evening and worked through the configuration with them. In May 2025, after upgrading and moving payloads out of RAM, memory use dropped to what the team expected, and Moonsift used the freed capacity to hold more products. Today Moonsift runs on [Qdrant Cloud](https://qdrant.tech/cloud/), with separate staging and production clusters.
 
 {{< quote
   text="For the past year, Qdrant has just worked, and we haven't had to worry about it. Our data comes in through several pipelines, and these require frequent maintenance. Having the part that's a relatively new technology be the reliable one is super important."
