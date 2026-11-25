@@ -229,7 +229,7 @@ Notes about context search:
 
 </aside>
 
-## Distance Matrix {version="1.12.0"}
+## Distance Matrix {products="clusters[1.12.0],!serverless"}
 
 The distance matrix API allows to calculate the distance between sampled pairs of vectors and to return the result as a sparse matrix.
 
