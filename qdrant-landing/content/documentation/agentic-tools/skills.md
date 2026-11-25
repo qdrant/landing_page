@@ -14,7 +14,8 @@ Qdrant ships a set of agent skills: structured knowledge files that help your AI
 
 > Skills are hosted at [skills.qdrant.tech](https://skills.qdrant.tech).
 
-The recommended way to get started is the [Qdrant Advisor](#the-qdrant-advisor): install it once, then ask your agent about a Qdrant problem and it loads the matching guidance live.
+The fastest way to get started is to [give your agent `qdrant.tech/llms.txt`](/documentation/agentic-tools/#getting-started-with-ai-agents), which sets up Qdrant and points the agent to these skills.
+To keep the skills available in every session, install the [Qdrant Advisor](#the-qdrant-advisor) once. Then ask your agent about a Qdrant problem and it loads the matching guidance live.
 
 You can also work with skills directly.
 Pass the [skills.qdrant.tech](https://skills.qdrant.tech) URL to your agent and it will use it immediately, no installation required, which keeps your agent’s context focused on the problem at hand.
@@ -23,7 +24,7 @@ Refer to this [README](https://github.com/qdrant/skills/blob/main/README.md) for
 
 ## The Qdrant Advisor
 
-The recommended way to use skills is the Qdrant Advisor, a meta-skill that gives your agent live access to the entire skill hierarchy.
+The persistent way to use skills is the Qdrant Advisor, a meta-skill that gives your agent live access to the entire skill hierarchy.
 Instead of shipping static content of its own, it searches [skills.qdrant.tech](https://skills.qdrant.tech) at runtime and loads only the guidance relevant to your current problem.
 
 - **Always current**: It fetches fresh skill content each session, with no reinstallation needed when skills change.
