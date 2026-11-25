@@ -119,6 +119,7 @@ Each evaluator ranks every result in an evaluation interface, marking what they 
   name_url="https://www.linkedin.com/in/ichun-han/"
   role="Lead Machine Learning Engineer"
   company="Moonsift"
+  avatar="/img/customers/i-chun-han.png"
   logo="/img/customers-case-studies-logo/moonsift.svg" >}}
 
 ## Lower Risk: The Team Ships Product Instead of Fixing Search
