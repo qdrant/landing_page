@@ -27,13 +27,13 @@ That’s why, in [Qdrant 1.20.1](https://github.com/qdrant/qdrant/releases/tag/v
 
 ## “Ultra-Scalable Graph-Based Nearest Neighbor Indexing”
 
-PiPNN (Pick-in-Partitions Nearest Neighbors, [Rubel et al., 2026](https://arxiv.org/pdf/2602.21247)) caught our attention because of the performance it achieved on the same benchmarks we mentioned above: it consistently outperforms other indexing techniques, such as VANAMA ([Subramanya et al., 2019](https://proceedings.neurips.cc/paper_files/paper/2019/file/09853c7fb1d3f8ee67a61b6bf4a7f8e6-Paper.pdf)) and HCCNG ([Munoz et al., 2019](https://doi.org/10.1016/j.patcog.2019.106970)), and by a wide margin. On SpaceV1B it only takes approximately 16 minutes, and on Deep-1B it takes 17 minutes: that *might* be the reason why authors of the paper call it “ultra-scalable […] indexing”.
+PiPNN (Pick-in-Partitions Nearest Neighbors, [Rubel et al., 2026](https://arxiv.org/pdf/2602.21247)) caught our attention because of the performance it achieved on the same benchmarks we mentioned above: it consistently outperforms other indexing techniques, such as VANAMA ([Subramanya et al., 2019](https://proceedings.neurips.cc/paper_files/paper/2019/file/09853c7fb1d3f8ee67a61b6bf4a7f8e6-Paper.pdf)) and HCCNG ([Munoz et al., 2019](https://doi.org/10.1016/j.patcog.2019.106970)), and by a wide margin. On SpaceV1B it only takes approximately 16 minutes, and on Deep-1B it takes 17 minutes, which *might* be the reason why authors of the paper call it “ultra-scalable […] indexing”.
 
 But how does PiPNN work? Why is it so fast? And how did we integrate it in Qdrant? Let’s find out!
 
 ### *Divide et Indexa*
 
-To see why PiPNN is fast, we first have to see why HNSW is slow. HNSW inserts points one at a time: for every new vector, it runs a beam search on the graph built so far, then links the point to what it finds. Each search hops across memory, so the CPU cache barely helps, and every insert depends on the ones before it. The paper calls this the search bottleneck, and PiPNN's answer is to never search while building: split the data into small overlapping groups, find the neighbors inside each group by brute force, and merge the results into short neighbor lists.
+To see why PiPNN is fast, we first have to see why HNSW is slow at scale. HNSW inserts points one at a time: for every new vector, it runs a beam search on the graph built so far, then links the point to what it finds. Each search hops across memory, so the CPU cache barely helps, and every insert depends on the ones before it. The paper calls this the search bottleneck, and PiPNN's answer is to never search while building: split the data into small overlapping groups, find the neighbors inside each group by brute force, and merge the results into short neighbor lists.
 
 The splitting is called *randomized ball carving*: we sample some points at random as leaders, every point joins the groups of its nearest few leaders (the `fanout`, 7 on the first step), and any group that's still too big repeats the process with a smaller fanout (2 on the second step).
 
@@ -41,11 +41,11 @@ The splitting is called *randomized ball carving*: we sample some points at rand
 ![Three panels. Random points become leaders, each point joins its two nearest leaders, and the resulting groups overlap so border points x and y sit in two groups.](/articles_data/faster-indexing-at-scale-with-pipnn/ball-carving.png)
 {{< /island >}}
 
-The overlap among partitions is by design: a point near the border between two groups would lose half of its neighbors if it only joined one. In Qdrant, a leaf holds at most 1,024 points, so a level of 1,000,000 points goes through two steps, and every point ends up in about 14 leaves (7 groups on the first step, times 2 on the second).
+The overlap among partitions is by design: a point near the border between two groups would lose half of its neighbors if it only joined one. In Qdrant, a leaf holds at least 256 and at most 1,024 points, so a level of 1,000,000 points goes through two steps, and every point ends up in about 14 leaves (7 groups on the first step, times 2 on the second).
 
 ### Doing the Heavy Leaf-ting
 
-Inside each leaf, we do something that sounds naive: we compare every point with every other point. With 1,024 points that's about half a million pairs, but it's a single matrix multiplication, which is what CPUs are best at: contiguous data, everything in cache, no graph to walk. The kernels live in our own [`pairwise`](https://github.com/qdrant/qdrant/tree/master/lib/common/pairwise) crate, and they score the same vectors HNSW would, so quantized vectors are used if you configured quantization.
+Inside each leaf, we do something that sounds naive: we compare every point with every other point. With 1,024 points that's about half a million pairs, but it's a single matrix multiplication, which is what CPUs are best at: contiguous data, everything in cache, no graph to walk. The kernels live in our own [`pairwise` crate](https://github.com/qdrant/qdrant/tree/master/lib/common/pairwise), and they score the same vectors HNSW would, so quantized vectors are used if you configured quantization.
 
 Each point then keeps its top `k` neighbors (4 by default), and every pick becomes an edge in both directions, since a search has to be able to walk either way:
 
@@ -55,7 +55,7 @@ Each point then keeps its top `k` neighbors (4 by default), and every pick becom
 
 ### Pruning the Tree
 
-Each point now has candidate edges from about 14 leaves, and most of them are redundant: seven candidates that point in the same direction don’t help the search much (they all built up to the same neighborhood of points in the graph). Luckily, we can fix this with *HashPrune*, a pruning algorithm that keeps one edge per direction. Every point owns a small reservoir (64 slots on level 0 with `m = 16`), and a new candidate is added to it if there's room, or, if the slots are all filled, it can replace current the worst candidate if it has a better score. Independently of the reservoir being full, if two candidates share the same direction (see below), only the best one is kept (only one candidate is allowed to represent a given direction, to maximize graph variability). 
+Each point now has candidate edges from about 14 leaves, and most of them are redundant: several candidates pointing in the same direction don’t help the search much (they all build up to the same neighborhood of points in the graph). Luckily, we can fix this with *HashPrune*, a pruning algorithm that keeps one edge per direction. Every point owns a small reservoir (64 slots on level 0 with `m = 16`), and a new candidate is added to it if there's room, or, if the slots are all filled, it can replace the current worst candidate if it has a better score. Independently of the reservoir being full, if two candidates share the same direction (see below), only the best one is kept (only one candidate is allowed to represent a given direction, to maximize graph variability). 
 
 A candidate's direction comes from *m* (usually 12) [hyperplanes](https://en.wikipedia.org/wiki/Hyperplane): these are random vectors drawn from a Gaussian distribution before the indexing starts. We then compute the dot product of these random vectors with each point in the corpus, and store the products as arrays of length *m* (we call them sketches).
 
@@ -65,7 +65,7 @@ With *m* hyperplanes going through a vector *p*, we can determine in which regio
 ![Point p with three candidates. c1 and c2 fall in the same cone, so the lower scoring c2 is dropped. c3 falls in a different cone and is kept.](/articles_data/faster-indexing-at-scale-with-pipnn/hashprune.png)
 {{< /island >}}
 
-The paper proves that the final reservoir doesn't depend on the order in which candidates arrive, which matters because it enables parallelization, and many threads can send edges for the same point at once. The last cut is RobustPrune: we reuse the heuristic HNSW applies when it inserts a point, which keeps the best candidate and drops every candidate that the kept neighbor already "covers", until the degree limit is reached.
+The paper proves that the final reservoir doesn't depend on the order in which candidates arrive, which matters because it enables parallelization, and many threads can send edges for the same point at once. The last cut is *RobustPrune*: we reuse the heuristic HNSW applies when it inserts a point, which keeps the best candidate and drops every candidate that the kept neighbor already "covers", until the degree limit is reached.
 
 ## Bringing PiPNN To Production
 
@@ -75,11 +75,9 @@ Qdrant already has an HNSW graph with levels, entry points, a file format, and f
 
 Qdrant assigns the random HNSW levels first, as usual, then runs the whole PiPNN pipeline once per level over just that level's points, and hands each point's neighbor lists to the graph. Everything after that (payload links, saving the graph) is unchanged, so search can't tell which builder was used. One detail: points are handed over in id order, because the graph's entry points keep the first point they see on each top level, and a fixed order makes the build deterministic on any number of threads.
 
-PiPNN is used only for segments of at least 30,000 points with dense vectors (Dot, Cosine, or Euclid, with or without scalar, binary, or TurboQuant quantization), and only if that segment’s index has to be built from scratch: anything else builds with HNSW.
-
 ### Making It Behave Like HNSW
 
-A graph isn't ready just because every point has a list: search expects every point to be reachable. Real data bends the algorithm in three places.
+A graph isn't ready just because every point has a list: search expects every point to be reachable, and real data might bend the algorithm in three places:
 
 **Stalls.** Real embeddings share a common direction, so every point looks close to every leader, and a group can fail to shrink below the 1024 threshold. After two such steps in a row, we cut the group into random chunks instead.
 
