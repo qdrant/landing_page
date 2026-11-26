@@ -29,16 +29,10 @@ The HTML, CSS, and JavaScript viewer files remain unchanged.
 
 ## Inspect and capture
 
-The guide embeds the recording directly through the `inline-media` island.
-Select one of six thumbnails to inspect its sampled video frame, then use
-Play clip to replay that interval. The audio player exposes eight transcript
-chunks, their timestamps, and the measured waveform. Select a numbered audio
-chunk to play it; select it again to pause. Both players use the same committed
-outputs and remain on the guide page. If JavaScript is disabled or the
-interactive component fails, the guide provides native video controls and a
-direct link to the audio recording.
-
-The standalone viewer also supports capture and raw-output inspection:
+The guide links to the standalone viewer so you can inspect media boundaries
+separately from the text-chunking walkthrough. The viewer shows six video
+windows and eight transcript chunks, their timestamps, and the measured
+waveform. It also supports capture and raw-output inspection:
 
 ```sh
 npx --yes http-server@14.1.1 \
@@ -54,8 +48,9 @@ without playback controls. Direct capture URLs:
 - `/guides_data/chunking/media-demo/?view=audio&capture=1&chunk=a04`
 - `/guides_data/chunking/media-demo/?view=audio&capture=1&chunk=a02,a03` to inspect the incomplete phrase split.
 
-Capture views are optional exports. The guide renders interactive media rather
-than embedding screenshots of this viewer.
+Capture views are optional exports. The guide links to the Video and Audio
+views rather than embedding the players or screenshots. If JavaScript is
+disabled, the viewer provides a direct link to the computed results JSON.
 
 ## What the output means
 
