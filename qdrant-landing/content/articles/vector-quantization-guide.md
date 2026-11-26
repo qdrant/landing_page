@@ -47,6 +47,11 @@ h2.qcolab-h { display: flex; flex-wrap: wrap; align-items: center; justify-conte
 h2.qcolab-h .qcolab { display: inline-flex; font-size: 1rem; }
 h2.qcolab-h .qcolab a { display: inline-flex; }
 #TableOfContents .qcolab { display: none; }
+ul.qgt-checklist { list-style: none; padding-left: 0; }
+.qgt-checklist li { margin: 0.75rem 0; }
+.qgt-checklist label { display: flex; align-items: flex-start; gap: 0.75rem; font-weight: inherit; cursor: pointer; }
+.qgt-checklist input[type="checkbox"] { flex: 0 0 auto; width: 1.125rem; height: 1.125rem; margin: 0.2rem 0 0; color: inherit; accent-color: #dc244c; cursor: pointer; }
+.qgt-checklist input:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 </style>
 
 ### Scalar Quantization
@@ -226,13 +231,16 @@ This selector needs JavaScript. Without it, use the [decision table in the quant
 
 ### Validate on Your Collection
 
-Use the [notebook](https://colab.research.google.com/github/qdrant/examples/blob/Quantization-experiments/quantization-guide/quantization_guide.ipynb) or [benchmark](https://github.com/qdrant-labs/quantization-comparison-bench) for the full experiment. Before adopting a recommendation:
+Use the [notebook](https://colab.research.google.com/github/qdrant/examples/blob/Quantization-experiments/quantization-guide/quantization_guide.ipynb) or [benchmark](https://github.com/qdrant-labs/quantization-comparison-bench) for the full experiment on your workload. Exact float32 search provides the recall reference; unquantized float32 HNSW provides the latency and memory baseline. Keep hardware, index settings, distance metric, filters, and result limit consistent. Use your production embedding model and separate tuning queries from held-out evaluation queries. If relevance judgments are available, also check nDCG or your application's quality metric. Include cold reads when originals may leave the page cache. Count the graph, payloads, and cached originals in total process memory.
 
-1. **Set the comparison.** Use representative documents and queries with your production embedding model, distance metric, filters, and result limit. Separate queries used for tuning from held-out queries used for the final check.
-2. **Establish the float32 baseline.** Use exact float32 search as the recall reference. Measure unquantized float32 HNSW separately as the latency and memory baseline, using the same hardware and index settings as the quantized collection.
-3. **Measure recall and tune search effort.** Compare quantized top-k results with the exact baseline. Try rescoring off and on, then adjust oversampling and `hnsw_ef` to meet your recall target. Recheck the chosen settings on held-out queries; include nDCG or your relevance metric when judgments are available.
-4. **Check latency under realistic load.** Compare p95 latency and throughput at the concurrency you expect. Test both warm and cold reads if your originals may leave the page cache. Keep rescoring only when its recall gain is worth its cost for your workload.
-5. **Measure the memory you actually need.** Compare total process memory after indexing and during search, including the graph, payloads, and cached originals as well as the quantized copy. Check peak memory during index builds. Accept the configuration only if it meets your recall, latency, and memory targets together.
+<ul class="qgt-checklist" aria-label="Validation steps">
+  <li><label><input type="checkbox"><span>Prepare representative documents and queries; reserve held-out queries.</span></label></li>
+  <li><label><input type="checkbox"><span>Record exact float32 results and the float32 HNSW baseline.</span></label></li>
+  <li><label><input type="checkbox"><span>Tune rescoring, oversampling, and <code>hnsw_ef</code>; verify held-out recall.</span></label></li>
+  <li><label><input type="checkbox"><span>Compare p95 latency and throughput under expected load, warm and cold.</span></label></li>
+  <li><label><input type="checkbox"><span>Compare total process memory and peak index-build memory.</span></label></li>
+  <li><label><input type="checkbox"><span>Confirm that recall, latency, and memory meet your targets.</span></label></li>
+</ul>
 
 ### Limitations
 
