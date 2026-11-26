@@ -39,7 +39,8 @@ After creating a cluster, store a Database API key and the cluster URL. You will
 
 1. Sign up for a [Cloud account](https://cloud.qdrant.io/signup). You can register with your email, Google, or GitHub credentials.
 1. In the [Cloud Console](https://cloud.qdrant.io/), under **Create a Free Cluster**, enter a cluster name and select your preferred cloud provider and region. Click **Create Free Cluster**.
-1. Copy your **API key** when prompted - you'll need it to connect. Store it somewhere safe as it won't be displayed again.
+1. Copy your **API key** when prompted. You will need it to connect. Store it somewhere safe as it won't be displayed again.
+1. You will need the cluster URL later. Open your cluster in the Cloud Console and copy the cluster endpoint from the Cluster Detail page. Refer to [Endpoints and Ports](/documentation/cloud/cluster-access/#endpoints-and-ports).
 
 For detailed cluster setup instructions, see the [Cloud documentation](/documentation/deploy-intro/).
 
@@ -61,13 +62,17 @@ Before you start, [install `qcloud`](/documentation/cloud-automation/cloud-cli/#
      --package free2 --name my-cluster --wait
    ```
 
-1. Create a Database API key for the new cluster, using its cluster ID. The key is shown only once, so store it somewhere safe. The `--wait` flag returns when the key is active.
+1. Create the Database API key for the new cluster, using its cluster ID. The key is shown only once, so store it somewhere safe. The `--wait` flag returns when the key is active.
 
    ```sh
    qcloud cluster key create <CLUSTER_ID> --name my-key --wait
    ```
 
-To find the cluster URL for [Step 3](#3-connect-to-qdrant-cloud), run `qcloud cluster describe <CLUSTER_ID>` and copy the `Endpoint`.
+1. You will need the cluster URL later. Retrieve it by running the following command and copying the `Endpoint`.
+
+   ```sh
+   qcloud cluster describe <CLUSTER_ID>
+   ```
 
 ## 2. Install the Qdrant Client
 
