@@ -108,6 +108,19 @@ We built the same segment with both builders in Qdrant (revision `aacaa5b67`) on
 
 As you can see, recall@10 is slightly higher than the HNSW baseline on every dataset and machine, by 0.3 to 0.7 percentage points, while the build is between 5 and 8 times faster. The gain is not free: PiPNN's graph makes a query score between 5% and 17% more vectors than HNSW's (for example, 2,684 vs 2,291 on glove-100), which is where part of the extra recall comes from.
 
+Scoring more vectors could slow queries down, so we also compared server-side query latency at matched recall, with both builders measured on the same machine (a different one from the two above, so the absolute times are not comparable with the build table): for each dataset we swept `ef` from 16 to 256 on both graphs, sending one query at a time so that queueing does not distort the timings, and recorded recall@10 together with the median (p50) and 95th percentile (p95) server-side latency at each step. We then picked a few recall targets (0.80 to 0.90 on glove-100, 0.95 to 0.99 on sift-128 and cohere-wiki-1M) and linearly interpolated each graph's latency between the two sweep points around the target. Despite scanning more vectors, PiPNN's graph answers on par with HNSW to slightly faster:
+
+| Dataset | Recall target | p50, PiPNN | p50, HNSW | p95, PiPNN | p95, HNSW |
+| --- | --- | --- | --- | --- | --- |
+| glove-100 | 0.80 | 0.360 ms | 0.406 ms | 0.482 ms | 0.552 ms |
+| glove-100 | 0.90 | 0.724 ms | 0.846 ms | 1.025 ms | 1.221 ms |
+| sift-128 | 0.95 | 0.261 ms | 0.311 ms | 0.318 ms | 0.386 ms |
+| sift-128 | 0.99 | 0.421 ms | 0.527 ms | 0.547 ms | 0.693 ms |
+| cohere-wiki-1M | 0.95 | 0.441 ms | 0.438 ms | 0.609 ms | 0.612 ms |
+| cohere-wiki-1M | 0.99 | 0.933 ms | 1.053 ms | 1.339 ms | 1.546 ms |
+
+Across all the recall targets we tested, PiPNN is between 1% slower and 28% faster than HNSW, and the two are tied on cohere-wiki-1M at 0.95 recall.
+
 {{< accordion >}}
 - title: "Why two machines?"
   content: |
