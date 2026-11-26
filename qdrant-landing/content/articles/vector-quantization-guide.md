@@ -175,9 +175,9 @@ A quantized vector approximates the original, so searching the compressed copy c
 
 With rescoring enabled, increasing oversampling also means reading more original vectors, which adds work and can increase latency.
 
-{{< island path="content/articles/headless/vector-quantization-guide/rescore" ratio="5 / 2" >}}
-![Two-stage search: oversampling fetches 20 candidates from the quantized copy, and rescoring re-sorts them with the originals so the true neighbor at rough rank 14 returns in the top 10](/articles_data/vector-quantization-guide/two-stage-search.svg)
-{{< /island >}}
+![Static comparison: oversampling retrieves 20 candidates for limit 10. Without rescoring, candidate 14 is missed. Rescoring reads all 20 float32 originals and returns candidate 14 at position 4.](/articles_data/vector-quantization-guide/two-stage-search.svg)
+
+*Illustrative ranking: numbers identify candidates by their initial approximate rank. Candidate 14 is a true nearest neighbor that rescoring moves into the returned top 10. Rescoring can only reorder retrieved candidates; it cannot recover a neighbor outside that pool.*
 
 ### Try a Configuration
 
@@ -264,7 +264,13 @@ Use the [notebook](https://colab.research.google.com/github/qdrant/examples/blob
 
 ## Measured Trade-Offs
 
-Every method buys memory with recall, speed, or both. Each heading carries the key finding; open it for the charts and the evidence.
+Use these findings to choose what to test, then [validate the choice on your collection](#validate-on-your-collection):
+
+- **When compression is needed, test 4-bit TurboQuant first.** Keep float32 if it already fits and meets your targets; use scalar for Manhattan distance. Compare the [selected recall and latency settings](#oversampling-recall-against-search-effort) and [search-copy memory](#pinned-copies-ram-against-latency).
+- **For tighter RAM budgets, compare lower-bit encodings.** TurboQuant retained more recall than binary at equal compression in these runs; binary offered faster scoring. Use the [binary comparison](#binary-quantization-compression-against-recall) to decide what to test. Product can compress further, with more search cost; its `x32` and `x64` settings were not measured here.
+- **Add rescoring when its recall gain is worth the reads.** Compare [rescoring off and on](#rescoring-recall-against-extra-reads), then increase oversampling and `hnsw_ef` only as far as your target requires.
+- **Treat disk savings as a separate decision.** Test `turbo8` or `turbo16` when disk is the constraint. The [storage-datatype comparison](#storage-datatypes-disk-against-recall) shows the recall cost of compressing the originals used for rescoring.
+- **Check the full workload before sizing hardware.** Measure [throughput under load](#throughput-compression-against-queries-per-second), [cold-query latency](#cold-start-ram-against-first-query-latency), and [index-build headroom](#memory-caps-headroom-against-index-builds) on your hardware.
 
 <details class="qgt qgt--n" id="rescoring-recall-against-extra-reads">
 <summary class="qgt__title">Rescoring: Recall Against Extra Reads<span class="qgt__kicker">Larger recall gains at 2 bits and below; at most 0.04 ms added to p95 in the Quora runs.</span></summary>
