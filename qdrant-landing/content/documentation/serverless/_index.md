@@ -75,6 +75,8 @@ We do not publish the exact configuration for each tier. To choose a precision t
 
 Serverless exposes a smaller surface than a dedicated cluster. Some features aren't supported. Other differences are the trade you're making: the platform can only take capacity, tuning, and scaling off your hands by owning them outright.
 
+To move collections from a dedicated cluster to Serverless, see [Migrate to Serverless](/documentation/serverless/migrate/).
+
 ### Not Supported
 
 **Changing a collection after creation.** You can't add or remove a named vector, add a payload index, or change vector parameters. Declare the full schema when you create the collection.
