@@ -12,13 +12,13 @@ aliases:
   - /documentation/cloud-quickstart/
 ---
 
-# Quick Start with Qdrant Cloud
+# Quick Start With Qdrant Cloud
 
 <p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/xvWIssi_cjQ?si=CLhFrUDpQlNog9mz&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
 
 Learn how to set up a dedicated cluster on Qdrant Managed Cloud and perform your first semantic search in just a few minutes. We'll use a sample dataset of menu items embedded with the `sentence-transformers/all-MiniLM-L6-v2` model via [Cloud Inference](/documentation/inference/). This is one of the free embedding models available on Qdrant Cloud. For a list of the available free and paid models, refer to the Inference tab of the Cluster Detail page in the Qdrant Cloud Console.
 
-## 0. Get Started with a Coding Agent
+## 0. Get Started With a Coding Agent
 
 We recommend copying the following into your agent to get started quickly and directly:
 
@@ -28,33 +28,44 @@ If you use the prompt, your agent creates the cluster, installs the client, and 
 
 ## 1. Create a Dedicated Cluster on Managed Cloud
 
-You have two options to create a cluster: in the Cloud Console or with the `qcloud` command-line interface (CLI). Both need a [Cloud account](https://cloud.qdrant.io/signup), which you can register for with your email, Google, or GitHub credentials. Each one gives you a cluster, a Database API key, and the cluster URL.
+You have two options to create a cluster:
+
+- With a user interface, in the Cloud Console
+- In a terminal, with the [Qdrant Cloud command-line interface (CLI)](/documentation/cloud-automation/cloud-cli/), `qcloud`
+
+After creating a cluster, store a Database API key and the cluster URL. You will need them next.
 
 ### Create a Cluster With the Cloud Console
 
+1. Sign up for a [Cloud account](https://cloud.qdrant.io/signup). You can register with your email, Google, or GitHub credentials.
 1. In the [Cloud Console](https://cloud.qdrant.io/), under **Create a Free Cluster**, enter a cluster name and select your preferred cloud provider and region. Click **Create Free Cluster**.
-2. Copy your **API key** when prompted - you'll need it to connect. Store it somewhere safe as it won't be displayed again.
+1. Copy your **API key** when prompted - you'll need it to connect. Store it somewhere safe as it won't be displayed again.
 
 For detailed cluster setup instructions, see the [Cloud documentation](/documentation/deploy-intro/).
 
-### Create a Cluster With `qcloud` CLI
+### Create a Cluster With the Qdrant Cloud CLI
 
-To install `qcloud`, refer to [Installation](/documentation/cloud-automation/cloud-cli/#installation).
+Before you start, [install `qcloud`](/documentation/cloud-automation/cloud-cli/#installation).
 
-Use the [`qcloud` CLI](/documentation/cloud-automation/cloud-cli/) to create the cluster and its Database API key. The `--wait` flag returns when the cluster is healthy and the key is active.
+1. Log in. A browser window opens, where you can sign in or sign up for a Cloud account. On the consent page, choose the account to use and allow manage access.
 
-```sh
-# Authenticate
-qcloud auth login
+   ```sh
+   qcloud auth login
+   ```
 
-# Create a free cluster and wait until it is healthy
-qcloud cluster create \
-  --cloud-provider aws --cloud-region eu-central-1 \
-  --package free2 --name my-cluster --wait
+1. Create a free cluster in the AWS `eu-central-1` region. The `free2` package is the free tier, and the `--wait` flag returns when the cluster is healthy.
 
-# Create a Database API key. The key is shown only once.
-qcloud cluster key create <CLUSTER_ID> --name my-key --wait
-```
+   ```sh
+   qcloud cluster create \
+     --cloud-provider aws --cloud-region eu-central-1 \
+     --package free2 --name my-cluster --wait
+   ```
+
+1. Create a Database API key for the new cluster, using its cluster ID. The key is shown only once, so store it somewhere safe. The `--wait` flag returns when the key is active.
+
+   ```sh
+   qcloud cluster key create <CLUSTER_ID> --name my-key --wait
+   ```
 
 To find the cluster URL for [Step 3](#3-connect-to-qdrant-cloud), run `qcloud cluster describe <CLUSTER_ID>` and copy the `Endpoint`.
 
@@ -70,13 +81,13 @@ Import the qdrant client and create a connection to your Qdrant Cloud cluster us
 
 {{< code-snippet path="/documentation/headless/snippets/cloud-quickstart/connect/" >}}
 
-## 4. Create our collection
+## 4. Create Our Collection
 
 We will use some sample menu items to demonstrate how to create a collection and add data to it. Each menu item has a name, description, price, and category. First, we need to create a collection in Qdrant to store our menu items.
 
 {{< code-snippet path="/documentation/headless/snippets/cloud-quickstart/create-collection/" >}}
 
-## 5. Populate the collection
+## 5. Populate the Collection
 
 Next, we will populate the collection with menu items. Each item will be represented as a point in the collection with its associated metadata. Instead of generating embeddings locally, we pass a `Document` object with the text and model name, and Qdrant Cloud Inference handles the embedding automatically.
 
