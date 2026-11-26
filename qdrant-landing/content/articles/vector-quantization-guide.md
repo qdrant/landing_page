@@ -213,25 +213,6 @@ Float32 vector storage for both embedding models is shown together. Sizes are ca
 
 We embed each corpus with Cohere embed-english-v3.0 (1,024 dimensions) and BGE-small-en-v1.5 (384 dimensions), then search with cosine distance on L2-normalized vectors. Recall@10 measures overlap with exact float32 search results; nDCG@10 measures ranking quality against the BEIR relevance judgments.
 
-<details class="qgt qgt--n">
-<summary class="qgt__title">Protocol Details</summary>
-
-- **Datasets:** Counts, text lengths, and relevance-judgment counts come from Table 1 of the BEIR paper.
-- **Embeddings:** Cohere publishes `embed-english-v3.0` vectors for all four datasets, so those runs need no API key. BGE runs locally with 512-token truncation.
-- **Environment:** Qdrant v1.20.0 in Docker on a dedicated 8-vCPU, 32 GiB VM.
-- **Index:** `m=16`, `ef_construct=100`, and three independently built indexes per configuration.
-- **Memory:** The quantized copy is pinned in RAM and the originals stay `cold` (see [memory tiers](/documentation/ops-configuration/memory-tiers/)).
-- **Rescoring:** Every query sets rescoring and oversampling explicitly because the defaults differ by method: on for binary and for TurboQuant at 1, 1.5, and 2 bits, off for scalar, product, and 4- and 8-bit TurboQuant.
-- **Queries:** Fifty development queries tune each setting and 150 held-out test queries report it.
-- **Measurement:** Latency is server-side p95 at concurrency one over five passes, throughput uses eight concurrent clients, the client runs on the same machine as the server, and memory is the Qdrant allocator heap after indexing and a search pass.
-- **Stability:** SciFact and NFCorpus were also rerun on their whole test splits, 300 and 323 queries, with no recall moving by more than 0.025 and no pass or fail changing.
-- **Method coverage:** Product quantization was measured at `x8` and `x16`; `x32`, `x64`, and codebook training time were not measured. The 8-bit TurboQuant comparison used only NFCorpus with BGE on v1.20.0.
-- **Selector memory:** The search-copy estimate uses vector count, dimensions, and bits per coordinate, with 12% added for quantized-copy overhead. It does not estimate total process memory.
-- **Selector recall:** Estimates use Quora and FiQA with both embedding models at `hnsw_ef` 256 and oversampling 2. For each model, recall is interpolated by sign imbalance, or extrapolated outside the measured range. The two model estimates are blended by log dimension count, with weights clamped to the 384-to-1,024-dimensional range.
-- **Selector speed:** p95 latency and throughput are ratios to float32 HNSW on Quora, blended between the two models by the same dimension weights. p95 comes from the pinned-copy comparison; throughput comes from each method's selected setting. `n/m` marks an unmeasured value.
-
-</details>
-
 ### Pick a Method for Your Collection
 
 If float32 fits your budget and meets your targets, you can keep it. When you need compression, start by testing 4-bit TurboQuant for cosine, dot-product, or Euclidean distance. The selector prefers it when its estimated recall and memory fit your inputs, with scalar as the alternative for Manhattan distance or a recall target that 4-bit TurboQuant misses. Tighter budgets bring lower-bit encodings and product quantization into consideration. Set your collection size, RAM budget, recall target, and sign imbalance to compare the options. Switch the priority to Speed to choose the fastest measured method that still fits and meets the target.
