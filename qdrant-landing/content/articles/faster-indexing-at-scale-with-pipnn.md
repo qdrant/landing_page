@@ -99,19 +99,19 @@ We built the same segment with both builders in Qdrant on three datasets of abou
 
 | Dataset | CPU | PiPNN build | HNSW build | Recall@10, PiPNN | Recall@10, HNSW |
 | --- | --- | --- | --- | --- | --- |
-| glove-100 (1.18M × 100, Cosine) | Ryzen 5 9600X, 12 threads | 6.9 s | 38.4 s | 0.8122 | 0.8051 |
-| glove-100 | Ryzen 9 5900XT, 14 threads | 9.9 s | 63.3 s | 0.8122 | 0.8090 |
-| sift-128 (999K × 128, Euclid) | Ryzen 5 9600X, 12 threads | 5.4 s | 26.5 s | 0.9907 | 0.9856 |
-| sift-128 | Ryzen 9 5900XT, 14 threads | 7.6 s | 45.9 s | 0.9909 | 0.9858 |
-| cohere-wiki-1M (999K × 768, Dot) | Ryzen 5 9600X, 12 threads | 16.2 s | 84.0 s | 0.9783 | 0.9732 |
-| cohere-wiki-1M | Ryzen 9 5900XT, 14 threads | 26.5 s | 210.6 s | 0.9783 | 0.9741 |
+| glove-100 (1.18M × 100, Cosine) | Ryzen 5 9600X, DDR5, 12 threads | 6.9 s | 38.4 s | 0.8122 | 0.8051 |
+| glove-100 | Ryzen 9 5900XT, DDR4, 14 threads | 9.9 s | 63.3 s | 0.8122 | 0.8090 |
+| sift-128 (999K × 128, Euclid) | Ryzen 5 9600X, DDR5, 12 threads | 5.4 s | 26.5 s | 0.9907 | 0.9856 |
+| sift-128 | Ryzen 9 5900XT, DDR4, 14 threads | 7.6 s | 45.9 s | 0.9909 | 0.9858 |
+| cohere-wiki-1M (999K × 768, Dot) | Ryzen 5 9600X, DDR5, 12 threads | 16.2 s | 84.0 s | 0.9783 | 0.9732 |
+| cohere-wiki-1M | Ryzen 9 5900XT, DDR4, 14 threads | 26.5 s | 210.6 s | 0.9783 | 0.9741 |
 
 As you can see, recall@10 is slightly higher than the HNSW baseline on every dataset and machine, by 0.003 to 0.007, while the build is between 5 and 8 times faster. The gain is not free: PiPNN's graph makes a query score between 5% and 17% more vectors than HNSW's (for example, 2,684 vs 2,291 on glove-100), which is where part of the extra recall comes from.
 
 {{< accordion >}}
 - title: "Why two machines?"
   content: |
-    The brute-force leaf comparisons run on SIMD kernels in the `pairwise` crate, and Qdrant picks the best kernel the CPU supports at runtime: AVX-512 (with VNNI for integer types) if available, then AVX2 on x86, and NEON on ARM. The Ryzen 5 9600X (Zen 5) supports AVX-512, while the Ryzen 9 5900XT (Zen 3) only goes up to AVX2. Running on both shows how PiPNN performs with different instruction sets: the 9600X builds faster even with fewer threads, but the speedup over HNSW holds on both, and recall is the same.
+    The brute-force leaf comparisons run on SIMD kernels in the `pairwise` crate, and Qdrant picks the best kernel the CPU supports at runtime: AVX-512 (with VNNI for integer types) if available, then AVX2 on x86, and NEON on ARM. The Ryzen 5 9600X (Zen 5) supports AVX-512, while the Ryzen 9 5900XT (Zen 3) only goes up to AVX2. Running on both shows how PiPNN performs with different instruction sets: the 9600X builds faster even with fewer threads, but the speedup over HNSW holds on both, and recall is the same. The machines also differ in memory: the 9600X uses DDR5 and the 5900XT uses DDR4. HNSW builds are memory bandwidth bound, while PiPNN builds are compute bound, which is why HNSW gains more from the faster memory (it is about 2x faster on the 9600X) and the gap to PiPNN is smaller there.
 {{< /accordion >}}
 
 ### Try It
