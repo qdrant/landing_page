@@ -1,0 +1,44 @@
+{
+  "title": "Recall@10 with and without rescoring, oversampling 2, hnsw_ef 256",
+  "kind": "grouped-columns",
+  "group": "method",
+  "series": "rescore",
+  "colors": [
+    "muted",
+    0
+  ],
+  "height": 430,
+  "width": 980,
+  "textScale": 1.0,
+  "legendLayout": "row",
+  "views": [
+    {
+      "label": "Quora, Cohere 1024-d",
+      "subtitle": "Quora, 522,931 documents, Cohere embed-english-v3.0 (1,024-d), 150 held-out queries, higher is better",
+      "y": "recall_quora_cohere",
+      "yLabel": "recall@10 vs exact float32",
+      "yMax": 1.0
+    },
+    {
+      "label": "Quora, BGE 384-d",
+      "subtitle": "Quora, 522,931 documents, BGE-small-en-v1.5 (384-d), 150 held-out queries, higher is better",
+      "y": "recall_quora_bge",
+      "yLabel": "recall@10 vs exact float32",
+      "yMax": 1.0
+    },
+    {
+      "label": "FiQA, Cohere 1024-d",
+      "subtitle": "FiQA, 57,638 documents, Cohere embed-english-v3.0 (1,024-d), 150 held-out queries, higher is better",
+      "y": "recall_fiqa_cohere",
+      "yLabel": "recall@10 vs exact float32",
+      "yMax": 1.0
+    },
+    {
+      "label": "FiQA, BGE 384-d",
+      "subtitle": "FiQA, 57,638 documents, BGE-small-en-v1.5 (384-d), 150 held-out queries, higher is better",
+      "y": "recall_fiqa_bge",
+      "yLabel": "recall@10 vs exact float32",
+      "yMax": 1.0
+    }
+  ]
+}

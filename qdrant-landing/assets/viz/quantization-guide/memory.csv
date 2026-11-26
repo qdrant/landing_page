@@ -1,0 +1,11 @@
+method,workload,heap_mb,originals_mb,server_p95_ms
+float32,Quora / Cohere 1024-d,28,2142,2.10
+SQ int8,Quora / Cohere 1024-d,566,2142,0.96
+TQ 4-bit,Quora / Cohere 1024-d,300,2142,0.69
+PQ x8,Quora / Cohere 1024-d,297,2142,2.32
+BQ 1-bit,Quora / Cohere 1024-d,95,2142,0.48
+float32,Quora / BGE 384-d,27,803,1.19
+SQ int8,Quora / BGE 384-d,231,803,0.61
+TQ 4-bit,Quora / BGE 384-d,132,803,0.49
+PQ x8,Quora / BGE 384-d,128,803,1.07
+BQ 1-bit,Quora / BGE 384-d,54,803,0.46

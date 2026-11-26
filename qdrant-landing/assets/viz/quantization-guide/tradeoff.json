@@ -1,0 +1,185 @@
+{
+  "title": "Quora, Cohere 1,024-d: the development sweep at k=10 with rescoring on",
+  "kind": "lines-facet",
+  "sharedAxes": false,
+  "facet": "method",
+  "facetLabel": "{}",
+  "x": "hnsw_ef",
+  "xLabel": "hnsw_ef",
+  "xSuffix": "",
+  "seriesLabels": [
+    "oversampling 1",
+    "oversampling 2",
+    "oversampling 4",
+    "oversampling 8"
+  ],
+  "series": [
+    "recall_x1",
+    "recall_x2",
+    "recall_x4",
+    "recall_x8"
+  ],
+  "yLabel": "recall@10 vs exact float32",
+  "yScale": "linear",
+  "yDomain": [
+    0.78,
+    1
+  ],
+  "unit": "",
+  "height": 360,
+  "views": [
+    {
+      "label": "Scalar int8: recall",
+      "data": "assets/viz/quantization-guide/tradeoff-scalar.csv",
+      "series": [
+        "recall_x1",
+        "recall_x2",
+        "recall_x4",
+        "recall_x8"
+      ],
+      "yLabel": "recall@10 vs exact float32",
+      "yScale": "linear",
+      "yDomain": [
+        0.78,
+        1
+      ],
+      "unit": "",
+      "refLine": {
+        "value": 0.95,
+        "label": "target 0.95"
+      }
+    },
+    {
+      "label": "TurboQuant 4-bit: recall",
+      "data": "assets/viz/quantization-guide/tradeoff-turboquant.csv",
+      "series": [
+        "recall_x1",
+        "recall_x2",
+        "recall_x4",
+        "recall_x8"
+      ],
+      "yLabel": "recall@10 vs exact float32",
+      "yScale": "linear",
+      "yDomain": [
+        0.78,
+        1
+      ],
+      "unit": "",
+      "refLine": {
+        "value": 0.95,
+        "label": "target 0.95"
+      }
+    },
+    {
+      "label": "Binary 1-bit: recall",
+      "data": "assets/viz/quantization-guide/tradeoff-binary.csv",
+      "series": [
+        "recall_x1",
+        "recall_x2",
+        "recall_x4",
+        "recall_x8"
+      ],
+      "yLabel": "recall@10 vs exact float32",
+      "yScale": "linear",
+      "yDomain": [
+        0.78,
+        1
+      ],
+      "unit": "",
+      "refLine": {
+        "value": 0.95,
+        "label": "target 0.95"
+      }
+    },
+    {
+      "label": "Product x8: recall",
+      "data": "assets/viz/quantization-guide/tradeoff-product.csv",
+      "series": [
+        "recall_x1",
+        "recall_x2",
+        "recall_x4",
+        "recall_x8"
+      ],
+      "yLabel": "recall@10 vs exact float32",
+      "yScale": "linear",
+      "yDomain": [
+        0.78,
+        1
+      ],
+      "unit": "",
+      "refLine": {
+        "value": 0.95,
+        "label": "target 0.95"
+      }
+    },
+    {
+      "label": "Scalar int8: p95",
+      "data": "assets/viz/quantization-guide/tradeoff-scalar.csv",
+      "series": [
+        "p95_x1",
+        "p95_x2",
+        "p95_x4",
+        "p95_x8"
+      ],
+      "yLabel": "server p95 (ms)",
+      "yScale": "linear",
+      "yDomain": [
+        0,
+        4
+      ],
+      "unit": "ms"
+    },
+    {
+      "label": "TurboQuant 4-bit: p95",
+      "data": "assets/viz/quantization-guide/tradeoff-turboquant.csv",
+      "series": [
+        "p95_x1",
+        "p95_x2",
+        "p95_x4",
+        "p95_x8"
+      ],
+      "yLabel": "server p95 (ms)",
+      "yScale": "linear",
+      "yDomain": [
+        0,
+        4
+      ],
+      "unit": "ms"
+    },
+    {
+      "label": "Binary 1-bit: p95",
+      "data": "assets/viz/quantization-guide/tradeoff-binary.csv",
+      "series": [
+        "p95_x1",
+        "p95_x2",
+        "p95_x4",
+        "p95_x8"
+      ],
+      "yLabel": "server p95 (ms)",
+      "yScale": "linear",
+      "yDomain": [
+        0,
+        4
+      ],
+      "unit": "ms"
+    },
+    {
+      "label": "Product x8: p95",
+      "data": "assets/viz/quantization-guide/tradeoff-product.csv",
+      "series": [
+        "p95_x1",
+        "p95_x2",
+        "p95_x4",
+        "p95_x8"
+      ],
+      "yLabel": "server p95 (ms)",
+      "yScale": "linear",
+      "yDomain": [
+        0,
+        4
+      ],
+      "unit": "ms"
+    }
+  ],
+  "width": 780
+}

@@ -1,0 +1,356 @@
+/*
+ * selector island. Scoped under .qsel. Controls, chips, switches and the
+ * status text come from the shared .qi-* classes; this file only styles what
+ * is specific to the selector: sliders, the result card, impact tiles, and the
+ * comparison table.
+ */
+.qsel {
+  display: block;
+  text-align: left;
+}
+.qsel .qs-fig {
+  gap: 18px;
+}
+
+/* Sliders: two columns, one when the island is narrow. */
+.qsel .qs-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 28px;
+}
+.qsel .qs-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.qsel .qs-field__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.qsel .qs-field__head label {
+  margin: 0;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  color: var(--qi-muted);
+}
+.qsel .qs-field__head output {
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--qi-fg);
+  font-variant-numeric: tabular-nums;
+}
+.qsel input[type='range'] {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--qi-fg);
+  cursor: pointer;
+}
+.qsel input[type='range']:focus-visible {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 3px;
+}
+.qsel .qs-hint {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--qi-muted);
+}
+/* One labeled selection per line, labels in a shared column so chips align. */
+.qsel .qs-chips {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.qsel .qs-chips .qi-group {
+  gap: 0;
+}
+.qsel .qs-chips .qi-hint {
+  min-width: 80px;
+  margin-right: 10px;
+}
+
+/* Priority and Distance join into one segmented control per group. */
+.qsel .qs-chips .qi-chip[data-set] {
+  position: relative;
+  margin-left: -1px;
+  border-radius: 0;
+}
+.qsel .qs-chips .qi-chip[data-set]:first-of-type {
+  margin-left: 0;
+  border-top-left-radius: var(--qi-radius);
+  border-bottom-left-radius: var(--qi-radius);
+}
+.qsel .qs-chips .qi-chip[data-set]:last-of-type {
+  border-top-right-radius: var(--qi-radius);
+  border-bottom-right-radius: var(--qi-radius);
+}
+.qsel .qs-chips .qi-chip[data-set][aria-pressed='true'],
+.qsel .qs-chips .qi-chip[data-set]:focus-visible {
+  z-index: 1;
+}
+
+/* The switches drop the chip frame and read as plain labeled toggles. */
+.qsel .qs-chips .qi-chip[data-toggle] + .qi-chip[data-toggle] {
+  margin-left: 20px;
+}
+.qsel .qs-chips .qi-chip[data-toggle] {
+  padding: 5px 0;
+  border-color: transparent;
+  background: transparent;
+}
+.qsel .qs-chips .qi-chip[data-toggle]:hover:not(:disabled) {
+  border-color: transparent;
+}
+.qsel .qs-chips .qi-chip[data-toggle][aria-pressed='true'] {
+  color: var(--qi-fg);
+  background: transparent;
+}
+
+/* Status under the table: the recommended setup, or why nothing qualifies. */
+.qsel .qs-status {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.qsel .qs-status:empty {
+  display: none;
+}
+.qsel .qs-status p {
+  margin: 0;
+}
+.qsel .qs-settings {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  font-size: 13px;
+  color: var(--qi-fg);
+}
+.qsel .qs-settings code {
+  padding: 2px 6px;
+  border: 1px solid var(--qi-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 12px;
+}
+.qsel .qs-settings a {
+  color: var(--qi-fg);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.qsel .qs-note {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--qi-muted);
+}
+.qsel .qs-note--warn {
+  color: var(--qi-accent);
+}
+
+/* Comparison table */
+.qsel .qs-table-wrap {
+  overflow-x: auto;
+}
+.qsel .qs-expand {
+  margin-top: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--qi-mono);
+  font-size: 12px;
+  color: var(--qi-muted);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.qsel .qs-expand:hover {
+  color: var(--qi-fg);
+}
+.qsel .qs-expand:focus-visible {
+  outline: 2px solid var(--qi-fg);
+  outline-offset: 2px;
+}
+.qsel .qs-table {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  font-size: 13px;
+  color: var(--qi-fg);
+}
+.qsel .qs-table th,
+.qsel .qs-table td {
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 1px solid var(--qi-border);
+  background: transparent;
+  text-align: left;
+  vertical-align: middle;
+  color: var(--qi-fg);
+}
+.qsel .qs-table thead th {
+  font-family: var(--qi-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--qi-muted);
+  white-space: nowrap;
+}
+.qsel .qs-table tbody th {
+  font-weight: 600;
+}
+.qsel .qs-row.is-out td,
+.qsel .qs-row.is-out th {
+  color: var(--qi-muted);
+}
+.qsel .qs-row.is-best td,
+.qsel .qs-row.is-best th {
+  background: var(--qi-surface);
+  border-top: 2px solid var(--qi-cat-1);
+  border-bottom: 2px solid var(--qi-cat-1);
+}
+.qsel .qs-row.is-best th {
+  border-left: 2px solid var(--qi-cat-1);
+}
+.qsel .qs-row.is-best td:last-child {
+  border-right: 2px solid var(--qi-cat-1);
+}
+.qsel .qs-num {
+  display: block;
+  font-family: var(--qi-mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.qsel .qs-na {
+  color: var(--qi-muted);
+}
+.qsel .qs-bar {
+  position: relative;
+  display: block;
+  width: 84px;
+  height: 4px;
+  margin-top: 5px;
+  border-radius: 2px;
+  background: var(--qi-border);
+}
+.qsel .qs-bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 2px;
+  background: var(--qi-cat-1);
+}
+.qsel .qs-bar--recall i {
+  background: var(--qi-cat-3);
+}
+.qsel .qs-bar b {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--qi-accent);
+}
+.qsel .qs-verdict {
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--qi-muted);
+}
+.qsel .qs-verdict--ok {
+  color: var(--qi-fg);
+}
+.qsel .qs-verdict--best {
+  color: var(--qi-cat-1);
+  font-weight: 600;
+}
+.qsel .qs-verdict--recall,
+.qsel .qs-verdict--ram,
+.qsel .qs-verdict--slow,
+.qsel .qs-verdict--metric {
+  color: var(--qi-accent);
+}
+.qsel .qs-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Narrow: one slider column, stacked toggles, and the table becomes cards. */
+.qsel.qs-narrow .qs-controls {
+  grid-template-columns: minmax(0, 1fr);
+}
+.qsel.qs-narrow .qs-chips .qi-group[aria-label='Options'] {
+  display: grid;
+  grid-template-columns: 80px auto;
+  column-gap: 10px;
+  row-gap: 8px;
+  justify-items: start;
+}
+.qsel.qs-narrow .qs-chips .qi-group[aria-label='Options'] .qi-hint {
+  margin-right: 0;
+}
+.qsel.qs-narrow .qs-chips .qi-chip[data-toggle],
+.qsel.qs-narrow .qs-chips .qi-chip[data-toggle] + .qi-chip[data-toggle] {
+  grid-column: 2;
+  margin-left: 0;
+}
+.qsel.qs-narrow .qs-table thead {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+.qsel.qs-narrow .qs-table,
+.qsel.qs-narrow .qs-table tbody,
+.qsel.qs-narrow .qs-table tr,
+.qsel.qs-narrow .qs-table th,
+.qsel.qs-narrow .qs-table td {
+  display: block;
+}
+.qsel.qs-narrow .qs-row {
+  margin-bottom: 10px;
+  padding: 6px 0;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+.qsel.qs-narrow .qs-table th,
+.qsel.qs-narrow .qs-table td {
+  border-bottom: 0;
+}
+.qsel.qs-narrow .qs-table td {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 12px;
+}
+.qsel.qs-narrow .qs-table td::before {
+  content: attr(data-label);
+  font-family: var(--qi-mono);
+  font-size: 11px;
+  color: var(--qi-muted);
+}
+.qsel.qs-narrow .qs-table td > .qs-num {
+  margin-left: auto;
+  text-align: right;
+}
+.qsel.qs-narrow .qs-table td > .qs-bar {
+  flex: none;
+  margin-top: 0;
+}
+.qsel.qs-narrow .qs-row.is-best td,
+.qsel.qs-narrow .qs-row.is-best th {
+  background: transparent;
+  border: 0;
+}
+.qsel.qs-narrow .qs-row.is-best {
+  border: 2px solid var(--qi-cat-1);
+  background: var(--qi-surface);
+}
