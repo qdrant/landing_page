@@ -87,8 +87,6 @@ Each float32 coordinate becomes one `int8`, mapped per segment from the value di
 
 ### Binary Quantization
 
-**Sign imbalance** measures how biased coordinate signs are across your vectors. For each coordinate, take the fraction of vectors with a positive value, calculate its absolute difference from 0.5, and average those differences across coordinates. A score of 0 means every coordinate is positive in half the vectors; higher scores mean less balanced signs.
-
 <details class="qgt qgt--s">
 <summary class="qgt__title">Strengths</summary>
 
@@ -109,6 +107,8 @@ Each float32 coordinate becomes one `int8`, mapped per segment from the value di
 </details>
 
 Binary combines 32x compression with fast scoring, but its usefulness depends on how much information coordinate signs retain. Product quantization can compress further, up to 64x, with a different search-cost trade-off. Test binary on your corpus and model together; the [sign-imbalance comparison](#binary-quantization-compression-against-recall) shows why dimension count alone is not enough to choose it.
+
+**Sign imbalance** measures how biased coordinate signs are across your vectors. For each coordinate, take the fraction of vectors with a positive value, calculate its absolute difference from 0.5, and average those differences across coordinates. A score of 0 means every coordinate is positive in half the vectors; higher scores mean less balanced signs.
 
 The 1-bit encoding keeps the sign of each coordinate and nothing else, so a comparison collapses to XOR and popcount over packed bits. The diagram shows what the extra bits buy: the 1.5- and 2-bit encodings add a "near zero" bucket that preserves the small coordinates sign-only rounds away, at the cost of compression, 32x down to about 21x and 16x. `query_encoding` can keep the query side at `scalar8bits` or `scalar4bits` while the stored side stays binary.
 
