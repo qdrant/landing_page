@@ -1,0 +1,16 @@
+/* duplicate-chain island. Scoped under .pn-dc; controls and frames come from the shared island styles. */
+.pn-dc { display: block; }
+.pn-dc__text { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; }
+.pn-dc__strong { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; font-weight: 700; }
+.pn-dc__strong--main { fill: var(--qi-accent); }
+.pn-dc__strong--copy { fill: var(--qi-cat-1); }
+.pn-dc__box { fill: var(--qi-surface); stroke: var(--qi-cat-1); stroke-width: 3; }
+.pn-dc__box--main { stroke: var(--qi-accent); }
+.pn-dc__link { fill: none; stroke-width: 2.5; }
+.pn-dc__link--fg { stroke: var(--qi-fg); }
+.pn-dc__link--blue { stroke: var(--qi-cat-1); }
+.pn-dc__link--back { stroke-dasharray: 7 5; }
+.pn-dc__link--dotted { stroke: var(--qi-muted); stroke-width: 2; stroke-dasharray: 3 5; }
+.pn-dc__head--fg { fill: var(--qi-fg); }
+.pn-dc__head--blue { fill: var(--qi-cat-1); }
+.pn-dc__head--muted { fill: var(--qi-muted); }
