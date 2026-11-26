@@ -48,8 +48,8 @@ function decisionFlow() {
   const steps = [
     'Inspect sources',
     'Choose boundary',
-    'Speed up chunking',
     'Evaluate chunk quality',
+    'Speed up chunking',
   ];
   steps.forEach((label, index) => {
     const y = 20 + index * 64;
@@ -58,7 +58,7 @@ function decisionFlow() {
     if (index < steps.length - 1) drawing.push(line(320, y + 50, 320, y + 62, { arrow: true }));
   });
   return document('Four decisions for setting up chunking',
-    'Inspect sources, choose boundary, speed up chunking, and evaluate chunk quality.',
+    'Inspect sources, choose boundary, evaluate chunk quality, and speed up chunking. Check retrieval quality at a fixed text budget before optimizing ingestion.',
     296, drawing);
 }
 

@@ -1,35 +1,35 @@
-// Setup checklists cover text, audio, and video ingestion.
+// Validate text retrieval before optimizing ingestion.
 export const STEPS = [
   {
     id: 1,
     title: 'Inspect sources',
     checklist: [
-      '**Audit Sources:** Catalog text, audio, and video formats. Check token counts, durations, and noise that needs cleaning.',
-      '**Map Natural Anchors:** Identify document headers, silence gaps, speaker changes, and scene cuts.',
+      '**Audit Sources:** Check extracted text against the original. Use OCR for scans and preserve table labels during parsing.',
+      '**Map Natural Anchors:** Identify headings, paragraphs, sentences, and references that depend on nearby context.',
     ],
   },
   {
     id: 2,
     title: 'Choose boundary',
     checklist: [
-      '**Align With Structure:** Split at paragraphs, speaker turns, or scene changes. Use semantic shifts when structural markers are missing.',
-      '**Set Limits & Preserve Context:** Set token or time limits and tune overlap. Keep tables, code blocks, complete thoughts, and actions intact.',
+      '**Align With Structure:** Start with paragraphs or sentences, then split oversized passages. Keep statements with their conditions.',
+      '**Set Limits & Preserve Context:** Count with the embedding model\'s tokenizer, including added context. Tune chunk size and overlap within its limit.',
     ],
   },
   {
     id: 3,
-    title: 'Speed up chunking',
+    title: 'Evaluate chunk quality',
     checklist: [
-      '**Use Lightweight Cues:** Start with regex, voice activity detection, or simple scene-change detection before adding expensive models.',
-      '**Reuse & Scale Processing:** Cache unchanged assets, batch or parallelize processing, and stream large files.',
+      '**Fix the Comparison:** Hold documents, questions, models, search settings, and the retrieved-text budget fixed.',
+      '**Benchmark & Diagnose:** Measure source-span **recall** and **precision**. Count repeated text and inspect missing conditions.',
     ],
   },
   {
     id: 4,
-    title: 'Evaluate chunk quality',
+    title: 'Speed up chunking',
     checklist: [
-      '**Check Boundaries & Limits:** Sample chunks for complete sentences and actions. Check that they fit embedding model token or duration limits.',
-      '**Benchmark & Diagnose:** Measure **Recall@K** and **MRR** on labeled queries. Trace misses to fragmented context or noisy boundaries.',
+      '**Profile the Pipeline:** Time parsing, token counting, splitting, embedding, and indexing separately. Optimize the dominant stage.',
+      '**Reuse & Scale Processing:** Reuse tokenizers, bound caches, batch model calls, and stream large files. Recheck retrieval quality after changes.',
     ],
   },
 ];

@@ -595,3 +595,23 @@ html[data-theme='dark'] .chunking-figure > .chunking-figure__dark {
     display: block;
   }
 }
+
+/* Static comparison: no island loader or controls. Its transparent SVG takes
+   its color-scheme from the docs surface, including the no-JavaScript default. */
+.documentation .chunking-strategy-comparison {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  margin: 1.5rem auto;
+}
+
+.documentation img[src*='/guides_data/chunking/strategy-comparison'] {
+  display: block;
+  width: 100%;
+  height: auto;
+  color-scheme: dark;
+}
+
+html[data-theme='light'] .documentation img[src*='/guides_data/chunking/strategy-comparison'] {
+  color-scheme: light;
+}

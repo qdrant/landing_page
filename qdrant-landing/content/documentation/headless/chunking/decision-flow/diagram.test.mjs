@@ -9,8 +9,8 @@ const { mount } = await import(`data:text/javascript;base64,${source.toString('b
 const CHECKLIST_LABELS = [
   ['Audit Sources', 'Map Natural Anchors'],
   ['Align With Structure', 'Set Limits & Preserve Context'],
-  ['Use Lightweight Cues', 'Reuse & Scale Processing'],
-  ['Check Boundaries & Limits', 'Benchmark & Diagnose'],
+  ['Fix the Comparison', 'Benchmark & Diagnose'],
+  ['Profile the Pipeline', 'Reuse & Scale Processing'],
 ];
 
 function fixture(t) {
@@ -31,7 +31,7 @@ test('each title selects a bullet-only checklist without replacing the focused c
   mount(node);
   const buttons = [...node.querySelectorAll('button')];
   assert.deepEqual(buttons.map(button => button.textContent.trim()), [
-    'Inspect sources', 'Choose boundary', 'Speed up chunking', 'Evaluate chunk quality',
+    'Inspect sources', 'Choose boundary', 'Evaluate chunk quality', 'Speed up chunking',
   ]);
   assert.equal(node.querySelectorAll('.qi-flow__arrow').length, 3);
   assert.equal(node.querySelectorAll('a, [data-choices], [data-reset], [data-next]').length, 0);
@@ -58,9 +58,9 @@ test('each title selects a bullet-only checklist without replacing the focused c
     checklists.add(panel.textContent);
   }
   assert.equal(checklists.size, 4);
-  node.querySelector('[data-step="4"]').click();
+  node.querySelector('[data-step="3"]').click();
   assert.deepEqual([...panel.querySelectorAll('li')[1].querySelectorAll('strong')].map(item => item.textContent), [
-    'Benchmark & Diagnose:', 'Recall@K', 'MRR',
+    'Benchmark & Diagnose:', 'recall', 'precision',
   ]);
   assert.doesNotMatch(node.textContent, /Explore the five decisions|Select a step|Next Action|Situation:|Receipt totals/);
 });
@@ -75,9 +75,9 @@ test('mount announces readiness and selections remain scoped to their own diagra
   mount(second);
   assert.deepEqual(ready, [first, second]);
   const initialSecond = second.innerHTML;
-  first.querySelector('[data-step="4"]').click();
+  first.querySelector('[data-step="3"]').click();
   assert.match(first.querySelector('[data-checklist]').textContent, /Benchmark & Diagnose/);
   assert.equal(second.innerHTML, initialSecond);
   first.querySelector('.qi-flow__checklist li').click();
-  assert.equal(first.querySelector('[data-step="4"]').getAttribute('aria-pressed'), 'true');
+  assert.equal(first.querySelector('[data-step="3"]').getAttribute('aria-pressed'), 'true');
 });
