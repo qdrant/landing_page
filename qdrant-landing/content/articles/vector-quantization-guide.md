@@ -52,6 +52,9 @@ ul.qgt-checklist { list-style: none; padding-left: 0; }
 .qgt-checklist label { display: flex; align-items: flex-start; gap: 0.75rem; font-weight: inherit; cursor: pointer; }
 .qgt-checklist input[type="checkbox"] { flex: 0 0 auto; width: 1.125rem; height: 1.125rem; margin: 0.2rem 0 0; color: inherit; accent-color: #dc244c; cursor: pointer; }
 .qgt-checklist input:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+/* Embedded SVG media queries follow this scheme, including explicit page themes. */
+img[src$="/vector-quantization-guide/two-stage-search.svg"] { color-scheme: dark; }
+html[data-theme="light"] img[src$="/vector-quantization-guide/two-stage-search.svg"] { color-scheme: light; }
 </style>
 
 ### Scalar Quantization
