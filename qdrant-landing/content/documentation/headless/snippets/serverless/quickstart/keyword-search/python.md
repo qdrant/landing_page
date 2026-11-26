@@ -1,8 +1,10 @@
 ```python
+from qdrant_client.models import TextQuery
+
 results = client.query_points(
     "menu",
-    query=sparse(["tahini"], query=True)[0],
-    using="bm25",
+    query=TextQuery(text="tahini"),
+    using="description",
     limit=3,
     with_payload=True,
 ).points

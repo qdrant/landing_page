@@ -1,7 +1,7 @@
 ```python
 results = client.query_points(
     "menu",
-    query=dense(["vegetarian dishes"], query=True)[0],
+    query=Document(text="vegetarian dishes", model=MODEL),
     using="dense",
     limit=3,
     with_payload=True,

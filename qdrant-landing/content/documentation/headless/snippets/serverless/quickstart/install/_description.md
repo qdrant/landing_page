@@ -1,1 +1,1 @@
-Install the Qdrant Serverless client and FastEmbed.
+Install the Qdrant Serverless client.

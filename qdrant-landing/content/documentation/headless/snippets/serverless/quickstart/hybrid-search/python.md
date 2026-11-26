@@ -1,13 +1,13 @@
 ```python
-from qdrant_client.models import Fusion, FusionQuery, Prefetch
+from qdrant_client.models import Document, Fusion, FusionQuery, Prefetch, TextQuery
 
 query = "a vegetarian dish with tahini"
 
 results = client.query_points(
     "menu",
     prefetch=[
-        Prefetch(query=dense([query], query=True)[0], using="dense", limit=10),
-        Prefetch(query=sparse([query], query=True)[0], using="bm25", limit=10),
+        Prefetch(query=Document(text=query, model=MODEL), using="dense", limit=10),
+        Prefetch(query=TextQuery(text=query), using="description", limit=10),
     ],
     query=FusionQuery(fusion=Fusion.RRF),
     limit=3,

@@ -1,1 +1,1 @@
-Combine dense and sparse search with reciprocal rank fusion in a Qdrant Serverless collection.
+Combine dense and BM25 search with reciprocal rank fusion in a Qdrant Serverless collection.

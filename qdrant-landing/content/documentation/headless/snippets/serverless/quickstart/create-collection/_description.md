@@ -1,1 +1,1 @@
-Create a Qdrant Serverless collection with a dense and a sparse vector for hybrid search.
+Create a Qdrant Serverless collection with a dense vector and a BM25 text index for hybrid search.

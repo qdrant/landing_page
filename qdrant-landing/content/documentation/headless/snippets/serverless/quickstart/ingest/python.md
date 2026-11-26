@@ -1,4 +1,8 @@
 ```python
+from qdrant_client.models import Document, PointStruct
+
+MODEL = "sentence-transformers/all-minilm-l6-v2"
+
 menu = [
     {"name": "Garden Salad", "description": "Crisp romaine, cherry tomatoes, cucumber, and lemon vinaigrette", "price": 9.0},
     {"name": "Falafel Wrap", "description": "Chickpea fritters with tahini, pickled turnip, and parsley", "price": 11.5},
@@ -13,16 +17,12 @@ menu = [
     {"name": "Tiramisu", "description": "Espresso-soaked ladyfingers layered with mascarpone", "price": 8.5},
 ]
 
-descriptions = [item["description"] for item in menu]
-dense_vectors = dense(descriptions)
-sparse_vectors = sparse(descriptions)
-
 client.upsert(
     "menu",
     points=[
         PointStruct(
             id=idx,
-            vector={"dense": dense_vectors[idx], "bm25": sparse_vectors[idx]},
+            vector={"dense": Document(text=item["description"], model=MODEL)},
             payload=item,
         )
         for idx, item in enumerate(menu)
