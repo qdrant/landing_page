@@ -17,6 +17,7 @@ stack:
   - Cohere
 ---
 
+<span id="build-a-serverless-semantic-search-service-with-rust-aws-lambda-and-qdrant"></span>
 # Build a Semantic Search Service with Rust, AWS Lambda, and Qdrant
 
 | Time: 45 min | Level: Intermediate |
