@@ -16,3 +16,9 @@
 .geo-figure [fill='#dc244c'] { fill: var(--qi-accent); }
 .geo-figure [stroke='#dc244c'] { stroke: var(--qi-accent); }
 .geo-figure [stroke='#6047ff'] { stroke: var(--qi-cat-1); }
+
+/* Linked cards, such as the shape picker: the frame lights up on hover and focus. */
+.geo-figure a { cursor: pointer; text-decoration: none; }
+.geo-figure .geo-card:hover .geo-card__frame,
+.geo-figure .geo-card:focus-visible .geo-card__frame { stroke: var(--qi-accent); }
+.geo-figure a:focus-visible { outline: 2px solid var(--qi-fg); outline-offset: 2px; }

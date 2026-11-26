@@ -10,14 +10,6 @@ cta: "Try location-aware vector search on a free Cloud cluster."
 
 Many searches involve two meanings of "near". A user searching for a "quiet café to work from" wants results that are both semantically relevant and geographically close. Qdrant handles both in a single request: the vector query ranks results by meaning, while geo conditions filter or re-rank them by location.
 
-## Why Location Needs Special Handling
-
-Combining location constraints with vector search is more complex than adding a filter.
-
-- **Geographic proximity is not semantic similarity.** A venue 200 meters away may be a poor semantic match, while the best match may be across town. You need to decide whether location or meaning determines which results qualify and how they are ranked.
-- **The same radius can produce very different result sets.** A 1 km radius may cover thousands of points in a dense city center but only a handful in a rural area. The engine must handle both extremes.
-- **Filters can disconnect the search graph.** Vector indexes such as HNSW find neighbors by walking a graph. Strict filters can exclude most nodes, leaving the remaining nodes disconnected and causing the search to miss relevant results. [Filterable HNSW](/documentation/manage-data/indexing/#filterable-hnsw-index) addresses this by adding extra edges, with the geo index contributing to the process.
-
 {{< island
     path="content/documentation/headless/geo-search/two-kinds-of-near"
     width="100%" ratio="844 / 665"
@@ -25,6 +17,18 @@ Combining location constraints with vector search is more complex than adding a 
 >}}
 ![A map of venues with a circular search area next to the same venues placed by meaning, with three search strategies compared by how many of the 10 best matches each one finds.](/docs/geo-search-two-kinds-of-near.png)
 {{< /island >}}
+
+For example, the following request finds venues that match "quiet café to work from" within 1.5 km of a point in central Berlin:
+
+{{< code-snippet path="/documentation/headless/snippets/geo-search/semantic-query/" >}}
+
+## Why Location Needs Special Handling
+
+Combining location constraints with vector search is more complex than adding a filter.
+
+- **Geographic proximity is not semantic similarity.** A venue 200 meters away may be a poor semantic match, while the best match may be across town. You need to decide whether location or meaning determines which results qualify and how they are ranked.
+- **The same radius can produce very different result sets.** A 1 km radius may cover thousands of points in a dense city center but only a handful in a rural area. The engine must handle both extremes.
+- **Filters can disconnect the search graph.** Vector indexes such as HNSW find neighbors by walking a graph. Strict filters can exclude most nodes, leaving the remaining nodes disconnected and causing the search to miss relevant results. [Filterable HNSW](/documentation/manage-data/indexing/#filterable-hnsw-index) addresses this by adding extra edges, with the geo index contributing to the process.
 
 For the underlying techniques, refer to the article [Filtering in Vector Search](/articles/vector-search-filtering/).
 
@@ -111,6 +115,14 @@ A geo filter returns only points with locations inside a specified area. Like ot
 Geo filters do not affect ranking. They determine which points qualify, while the vector query determines their order. To rank results by distance, refer to [Rank by Distance](#rank-by-distance).
 
 ### Choose a Shape
+
+{{< island
+    path="content/documentation/headless/geo-search/figure"
+    width="100%" ratio="1200 / 250"
+    title="Select a shape to jump to its section."
+>}}
+![Three filter shapes: a radius, a bounding box, and a polygon, each with the points inside it highlighted.](/docs/geo-search-shapes.svg)
+{{< /island >}}
 
 | Shape | Defined by | Use it for |
 |---|---|---|
