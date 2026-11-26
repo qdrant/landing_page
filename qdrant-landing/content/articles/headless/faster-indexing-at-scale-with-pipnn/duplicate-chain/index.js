@@ -3,18 +3,18 @@
  *
  * Only the first copy (c1) takes part in the build. The other copies are
  * chained behind it, the last one links back to c1, and every copy carries
- * c1's real neighbors. Pick how many identical copies exist to see the chain
- * grow. The neighbors n1 to n3 are illustrative.
+ * c1's real neighbors. The five copies and the neighbors n1 to n3 are
+ * illustrative.
  */
 
 const NS = 'http://www.w3.org/2000/svg';
-const COUNTS = [2, 3, 5];
+const COPIES = 5;
 const X0 = 150;
 const PITCH = 118;
 const BOX_W = 64;
 const BOX_Y = 96;
 const BOX_H = 48;
-const CARD_Y = 214;
+const CARD_Y = 196;
 
 let instanceId = 0;
 
@@ -30,33 +30,24 @@ export function mount(node) {
   node.classList.add('pn-dc');
   node.innerHTML = [
     '<div class="qi-fig">',
-    '  <div class="qi-controls">',
-    '    <div class="qi-group" role="group" aria-label="Number of identical copies">',
-    COUNTS.map((n) => `<button type="button" class="qi-chip" data-n="${n}" aria-pressed="false">${n} copies</button>`).join(''),
-    '    </div>',
-    '  </div>',
-    '  <svg class="qi-svg" viewBox="0 0 760 290" role="img"></svg>',
-    '  <p class="qi-status qi-status--2" role="status" aria-live="polite"></p>',
+    '  <svg class="qi-svg" viewBox="0 0 760 244" role="img"></svg>',
     '</div>',
   ].join('');
 
   const svg = node.querySelector('svg');
-  const statusEl = node.querySelector('.qi-status');
-  const chips = [...node.querySelectorAll('[data-n]')];
 
   const marker = (id, cls) =>
-    `<marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="${cls}" d="M0 0L10 5L0 10Z"/></marker>`;
+    `<marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path class="${cls}" d="M0 0L10 5L0 10Z"/></marker>`;
   const ids = { fg: `pn-dc-fg-${uid}`, blue: `pn-dc-blue-${uid}`, muted: `pn-dc-muted-${uid}` };
 
   function render(n) {
-    chips.forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.n) === n)));
     svg.replaceChildren();
     svg.setAttribute(
       'aria-label',
       `${n} identical vectors c1 to c${n}. Only c1 is in the main graph. The copies are chained after it, the last links back to c1, and every copy points to c1's real neighbors.`,
     );
     svg.appendChild(el('defs', {})).innerHTML = marker(ids.fg, 'pn-dc__head pn-dc__head--fg') + marker(ids.blue, 'pn-dc__head pn-dc__head--blue') + marker(ids.muted, 'pn-dc__head pn-dc__head--muted');
-    svg.appendChild(el('text', { class: 'qi-title', x: 0, y: 16 }, 'Identical vectors: one copy in the graph, the rest chained'));
+    svg.appendChild(el('text', { class: 'pn-dc__text', x: 0, y: 16 }, 'Identical vectors: one copy in the graph, the rest chained'));
 
     const xs = Array.from({ length: n }, (_, i) => X0 + i * PITCH);
     const right = xs[n - 1] + BOX_W;
@@ -68,8 +59,8 @@ export function mount(node) {
 
     // Neighbors card and dotted arrows from every copy.
     const cardW = Math.max(300, right - X0);
-    svg.appendChild(el('rect', { class: 'qi-frame', x: X0, y: CARD_Y, width: cardW, height: 50, rx: 8 }));
-    svg.appendChild(el('text', { class: 'pn-dc__strong', x: X0 + cardW / 2, y: CARD_Y + 30, 'text-anchor': 'middle' }, 'Real neighbors of c1 (n1, n2, n3)'));
+    svg.appendChild(el('rect', { class: 'qi-frame', x: X0, y: CARD_Y, width: cardW, height: 40, rx: 8 }));
+    svg.appendChild(el('text', { class: 'pn-dc__text', x: X0 + cardW / 2, y: CARD_Y + 25, 'text-anchor': 'middle' }, 'Real neighbors of c1 (n1, n2, n3)'));
 
     xs.forEach((x, i) => {
       svg.appendChild(el('line', { class: 'pn-dc__link pn-dc__link--dotted', x1: x + BOX_W / 2, y1: BOX_Y + BOX_H, x2: x + BOX_W / 2, y2: CARD_Y - 3, 'marker-end': `url(#${ids.muted})` }));
@@ -86,15 +77,10 @@ export function mount(node) {
     const lx = xs[n - 1] + BOX_W / 2;
     const fx = xs[0] + BOX_W / 2;
     svg.appendChild(el('path', { class: 'pn-dc__link pn-dc__link--blue pn-dc__link--back', d: `M${lx},${BOX_Y - 2} C${lx},46 ${fx},46 ${fx},${BOX_Y - 6}`, 'marker-end': `url(#${ids.blue})` }));
-    svg.appendChild(el('text', { class: 'qi-label', x: (lx + fx) / 2, y: 40, 'text-anchor': 'middle' }, `last copy (c${n}) links back to c1`));
+    svg.appendChild(el('text', { class: 'pn-dc__text', x: (lx + fx) / 2, y: 40, 'text-anchor': 'middle' }, `last copy (c${n}) links back to c1`));
 
-    statusEl.textContent =
-      `With ${n} identical vectors, only c1 takes part in the build. The other ${n - 1 === 1 ? 'copy is' : `${n - 1} copies are`} chained behind it, ` +
-      `and every copy carries c1's neighbor list, so a search can leave the chain from any copy and a query for this vector returns all ${n}.`;
   }
 
-  chips.forEach((b) => b.addEventListener('click', () => render(Number(b.dataset.n))));
-
-  render(5);
+  render(COPIES);
   node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
 }

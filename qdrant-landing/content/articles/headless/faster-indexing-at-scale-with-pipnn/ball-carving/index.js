@@ -3,8 +3,8 @@
  *
  * Panel 1 picks leaders, panel 2 shows one point joining its two nearest
  * leaders (fanout 2 here for readability, the article uses 7 and then 2), and
- * panel 3 shows the resulting overlapping groups. Select a step to focus on
- * it. The point positions are illustrative.
+ * panel 3 shows the resulting overlapping groups. The point positions are
+ * illustrative.
  */
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -25,16 +25,9 @@ const LEADERS = [
 ];
 
 const STEPS = [
-  { title: '1. Pick leaders', sub: 'A random sample', chip: 'Step 1' },
-  { title: '2. Join leaders', sub: 'Each point picks 2', chip: 'Step 2' },
-  { title: '3. Groups overlap', sub: 'x and y sit in two', chip: 'Step 3' },
-];
-
-const STATUS = [
-  'Any group still larger than 1,024 points repeats the process with a smaller fanout. Select a step to focus on it.',
-  'Step 1: a random sample of the points become leaders (L1 to L4). Every group is built around one leader.',
-  'Step 2: with a fanout of 2, each point joins its two nearest leaders. Point x joins L3 (nearest, solid) and L1 (second nearest, dashed).',
-  'Step 3: the groups overlap, so border points such as x and y sit in the groups of both L1 and L3 and keep neighbors from each side.',
+  { title: '1. Pick leaders', sub: 'A random sample' },
+  { title: '2. Join leaders', sub: 'Each point picks 2' },
+  { title: '3. Groups overlap', sub: 'x and y sit in two' },
 ];
 
 let instanceId = 0;
@@ -53,25 +46,18 @@ export function mount(node) {
   node.classList.add('pn-bc');
   node.innerHTML = [
     '<div class="qi-fig">',
-    '  <div class="qi-controls">',
-    '    <div class="qi-group" role="group" aria-label="Carving step">',
-    STEPS.map((s, i) => `<button type="button" class="qi-chip" data-step="${i + 1}" aria-pressed="false">${s.chip}</button>`).join(''),
-    '    </div>',
-    '  </div>',
     `  <svg class="qi-svg" viewBox="0 0 760 ${PANEL_Y + PANEL_H + 8}" role="img" aria-label="Three panels. Random leaders are picked, each point joins its two nearest leaders, and the resulting groups overlap so border points sit in both."></svg>`,
-    '  <p class="qi-status qi-status--2" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');
 
   const svg = node.querySelector('svg');
-  const statusEl = node.querySelector('.qi-status');
-  const chips = [...node.querySelectorAll('[data-step]')];
 
   svg.appendChild(
     el('defs', {}),
-  ).innerHTML = `<marker id="pn-bc-arrow-${uid}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="pn-bc__arrowhead" d="M0 0L10 5L0 10Z"/></marker>`;
+  ).innerHTML = `<marker id="pn-bc-arrow-${uid}" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path class="pn-bc__arrowhead" d="M0 0L10 5L0 10Z"/></marker>`;
 
-  const panels = STEPS.map((step, i) => {
+  const panels = [];
+  STEPS.forEach((step, i) => {
     const g = el('g', { class: 'pn-bc__panel', transform: `translate(${i * PITCH} 0)` });
     svg.appendChild(g);
     g.appendChild(el('text', { class: 'qi-title', x: 0, y: 16 }, step.title));
@@ -84,7 +70,7 @@ export function mount(node) {
     g.appendChild(inner);
     const c = el('g', { transform: `translate(0 ${PANEL_Y})` });
     inner.appendChild(c);
-    return { g, c, i };
+    panels.push({ c, i });
   });
 
   const dot = (c, p, cls, r = 4) => {
@@ -143,20 +129,5 @@ export function mount(node) {
     }
   });
 
-  let selected = null;
-  function render() {
-    chips.forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.step) === selected)));
-    panels.forEach(({ g, i }) => g.classList.toggle('is-dim', selected !== null && selected !== i + 1));
-    statusEl.textContent = STATUS[selected || 0];
-  }
-  chips.forEach((b) =>
-    b.addEventListener('click', () => {
-      const n = Number(b.dataset.step);
-      selected = selected === n ? null : n;
-      render();
-    }),
-  );
-
-  render();
   node.dispatchEvent(new CustomEvent('island:ready', { bubbles: true }));
 }

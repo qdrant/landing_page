@@ -3,8 +3,9 @@
  *
  * The left side is an illustrative 5 x 5 score matrix (higher is closer), with
  * each row point's best two cells outlined. The right side is the graph those
- * picks produce: solid edges where both points picked each other, dashed
- * arrows where only one did. Select a point to see its picks and edges.
+ * picks produce: solid edges where both points picked each other, and for a
+ * one-way pick a red dashed arrow for the pick plus a grey dashed arrow for the
+ * reverse edge Qdrant adds. Select a point to see its picks and edges.
  */
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -17,7 +18,7 @@ const SCORES = [
   [0.3, 0.1, 0.7, 0.2, 0],
 ];
 const K = 2;
-const NODES = [[360, 180], [432, 90], [522, 189], [612, 99], [450, 279]];
+const NODES = [[370, 175], [450, 85], [560, 190], [665, 95], [470, 275]];
 
 const CELL = 44;
 const PITCH = 48;
@@ -66,7 +67,7 @@ export function mount(node) {
     NAMES.map((n, i) => `<button type="button" class="qi-chip" data-point="${i}" aria-pressed="false">${n}</button>`).join(''),
     '    </div>',
     '  </div>',
-    '  <svg class="qi-svg" viewBox="0 0 760 390" role="img" aria-label="A five-by-five score matrix with each point\'s best two neighbors outlined, and the graph of edges those picks produce, with one-way picks marked."></svg>',
+    '  <svg class="qi-svg" viewBox="0 0 760 396" role="img" aria-label="A five-by-five score matrix with each point\'s best two neighbors outlined, and the graph of edges those picks produce, with one-way picks marked."></svg>',
     '  <p class="qi-status qi-status--2" role="status" aria-live="polite"></p>',
     '</div>',
   ].join('');
@@ -76,7 +77,8 @@ export function mount(node) {
   const chips = [...node.querySelectorAll('[data-point]')];
 
   svg.appendChild(el('defs', {})).innerHTML =
-    `<marker id="pn-ls-arrow-${uid}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="pn-ls__arrowhead" d="M0 0L10 5L0 10Z"/></marker>`;
+    `<marker id="pn-ls-arrow-${uid}" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path class="pn-ls__arrowhead" d="M0 0L10 5L0 10Z"/></marker>` +
+    `<marker id="pn-ls-grey-${uid}" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path class="pn-ls__arrowhead pn-ls__arrowhead--grey" d="M0 0L10 5L0 10Z"/></marker>`;
 
   svg.appendChild(el('text', { class: 'qi-title', x: 0, y: 16 }, 'Scores inside one leaf'));
   svg.appendChild(el('text', { class: 'qi-title', x: 330, y: 16 }, 'Edges from those picks'));
@@ -107,22 +109,39 @@ export function mount(node) {
     });
     rows.push(g);
   });
-  svg.appendChild(el('text', { class: 'qi-label', x: 0, y: 340 }, 'Higher is closer. Outlined cells are each'));
-  svg.appendChild(el('text', { class: 'qi-label', x: 0, y: 360 }, 'row point\'s best 2.'));
+  ['Higher is closer.', 'Outlined cells are each', 'row point\'s best 2.'].forEach((t, i) =>
+    svg.appendChild(el('text', { class: 'qi-label', x: 0, y: 342 + i * 20 }, t)),
+  );
 
-  // Graph edges, then nodes on top.
+  // Graph edges, then nodes on top. A one-way pick is drawn twice, as two
+  // parallel lines on opposite sides: the pick, and the reverse edge added for it.
+  const arrowPath = (from, to, cls) => {
+    const [ax, ay] = NODES[from];
+    const [bx, by] = NODES[to];
+    const len = Math.hypot(bx - ax, by - ay);
+    const ux = (bx - ax) / len;
+    const uy = (by - ay) / len;
+    const x1 = ax + ux * (R + 3);
+    const y1 = ay + uy * (R + 3);
+    const x2 = bx - ux * (R + 3);
+    const y2 = by - uy * (R + 3);
+    const off = 6;
+    const dx = -uy * off;
+    const dy = ux * off;
+    return el('line', { class: `pn-ls__edge ${cls}`, x1: (x1 + dx).toFixed(1), y1: (y1 + dy).toFixed(1), x2: (x2 + dx).toFixed(1), y2: (y2 + dy).toFixed(1), 'marker-end': `url(#${cls.includes('reverse') ? `pn-ls-grey-${uid}` : `pn-ls-arrow-${uid}`})` });
+  };
   const edgeEls = EDGES.map((e) => {
-    const [ax, ay] = NODES[e.mutual ? e.a : e.from];
-    const [bx, by] = NODES[e.mutual ? e.b : e.to];
-    let attrs = { x1: ax, y1: ay, x2: bx, y2: by };
-    if (!e.mutual) {
-      const len = Math.hypot(bx - ax, by - ay);
-      const k = (len - R - 3) / len;
-      attrs = { x1: ax + ((bx - ax) * (R + 3)) / len, y1: ay + ((by - ay) * (R + 3)) / len, x2: ax + (bx - ax) * k, y2: ay + (by - ay) * k, 'marker-end': `url(#pn-ls-arrow-${uid})` };
+    const g = el('g', { class: 'pn-ls__eg' });
+    if (e.mutual) {
+      const [ax, ay] = NODES[e.a];
+      const [bx, by] = NODES[e.b];
+      g.appendChild(el('line', { class: 'pn-ls__edge', x1: ax, y1: ay, x2: bx, y2: by }));
+    } else {
+      g.appendChild(arrowPath(e.from, e.to, 'pn-ls__edge--one'));
+      g.appendChild(arrowPath(e.to, e.from, 'pn-ls__edge--reverse'));
     }
-    const line = el('line', { class: `pn-ls__edge${e.mutual ? '' : ' pn-ls__edge--one'}`, ...attrs });
-    svg.appendChild(line);
-    return line;
+    svg.appendChild(g);
+    return g;
   });
   const nodeEls = NODES.map(([x, y], i) => {
     const g = el('g', { class: 'pn-ls__node' });
@@ -133,10 +152,12 @@ export function mount(node) {
   });
 
   // Legend
-  svg.appendChild(el('line', { class: 'pn-ls__edge', x1: 330, y1: 340, x2: 365, y2: 340 }));
-  svg.appendChild(el('text', { class: 'qi-label', x: 373, y: 345 }, 'both points picked each other'));
-  svg.appendChild(el('line', { class: 'pn-ls__edge pn-ls__edge--one', x1: 330, y1: 366, x2: 365, y2: 366, 'marker-end': `url(#pn-ls-arrow-${uid})` }));
-  svg.appendChild(el('text', { class: 'qi-label', x: 373, y: 371 }, 'one-way pick, reverse edge added'));
+  svg.appendChild(el('line', { class: 'pn-ls__edge', x1: 330, y1: 332, x2: 365, y2: 332 }));
+  svg.appendChild(el('text', { class: 'qi-label', x: 373, y: 337 }, 'both points picked each other'));
+  svg.appendChild(el('line', { class: 'pn-ls__edge pn-ls__edge--one', x1: 330, y1: 357, x2: 365, y2: 357, 'marker-end': `url(#pn-ls-arrow-${uid})` }));
+  svg.appendChild(el('text', { class: 'qi-label', x: 373, y: 362 }, 'one-way pick'));
+  svg.appendChild(el('line', { class: 'pn-ls__edge pn-ls__edge--reverse', x1: 330, y1: 382, x2: 365, y2: 382, 'marker-end': `url(#pn-ls-grey-${uid})` }));
+  svg.appendChild(el('text', { class: 'qi-label', x: 373, y: 387 }, 'reverse edge added for it'));
 
   const defaultStatus =
     'Each point keeps its 2 best neighbors in the leaf. A pick becomes an edge in both directions, so a one-way pick still adds the reverse edge. Select a point to see its picks.';

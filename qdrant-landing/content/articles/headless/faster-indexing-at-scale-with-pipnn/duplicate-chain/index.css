@@ -1,7 +1,5 @@
 /* duplicate-chain island. Scoped under .pn-dc; controls and frames come from the shared island styles. */
 .pn-dc { display: block; }
-.pn-dc .qi-title { font-size: 14px; }
-.pn-dc .qi-label { font-size: 14px; }
 .pn-dc__text { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; }
 .pn-dc__strong { fill: var(--qi-fg); font-family: var(--qi-mono); font-size: 14px; font-weight: 700; }
 .pn-dc__strong--main { fill: var(--qi-accent); }
