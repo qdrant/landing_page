@@ -1,0 +1,1 @@
+This snippet uploads 30 sample menu items to the `items` collection. Each item becomes a point with a name, description, price, and category as the payload. Instead of generating embeddings locally, the snippet passes a `Document` with the text and the model name, and Qdrant Cloud Inference creates the vector.

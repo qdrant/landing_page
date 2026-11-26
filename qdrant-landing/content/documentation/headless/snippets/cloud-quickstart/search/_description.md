@@ -1,0 +1,1 @@
+This snippet searches the `items` collection for menu items related to "vegetarian dishes". The query is a `Document` with the text and the embedding model, so Qdrant Cloud Inference creates the query vector. The snippet prints the name, score, description, and price of the five best matches.
