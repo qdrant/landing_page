@@ -179,9 +179,7 @@ Switch between 1, 2, and 4 bits in the diagram: the bars show the coordinates be
 A quantized vector approximates the original, so searching the compressed copy can miss some of the true nearest neighbors. To reduce that loss, you can use a two-stage search technique:
 
 - **Step 1, oversampling:** the search engine widens the initial pass by fetching a larger pool of approximate candidates than requested (`limit` x `oversampling`) from the fast, compressed HNSW index. For example, with `limit=10` and `oversampling=2.0`, Qdrant retrieves 20 candidates instead of 10. If a true neighbor was ranked 14th, this step gives it a chance to be selected.
-- **Step 2, rescoring:** Qdrant recalculates the exact similarity between the query and each candidate using their original, uncompressed vectors, then re-sorts them to return the top `limit` results. A true neighbor that sat at position 14 during the approximate pass can climb into the top 10.
-
-With rescoring enabled, increasing oversampling also means reading more original vectors, which adds work and can increase latency.
+- **Step 2, rescoring:** Qdrant recalculates the exact similarity between the query and each candidate using their original, uncompressed vectors, then re-sorts them to return the top `limit` results. A true neighbor that sat at position 14 during the approximate pass can climb into the top 10. With rescoring enabled, increasing oversampling also means reading more original vectors, which adds work and can increase latency.
 
 ![Static comparison: oversampling retrieves 20 candidates for limit 10. Without rescoring, candidate 14 is missed. Rescoring reads all 20 float32 originals and returns candidate 14 at position 4.](/articles_data/vector-quantization-guide/two-stage-search.svg)
 
