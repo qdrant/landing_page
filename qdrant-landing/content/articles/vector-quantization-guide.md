@@ -179,7 +179,7 @@ With rescoring enabled, increasing oversampling also means reading more original
 
 *Illustrative ranking: numbers identify candidates by their initial approximate rank. Candidate 14 is a true nearest neighbor that rescoring moves into the returned top 10. Rescoring can only reorder retrieved candidates; it cannot recover a neighbor outside that pool.*
 
-### Try a Configuration
+### Example Configuration
 
 This example uses Qdrant and `qdrant-client` v1.20.0, with a local Qdrant server running at `http://localhost:6333`. It keeps float32 originals available for rescoring and pins a 4-bit TurboQuant search copy in RAM. `memory="cold"` leaves the originals on disk without preloading them; reads can still populate the operating system's page cache. Change `size` and `distance` to match your embeddings.
 
