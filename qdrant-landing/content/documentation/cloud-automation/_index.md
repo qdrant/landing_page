@@ -35,7 +35,8 @@ Everything you can do in the Cloud Console can be scripted. This page helps you 
 
 The workflow is the same in every tool: create a cluster, then create a Database API key for it.
 
-### qcloud CLI
+{{< tabs >}}
+{{< tab label="qcloud CLI" >}}
 
 ```sh
 # Authenticate
@@ -53,7 +54,8 @@ qcloud cluster key create <CLUSTER_ID> --name my-key --expires 2027-06-30 --wait
 
 List the available providers, regions, and packages with `qcloud cloud-provider list`, `qcloud cloud-region list --cloud-provider aws`, and `qcloud package list`.
 
-### Cloud API
+{{< /tab >}}
+{{< tab label="Cloud API" >}}
 
 Every request carries the key in the `Authorization` header. The requests find a package, create a cluster, and create a key.
 
@@ -101,13 +103,18 @@ The cluster response contains the cluster `id`. The key response contains the `k
 
 To restrict a key to collections, use `collectionAccess` rules with the collection name and `COLLECTION_ACCESS_RULE_ACCESS_TYPE_READ_ONLY` or `COLLECTION_ACCESS_RULE_ACCESS_TYPE_READ_WRITE`.
 
-### Terraform
+{{< /tab >}}
+{{< tab label="Terraform" >}}
 
 The [Terraform page](/documentation/cloud-automation/terraform/) creates a cluster and a Database API key. The cluster resource is `qdrant-cloud_accounts_cluster`, and the key resource is `qdrant-cloud_accounts_database_api_key_v2`.
 
-### Pulumi
+{{< /tab >}}
+{{< tab label="Pulumi" >}}
 
 The Pulumi SDK is generated from the Terraform provider, so each resource has the same name in the language's casing. For example, `qdrant-cloud_accounts_cluster` is `AccountsCluster` and `qdrant-cloud_accounts_database_api_key_v2` is `AccountsDatabaseApiKeyV2`. The [Pulumi page](/documentation/cloud-automation/pulumi/) creates a cluster and a key in Python and TypeScript.
+
+{{< /tab >}}
+{{< /tabs >}}
 
 ## Common Operations
 
