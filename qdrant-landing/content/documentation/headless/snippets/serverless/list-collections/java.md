@@ -1,0 +1,3 @@
+```java
+client.listCollectionsAsync().get();
+```
