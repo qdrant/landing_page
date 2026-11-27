@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 112" role="img" aria-labelledby="t">
+<title id="t">A radius filter: a circle around a center point</title>
+<circle cx="150" cy="56" r="38" fill="#dc244c" fill-opacity="0.09" stroke="#dc244c" stroke-width="1.5"/><circle cx="150" cy="56" r="2.5" fill="#dc244c"/><path d="M150 56h38" fill="none" stroke="#dc244c" stroke-dasharray="3 3"/>
+</svg>

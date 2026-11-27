@@ -1,0 +1,288 @@
+/* lab island of the geo search tutorial. Scoped under .gl. The colors are the
+   --im-* tokens of the immersive layout, so both themes work. */
+
+.gl {
+  display: block;
+  text-align: left;
+}
+
+.gl [hidden] {
+  display: none;
+}
+
+.gl .gl-lab {
+  border: 1px solid var(--im-line);
+  background: color-mix(in srgb, var(--im-bg) 82%, transparent);
+  backdrop-filter: blur(6px);
+  color: var(--im-fg);
+}
+
+.gl .gl-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 40px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--im-line);
+}
+
+.gl .gl-grp {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.gl .gl-grow {
+  flex: 1 1 280px;
+}
+
+.gl .gl-label {
+  font: 400 12px/1 var(--im-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--im-dim);
+}
+
+.gl .gl-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--im-line-2);
+  border-radius: 8px;
+  background: var(--im-surface-2);
+}
+
+.gl .gl-chip {
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--im-muted);
+  font: 500 14px/1 var(--im-font);
+  cursor: pointer;
+}
+
+.gl .gl-chip:hover {
+  color: var(--im-fg);
+}
+
+.gl .gl-chip[aria-pressed='true'] {
+  background: var(--im-surface-4);
+  color: var(--im-fg);
+}
+
+.gl .gl-radius-val {
+  min-width: 4.5em;
+  font: 500 18px/1 var(--im-mono);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.gl input[type='range'] {
+  flex: 1;
+  min-width: 120px;
+  accent-color: var(--im-violet);
+}
+
+.gl .gl-panes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.gl .gl-pane {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  min-width: 0;
+  padding: 24px;
+}
+
+.gl .gl-panes .gl-pane + .gl-pane {
+  border-left: 1px solid var(--im-line);
+}
+
+.gl .gl-pane--legend {
+  padding-top: 0;
+}
+
+.gl .gl-pane-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 12px;
+}
+
+.gl .gl-title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+.gl .gl-hint {
+  font-size: 14px;
+  color: var(--im-dim);
+}
+
+.gl canvas {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 1.24;
+  border: 1px solid var(--im-line-2);
+  border-radius: 6px;
+  background: var(--im-bg);
+}
+
+.gl canvas[data-map] {
+  cursor: grab;
+  touch-action: none; /* dragging the circle must not scroll the page */
+}
+
+.gl canvas[data-map]:active {
+  cursor: grabbing;
+}
+
+.gl .gl-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  font-size: 13px;
+  color: var(--im-dim);
+}
+
+.gl .gl-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 6px;
+  border-radius: 50%;
+  vertical-align: -1px;
+}
+
+.gl .gl-line {
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  margin-right: 6px;
+  border-radius: 1px;
+  vertical-align: 3px;
+}
+
+.gl .gl-summary {
+  padding: 18px 24px;
+  border-top: 1px solid var(--im-line);
+  color: var(--im-muted);
+  font-size: 16px;
+  text-align: center;
+}
+
+.gl .gl-results {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--im-line);
+}
+
+.gl .gl-res {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  padding: 28px 24px 32px;
+  border: 0;
+  border-right: 1px solid var(--im-line);
+  background: transparent;
+  color: var(--im-fg);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.gl .gl-res:last-child {
+  border-right: 0;
+}
+
+.gl .gl-res::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: var(--c);
+  opacity: 0;
+}
+
+.gl .gl-res:hover {
+  background: var(--im-surface);
+}
+
+.gl .gl-res[aria-pressed='true'] {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c) 10%, transparent), transparent 80%);
+}
+
+.gl .gl-res[aria-pressed='true']::before {
+  opacity: 1;
+}
+
+.gl .gl-res__name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.gl .gl-res__sw {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--c);
+}
+
+.gl .gl-res__big {
+  font: 500 40px/1.1 var(--im-mono);
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+}
+
+.gl .gl-res__cnt {
+  font: 400 13px/1.3 var(--im-mono);
+  color: var(--im-fg);
+}
+
+.gl .gl-res p {
+  margin: 0;
+  color: var(--im-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 860px) {
+  .gl .gl-panes {
+    grid-template-columns: 1fr;
+  }
+
+  .gl .gl-panes .gl-pane + .gl-pane {
+    border-top: 1px solid var(--im-line);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .gl .gl-results {
+    grid-template-columns: 1fr;
+  }
+
+  .gl .gl-res {
+    border-right: 0;
+    border-bottom: 1px solid var(--im-line);
+  }
+
+  .gl .gl-res:last-child {
+    border-bottom: 0;
+  }
+}

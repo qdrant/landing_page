@@ -16,6 +16,7 @@
 .geo-figure [fill='#dc244c'] { fill: var(--qi-accent); }
 .geo-figure [stroke='#dc244c'] { stroke: var(--qi-accent); }
 .geo-figure [stroke='#6047ff'] { stroke: var(--qi-cat-1); }
+.geo-figure [fill='#6047ff'] { fill: var(--qi-cat-1); }
 
 /* Linked cards, such as the shape picker: the frame lights up on hover and focus. */
 .geo-figure a { cursor: pointer; text-decoration: none; }
