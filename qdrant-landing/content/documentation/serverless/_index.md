@@ -95,9 +95,10 @@ To change a schema, create a new collection with the configuration you want, upl
 
 #### Delayed Update Visibility
 
-Serverless separates the write path from the read path. An update goes onto a queue, a background updater applies it to storage, and search workers reload changed data on their next check. A point isn't searchable the moment the update call returns.
+Serverless separates the write path from the read path. An update goes onto a queue, a background updater applies it to storage, and search workers reload changed data on their next check. With `wait=false`, a point isn't searchable the moment the update call returns.
 
-- Setting `wait=true` makes the call return only after the update is applied to storage, confirming durability. Search workers still have to pick up the change, so the point isn't searchable immediately.
+- Setting `wait=true` makes the call return only after the update is applied and the search workers have loaded it, so the point is searchable when the call returns.
+- Under a heavy write load, Serverless defers new points until they're indexed. Deferred points aren't searchable yet, and an updated point keeps returning its previous version until the new one is indexed. `wait=true` doesn't wait for indexing, so this can happen even with `wait=true`.
 - The point count reflects the last applied write. On a new collection it's absent until the updater has written statistics; a missing or stale count is normal.
 
 Write your application so it tolerates this delay. Reading a point back immediately after writing it and treating a miss as an error will produce false failures.
