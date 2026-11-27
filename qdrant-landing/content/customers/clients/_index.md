@@ -337,6 +337,18 @@ clients:
     logo:
       src: /img/customers-case-studies-logo/mixpeek.svg
       alt: Mixpeek logo
+  - id: moonsift
+    name: Moonsift
+    industry: E-commerce
+    product: Qdrant Cloud
+    company_size: 1-50
+    location: Europe
+    use_cases: ["Multimodal search", "Semantic search", "Recommendations"]
+    title: "How Moonsift Shipped AI Shopping Search Over a Catalog It Rewrites Every Day"
+    blog_path: /blog/case-study-moonsift
+    logo:
+      src: /img/customers-case-studies-logo/moonsift.svg
+      alt: Moonsift logo
   - id: my-askai
     name: My AskAI
     industry: Customer support
