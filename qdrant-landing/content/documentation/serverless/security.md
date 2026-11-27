@@ -79,5 +79,6 @@ Serverless has its own permission families in Cloud role-based access control, s
 - `serverless_backups`
 - `serverless_backup_schedules`
 - `serverless_api_keys`
+- `serverless_sample_datasets`
 
 Each can be scoped account-wide or to a single space.

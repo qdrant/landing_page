@@ -40,6 +40,10 @@ This example creates a collection for hybrid search, with a dense vector at the 
 
 To create a single unnamed vector instead of named ones, pass one vector configuration instead of a dictionary in Python, or use `dense_vector` or `sparse_vector` instead of the `named_` methods in Rust. In Go, Java, and .NET, use an empty string as the vector name. For a single dense vector, you can also use `serverless.NewDenseVectors` in Go, or pass a `DenseVectorConfig` instead of a collection configuration in Java and .NET.
 
+### Load a Sample Dataset
+
+To get started with ready-made data instead of an empty collection, open the space's **Datasets** tab and import one of the [sample datasets](/documentation/datasets/). Each dataset loads into a new collection, with pre-computed vectors and payload indexes.
+
 ## Collection Configuration
 
 A collection needs at least one dense or sparse vector. Everything else is optional. For limits on vector size, the number of vectors, and the number of payload indexes, see [Quotas and Limits](/documentation/serverless/quotas-and-limits/).

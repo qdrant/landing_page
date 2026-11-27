@@ -1,16 +1,16 @@
 ---
 title: Practice Datasets
-short_description: "Skip the embedding step with ready-made Qdrant snapshots of public datasets you can import and explore right away."
-description: "Download pre-computed Qdrant snapshots of Qdrant docs, Amazon products, arXiv papers, and more to practice vector search without generating embeddings."
+short_description: "Skip the embedding step with ready-made datasets of pre-computed vectors that you can import into a Qdrant cluster or a Serverless space."
+description: "Import pre-computed datasets of Qdrant docs, Amazon products, arXiv papers, and more, from snapshots on a dedicated cluster or from the Datasets tab of a Serverless space."
 weight: 1500
 partition: ecosystem
 ---
 
-# Common Datasets in Snapshot Format
+# Sample Datasets
 
-You may find that creating embeddings from datasets is a very resource-intensive task. 
-If you need a practice dataset, feel free to pick one of the ready-made snapshots on this page.
-These snapshots contain pre-computed vectors that you can easily import into your Qdrant instance.
+Creating embeddings for a dataset can take a lot of time and compute. To practice with Qdrant, pick one of the ready-made datasets on this page instead. Each dataset comes with pre-computed vectors that you can import straight into Qdrant.
+
+On a dedicated cluster, you import a dataset from a snapshot. The Qdrant Documentation, Amazon ESCI Products, and Amazon Berkeley Objects datasets are also available on Serverless, where you import them from the **Datasets** tab of a space.
 
 ## Available Datasets
 
@@ -27,7 +27,7 @@ on a dataset name to see its detailed description.
 | [Arxiv.org Abstracts](#arxivorg-abstracts) | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl)                 | 768         | 2.3M      | 9.2 GB | [Download](https://snapshots.qdrant.io/arxiv_abstracts-2108082541245612-2026-06-04-09-56-06.snapshot)    | [Open](https://huggingface.co/datasets/Qdrant/arxiv-abstracts-instructorxl-embeddings) |
 | [Wolt Food](#wolt-food)                    | [clip-ViT-B-32](https://huggingface.co/sentence-transformers/clip-ViT-B-32) | 512         | 1.7M      | 6.8 GB | [Download](https://snapshots.qdrant.io/wolt-clip-2108082541245612-2026-06-04-09-56-17.snapshot)          | [Open](https://huggingface.co/datasets/Qdrant/wolt-food-clip-ViT-B-32-embeddings)      |
 
-Once you download a snapshot, you need to [restore it](/documentation/snapshots/#restore-snapshot) 
+On a dedicated cluster, once you download a snapshot, you need to [restore it](/documentation/snapshots/#restore-snapshot) 
 using the Qdrant CLI upon startup or through the API.
 
 ## Qdrant on Hugging Face
@@ -88,7 +88,7 @@ query_embedding = model.encode(["how to chunk documentation"], prompt="query: ",
 [Download the snapshot](https://snapshots.qdrant.io/qdrant-docs-2026-10-25.snapshot) of the dataset.
 It requires Qdrant 1.20 or later.
 
-#### Importing the Dataset
+### Import on a Dedicated Cluster {products="clusters"}
 
 The easiest way to use the provided dataset is to recover it via the API by passing the
 URL as a location. It works also in [Qdrant Cloud](https://cloud.qdrant.io/). The following
@@ -100,6 +100,15 @@ PUT /collections/{collection_name}/snapshots/recover
   "location": "https://snapshots.qdrant.io/qdrant-docs-2026-10-25.snapshot"
 }
 ```
+
+### Import on Serverless {products="serverless"}
+
+1. In the Qdrant Cloud console, open the space and go to the **Datasets** tab.
+2. Select **Import** next to **Qdrant Documentation**.
+3. Enter a collection name, or keep the default `qdrant-documentation`.
+4. Select **Import**.
+
+The dataset loads into a new collection in the background, and its progress shows in the **Datasets** table.
 
 ## Amazon ESCI Products
 
@@ -143,7 +152,7 @@ query_embedding = model.encode(["cashew granola bars"], prompt="query: ", normal
 It requires Qdrant 1.20 or later. The Shopping Queries Dataset is provided by Amazon Science under the
 [Apache 2.0 license](https://github.com/amazon-science/esci-data/blob/main/LICENSE).
 
-#### Importing the Dataset
+### Import on a Dedicated Cluster {products="clusters"}
 
 The easiest way to use the provided dataset is to recover it via the API by passing the
 URL as a location. It works also in [Qdrant Cloud](https://cloud.qdrant.io/). The following
@@ -155,6 +164,15 @@ PUT /collections/{collection_name}/snapshots/recover
   "location": "https://snapshots.qdrant.io/esci-products.snapshot"
 }
 ```
+
+### Import on Serverless {products="serverless"}
+
+1. In the Qdrant Cloud console, open the space and go to the **Datasets** tab.
+2. Select **Import** next to **Amazon ESCI Products**.
+3. Enter a collection name, or keep the default `amazon-esci-products`.
+4. Select **Import**.
+
+The dataset loads into a new collection in the background, and its progress shows in the **Datasets** table.
 
 ## Amazon Berkeley Objects
 
@@ -201,7 +219,7 @@ It requires Qdrant 1.20 or later. ABO is provided by Amazon.com and UC Berkeley 
 products with an English name and a photo as their main image, one product per main image, and 1,000 of
 the phone cases, with a CLIP embedding of each main image added.
 
-#### Importing the Dataset
+### Import on a Dedicated Cluster {products="clusters"}
 
 The easiest way to use the provided dataset is to recover it via the API by passing the
 URL as a location. It works also in [Qdrant Cloud](https://cloud.qdrant.io/). The following
@@ -214,7 +232,16 @@ PUT /collections/{collection_name}/snapshots/recover
 }
 ```
 
-## Arxiv.org
+### Import on Serverless {products="serverless"}
+
+1. In the Qdrant Cloud console, open the space and go to the **Datasets** tab.
+2. Select **Import** next to **Amazon Berkeley Objects Products**.
+3. Enter a collection name, or keep the default `amazon-berkeley-objects-products`.
+4. Select **Import**.
+
+The dataset loads into a new collection in the background, and its progress shows in the **Datasets** table.
+
+## Arxiv.org {products="clusters"}
 
 [Arxiv.org](https://arxiv.org) is a highly-regarded open-access repository of electronic preprints in multiple 
 fields. Operated by Cornell University, arXiv allows researchers to share their findings with 
@@ -314,7 +341,7 @@ PUT /collections/{collection_name}/snapshots/recover
 }
 ```
 
-## Wolt Food
+## Wolt Food {products="clusters"}
 
 Our [Food Discovery demo](https://food-discovery.qdrant.tech/) relies on the dataset of 
 food images from the Wolt app. Each point in the collection represents a dish with a single 
@@ -353,7 +380,7 @@ embedding = model.encode(Image.open(image_path))
 
 [Download the snapshot](https://snapshots.qdrant.io/wolt-clip-2108082541245612-2026-06-04-09-56-17.snapshot) of the dataset.
 
-#### Importing the Dataset
+### Importing the Dataset
 
 The easiest way to use the provided dataset is to recover it via the API by passing the
 URL as a location. It works also in [Qdrant Cloud](https://cloud.qdrant.io/). The following
