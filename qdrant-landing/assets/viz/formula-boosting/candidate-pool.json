@@ -1,0 +1,50 @@
+{
+  "kind": "lines-facet",
+  "facet": "metric",
+  "facetLabel": "{}",
+  "x": "pool",
+  "xLabel": "candidates in the pool",
+  "xSuffix": "",
+  "yScale": "linear",
+  "unit": "",
+  "width": 760,
+  "height": 420,
+  "title": "Boost results by candidate pool size",
+  "yLabel": "value",
+  "yDomains": {
+    "nDCG@10": [
+      0.7,
+      0.8
+    ],
+    "Share of the top 10 that matches the shopper": [
+      0,
+      0.8
+    ]
+  },
+  "yLabels": {
+    "nDCG@10": "nDCG@10",
+    "Share of the top 10 that matches the shopper": "share of top 10"
+  },
+  "yTicks": {
+    "nDCG@10": [
+      0.7,
+      0.75,
+      0.8
+    ],
+    "Share of the top 10 that matches the shopper": [
+      0,
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ]
+  },
+  "series": [
+    "unrelated",
+    "related"
+  ],
+  "seriesLabels": [
+    "Unrelated profile signal",
+    "Closely related profile signal"
+  ]
+}

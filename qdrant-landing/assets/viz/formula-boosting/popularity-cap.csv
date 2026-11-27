@@ -1,0 +1,15 @@
+metric,lambda,uncapped,capped
+Share of the top 10 from the 5% most popular products,0,0.0346,0.0346
+Share of the top 10 from the 5% most popular products,0.05,0.0371,0.0371
+Share of the top 10 from the 5% most popular products,0.1,0.0404,0.0404
+Share of the top 10 from the 5% most popular products,0.2,0.0481,0.0481
+Share of the top 10 from the 5% most popular products,0.5,0.1321,0.1321
+Share of the top 10 from the 5% most popular products,1,0.2612,0.2606
+Share of the top 10 from the 5% most popular products,2,0.3154,0.1656
+nDCG@10,0,0.7018,0.7008
+nDCG@10,0.05,0.7008,0.7008
+nDCG@10,0.1,0.7006,0.7006
+nDCG@10,0.2,0.7001,0.6997
+nDCG@10,0.5,0.6921,0.6917
+nDCG@10,1,0.6519,0.6521
+nDCG@10,2,0.573,0.6074

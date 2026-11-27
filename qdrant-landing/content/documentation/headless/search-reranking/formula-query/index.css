@@ -1,0 +1,236 @@
+/* formula-query island. Scoped under .qi-fq. Controls, frame, and status come
+   from the shared island design system (islands.scss); this file styles the
+   stage boxes, the ranked list, and the two compositions.
+
+   Stage roles reuse the retrieval-pipeline palette: "win" (prefetch) is teal,
+   "accent" (formula) is Qdrant red, "cat1" (payload fields, dashed) is the
+   neon-blue-violet categorical token. The bar segments reuse the same three
+   hues for similarity, popularity, and stock, and every segment is also named
+   in the legend and in the status line, so color is never the only cue. */
+
+.qi-fq {
+  --fq-win-fill: #c0f0f0;
+  --fq-win-stroke: #038585;
+  --fq-win-text: #004f4f;
+  --fq-accent-fill: #ffdadb;
+  --fq-accent-stroke: #dc244c;
+  --fq-accent-text: #91012a;
+  --fq-cat1-stroke: #6047ff;
+  --fq-cat1-text: #5700c9;
+  --fq-wire: #303547;
+  --fq-sim: #00838f;
+  --fq-pop: #6047ff;
+  --fq-stock: #dc244c;
+
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-fq {
+    --fq-win-fill: #0d2e2e;
+    --fq-win-stroke: #03a3a3;
+    --fq-win-text: #8fe9e9;
+    --fq-accent-fill: #3a1420;
+    --fq-accent-stroke: #ff5470;
+    --fq-accent-text: #ffabb9;
+    --fq-cat1-stroke: #9d8bff;
+    --fq-cat1-text: #cabdff;
+    --fq-wire: #e2e7f5;
+    --fq-sim: #03a3a3;
+    --fq-pop: #9d8bff;
+    --fq-stock: #ff5470;
+  }
+}
+html[data-theme='dark'] .qi-fq {
+  --fq-win-fill: #0d2e2e;
+  --fq-win-stroke: #03a3a3;
+  --fq-win-text: #8fe9e9;
+  --fq-accent-fill: #3a1420;
+  --fq-accent-stroke: #ff5470;
+  --fq-accent-text: #ffabb9;
+  --fq-cat1-stroke: #9d8bff;
+  --fq-cat1-text: #cabdff;
+  --fq-wire: #e2e7f5;
+  --fq-sim: #03a3a3;
+  --fq-pop: #9d8bff;
+  --fq-stock: #ff5470;
+}
+
+.qi-fq__fig {
+  padding: 1rem;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+
+.qi-fq__legend {
+  gap: 4px 16px;
+}
+.qi-fq__legend .qi-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.qi-fq__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Stages */
+.qi-fq__box--win {
+  stroke: var(--fq-win-stroke);
+  stroke-width: 1.5;
+}
+.qi-fq__box--accent {
+  stroke: var(--fq-accent-stroke);
+  stroke-width: 1.5;
+}
+.qi-fq__box--cat1 {
+  stroke: var(--fq-cat1-stroke);
+  stroke-width: 2;
+}
+.qi-fq__name,
+.qi-fq__pname,
+.qi-fq__title,
+.qi-fq__suffix {
+  font-family: 'Mona Sans', -apple-system, 'Segoe UI', sans-serif;
+}
+.qi-fq__name {
+  font-weight: 600;
+}
+.qi-fq__knobs,
+.qi-fq__value,
+.qi-fq__rank {
+  font-family: var(--qi-mono);
+}
+.qi-fq__name--win,
+.qi-fq__knobs--win {
+  fill: var(--fq-win-text);
+}
+.qi-fq__name--accent,
+.qi-fq__knobs--accent {
+  fill: var(--fq-accent-text);
+}
+.qi-fq__name--cat1,
+.qi-fq__knobs--cat1 {
+  fill: var(--fq-cat1-text);
+}
+.qi-fq__wire {
+  stroke: var(--fq-wire);
+  stroke-width: 2;
+  fill: none;
+}
+.qi-fq__arrowhead {
+  fill: var(--fq-wire);
+}
+
+/* Ranked list */
+.qi-fq__panel {
+  fill: none;
+  stroke: var(--qi-border);
+  stroke-width: 1.5;
+}
+.qi-fq__title,
+.qi-fq__rank,
+.qi-fq__suffix {
+  fill: var(--qi-muted);
+}
+.qi-fq__pname,
+.qi-fq__value {
+  fill: var(--qi-fg);
+}
+.qi-fq__pname {
+  font-weight: 600;
+}
+.qi-fq__seg--sim {
+  fill: var(--fq-sim);
+}
+.qi-fq__seg--pop {
+  fill: var(--fq-pop);
+}
+.qi-fq__seg--stock {
+  fill: var(--fq-stock);
+}
+
+.qi-fq__row {
+  cursor: pointer;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.qi-fq__row:focus {
+  outline: none;
+}
+.qi-fq__hit {
+  fill: transparent;
+  stroke: none;
+}
+.qi-fq__row:focus-visible .qi-fq__hit {
+  stroke: var(--qi-hot);
+  stroke-width: 2;
+}
+.qi-fq__row.is-selected .qi-fq__hit {
+  fill: var(--qi-surface);
+  stroke: var(--qi-line);
+  stroke-width: 1.5;
+}
+
+/* The boost segments grow out of the similarity bar when the formula is on. */
+.qi-fq__boost {
+  transform-box: fill-box;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.qi-fq__row.is-on .qi-fq__boost {
+  transform: scaleX(1);
+}
+.qi-fq--instant .qi-fq__row,
+.qi-fq--instant .qi-fq__boost {
+  transition: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .qi-fq__row,
+  .qi-fq__boost {
+    transition: none;
+  }
+}
+
+/* Type sizes are set per composition, in viewBox units. The wide drawing is
+   1200 units across and renders at roughly 0.58 or more of that, and the
+   narrow one is 600 across and renders near 0.57 on a phone, so both keep
+   in-drawing text above 12 rendered px. */
+.qi-fq--wide .qi-fq__name {
+  font-size: 24px;
+}
+.qi-fq--wide .qi-fq__knobs {
+  font-size: 22px;
+}
+.qi-fq--wide .qi-fq__title,
+.qi-fq--wide .qi-fq__suffix,
+.qi-fq--wide .qi-fq__rank {
+  font-size: 22px;
+}
+.qi-fq--wide .qi-fq__pname,
+.qi-fq--wide .qi-fq__value {
+  font-size: 24px;
+}
+
+.qi-fq--narrow .qi-fq__name {
+  font-size: 26px;
+}
+.qi-fq--narrow .qi-fq__knobs {
+  font-size: 23px;
+}
+.qi-fq--narrow .qi-fq__title,
+.qi-fq--narrow .qi-fq__rank {
+  font-size: 26px;
+}
+.qi-fq--narrow .qi-fq__suffix {
+  font-size: 23px;
+}
+.qi-fq--narrow .qi-fq__pname,
+.qi-fq--narrow .qi-fq__value {
+  font-size: 26px;
+}
+.qi-fq--narrow .qi-fq__wire {
+  stroke-width: 3;
+}

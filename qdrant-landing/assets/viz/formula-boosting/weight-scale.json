@@ -1,0 +1,27 @@
+{
+  "title": "The same boost weight, two score scales",
+  "kind": "lines-facet",
+  "facet": "search",
+  "facetLabel": "{}",
+  "x": "lambda",
+  "xLabel": "weight multiplier",
+  "xSuffix": "",
+  "yLabel": "nDCG@10",
+  "yScale": "linear",
+  "yDomain": [
+    0.45,
+    0.75
+  ],
+  "yTicks": [
+    0.5,
+    0.6,
+    0.7
+  ],
+  "series": [
+    "raw weight",
+    "scaled weight"
+  ],
+  "unit": "",
+  "height": 420,
+  "width": 760
+}

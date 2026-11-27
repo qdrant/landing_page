@@ -1,0 +1,15 @@
+metric,lambda,boost,filter
+Price range,0,0.4274,1.0
+Price range,0.05,0.4644,1.0
+Price range,0.1,0.5008,1.0
+Price range,0.2,0.5768,1.0
+Price range,0.5,0.7346,1.0
+Price range,1,0.8285,1.0
+Price range,2,0.8396,1.0
+In stock,0,0.8508,1.0
+In stock,0.05,0.8756,1.0
+In stock,0.1,0.8988,1.0
+In stock,0.2,0.9283,1.0
+In stock,0.5,0.9648,1.0
+In stock,1,0.9958,1.0
+In stock,2,1.0,1.0
