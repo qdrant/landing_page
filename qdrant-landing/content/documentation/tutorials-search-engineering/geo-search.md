@@ -103,12 +103,15 @@ HNSW finds neighbors by walking a graph. Keep only the 70 venues within 1.5 km o
 {{< im kind="end-section" >}}
 
 {{< im kind="section"
+    eyebrow="How Qdrant handles it"
+    title="Extra Links Inside Each Area"
+    intro="A strict filter can leave the search graph in disconnected pieces, so a filtered search misses good matches. To prevent this, Qdrant adds extra links to the graph, and a geo index does the same."
     compact=true
 >}}
 
 {{< im kind="cells" cols=2 >}}
 
-{{< im kind="cell" tag="How Qdrant handles it" title="Extra Links Inside Each Area" pairs=true >}}
+{{< im kind="cell" pairs=true >}}
 
 **What Qdrant does.** When it builds the index, Qdrant adds links between venues that are close on the map, for each indexed payload field. A geo index does the same.
 
@@ -166,49 +169,11 @@ For a venue with several locations, use a list of these objects. The point match
 {{< im kind="end-section" >}}
 
 {{< im kind="section"
+    eyebrow="Filter shapes"
+    title="Choose a Shape"
+    intro="Qdrant lets you filter by different shapes: a radius, a bounding box, or a polygon. Each one is a regular filter condition, so you can combine it with keyword, range, full-text, and other payload conditions in the same request."
     compact=true
 >}}
-
-{{< im kind="cells" cols=2 >}}
-
-{{< im kind="cell" tag="How Qdrant handles it" title="A Plan for Every Query" pairs=true >}}
-
-**What Qdrant does.** The query planner estimates how many points match the filter, using the payload index. With few matches, it checks each one exactly. With many, it walks the graph and applies the filter during the walk.
-
-**What it means.** You write the same filter either way, from a single block to a whole region. The collection's `full_scan_threshold` sets where the planner switches.
-
-{{< im kind="end-cell" >}}
-
-{{< im kind="cell" >}}
-
-{{< im kind="frame" >}}
-
-{{< island
-    path="content/documentation/headless/geo-search/figure"
-    width="100%" ratio="360 / 210"
->}}
-![Few matching venues are checked one by one. With many matching venues, the search walks the graph.](/docs/geo-search-tutorial-query-planner.svg)
-{{< /island >}}
-
-{{< im kind="end-frame" >}}
-
-{{< im kind="end-cell" >}}
-
-{{< im kind="end-cells" >}}
-
-{{< im kind="end-section" >}}
-
-{{< im kind="section"
-    id="filter"
-    eyebrow="Step 3"
-    title="Filter by Location"
-    intro="Send meaning and location in one request. The query ranks venues by meaning, and a geo filter keeps only the venues inside a shape. The filter is a regular condition, so you can combine it with keyword, range, full-text, and other payload conditions."
-    compact=true
->}}
-
-{{< code-snippet path="/documentation/headless/snippets/geo-search/semantic-query/" order="python typescript rust java csharp go http" >}}
-
-### Choose a Shape
 
 {{< im kind="cells" cols=3 >}}
 
@@ -270,6 +235,56 @@ Use it for delivery zones, districts, or a city minus its airport. Holes are sup
 {{< im kind="end-cell" >}}
 
 {{< im kind="end-cells" >}}
+
+{{< im kind="end-section" >}}
+
+{{< im kind="section"
+    eyebrow="How Qdrant handles it"
+    title="A Plan for Every Query"
+    intro="A geo filter can match a handful of points or most of the dataset, and no single search strategy suits both."
+    compact=true
+>}}
+
+{{< im kind="cells" cols=2 >}}
+
+{{< im kind="cell" pairs=true >}}
+
+**What Qdrant does.** The query planner estimates how many points match the filter, using the payload index. With few matches, it checks each one exactly. With many, it walks the graph and applies the filter during the walk.
+
+**What it means.** You write the same filter either way, from a single block to a whole region. The collection's `full_scan_threshold` sets where the planner switches.
+
+{{< im kind="end-cell" >}}
+
+{{< im kind="cell" >}}
+
+{{< im kind="frame" >}}
+
+{{< island
+    path="content/documentation/headless/geo-search/figure"
+    width="100%" ratio="360 / 210"
+>}}
+![Few matching venues are checked one by one. With many matching venues, the search walks the graph.](/docs/geo-search-tutorial-query-planner.svg)
+{{< /island >}}
+
+{{< im kind="end-frame" >}}
+
+{{< im kind="end-cell" >}}
+
+{{< im kind="end-cells" >}}
+
+{{< im kind="end-section" >}}
+
+{{< im kind="section"
+    id="filter"
+    eyebrow="Step 3"
+    title="Filter by Location"
+    intro="Send meaning and location in one request. The query ranks venues by meaning, and a geo filter keeps only the venues inside a shape."
+    compact=true
+>}}
+
+{{< code-snippet path="/documentation/headless/snippets/geo-search/semantic-query/" order="python typescript rust java csharp go http" >}}
+
+The example uses a radius. To filter by a bounding box or a polygon instead, replace the `geo_radius` condition with a `geo_bounding_box` or `geo_polygon` condition, as shown in Choose a Shape.
 
 {{< im kind="end-section" >}}
 
