@@ -105,7 +105,6 @@ HNSW finds neighbors by walking a graph. Keep only the 70 venues within 1.5 km o
 {{< im kind="section"
     eyebrow="How Qdrant handles it"
     title="Extra Links Inside Each Area"
-    intro="A strict filter can leave the search graph in disconnected pieces, so a filtered search misses good matches. To prevent this, Qdrant adds extra links to the graph, and a geo index does the same."
     compact=true
     sub=true
 >}}
@@ -114,7 +113,9 @@ HNSW finds neighbors by walking a graph. Keep only the 70 venues within 1.5 km o
 
 {{< im kind="cell" pairs=true >}}
 
-**What Qdrant does.** When it builds the index, Qdrant adds links between venues that are close on the map, for each indexed payload field. A geo index does the same.
+A strict filter can leave the search graph in disconnected pieces, so a filtered search misses good matches. To prevent this, Qdrant adds extra links to the graph, and a geo index does the same.
+
+**What Qdrant does.** When it builds the index, Qdrant adds links between venues that are close on the map, for each indexed payload field.
 
 **What it means.** A geo filter no longer leaves islands, so the search walk reaches the real best matches. The geo index has to exist before you ingest data, or Qdrant cannot add the links.
 
@@ -243,7 +244,6 @@ Use it for delivery zones, districts, or a city minus its airport. Holes are sup
 {{< im kind="section"
     eyebrow="How Qdrant handles it"
     title="A Plan for Every Query"
-    intro="A geo filter can match a handful of points or most of the dataset, and no single search strategy suits both."
     compact=true
     sub=true
 >}}
@@ -251,6 +251,8 @@ Use it for delivery zones, districts, or a city minus its airport. Holes are sup
 {{< im kind="cells" cols=2 >}}
 
 {{< im kind="cell" pairs=true >}}
+
+A geo filter can match a handful of points or most of the dataset, and no single search strategy suits both.
 
 **What Qdrant does.** The query planner estimates how many points match the filter, using the payload index. With few matches, it checks each one exactly. With many, it walks the graph and applies the filter during the walk.
 
