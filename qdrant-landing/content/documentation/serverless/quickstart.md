@@ -1,7 +1,7 @@
 ---
 title: Quickstart
 short_description: "Create a Qdrant Serverless space and run your first hybrid search, with embeddings from Cloud Inference and BM25 keyword ranking."
-description: "Qdrant Serverless quickstart: create a space, connect with the Python or Rust client, create a collection with a dense vector and a BM25 text index, ingest a sample menu embedded with Cloud Inference, and run semantic, keyword, and hybrid searches."
+description: "Qdrant Serverless quickstart: create a space, connect with the Serverless client, create a collection with a dense vector and a BM25 text index, ingest a sample menu embedded with Cloud Inference, and run semantic, keyword, and hybrid searches."
 weight: 1
 ---
 

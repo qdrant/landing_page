@@ -1,13 +1,13 @@
 ---
 title: Connect to a Space
-short_description: "Install the QdrantServerless client and connect to a Qdrant Serverless space with its endpoint URL and an API key."
-description: "Connect to a Qdrant Serverless space with the QdrantServerless client for Python or Rust, including the async Python client, and verify the connection."
+short_description: "Install the Serverless client and connect to a Qdrant Serverless space with its endpoint URL and an API key."
+description: "Connect to a Qdrant Serverless space with the Serverless client for Python, Rust, Go, Java, or .NET, including the async Python client, and verify the connection."
 weight: 20
 ---
 
 # Connect to a Space
 
-Serverless uses its own client, `QdrantServerless`, separate from the client you use with a dedicated cluster. Queries work the same way, but collection management does not. See [Manage Collections](/documentation/serverless/collections/).
+Serverless uses its own client, separate from the client you use with a dedicated cluster: `QdrantServerless` in Python and Rust, `serverless.Client` in Go, and `QdrantServerlessClient` in Java and .NET. Queries work the same way, but collection management does not. See [Manage Collections](/documentation/serverless/collections/).
 
 ## What You Need
 
@@ -34,7 +34,7 @@ Treat the API key like any other credential: keep it out of source control, and 
 
 ### Connect Asynchronously
 
-The Rust client is async-only. Python ships both a synchronous and an async client. `AsyncQdrantServerless` takes the same arguments as the synchronous one and exposes the same methods, each awaitable.
+The Rust, Java, and .NET clients are async-only, and the Go client is synchronous. Python ships both a synchronous and an async client. `AsyncQdrantServerless` takes the same arguments as the synchronous one and exposes the same methods, each awaitable.
 
 {{< code-snippet path="/documentation/headless/snippets/serverless/connect-async/" >}}
 

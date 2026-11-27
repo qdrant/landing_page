@@ -40,7 +40,7 @@ This example creates a collection for hybrid search, with a dense vector at the 
 
 {{< code-snippet path="/documentation/headless/snippets/serverless/create-collection/" >}}
 
-To create a single unnamed vector instead of named ones, pass one vector configuration instead of a dictionary in Python, or use `dense_vector` or `sparse_vector` instead of the `named_` methods in Rust.
+To create a single unnamed vector instead of named ones, pass one vector configuration instead of a dictionary in Python, or use `dense_vector` or `sparse_vector` instead of the `named_` methods in Rust. In Go, Java, and .NET, use an empty string as the vector name. For a single dense vector, you can also use `serverless.NewDenseVectors` in Go, or pass a `DenseVectorConfig` instead of a collection configuration in Java and .NET.
 
 ## Collection Configuration
 

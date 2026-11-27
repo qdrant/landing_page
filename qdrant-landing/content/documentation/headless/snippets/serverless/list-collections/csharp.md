@@ -1,0 +1,3 @@
+```csharp
+await client.ListCollectionsAsync();
+```
