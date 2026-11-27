@@ -217,7 +217,7 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 ## What Concurrency Buys
 
-{{< chart id="universal-io/frontier" caption="One dot per concurrency level, 4 KiB random reads on a gp3 volume provisioned to 16,000 IOPS, page cache dropped before each run. Up and left is better. The fourth line is fio on the same volume and the same file, which is what the device itself can do." caption2="The same reads in order. Readahead gets there first, so concurrency stops buying anything." >}}
+{{< chart id="universal-io/frontier" caption="One dot per concurrency level, 4 KiB random reads on a gp3 volume provisioned to 16,000 IOPS, page cache dropped before each run. Up and left is better. The fourth line is fio on the same volume and the same file, which is what the device itself can do." caption2="The same reads in order, on the slowest 1%. Readahead serves the other 99 out of memory, so concurrency has nothing left to overlap." >}}
 
 Every figure here is reads in flight, measured rather than requested. Each backend caps concurrency at its own pipeline depth, so asking for more than it holds changes nothing.
 
@@ -233,9 +233,9 @@ S3 turns concurrency into throughput, but never into lower latency. Throughput d
 
 {{< chart id="universal-io/endpoints" caption="One read at a time against each backend's own depth." caption2="By median latency. Nothing here is deeper than its backend holds, so no read waits for a slot and these are the devices' own times." caption3="And by tail latency. io_uring is 1.33 ms at p99 with sixteen reads in flight against 1.05 ms with one, so twelve times the throughput costs little at the tail." >}}
 
-Read in order and concurrency stops mattering. Opened with `MADV_SEQUENTIAL`, `io_uring` held about 247 MB/s at batch 1, 16 and 256 alike, against 7.16 MB/s in random order. The kernel reads ahead, so most reads never reach the disk and there is nothing left for the ring to overlap.
+Read in order and concurrency stops mattering. Opened with `MADV_SEQUENTIAL`, `io_uring` held about 207 MB/s at 1, 16 and 64 reads in flight alike, against 5.26 MB/s in random order at depth 1. The kernel reads ahead, so most reads never reach the disk and there is nothing left for the ring to overlap.
 
-`mmap` is the exception. It reaches 253.84 MB/s reading one at a time, and half that from batch 16 onwards, so batching costs it rather than buying anything. Object storage gains nothing from order either. A read costs about 26 ms whichever way it goes.
+`mmap` reads in order too, and gets about half as much. It holds 110.58 MB/s with one read in flight and 105.87 MB/s with sixteen, so depth changes nothing for it here either. Object storage has no readahead at all. Every read is its own round trip, so order buys it nothing.
 
 Concurrency only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 26 ms on object storage, however many reads the pipeline allows.
 

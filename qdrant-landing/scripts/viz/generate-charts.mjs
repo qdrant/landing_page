@@ -517,6 +517,11 @@ function scatter(c) {
   const names = [...new Set(rows.map((d) => d[c.series]))];
   const bySeries = names.map((n) => rows.filter((d) => d[c.series] === n));
   const bySeriesHue = names.map((_, i) => i + 1);
+  // A reference series (the raw device) is not one of the methods, so a config
+  // may hand it the muted ink instead of the next categorical hue.
+  const hue = (si) => (c.colors
+    ? (c.colors[si] === 'muted' ? viz.palette.muted : viz.palette.categorical[c.colors[si]])
+    : viz.palette.categorical[si]);
   const logTicks = (scale, domain) => (scale === 'log'
     ? { ticks: decades(domain), tickFormat: (v) => String(v) } : {});
 
@@ -531,8 +536,8 @@ function scatter(c) {
     y: { type: c.yScale || 'linear', domain: c.yDomain, grid: true, label: null, tickSize: 0,
          ...logTicks(c.yScale, c.yDomain) },
     marks: bySeries.flatMap((pts, si) => [
-      ...(c.connect === false ? [] : [Plot.line(pts, { x: c.x, y: c.y, stroke: viz.palette.categorical[si], strokeWidth: 2, strokeOpacity: 0.45 })]),
-      Plot.dot(pts, { x: c.x, y: c.y, fill: viz.palette.categorical[si], r: 5, stroke: 'none' }),
+      ...(c.connect === false ? [] : [Plot.line(pts, { x: c.x, y: c.y, stroke: hue(si), strokeWidth: 2, strokeOpacity: 0.45 })]),
+      Plot.dot(pts, { x: c.x, y: c.y, fill: hue(si), r: 5, stroke: 'none' }),
     ]),
   });
   const svg = node.tagName.toLowerCase() === 'svg' ? node : node.querySelector('svg');
@@ -573,9 +578,9 @@ function scatter(c) {
     if (!at[si] || !at[si][ri] || !Number.isFinite(hi) || hi <= Number(d[c.x])) return '';
     const x1 = at[si][ri].x, x2 = xPix(hi), y = at[si][ri].y;
     if (!Number.isFinite(x2) || x2 - x1 < 1.5) return '';
-    return `<g class="qi-pf__h${bySeriesHue[si]}">`
-      + `<line class="qi-pf__whisker" x1="${x1}" y1="${y}" x2="${x2}" y2="${y}"/>`
-      + `<line class="qi-pf__cap" x1="${x2}" y1="${y - 3.5}" x2="${x2}" y2="${y + 3.5}"/></g>`;
+    return `<g stroke="${hue(si)}" stroke-width="1.5" stroke-opacity="0.55" stroke-linecap="round">`
+      + `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}"/>`
+      + `<line x1="${x2}" y1="${y - 3.5}" x2="${x2}" y2="${y + 3.5}"/></g>`;
   })).join('');
 
   const PLACE = {
@@ -603,7 +608,7 @@ function scatter(c) {
     const pl = PLACE[pts[ri][c.seriesNamePlace] || c.seriesNamePlace] || PLACE.up;
     if (!at[si] || !at[si][ri]) return '';
     return `<text x="${at[si][ri].x + pl.dx * 1.4}" y="${at[si][ri].y + pl.dy * 1.4}" text-anchor="${pl.anchor}"`
-      + ` ${halo(viz.palette.categorical[si], viz.type.subtitle, 700)}>${esc(names[si])}</text>`;
+      + ` ${halo(hue(si), viz.type.subtitle, 700)}>${esc(names[si])}</text>`;
   }).join('');
 
   // The frontier: configurations nothing else beats on both measures at once.
@@ -629,8 +634,8 @@ function scatter(c) {
 
   const zones = bySeries.flatMap((pts, si) => pts.map((d, ri) => {
     if (!at[si] || !at[si][ri]) return '';
-    const rows2 = [{ k: c.yLabel, v: `${d[c.y]}`, c: viz.palette.categorical[si] },
-                   { k: c.xLabel, v: `${d[c.x]}`, c: viz.palette.categorical[si] }];
+    const rows2 = [{ k: c.yLabel, v: `${d[c.y]}`, c: hue(si) },
+                   { k: c.xLabel, v: `${d[c.x]}`, c: hue(si) }];
     const title = `${names[si]}${c.pointLabel && d[c.pointLabel] ? ' · ' + d[c.pointLabel] : ''}`;
     return `<rect data-viz-zone data-viz-key="s${si}-p${ri}"`
       + ` data-viz-title="${esc(title)}" data-viz-rows="${esc(JSON.stringify(rows2))}"`

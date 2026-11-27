@@ -22,9 +22,8 @@ random,fio (raw device),depth 8,,,0.6840,0.9871,45.68
 random,fio (raw device),depth 16,,,0.9544,1.3353,68.26
 random,fio (raw device),depth 32,,,1.9907,2.3429,65.21
 random,fio (raw device),depth 64,down,,3.9485,4.4237,65.19
-sequential,mmap,batch 1,up,1,0.0005,0.7994,253.84
-sequential,mmap,batch 16,,,0.7829,1.2735,125.82
-sequential,mmap,batch 256,down,,4.7989,9.0980,125.98
-sequential,io_uring,batch 1,left,1,0.0008,0.8545,246.03
-sequential,io_uring,batch 16,,,0.0232,1.1155,248.41
-sequential,io_uring,batch 256,up,,2.3767,4.6217,247.74
+sequential,mmap,depth 1,left,,0.0000,1.2152,110.58
+sequential,mmap,depth 16,right,,0.0000,1.2758,105.87
+sequential,io_uring,depth 1,left,,0.0006,1.0132,215.68
+sequential,io_uring,depth 16,up,,0.0303,1.3484,204.15
+sequential,io_uring,depth 64,right,,0.0285,1.3654,206.39

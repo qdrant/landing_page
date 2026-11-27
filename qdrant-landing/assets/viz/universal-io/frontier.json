@@ -19,16 +19,45 @@
     {
       "label": "Random",
       "subtitle": "4 KiB random reads. Up and left is better",
-      "where": { "pattern": "random" },
-      "xDomain": [0.5, 320],
-      "yDomain": [0.1, 120]
+      "where": {
+        "pattern": "random"
+      },
+      "xDomain": [
+        0.5,
+        320
+      ],
+      "yDomain": [
+        0.1,
+        120
+      ]
     },
     {
       "label": "Sequential",
-      "subtitle": "4 KiB sequential reads. Hollow dots read faster than the axis can show",
-      "where": { "pattern": "sequential" },
-      "xDomain": [0.0004, 20],
-      "yDomain": [80, 400]
+      "subtitle": "4 KiB sequential reads, slowest 1% of reads. Up and left is better",
+      "where": {
+        "pattern": "sequential"
+      },
+      "x": "p99",
+      "xHigh": null,
+      "xScale": "linear",
+      "xLabel": "p99 latency per read, ms. Readahead serves 97% of sequential reads from memory, so these are the reads that reached the disk",
+      "xDomain": [
+        0.9,
+        1.5
+      ],
+      "yDomain": [
+        0,
+        260
+      ],
+      "frontier": null,
+      "yScale": "linear",
+      "yLabel": "throughput, MB/s"
     }
+  ],
+  "colors": [
+    0,
+    1,
+    2,
+    "muted"
   ]
 }
