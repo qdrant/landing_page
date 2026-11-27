@@ -1,6 +1,6 @@
-panel,depth,scidocs,scifact,fiqa,nfcorpus
-ColBERTv2 rescoring vs dense alone,10,-1.8,-0.8,-0.5,2.3
-ColBERTv2 rescoring vs dense alone,25,-8.0,-1.6,1.6,4.5
-ColBERTv2 rescoring vs dense alone,50,-11.9,-2.0,-1.2,4.2
-ColBERTv2 rescoring vs dense alone,100,-15.3,-2.7,-2.3,3.8
-ColBERTv2 rescoring vs dense alone,200,-16.7,-3.3,-2.4,4.2
+panel,depth,scidocs_colbertv2,scidocs_dense,scifact_colbertv2,scifact_dense,fiqa_colbertv2,fiqa_dense,nfcorpus_colbertv2,nfcorpus_dense
+nDCG@10,10,19.4,19.8,72.5,73.1,38.0,38.2,34.7,34.0
+nDCG@10,25,18.2,19.8,71.9,73.1,38.8,38.2,35.5,34.0
+nDCG@10,50,17.4,19.8,71.6,73.1,37.7,38.2,35.4,34.0
+nDCG@10,100,16.7,19.8,71.1,73.1,37.3,38.2,35.3,34.0
+nDCG@10,200,16.5,19.8,70.7,73.1,37.3,38.2,35.4,34.0

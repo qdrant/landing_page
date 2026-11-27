@@ -1,7 +1,7 @@
 {
-  "title": "Share of the exact MaxSim top 10 found within each depth",
+  "title": "MUVERA FDE against mean pooling: share of the exact MaxSim top 10 found",
   "kind": "lines-facet",
-  "facet": "dataset",
+  "facet": "panel",
   "facetLabel": "{}",
   "x": "depth",
   "xLabel": "candidates retrieved (depth)",
@@ -13,37 +13,48 @@
     100
   ],
   "yTicks": {
-    "NFCorpus": [
+    "Share of the exact MaxSim top 10 found": [
       0,
-      25,
-      50,
-      75,
-      100
-    ],
-    "SciFact": [
-      0,
-      25,
-      50,
-      75,
-      100
-    ],
-    "SCIDOCS": [
-      0,
-      25,
-      50,
-      75,
+      20,
+      40,
+      60,
+      80,
       100
     ]
   },
-  "series": [
-    "fde",
-    "mean_pooling"
-  ],
   "seriesLabels": [
     "MUVERA FDE",
     "mean pooling"
   ],
   "unit": "%",
-  "height": 340,
-  "subtitle": "higher is better"
+  "subtitle": "FDE: 40 KiB per document. Mean pooling: 0.5 KiB. Higher is better.",
+  "width": 700,
+  "height": 300,
+  "series": [
+    "nfcorpus_fde",
+    "nfcorpus_pool"
+  ],
+  "views": [
+    {
+      "label": "NFCorpus",
+      "series": [
+        "nfcorpus_fde",
+        "nfcorpus_pool"
+      ]
+    },
+    {
+      "label": "SciFact",
+      "series": [
+        "scifact_fde",
+        "scifact_pool"
+      ]
+    },
+    {
+      "label": "SCIDOCS",
+      "series": [
+        "scidocs_fde",
+        "scidocs_pool"
+      ]
+    }
+  ]
 }

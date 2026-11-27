@@ -6,16 +6,16 @@
  * the top 10 return. The method chips switch between late interaction
  * rescoring, MUVERA, and a cross-encoder. Each switch changes what the first
  * stage searches, where the reranker runs (inside Qdrant or in your
- * application), and the three facts below the drawing: what Qdrant stores,
- * what each query is encoded with, and what grows with depth.
+ * application), and the three facts below the drawing.
  *
- * The drawing carries only short stage names and one detail line, so it stays
- * legible when scaled. The per-method facts are ordinary HTML below it, where
- * there is no viewBox to shrink them.
+ * The viewBox is close to the rendered article width, so drawing units are
+ * roughly CSS pixels and the island type roles (13px titles, 12px labels,
+ * 14px frame labels) render at their intended size. The per-method facts are
+ * ordinary HTML below the drawing, where there is no viewBox to shrink them.
  */
 
-const VB_W = 1200;
-const VB_H = 215;
+const VB_W = 820;
+const VB_H = 150;
 
 const METHODS = {
   'late-interaction': {
@@ -51,28 +51,29 @@ const METHODS = {
 };
 const ORDER = ['late-interaction', 'muvera', 'cross-encoder'];
 
-const BOX_Y = 40;
-const BOX_H = 92;
+const BOX_Y = 24;
+const BOX_H = 64;
 const BOXES = {
-  query: { x: 10, w: 120 },
-  first: { x: 170, w: 290 },
-  pool: { x: 500, w: 170 },
-  rerank: { x: 710, w: 290 },
-  top: { x: 1040, w: 150 },
+  query: { x: 6, w: 84 },
+  first: { x: 116, w: 200 },
+  pool: { x: 342, w: 118 },
+  rerank: { x: 486, w: 200 },
+  top: { x: 712, w: 102 },
 };
-const BRACKET_Y = 168;
+const BRACKET_Y = 112;
 
 function box(id, role, name, detail, short) {
   const b = BOXES[id];
   const cx = b.x + b.w / 2;
+  const mid = BOX_Y + BOX_H / 2;
   return [
     `<g class="qi-rr__stage" data-box="${id}">`,
-    `  <rect class="qi-rr__box qi-rr__box--${role}" x="${b.x}" y="${BOX_Y}" width="${b.w}" height="${BOX_H}" rx="10"/>`,
+    `  <rect class="qi-rr__box qi-rr__box--${role}" x="${b.x}" y="${BOX_Y}" width="${b.w}" height="${BOX_H}" rx="6"/>`,
     detail
-      ? `  <text class="qi-rr__name qi-rr__ink--${role}" x="${cx}" y="${BOX_Y + 38}" text-anchor="middle">${name}</text>`
-      : `  <text class="qi-rr__name qi-rr__ink--${role}" x="${cx}" y="${BOX_Y + BOX_H / 2}" text-anchor="middle" dominant-baseline="middle">${name}</text>`,
-    detail ? `  <text class="qi-rr__detail qi-rr__ink--${role}" x="${cx}" y="${BOX_Y + 70}" text-anchor="middle">${detail}</text>` : '',
-    `  <text class="qi-rr__short qi-rr__ink--${role}" x="${cx}" y="${BOX_Y + BOX_H / 2}" text-anchor="middle" dominant-baseline="middle">${short}</text>`,
+      ? `  <text class="qi-rr__name qi-rr__ink--${role}" x="${cx}" y="${BOX_Y + 27}" text-anchor="middle">${name}</text>`
+        + `<text class="qi-rr__detail qi-rr__ink--${role}" x="${cx}" y="${BOX_Y + 46}" text-anchor="middle">${detail}</text>`
+      : `  <text class="qi-rr__name qi-rr__ink--${role}" x="${cx}" y="${mid}" text-anchor="middle" dominant-baseline="middle">${name}</text>`,
+    `  <text class="qi-rr__short qi-rr__ink--${role}" x="${cx}" y="${mid}" text-anchor="middle" dominant-baseline="middle">${short}</text>`,
     `</g>`,
   ].join('');
 }
@@ -81,15 +82,15 @@ function wire(from, to, id) {
   const x1 = BOXES[from].x + BOXES[from].w;
   const x2 = BOXES[to].x;
   const y = BOX_Y + BOX_H / 2;
-  return `<path class="qi-rr__wire" d="M${x1} ${y} H${x2 - 2}" marker-end="url(#rr-arrow-${id})"/>`;
+  return `<path class="qi-rr__wire" d="M${x1} ${y} H${x2 - 2}" marker-end="url(#rr2-arrow-${id})"/>`;
 }
 
 function bracket(cls, x1, x2, label) {
   const y = BRACKET_Y;
   return [
     `<g class="qi-rr__bracket qi-rr__bracket--${cls}">`,
-    `  <path d="M${x1} ${y - 10} V${y} H${x2} V${y - 10}"/>`,
-    `  <text x="${(x1 + x2) / 2}" y="${y + 34}" text-anchor="middle">${label}</text>`,
+    `  <path d="M${x1} ${y - 8} V${y} H${x2} V${y - 8}"/>`,
+    `  <text x="${(x1 + x2) / 2}" y="${y + 22}" text-anchor="middle">${label}</text>`,
     `</g>`,
   ].join('');
 }
@@ -101,7 +102,7 @@ function svgFor(m, id) {
   const qdrantEnd = m.inApp ? BOXES.pool.x + BOXES.pool.w : BOXES.rerank.x + BOXES.rerank.w;
   return [
     '<defs>',
-    `  <marker id="rr-arrow-${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">`,
+    `  <marker id="rr2-arrow-${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">`,
     '    <path d="M0 0 L10 5 L0 10 z" class="qi-rr__arrowhead"/>',
     '  </marker>',
     '</defs>',
@@ -118,7 +119,6 @@ function svgFor(m, id) {
     m.inApp ? bracket('app', BOXES.rerank.x, BOXES.rerank.x + BOXES.rerank.w, 'In your application') : '',
   ].join('');
 }
-
 export function mount(node) {
   instances += 1;
   const id = instances;

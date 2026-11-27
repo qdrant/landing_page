@@ -3,11 +3,13 @@
    file styles the stage boxes, wires, the Qdrant/application brackets, and
    the per-method facts below the drawing.
 
-   Stage roles reuse the hues of the sibling retrieval-pipeline island so the
-   two figures read as one family: "first" (prefetch) is the teal win tone,
-   "qdrant" (a reranker running inside Qdrant) is Qdrant red, "app" (a
-   reranker running in your application) is the violet categorical token,
-   and "pool" is the muted cost tone. Each has a light and a dark value. */
+   Stage roles reuse the hues of the sibling retrieval-pipeline island: "first"
+   (prefetch) is the teal win tone, "qdrant" (a reranker running inside Qdrant)
+   is Qdrant red, "app" (a reranker running in your application) is the violet
+   categorical token, and "pool" is the muted cost tone. Text uses the island
+   type roles in Geist Mono: 13px semibold stage names, 12px details, 14px
+   frame labels. The viewBox is close to the article width, so these drawing
+   sizes render at about the same CSS size. */
 
 .qi-rr {
   --rr-first-fill: #c0f0f0;
@@ -89,25 +91,27 @@ html[data-theme='dark'] .qi-rr {
 .qi-rr__ink--plain { fill: var(--rr-plain-text); }
 
 .qi-rr__name,
-.qi-rr__short {
-  font-family: 'Mona Sans', -apple-system, 'Segoe UI', sans-serif;
-  font-weight: 600;
+.qi-rr__detail,
+.qi-rr__short,
+.qi-rr__bracket text {
+  font-family: var(--qi-mono);
 }
 .qi-rr__name {
-  font-size: 22px;
+  font-size: 13px;
+  font-weight: 600;
 }
 .qi-rr__detail {
-  font-family: var(--qi-mono);
-  font-size: 20px;
+  font-size: 12px;
 }
 .qi-rr__short {
-  font-size: 40px;
+  font-size: 24px;
+  font-weight: 600;
   display: none;
 }
 
 .qi-rr__wire {
   stroke: var(--rr-wire);
-  stroke-width: 2;
+  stroke-width: 1.5;
   fill: none;
 }
 .qi-rr__arrowhead {
@@ -116,12 +120,10 @@ html[data-theme='dark'] .qi-rr {
 
 .qi-rr__bracket path {
   fill: none;
-  stroke-width: 2;
+  stroke-width: 1.5;
 }
 .qi-rr__bracket text {
-  font-family: 'Mona Sans', -apple-system, 'Segoe UI', sans-serif;
-  font-size: 22px;
-  font-weight: 600;
+  font-size: 14px;
 }
 .qi-rr__bracket--qdrant path { stroke: var(--rr-qdrant-stroke); }
 .qi-rr__bracket--qdrant text { fill: var(--rr-qdrant-text); }
@@ -129,31 +131,34 @@ html[data-theme='dark'] .qi-rr {
 .qi-rr__bracket--app text { fill: var(--rr-app-text); }
 
 /* Per-method facts: plain HTML under the drawing, so they never scale down
-   with the viewBox. */
+   with the viewBox. Same type roles: 13px semibold terms, 12px muted text. */
 .qi-rr__facts {
   display: grid;
-  gap: 0.5rem;
-  margin: 0.75rem 0 0;
+  gap: 0.4rem;
+  margin: 0;
+  font-family: var(--qi-mono);
 }
 .qi-rr__facts > div {
   display: grid;
-  grid-template-columns: 11rem 1fr;
+  grid-template-columns: 11.5rem 1fr;
   gap: 0.75rem;
 }
 .qi-rr__facts dt {
+  font-size: 13px;
   font-weight: 600;
   color: var(--qi-fg);
 }
 .qi-rr__facts dd {
   margin: 0;
+  font-size: 13px;
   color: var(--qi-muted);
 }
 
-/* Below ~780px of rendered width, the 1200-unit drawing scales the full
-   stage names and detail lines under a legible size. Collapse each stage to
-   its short name at a larger size; the method's full first stage and
-   reranker are already in the status line and facts below. */
-@container qi-rr (max-width: 780px) {
+/* Below ~600px of rendered width, the full stage names and detail lines
+   scale under a legible size. Collapse each stage to its short name at a
+   larger drawing size; the full first stage and reranker are already in the
+   status line and facts below. */
+@container qi-rr (max-width: 600px) {
   .qi-rr__name,
   .qi-rr__detail {
     display: none;
@@ -162,10 +167,7 @@ html[data-theme='dark'] .qi-rr {
     display: block;
   }
   .qi-rr__bracket text {
-    font-size: 34px;
-  }
-  .qi-rr__wire {
-    stroke-width: 4;
+    font-size: 22px;
   }
   .qi-rr__facts > div {
     grid-template-columns: 1fr;
