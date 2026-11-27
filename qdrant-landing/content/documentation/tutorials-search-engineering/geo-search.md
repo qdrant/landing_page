@@ -236,7 +236,7 @@ Use it for delivery zones, districts, or a city minus its airport. Holes are sup
     glow=true
 >}}
 
-{{< im kind="cells" cols=3 >}}
+{{< im kind="cells" cols=1 >}}
 
 {{< im kind="cell" tag="Step 1" title="Create the Geo Index First" >}}
 
