@@ -73,6 +73,7 @@ Run both and fuse the results with [reciprocal rank fusion](/documentation/searc
 
 ## What's Next
 
+- Explore larger datasets with pre-computed vectors in [Sample Datasets](/documentation/datasets/)
 - Secure the space with scoped API keys in [Secure a Space](/documentation/serverless/security/)
 - Learn about storage limits and other quotas in [Quotas and Limits](/documentation/serverless/quotas-and-limits/)
 - Learn what the platform decides for you in [About Qdrant Serverless](/documentation/serverless/)
