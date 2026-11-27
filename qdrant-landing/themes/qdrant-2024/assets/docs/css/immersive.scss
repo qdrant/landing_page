@@ -421,6 +421,10 @@ html[data-theme='dark'] .im {
     padding-block: 96px;
   }
 
+  .im-head--left {
+    max-width: 920px;
+  }
+
   .im-head--center {
     max-width: 920px;
     margin: 0 auto;
@@ -459,7 +463,6 @@ html[data-theme='dark'] .im {
     margin: 20px 0 0;
     font-size: 14px;
     color: var(--im-dim);
-    text-align: center;
   }
 
   // ---- joined cell grids ----
@@ -567,7 +570,6 @@ html[data-theme='dark'] .im {
     padding: 24px;
     border-right: 0;
     border-bottom: 0;
-    text-align: center;
     color: var(--im-muted);
 
     p {

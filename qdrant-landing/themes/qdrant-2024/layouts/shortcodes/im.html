@@ -15,8 +15,9 @@
   card        a titled frame (title,         end-card
               meaning, location)
   section     a full-width section (id,      end-section (note)
-              eyebrow, title, intro, align,
-              more, glow)
+              eyebrow, title, intro, align
+              "left", "center", or "split",
+              default "left"; more, glow)
   cells       a joined grid (cols)           end-cells
   cell        one block of the grid (tag,    end-cell
               fig, title, pairs)
@@ -61,14 +62,14 @@
   </div>
 </div>
 {{- else if eq $kind "section" -}}
-{{- $align := .Get "align" | default "center" -}}
+{{- $align := .Get "align" | default "left" -}}
 <section class="im-section{{ if .Get "glow" }} im-lights{{ end }}"{{ with .Get "id" }} id="{{ . }}"{{ end }}>
   <div class="im-wrap">
     <div class="im-head im-head--{{ $align }}">
       <div>
         {{ with .Get "eyebrow" }}<span class="im-eyebrow">{{ . }}</span>{{ end }}
         <h2>{{ .Get "title" }}</h2>
-        {{ if eq $align "center" }}{{ with .Get "intro" }}<p class="im-sub">{{ $page.RenderString $inline . }}</p>{{ end }}{{ end }}
+        {{ if ne $align "split" }}{{ with .Get "intro" }}<p class="im-sub">{{ $page.RenderString $inline . }}</p>{{ end }}{{ end }}
       </div>
       {{ if eq $align "split" }}
       <div class="im-head__aside">
