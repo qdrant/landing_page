@@ -20,9 +20,9 @@ immersive_nav:
     href: "#demo"
   - label: The problem
     href: "#problem"
-  - label: Create the index
+  - label: Create the collection
     href: "#index"
-  - label: Store points
+  - label: Upload points
     href: "#points"
   - label: Filter
     href: "#filter"
@@ -39,7 +39,7 @@ immersive_nav:
 
 {{< im kind="card" title="Query with a geo filter" meaning="“quiet café to work from”" location="1.5 km around central Berlin" >}}
 
-{{< code-snippet path="/documentation/headless/snippets/geo-search/semantic-query/" >}}
+{{< code-snippet path="/documentation/headless/snippets/geo-search/semantic-query/" order="python typescript rust java csharp go http" >}}
 
 {{< im kind="end-card" >}}
 
@@ -105,12 +105,16 @@ HNSW finds neighbors by walking a graph. Keep only the 70 venues within 1.5 km o
 {{< im kind="section"
     id="index"
     eyebrow="Step 1"
-    title="Create the Geo Index First"
-    intro="Create a `geo` payload index on your location field right after you create the collection. Qdrant can then build the vector index with geo-aware links from the start."
+    title="Create the Collection and the Geo Index"
+    intro="This tutorial uses [Cloud Inference](/documentation/inference/) to create the embeddings, so it runs against a Qdrant Cloud cluster. Refer to the [Cloud Quickstart](/documentation/cloud-quickstart/) to create one. First, create a collection for the venues. The vector size of 384 matches the embedding model."
     compact=true
 >}}
 
-{{< code-snippet path="/documentation/headless/snippets/create-payload-index/geo/" >}}
+{{< code-snippet path="/documentation/headless/snippets/geo-search/create-collection/" order="python typescript rust java csharp go http" >}}
+
+Then create a `geo` payload index on the `location` field, right after you create the collection and before you upload points. Qdrant can then build the vector index with geo-aware links from the start.
+
+{{< code-snippet path="/documentation/headless/snippets/geo-search/create-geo-index/" order="python typescript rust java csharp go http" >}}
 
 {{< im kind="cells" cols=2 >}}
 
@@ -144,11 +148,14 @@ HNSW finds neighbors by walking a graph. Keep only the 70 venues within 1.5 km o
 {{< im kind="section"
     id="points"
     eyebrow="Step 2"
-    title="Store Points as Latitude and Longitude"
+    title="Upload Venues With Locations"
+    intro="Upload ten sample venues. Each venue is a point with a name, a description, and a `location` object with `lat` and `lon` in decimal degrees. Cloud Inference creates the vector from the description, so you pass the text and the model name instead of a vector."
     compact=true
 >}}
 
-Store each location in a payload field as an object with `lat` and `lon` in decimal degrees, for example `{"lat": 52.52, "lon": 13.405}`. For a venue with several locations, use a list of these objects. The point matches when at least one location satisfies the condition.
+{{< code-snippet path="/documentation/headless/snippets/geo-search/upload-venues/" order="python typescript rust java csharp go http" >}}
+
+For a venue with several locations, use a list of these objects. The point matches a geo filter when at least one location satisfies the condition.
 
 {{< im kind="end-section" >}}
 
@@ -160,7 +167,7 @@ Store each location in a payload field as an object with `lat` and `lon` in deci
     compact=true
 >}}
 
-{{< code-snippet path="/documentation/headless/snippets/geo-search/semantic-query/" >}}
+{{< code-snippet path="/documentation/headless/snippets/geo-search/semantic-query/" order="python typescript rust java csharp go http" >}}
 
 ### Choose a Shape
 

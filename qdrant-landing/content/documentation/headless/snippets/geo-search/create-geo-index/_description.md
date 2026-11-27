@@ -1,0 +1,1 @@
+This snippet creates a `geo` payload index on the `location` field of the `venues` collection. Create the index right after you create the collection, before you upload points, so that Qdrant can build the vector index with geo-aware links.
