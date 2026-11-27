@@ -1,0 +1,30 @@
+{
+  "title": "Query latency at matched recall",
+  "kind": "grouped-columns",
+  "subtitle": "dataset @ recall target, server-side, lower is better",
+  "group": "dataset",
+  "series": "builder",
+  "y": "p50_ms",
+  "yLabel": "milliseconds",
+  "yMax": 1.4,
+  "colors": [
+    3,
+    0
+  ],
+  "height": 460,
+  "textScale": 1.6,
+  "legendLayout": "auto",
+  "views": [
+    {
+      "label": "Median (p50)",
+      "y": "p50_ms",
+      "yMax": 1.4
+    },
+    {
+      "label": "p95",
+      "y": "p95_ms",
+      "yMax": 2
+    }
+  ],
+  "width": 720
+}

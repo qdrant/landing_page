@@ -1,0 +1,7 @@
+dataset,builder,build_s_9600x,build_s_5900xt,recall_at_10_9600x_5900xt
+glove-100,HNSW,38.4,63.3,80.51% / 80.90%
+glove-100,PiPNN,6.9,9.9,81.22% / 81.22%
+sift-128,HNSW,26.5,45.9,98.56% / 98.58%
+sift-128,PiPNN,5.4,7.6,99.07% / 99.09%
+cohere-1M,HNSW,84.0,210.6,97.32% / 97.41%
+cohere-1M,PiPNN,16.2,26.5,97.83% / 97.83%
