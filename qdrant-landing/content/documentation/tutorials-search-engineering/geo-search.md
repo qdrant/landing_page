@@ -114,6 +114,14 @@ HNSW finds neighbors by walking a graph. Keep only the 70 venues within 1.5 km o
 
 {{< im kind="cells" cols=2 >}}
 
+{{< im kind="cell" tag="How Qdrant handles it" title="Extra Links Inside Each Area" pairs=true >}}
+
+**What Qdrant does.** When it builds the index, Qdrant adds links between venues that are close on the map, for each indexed payload field. A geo index does the same.
+
+**What it means.** A geo filter no longer leaves islands, so the search walk reaches the real best matches. The geo index has to exist before you ingest data, or Qdrant cannot add the links.
+
+{{< im kind="end-cell" >}}
+
 {{< im kind="cell" >}}
 
 {{< im kind="frame" >}}
@@ -126,14 +134,6 @@ HNSW finds neighbors by walking a graph. Keep only the 70 venues within 1.5 km o
 {{< /island >}}
 
 {{< im kind="end-frame" >}}
-
-{{< im kind="end-cell" >}}
-
-{{< im kind="cell" tag="How Qdrant handles it" title="Extra Links Inside Each Area" pairs=true >}}
-
-**What Qdrant does.** When it builds the index, Qdrant adds links between venues that are close on the map, for each indexed payload field. A geo index does the same.
-
-**What it means.** A geo filter no longer leaves islands, so the search walk reaches the real best matches. The geo index has to exist before you ingest data, or Qdrant cannot add the links.
 
 {{< im kind="end-cell" >}}
 
@@ -227,6 +227,14 @@ Use it for delivery zones, districts, or a city minus its airport. Holes are sup
 
 {{< im kind="cells" cols=2 >}}
 
+{{< im kind="cell" tag="How Qdrant handles it" title="A Plan for Every Query" pairs=true >}}
+
+**What Qdrant does.** The query planner estimates how many points match the filter, using the payload index. With few matches, it checks each one exactly. With many, it walks the graph and applies the filter during the walk.
+
+**What it means.** You write the same filter either way, from a single block to a whole region. The collection's `full_scan_threshold` sets where the planner switches.
+
+{{< im kind="end-cell" >}}
+
 {{< im kind="cell" >}}
 
 {{< im kind="frame" >}}
@@ -239,14 +247,6 @@ Use it for delivery zones, districts, or a city minus its airport. Holes are sup
 {{< /island >}}
 
 {{< im kind="end-frame" >}}
-
-{{< im kind="end-cell" >}}
-
-{{< im kind="cell" tag="How Qdrant handles it" title="A Plan for Every Query" pairs=true >}}
-
-**What Qdrant does.** The query planner estimates how many points match the filter, using the payload index. With few matches, it checks each one exactly. With many, it walks the graph and applies the filter during the walk.
-
-**What it means.** You write the same filter either way, from a single block to a whole region. The collection's `full_scan_threshold` sets where the planner switches.
 
 {{< im kind="end-cell" >}}
 
