@@ -97,7 +97,7 @@ To change a schema, create a new collection with the configuration you want, upl
 
 Serverless separates the write path from the read path. An update goes onto a queue, a background updater applies it to storage, and search workers reload changed data on their next check. With `wait=false`, a point isn't searchable the moment the update call returns.
 
-- Setting `wait=true` makes the call return only after the update is applied and the search workers have loaded it, so the point is searchable when the call returns.
+- Setting `wait=true` makes the call return only after the update is applied and the search workers have loaded it, so the point is searchable when the call returns. The client libraries don't all default to the same `wait` value. See [Updates](/documentation/interfaces/#updates) in API & SDKs.
 - Under a heavy write load, Serverless defers new points until they're indexed. Deferred points aren't searchable yet, and an updated point keeps returning its previous version until the new one is indexed. `wait=true` doesn't wait for indexing, so this can happen even with `wait=true`.
 - The point count reflects the last applied write. On a new collection it's absent until the updater has written statistics; a missing or stale count is normal.
 
