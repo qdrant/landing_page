@@ -9,6 +9,8 @@ title_preview_image: /blog/pipnn-faster-index-builds/preview/title.jpg
 small_preview_image: /blog/pipnn-faster-index-builds/preview/preview.jpg
 date: 2026-11-27T00:00:00Z
 author: Clelia Bertelli
+author_profile: clelia-bertelli
+featured: false
 tags:
   - indexing
   - hnsw
