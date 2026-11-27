@@ -1,0 +1,1 @@
+This snippet combines a semantic query with a location constraint in a single request. The `query` ranks venues by how closely they match "quiet café to work from", and the `geo_radius` condition in `filter` keeps only the venues within 1,500 meters of a point in central Berlin.

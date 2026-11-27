@@ -1,0 +1,1 @@
+This code snippet creates a payload index on a field that holds geographical coordinates, by setting its schema to `geo`. A geo index is required for fast geo filtering and for the extra HNSW edges that keep filtered vector search accurate.
