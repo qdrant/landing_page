@@ -58,83 +58,52 @@ Consider this short handbook excerpt:
 
 The question "How do I share a complete export?" needs both the archive procedure and the linked-file exception. Retrieving only the first paragraph leaves out a required step; the billing paragraph adds no evidence for that question.
 
-<picture class="chunking-strategy-comparison">
-  <source media="(max-width: 600px)" srcset="/guides_data/chunking/strategy-comparison.mobile.svg" width="360" height="1055">
-  <img src="/guides_data/chunking/strategy-comparison.svg" alt="Seven strategies split the same 41-word export passage; dashed spans mark four repeated words in each later sliding window. Semantic and agentic splits are illustrative." width="640" height="1086" loading="lazy">
-</picture>
-
-Every row uses the same 41 source words, excluding headings. The first paragraph occupies words 1–18, the linked-file exception 19–35, and Billing 36–41. Bars show source ranges, and repeated ranges show overlap. These are illustrative word boundaries, not model-token counts or measured retrieval results. The semantic and agentic boundaries are scripted examples; their larger chunks do not establish better retrieval quality.
-
 ### Compare the Strategies
 
-**Fixed chunking:** Use a fixed-length window as a simple, predictable baseline when document structure is unreliable. It can cut through a sentence or separate a statement from its conditions.
+Each colored bar represents one chunk of that same passage. All three comparisons use the same **41-word scale**, excluding headings: the procedure occupies words **1–18**, the linked-file exception **19–35**, and Billing **36–41**. These word counts make boundaries visible; they are not model-token limits or retrieval scores.
 
-<details class="chunking-method" id="fixed-chunking">
-<summary>Fixed chunking details</summary>
+#### Windows: What Does Overlap Recover?
 
-The 12-word example cuts the passage into words 1–12, 13–24, 25–36, and 37–41. The boundary after word 12 falls inside the export procedure. No model calls are needed to choose these boundaries, but a fixed character or word cap still needs a tokenizer check before embedding.
+A fixed window cuts wherever its length runs out. Adding overlap shifts the next window back, giving it some of the previous chunk's context. Follow the dashed spans to see exactly which words are repeated.
 
-</details>
+<picture class="chunking-strategy-comparison">
+  <source media="(max-width: 600px)" srcset="/guides_data/chunking/strategy-comparison-windows.mobile.svg" width="360" height="435">
+  <img src="/guides_data/chunking/strategy-comparison-windows.svg" alt="Fixed 12-word chunks cover words 1–12, 13–24, 25–36, and 37–41. Sliding windows cover 1–12, 9–20, 17–28, 25–36, and 33–41; dashed spans mark the four repeated words in each later window." width="640" height="446" loading="lazy">
+</picture>
 
-**Sentence chunking:** Preserve complete statements by indexing individual sentences or packing consecutive sentences under a size cap. Check whether pronouns, exceptions, and instructions depend on neighboring sentences.
+- <span id="fixed-chunking">**Fixed chunking:**</span> A cheap, predictable baseline when structure is unreliable. Here, the first cut falls inside "Pause edits, export the project..." at word 12. A character or word cap still needs a tokenizer check before embedding.
+- <span id="sliding-window-chunking">**Sliding-window chunking:**</span> These 12-word windows advance by 8 words. The overlap carries nearby context across cuts, but repeats embedding work and retrieved text. No window contains the complete 35-word Export section. A sentence-window retriever works differently: it can embed sentences and expand to stored neighbors after retrieval.
 
-<details class="chunking-method" id="sentence-chunking">
-<summary>Sentence chunking details</summary>
+#### Structure: Which Boundaries Already Exist?
 
-The example indexes each of the five sentences separately. Grouping the two linked-file sentences would keep the reference and download instruction together. Abbreviations complicate segmentation, and an oversized sentence still needs a finer split rather than silent truncation.
+Sentences and paragraphs offer natural stopping points. In this passage, paragraph boundaries keep each pair of related sentences together, but still separate the export procedure from its exception. Recursive splitting adds a size cap to this structural approach.
 
-</details>
+<picture class="chunking-strategy-comparison">
+  <source media="(max-width: 600px)" srcset="/guides_data/chunking/strategy-comparison-structure.mobile.svg" width="360" height="468">
+  <img src="/guides_data/chunking/strategy-comparison-structure.svg" alt="Sentence chunks cover words 1–9, 10–18, 19–26, 27–35, and 36–41. Paragraph and recursive chunks both cover 1–18, 19–35, and 36–41: each paragraph fits the recursive 24-word cap, but the two Export paragraphs cannot be combined." width="640" height="480" loading="lazy">
+</picture>
 
-**Paragraph chunking:** Use the author's grouping when it survives extraction. Preserve section boundaries, and split paragraphs that exceed the cap; a complete paragraph can still depend on another paragraph.
+- <span id="sentence-chunking">**Sentence chunking:**</span> Preserve complete statements, individually or packed under a cap. The example uses five separate sentences; grouping the two linked-file sentences would keep the reference and download instruction together. Check abbreviations, dependencies between sentences, and sentences too long for the cap.
+- <span id="paragraph-chunking">**Paragraph chunking:**</span> Use the author's grouping when it survives extraction. The three chunks contain 18, 17, and 6 words. Split oversized paragraphs, and check for false boundaries caused by PDF line wrapping.
+- <span id="recursive-chunking">**Recursive chunking:**</span> A useful starting point for structured prose with uneven lengths. Try coarse separators first, then subdivide oversized pieces and pack within the cap. This example processes each heading's section separately, so Billing stays separate. At 24 words, the Export paragraphs cannot be combined either. Larger paragraphs need finer separators; recursive splitting can still cut sentences or separate related evidence.
 
-<details class="chunking-method" id="paragraph-chunking">
-<summary>Paragraph chunking details</summary>
+#### Models: Can a Boundary Follow the Topic?
 
-The example keeps each paragraph as one chunk: 18 words for the definition and procedure, 17 for the linked-file exception, and 6 for Billing. Short adjacent paragraphs can be packed within a section if they fit. Check extracted PDF paragraphs first, because visual line wrapping can create false boundaries.
+Both illustrated model-based choices keep Export together and separate Billing. The bars match, but the decision rules differ. These are **scripted examples**, not outputs from a model run; an actual model or threshold could split the linked-file exception from the procedure.
 
-</details>
+<picture class="chunking-strategy-comparison">
+  <source media="(max-width: 600px)" srcset="/guides_data/chunking/strategy-comparison-models.mobile.svg" width="360" height="360">
+  <img src="/guides_data/chunking/strategy-comparison-models.svg" alt="Illustrative semantic and scripted agentic choices both keep Export words 1–35 together and Billing words 36–41 separate. Matching spans do not mean matching decision rules or prove better retrieval." width="640" height="368" loading="lazy">
+</picture>
 
-**Sliding-window chunking:** Add overlap when important context straddles nearby boundaries. It repeats embedding work and retrieved text, and cannot preserve dependencies farther apart than its window.
-
-<details class="chunking-method" id="sliding-window-chunking">
-<summary>Sliding-window chunking details</summary>
-
-The example uses 12-word windows with 4-word overlap, advancing by 8 words. The ranges are 1–12, 9–20, 17–28, 25–36, and 33–41. Repeated source positions help explain both the added context and its storage cost. A sentence-window retrieval system is a different arrangement: it can embed individual sentences and store neighbors as metadata for expansion after retrieval.
-
-</details>
-
-**Semantic chunking:** Try embedding-based topic boundaries when structural rules repeatedly combine unrelated topics. It adds preprocessing cost, and similarity alone guarantees neither complete evidence nor a valid chunk length.
-
-<details class="chunking-method" id="semantic-chunking">
-<summary>Semantic chunking details</summary>
-
-Semantic splitters compare sentence or passage embeddings to identify changes in topic. The illustrated boundary separates Export from Billing, retaining words 1–35 together. An actual model and threshold may also split the exception from the procedure. Inspect those boundaries and enforce a size cap independently.
-
-</details>
-
-**Agentic chunking:** Consider an LLM-selected boundary when failed splits need interpretation beyond structural or similarity rules. Account for model cost, ingestion latency, and invalid-response fallbacks.
-
-<details class="chunking-method" id="agentic-chunking">
-<summary>Agentic chunking details</summary>
-
-The scripted example keeps the export procedure and exception together, then separates Billing. An exception can influence a boundary only if the model receives it in its input window. Keep the original wording when slicing the source, validate the selected boundary, and record when fallback logic runs. An agent searching a knowledge base can use any chunking method.
-
-</details>
-
-**Recursive chunking:** Start here for structured prose with uneven lengths. Try coarse separators first, subdivide oversized pieces, and pack pieces within a cap; separators still cannot detect every dependency between passages.
-
-<details class="chunking-method" id="recursive-chunking">
-<summary>Recursive chunking details</summary>
-
-At the example's 24-word cap, the two Export paragraphs cannot be packed together, so each remains a chunk. The Billing section stays separate. A larger paragraph would require finer separators, such as sentences, words, or characters. Check the implementation's size counter and overlap behavior; recursive splitting can still cut sentences.
-
-</details>
+- <span id="semantic-chunking">**Semantic chunking:**</span> Compare sentence or passage embeddings for topic changes when structural rules repeatedly combine unrelated material. This adds embedding work; similarity guarantees neither complete evidence nor a valid chunk length. Inspect the boundaries and enforce a size cap independently.
+- <span id="agentic-chunking">**Agentic chunking:**</span> Ask an LLM to choose boundaries when failed splits need interpretation beyond structure or similarity. The model must receive the exception to account for it. Preserve source wording, validate boundaries, and provide fallbacks for invalid responses. Budget for model cost and latency; an agent searching a knowledge base can use any chunking method.
 
 ### Semantic Chunking vs. Fixed-Size Chunking
 
-Fixed-size chunking gives you a cheap, repeatable baseline. Semantic chunking spends additional embedding work to find topic changes. Test that extra work when your baseline combines unrelated material, and inspect whether new boundaries separate evidence that belongs together. [Qu et al.](https://arxiv.org/abs/2410.13070) found inconsistent gains over fixed sentence groups; the result depends on the corpus and configuration.
+[Qu et al.](https://arxiv.org/abs/2410.13070) found inconsistent gains from semantic chunking over fixed sentence groups. Test whether its extra embedding work improves retrieval on your questions, under the same [retrieved-text budget](#3-evaluate-chunk-quality).
 
-Compare methods on the same questions and [retrieved-text budget](#3-evaluate-chunk-quality). The export example makes the check concrete: do the returned chunks contain both the procedure and the exception, without spending the budget on Billing or repeated text?
+For the export question, **check the combined evidence returned**: it needs both the procedure and the exception, whether they arrive in one chunk or several. A larger bar alone does not establish better retrieval.
 
 ## 3. Evaluate Chunk Quality
 

@@ -17,7 +17,14 @@ const escape = value => String(value).replace(/[&<>"']/g, character => ({
 const n = value => Number(value.toFixed(2));
 const palette = ['#6047ff', '#9c27b0', '#00838f', '#dc244c'];
 
-function render(mobile) {
+const panels = [
+  { id: 'windows', title: 'Length and overlap', strategies: ['fixed', 'sliding-window'] },
+  { id: 'structure', title: 'Document structure', strategies: ['sentence', 'paragraph', 'recursive'] },
+  { id: 'models', title: 'Model-selected boundaries', strategies: ['semantic', 'agentic'] },
+];
+
+function render(mobile, panel) {
+  const strategies = panel ? panel.strategies.map(id => STRATEGIES.find(strategy => strategy.id === id)) : STRATEGIES;
   const width = mobile ? 360 : 640;
   const inset = mobile ? 12 : 20;
   const plotWidth = width - inset * 2;
@@ -31,20 +38,23 @@ function render(mobile) {
   const text = (left, top, value, { size = fontSize, weight = 400, fill = 'var(--ink)', anchor = 'start' } = {}) =>
     drawing.push(`<text x="${n(left)}" y="${n(top)}" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}">${escape(value)}</text>`);
 
-  text(inset, 26, 'Same passage, different boundaries', { weight: 600 });
-  text(inset, 54, '41 source words, not model tokens', { size: labelSize });
-  text(inset, 82, 'Export 1–35 | Billing 36–41', { size: labelSize });
-  text(inset, 110, 'Each colored bar is one chunk.', { size: labelSize });
+  text(inset, 26, panel?.title ?? 'Same passage, different boundaries', { weight: 600 });
+  text(inset, 54, panel ? 'Source word position (1–41)' : '41 source words, not model tokens', { size: labelSize });
+  if (!panel) {
+    text(inset, 82, 'Export 1–35 | Billing 36–41', { size: labelSize });
+    text(inset, 110, 'Each colored bar is one chunk.', { size: labelSize });
+  }
 
+  const axisTop = panel ? 87 : 143;
   [1, 10, 20, 30, 41].forEach(word => {
     const left = x(word - 0.5);
-    text(left, 143, word, { size: labelSize, anchor: word === 1 ? 'start' : word === 41 ? 'end' : 'middle' });
-    drawing.push(`<path d="M${n(left)} 149v8" stroke="var(--muted)" stroke-width="1.5"/>`);
+    text(left, axisTop, word, { size: labelSize, anchor: word === 1 ? 'start' : word === 41 ? 'end' : 'middle' });
+    drawing.push(`<path d="M${n(left)} ${axisTop + 6}v8" stroke="var(--muted)" stroke-width="1.5"/>`);
   });
-  drawing.push(`<path d="M${inset} 157H${width - inset}" stroke="var(--muted)" stroke-width="1.5"/>`);
+  drawing.push(`<path d="M${inset} ${axisTop + 14}H${width - inset}" stroke="var(--muted)" stroke-width="1.5"/>`);
 
-  let top = 185;
-  for (const strategy of STRATEGIES) {
+  let top = axisTop + 42;
+  for (const strategy of strategies) {
     const sliding = strategy.id === 'sliding-window';
     drawing.push(`<g id="${strategy.id}" aria-label="${escape(strategy.name)}">`);
     text(inset, top, strategy.name, { weight: 600 });
@@ -72,14 +82,21 @@ function render(mobile) {
     drawing.push('</g>');
     top += rowGap + (sliding ? trackGap + 28 : 0);
   }
-  text(inset, top - 3, 'Semantic / agentic: illustrative.', { size: labelSize });
-  text(inset, top + 23, 'Equal spans can use different rules.', { size: labelSize });
-  const height = top + 39;
-  const description = STRATEGIES.map(strategy => `${strategy.name} (${strategy.setting}): ${strategy.ranges.map(([start, end]) => `${start + 1}–${end}`).join(', ')}.`).join(' ')
-    + ' All rows use the same source-word position scale. Dashed spans are the first four words repeated in each later sliding window, for 16 repeated word appearances. Semantic and agentic outputs are illustrative, not model measurements. These configurations explain boundaries, not comparative retrieval performance.';
+  if (!panel) {
+    text(inset, top - 3, 'Semantic / agentic: illustrative.', { size: labelSize });
+    text(inset, top + 23, 'Equal spans can use different rules.', { size: labelSize });
+  }
+  const height = top + (panel ? 15 : 39);
+  const rangesDescription = strategies.map(strategy => `${strategy.name} (${strategy.setting}): ${strategy.ranges.map(([start, end]) => `${start + 1}–${end}`).join(', ')}.`).join(' ');
+  const description = rangesDescription + (panel
+    ? ' All rows use the same 41 source words, excluding headings, on the same word-position scale. Export occupies words 1–35; Billing occupies words 36–41. Each colored bar is one chunk.'
+      + (strategies.some(strategy => strategy.id === 'sliding-window') ? ' Dashed spans are the first four words repeated in each later sliding window, for 16 repeated word appearances.' : '')
+      + (strategies.some(strategy => strategy.id === 'semantic' || strategy.id === 'agentic') ? ' Semantic and agentic outputs are illustrative, not model measurements.' : '')
+      + ' These configurations explain boundaries, not comparative retrieval performance.'
+    : ' All rows use the same source-word position scale. Dashed spans are the first four words repeated in each later sliding window, for 16 repeated word appearances. Semantic and agentic outputs are illustrative, not model measurements. These configurations explain boundaries, not comparative retrieval performance.');
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="title desc">
-<title id="title">Seven chunking strategies on the same export passage</title>
+<title id="title">${escape(panel ? `${panel.title} on the same export passage` : 'Seven chunking strategies on the same export passage')}</title>
 <desc id="desc">${escape(description)}</desc>
 <!-- Generated by content/documentation/headless/chunking/strategy-comparison/render.mjs.
      Transparent background, editable text and shapes, embedded Geist Mono.
@@ -99,4 +116,9 @@ for (const mobile of [false, true]) {
   const filename = `strategy-comparison${mobile ? '.mobile' : ''}.svg`;
   await writeFile(new URL(filename, destination), render(mobile));
   console.log(`Generated ${filename}`);
+  for (const panel of panels) {
+    const panelFilename = `strategy-comparison-${panel.id}${mobile ? '.mobile' : ''}.svg`;
+    await writeFile(new URL(panelFilename, destination), render(mobile, panel));
+    console.log(`Generated ${panelFilename}`);
+  }
 }
