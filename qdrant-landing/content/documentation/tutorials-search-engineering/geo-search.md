@@ -169,6 +169,8 @@ HNSW finds neighbors by walking a graph. Keep only the 70 venues within 1.5 km o
 
 {{< im kind="cell" tag="geo_radius" title="Radius" >}}
 
+Use it for “within a 15-minute walk of me”. The radius is in meters.
+
 {{< im kind="frame" >}}
 
 {{< island
@@ -182,11 +184,11 @@ HNSW finds neighbors by walking a graph. Keep only the 70 venues within 1.5 km o
 
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/geo-radius/" >}}
 
-Use it for “within a 15-minute walk of me”. The radius is in meters.
-
 {{< im kind="end-cell" >}}
 
 {{< im kind="cell" tag="geo_bounding_box" title="Bounding Box" >}}
+
+Use it for whatever is visible on the user's map right now.
 
 {{< im kind="frame" >}}
 
@@ -201,11 +203,11 @@ Use it for “within a 15-minute walk of me”. The radius is in meters.
 
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/geo-bounding-box/" >}}
 
-Use it for whatever is visible on the user's map right now.
-
 {{< im kind="end-cell" >}}
 
 {{< im kind="cell" tag="geo_polygon" title="Polygon" >}}
+
+Use it for delivery zones, districts, or a city minus its airport. Holes are supported.
 
 {{< im kind="frame" >}}
 
@@ -219,8 +221,6 @@ Use it for whatever is visible on the user's map right now.
 {{< im kind="end-frame" >}}
 
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/geo-poligon/" >}}
-
-Use it for delivery zones, districts, or a city minus its airport. Holes are supported.
 
 {{< im kind="end-cell" >}}
 
