@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video and audio chunking: actual results</title>
+  <meta name="description" content="Inspect actual frame windows, speech chunks, and timestamps from a reproducible media processing run.">
+  <link rel="stylesheet" href="/guides_data/chunking/media-demo/viewer.css">
+  <script src="/guides_data/chunking/media-demo/viewer.js" type="module"></script>
+</head>
+<body>
+  <main class="demo" aria-busy="true">
+    <header class="demo-header">
+      <p class="eyebrow">Chunking guide · actual processing results</p>
+      <h1 id="view-title">Video and audio chunking</h1>
+      <p id="source-title" class="source-title"></p>
+      <nav class="view-switch" aria-label="Media view">
+        <a href="?view=video" data-view="video">Video</a>
+        <a href="?view=audio" data-view="audio">Audio</a>
+      </nav>
+    </header>
+
+    <p id="load-status" role="status">Loading computed results…</p>
+
+    <div id="results" hidden>
+      <p id="run-label" class="run-label"></p>
+      <ul id="parameters" class="parameters" aria-label="Run parameters"></ul>
+
+      <section id="video-view" aria-labelledby="video-heading" hidden>
+        <h2 id="video-heading" class="sr-only">Video frame windows</h2>
+        <div class="player-area">
+          <video id="video-player" controls preload="metadata" playsinline aria-label="Source video">
+            <source src="/guides_data/chunking/media-demo/source.mp4" type="video/mp4">
+            <p>Your browser cannot play this video. <a href="/guides_data/chunking/media-demo/source.mp4">Download the source video</a>.</p>
+          </video>
+          <p class="player-help">Select a window to play its interval.</p>
+        </div>
+        <div id="video-chunks" class="video-chunks" aria-label="Computed video windows"></div>
+      </section>
+
+      <section id="audio-view" aria-labelledby="audio-heading" hidden>
+        <h2 id="audio-heading" class="sr-only">Audio transcript chunks</h2>
+        <div class="player-area">
+          <audio id="audio-player" controls preload="metadata" aria-label="Extracted audio">
+            <source src="/guides_data/chunking/media-demo/audio.m4a" type="audio/mp4">
+            <p>Your browser cannot play this audio. <a href="/guides_data/chunking/media-demo/audio.m4a">Download the audio</a>.</p>
+          </audio>
+          <p class="player-help">Select a transcript chunk to play its interval.</p>
+        </div>
+        <figure class="waveform">
+          <figcaption>Normalized audio RMS <span id="selected-audio-range"></span></figcaption>
+          <svg id="waveform" viewBox="0 0 672 116" role="img" aria-labelledby="waveform-title waveform-description">
+            <title id="waveform-title">Audio waveform</title>
+            <desc id="waveform-description">Normalized RMS computed from the audio samples. The selected transcript interval is highlighted.</desc>
+            <rect x="0" y="0" width="672" height="116" rx="4" class="waveform-background"></rect>
+            <rect id="waveform-selection" x="0" y="0" width="0" height="116" class="waveform-selection"></rect>
+            <path id="waveform-peaks" class="waveform-peaks"></path>
+            <line x1="0" y1="58" x2="672" y2="58" class="waveform-axis"></line>
+          </svg>
+          <div class="waveform-scale" aria-hidden="true"><span>00:00</span><span id="duration-label"></span></div>
+        </figure>
+        <div id="audio-chunks" class="audio-chunks" aria-label="Computed transcript chunks"></div>
+        <p class="transcript-note">Raw ASR output; check recognition and boundary errors against the recording.</p>
+      </section>
+
+      <footer class="source-footer">
+        <p><a id="source-link" target="_blank" rel="noopener noreferrer">Source</a><span id="source-credit"></span></p>
+        <p id="source-license"></p>
+        <p id="run-date" class="run-date"></p>
+        <div class="artifact-links">
+          <a href="/guides_data/chunking/media-demo/results.json" download>Download results JSON</a>
+          <a href="/guides_data/chunking/media-demo/transcript.raw.json" download>Download raw ASR JSON</a>
+          <a href="https://github.com/qdrant/landing_page/blob/4a852ce1d509ed9ad3c19b2b30bffc0bed742ed2/qdrant-landing/content/documentation/headless/chunking/media-demo/run.py">Reproduction script</a>
+          <a id="capture-link" href="?view=video&amp;capture=1">Capture view</a>
+        </div>
+        <details class="run-details">
+          <summary>Reproducibility details</summary>
+          <dl>
+            <dt>Model revision</dt><dd id="model-revision"></dd>
+            <dt>Source SHA-256</dt><dd id="source-hash"></dd>
+          </dl>
+        </details>
+      </footer>
+    </div>
+    <noscript>This viewer needs JavaScript to read the computed results. <a href="/guides_data/chunking/media-demo/results.json">Download the results JSON</a> to inspect them directly.</noscript>
+  </main>
+</body>
+</html>

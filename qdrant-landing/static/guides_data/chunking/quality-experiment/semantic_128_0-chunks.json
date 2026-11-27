@@ -1,0 +1,5132 @@
+[
+  {
+    "id": 0,
+    "token_start": 0,
+    "token_end": 6,
+    "char_start": 0,
+    "char_end": 27,
+    "content_tokens": 6,
+    "text": "Good evening. Good evening."
+  },
+  {
+    "id": 1,
+    "token_start": 6,
+    "token_end": 18,
+    "char_start": 28,
+    "char_end": 61,
+    "content_tokens": 12,
+    "text": "If I were smart, I’d go home now."
+  },
+  {
+    "id": 2,
+    "token_start": 18,
+    "token_end": 20,
+    "char_start": 63,
+    "char_end": 66,
+    "content_tokens": 2,
+    "text": "Mr."
+  },
+  {
+    "id": 3,
+    "token_start": 20,
+    "token_end": 34,
+    "char_start": 67,
+    "char_end": 139,
+    "content_tokens": 14,
+    "text": "Speaker, Madam Vice President, members of Congress, my fellow Americans."
+  },
+  {
+    "id": 4,
+    "token_start": 34,
+    "token_end": 50,
+    "char_start": 141,
+    "char_end": 221,
+    "content_tokens": 16,
+    "text": "In January 1941, Franklin Roosevelt came to this chamber to speak to the nation."
+  },
+  {
+    "id": 5,
+    "token_start": 50,
+    "token_end": 70,
+    "char_start": 222,
+    "char_end": 305,
+    "content_tokens": 20,
+    "text": "And he said, “I address you at a moment unprecedented in the history of the Union”."
+  },
+  {
+    "id": 6,
+    "token_start": 70,
+    "token_end": 76,
+    "char_start": 306,
+    "char_end": 330,
+    "content_tokens": 6,
+    "text": "Hitler was on the march."
+  },
+  {
+    "id": 7,
+    "token_start": 76,
+    "token_end": 82,
+    "char_start": 331,
+    "char_end": 356,
+    "content_tokens": 6,
+    "text": "War was raging in Europe."
+  },
+  {
+    "id": 8,
+    "token_start": 82,
+    "token_end": 104,
+    "char_start": 358,
+    "char_end": 473,
+    "content_tokens": 22,
+    "text": "President Roosevelt’s purpose was to wake up Congress and alert the American people that this was no ordinary time."
+  },
+  {
+    "id": 9,
+    "token_start": 104,
+    "token_end": 114,
+    "char_start": 474,
+    "char_end": 528,
+    "content_tokens": 10,
+    "text": "Freedom and democracy were under assault in the world."
+  },
+  {
+    "id": 10,
+    "token_start": 114,
+    "token_end": 127,
+    "char_start": 530,
+    "char_end": 588,
+    "content_tokens": 13,
+    "text": "Tonight, I come to the same chamber to address the nation."
+  },
+  {
+    "id": 11,
+    "token_start": 127,
+    "token_end": 144,
+    "char_start": 589,
+    "char_end": 662,
+    "content_tokens": 17,
+    "text": "Now it’s we who face an unprecedented moment in the history of the Union."
+  },
+  {
+    "id": 12,
+    "token_start": 144,
+    "token_end": 170,
+    "char_start": 664,
+    "char_end": 789,
+    "content_tokens": 26,
+    "text": "And, yes, my purpose tonight is to wake up the Congress and alert the American people that this is no ordinary moment either."
+  },
+  {
+    "id": 13,
+    "token_start": 170,
+    "token_end": 218,
+    "char_start": 790,
+    "char_end": 1037,
+    "content_tokens": 48,
+    "text": "Not since President Lincoln and the Civil War have freedom and democracy been under assault at home as they are today.\n\nWhat makes our moment rare is that freedom and democracy are under attack at — both at home and overseas at the very same time."
+  },
+  {
+    "id": 14,
+    "token_start": 218,
+    "token_end": 298,
+    "char_start": 1039,
+    "char_end": 1421,
+    "content_tokens": 80,
+    "text": "Overseas, Putin of Russia is on the march, invading Ukraine and sowing chaos throughout Europe and beyond.\n\nIf anybody in this room thinks Putin will stop at Ukraine, I assure you: He will not.\n\nBut Ukraine — Ukraine can stop Putin. Ukraine can stop Putin if we stand with Ukraine and provide the weapons that it needs to defend itself.\n\nThat is all — that is all Ukraine is asking."
+  },
+  {
+    "id": 15,
+    "token_start": 298,
+    "token_end": 307,
+    "char_start": 1422,
+    "char_end": 1463,
+    "content_tokens": 9,
+    "text": "They’re not asking for American soldiers."
+  },
+  {
+    "id": 16,
+    "token_start": 307,
+    "token_end": 331,
+    "char_start": 1464,
+    "char_end": 1562,
+    "content_tokens": 24,
+    "text": "In fact, there are no American soldiers at war in Ukraine, and I’m determined to keep it that way."
+  },
+  {
+    "id": 17,
+    "token_start": 331,
+    "token_end": 351,
+    "char_start": 1564,
+    "char_end": 1668,
+    "content_tokens": 20,
+    "text": "But now assistance to Ukraine is being blocked by those who want to walk away from our world leadership."
+  },
+  {
+    "id": 18,
+    "token_start": 351,
+    "token_end": 370,
+    "char_start": 1670,
+    "char_end": 1752,
+    "content_tokens": 19,
+    "text": "It wasn’t long ago when a Republican president named Ronald Reagan thundered, “Mr."
+  },
+  {
+    "id": 19,
+    "token_start": 370,
+    "token_end": 405,
+    "char_start": 1753,
+    "char_end": 1896,
+    "content_tokens": 35,
+    "text": "Gorbachev, tear down this wall.”\n\nNow — now my predecessor, a former Republican president, tells Putin, quote, “Do whatever the hell you want.”"
+  },
+  {
+    "id": 20,
+    "token_start": 405,
+    "token_end": 410,
+    "char_start": 1898,
+    "char_end": 1914,
+    "content_tokens": 5,
+    "text": "AUDIENCE: Booo —"
+  },
+  {
+    "id": 21,
+    "token_start": 410,
+    "token_end": 419,
+    "char_start": 1916,
+    "char_end": 1946,
+    "content_tokens": 9,
+    "text": "THE PRESIDENT: That’s a quote."
+  },
+  {
+    "id": 22,
+    "token_start": 419,
+    "token_end": 433,
+    "char_start": 1948,
+    "char_end": 2020,
+    "content_tokens": 14,
+    "text": "A former president actually said that — bowing down to a Russian leader."
+  },
+  {
+    "id": 23,
+    "token_start": 433,
+    "token_end": 451,
+    "char_start": 2021,
+    "char_end": 2084,
+    "content_tokens": 18,
+    "text": "I think it’s outrageous, it’s dangerous, and it’s unacceptable."
+  },
+  {
+    "id": 24,
+    "token_start": 451,
+    "token_end": 492,
+    "char_start": 2086,
+    "char_end": 2288,
+    "content_tokens": 41,
+    "text": "America is a founding member of NATO, the military alliance of democratic nations created after World War Two prevent — to prevent war and keep the peace.\n\nAnd today, we’ve made NATO stronger than ever."
+  },
+  {
+    "id": 25,
+    "token_start": 492,
+    "token_end": 501,
+    "char_start": 2289,
+    "char_end": 2335,
+    "content_tokens": 9,
+    "text": "We welcomed Finland to the Alliance last year."
+  },
+  {
+    "id": 26,
+    "token_start": 501,
+    "token_end": 517,
+    "char_start": 2336,
+    "char_end": 2420,
+    "content_tokens": 16,
+    "text": "And just this morning, Sweden officially joined, and their minister is here tonight."
+  },
+  {
+    "id": 27,
+    "token_start": 517,
+    "token_end": 520,
+    "char_start": 2421,
+    "char_end": 2430,
+    "content_tokens": 3,
+    "text": "Stand up."
+  },
+  {
+    "id": 28,
+    "token_start": 520,
+    "token_end": 528,
+    "char_start": 2431,
+    "char_end": 2466,
+    "content_tokens": 8,
+    "text": "Welcome. Welcome, welcome, welcome."
+  },
+  {
+    "id": 29,
+    "token_start": 528,
+    "token_end": 535,
+    "char_start": 2467,
+    "char_end": 2494,
+    "content_tokens": 7,
+    "text": "And they know how to fight."
+  },
+  {
+    "id": 30,
+    "token_start": 535,
+    "token_end": 537,
+    "char_start": 2496,
+    "char_end": 2499,
+    "content_tokens": 2,
+    "text": "Mr."
+  },
+  {
+    "id": 31,
+    "token_start": 537,
+    "token_end": 554,
+    "char_start": 2500,
+    "char_end": 2589,
+    "content_tokens": 17,
+    "text": "Prime Minister, welcome to NATO, the strongest military alliance the world has ever seen."
+  },
+  {
+    "id": 32,
+    "token_start": 554,
+    "token_end": 568,
+    "char_start": 2591,
+    "char_end": 2644,
+    "content_tokens": 14,
+    "text": "I say this to Congress: We have to stand up to Putin."
+  },
+  {
+    "id": 33,
+    "token_start": 568,
+    "token_end": 577,
+    "char_start": 2645,
+    "char_end": 2689,
+    "content_tokens": 9,
+    "text": "Send me a bipartisan national security bill."
+  },
+  {
+    "id": 34,
+    "token_start": 577,
+    "token_end": 586,
+    "char_start": 2690,
+    "char_end": 2741,
+    "content_tokens": 9,
+    "text": "History is literally watching. History is watching."
+  },
+  {
+    "id": 35,
+    "token_start": 586,
+    "token_end": 605,
+    "char_start": 2743,
+    "char_end": 2823,
+    "content_tokens": 19,
+    "text": "If the United States walks away, it will put Ukraine at risk. Europe is at risk."
+  },
+  {
+    "id": 36,
+    "token_start": 605,
+    "token_end": 627,
+    "char_start": 2824,
+    "char_end": 2910,
+    "content_tokens": 22,
+    "text": "The free world will be at risk, emboldening others to do what they wish to do us harm."
+  },
+  {
+    "id": 37,
+    "token_start": 627,
+    "token_end": 652,
+    "char_start": 2912,
+    "char_end": 3008,
+    "content_tokens": 25,
+    "text": "My message to President Putin, who I’ve known for a long time, is simple: We will not walk away."
+  },
+  {
+    "id": 38,
+    "token_start": 652,
+    "token_end": 664,
+    "char_start": 3009,
+    "char_end": 3051,
+    "content_tokens": 12,
+    "text": "We will not bow down. I will not bow down."
+  },
+  {
+    "id": 39,
+    "token_start": 664,
+    "token_end": 705,
+    "char_start": 3053,
+    "char_end": 3277,
+    "content_tokens": 41,
+    "text": "In a literal sense, history is watching. History is watching — just like history watched three years ago on January 6th when insurrectionists stormed this very Capitol and placed a dagger to the throat of American democracy."
+  },
+  {
+    "id": 40,
+    "token_start": 705,
+    "token_end": 716,
+    "char_start": 3279,
+    "char_end": 3325,
+    "content_tokens": 11,
+    "text": "Many of you were here on that darkest of days."
+  },
+  {
+    "id": 41,
+    "token_start": 716,
+    "token_end": 730,
+    "char_start": 3326,
+    "char_end": 3394,
+    "content_tokens": 14,
+    "text": "We all saw with our own eyes the insurrectionists were not patriots."
+  },
+  {
+    "id": 42,
+    "token_start": 730,
+    "token_end": 750,
+    "char_start": 3395,
+    "char_end": 3484,
+    "content_tokens": 20,
+    "text": "They had come to stop the peaceful transfer of power, to overturn the will of the people."
+  },
+  {
+    "id": 43,
+    "token_start": 750,
+    "token_end": 776,
+    "char_start": 3486,
+    "char_end": 3601,
+    "content_tokens": 26,
+    "text": "January 6th lies about the 2020 election and the plots to steal the election posed a great — gravest threat to U.S."
+  },
+  {
+    "id": 44,
+    "token_start": 776,
+    "token_end": 782,
+    "char_start": 3602,
+    "char_end": 3632,
+    "content_tokens": 6,
+    "text": "democracy since the Civil War."
+  },
+  {
+    "id": 45,
+    "token_start": 782,
+    "token_end": 786,
+    "char_start": 3634,
+    "char_end": 3650,
+    "content_tokens": 4,
+    "text": "But they failed."
+  },
+  {
+    "id": 46,
+    "token_start": 786,
+    "token_end": 796,
+    "char_start": 3651,
+    "char_end": 3712,
+    "content_tokens": 10,
+    "text": "America stood — America stood strong and democracy prevailed."
+  },
+  {
+    "id": 47,
+    "token_start": 796,
+    "token_end": 812,
+    "char_start": 3713,
+    "char_end": 3784,
+    "content_tokens": 16,
+    "text": "We must be honest: The threat to democracy must be defended (defeated)."
+  },
+  {
+    "id": 48,
+    "token_start": 812,
+    "token_end": 828,
+    "char_start": 3786,
+    "char_end": 3863,
+    "content_tokens": 16,
+    "text": "My predecessor and some of you here seek to bury the truth about January 6th."
+  },
+  {
+    "id": 49,
+    "token_start": 828,
+    "token_end": 834,
+    "char_start": 3864,
+    "char_end": 3883,
+    "content_tokens": 6,
+    "text": "I will not do that."
+  },
+  {
+    "id": 50,
+    "token_start": 834,
+    "token_end": 848,
+    "char_start": 3885,
+    "char_end": 3942,
+    "content_tokens": 14,
+    "text": "This is a moment to speak the truth and to bury the lies."
+  },
+  {
+    "id": 51,
+    "token_start": 848,
+    "token_end": 867,
+    "char_start": 3943,
+    "char_end": 4014,
+    "content_tokens": 19,
+    "text": "Here’s the simple truth: You can’t love your country only when you win."
+  },
+  {
+    "id": 52,
+    "token_start": 867,
+    "token_end": 897,
+    "char_start": 4016,
+    "char_end": 4146,
+    "content_tokens": 30,
+    "text": "As I’ve done ever since being elected to office, I ask all of you, without regard to party, to join together and defend democracy."
+  },
+  {
+    "id": 53,
+    "token_start": 897,
+    "token_end": 911,
+    "char_start": 4147,
+    "char_end": 4227,
+    "content_tokens": 14,
+    "text": "Remember your oath of office to defend against all threats foreign and domestic."
+  },
+  {
+    "id": 54,
+    "token_start": 911,
+    "token_end": 940,
+    "char_start": 4229,
+    "char_end": 4387,
+    "content_tokens": 29,
+    "text": "Respect — respect free and fair elections, restore trust in our institutions, and make clear political violence has absolutely no place — no place in America."
+  },
+  {
+    "id": 55,
+    "token_start": 940,
+    "token_end": 943,
+    "char_start": 4388,
+    "char_end": 4399,
+    "content_tokens": 3,
+    "text": "Zero place."
+  },
+  {
+    "id": 56,
+    "token_start": 943,
+    "token_end": 963,
+    "char_start": 4401,
+    "char_end": 4469,
+    "content_tokens": 20,
+    "text": "Again, it’s not — it’s not hyperbole to suggest history is watching."
+  },
+  {
+    "id": 57,
+    "token_start": 963,
+    "token_end": 968,
+    "char_start": 4470,
+    "char_end": 4487,
+    "content_tokens": 5,
+    "text": "They’re watching."
+  },
+  {
+    "id": 58,
+    "token_start": 968,
+    "token_end": 982,
+    "char_start": 4488,
+    "char_end": 4560,
+    "content_tokens": 14,
+    "text": "Your children and grandchildren will read about this day and what we do."
+  },
+  {
+    "id": 59,
+    "token_start": 982,
+    "token_end": 990,
+    "char_start": 4562,
+    "char_end": 4609,
+    "content_tokens": 8,
+    "text": "History is watching another assault on freedom."
+  },
+  {
+    "id": 60,
+    "token_start": 990,
+    "token_end": 1012,
+    "char_start": 4610,
+    "char_end": 4700,
+    "content_tokens": 22,
+    "text": "Joining us tolight (tonight) is Latorya Beasley, a social worker from Birmingham, Alabama."
+  },
+  {
+    "id": 61,
+    "token_start": 1012,
+    "token_end": 1036,
+    "char_start": 4702,
+    "char_end": 4815,
+    "content_tokens": 24,
+    "text": "Fourteen months ago — fourteen months ago, she and her husband welcomed a baby girl thanks to the miracle of IVF."
+  },
+  {
+    "id": 62,
+    "token_start": 1036,
+    "token_end": 1071,
+    "char_start": 4816,
+    "char_end": 4997,
+    "content_tokens": 35,
+    "text": "She scheduled treatments to have that second child, but the Alabama Supreme Court shut down IVF treatments across the state, unleashed by a Supreme Court decision overturning Roe v."
+  },
+  {
+    "id": 63,
+    "token_start": 1071,
+    "token_end": 1073,
+    "char_start": 4998,
+    "char_end": 5003,
+    "content_tokens": 2,
+    "text": "Wade."
+  },
+  {
+    "id": 64,
+    "token_start": 1073,
+    "token_end": 1083,
+    "char_start": 5004,
+    "char_end": 5046,
+    "content_tokens": 10,
+    "text": "She was told her dream would have to wait."
+  },
+  {
+    "id": 65,
+    "token_start": 1083,
+    "token_end": 1094,
+    "char_start": 5048,
+    "char_end": 5108,
+    "content_tokens": 11,
+    "text": "What her family had gone through should never have happened."
+  },
+  {
+    "id": 66,
+    "token_start": 1094,
+    "token_end": 1103,
+    "char_start": 5109,
+    "char_end": 5153,
+    "content_tokens": 9,
+    "text": "Unless Congress acts, it could happen again."
+  },
+  {
+    "id": 67,
+    "token_start": 1103,
+    "token_end": 1117,
+    "char_start": 5155,
+    "char_end": 5206,
+    "content_tokens": 14,
+    "text": "So, tonight, let’s stand up for families like hers."
+  },
+  {
+    "id": 68,
+    "token_start": 1117,
+    "token_end": 1133,
+    "char_start": 5207,
+    "char_end": 5275,
+    "content_tokens": 16,
+    "text": "To my friends across the aisle — don’t keep this waiting any longer."
+  },
+  {
+    "id": 69,
+    "token_start": 1133,
+    "token_end": 1140,
+    "char_start": 5276,
+    "char_end": 5303,
+    "content_tokens": 7,
+    "text": "Guarantee the right to IVF."
+  },
+  {
+    "id": 70,
+    "token_start": 1140,
+    "token_end": 1144,
+    "char_start": 5304,
+    "char_end": 5328,
+    "content_tokens": 4,
+    "text": "Guarantee it nationwide."
+  },
+  {
+    "id": 71,
+    "token_start": 1144,
+    "token_end": 1153,
+    "char_start": 5330,
+    "char_end": 5367,
+    "content_tokens": 9,
+    "text": "Like most Americans, I believe Roe v."
+  },
+  {
+    "id": 72,
+    "token_start": 1153,
+    "token_end": 1158,
+    "char_start": 5368,
+    "char_end": 5386,
+    "content_tokens": 5,
+    "text": "Wade got it right."
+  },
+  {
+    "id": 73,
+    "token_start": 1158,
+    "token_end": 1176,
+    "char_start": 5388,
+    "char_end": 5497,
+    "content_tokens": 18,
+    "text": "I thank Vice President Harris for being an incredible leader defending reproductive freedom and so much more."
+  },
+  {
+    "id": 74,
+    "token_start": 1176,
+    "token_end": 1179,
+    "char_start": 5498,
+    "char_end": 5508,
+    "content_tokens": 3,
+    "text": "Thank you."
+  },
+  {
+    "id": 75,
+    "token_start": 1179,
+    "token_end": 1190,
+    "char_start": 5510,
+    "char_end": 5564,
+    "content_tokens": 11,
+    "text": "My predecessor came to office determined to see Roe v."
+  },
+  {
+    "id": 76,
+    "token_start": 1190,
+    "token_end": 1209,
+    "char_start": 5565,
+    "char_end": 5639,
+    "content_tokens": 19,
+    "text": "Wade overturned. He’s the reason it was overturned, and he brags about it."
+  },
+  {
+    "id": 77,
+    "token_start": 1209,
+    "token_end": 1217,
+    "char_start": 5640,
+    "char_end": 5676,
+    "content_tokens": 8,
+    "text": "Look at the chaos that has resulted."
+  },
+  {
+    "id": 78,
+    "token_start": 1217,
+    "token_end": 1231,
+    "char_start": 5678,
+    "char_end": 5740,
+    "content_tokens": 14,
+    "text": "Joining us tonight is Kate Cox, a wife and mother from Dallas."
+  },
+  {
+    "id": 79,
+    "token_start": 1231,
+    "token_end": 1247,
+    "char_start": 5741,
+    "char_end": 5808,
+    "content_tokens": 16,
+    "text": "She’d become pregnant again and had a fetus with a fatal condition."
+  },
+  {
+    "id": 80,
+    "token_start": 1247,
+    "token_end": 1281,
+    "char_start": 5809,
+    "char_end": 5947,
+    "content_tokens": 34,
+    "text": "Her doctor told Kate that her own life and her ability to have future in the fil- — children in the future were at risk if she didn’t act."
+  },
+  {
+    "id": 81,
+    "token_start": 1281,
+    "token_end": 1305,
+    "char_start": 5948,
+    "char_end": 6060,
+    "content_tokens": 24,
+    "text": "Because Texas law banned her ability to act, Kate and her husband had to leave the state to get what she needed."
+  },
+  {
+    "id": 82,
+    "token_start": 1305,
+    "token_end": 1318,
+    "char_start": 6062,
+    "char_end": 6130,
+    "content_tokens": 13,
+    "text": "What her family had gone through should have never happened as well."
+  },
+  {
+    "id": 83,
+    "token_start": 1318,
+    "token_end": 1328,
+    "char_start": 6131,
+    "char_end": 6169,
+    "content_tokens": 10,
+    "text": "But it’s happening to too many others."
+  },
+  {
+    "id": 84,
+    "token_start": 1328,
+    "token_end": 1360,
+    "char_start": 6171,
+    "char_end": 6336,
+    "content_tokens": 32,
+    "text": "There are state laws banning the freedom to choose, criminalizing doctors, forcing survivors of rape and incest to leave their states to get the treatment they need."
+  },
+  {
+    "id": 85,
+    "token_start": 1360,
+    "token_end": 1380,
+    "char_start": 6338,
+    "char_end": 6446,
+    "content_tokens": 20,
+    "text": "Many of you in this chamber and my predecessor are promising to pass a national ban on reproductive freedom."
+  },
+  {
+    "id": 86,
+    "token_start": 1380,
+    "token_end": 1385,
+    "char_start": 6448,
+    "char_end": 6464,
+    "content_tokens": 5,
+    "text": "AUDIENCE: Booo —"
+  },
+  {
+    "id": 87,
+    "token_start": 1385,
+    "token_end": 1399,
+    "char_start": 6466,
+    "char_end": 6527,
+    "content_tokens": 14,
+    "text": "THE PRESIDENT: My God, what freedom else would you take away?"
+  },
+  {
+    "id": 88,
+    "token_start": 1399,
+    "token_end": 1409,
+    "char_start": 6529,
+    "char_end": 6566,
+    "content_tokens": 10,
+    "text": "Look, its decision to overturn Roe v."
+  },
+  {
+    "id": 89,
+    "token_start": 1409,
+    "token_end": 1448,
+    "char_start": 6567,
+    "char_end": 6756,
+    "content_tokens": 39,
+    "text": "Wade, the Supreme Court majority wrote the following — and with all due respect, Justices — “Women are not without electoral — electoral power” — excuse me — “electoral or political power.”"
+  },
+  {
+    "id": 90,
+    "token_start": 1448,
+    "token_end": 1463,
+    "char_start": 6758,
+    "char_end": 6822,
+    "content_tokens": 15,
+    "text": "You’re about to realize just how much you were right about that."
+  },
+  {
+    "id": 91,
+    "token_start": 1463,
+    "token_end": 1477,
+    "char_start": 6824,
+    "char_end": 6882,
+    "content_tokens": 14,
+    "text": "Clearly — clearly, those bragging about overturning Roe v."
+  },
+  {
+    "id": 92,
+    "token_start": 1477,
+    "token_end": 1487,
+    "char_start": 6883,
+    "char_end": 6926,
+    "content_tokens": 10,
+    "text": "Wade have no clue about the power of women."
+  },
+  {
+    "id": 93,
+    "token_start": 1487,
+    "token_end": 1492,
+    "char_start": 6928,
+    "char_end": 6947,
+    "content_tokens": 5,
+    "text": "But they found out."
+  },
+  {
+    "id": 94,
+    "token_start": 1492,
+    "token_end": 1509,
+    "char_start": 6948,
+    "char_end": 7017,
+    "content_tokens": 17,
+    "text": "When reproductive freedom was on the ballot, we won in 2022 and 2023."
+  },
+  {
+    "id": 95,
+    "token_start": 1509,
+    "token_end": 1519,
+    "char_start": 7018,
+    "char_end": 7046,
+    "content_tokens": 10,
+    "text": "And we’ll win again in 2024."
+  },
+  {
+    "id": 96,
+    "token_start": 1519,
+    "token_end": 1549,
+    "char_start": 7048,
+    "char_end": 7175,
+    "content_tokens": 30,
+    "text": "If you — if you, the American people, send me a Congress that supports the right to choose, I promise you I will restore Roe v."
+  },
+  {
+    "id": 97,
+    "token_start": 1549,
+    "token_end": 1558,
+    "char_start": 7176,
+    "char_end": 7210,
+    "content_tokens": 9,
+    "text": "Wade as the law of the land again."
+  },
+  {
+    "id": 98,
+    "token_start": 1558,
+    "token_end": 1565,
+    "char_start": 7212,
+    "char_end": 7242,
+    "content_tokens": 7,
+    "text": "Folks, America cannot go back."
+  },
+  {
+    "id": 99,
+    "token_start": 1565,
+    "token_end": 1592,
+    "char_start": 7244,
+    "char_end": 7345,
+    "content_tokens": 27,
+    "text": "I am here to- — tonight to show what I believe is the way forward, because I know how far we’ve come."
+  },
+  {
+    "id": 100,
+    "token_start": 1592,
+    "token_end": 1623,
+    "char_start": 7347,
+    "char_end": 7483,
+    "content_tokens": 31,
+    "text": "Four years ago next week, before I came to office, the country was hit by the worst pandemic and the worst economic crisis in a century."
+  },
+  {
+    "id": 101,
+    "token_start": 1623,
+    "token_end": 1630,
+    "char_start": 7485,
+    "char_end": 7518,
+    "content_tokens": 7,
+    "text": "Remember the fear, record losses?"
+  },
+  {
+    "id": 102,
+    "token_start": 1630,
+    "token_end": 1640,
+    "char_start": 7520,
+    "char_end": 7569,
+    "content_tokens": 10,
+    "text": "Remember the spikes in crime and the murder rate?"
+  },
+  {
+    "id": 103,
+    "token_start": 1640,
+    "token_end": 1659,
+    "char_start": 7570,
+    "char_end": 7666,
+    "content_tokens": 19,
+    "text": "A raging virus that took more than 1 million American lives of loved ones, millions left behind."
+  },
+  {
+    "id": 104,
+    "token_start": 1659,
+    "token_end": 1668,
+    "char_start": 7668,
+    "char_end": 7719,
+    "content_tokens": 9,
+    "text": "A mental health crisis of isolation and loneliness."
+  },
+  {
+    "id": 105,
+    "token_start": 1668,
+    "token_end": 1693,
+    "char_start": 7721,
+    "char_end": 7843,
+    "content_tokens": 25,
+    "text": "A president, my predecessor, failed in the most basic presidential duty that he owes to American people: the duty to care."
+  },
+  {
+    "id": 106,
+    "token_start": 1693,
+    "token_end": 1698,
+    "char_start": 7845,
+    "char_end": 7867,
+    "content_tokens": 5,
+    "text": "AUDIENCE MEMBER: Lies!"
+  },
+  {
+    "id": 107,
+    "token_start": 1698,
+    "token_end": 1711,
+    "char_start": 7869,
+    "char_end": 7912,
+    "content_tokens": 13,
+    "text": "THE PRESIDENT: I think that’s unforgivable."
+  },
+  {
+    "id": 108,
+    "token_start": 1711,
+    "token_end": 1733,
+    "char_start": 7914,
+    "char_end": 8012,
+    "content_tokens": 22,
+    "text": "I came to office determined to get us through one of the toughest periods in the nation’s history."
+  },
+  {
+    "id": 109,
+    "token_start": 1733,
+    "token_end": 1736,
+    "char_start": 8013,
+    "char_end": 8021,
+    "content_tokens": 3,
+    "text": "We have."
+  },
+  {
+    "id": 110,
+    "token_start": 1736,
+    "token_end": 1768,
+    "char_start": 8023,
+    "char_end": 8165,
+    "content_tokens": 32,
+    "text": "It doesn’t make new, but in a — news — in a thousand cities and towns, the American people are writing the greatest comeback story never told."
+  },
+  {
+    "id": 111,
+    "token_start": 1768,
+    "token_end": 1784,
+    "char_start": 8167,
+    "char_end": 8220,
+    "content_tokens": 16,
+    "text": "So, let’s tell the story here — tell it here and now."
+  },
+  {
+    "id": 112,
+    "token_start": 1784,
+    "token_end": 1843,
+    "char_start": 8222,
+    "char_end": 8495,
+    "content_tokens": 59,
+    "text": "America’s comeback is building a future of American possibilities; building an economy from the middle out and the bottom up, not the top down; investing in all of America, in all Americans to make every- — sure everyone has a fair shot and we leave no one — no one behind."
+  },
+  {
+    "id": 113,
+    "token_start": 1843,
+    "token_end": 1853,
+    "char_start": 8497,
+    "char_end": 8539,
+    "content_tokens": 10,
+    "text": "The pandemic no longer controls our lives."
+  },
+  {
+    "id": 114,
+    "token_start": 1853,
+    "token_end": 1871,
+    "char_start": 8540,
+    "char_end": 8616,
+    "content_tokens": 18,
+    "text": "The vaccine that saved us from COVID is — are now being used to beat cancer."
+  },
+  {
+    "id": 115,
+    "token_start": 1871,
+    "token_end": 1877,
+    "char_start": 8618,
+    "char_end": 8648,
+    "content_tokens": 6,
+    "text": "Turning setback into comeback."
+  },
+  {
+    "id": 116,
+    "token_start": 1877,
+    "token_end": 1891,
+    "char_start": 8649,
+    "char_end": 8700,
+    "content_tokens": 14,
+    "text": "That’s what America does. That’s what America does."
+  },
+  {
+    "id": 117,
+    "token_start": 1891,
+    "token_end": 1915,
+    "char_start": 8702,
+    "char_end": 8807,
+    "content_tokens": 24,
+    "text": "Folks, I inherited an economy that was on the brink. Now, our economy is literally the envy of the world."
+  },
+  {
+    "id": 118,
+    "token_start": 1915,
+    "token_end": 1924,
+    "char_start": 8809,
+    "char_end": 8854,
+    "content_tokens": 9,
+    "text": "Fifteen million new jobs in just three years."
+  },
+  {
+    "id": 119,
+    "token_start": 1924,
+    "token_end": 1930,
+    "char_start": 8855,
+    "char_end": 8874,
+    "content_tokens": 6,
+    "text": "A record. A record."
+  },
+  {
+    "id": 120,
+    "token_start": 1930,
+    "token_end": 1938,
+    "char_start": 8876,
+    "char_end": 8905,
+    "content_tokens": 8,
+    "text": "Unemployment at 50-year lows."
+  },
+  {
+    "id": 121,
+    "token_start": 1938,
+    "token_end": 1976,
+    "char_start": 8907,
+    "char_end": 9102,
+    "content_tokens": 38,
+    "text": "A record 16 million Americans are starting small businesses, and each one is a literal act of hope, with historic job growth and small-business growth for Black and Hispanics and Asian Americans."
+  },
+  {
+    "id": 122,
+    "token_start": 1976,
+    "token_end": 1987,
+    "char_start": 9103,
+    "char_end": 9173,
+    "content_tokens": 11,
+    "text": "Eight hundred thousand new manufacturing jobs in America and counting."
+  },
+  {
+    "id": 123,
+    "token_start": 1987,
+    "token_end": 2003,
+    "char_start": 9175,
+    "char_end": 9246,
+    "content_tokens": 16,
+    "text": "Where is it written we can’t be the manufacturing capital of the world?"
+  },
+  {
+    "id": 124,
+    "token_start": 2003,
+    "token_end": 2009,
+    "char_start": 9247,
+    "char_end": 9266,
+    "content_tokens": 6,
+    "text": "We are and we will."
+  },
+  {
+    "id": 125,
+    "token_start": 2009,
+    "token_end": 2026,
+    "char_start": 9268,
+    "char_end": 9367,
+    "content_tokens": 17,
+    "text": "More people have health insurance today — more people have health insurance today than ever before."
+  },
+  {
+    "id": 126,
+    "token_start": 2026,
+    "token_end": 2041,
+    "char_start": 9369,
+    "char_end": 9429,
+    "content_tokens": 15,
+    "text": "The racial wealth gap is the smallest it’s been in 20 years."
+  },
+  {
+    "id": 127,
+    "token_start": 2041,
+    "token_end": 2074,
+    "char_start": 9431,
+    "char_end": 9586,
+    "content_tokens": 33,
+    "text": "Wages keep going up. Inflation keeps coming down. Inflation has dropped from 9 percent to 3 percent — the lowest in the world and tending (trending) lower."
+  },
+  {
+    "id": 128,
+    "token_start": 2074,
+    "token_end": 2082,
+    "char_start": 9588,
+    "char_end": 9620,
+    "content_tokens": 8,
+    "text": "The landing is and will be soft."
+  },
+  {
+    "id": 129,
+    "token_start": 2082,
+    "token_end": 2121,
+    "char_start": 9621,
+    "char_end": 9810,
+    "content_tokens": 39,
+    "text": "And now, instead of aporting — importing foreign products and exporting American jobs, we’re exporting American products and creating American jobs right here in America, where they belong."
+  },
+  {
+    "id": 130,
+    "token_start": 2121,
+    "token_end": 2136,
+    "char_start": 9812,
+    "char_end": 9880,
+    "content_tokens": 15,
+    "text": "And it takes time, but the American people are beginning to feel it."
+  },
+  {
+    "id": 131,
+    "token_start": 2136,
+    "token_end": 2144,
+    "char_start": 9881,
+    "char_end": 9934,
+    "content_tokens": 8,
+    "text": "Consumer studies show consumer confidence is soaring."
+  },
+  {
+    "id": 132,
+    "token_start": 2144,
+    "token_end": 2182,
+    "char_start": 9936,
+    "char_end": 10117,
+    "content_tokens": 38,
+    "text": "“Buy America” has been the law of the land since the 1930s. Past administrations, including my predecessor — including some Democrats, as well, in the past — failed to buy American."
+  },
+  {
+    "id": 133,
+    "token_start": 2182,
+    "token_end": 2185,
+    "char_start": 10118,
+    "char_end": 10130,
+    "content_tokens": 3,
+    "text": "Not anymore."
+  },
+  {
+    "id": 134,
+    "token_start": 2185,
+    "token_end": 2224,
+    "char_start": 10132,
+    "char_end": 10338,
+    "content_tokens": 39,
+    "text": "On my watch, federal projects that you fund — like helping build American roads, bridges, and highways — will be made with American products and built by American workers creating good-paying American jobs."
+  },
+  {
+    "id": 135,
+    "token_start": 2224,
+    "token_end": 2246,
+    "char_start": 10340,
+    "char_end": 10461,
+    "content_tokens": 22,
+    "text": "And thanks to our CHIPS and Science Act the United States is investing more in research and development than ever before."
+  },
+  {
+    "id": 136,
+    "token_start": 2246,
+    "token_end": 2287,
+    "char_start": 10462,
+    "char_end": 10654,
+    "content_tokens": 41,
+    "text": "During the pandemic, a shortage of semiconductors, chips that drove up the price of everything from cell phones to automobiles — and, by the way, we invented those chips right here in America."
+  },
+  {
+    "id": 137,
+    "token_start": 2287,
+    "token_end": 2342,
+    "char_start": 10656,
+    "char_end": 10922,
+    "content_tokens": 55,
+    "text": "Well, instead of having to import them, instead of — private companies are now investing billions of dollars to build new chip factories here in America creating tens of thousands of jobs, many of those jobs paying $100,000 a year and don’t require a college degree."
+  },
+  {
+    "id": 138,
+    "token_start": 2342,
+    "token_end": 2374,
+    "char_start": 10924,
+    "char_end": 11094,
+    "content_tokens": 32,
+    "text": "In fact, my policies have attracted $650 billion in private-sector investment in clean energy, advanced manufacturing, creating tens of thousands of jobs here in America."
+  },
+  {
+    "id": 139,
+    "token_start": 2374,
+    "token_end": 2399,
+    "char_start": 11096,
+    "char_end": 11226,
+    "content_tokens": 25,
+    "text": "And thanks — and thanks to our Bipartisan Infrastructure Law, 46,000 new projects have been announced all across your communities."
+  },
+  {
+    "id": 140,
+    "token_start": 2399,
+    "token_end": 2426,
+    "char_start": 11228,
+    "char_end": 11343,
+    "content_tokens": 27,
+    "text": "And, by the way, I noticed some of you who’ve strongly voted against it are there cheering on that money coming in."
+  },
+  {
+    "id": 141,
+    "token_start": 2426,
+    "token_end": 2431,
+    "char_start": 11344,
+    "char_end": 11358,
+    "content_tokens": 5,
+    "text": "And I like it."
+  },
+  {
+    "id": 142,
+    "token_start": 2431,
+    "token_end": 2443,
+    "char_start": 11359,
+    "char_end": 11386,
+    "content_tokens": 12,
+    "text": "I’m with you. I’m with you."
+  },
+  {
+    "id": 143,
+    "token_start": 2443,
+    "token_end": 2463,
+    "char_start": 11388,
+    "char_end": 11463,
+    "content_tokens": 20,
+    "text": "And if any of you don’t want that money in your district, just let me know."
+  },
+  {
+    "id": 144,
+    "token_start": 2463,
+    "token_end": 2478,
+    "char_start": 11465,
+    "char_end": 11543,
+    "content_tokens": 15,
+    "text": "Modernizing our roads and bridges, ports and airports, public transit systems."
+  },
+  {
+    "id": 145,
+    "token_start": 2478,
+    "token_end": 2499,
+    "char_start": 11544,
+    "char_end": 11647,
+    "content_tokens": 21,
+    "text": "Removing poi- — poisonous lead pipes so every child can drink clean water without risk of brain damage."
+  },
+  {
+    "id": 146,
+    "token_start": 2499,
+    "token_end": 2531,
+    "char_start": 11649,
+    "char_end": 11818,
+    "content_tokens": 32,
+    "text": "Providing affordable — affordable high-speed Internet for every American, no matter where you live — urban, suburban, or rural communities in red states and blue states."
+  },
+  {
+    "id": 147,
+    "token_start": 2531,
+    "token_end": 2537,
+    "char_start": 11820,
+    "char_end": 11861,
+    "content_tokens": 6,
+    "text": "Record investments in Tribal communities."
+  },
+  {
+    "id": 148,
+    "token_start": 2537,
+    "token_end": 2605,
+    "char_start": 11863,
+    "char_end": 12182,
+    "content_tokens": 68,
+    "text": "Because of my investment in family farms — because I invested in family farms — led by my Secretary of Agriculture, who knows more about this anybody I know — we’re better able to stay in the family for the — those farms so their — and their children and grandchildren won’t have to leave — leave home to make a living."
+  },
+  {
+    "id": 149,
+    "token_start": 2605,
+    "token_end": 2611,
+    "char_start": 12183,
+    "char_end": 12203,
+    "content_tokens": 6,
+    "text": "It’s transformative."
+  },
+  {
+    "id": 150,
+    "token_start": 2611,
+    "token_end": 2622,
+    "char_start": 12205,
+    "char_end": 12253,
+    "content_tokens": 11,
+    "text": "The great comeback story is Belvidere, Illinois."
+  },
+  {
+    "id": 151,
+    "token_start": 2622,
+    "token_end": 2632,
+    "char_start": 12254,
+    "char_end": 12296,
+    "content_tokens": 10,
+    "text": "Home to an auto plant for nearly 60 years."
+  },
+  {
+    "id": 152,
+    "token_start": 2632,
+    "token_end": 2648,
+    "char_start": 12297,
+    "char_end": 12364,
+    "content_tokens": 16,
+    "text": "Before I came to office, the plant was on its way to shutting down."
+  },
+  {
+    "id": 153,
+    "token_start": 2648,
+    "token_end": 2657,
+    "char_start": 12365,
+    "char_end": 12415,
+    "content_tokens": 9,
+    "text": "Thousands of workers feared for their livelihoods."
+  },
+  {
+    "id": 154,
+    "token_start": 2657,
+    "token_end": 2661,
+    "char_start": 12416,
+    "char_end": 12432,
+    "content_tokens": 4,
+    "text": "Hope was fading."
+  },
+  {
+    "id": 155,
+    "token_start": 2661,
+    "token_end": 2688,
+    "char_start": 12434,
+    "char_end": 12566,
+    "content_tokens": 27,
+    "text": "Then, I was elected to office, and we raised Belvidere repeatedly with auto companies, knowing unions would make all the difference."
+  },
+  {
+    "id": 156,
+    "token_start": 2688,
+    "token_end": 2705,
+    "char_start": 12567,
+    "char_end": 12639,
+    "content_tokens": 17,
+    "text": "The UAW worked like hell to keep the plant open and get these jobs back."
+  },
+  {
+    "id": 157,
+    "token_start": 2705,
+    "token_end": 2711,
+    "char_start": 12640,
+    "char_end": 12667,
+    "content_tokens": 6,
+    "text": "And together, we succeeded."
+  },
+  {
+    "id": 158,
+    "token_start": 2711,
+    "token_end": 2748,
+    "char_start": 12669,
+    "char_end": 12835,
+    "content_tokens": 37,
+    "text": "Instead of auto factories shutting down, auto factories are reopening and a new state-of-the-art battery factory is being built to power those cars there at the same."
+  },
+  {
+    "id": 159,
+    "token_start": 2748,
+    "token_end": 2780,
+    "char_start": 12837,
+    "char_end": 12967,
+    "content_tokens": 32,
+    "text": "To the folks — to the folks of Belvidere, I’d say: Instead of your town being left behind, your community is moving forward again."
+  },
+  {
+    "id": 160,
+    "token_start": 2780,
+    "token_end": 2816,
+    "char_start": 12968,
+    "char_end": 13131,
+    "content_tokens": 36,
+    "text": "Because instead of watching auto ja- — jobs of the future go overseas, 4,000 union jobs with higher wages are building a future in Belvidere right here in America."
+  },
+  {
+    "id": 161,
+    "token_start": 2816,
+    "token_end": 2835,
+    "char_start": 13133,
+    "char_end": 13215,
+    "content_tokens": 19,
+    "text": "Here tonight is UAW President Shawn Fain, a great friend and a great labor leader."
+  },
+  {
+    "id": 162,
+    "token_start": 2835,
+    "token_end": 2841,
+    "char_start": 13216,
+    "char_end": 13237,
+    "content_tokens": 6,
+    "text": "Shawn, where are you?"
+  },
+  {
+    "id": 163,
+    "token_start": 2841,
+    "token_end": 2844,
+    "char_start": 13238,
+    "char_end": 13247,
+    "content_tokens": 3,
+    "text": "Stand up."
+  },
+  {
+    "id": 164,
+    "token_start": 2844,
+    "token_end": 2868,
+    "char_start": 13249,
+    "char_end": 13334,
+    "content_tokens": 24,
+    "text": "And — and Dawn — and Dawn Simms, a third-generation worker — UAW worker at Belvidere."
+  },
+  {
+    "id": 165,
+    "token_start": 2868,
+    "token_end": 2885,
+    "char_start": 13336,
+    "char_end": 13409,
+    "content_tokens": 17,
+    "text": "Shawn, I was proud to be the first President to stand in the picket line."
+  },
+  {
+    "id": 166,
+    "token_start": 2885,
+    "token_end": 2909,
+    "char_start": 13410,
+    "char_end": 13523,
+    "content_tokens": 24,
+    "text": "And today, Dawn has a good job in her hometown, providing stability for her family and pride and dignity as well."
+  },
+  {
+    "id": 167,
+    "token_start": 2909,
+    "token_end": 2920,
+    "char_start": 13525,
+    "char_end": 13577,
+    "content_tokens": 11,
+    "text": "Showing once again Wall Street didn’t build America."
+  },
+  {
+    "id": 168,
+    "token_start": 2920,
+    "token_end": 2927,
+    "char_start": 13578,
+    "char_end": 13599,
+    "content_tokens": 7,
+    "text": "They’re not bad guys."
+  },
+  {
+    "id": 169,
+    "token_start": 2927,
+    "token_end": 2936,
+    "char_start": 13600,
+    "char_end": 13629,
+    "content_tokens": 9,
+    "text": "They didn’t build it, though."
+  },
+  {
+    "id": 170,
+    "token_start": 2936,
+    "token_end": 2950,
+    "char_start": 13630,
+    "char_end": 13700,
+    "content_tokens": 14,
+    "text": "The middle class built the country, and unions built the middle class."
+  },
+  {
+    "id": 171,
+    "token_start": 2950,
+    "token_end": 2968,
+    "char_start": 13702,
+    "char_end": 13779,
+    "content_tokens": 18,
+    "text": "I say to the American people: When America gets knocked down, we get back up."
+  },
+  {
+    "id": 172,
+    "token_start": 2968,
+    "token_end": 2972,
+    "char_start": 13780,
+    "char_end": 13794,
+    "content_tokens": 4,
+    "text": "We keep going."
+  },
+  {
+    "id": 173,
+    "token_start": 2972,
+    "token_end": 2986,
+    "char_start": 13795,
+    "char_end": 13843,
+    "content_tokens": 14,
+    "text": "That’s America. That’s you, the American people."
+  },
+  {
+    "id": 174,
+    "token_start": 2986,
+    "token_end": 2997,
+    "char_start": 13845,
+    "char_end": 13888,
+    "content_tokens": 11,
+    "text": "It’s because of you America is coming back."
+  },
+  {
+    "id": 175,
+    "token_start": 2997,
+    "token_end": 3008,
+    "char_start": 13889,
+    "char_end": 13932,
+    "content_tokens": 11,
+    "text": "It’s because of you our future is brighter."
+  },
+  {
+    "id": 176,
+    "token_start": 3008,
+    "token_end": 3031,
+    "char_start": 13933,
+    "char_end": 14039,
+    "content_tokens": 23,
+    "text": "It’s because of you that tonight we can proudly say the state of our Union is strong and getting stronger."
+  },
+  {
+    "id": 177,
+    "token_start": 3031,
+    "token_end": 3045,
+    "char_start": 14041,
+    "char_end": 14101,
+    "content_tokens": 14,
+    "text": "AUDIENCE: Four more years! Four more years! Four more years!"
+  },
+  {
+    "id": 178,
+    "token_start": 3045,
+    "token_end": 3096,
+    "char_start": 14103,
+    "char_end": 14358,
+    "content_tokens": 51,
+    "text": "THE PRESIDENT: Tonight — tonight, I want to talk about the future of possibilities that we can build together — a future where the days of trickle-down economics are over and the wealthy and the biggest corporations no longer get the — all the tax breaks."
+  },
+  {
+    "id": 179,
+    "token_start": 3096,
+    "token_end": 3131,
+    "char_start": 14360,
+    "char_end": 14532,
+    "content_tokens": 35,
+    "text": "And, by the way, I understand corporations. I come from a state that has more corporations invested than every one of your states in the state — the United States combined."
+  },
+  {
+    "id": 180,
+    "token_start": 3131,
+    "token_end": 3139,
+    "char_start": 14533,
+    "char_end": 14567,
+    "content_tokens": 8,
+    "text": "And I represented it for 36 years."
+  },
+  {
+    "id": 181,
+    "token_start": 3139,
+    "token_end": 3147,
+    "char_start": 14568,
+    "char_end": 14593,
+    "content_tokens": 8,
+    "text": "I’m not anti-corporation."
+  },
+  {
+    "id": 182,
+    "token_start": 3147,
+    "token_end": 3172,
+    "char_start": 14595,
+    "char_end": 14690,
+    "content_tokens": 25,
+    "text": "But I grew up in a home where trickle-down economics didn’t put much on my dad’s kitchen table."
+  },
+  {
+    "id": 183,
+    "token_start": 3172,
+    "token_end": 3191,
+    "char_start": 14691,
+    "char_end": 14769,
+    "content_tokens": 19,
+    "text": "That’s why I’m determined to turn things around so the middle class does well."
+  },
+  {
+    "id": 184,
+    "token_start": 3191,
+    "token_end": 3210,
+    "char_start": 14770,
+    "char_end": 14847,
+    "content_tokens": 19,
+    "text": "When they do well, the poor have a way up and the wealthy still do very well."
+  },
+  {
+    "id": 185,
+    "token_start": 3210,
+    "token_end": 3215,
+    "char_start": 14848,
+    "char_end": 14863,
+    "content_tokens": 5,
+    "text": "We all do well."
+  },
+  {
+    "id": 186,
+    "token_start": 3215,
+    "token_end": 3238,
+    "char_start": 14865,
+    "char_end": 14948,
+    "content_tokens": 23,
+    "text": "And there’s more to do to make sure you’re feeling the benefits of all we’re doing."
+  },
+  {
+    "id": 187,
+    "token_start": 3238,
+    "token_end": 3250,
+    "char_start": 14950,
+    "char_end": 15019,
+    "content_tokens": 12,
+    "text": "Americans pay more for prescription drugs than anywhere in the world."
+  },
+  {
+    "id": 188,
+    "token_start": 3250,
+    "token_end": 3262,
+    "char_start": 15020,
+    "char_end": 15050,
+    "content_tokens": 12,
+    "text": "It’s wrong, and I’m ending it."
+  },
+  {
+    "id": 189,
+    "token_start": 3262,
+    "token_end": 3293,
+    "char_start": 15052,
+    "char_end": 15181,
+    "content_tokens": 31,
+    "text": "With a law that I proposed and signed — and not one of your Republican buddies work- — voted for it — we finally beat Big Pharma."
+  },
+  {
+    "id": 190,
+    "token_start": 3293,
+    "token_end": 3367,
+    "char_start": 15183,
+    "char_end": 15492,
+    "content_tokens": 74,
+    "text": "Instead of paying $400 a month or thereabouts for insulin with diabetes — and it only costs 10 bucks to make — they only get paid $35 a month now and still make a healthy profit.\n\nAnd I want to — and what to do next, I want to cap the cost of insulin at $35 a month for every American who needs it — everyone."
+  },
+  {
+    "id": 191,
+    "token_start": 3367,
+    "token_end": 3376,
+    "char_start": 15494,
+    "char_end": 15533,
+    "content_tokens": 9,
+    "text": "For years, people have talked about it."
+  },
+  {
+    "id": 192,
+    "token_start": 3376,
+    "token_end": 3407,
+    "char_start": 15534,
+    "char_end": 15683,
+    "content_tokens": 31,
+    "text": "But finally, we got it done and gave Medicare the power to negotiate lower prices on prescription drugs, just like the VA is able to do for veterans."
+  },
+  {
+    "id": 193,
+    "token_start": 3407,
+    "token_end": 3423,
+    "char_start": 15685,
+    "char_end": 15751,
+    "content_tokens": 16,
+    "text": "That’s not just saving seniors money. It’s saving taxpayers money."
+  },
+  {
+    "id": 194,
+    "token_start": 3423,
+    "token_end": 3505,
+    "char_start": 15752,
+    "char_end": 16155,
+    "content_tokens": 82,
+    "text": "We cut the federal deficit by $160 billion because Medicare will no longer have to pay those exorbitant prices to Big Pharma.\n\nThis year, Medicare is negotiating lower prices for some of the costliest drugs on the market that treat everything from heart disease to arthritis. It’s now time to go further and give Medicare the power to negotiate lower prices for 500 different drugs over the next decade."
+  },
+  {
+    "id": 195,
+    "token_start": 3505,
+    "token_end": 3525,
+    "char_start": 16157,
+    "char_end": 16236,
+    "content_tokens": 20,
+    "text": "They’re making a lot of money, guys. And they’ll still be extremely profitable."
+  },
+  {
+    "id": 196,
+    "token_start": 3525,
+    "token_end": 3541,
+    "char_start": 16237,
+    "char_end": 16310,
+    "content_tokens": 16,
+    "text": "It will not only save lives; it will save taxpayers another $200 billion."
+  },
+  {
+    "id": 197,
+    "token_start": 3541,
+    "token_end": 3607,
+    "char_start": 16312,
+    "char_end": 16567,
+    "content_tokens": 66,
+    "text": "Starting next year, the same law caps total prescription drug costs for seniors on Medicare at $200 — at $2,000 a year, even for expensive cancer drugs that cost $10-, $12-, $15,000. Now I want to cap prescription drug costs at $2,000 a year for everyone."
+  },
+  {
+    "id": 198,
+    "token_start": 3607,
+    "token_end": 3649,
+    "char_start": 16569,
+    "char_end": 16728,
+    "content_tokens": 42,
+    "text": "Folks, I’m going to get in trouble for saying that, but any of you want to get in Air Force One with me and fly to Toronto, Berlin, Moscow — I mean, excuse me."
+  },
+  {
+    "id": 199,
+    "token_start": 3649,
+    "token_end": 3656,
+    "char_start": 16729,
+    "char_end": 16757,
+    "content_tokens": 7,
+    "text": "Well, even Moscow, probably."
+  },
+  {
+    "id": 200,
+    "token_start": 3656,
+    "token_end": 3686,
+    "char_start": 16758,
+    "char_end": 16877,
+    "content_tokens": 30,
+    "text": "And bring your prescription with you, and I promise you, I’ll get it for you for 40 percent the cost you’re paying now."
+  },
+  {
+    "id": 201,
+    "token_start": 3686,
+    "token_end": 3695,
+    "char_start": 16878,
+    "char_end": 16914,
+    "content_tokens": 9,
+    "text": "Same company, same drug, same place."
+  },
+  {
+    "id": 202,
+    "token_start": 3695,
+    "token_end": 3715,
+    "char_start": 16916,
+    "char_end": 16994,
+    "content_tokens": 20,
+    "text": "Folks, the Affordable Care Act — the old “Obamacare” is still a very big deal."
+  },
+  {
+    "id": 203,
+    "token_start": 3715,
+    "token_end": 3736,
+    "char_start": 16996,
+    "char_end": 17096,
+    "content_tokens": 21,
+    "text": "Over 100 million of you can no longer be denied health insurance because of a preexisting condition."
+  },
+  {
+    "id": 204,
+    "token_start": 3736,
+    "token_end": 3760,
+    "char_start": 17097,
+    "char_end": 17221,
+    "content_tokens": 24,
+    "text": "But my predecessor and many in this chamber want to take the — that prescription drug away by repealing Affordable Care Act."
+  },
+  {
+    "id": 205,
+    "token_start": 3760,
+    "token_end": 3765,
+    "char_start": 17223,
+    "char_end": 17239,
+    "content_tokens": 5,
+    "text": "AUDIENCE: Booo —"
+  },
+  {
+    "id": 206,
+    "token_start": 3765,
+    "token_end": 3778,
+    "char_start": 17241,
+    "char_end": 17289,
+    "content_tokens": 13,
+    "text": "THE PRESIDENT: I’m not going to let that happen."
+  },
+  {
+    "id": 207,
+    "token_start": 3778,
+    "token_end": 3793,
+    "char_start": 17290,
+    "char_end": 17347,
+    "content_tokens": 15,
+    "text": "We stopped you 50 times before, and we’ll stop you again."
+  },
+  {
+    "id": 208,
+    "token_start": 3793,
+    "token_end": 3810,
+    "char_start": 17349,
+    "char_end": 17403,
+    "content_tokens": 17,
+    "text": "In fact, I’m not only protecting it, I’m expanding it."
+  },
+  {
+    "id": 209,
+    "token_start": 3810,
+    "token_end": 3835,
+    "char_start": 17404,
+    "char_end": 17523,
+    "content_tokens": 25,
+    "text": "The — we enacted tax credits of $800 per person per year (to) reduce healthcare costs for millions of working families."
+  },
+  {
+    "id": 210,
+    "token_start": 3835,
+    "token_end": 3844,
+    "char_start": 17524,
+    "char_end": 17558,
+    "content_tokens": 9,
+    "text": "That tax credit expires next year."
+  },
+  {
+    "id": 211,
+    "token_start": 3844,
+    "token_end": 3852,
+    "char_start": 17559,
+    "char_end": 17597,
+    "content_tokens": 8,
+    "text": "I want to make that savings permanent."
+  },
+  {
+    "id": 212,
+    "token_start": 3852,
+    "token_end": 3880,
+    "char_start": 17599,
+    "char_end": 17724,
+    "content_tokens": 28,
+    "text": "To state the obvious: Women are more than half of our population, but research on women’s health has always been underfunded."
+  },
+  {
+    "id": 213,
+    "token_start": 3880,
+    "token_end": 3942,
+    "char_start": 17726,
+    "char_end": 18000,
+    "content_tokens": 62,
+    "text": "That’s why we’re launching the first-ever White House Initiative on Women’s Health Research, led by Jill — doing an incredible job as First Lady — to pa- — to pass my plan for $12 billion to transform women’s health research and benefit millions of lives all across America."
+  },
+  {
+    "id": 214,
+    "token_start": 3942,
+    "token_end": 3954,
+    "char_start": 18002,
+    "char_end": 18052,
+    "content_tokens": 12,
+    "text": "I know the cost of housing is so important to you."
+  },
+  {
+    "id": 215,
+    "token_start": 3954,
+    "token_end": 3973,
+    "char_start": 18053,
+    "char_end": 18151,
+    "content_tokens": 19,
+    "text": "Inflation keeps coming down. Mortgage rates will come down as well, and the Fed acknowledges that."
+  },
+  {
+    "id": 216,
+    "token_start": 3973,
+    "token_end": 3980,
+    "char_start": 18153,
+    "char_end": 18173,
+    "content_tokens": 7,
+    "text": "But I’m not waiting."
+  },
+  {
+    "id": 217,
+    "token_start": 3980,
+    "token_end": 4027,
+    "char_start": 18174,
+    "char_end": 18399,
+    "content_tokens": 47,
+    "text": "I want to provide an annual tax credit that will give Americans $400 a month for the next two years as mortgage rates come down to put toward their mortgages when they buy their first home or trade up for a little more space."
+  },
+  {
+    "id": 218,
+    "token_start": 4027,
+    "token_end": 4034,
+    "char_start": 18400,
+    "char_end": 18421,
+    "content_tokens": 7,
+    "text": "That’s for two years."
+  },
+  {
+    "id": 219,
+    "token_start": 4034,
+    "token_end": 4051,
+    "char_start": 18423,
+    "char_end": 18518,
+    "content_tokens": 17,
+    "text": "And my administration is also eliminating title insurance (fees) on federally backed mortgages."
+  },
+  {
+    "id": 220,
+    "token_start": 4051,
+    "token_end": 4072,
+    "char_start": 18519,
+    "char_end": 18594,
+    "content_tokens": 21,
+    "text": "When you refinance your home, you can save $1,000 or more as a consequence."
+  },
+  {
+    "id": 221,
+    "token_start": 4072,
+    "token_end": 4111,
+    "char_start": 18596,
+    "char_end": 18761,
+    "content_tokens": 39,
+    "text": "For millions of renters, we’re cracking down on big landlords who use antitrust law —using antitrust — who break antitrust laws by price-fixing and driving up rents."
+  },
+  {
+    "id": 222,
+    "token_start": 4111,
+    "token_end": 4144,
+    "char_start": 18763,
+    "char_end": 18915,
+    "content_tokens": 33,
+    "text": "We’ve cut red tape so builders can get federally financing, which is already helping build a record 1.7 million new house u- — housing units nationwide."
+  },
+  {
+    "id": 223,
+    "token_start": 4144,
+    "token_end": 4168,
+    "char_start": 18917,
+    "char_end": 19024,
+    "content_tokens": 24,
+    "text": "Now pass — now pass (my plan) and build and renovate 2 million affordable homes and bring those rents down."
+  },
+  {
+    "id": 224,
+    "token_start": 4168,
+    "token_end": 4189,
+    "char_start": 19026,
+    "char_end": 19127,
+    "content_tokens": 21,
+    "text": "To remain the strongest economy in the world, we need to have the best education system in the world."
+  },
+  {
+    "id": 225,
+    "token_start": 4189,
+    "token_end": 4225,
+    "char_start": 19128,
+    "char_end": 19273,
+    "content_tokens": 36,
+    "text": "And I, like I suspect all of you, want to give a child — every child a good start by providing access to preschool for three- and four-years-old."
+  },
+  {
+    "id": 226,
+    "token_start": 4225,
+    "token_end": 4288,
+    "char_start": 19275,
+    "char_end": 19563,
+    "content_tokens": 63,
+    "text": "You know, I think I pointed out last year — I think I pointed out last year that children coming from broken homes where there’s no books, they’re not read to, they’re not spoken to very often start school — kindergarten or first grade hearing — having heard a million fewer words spoken."
+  },
+  {
+    "id": 227,
+    "token_start": 4288,
+    "token_end": 4328,
+    "char_start": 19565,
+    "char_end": 19755,
+    "content_tokens": 40,
+    "text": "Well, studies show that children who go to preschool are nearly 50 percent more likely to finish high school and go on to earn a two- and four-year degree no matter what their background is."
+  },
+  {
+    "id": 228,
+    "token_start": 4328,
+    "token_end": 4345,
+    "char_start": 19757,
+    "char_end": 19829,
+    "content_tokens": 17,
+    "text": "I met a year and a half ago with the leaders of the Business Roundtable."
+  },
+  {
+    "id": 229,
+    "token_start": 4345,
+    "token_end": 4371,
+    "char_start": 19830,
+    "char_end": 19942,
+    "content_tokens": 26,
+    "text": "They were mad that I was ever — angry — I — well, they were discussing why I wanted to spend money on education."
+  },
+  {
+    "id": 230,
+    "token_start": 4371,
+    "token_end": 4420,
+    "char_start": 19944,
+    "char_end": 20127,
+    "content_tokens": 49,
+    "text": "I pointed out to them: As Vice President, I met with over 8- — I think it was 182 of those folks — don’t hold me to the exact number — and I asked them what they need most — the CEOs."
+  },
+  {
+    "id": 231,
+    "token_start": 4420,
+    "token_end": 4435,
+    "char_start": 20128,
+    "char_end": 20190,
+    "content_tokens": 15,
+    "text": "And you’ve had the same experience on both sides of the aisle."
+  },
+  {
+    "id": 232,
+    "token_start": 4435,
+    "token_end": 4448,
+    "char_start": 20191,
+    "char_end": 20238,
+    "content_tokens": 13,
+    "text": "They say, “A better-educated workforce,” right?"
+  },
+  {
+    "id": 233,
+    "token_start": 4448,
+    "token_end": 4455,
+    "char_start": 20240,
+    "char_end": 20261,
+    "content_tokens": 7,
+    "text": "So, I looked at them."
+  },
+  {
+    "id": 234,
+    "token_start": 4455,
+    "token_end": 4465,
+    "char_start": 20262,
+    "char_end": 20295,
+    "content_tokens": 10,
+    "text": "And I say, “I come from Delaware."
+  },
+  {
+    "id": 235,
+    "token_start": 4465,
+    "token_end": 4478,
+    "char_start": 20296,
+    "char_end": 20358,
+    "content_tokens": 13,
+    "text": "DuPont used to be the eighth-largest corporation in the world."
+  },
+  {
+    "id": 236,
+    "token_start": 4478,
+    "token_end": 4496,
+    "char_start": 20359,
+    "char_end": 20453,
+    "content_tokens": 18,
+    "text": "And every new enter- — enterprise they bought, they educated the workforce to that enterprise."
+  },
+  {
+    "id": 237,
+    "token_start": 4496,
+    "token_end": 4504,
+    "char_start": 20454,
+    "char_end": 20486,
+    "content_tokens": 8,
+    "text": "But none of you do that anymore."
+  },
+  {
+    "id": 238,
+    "token_start": 4504,
+    "token_end": 4525,
+    "char_start": 20487,
+    "char_end": 20589,
+    "content_tokens": 21,
+    "text": "Why are you angry with me providing you the opportunity for the best-educated workforce in the world?”"
+  },
+  {
+    "id": 239,
+    "token_start": 4525,
+    "token_end": 4543,
+    "char_start": 20591,
+    "char_end": 20650,
+    "content_tokens": 18,
+    "text": "And they all looked at me and said, “I think you’re right.”"
+  },
+  {
+    "id": 240,
+    "token_start": 4543,
+    "token_end": 4567,
+    "char_start": 20652,
+    "char_end": 20765,
+    "content_tokens": 24,
+    "text": "I want to expand high-quality tutoring and summer learning to see that every child learns to read by third grade."
+  },
+  {
+    "id": 241,
+    "token_start": 4567,
+    "token_end": 4613,
+    "char_start": 20767,
+    "char_end": 20981,
+    "content_tokens": 46,
+    "text": "I’m also connecting local businesses and high schools so students get hands-on experience and a path to a good-paying job whether or not they go to college.\n\nAnd I want to make sure that college is more affordable."
+  },
+  {
+    "id": 242,
+    "token_start": 4613,
+    "token_end": 4648,
+    "char_start": 20982,
+    "char_end": 21170,
+    "content_tokens": 35,
+    "text": "Let’s continue increasing the Pell Grants to working- and middle-class families and increase record investments in HBCUs and minority-serving institutions, including Hispanic institutions."
+  },
+  {
+    "id": 243,
+    "token_start": 4648,
+    "token_end": 4703,
+    "char_start": 21172,
+    "char_end": 21459,
+    "content_tokens": 55,
+    "text": "When I was told I couldn’t universally just change the way in which we did — dealt with student loans, I fixed two student loan programs that already existed to reduce the burden of student debt for nearly 4 million Americans, including nurses, firefighters and others in public service."
+  },
+  {
+    "id": 244,
+    "token_start": 4703,
+    "token_end": 4732,
+    "char_start": 21461,
+    "char_end": 21581,
+    "content_tokens": 29,
+    "text": "Like Keenan Jones, a public educator in Minnesota, who’s here with us tonight. Keenan, where are you? Keenan, thank you."
+  },
+  {
+    "id": 245,
+    "token_start": 4732,
+    "token_end": 4746,
+    "char_start": 21583,
+    "char_end": 21644,
+    "content_tokens": 14,
+    "text": "He’s educated hundreds of students so they can go to college."
+  },
+  {
+    "id": 246,
+    "token_start": 4746,
+    "token_end": 4765,
+    "char_start": 21645,
+    "char_end": 21724,
+    "content_tokens": 19,
+    "text": "Now he’s able to help, after debt forgiveness, get his own daughter to college."
+  },
+  {
+    "id": 247,
+    "token_start": 4765,
+    "token_end": 4796,
+    "char_start": 21726,
+    "char_end": 21855,
+    "content_tokens": 31,
+    "text": "And, folks, look, such relief is good for the economy because folks are now able to buy a home, start a business, start a family."
+  },
+  {
+    "id": 248,
+    "token_start": 4796,
+    "token_end": 4814,
+    "char_start": 21857,
+    "char_end": 21926,
+    "content_tokens": 18,
+    "text": "And while we’re at it, I want to give public school teachers a raise."
+  },
+  {
+    "id": 249,
+    "token_start": 4814,
+    "token_end": 4831,
+    "char_start": 21928,
+    "char_end": 21991,
+    "content_tokens": 17,
+    "text": "And, by the way, the first couple of years, we cut the deficit."
+  },
+  {
+    "id": 250,
+    "token_start": 4831,
+    "token_end": 4845,
+    "char_start": 21993,
+    "char_end": 22068,
+    "content_tokens": 14,
+    "text": "Now let me speak to the question of fundamental fairness for all Americans."
+  },
+  {
+    "id": 251,
+    "token_start": 4845,
+    "token_end": 4858,
+    "char_start": 22069,
+    "char_end": 22132,
+    "content_tokens": 13,
+    "text": "I’ve been delivering real results in fiscally responsible ways."
+  },
+  {
+    "id": 252,
+    "token_start": 4858,
+    "token_end": 4927,
+    "char_start": 22133,
+    "char_end": 22462,
+    "content_tokens": 69,
+    "text": "We’ve already cut the federal deficit —we’ve already cut the federal deficit by over $1 trillion.\n\nI signed a bipartisan deal to cut another trillion dollars in the next decade.\n\nIt’s my goal to cut the federal deficit another $3 trillion by making big corporations and the very wealthy finally beginning to pay their fair share."
+  },
+  {
+    "id": 253,
+    "token_start": 4927,
+    "token_end": 4935,
+    "char_start": 22464,
+    "char_end": 22487,
+    "content_tokens": 8,
+    "text": "Look, I’m a capitalist."
+  },
+  {
+    "id": 254,
+    "token_start": 4935,
+    "token_end": 4955,
+    "char_start": 22488,
+    "char_end": 22565,
+    "content_tokens": 20,
+    "text": "If you want to make or can make a million or millions of bucks, that’s great."
+  },
+  {
+    "id": 255,
+    "token_start": 4955,
+    "token_end": 4990,
+    "char_start": 22566,
+    "char_end": 22724,
+    "content_tokens": 35,
+    "text": "Just pay your fair share in taxes.\n\nA fair tax code is how we invest in things that make this country great: healthcare, education, defense, and so much more."
+  },
+  {
+    "id": 256,
+    "token_start": 4990,
+    "token_end": 4997,
+    "char_start": 22726,
+    "char_end": 22746,
+    "content_tokens": 7,
+    "text": "But here’s the deal."
+  },
+  {
+    "id": 257,
+    "token_start": 4997,
+    "token_end": 5018,
+    "char_start": 22747,
+    "char_end": 22862,
+    "content_tokens": 21,
+    "text": "The last administration enacted a $2 trillion tax cut overwhelmingly benefit the top 1 percent — the very wealthy —"
+  },
+  {
+    "id": 258,
+    "token_start": 5018,
+    "token_end": 5023,
+    "char_start": 22864,
+    "char_end": 22880,
+    "content_tokens": 5,
+    "text": "AUDIENCE: Booo —"
+  },
+  {
+    "id": 259,
+    "token_start": 5023,
+    "token_end": 5053,
+    "char_start": 22882,
+    "char_end": 23049,
+    "content_tokens": 30,
+    "text": "THE PRESIDENT: — and the biggest corporations — and exploded the federal deficit.\n\nThey added more to the national debt than any presidential term in American history."
+  },
+  {
+    "id": 260,
+    "token_start": 5053,
+    "token_end": 5057,
+    "char_start": 23050,
+    "char_end": 23068,
+    "content_tokens": 4,
+    "text": "Check the numbers."
+  },
+  {
+    "id": 261,
+    "token_start": 5057,
+    "token_end": 5071,
+    "char_start": 23070,
+    "char_end": 23132,
+    "content_tokens": 14,
+    "text": "Folks at home, does anybody really think the tax code is fair?"
+  },
+  {
+    "id": 262,
+    "token_start": 5071,
+    "token_end": 5075,
+    "char_start": 23134,
+    "char_end": 23147,
+    "content_tokens": 4,
+    "text": "AUDIENCE: No!"
+  },
+  {
+    "id": 263,
+    "token_start": 5075,
+    "token_end": 5095,
+    "char_start": 23149,
+    "char_end": 23252,
+    "content_tokens": 20,
+    "text": "THE PRESIDENT: Do you really think the wealthy and big corporations need another $2 trillion tax break?"
+  },
+  {
+    "id": 264,
+    "token_start": 5095,
+    "token_end": 5099,
+    "char_start": 23254,
+    "char_end": 23267,
+    "content_tokens": 4,
+    "text": "AUDIENCE: No!"
+  },
+  {
+    "id": 265,
+    "token_start": 5099,
+    "token_end": 5108,
+    "char_start": 23269,
+    "char_end": 23297,
+    "content_tokens": 9,
+    "text": "THE PRESIDENT: I sure don’t."
+  },
+  {
+    "id": 266,
+    "token_start": 5108,
+    "token_end": 5122,
+    "char_start": 23298,
+    "char_end": 23351,
+    "content_tokens": 14,
+    "text": "I’m going to keep fighting like hell to make it fair."
+  },
+  {
+    "id": 267,
+    "token_start": 5122,
+    "token_end": 5150,
+    "char_start": 23352,
+    "char_end": 23477,
+    "content_tokens": 28,
+    "text": "Under my plan, nobody earning less than $400,000 a year will pay an additional penny in federal taxes nobody — not one penny."
+  },
+  {
+    "id": 268,
+    "token_start": 5150,
+    "token_end": 5157,
+    "char_start": 23478,
+    "char_end": 23499,
+    "content_tokens": 7,
+    "text": "And they haven’t yet."
+  },
+  {
+    "id": 269,
+    "token_start": 5157,
+    "token_end": 5191,
+    "char_start": 23501,
+    "char_end": 23665,
+    "content_tokens": 34,
+    "text": "In fact, the Child Tax Credit I passed during the pandemic cut taxes for millions of working families and cut child poverty in half.\n\nRestore that Child Tax Credit."
+  },
+  {
+    "id": 270,
+    "token_start": 5191,
+    "token_end": 5200,
+    "char_start": 23666,
+    "char_end": 23708,
+    "content_tokens": 9,
+    "text": "No child should go hungry in this country."
+  },
+  {
+    "id": 271,
+    "token_start": 5200,
+    "token_end": 5223,
+    "char_start": 23710,
+    "char_end": 23818,
+    "content_tokens": 23,
+    "text": "The way to make the tax code fair is to make big corporations and the very wealthy begin to pay their share."
+  },
+  {
+    "id": 272,
+    "token_start": 5223,
+    "token_end": 5246,
+    "char_start": 23819,
+    "char_end": 23929,
+    "content_tokens": 23,
+    "text": "Remember in 2020, 55 of the biggest companies in America made $40 billion and paid zero in federal income tax."
+  },
+  {
+    "id": 273,
+    "token_start": 5246,
+    "token_end": 5248,
+    "char_start": 23930,
+    "char_end": 23935,
+    "content_tokens": 2,
+    "text": "Zero."
+  },
+  {
+    "id": 274,
+    "token_start": 5248,
+    "token_end": 5253,
+    "char_start": 23937,
+    "char_end": 23953,
+    "content_tokens": 5,
+    "text": "AUDIENCE: Booo —"
+  },
+  {
+    "id": 275,
+    "token_start": 5253,
+    "token_end": 5259,
+    "char_start": 23955,
+    "char_end": 23982,
+    "content_tokens": 6,
+    "text": "THE PRESIDENT: Not anymore."
+  },
+  {
+    "id": 276,
+    "token_start": 5259,
+    "token_end": 5281,
+    "char_start": 23984,
+    "char_end": 24079,
+    "content_tokens": 22,
+    "text": "Thanks to the law I wrote and we signed, big companies now have to pay a minimum of 15 percent."
+  },
+  {
+    "id": 277,
+    "token_start": 5281,
+    "token_end": 5295,
+    "char_start": 24080,
+    "char_end": 24143,
+    "content_tokens": 14,
+    "text": "But that’s still less than working people pay in federal taxes."
+  },
+  {
+    "id": 278,
+    "token_start": 5295,
+    "token_end": 5322,
+    "char_start": 24145,
+    "char_end": 24277,
+    "content_tokens": 27,
+    "text": "It’s time to raise the corporate minimum tax to at least 21 percent so every big corporation finally begins to pay their fair share."
+  },
+  {
+    "id": 279,
+    "token_start": 5322,
+    "token_end": 5365,
+    "char_start": 24279,
+    "char_end": 24460,
+    "content_tokens": 43,
+    "text": "I also want to end tax breaks for Big Pharma, Big Oil, private jets, massive executive pay when it was only supposed to be a million bal- — a million dollars that could be deducted."
+  },
+  {
+    "id": 280,
+    "token_start": 5365,
+    "token_end": 5383,
+    "char_start": 24461,
+    "char_end": 24526,
+    "content_tokens": 18,
+    "text": "They can pay them $20 million if they want, but deduct a million."
+  },
+  {
+    "id": 281,
+    "token_start": 5383,
+    "token_end": 5387,
+    "char_start": 24528,
+    "char_end": 24539,
+    "content_tokens": 4,
+    "text": "End it now."
+  },
+  {
+    "id": 282,
+    "token_start": 5387,
+    "token_end": 5413,
+    "char_start": 24541,
+    "char_end": 24656,
+    "content_tokens": 26,
+    "text": "You know, there are 1,000 billionaires in America. You know what the average federal tax is for those billionaires?"
+  },
+  {
+    "id": 283,
+    "token_start": 5413,
+    "token_end": 5418,
+    "char_start": 24658,
+    "char_end": 24680,
+    "content_tokens": 5,
+    "text": "AUDIENCE MEMBER: Zero!"
+  },
+  {
+    "id": 284,
+    "token_start": 5418,
+    "token_end": 5423,
+    "char_start": 24682,
+    "char_end": 24700,
+    "content_tokens": 5,
+    "text": "THE PRESIDENT: No."
+  },
+  {
+    "id": 285,
+    "token_start": 5423,
+    "token_end": 5435,
+    "char_start": 24702,
+    "char_end": 24748,
+    "content_tokens": 12,
+    "text": "They’re making great sacrifices — 8.2 percent."
+  },
+  {
+    "id": 286,
+    "token_start": 5435,
+    "token_end": 5440,
+    "char_start": 24750,
+    "char_end": 24766,
+    "content_tokens": 5,
+    "text": "AUDIENCE: Booo —"
+  },
+  {
+    "id": 287,
+    "token_start": 5440,
+    "token_end": 5493,
+    "char_start": 24768,
+    "char_end": 25016,
+    "content_tokens": 53,
+    "text": "THE PRESIDENT: That’s far less than the vast majority of Americans pay.\n\nNo billionaire should pay a lower federal tax rate than a teacher, a sanitation worker, or a nurse.\n\nI proposed a minimum tax for billionaires of 25 percent — just 25 percent."
+  },
+  {
+    "id": 288,
+    "token_start": 5493,
+    "token_end": 5512,
+    "char_start": 25017,
+    "char_end": 25102,
+    "content_tokens": 19,
+    "text": "You know what that would raise? That would raise $500 billion over the next 10 years."
+  },
+  {
+    "id": 289,
+    "token_start": 5512,
+    "token_end": 5521,
+    "char_start": 25104,
+    "char_end": 25147,
+    "content_tokens": 9,
+    "text": "And imagine what that could do for America."
+  },
+  {
+    "id": 290,
+    "token_start": 5521,
+    "token_end": 5547,
+    "char_start": 25148,
+    "char_end": 25275,
+    "content_tokens": 26,
+    "text": "Imagine a future with affordable childcare, millions of families can get what they need to go to work to help grow the economy."
+  },
+  {
+    "id": 291,
+    "token_start": 5547,
+    "token_end": 5609,
+    "char_start": 25277,
+    "char_end": 25594,
+    "content_tokens": 62,
+    "text": "Imagine a future with paid leave, because no one should have to choose between working and taking care of their sick family member.\n\nImagine — imagine a future with home care and eldercare, and people living with disabilities so they can stay in their homes and family caregivers can finally get the pay they deserve."
+  },
+  {
+    "id": 292,
+    "token_start": 5609,
+    "token_end": 5624,
+    "char_start": 25596,
+    "char_end": 25656,
+    "content_tokens": 15,
+    "text": "Tonight, let’s all agree once again to stand up for seniors."
+  },
+  {
+    "id": 293,
+    "token_start": 5624,
+    "token_end": 5667,
+    "char_start": 25658,
+    "char_end": 25861,
+    "content_tokens": 43,
+    "text": "Many of my friends on the other side of the aisle want to put Social Security on the chopping block.\n\nIf anyone here tries to cut Social Security or Medicare or raise the retirement age, I will stop you."
+  },
+  {
+    "id": 294,
+    "token_start": 5667,
+    "token_end": 5691,
+    "char_start": 25863,
+    "char_end": 25994,
+    "content_tokens": 24,
+    "text": "The working people — the working people who built this country pay more into Social Security than millionaires and billionaires do."
+  },
+  {
+    "id": 295,
+    "token_start": 5691,
+    "token_end": 5697,
+    "char_start": 25995,
+    "char_end": 26009,
+    "content_tokens": 6,
+    "text": "It’s not fair."
+  },
+  {
+    "id": 296,
+    "token_start": 5697,
+    "token_end": 5704,
+    "char_start": 26011,
+    "char_end": 26034,
+    "content_tokens": 7,
+    "text": "We have two ways to go."
+  },
+  {
+    "id": 297,
+    "token_start": 5704,
+    "token_end": 5718,
+    "char_start": 26035,
+    "char_end": 26111,
+    "content_tokens": 14,
+    "text": "Republicans can cut Social Security and give more tax breaks to the wealthy."
+  },
+  {
+    "id": 298,
+    "token_start": 5718,
+    "token_end": 5721,
+    "char_start": 26112,
+    "char_end": 26120,
+    "content_tokens": 3,
+    "text": "I will —"
+  },
+  {
+    "id": 299,
+    "token_start": 5721,
+    "token_end": 5730,
+    "char_start": 26122,
+    "char_end": 26151,
+    "content_tokens": 9,
+    "text": "AUDIENCE MEMBER: (Inaudible.)"
+  },
+  {
+    "id": 300,
+    "token_start": 5730,
+    "token_end": 5739,
+    "char_start": 26153,
+    "char_end": 26188,
+    "content_tokens": 9,
+    "text": "THE PRESIDENT: That’s the proposal."
+  },
+  {
+    "id": 301,
+    "token_start": 5739,
+    "token_end": 5743,
+    "char_start": 26189,
+    "char_end": 26196,
+    "content_tokens": 4,
+    "text": "Oh, no?"
+  },
+  {
+    "id": 302,
+    "token_start": 5743,
+    "token_end": 5756,
+    "char_start": 26197,
+    "char_end": 26245,
+    "content_tokens": 13,
+    "text": "You guys don’t want another $2 trillion tax cut?"
+  },
+  {
+    "id": 303,
+    "token_start": 5756,
+    "token_end": 5761,
+    "char_start": 26247,
+    "char_end": 26269,
+    "content_tokens": 5,
+    "text": "AUDIENCE MEMBER: Liar!"
+  },
+  {
+    "id": 304,
+    "token_start": 5761,
+    "token_end": 5776,
+    "char_start": 26271,
+    "char_end": 26330,
+    "content_tokens": 15,
+    "text": "THE PRESIDENT: I kind of thought that’s what your plan was."
+  },
+  {
+    "id": 305,
+    "token_start": 5776,
+    "token_end": 5785,
+    "char_start": 26331,
+    "char_end": 26357,
+    "content_tokens": 9,
+    "text": "Well, that’s good to hear."
+  },
+  {
+    "id": 306,
+    "token_start": 5785,
+    "token_end": 5802,
+    "char_start": 26358,
+    "char_end": 26424,
+    "content_tokens": 17,
+    "text": "You’re not going to cut another $2 trillion for the super-wealthy?"
+  },
+  {
+    "id": 307,
+    "token_start": 5802,
+    "token_end": 5809,
+    "char_start": 26425,
+    "char_end": 26445,
+    "content_tokens": 7,
+    "text": "That’s good to hear."
+  },
+  {
+    "id": 308,
+    "token_start": 5809,
+    "token_end": 5826,
+    "char_start": 26447,
+    "char_end": 26533,
+    "content_tokens": 17,
+    "text": "I’ll protect and strengthen Social Security and make the wealthy pay their fair share."
+  },
+  {
+    "id": 309,
+    "token_start": 5826,
+    "token_end": 5877,
+    "char_start": 26535,
+    "char_end": 26775,
+    "content_tokens": 51,
+    "text": "Look, too many corporations raise prices to pad their profits, charging more and more for less and less.\n\nThat’s why we’re cracking down on corporations that engage in price gouging and deceptive pricing, from food to healthcare to housing."
+  },
+  {
+    "id": 310,
+    "token_start": 5877,
+    "token_end": 5919,
+    "char_start": 26777,
+    "char_end": 26942,
+    "content_tokens": 42,
+    "text": "In fact, the snack companies think you won’t notice if they change the size of the bag and put a hell of a lot fewer — same — same size bag -— put fewer chips in it."
+  },
+  {
+    "id": 311,
+    "token_start": 5919,
+    "token_end": 5927,
+    "char_start": 26943,
+    "char_end": 26962,
+    "content_tokens": 8,
+    "text": "No, I’m not joking."
+  },
+  {
+    "id": 312,
+    "token_start": 5927,
+    "token_end": 5938,
+    "char_start": 26963,
+    "char_end": 26992,
+    "content_tokens": 11,
+    "text": "It’s called “shrink-flation.”"
+  },
+  {
+    "id": 313,
+    "token_start": 5938,
+    "token_end": 5948,
+    "char_start": 26994,
+    "char_end": 27032,
+    "content_tokens": 10,
+    "text": "Pass Bobby Casey’s bill and stop this."
+  },
+  {
+    "id": 314,
+    "token_start": 5948,
+    "token_end": 5953,
+    "char_start": 27033,
+    "char_end": 27050,
+    "content_tokens": 5,
+    "text": "I really mean it."
+  },
+  {
+    "id": 315,
+    "token_start": 5953,
+    "token_end": 5965,
+    "char_start": 27052,
+    "char_end": 27106,
+    "content_tokens": 12,
+    "text": "You probably all saw that commercial on Snickers bars."
+  },
+  {
+    "id": 316,
+    "token_start": 5965,
+    "token_end": 5996,
+    "char_start": 27107,
+    "char_end": 27219,
+    "content_tokens": 31,
+    "text": "And you get — you get charged the same amount, and you got about, I don’t know, 10 percent fewer Snickers in it."
+  },
+  {
+    "id": 317,
+    "token_start": 5996,
+    "token_end": 6043,
+    "char_start": 27221,
+    "char_end": 27425,
+    "content_tokens": 47,
+    "text": "Look, I’m also getting rid of junk fees — those hidden fees — at the end of your bill that are there without your knowledge. My administration announced we’re cutting credit card late fees from $32 to $8."
+  },
+  {
+    "id": 318,
+    "token_start": 6043,
+    "token_end": 6067,
+    "char_start": 27427,
+    "char_end": 27537,
+    "content_tokens": 24,
+    "text": "Banks and credit card companies are allowed to charge what it costs them to in- — to instigate the collection."
+  },
+  {
+    "id": 319,
+    "token_start": 6067,
+    "token_end": 6087,
+    "char_start": 27538,
+    "char_end": 27601,
+    "content_tokens": 20,
+    "text": "And that’s more — a hell of a lot like $8 than 30-some dollars."
+  },
+  {
+    "id": 320,
+    "token_start": 6087,
+    "token_end": 6095,
+    "char_start": 27603,
+    "char_end": 27626,
+    "content_tokens": 8,
+    "text": "But they don’t like it."
+  },
+  {
+    "id": 321,
+    "token_start": 6095,
+    "token_end": 6128,
+    "char_start": 27627,
+    "char_end": 27762,
+    "content_tokens": 33,
+    "text": "The credit card companies don’t like it, but I’m saving American families $20 billion a year with all of the junk fees I’m eliminating."
+  },
+  {
+    "id": 322,
+    "token_start": 6128,
+    "token_end": 6142,
+    "char_start": 27764,
+    "char_end": 27811,
+    "content_tokens": 14,
+    "text": "Folks at home, that’s why the banks are so mad."
+  },
+  {
+    "id": 323,
+    "token_start": 6142,
+    "token_end": 6151,
+    "char_start": 27812,
+    "char_end": 27839,
+    "content_tokens": 9,
+    "text": "It’s $20 billion in profit."
+  },
+  {
+    "id": 324,
+    "token_start": 6151,
+    "token_end": 6158,
+    "char_start": 27841,
+    "char_end": 27864,
+    "content_tokens": 7,
+    "text": "I’m not stopping there."
+  },
+  {
+    "id": 325,
+    "token_start": 6158,
+    "token_end": 6188,
+    "char_start": 27866,
+    "char_end": 28023,
+    "content_tokens": 30,
+    "text": "My administration has proposed rules to make cable, travel, utilities, and online ticket sellers tell you the total price up front so there are no surprises."
+  },
+  {
+    "id": 326,
+    "token_start": 6188,
+    "token_end": 6194,
+    "char_start": 28025,
+    "char_end": 28048,
+    "content_tokens": 6,
+    "text": "It matters. It matters."
+  },
+  {
+    "id": 327,
+    "token_start": 6194,
+    "token_end": 6199,
+    "char_start": 28050,
+    "char_end": 28067,
+    "content_tokens": 5,
+    "text": "And so does this."
+  },
+  {
+    "id": 328,
+    "token_start": 6199,
+    "token_end": 6215,
+    "char_start": 28068,
+    "char_end": 28152,
+    "content_tokens": 16,
+    "text": "In November, my team began serious negotiations with a bipartisan group of senators."
+  },
+  {
+    "id": 329,
+    "token_start": 6215,
+    "token_end": 6237,
+    "char_start": 28153,
+    "char_end": 28251,
+    "content_tokens": 22,
+    "text": "The result was a bipartisan bill with the toughest set of border security reforms we’ve ever seen."
+  },
+  {
+    "id": 330,
+    "token_start": 6237,
+    "token_end": 6242,
+    "char_start": 28253,
+    "char_end": 28269,
+    "content_tokens": 5,
+    "text": "AUDIENCE: Booo —"
+  },
+  {
+    "id": 331,
+    "token_start": 6242,
+    "token_end": 6254,
+    "char_start": 28271,
+    "char_end": 28309,
+    "content_tokens": 12,
+    "text": "THE PRESIDENT: Oh, you don’t think so?"
+  },
+  {
+    "id": 332,
+    "token_start": 6254,
+    "token_end": 6259,
+    "char_start": 28311,
+    "char_end": 28327,
+    "content_tokens": 5,
+    "text": "AUDIENCE: Booo —"
+  },
+  {
+    "id": 333,
+    "token_start": 6259,
+    "token_end": 6286,
+    "char_start": 28329,
+    "char_end": 28439,
+    "content_tokens": 27,
+    "text": "THE PRESIDENT: Oh, you don’t like that bill — huh? — that conservatives got together and said was a good bill?"
+  },
+  {
+    "id": 334,
+    "token_start": 6286,
+    "token_end": 6293,
+    "char_start": 28440,
+    "char_end": 28455,
+    "content_tokens": 7,
+    "text": "I’ll be darned."
+  },
+  {
+    "id": 335,
+    "token_start": 6293,
+    "token_end": 6298,
+    "char_start": 28456,
+    "char_end": 28471,
+    "content_tokens": 5,
+    "text": "That’s amazing."
+  },
+  {
+    "id": 336,
+    "token_start": 6298,
+    "token_end": 6352,
+    "char_start": 28473,
+    "char_end": 28732,
+    "content_tokens": 54,
+    "text": "That bipartisan bill would hire 1,500 more security agents and officers, 100 more immigration judges to help tackle the backload of 2 million cases, 4,300 more asylum officers, and new policies so they can resolve cases in six months instead of six years now."
+  },
+  {
+    "id": 337,
+    "token_start": 6352,
+    "token_end": 6357,
+    "char_start": 28733,
+    "char_end": 28754,
+    "content_tokens": 5,
+    "text": "What are you against?"
+  },
+  {
+    "id": 338,
+    "token_start": 6357,
+    "token_end": 6390,
+    "char_start": 28756,
+    "char_end": 28942,
+    "content_tokens": 33,
+    "text": "One hundred more high-tech drug detection machines to significantly increase the ability to screen and stop vehicles smuggling fentanyl into America that’s killing thousands of children."
+  },
+  {
+    "id": 339,
+    "token_start": 6390,
+    "token_end": 6431,
+    "char_start": 28944,
+    "char_end": 29165,
+    "content_tokens": 41,
+    "text": "This bill would save lives and bring order to the border.\n\nIt would also give me and any new president new emergency authority to temporarily shut down the border when the number of migrants at the border is overwhelming."
+  },
+  {
+    "id": 340,
+    "token_start": 6431,
+    "token_end": 6440,
+    "char_start": 29167,
+    "char_end": 29214,
+    "content_tokens": 9,
+    "text": "The Border Patrol union has endorsed this bill."
+  },
+  {
+    "id": 341,
+    "token_start": 6440,
+    "token_end": 6446,
+    "char_start": 29216,
+    "char_end": 29229,
+    "content_tokens": 6,
+    "text": "(Cross-talk.)"
+  },
+  {
+    "id": 342,
+    "token_start": 6446,
+    "token_end": 6457,
+    "char_start": 29231,
+    "char_end": 29280,
+    "content_tokens": 11,
+    "text": "The federal Chamber of Commerce has — yeah, yeah."
+  },
+  {
+    "id": 343,
+    "token_start": 6457,
+    "token_end": 6470,
+    "char_start": 29281,
+    "char_end": 29319,
+    "content_tokens": 13,
+    "text": "You’re saying “no.” Look at the facts."
+  },
+  {
+    "id": 344,
+    "token_start": 6470,
+    "token_end": 6481,
+    "char_start": 29320,
+    "char_end": 29357,
+    "content_tokens": 11,
+    "text": "I know — I know you know how to read."
+  },
+  {
+    "id": 345,
+    "token_start": 6481,
+    "token_end": 6511,
+    "char_start": 29359,
+    "char_end": 29493,
+    "content_tokens": 30,
+    "text": "I believe that given the opportunity — for — a majority in the House and Senate would endorse the bill as well — a majority right now."
+  },
+  {
+    "id": 346,
+    "token_start": 6511,
+    "token_end": 6516,
+    "char_start": 29495,
+    "char_end": 29516,
+    "content_tokens": 5,
+    "text": "AUDIENCE MEMBER: Yes!"
+  },
+  {
+    "id": 347,
+    "token_start": 6516,
+    "token_end": 6551,
+    "char_start": 29518,
+    "char_end": 29689,
+    "content_tokens": 35,
+    "text": "THE PRESIDENT: But unfortunately, politics have derailed this bill so far.\n\nI’m told my predecessor called members of Congress in the Senate to demand they block the bill."
+  },
+  {
+    "id": 348,
+    "token_start": 6551,
+    "token_end": 6577,
+    "char_start": 29690,
+    "char_end": 29800,
+    "content_tokens": 26,
+    "text": "He feels political win — he viewed it as a — it would be a political win for me and a political loser for him."
+  },
+  {
+    "id": 349,
+    "token_start": 6577,
+    "token_end": 6591,
+    "char_start": 29801,
+    "char_end": 29839,
+    "content_tokens": 14,
+    "text": "It’s not about him. It’s not about me."
+  },
+  {
+    "id": 350,
+    "token_start": 6591,
+    "token_end": 6601,
+    "char_start": 29840,
+    "char_end": 29869,
+    "content_tokens": 10,
+    "text": "I’d be a winner — not really."
+  },
+  {
+    "id": 351,
+    "token_start": 6601,
+    "token_end": 6603,
+    "char_start": 29870,
+    "char_end": 29873,
+    "content_tokens": 2,
+    "text": "I —"
+  },
+  {
+    "id": 352,
+    "token_start": 6603,
+    "token_end": 6612,
+    "char_start": 29875,
+    "char_end": 29921,
+    "content_tokens": 9,
+    "text": "REPRESENTATIVE GREENE: What about Laken Riley?"
+  },
+  {
+    "id": 353,
+    "token_start": 6612,
+    "token_end": 6618,
+    "char_start": 29923,
+    "char_end": 29936,
+    "content_tokens": 6,
+    "text": "(Cross-talk.)"
+  },
+  {
+    "id": 354,
+    "token_start": 6618,
+    "token_end": 6623,
+    "char_start": 29938,
+    "char_end": 29954,
+    "content_tokens": 5,
+    "text": "AUDIENCE: Booo —"
+  },
+  {
+    "id": 355,
+    "token_start": 6623,
+    "token_end": 6630,
+    "char_start": 29956,
+    "char_end": 29992,
+    "content_tokens": 7,
+    "text": "REPRESENTATIVE GREENE: Say her name!"
+  },
+  {
+    "id": 356,
+    "token_start": 6630,
+    "token_end": 6671,
+    "char_start": 29994,
+    "char_end": 30147,
+    "content_tokens": 41,
+    "text": "THE PRESIDENT: (The President holds up a pin reading “Say Her Name, Laken Riley.”) Lanken — Lanken (Laken) Riley, an innocent young woman who was killed."
+  },
+  {
+    "id": 357,
+    "token_start": 6671,
+    "token_end": 6685,
+    "char_start": 30149,
+    "char_end": 30217,
+    "content_tokens": 14,
+    "text": "REPRESENTATIVE GREENE: By an illegal!\n\nTHE PRESIDENT: By an illegal."
+  },
+  {
+    "id": 358,
+    "token_start": 6685,
+    "token_end": 6690,
+    "char_start": 30218,
+    "char_end": 30231,
+    "content_tokens": 5,
+    "text": "That’s right."
+  },
+  {
+    "id": 359,
+    "token_start": 6690,
+    "token_end": 6704,
+    "char_start": 30232,
+    "char_end": 30295,
+    "content_tokens": 14,
+    "text": "But how many of thousands of people are being killed by legals?"
+  },
+  {
+    "id": 360,
+    "token_start": 6704,
+    "token_end": 6710,
+    "char_start": 30297,
+    "char_end": 30310,
+    "content_tokens": 6,
+    "text": "(Cross-talk.)"
+  },
+  {
+    "id": 361,
+    "token_start": 6710,
+    "token_end": 6724,
+    "char_start": 30312,
+    "char_end": 30360,
+    "content_tokens": 14,
+    "text": "To her parents, I say: My heart goes out to you."
+  },
+  {
+    "id": 362,
+    "token_start": 6724,
+    "token_end": 6732,
+    "char_start": 30361,
+    "char_end": 30403,
+    "content_tokens": 8,
+    "text": "Having lost children myself, I understand."
+  },
+  {
+    "id": 363,
+    "token_start": 6732,
+    "token_end": 6794,
+    "char_start": 30405,
+    "char_end": 30668,
+    "content_tokens": 62,
+    "text": "But, look, if we change the dynamic at the border — people pay people — people pay these smugglers 8,000 bucks to get across the border because they know if they get by — if they get by and let into the country, it’s six to eight years before they have a hearing."
+  },
+  {
+    "id": 364,
+    "token_start": 6794,
+    "token_end": 6811,
+    "char_start": 30669,
+    "char_end": 30722,
+    "content_tokens": 17,
+    "text": "And it’s worth the — taking the chance of the $8,000."
+  },
+  {
+    "id": 365,
+    "token_start": 6811,
+    "token_end": 6817,
+    "char_start": 30724,
+    "char_end": 30737,
+    "content_tokens": 6,
+    "text": "(Cross-talk.)"
+  },
+  {
+    "id": 366,
+    "token_start": 6817,
+    "token_end": 6865,
+    "char_start": 30739,
+    "char_end": 30927,
+    "content_tokens": 48,
+    "text": "But — but if it’s only six mon- — six weeks, the idea is it’s highly unlikely that people will pay that money and come all that way knowing that they’ll be — able to be kicked out quickly."
+  },
+  {
+    "id": 367,
+    "token_start": 6865,
+    "token_end": 6890,
+    "char_start": 30929,
+    "char_end": 31041,
+    "content_tokens": 25,
+    "text": "Folks, I would respectfully su- — suggest to my friend in — my Republican friends owe it to the American people."
+  },
+  {
+    "id": 368,
+    "token_start": 6890,
+    "token_end": 6895,
+    "char_start": 31042,
+    "char_end": 31061,
+    "content_tokens": 5,
+    "text": "Get this bill done."
+  },
+  {
+    "id": 369,
+    "token_start": 6895,
+    "token_end": 6901,
+    "char_start": 31062,
+    "char_end": 31081,
+    "content_tokens": 6,
+    "text": "We need to act now."
+  },
+  {
+    "id": 370,
+    "token_start": 6901,
+    "token_end": 6915,
+    "char_start": 31083,
+    "char_end": 31131,
+    "content_tokens": 14,
+    "text": "AUDIENCE: Get it done! Get it done! Get it done!"
+  },
+  {
+    "id": 371,
+    "token_start": 6915,
+    "token_end": 6953,
+    "char_start": 31133,
+    "char_end": 31317,
+    "content_tokens": 38,
+    "text": "THE PRESIDENT: And if my predecessor is watching: Instead of paying (playing) politics and pressuring members of Congress to block the bill, join me in telling the Congress to pass it."
+  },
+  {
+    "id": 372,
+    "token_start": 6953,
+    "token_end": 6959,
+    "char_start": 31319,
+    "char_end": 31341,
+    "content_tokens": 6,
+    "text": "We can do it together."
+  },
+  {
+    "id": 373,
+    "token_start": 6959,
+    "token_end": 6976,
+    "char_start": 31343,
+    "char_end": 31402,
+    "content_tokens": 17,
+    "text": "But that’s what he apparently — here’s what he will not do."
+  },
+  {
+    "id": 374,
+    "token_start": 6976,
+    "token_end": 6996,
+    "char_start": 31404,
+    "char_end": 31489,
+    "content_tokens": 20,
+    "text": "I will not demonize immigrants, saying they are “poison in the blood of our country.”"
+  },
+  {
+    "id": 375,
+    "token_start": 6996,
+    "token_end": 7002,
+    "char_start": 31491,
+    "char_end": 31520,
+    "content_tokens": 6,
+    "text": "I will not separate families."
+  },
+  {
+    "id": 376,
+    "token_start": 7002,
+    "token_end": 7012,
+    "char_start": 31522,
+    "char_end": 31567,
+    "content_tokens": 10,
+    "text": "I will not ban people because of their faith."
+  },
+  {
+    "id": 377,
+    "token_start": 7012,
+    "token_end": 7034,
+    "char_start": 31569,
+    "char_end": 31683,
+    "content_tokens": 22,
+    "text": "Unlike my predecessor, on my first day in office, I introduced a comprehensive bill to fix our immigration system."
+  },
+  {
+    "id": 378,
+    "token_start": 7034,
+    "token_end": 7040,
+    "char_start": 31684,
+    "char_end": 31702,
+    "content_tokens": 6,
+    "text": "Take a look at it."
+  },
+  {
+    "id": 379,
+    "token_start": 7040,
+    "token_end": 7065,
+    "char_start": 31703,
+    "char_end": 31813,
+    "content_tokens": 25,
+    "text": "It has all these and more: secure the border, provide a pathway to citizenship for DREAMers, and so much more."
+  },
+  {
+    "id": 380,
+    "token_start": 7065,
+    "token_end": 7078,
+    "char_start": 31815,
+    "char_end": 31873,
+    "content_tokens": 13,
+    "text": "But unlike my predecessor, I know who we are as Americans."
+  },
+  {
+    "id": 381,
+    "token_start": 7078,
+    "token_end": 7099,
+    "char_start": 31874,
+    "char_end": 31959,
+    "content_tokens": 21,
+    "text": "We’re the only nation in the world with a heart and soul that draws from old and new."
+  },
+  {
+    "id": 382,
+    "token_start": 7099,
+    "token_end": 7113,
+    "char_start": 31961,
+    "char_end": 32040,
+    "content_tokens": 14,
+    "text": "Home to Native Americans whose ancestors have been here for thousands of years."
+  },
+  {
+    "id": 383,
+    "token_start": 7113,
+    "token_end": 7128,
+    "char_start": 32041,
+    "char_end": 32098,
+    "content_tokens": 15,
+    "text": "Home to people of every pla- — from every place on Earth."
+  },
+  {
+    "id": 384,
+    "token_start": 7128,
+    "token_end": 7132,
+    "char_start": 32100,
+    "char_end": 32117,
+    "content_tokens": 4,
+    "text": "They came freely."
+  },
+  {
+    "id": 385,
+    "token_start": 7132,
+    "token_end": 7137,
+    "char_start": 32118,
+    "char_end": 32138,
+    "content_tokens": 5,
+    "text": "Some came in chains."
+  },
+  {
+    "id": 386,
+    "token_start": 7137,
+    "token_end": 7150,
+    "char_start": 32139,
+    "char_end": 32205,
+    "content_tokens": 13,
+    "text": "Some came when famine struck, like my ancestral family in Ireland."
+  },
+  {
+    "id": 387,
+    "token_start": 7150,
+    "token_end": 7167,
+    "char_start": 32206,
+    "char_end": 32297,
+    "content_tokens": 17,
+    "text": "Some to flee persecution, to chase dreams that are impossible anywhere but here in America."
+  },
+  {
+    "id": 388,
+    "token_start": 7167,
+    "token_end": 7172,
+    "char_start": 32299,
+    "char_end": 32314,
+    "content_tokens": 5,
+    "text": "That’s America."
+  },
+  {
+    "id": 389,
+    "token_start": 7172,
+    "token_end": 7186,
+    "char_start": 32315,
+    "char_end": 32371,
+    "content_tokens": 14,
+    "text": "And we all come from somewhere, but we’re all Americans."
+  },
+  {
+    "id": 390,
+    "token_start": 7186,
+    "token_end": 7209,
+    "char_start": 32373,
+    "char_end": 32465,
+    "content_tokens": 23,
+    "text": "Look, folks, we have a simple choice: We can fight about fixing the border or we can fix it."
+  },
+  {
+    "id": 391,
+    "token_start": 7209,
+    "token_end": 7217,
+    "char_start": 32466,
+    "char_end": 32486,
+    "content_tokens": 8,
+    "text": "I’m ready to fix it."
+  },
+  {
+    "id": 392,
+    "token_start": 7217,
+    "token_end": 7224,
+    "char_start": 32487,
+    "char_end": 32515,
+    "content_tokens": 7,
+    "text": "Send me the border bill now."
+  },
+  {
+    "id": 393,
+    "token_start": 7224,
+    "token_end": 7229,
+    "char_start": 32517,
+    "char_end": 32534,
+    "content_tokens": 5,
+    "text": "AUDIENCE: Fix it!"
+  },
+  {
+    "id": 394,
+    "token_start": 7229,
+    "token_end": 7235,
+    "char_start": 32535,
+    "char_end": 32550,
+    "content_tokens": 6,
+    "text": "Fix it! Fix it!"
+  },
+  {
+    "id": 395,
+    "token_start": 7235,
+    "token_end": 7259,
+    "char_start": 32552,
+    "char_end": 32662,
+    "content_tokens": 24,
+    "text": "THE PRESIDENT: A transformational his- — moment in history happened 58 — 59 years ago today in Selma, Alabama."
+  },
+  {
+    "id": 396,
+    "token_start": 7259,
+    "token_end": 7293,
+    "char_start": 32663,
+    "char_end": 32833,
+    "content_tokens": 34,
+    "text": "Hundreds of foot soldiers for justice marched across the Edmund Pettus Bridge, named after the Grand Dragon of the Ku Klux Klan, to claim their fundamental right to vote."
+  },
+  {
+    "id": 397,
+    "token_start": 7293,
+    "token_end": 7306,
+    "char_start": 32835,
+    "char_end": 32890,
+    "content_tokens": 13,
+    "text": "They were beaten. They were bloodied and left for dead."
+  },
+  {
+    "id": 398,
+    "token_start": 7306,
+    "token_end": 7319,
+    "char_start": 32891,
+    "char_end": 32957,
+    "content_tokens": 13,
+    "text": "Our late friend and former colleague John Lewis was on that march."
+  },
+  {
+    "id": 399,
+    "token_start": 7319,
+    "token_end": 7323,
+    "char_start": 32958,
+    "char_end": 32970,
+    "content_tokens": 4,
+    "text": "We miss him."
+  },
+  {
+    "id": 400,
+    "token_start": 7323,
+    "token_end": 7357,
+    "char_start": 32972,
+    "char_end": 33111,
+    "content_tokens": 34,
+    "text": "But joining us tonight are other marchers, both in the gallery and on the floor, including Bettie Mae Fikes, known as the “Voice of Selma.”"
+  },
+  {
+    "id": 401,
+    "token_start": 7357,
+    "token_end": 7386,
+    "char_start": 33113,
+    "char_end": 33256,
+    "content_tokens": 29,
+    "text": "The daughter of gospel singers and preachers, she sang songs of prayer and protest on that Bloody Sunday to help shake the nation’s conscience."
+  },
+  {
+    "id": 402,
+    "token_start": 7386,
+    "token_end": 7401,
+    "char_start": 33258,
+    "char_end": 33330,
+    "content_tokens": 15,
+    "text": "Five months later, the Voting Rights Act passed and was signed into law."
+  },
+  {
+    "id": 403,
+    "token_start": 7401,
+    "token_end": 7413,
+    "char_start": 33332,
+    "char_end": 33375,
+    "content_tokens": 12,
+    "text": "Thank you. Thank you, thank you, thank you."
+  },
+  {
+    "id": 404,
+    "token_start": 7413,
+    "token_end": 7444,
+    "char_start": 33377,
+    "char_end": 33523,
+    "content_tokens": 31,
+    "text": "But 59 years later, there are forces taking us back in time: voter suppression, election subversion, unlimited dark money, extreme gerrymandering."
+  },
+  {
+    "id": 405,
+    "token_start": 7444,
+    "token_end": 7456,
+    "char_start": 33525,
+    "char_end": 33574,
+    "content_tokens": 12,
+    "text": "John Lewis was a great friend to many of us here."
+  },
+  {
+    "id": 406,
+    "token_start": 7456,
+    "token_end": 7484,
+    "char_start": 33575,
+    "char_end": 33687,
+    "content_tokens": 28,
+    "text": "But if you truly want to honor him and all the heroes who marched with him, then it’s time to do more than talk."
+  },
+  {
+    "id": 407,
+    "token_start": 7484,
+    "token_end": 7501,
+    "char_start": 33689,
+    "char_end": 33754,
+    "content_tokens": 17,
+    "text": "Pass the Freedom to Vote Act, the John Lewis Voting Right(s) Act."
+  },
+  {
+    "id": 408,
+    "token_start": 7501,
+    "token_end": 7518,
+    "char_start": 33756,
+    "char_end": 33846,
+    "content_tokens": 17,
+    "text": "And stop — stop denying another core value of America: our diversity across American life."
+  },
+  {
+    "id": 409,
+    "token_start": 7518,
+    "token_end": 7523,
+    "char_start": 33847,
+    "char_end": 33870,
+    "content_tokens": 5,
+    "text": "Banning books is wrong."
+  },
+  {
+    "id": 410,
+    "token_start": 7523,
+    "token_end": 7535,
+    "char_start": 33871,
+    "char_end": 33918,
+    "content_tokens": 12,
+    "text": "Instead of erasing history, let’s make history."
+  },
+  {
+    "id": 411,
+    "token_start": 7535,
+    "token_end": 7542,
+    "char_start": 33920,
+    "char_end": 33957,
+    "content_tokens": 7,
+    "text": "I want to protect fundamental rights."
+  },
+  {
+    "id": 412,
+    "token_start": 7542,
+    "token_end": 7547,
+    "char_start": 33959,
+    "char_end": 33981,
+    "content_tokens": 5,
+    "text": "Pass the Equality Act."
+  },
+  {
+    "id": 413,
+    "token_start": 7547,
+    "token_end": 7559,
+    "char_start": 33983,
+    "char_end": 34041,
+    "content_tokens": 12,
+    "text": "And my message to transgender Americans: I have your back."
+  },
+  {
+    "id": 414,
+    "token_start": 7559,
+    "token_end": 7568,
+    "char_start": 34043,
+    "char_end": 34080,
+    "content_tokens": 9,
+    "text": "Pass the PRO Act for workers’ rights."
+  },
+  {
+    "id": 415,
+    "token_start": 7568,
+    "token_end": 7595,
+    "char_start": 34082,
+    "char_end": 34205,
+    "content_tokens": 27,
+    "text": "Raise the federal minimum wage, because every worker has the right to a decent living more than eig- — seven bucks an hour."
+  },
+  {
+    "id": 416,
+    "token_start": 7595,
+    "token_end": 7629,
+    "char_start": 34207,
+    "char_end": 34350,
+    "content_tokens": 34,
+    "text": "We’re also making history by confronting the climate crisis, not denying it. I don’t think any of you think there’s no longer a climate crisis."
+  },
+  {
+    "id": 417,
+    "token_start": 7629,
+    "token_end": 7639,
+    "char_start": 34351,
+    "char_end": 34378,
+    "content_tokens": 10,
+    "text": "At least, I hope you don’t."
+  },
+  {
+    "id": 418,
+    "token_start": 7639,
+    "token_end": 7731,
+    "char_start": 34380,
+    "char_end": 34820,
+    "content_tokens": 92,
+    "text": "I’m taking the most significant action ever on climate in the history of the world.\n\nI’m cutting our carbon emissions in half by 2030; creating tens of thousands of clean energy jobs, like the IBEW workers building and installing 500,000 electric vehicle charging stations; conserving 30 percent of America’s lands and waters by 2030; and taking action on environmental justice — fence-line communities smothered by the legacy of pollution."
+  },
+  {
+    "id": 419,
+    "token_start": 7731,
+    "token_end": 7771,
+    "char_start": 34822,
+    "char_end": 34997,
+    "content_tokens": 40,
+    "text": "And patterned after the Peace Corps and AmericaCorps (AmeriCorps), I launched the Climate Corps to put 20,000 young people to work in the forefront of our clean energy future."
+  },
+  {
+    "id": 420,
+    "token_start": 7771,
+    "token_end": 7781,
+    "char_start": 34998,
+    "char_end": 35034,
+    "content_tokens": 10,
+    "text": "I’ll triple that number in a decade."
+  },
+  {
+    "id": 421,
+    "token_start": 7781,
+    "token_end": 7806,
+    "char_start": 35036,
+    "char_end": 35155,
+    "content_tokens": 25,
+    "text": "To state the obvious, all Americans deserve the freedom to be safe. And America is safer today than when I took office."
+  },
+  {
+    "id": 422,
+    "token_start": 7806,
+    "token_end": 7820,
+    "char_start": 35157,
+    "char_end": 35220,
+    "content_tokens": 14,
+    "text": "The year before I took office, murder rates went up 30 percent."
+  },
+  {
+    "id": 423,
+    "token_start": 7820,
+    "token_end": 7822,
+    "char_start": 35222,
+    "char_end": 35225,
+    "content_tokens": 2,
+    "text": "MR."
+  },
+  {
+    "id": 424,
+    "token_start": 7822,
+    "token_end": 7830,
+    "char_start": 35226,
+    "char_end": 35254,
+    "content_tokens": 8,
+    "text": "NIKOUI: Remember Abbey Gate!"
+  },
+  {
+    "id": 425,
+    "token_start": 7830,
+    "token_end": 7840,
+    "char_start": 35256,
+    "char_end": 35301,
+    "content_tokens": 10,
+    "text": "THE PRESIDENT: Thirty percent, they went up —"
+  },
+  {
+    "id": 426,
+    "token_start": 7840,
+    "token_end": 7842,
+    "char_start": 35303,
+    "char_end": 35306,
+    "content_tokens": 2,
+    "text": "MR."
+  },
+  {
+    "id": 427,
+    "token_start": 7842,
+    "token_end": 7860,
+    "char_start": 35307,
+    "char_end": 35360,
+    "content_tokens": 18,
+    "text": "NIKOUI: United States Marines! Kareem Mae’Lee Nikoui!"
+  },
+  {
+    "id": 428,
+    "token_start": 7860,
+    "token_end": 7870,
+    "char_start": 35362,
+    "char_end": 35411,
+    "content_tokens": 10,
+    "text": "THE PRESIDENT: — the biggest increase in history."
+  },
+  {
+    "id": 429,
+    "token_start": 7870,
+    "token_end": 7872,
+    "char_start": 35413,
+    "char_end": 35416,
+    "content_tokens": 2,
+    "text": "MR."
+  },
+  {
+    "id": 430,
+    "token_start": 7872,
+    "token_end": 7882,
+    "char_start": 35417,
+    "char_end": 35437,
+    "content_tokens": 10,
+    "text": "NIKOUI: (Inaudible.)"
+  },
+  {
+    "id": 431,
+    "token_start": 7882,
+    "token_end": 7921,
+    "char_start": 35439,
+    "char_end": 35630,
+    "content_tokens": 39,
+    "text": "THE PRESIDENT: It was then, through no — through my American Rescue Plan — which every American (Republican) voted against, I might add — we made the largest investment in public safety ever."
+  },
+  {
+    "id": 432,
+    "token_start": 7921,
+    "token_end": 7950,
+    "char_start": 35632,
+    "char_end": 35766,
+    "content_tokens": 29,
+    "text": "Last year, the murder rate saw the sharpest decrease in history. Violent crime fell to one of its lowest levels in more than 50 years."
+  },
+  {
+    "id": 433,
+    "token_start": 7950,
+    "token_end": 7957,
+    "char_start": 35768,
+    "char_end": 35791,
+    "content_tokens": 7,
+    "text": "But we have more to do."
+  },
+  {
+    "id": 434,
+    "token_start": 7957,
+    "token_end": 7998,
+    "char_start": 35792,
+    "char_end": 36008,
+    "content_tokens": 41,
+    "text": "We have to help cities invest in more community police officers, more mental health workers, more community violence intervention.\n\nGive communities the tools to crack down on gun crime, retail crime, and carjacking."
+  },
+  {
+    "id": 435,
+    "token_start": 7998,
+    "token_end": 8028,
+    "char_start": 36009,
+    "char_end": 36139,
+    "content_tokens": 30,
+    "text": "Keep building trust, as I’ve been doing, by taking executive action on police reform and calling for it to be the law of the land."
+  },
+  {
+    "id": 436,
+    "token_start": 8028,
+    "token_end": 8066,
+    "char_start": 36141,
+    "char_end": 36352,
+    "content_tokens": 38,
+    "text": "Directing my Cabinet to review the federal classification of marijuana and expunging thousands of convictions for the mere possession, because no one should be jailed for simply using or have it on their record."
+  },
+  {
+    "id": 437,
+    "token_start": 8066,
+    "token_end": 8073,
+    "char_start": 36354,
+    "char_end": 36390,
+    "content_tokens": 7,
+    "text": "Take on crimes of domestic violence."
+  },
+  {
+    "id": 438,
+    "token_start": 8073,
+    "token_end": 8113,
+    "char_start": 36391,
+    "char_end": 36575,
+    "content_tokens": 40,
+    "text": "I’m ramping up the federal enforcement of the Violence Against Women Act that I proudly wrote when I was a senator so we can finally — finally end the scourge against women in America."
+  },
+  {
+    "id": 439,
+    "token_start": 8113,
+    "token_end": 8124,
+    "char_start": 36577,
+    "char_end": 36626,
+    "content_tokens": 11,
+    "text": "There are other kinds of violence I want to stop."
+  },
+  {
+    "id": 440,
+    "token_start": 8124,
+    "token_end": 8156,
+    "char_start": 36628,
+    "char_end": 36777,
+    "content_tokens": 32,
+    "text": "With us tonight is Jasmine, whose nine-year-old sister Jackie was murdered with 21 classmates and teachers in her elementary school in Uvalde, Texas."
+  },
+  {
+    "id": 441,
+    "token_start": 8156,
+    "token_end": 8175,
+    "char_start": 36779,
+    "char_end": 36854,
+    "content_tokens": 19,
+    "text": "Very soon after that happened, Jill and I went to Uvalde for a couple days."
+  },
+  {
+    "id": 442,
+    "token_start": 8175,
+    "token_end": 8186,
+    "char_start": 36855,
+    "char_end": 36906,
+    "content_tokens": 11,
+    "text": "We spent hours and hours with each of the families."
+  },
+  {
+    "id": 443,
+    "token_start": 8186,
+    "token_end": 8205,
+    "char_start": 36907,
+    "char_end": 37000,
+    "content_tokens": 19,
+    "text": "We heard their message so everyone in this room, in this chamber could hear the same message."
+  },
+  {
+    "id": 444,
+    "token_start": 8205,
+    "token_end": 8221,
+    "char_start": 37002,
+    "char_end": 37078,
+    "content_tokens": 16,
+    "text": "The constant refrain — and I was there for hours, meeting with every family."
+  },
+  {
+    "id": 445,
+    "token_start": 8221,
+    "token_end": 8234,
+    "char_start": 37079,
+    "char_end": 37121,
+    "content_tokens": 13,
+    "text": "They said, “Do something.” “Do something.”"
+  },
+  {
+    "id": 446,
+    "token_start": 8234,
+    "token_end": 8265,
+    "char_start": 37123,
+    "char_end": 37279,
+    "content_tokens": 31,
+    "text": "Well, I did do something by establishing the first-ever Office of Gun Violence Prevention in the White House, that the Vice President is leading the charge."
+  },
+  {
+    "id": 447,
+    "token_start": 8265,
+    "token_end": 8271,
+    "char_start": 37280,
+    "char_end": 37303,
+    "content_tokens": 6,
+    "text": "Thank you for doing it."
+  },
+  {
+    "id": 448,
+    "token_start": 8271,
+    "token_end": 8295,
+    "char_start": 37305,
+    "char_end": 37412,
+    "content_tokens": 24,
+    "text": "Meanwhile — meanwhile, my predecessor told the NRA he’s proud he did nothing on guns when he was President."
+  },
+  {
+    "id": 449,
+    "token_start": 8295,
+    "token_end": 8300,
+    "char_start": 37414,
+    "char_end": 37430,
+    "content_tokens": 5,
+    "text": "AUDIENCE: Booo —"
+  },
+  {
+    "id": 450,
+    "token_start": 8300,
+    "token_end": 8343,
+    "char_start": 37432,
+    "char_end": 37598,
+    "content_tokens": 43,
+    "text": "THE PRESIDENT: After another shooting in Iowa recently, he said — when asked what to do about it, he said, just “get over it.” That was his quote. Just “get over it.”"
+  },
+  {
+    "id": 451,
+    "token_start": 8343,
+    "token_end": 8357,
+    "char_start": 37600,
+    "char_end": 37641,
+    "content_tokens": 14,
+    "text": "I say stop it. Stop it, stop it, stop it."
+  },
+  {
+    "id": 452,
+    "token_start": 8357,
+    "token_end": 8393,
+    "char_start": 37643,
+    "char_end": 37795,
+    "content_tokens": 36,
+    "text": "I’m proud we beat the NRA when I signed the most significant gun safety law in nearly 30 years because of this Congress. We now must beat the NRA again."
+  },
+  {
+    "id": 453,
+    "token_start": 8393,
+    "token_end": 8408,
+    "char_start": 37797,
+    "char_end": 37864,
+    "content_tokens": 15,
+    "text": "I’m demanding a ban on assault weapons and high-capacity magazines."
+  },
+  {
+    "id": 454,
+    "token_start": 8408,
+    "token_end": 8413,
+    "char_start": 37865,
+    "char_end": 37898,
+    "content_tokens": 5,
+    "text": "Pass universal background checks."
+  },
+  {
+    "id": 455,
+    "token_start": 8413,
+    "token_end": 8446,
+    "char_start": 37900,
+    "char_end": 38052,
+    "content_tokens": 33,
+    "text": "None of this — none of this — I taught the Second Amendment for 12 years. None of this violates the Second Amendment or vilifies responsible gun owners."
+  },
+  {
+    "id": 456,
+    "token_start": 8446,
+    "token_end": 8452,
+    "char_start": 38054,
+    "char_end": 38067,
+    "content_tokens": 6,
+    "text": "(Cross-talk.)"
+  },
+  {
+    "id": 457,
+    "token_start": 8452,
+    "token_end": 8476,
+    "char_start": 38069,
+    "char_end": 38176,
+    "content_tokens": 24,
+    "text": "You know, as we manage challenges at home, we’re also managing crises abroad, including in the Middle East."
+  },
+  {
+    "id": 458,
+    "token_start": 8476,
+    "token_end": 8531,
+    "char_start": 38178,
+    "char_end": 38433,
+    "content_tokens": 55,
+    "text": "I know the last five months have been gut-wrenching for so many people — for the Israeli people, for the Palestinian people, and so many here in America.\n\nThis crisis began on October 7th with a massacre by a terrorist group called Hamas, as you all know."
+  },
+  {
+    "id": 459,
+    "token_start": 8531,
+    "token_end": 8552,
+    "char_start": 38434,
+    "char_end": 38552,
+    "content_tokens": 21,
+    "text": "One thousand two hundred innocent people — women and girls, men and boys — slaughtered after enduring sexual violence."
+  },
+  {
+    "id": 460,
+    "token_start": 8552,
+    "token_end": 8567,
+    "char_start": 38553,
+    "char_end": 38622,
+    "content_tokens": 15,
+    "text": "The deadliest day of the — for the Jewish people since the Holocaust."
+  },
+  {
+    "id": 461,
+    "token_start": 8567,
+    "token_end": 8572,
+    "char_start": 38623,
+    "char_end": 38646,
+    "content_tokens": 5,
+    "text": "And 250 hostages taken."
+  },
+  {
+    "id": 462,
+    "token_start": 8572,
+    "token_end": 8589,
+    "char_start": 38648,
+    "char_end": 38737,
+    "content_tokens": 17,
+    "text": "Here in this chamber tonight are families whose loved ones are still being held by Hamas."
+  },
+  {
+    "id": 463,
+    "token_start": 8589,
+    "token_end": 8611,
+    "char_start": 38738,
+    "char_end": 38838,
+    "content_tokens": 22,
+    "text": "I pledge to all the families that we will not rest until we bring every one of your loved ones home."
+  },
+  {
+    "id": 464,
+    "token_start": 8611,
+    "token_end": 8644,
+    "char_start": 38840,
+    "char_end": 38995,
+    "content_tokens": 33,
+    "text": "We also — we will also work around the clock to bring home Evan and Paul — Americans being unjustly detained by the Russians — and others around the world."
+  },
+  {
+    "id": 465,
+    "token_start": 8644,
+    "token_end": 8692,
+    "char_start": 38997,
+    "char_end": 39226,
+    "content_tokens": 48,
+    "text": "Israel has a right to go after Hamas. Hamas ended this conflict by releasing the hostages, laying down arms — could end it by — by releasing the hostages, laying down arms, and s- — surrendering those responsible for October 7th."
+  },
+  {
+    "id": 466,
+    "token_start": 8692,
+    "token_end": 8702,
+    "char_start": 39228,
+    "char_end": 39260,
+    "content_tokens": 10,
+    "text": "But Israel has a h- — excuse me."
+  },
+  {
+    "id": 467,
+    "token_start": 8702,
+    "token_end": 8776,
+    "char_start": 39261,
+    "char_end": 39657,
+    "content_tokens": 74,
+    "text": "Israel has a added burden because Hamas hides and operates among the civilian population like cowards — under hospitals, daycare centers, and all the like.\n\nIsrael also has a fundamental responsibility, though, to protect innocent civilians in Gaza.\n\nThis war has taken a greater toll on innocent civilians than all previous wars in Gaza combined. More than 30,000 Palestinians have been killed —"
+  },
+  {
+    "id": 468,
+    "token_start": 8776,
+    "token_end": 8782,
+    "char_start": 39659,
+    "char_end": 39685,
+    "content_tokens": 6,
+    "text": "AUDIENCE MEMBER: Says who?"
+  },
+  {
+    "id": 469,
+    "token_start": 8782,
+    "token_end": 8793,
+    "char_start": 39687,
+    "char_end": 39731,
+    "content_tokens": 11,
+    "text": "THE PRESIDENT: — most of whom are not Hamas."
+  },
+  {
+    "id": 470,
+    "token_start": 8793,
+    "token_end": 8804,
+    "char_start": 39732,
+    "char_end": 39790,
+    "content_tokens": 11,
+    "text": "Thousands and thousands of innocents — women and children."
+  },
+  {
+    "id": 471,
+    "token_start": 8804,
+    "token_end": 8810,
+    "char_start": 39791,
+    "char_end": 39820,
+    "content_tokens": 6,
+    "text": "Girls and boys also orphaned."
+  },
+  {
+    "id": 472,
+    "token_start": 8810,
+    "token_end": 8820,
+    "char_start": 39822,
+    "char_end": 39891,
+    "content_tokens": 10,
+    "text": "Nearly 2 million more Palestinians under bombardment or displacement."
+  },
+  {
+    "id": 473,
+    "token_start": 8820,
+    "token_end": 8831,
+    "char_start": 39892,
+    "char_end": 39949,
+    "content_tokens": 11,
+    "text": "Homes destroyed, neighborhoods in rubble, cities in ruin."
+  },
+  {
+    "id": 474,
+    "token_start": 8831,
+    "token_end": 8839,
+    "char_start": 39950,
+    "char_end": 39989,
+    "content_tokens": 8,
+    "text": "Families without food, water, medicine."
+  },
+  {
+    "id": 475,
+    "token_start": 8839,
+    "token_end": 8845,
+    "char_start": 39991,
+    "char_end": 40010,
+    "content_tokens": 6,
+    "text": "It’s heartbreaking."
+  },
+  {
+    "id": 476,
+    "token_start": 8845,
+    "token_end": 8906,
+    "char_start": 40012,
+    "char_end": 40314,
+    "content_tokens": 61,
+    "text": "I’ve been working non-stop to establish an immediate ceasefire that would last for six weeks to get all the prisoners released — all the hostages released and to get the hostages home and to ease the intolerable an- — humanitarian crisis and build toward an enduring — a more — something more enduring."
+  },
+  {
+    "id": 477,
+    "token_start": 8906,
+    "token_end": 8922,
+    "char_start": 40316,
+    "char_end": 40419,
+    "content_tokens": 16,
+    "text": "The United States has been leading international efforts to get more humanitarian assistance into Gaza."
+  },
+  {
+    "id": 478,
+    "token_start": 8922,
+    "token_end": 8933,
+    "char_start": 40420,
+    "char_end": 40451,
+    "content_tokens": 11,
+    "text": "Tonight, I’m directing the U.S."
+  },
+  {
+    "id": 479,
+    "token_start": 8933,
+    "token_end": 8968,
+    "char_start": 40452,
+    "char_end": 40650,
+    "content_tokens": 35,
+    "text": "military to lead an emergency mission to establish a temporary pier in the Mediterranean on the coast of Gaza that can receive large shipments carrying food, water, medicine, and temporary shelters."
+  },
+  {
+    "id": 480,
+    "token_start": 8968,
+    "token_end": 8973,
+    "char_start": 40652,
+    "char_end": 40659,
+    "content_tokens": 5,
+    "text": "No U.S."
+  },
+  {
+    "id": 481,
+    "token_start": 8973,
+    "token_end": 8980,
+    "char_start": 40660,
+    "char_end": 40688,
+    "content_tokens": 7,
+    "text": "boots will be on the ground."
+  },
+  {
+    "id": 482,
+    "token_start": 8980,
+    "token_end": 9000,
+    "char_start": 40690,
+    "char_end": 40807,
+    "content_tokens": 20,
+    "text": "A temporary pier will enable a massive increase in the amount of humanitarian assistance getting into Gaza every day."
+  },
+  {
+    "id": 483,
+    "token_start": 9000,
+    "token_end": 9054,
+    "char_start": 40809,
+    "char_end": 41043,
+    "content_tokens": 54,
+    "text": "And Israel must also do its part. Israel must allow more aid into Gaza and ensure humanitarian workers aren’t caught in the crossfire.\n\nAnd they’re announcing they’re going to — they’re going to ca- — have a crossing in Northern Gaza."
+  },
+  {
+    "id": 484,
+    "token_start": 9054,
+    "token_end": 9076,
+    "char_start": 41045,
+    "char_end": 41167,
+    "content_tokens": 22,
+    "text": "To the leadership of Israel, I say this: Humanitarian assistance cannot be a secondary consideration or a bargaining chip."
+  },
+  {
+    "id": 485,
+    "token_start": 9076,
+    "token_end": 9087,
+    "char_start": 41168,
+    "char_end": 41226,
+    "content_tokens": 11,
+    "text": "Protecting and saving innocent lives has to be a priority."
+  },
+  {
+    "id": 486,
+    "token_start": 9087,
+    "token_end": 9110,
+    "char_start": 41228,
+    "char_end": 41328,
+    "content_tokens": 23,
+    "text": "As we look to the future, the only real solution to the situation is a two-state solution over time."
+  },
+  {
+    "id": 487,
+    "token_start": 9110,
+    "token_end": 9137,
+    "char_start": 41330,
+    "char_end": 41449,
+    "content_tokens": 27,
+    "text": "And I say this as a lifelong supporter of Israel, my entire career. No one has a stronger record with Israel than I do."
+  },
+  {
+    "id": 488,
+    "token_start": 9137,
+    "token_end": 9144,
+    "char_start": 41450,
+    "char_end": 41478,
+    "content_tokens": 7,
+    "text": "I challenge any of you here."
+  },
+  {
+    "id": 489,
+    "token_start": 9144,
+    "token_end": 9157,
+    "char_start": 41479,
+    "char_end": 41538,
+    "content_tokens": 13,
+    "text": "I’m the only American president to visit Israel in wartime."
+  },
+  {
+    "id": 490,
+    "token_start": 9157,
+    "token_end": 9172,
+    "char_start": 41540,
+    "char_end": 41615,
+    "content_tokens": 15,
+    "text": "But there is no other path that guarantees Israel’s security and democracy."
+  },
+  {
+    "id": 491,
+    "token_start": 9172,
+    "token_end": 9197,
+    "char_start": 41616,
+    "char_end": 41731,
+    "content_tokens": 25,
+    "text": "There is no other path that guarantees Pa- — that Palestinians can live in peace with po- — with peace and dignity."
+  },
+  {
+    "id": 492,
+    "token_start": 9197,
+    "token_end": 9225,
+    "char_start": 41733,
+    "char_end": 41870,
+    "content_tokens": 28,
+    "text": "And there is no other path that guarantees peace between Israel and all of its neighbors — including Saudi Arabia, with whom I’m talking."
+  },
+  {
+    "id": 493,
+    "token_start": 9225,
+    "token_end": 9240,
+    "char_start": 41872,
+    "char_end": 41957,
+    "content_tokens": 15,
+    "text": "Creating stability in the Middle East also means containing the threat posed by Iran."
+  },
+  {
+    "id": 494,
+    "token_start": 9240,
+    "token_end": 9267,
+    "char_start": 41958,
+    "char_end": 42094,
+    "content_tokens": 27,
+    "text": "That’s why I built a coalition of more than a dozen countries to defend international shipping and freedom of navigation in the Red Sea."
+  },
+  {
+    "id": 495,
+    "token_start": 9267,
+    "token_end": 9286,
+    "char_start": 42096,
+    "char_end": 42165,
+    "content_tokens": 19,
+    "text": "I’ve ordered strikes to degrade the Houthi capability and defend U.S."
+  },
+  {
+    "id": 496,
+    "token_start": 9286,
+    "token_end": 9291,
+    "char_start": 42166,
+    "char_end": 42187,
+    "content_tokens": 5,
+    "text": "forces in the region."
+  },
+  {
+    "id": 497,
+    "token_start": 9291,
+    "token_end": 9315,
+    "char_start": 42189,
+    "char_end": 42308,
+    "content_tokens": 24,
+    "text": "As Commander-in-Chief, I will not hesitate to direct further measures to protect our people and our military personnel."
+  },
+  {
+    "id": 498,
+    "token_start": 9315,
+    "token_end": 9342,
+    "char_start": 42310,
+    "char_end": 42437,
+    "content_tokens": 27,
+    "text": "For years, I’ve heard many of my Republican and Democratic friends say that China is on the rise and America is falling behind."
+  },
+  {
+    "id": 499,
+    "token_start": 9342,
+    "token_end": 9349,
+    "char_start": 42438,
+    "char_end": 42463,
+    "content_tokens": 7,
+    "text": "They’ve got it backwards."
+  },
+  {
+    "id": 500,
+    "token_start": 9349,
+    "token_end": 9368,
+    "char_start": 42464,
+    "char_end": 42534,
+    "content_tokens": 19,
+    "text": "I’ve been saying it for over four years, even when I wasn’t president."
+  },
+  {
+    "id": 501,
+    "token_start": 9368,
+    "token_end": 9372,
+    "char_start": 42536,
+    "char_end": 42554,
+    "content_tokens": 4,
+    "text": "America is rising."
+  },
+  {
+    "id": 502,
+    "token_start": 9372,
+    "token_end": 9381,
+    "char_start": 42555,
+    "char_end": 42593,
+    "content_tokens": 9,
+    "text": "We have the best economy in the world."
+  },
+  {
+    "id": 503,
+    "token_start": 9381,
+    "token_end": 9429,
+    "char_start": 42594,
+    "char_end": 42786,
+    "content_tokens": 48,
+    "text": "And since I’ve come to office, our GTB (GDP) is up, our trade deficit with China is down to the lowest point in over a decade.\n\nAnd we’re standing up against China’s unfair economic practices."
+  },
+  {
+    "id": 504,
+    "token_start": 9429,
+    "token_end": 9443,
+    "char_start": 42788,
+    "char_end": 42856,
+    "content_tokens": 14,
+    "text": "We’re standing up for peace and stability across the Taiwan Straits."
+  },
+  {
+    "id": 505,
+    "token_start": 9443,
+    "token_end": 9470,
+    "char_start": 42858,
+    "char_end": 42978,
+    "content_tokens": 27,
+    "text": "I’ve revitalized our partnership and alliance in the Pacific: India, Australia, Japan, South Korea, the Pacific Islands."
+  },
+  {
+    "id": 506,
+    "token_start": 9470,
+    "token_end": 9496,
+    "char_start": 42979,
+    "char_end": 43097,
+    "content_tokens": 26,
+    "text": "I’ve made sure that the most advanced American technologies can’t be used in China — not allowing to trade them there."
+  },
+  {
+    "id": 507,
+    "token_start": 9496,
+    "token_end": 9518,
+    "char_start": 43099,
+    "char_end": 43195,
+    "content_tokens": 22,
+    "text": "Frankly, for all his tough talk on China, it never occurred to my predecessor to do any of that."
+  },
+  {
+    "id": 508,
+    "token_start": 9518,
+    "token_end": 9562,
+    "char_start": 43197,
+    "char_end": 43403,
+    "content_tokens": 44,
+    "text": "I want competition with China, not conflict. And we’re in a stronger position to win the conflict (competition) of the 21st century against China than anyone else for that matter — than at any time as well."
+  },
+  {
+    "id": 509,
+    "token_start": 9562,
+    "token_end": 9576,
+    "char_start": 43405,
+    "char_end": 43457,
+    "content_tokens": 14,
+    "text": "Here at home, I’ve signed over 400 bipartisan bills."
+  },
+  {
+    "id": 510,
+    "token_start": 9576,
+    "token_end": 9587,
+    "char_start": 43458,
+    "char_end": 43499,
+    "content_tokens": 11,
+    "text": "But there’s more to pass my Unity Agenda."
+  },
+  {
+    "id": 511,
+    "token_start": 9587,
+    "token_end": 9595,
+    "char_start": 43501,
+    "char_end": 43546,
+    "content_tokens": 8,
+    "text": "Strengthen penalties on fentanyl trafficking."
+  },
+  {
+    "id": 512,
+    "token_start": 9595,
+    "token_end": 9606,
+    "char_start": 43547,
+    "char_end": 43578,
+    "content_tokens": 11,
+    "text": "You don’t want to do that, huh?"
+  },
+  {
+    "id": 513,
+    "token_start": 9606,
+    "token_end": 9617,
+    "char_start": 43580,
+    "char_end": 43647,
+    "content_tokens": 11,
+    "text": "Pass bipartisan privacy legislation to protect our children online."
+  },
+  {
+    "id": 514,
+    "token_start": 9617,
+    "token_end": 9631,
+    "char_start": 43649,
+    "char_end": 43710,
+    "content_tokens": 14,
+    "text": "Harness — harness the promise of AI to protect us from peril."
+  },
+  {
+    "id": 515,
+    "token_start": 9631,
+    "token_end": 9640,
+    "char_start": 43711,
+    "char_end": 43748,
+    "content_tokens": 9,
+    "text": "Ban AI voice impersonations and more."
+  },
+  {
+    "id": 516,
+    "token_start": 9640,
+    "token_end": 9678,
+    "char_start": 43750,
+    "char_end": 43913,
+    "content_tokens": 38,
+    "text": "And keep our truly sacred obligation to train and equip those we send into harm’s way and care for them and their families when they come home and when they don’t."
+  },
+  {
+    "id": 517,
+    "token_start": 9678,
+    "token_end": 9727,
+    "char_start": 43915,
+    "char_end": 44144,
+    "content_tokens": 49,
+    "text": "That’s why, with the strong support and help of Denis and the VA, I signed the PACT Act — one of the most significant laws ever, helping millions of veterans exposed to toxins who now are battling more than 100 different cancers."
+  },
+  {
+    "id": 518,
+    "token_start": 9727,
+    "token_end": 9745,
+    "char_start": 44145,
+    "char_end": 44218,
+    "content_tokens": 18,
+    "text": "Many of them don’t come home, but we owe them and their families support."
+  },
+  {
+    "id": 519,
+    "token_start": 9745,
+    "token_end": 9787,
+    "char_start": 44220,
+    "char_end": 44399,
+    "content_tokens": 42,
+    "text": "And we owe it to ourselves to keep supporting our new health research agency called ARPA-H — and remind us — to remind us that we can do big things, like end cancer as we know it."
+  },
+  {
+    "id": 520,
+    "token_start": 9787,
+    "token_end": 9791,
+    "char_start": 44400,
+    "char_end": 44412,
+    "content_tokens": 4,
+    "text": "And we will."
+  },
+  {
+    "id": 521,
+    "token_start": 9791,
+    "token_end": 9797,
+    "char_start": 44414,
+    "char_end": 44437,
+    "content_tokens": 6,
+    "text": "Let me close with this."
+  },
+  {
+    "id": 522,
+    "token_start": 9797,
+    "token_end": 9803,
+    "char_start": 44439,
+    "char_end": 44458,
+    "content_tokens": 6,
+    "text": "THE PRESIDENT: Yay!"
+  },
+  {
+    "id": 523,
+    "token_start": 9803,
+    "token_end": 9826,
+    "char_start": 44460,
+    "char_end": 44543,
+    "content_tokens": 23,
+    "text": "I know you don’t want to hear anymore, Lindsey, but I got to say a few more things."
+  },
+  {
+    "id": 524,
+    "token_start": 9826,
+    "token_end": 9844,
+    "char_start": 44545,
+    "char_end": 44605,
+    "content_tokens": 18,
+    "text": "I know I may not look like it, but I’ve been around a while."
+  },
+  {
+    "id": 525,
+    "token_start": 9844,
+    "token_end": 9859,
+    "char_start": 44606,
+    "char_end": 44673,
+    "content_tokens": 15,
+    "text": "When you get to be my age, certain things become clearer than ever."
+  },
+  {
+    "id": 526,
+    "token_start": 9859,
+    "token_end": 9865,
+    "char_start": 44675,
+    "char_end": 44701,
+    "content_tokens": 6,
+    "text": "I know the American story."
+  },
+  {
+    "id": 527,
+    "token_start": 9865,
+    "token_end": 9910,
+    "char_start": 44702,
+    "char_end": 44915,
+    "content_tokens": 45,
+    "text": "Again and again, I’ve seen the contest between competing forces in the battle for the soul of our nation, between those who want to pull America back to the past and those who want to move America into the future."
+  },
+  {
+    "id": 528,
+    "token_start": 9910,
+    "token_end": 9960,
+    "char_start": 44917,
+    "char_end": 45155,
+    "content_tokens": 50,
+    "text": "My lifetime has taught me to embrace freedom and democracy, a future based on core values that have defined America — honesty, decency, dignity, and equality; to respect everyone; to give everyone a fair shot; to give hate no safe harbor."
+  },
+  {
+    "id": 529,
+    "token_start": 9960,
+    "token_end": 9970,
+    "char_start": 45157,
+    "char_end": 45201,
+    "content_tokens": 10,
+    "text": "Now, other people my age see it differently."
+  },
+  {
+    "id": 530,
+    "token_start": 9970,
+    "token_end": 9981,
+    "char_start": 45202,
+    "char_end": 45261,
+    "content_tokens": 11,
+    "text": "The American story of resentment, revenge, and retribution."
+  },
+  {
+    "id": 531,
+    "token_start": 9981,
+    "token_end": 9987,
+    "char_start": 45263,
+    "char_end": 45277,
+    "content_tokens": 6,
+    "text": "That’s not me."
+  },
+  {
+    "id": 532,
+    "token_start": 9987,
+    "token_end": 10005,
+    "char_start": 45278,
+    "char_end": 45357,
+    "content_tokens": 18,
+    "text": "I was born amid World War Two, when America stood for the freedom of the world."
+  },
+  {
+    "id": 533,
+    "token_start": 10005,
+    "token_end": 10029,
+    "char_start": 45358,
+    "char_end": 45469,
+    "content_tokens": 24,
+    "text": "I grew up in Scranton, Pennsylvania, and Claymont, Delaware, among working-class people who built this country."
+  },
+  {
+    "id": 534,
+    "token_start": 10029,
+    "token_end": 10047,
+    "char_start": 45471,
+    "char_end": 45539,
+    "content_tokens": 18,
+    "text": "I watched in horror as two of my heroes — like many of you did — Dr."
+  },
+  {
+    "id": 535,
+    "token_start": 10047,
+    "token_end": 10055,
+    "char_start": 45540,
+    "char_end": 45582,
+    "content_tokens": 8,
+    "text": "King and Bobby Kennedy, were assassinated."
+  },
+  {
+    "id": 536,
+    "token_start": 10055,
+    "token_end": 10076,
+    "char_start": 45583,
+    "char_end": 45660,
+    "content_tokens": 21,
+    "text": "And their legacies inspired me to pur- — pursue a car- — a career in service."
+  },
+  {
+    "id": 537,
+    "token_start": 10076,
+    "token_end": 10105,
+    "char_start": 45662,
+    "char_end": 45808,
+    "content_tokens": 29,
+    "text": "I left a law firm and became a public defender because my city of Wilmington was the only city in America occupied by the National Guard after Dr."
+  },
+  {
+    "id": 538,
+    "token_start": 10105,
+    "token_end": 10113,
+    "char_start": 45809,
+    "char_end": 45852,
+    "content_tokens": 8,
+    "text": "King was assassinated because of the riots."
+  },
+  {
+    "id": 539,
+    "token_start": 10113,
+    "token_end": 10124,
+    "char_start": 45853,
+    "char_end": 45905,
+    "content_tokens": 11,
+    "text": "And I became a county councilman almost by accident."
+  },
+  {
+    "id": 540,
+    "token_start": 10124,
+    "token_end": 10144,
+    "char_start": 45907,
+    "char_end": 45995,
+    "content_tokens": 20,
+    "text": "I got elected to the United States Senate when I had no intention of running, at age 29."
+  },
+  {
+    "id": 541,
+    "token_start": 10144,
+    "token_end": 10163,
+    "char_start": 45997,
+    "char_end": 46097,
+    "content_tokens": 19,
+    "text": "Then vice president to our first Black president. Now a president to the first woman vice president."
+  },
+  {
+    "id": 542,
+    "token_start": 10163,
+    "token_end": 10177,
+    "char_start": 46099,
+    "char_end": 46144,
+    "content_tokens": 14,
+    "text": "In my career, I’ve been told I was too young."
+  },
+  {
+    "id": 543,
+    "token_start": 10177,
+    "token_end": 10195,
+    "char_start": 46145,
+    "char_end": 46220,
+    "content_tokens": 18,
+    "text": "By the way, they didn’t let me on the Senate elevators for votes sometimes."
+  },
+  {
+    "id": 544,
+    "token_start": 10195,
+    "token_end": 10201,
+    "char_start": 46221,
+    "char_end": 46239,
+    "content_tokens": 6,
+    "text": "They — not a joke."
+  },
+  {
+    "id": 545,
+    "token_start": 10201,
+    "token_end": 10212,
+    "char_start": 46241,
+    "char_end": 46273,
+    "content_tokens": 11,
+    "text": "And I’ve been told I am too old."
+  },
+  {
+    "id": 546,
+    "token_start": 10212,
+    "token_end": 10233,
+    "char_start": 46275,
+    "char_end": 46353,
+    "content_tokens": 21,
+    "text": "Whether young or old, I’ve always been known — I’ve always known what endures."
+  },
+  {
+    "id": 547,
+    "token_start": 10233,
+    "token_end": 10241,
+    "char_start": 46354,
+    "char_end": 46380,
+    "content_tokens": 8,
+    "text": "I’ve known our North Star."
+  },
+  {
+    "id": 548,
+    "token_start": 10241,
+    "token_end": 10264,
+    "char_start": 46381,
+    "char_end": 46491,
+    "content_tokens": 23,
+    "text": "The very idea of America is that we’re all created equal, deserves to be treated equally throughout our lives."
+  },
+  {
+    "id": 549,
+    "token_start": 10264,
+    "token_end": 10286,
+    "char_start": 46493,
+    "char_end": 46577,
+    "content_tokens": 22,
+    "text": "We’ve never fully lived up to that idea, but we’ve never walked away from it either."
+  },
+  {
+    "id": 550,
+    "token_start": 10286,
+    "token_end": 10297,
+    "char_start": 46578,
+    "char_end": 46612,
+    "content_tokens": 11,
+    "text": "And I won’t walk away from it now."
+  },
+  {
+    "id": 551,
+    "token_start": 10297,
+    "token_end": 10302,
+    "char_start": 46614,
+    "char_end": 46629,
+    "content_tokens": 5,
+    "text": "I’m optimistic."
+  },
+  {
+    "id": 552,
+    "token_start": 10302,
+    "token_end": 10306,
+    "char_start": 46630,
+    "char_end": 46642,
+    "content_tokens": 4,
+    "text": "I really am."
+  },
+  {
+    "id": 553,
+    "token_start": 10306,
+    "token_end": 10313,
+    "char_start": 46643,
+    "char_end": 46665,
+    "content_tokens": 7,
+    "text": "I’m optimistic, Nancy."
+  },
+  {
+    "id": 554,
+    "token_start": 10313,
+    "token_end": 10327,
+    "char_start": 46667,
+    "char_end": 46727,
+    "content_tokens": 14,
+    "text": "AUDIENCE: Four more years! Four more years! Four more years!"
+  },
+  {
+    "id": 555,
+    "token_start": 10327,
+    "token_end": 10356,
+    "char_start": 46729,
+    "char_end": 46842,
+    "content_tokens": 29,
+    "text": "THE PRESIDENT: My fellow Americans, the issue facing our nation isn’t how old we are; it’s how old are our ideas."
+  },
+  {
+    "id": 556,
+    "token_start": 10356,
+    "token_end": 10369,
+    "char_start": 46844,
+    "char_end": 46902,
+    "content_tokens": 13,
+    "text": "Hate, anger, revenge, retribution are the oldest of ideas."
+  },
+  {
+    "id": 557,
+    "token_start": 10369,
+    "token_end": 10409,
+    "char_start": 46903,
+    "char_end": 47082,
+    "content_tokens": 40,
+    "text": "But you can’t lead America with ancient ideas that only take us back. To lead America, the land of possibilities, you need a vision for the future and what can and should be done."
+  },
+  {
+    "id": 558,
+    "token_start": 10409,
+    "token_end": 10417,
+    "char_start": 47084,
+    "char_end": 47111,
+    "content_tokens": 8,
+    "text": "Tonight, you’ve heard mine."
+  },
+  {
+    "id": 559,
+    "token_start": 10417,
+    "token_end": 10460,
+    "char_start": 47113,
+    "char_end": 47284,
+    "content_tokens": 43,
+    "text": "I see a future where (we’re) defending democracy, you don’t diminish it.\n\nI see a future where we restore the right to choose and protect our freedoms, not take them away."
+  },
+  {
+    "id": 560,
+    "token_start": 10460,
+    "token_end": 10487,
+    "char_start": 47286,
+    "char_end": 47408,
+    "content_tokens": 27,
+    "text": "I see a future where the middle class has — finally has a fair shot and the wealthy have to pay their fair share in taxes."
+  },
+  {
+    "id": 561,
+    "token_start": 10487,
+    "token_end": 10550,
+    "char_start": 47410,
+    "char_end": 47707,
+    "content_tokens": 63,
+    "text": "I see a future where we save the planet from the climate crisis and our country from gun violence.\n\nAbove all, I see a future for all Americans. I see a country for all Americans. And I will always be President for all Americans because I believe in America. I believe in you, the American people."
+  },
+  {
+    "id": 562,
+    "token_start": 10550,
+    "token_end": 10570,
+    "char_start": 47708,
+    "char_end": 47790,
+    "content_tokens": 20,
+    "text": "You’re the reason we’ve never been more optimistic about our future than I am now."
+  },
+  {
+    "id": 563,
+    "token_start": 10570,
+    "token_end": 10580,
+    "char_start": 47792,
+    "char_end": 47828,
+    "content_tokens": 10,
+    "text": "So, let’s build the future together."
+  },
+  {
+    "id": 564,
+    "token_start": 10580,
+    "token_end": 10588,
+    "char_start": 47829,
+    "char_end": 47855,
+    "content_tokens": 8,
+    "text": "Let’s remember who we are."
+  },
+  {
+    "id": 565,
+    "token_start": 10588,
+    "token_end": 10596,
+    "char_start": 47857,
+    "char_end": 47893,
+    "content_tokens": 8,
+    "text": "We are the United States of America."
+  },
+  {
+    "id": 566,
+    "token_start": 10596,
+    "token_end": 10610,
+    "char_start": 47894,
+    "char_end": 47966,
+    "content_tokens": 14,
+    "text": "And there is nothing — nothing beyond our capacity when we act together."
+  },
+  {
+    "id": 567,
+    "token_start": 10610,
+    "token_end": 10615,
+    "char_start": 47968,
+    "char_end": 47986,
+    "content_tokens": 5,
+    "text": "God bless you all."
+  },
+  {
+    "id": 568,
+    "token_start": 10615,
+    "token_end": 10622,
+    "char_start": 47987,
+    "char_end": 48018,
+    "content_tokens": 7,
+    "text": "And may God protect our troops."
+  },
+  {
+    "id": 569,
+    "token_start": 10622,
+    "token_end": 10631,
+    "char_start": 48019,
+    "char_end": 48051,
+    "content_tokens": 9,
+    "text": "Thank you, thank you, thank you."
+  }
+]

@@ -1,0 +1,82 @@
+.qi-chunk--flow .qi-flow__layout {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.8fr) minmax(0, 1.4fr);
+  align-items: start;
+  gap: 20px;
+}
+
+.documentation .qi-chunk--flow .qi-flow__steps {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.documentation .qi-chunk--flow .qi-flow__steps > li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.documentation .qi-chunk--flow .qi-flow__node {
+  display: block;
+  width: 100%;
+  min-height: 56px;
+  padding: 12px 16px;
+  border-color: var(--qi-line);
+  background: var(--qi-surface);
+  text-align: left;
+  font-size: 16px;
+}
+
+.documentation .qi-chunk--flow .qi-flow__node[aria-pressed='true'] {
+  border: 2px solid var(--qi-fg);
+  padding: 11px 15px;
+  background: var(--qi-cat-1-soft);
+}
+
+.qi-chunk--flow .qi-flow__arrow {
+  display: block;
+  height: 26px;
+  color: var(--qi-fg);
+  font-size: 22px;
+  line-height: 26px;
+  text-align: center;
+}
+
+.documentation .qi-chunk--flow .qi-flow__checklist {
+  margin: 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.documentation .qi-chunk--flow .qi-flow__checklist > li {
+  padding-left: 0.25rem;
+  margin: 0 0 0.75rem;
+}
+
+.documentation .qi-chunk--flow .qi-flow__checklist > li:last-child {
+  margin-bottom: 0;
+}
+
+.qi-chunk--flow .qi-flow__announcement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@container chunking (max-width: 560px) {
+  .qi-chunk--flow .qi-flow__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+}

@@ -1,0 +1,617 @@
+.documentation .chunking-source-example {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 1.5rem;
+  align-items: start;
+  margin: 1.5rem 0 2rem;
+}
+
+.documentation .chunking-source-example > figure {
+  margin: 0;
+  min-width: 0;
+  position: sticky;
+  top: 6.5rem;
+}
+
+.documentation .chunking-source-example figure > a {
+  display: block;
+  cursor: zoom-in;
+}
+
+.documentation .chunking-source-example img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: min(38rem, calc(100vh - 12rem));
+  margin: 0 auto;
+}
+
+.documentation .chunking-source-credit {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.chunking-source-example__text {
+  min-width: 0;
+}
+
+.documentation .chunking-source-example__text > h3:first-child {
+  margin-top: 0;
+}
+
+.documentation .chunking-inline-media {
+  min-width: 0;
+}
+
+.documentation .chunking-inline-media > .island {
+  margin: 0;
+}
+
+.documentation .chunking-inline-media .island__fallback {
+  position: static;
+}
+
+html:not(.islands-js) .chunking-inline-media .island__stage,
+.chunking-inline-media .island.is-failed .island__stage {
+  aspect-ratio: auto !important;
+}
+
+.documentation .chunking-media-fallback {
+  display: grid;
+  gap: 1rem;
+}
+
+.documentation .chunking-media-fallback video,
+.documentation .chunking-media-fallback audio {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
+.documentation .chunking-media-fallback video {
+  aspect-ratio: 4 / 3;
+}
+
+.documentation .chunking-media-fallback p {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.documentation .chunking-media-fallback .chunking-media-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+html[data-theme='dark'] .chunking-media-fallback {
+  color-scheme: dark;
+}
+
+html[data-theme='light'] .chunking-media-fallback {
+  color-scheme: light;
+}
+
+@media (max-width: 700px) {
+  .documentation .chunking-source-example {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .documentation .chunking-source-example img {
+    max-height: 24rem;
+  }
+
+  .documentation .chunking-source-example > figure {
+    position: static;
+  }
+}
+
+.documentation details.chunking-method {
+  margin: 1rem 0;
+  padding: 0.875rem 1.25rem;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  scroll-margin-top: 6rem;
+}
+
+.documentation .chunking-method > summary {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.documentation .chunking-method[open] > summary {
+  margin-bottom: 1.25rem;
+}
+
+.documentation .chunking-method > summary:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+.documentation .chunking-method > p {
+  margin: 1rem 0;
+}
+
+.chunking-tradeoff-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+  align-items: start;
+}
+
+.documentation .chunking-tradeoff-grid details.chunking-tradeoffs {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-left-width: 3px;
+}
+
+.documentation .chunking-tradeoff-grid ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.documentation .chunking-tradeoff-grid li {
+  margin-bottom: 0.35rem;
+}
+
+@media (max-width: 700px) {
+  .chunking-tradeoff-grid { grid-template-columns: minmax(0, 1fr); }
+  .documentation details.chunking-method { padding: 0.75rem; }
+}
+
+.documentation details.chunking-tradeoffs {
+  margin: 1.25rem 0;
+  padding: 0.875rem 1.25rem;
+  border-left: 5px solid var(--chunking-tradeoff-color);
+  border-radius: 6px;
+  background: var(--chunking-tradeoff-background);
+}
+
+.chunking-tradeoffs--strengths {
+  --chunking-tradeoff-color: #1a9d63;
+  --chunking-tradeoff-background: rgba(26, 157, 99, 0.14);
+}
+
+.chunking-tradeoffs--weaknesses {
+  --chunking-tradeoff-color: #dc244c;
+  --chunking-tradeoff-background: rgba(220, 36, 76, 0.12);
+}
+
+.documentation details.chunking-tradeoffs > summary {
+  margin: 0 0 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.documentation details.chunking-tradeoffs:not([open]) > summary {
+  margin-bottom: 0;
+}
+
+.documentation .chunking-figure {
+  margin: 1.5rem auto;
+  width: 100%;
+  max-width: 640px;
+}
+
+.chunking-figure picture,
+.chunking-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.chunking-figure .chunking-figure__dark {
+  display: none;
+}
+
+html[data-theme='dark'] .chunking-figure > picture:not(.chunking-figure__dark) {
+  display: none;
+}
+
+html[data-theme='dark'] .chunking-figure > .chunking-figure__dark {
+  display: block;
+}
+
+.chunking-figure figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Method diagrams share the site's island controls and theme tokens. */
+.island[data-island^='documentation/headless/chunking/'] .island__caption {
+  color: inherit;
+  opacity: 1;
+}
+
+.qi-chunk {
+  --qi-cat-1-soft: color-mix(in srgb, var(--qi-cat-1) 10%, var(--qi-surface));
+  --qi-cat-2-soft: color-mix(in srgb, var(--qi-cat-2) 10%, var(--qi-surface));
+  --qi-cat-4-soft: color-mix(in srgb, var(--qi-cat-4) 10%, var(--qi-surface));
+  container: chunking / inline-size;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.documentation .qi-chunk p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.qi-chunk .qi-chip,
+.qi-chunk .qi-hint,
+.qi-chunk .qi-frame-label {
+  font-size: 14px;
+  color: var(--qi-fg);
+}
+
+.qi-chunk .qi-chip {
+  min-height: 36px;
+  white-space: normal;
+  text-align: left;
+}
+
+.qi-chunk .qi-chip small {
+  font-size: 14px;
+  opacity: 1;
+}
+
+.qi-chunk .qi-status {
+  /* Announce control changes without a visible summary beneath the example. */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.qi-chunk__panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.qi-chunk__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+  background: var(--qi-surface);
+}
+
+.qi-chunk__label,
+.qi-chunk__chunk-title {
+  font-family: var(--qi-mono);
+  font-weight: 600;
+}
+
+.qi-chunk__tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: start;
+}
+
+.qi-chunk__token {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 5px;
+  padding: 4px 7px;
+  border: 1px solid var(--qi-border);
+  border-radius: 4px;
+  background: var(--chunk-soft, var(--qi-surface));
+  color: var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+
+.qi-chunk__token small {
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.qi-chunk__source-words .qi-chunk__token {
+  background: transparent;
+}
+
+.qi-chunk__source-words .qi-chunk__token.is-selected {
+  background: var(--chunk-soft);
+  border-color: var(--qi-fg);
+}
+
+.qi-chunk__range-list {
+  gap: 6px;
+}
+
+.qi-chunk__range[aria-pressed='true'] {
+  box-shadow: inset 0 -3px var(--chunk-color);
+}
+
+.documentation .qi-chunk__steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.documentation .qi-chunk__steps li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 8px;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+
+.qi-chunk__steps .is-current {
+  border-color: var(--qi-fg);
+  background: var(--qi-surface);
+  font-weight: 600;
+}
+
+.qi-chunk__step-number {
+  font-variant-numeric: tabular-nums;
+}
+
+.qi-chunk__chunk.is-oversized {
+  border-top: 2px dashed var(--qi-fg);
+  border-right: 2px dashed var(--qi-fg);
+  border-bottom: 2px dashed var(--qi-fg);
+}
+
+.qi-chunk__chunks,
+.qi-chunk__sentences {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.qi-chunk__chunk,
+.qi-chunk__sentence {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--qi-border);
+  border-left: 3px solid var(--chunk-color, var(--qi-line));
+  border-radius: var(--qi-radius);
+  background: var(--chunk-soft, transparent);
+}
+
+.qi-chunk__sentence-head,
+.qi-chunk__similarity-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+}
+
+.qi-chunk__sentence-head b {
+  font-family: var(--qi-mono);
+}
+
+.qi-chunk__badge {
+  display: inline-block;
+  width: fit-content;
+  padding: 2px 6px;
+  border: 1px solid var(--qi-line);
+  border-radius: 4px;
+  font-family: var(--qi-mono);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--qi-fg);
+}
+
+.qi-chunk__note {
+  color: var(--qi-fg);
+}
+
+.qi-chunk .is-overlap {
+  border: 2px dashed var(--qi-fg);
+}
+
+.qi-chunk .is-outside {
+  border-style: dashed;
+  border-color: var(--qi-line);
+  background: transparent;
+}
+
+.qi-chunk__similarity {
+  padding: 4px 10px 10px;
+}
+
+.qi-chunk__similarity-label {
+  justify-content: space-between;
+  margin-bottom: 7px;
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+
+.qi-chunk__meter {
+  position: relative;
+  height: 8px;
+  border: 1px solid var(--qi-line);
+  border-radius: 2px;
+}
+
+.qi-chunk__meter-fill {
+  display: block;
+  height: 100%;
+  background: var(--qi-cat-3);
+}
+
+.qi-chunk__meter-threshold {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--qi-fg);
+}
+
+.qi-chunk__cut-line {
+  padding-top: 6px;
+  border-top: 2px dashed var(--qi-fg);
+  font-family: var(--qi-mono);
+  font-size: 14px;
+}
+
+.qi-chunk__decision {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--qi-line);
+  border-radius: var(--qi-radius);
+}
+
+.qi-chunk__flow-arrow {
+  color: var(--qi-fg);
+  font-size: 24px;
+  text-align: center;
+  line-height: 1;
+}
+
+/* Compact method examples show source wording once, with only boundary cues. */
+.qi-chunk--compact .qi-chunk__panels {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+}
+
+.qi-chunk--compact .qi-chunk__panel {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  gap: 10px;
+}
+
+.qi-chunk--compact .qi-chip { min-height: 40px; }
+
+.qi-chunk--compact .qi-chunk__chunk,
+.qi-chunk--compact .qi-chunk__sentence {
+  padding: 10px 14px;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 0;
+  gap: 6px;
+}
+
+.qi-chunk--compact .qi-chunk__token {
+  padding: 0 3px;
+  border: 0;
+  background: transparent;
+}
+
+.qi-chunk--compact .qi-chunk__sentences { gap: 4px; }
+
+.qi-chunk--compact .qi-chunk__sentence { padding: 6px 14px; }
+
+.qi-chunk--compact .qi-chunk__badge {
+  padding: 0;
+  border: 0;
+}
+
+.documentation .qi-chunk--compact .qi-chunk__text,
+.documentation .qi-chunk--compact .qi-chunk__source-words {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.qi-chunk--compact .qi-chunk__word {
+  padding: 2px 0;
+  border-bottom: 2px solid transparent;
+}
+
+.qi-chunk--compact .qi-chunk__word.is-selected {
+  background: var(--chunk-soft);
+  border-bottom-color: var(--qi-fg);
+}
+
+.qi-chunk--compact .qi-chunk__word.is-overlap,
+.qi-chunk--compact .qi-chunk__token.is-overlap {
+  border: 0;
+  border-bottom: 2px dashed var(--qi-fg);
+}
+
+.qi-chunk--compact .qi-chunk__chunk.is-oversized {
+  border-left-style: dashed;
+}
+
+.qi-chunk--compact .qi-chunk__boundary { padding: 2px 0; }
+
+.qi-chunk--compact .qi-chunk__similarity { padding: 0; }
+
+.qi-chunk--compact .qi-chunk__steps li {
+  padding: 4px 8px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+}
+
+.qi-chunk--compact .qi-chunk__steps .is-current {
+  border-bottom-color: var(--qi-fg);
+}
+
+@container chunking (max-width: 560px) {
+  .qi-chunk__panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .qi-chunk__panel {
+    padding: 12px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .chunking-media-fallback {
+    color-scheme: dark;
+  }
+
+  html:not([data-theme='light']) .chunking-figure > picture:not(.chunking-figure__dark) {
+    display: none;
+  }
+  html:not([data-theme='light']) .chunking-figure > .chunking-figure__dark {
+    display: block;
+  }
+}
+
+/* Static comparison: no island loader or controls. Its transparent SVG takes
+   its color-scheme from the docs surface, including the no-JavaScript default. */
+.documentation .chunking-strategy-comparison {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  margin: 1.5rem auto;
+}
+
+.documentation img[src*='/guides_data/chunking/strategy-comparison'] {
+  display: block;
+  width: 100%;
+  height: auto;
+  color-scheme: dark;
+}
+
+html[data-theme='light'] .documentation img[src*='/guides_data/chunking/strategy-comparison'] {
+  color-scheme: light;
+}
