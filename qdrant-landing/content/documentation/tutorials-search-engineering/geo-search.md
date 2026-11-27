@@ -265,7 +265,7 @@ The defaults work for most collections. Two HNSW settings matter for geo filters
 - `full_scan_threshold` sets where the planner switches from graph search to an exact search over the matching points.
 - `payload_m` sets how many extra links the index adds for each payload field.
 
-See [Vector Index](/documentation/manage-data/indexing/#vector-index) for both.
+Refer to [Vector Index](/documentation/manage-data/indexing/#vector-index) for both.
 
 {{< im kind="end-section" >}}
 
