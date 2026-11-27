@@ -1,1 +1,1 @@
-{{- partial "fastembed-models.html" (.Get "type") -}}
+{{- partial "fastembed-models.html" (dict "type" (.Get "type") "page" .Page) -}}

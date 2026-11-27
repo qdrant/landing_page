@@ -67,31 +67,23 @@
     {{- end -}}
     {{- $options = merge $options (dict $key ((index $options $key | default slice) | append $values)) -}}
   {{- end -}}
-  {{- $catalog := dict -}}
+  {{- $models := slice -}}
   {{- with $directory.model_catalog -}}
     {{- if eq . "fastembed" -}}
-      {{- $catalog = hugo.Data.fastembed_models.models -}}
+      {{- /* FastEmbed doesn't say a model's input or vector type, so its models match every filter. */ -}}
+      {{- range hugo.Data.fastembed_models.classes -}}
+        {{- range .models -}}
+          {{- $models = $models | append (dict "name" .model) -}}
+        {{- end -}}
+      {{- end -}}
     {{- else if eq . "cloud-inference" -}}
-      {{- $catalog = hugo.Data.cloud_inference_models -}}
+      {{- range $kind, $entries := hugo.Data.cloud_inference_models -}}
+        {{- range $entries -}}
+          {{- $models = $models | append (dict "name" .model "input" (slice .modality) "vectors" (slice (title $kind))) -}}
+        {{- end -}}
+      {{- end -}}
     {{- else -}}
       {{- errorf "integration-directory: unknown model catalog %q in %s" . $page.File.Path -}}
-    {{- end -}}
-  {{- end -}}
-  {{- $models := slice -}}
-  {{- range $kind, $entries := $catalog -}}
-    {{- $inputs := slice "Text" -}}
-    {{- $vectors := title $kind -}}
-    {{- if eq $kind "image" -}}
-      {{- $inputs = slice "Image" -}}
-      {{- $vectors = "Dense" -}}
-    {{- else if eq $kind "multimodal" -}}
-      {{- $inputs = slice "Text" "Image" -}}
-      {{- $vectors = "Multivector" -}}
-    {{- end -}}
-    {{- range $entries -}}
-      {{- $modelInputs := $inputs -}}
-      {{- with .modality -}}{{- $modelInputs = slice . -}}{{- end -}}
-      {{- $models = $models | append (dict "name" .model "input" $modelInputs "vectors" (slice $vectors)) -}}
     {{- end -}}
   {{- end -}}
   {{- $modelsByPage = merge $modelsByPage (dict $page.RelPermalink (sort $models "name")) -}}
