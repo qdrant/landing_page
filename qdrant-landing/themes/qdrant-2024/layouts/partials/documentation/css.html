@@ -49,6 +49,12 @@
     so the table of contents and article header overrides keep the same cascade.-->
 {{ partial "common/copy-markdown/css.html" . }}
 
+<!--The immersive layout (layout: immersive) is a full-width page and brings its own styles-->
+{{ if eq .Params.layout "immersive" }}
+  {{ $immersiveCss := resources.Get "docs/css/immersive.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $immersiveCss.RelPermalink }}" rel="stylesheet" integrity="{{ $immersiveCss.Data.Integrity }}" />
+{{ end }}
+
 <!--Articles also need the article listing and post styles-->
 {{ if eq .Section "articles" }}
   {{ $articlesCss := resources.Get "docs/css/articles.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
