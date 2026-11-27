@@ -5,7 +5,7 @@ short_description: "Daily bulk deletes kept crashing other providers and stalled
 description: "Moonsift adds over 1M fashion and homeware products a day and deletes expired ones daily, while shoppers search by image and text. How it moved that workload to Qdrant, got three people off database firefighting, and launched its shopping AI, with the search pipeline and the human-evaluation process behind it."
 preview_image: /blog/case-study-moonsift/social_preview.png
 social_preview_image: /blog/case-study-moonsift/social_preview.png
-date: 2026-11-20T00:00:00.000Z
+date: 2026-11-30T00:00:00.000Z
 author: Daniel Azoulai
 featured: false
 tags:
