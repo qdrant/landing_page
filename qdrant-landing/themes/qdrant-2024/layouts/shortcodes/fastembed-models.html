@@ -1,1 +1,2 @@
-{{- partial "fastembed-models.html" (.Get "type") | .Page.RenderString (dict "display" "block") -}}
+{{- /* Call with {{% %}}: type="others" returns headings. */ -}}
+{{- partial "fastembed-models.html" (dict "type" (.Get "type") "page" .Page) -}}

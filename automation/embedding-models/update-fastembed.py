@@ -1,49 +1,30 @@
 # /// script
-# requires-python = ">=3.10"
-# dependencies = ["fastembed>=0.9.0"]
+# requires-python = ">=3.11"
+# dependencies = ["fastembed"]
 # ///
 """Refresh the docs catalog: uv run --upgrade automation/embedding-models/update-fastembed.py.
 """
 
 import json
-from importlib.metadata import version
 from pathlib import Path
 
-from fastembed import (
-    ImageEmbedding,
-    LateInteractionMultimodalEmbedding,
-    LateInteractionTextEmbedding,
-    SparseTextEmbedding,
-    TextEmbedding,
-)
+import fastembed
 
 
 def main():
-    registries = {
-        "dense": TextEmbedding,
-        "sparse": SparseTextEmbedding,
-        "multivector": LateInteractionTextEmbedding,
-        "image": ImageEmbedding,
-        "multimodal": LateInteractionMultimodalEmbedding,
-    }
-    groups = {}
-    for name, registry in registries.items():
-        models = []
-        for model in registry.list_supported_models():
-            # FastEmbed retains this misspelled alias for older callers.
-            if model["model"] == "prithvida/Splade_PP_en_v1":
-                continue
+    classes = []
+    for name, models in fastembed.list_supported_models().items():
+        entries = []
+        for model in models:
             entry = {"model": model["model"], "license": model["license"]}
-            if name != "sparse":
+            if "dim" in model:
                 entry["dimensions"] = model["dim"]
-            models.append(entry)
-        if not models:
-            raise ValueError(f"FastEmbed returned an empty {name} registry")
-        groups[name] = sorted(models, key=lambda model: model["model"].casefold())
-    catalog = {"version": version("fastembed"), "models": groups}
+            entries.append(entry)
+        classes.append({"name": name, "models": sorted(entries, key=lambda entry: entry["model"].casefold())})
+    catalog = {"version": fastembed.__version__, "classes": classes}
     output = Path(__file__).resolve().parents[2] / "qdrant-landing/data/fastembed_models.json"
     output.write_text(json.dumps(catalog, indent=2) + "\n")
-    print(f"Updated {output.name}: {sum(map(len, groups.values()))} models, FastEmbed {catalog['version']}")
+    print(f"Updated {output.name}: {sum(len(c['models']) for c in classes)} models, FastEmbed {catalog['version']}")
 
 
 if __name__ == "__main__":
