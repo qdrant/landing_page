@@ -81,8 +81,6 @@ Serverless exposes a smaller surface than a dedicated cluster. Some features are
 
 To change a schema, create a new collection with the configuration you want, upload your points again, then delete the old collection. This mainly affects embedding model migration: plan to upload your points again instead of adding a new vector in place.
 
-**Cloud Inference.** Compute embeddings yourself, for example with [FastEmbed](https://github.com/qdrant/fastembed).
-
 **Other features.** Collection aliases, private links, data encryption with customer-managed keys, and audit logging aren't supported.
 
 ### Differences by Design
