@@ -7,7 +7,9 @@ weight: 20
 
 # Connect to a Space
 
-Serverless uses its own client, separate from the client you use with a dedicated cluster: `QdrantServerless` in Python and Rust, `serverless.Client` in Go, and `QdrantServerlessClient` in Java and .NET. Queries work the same way, but collection management does not. See [Manage Collections](/documentation/serverless/collections/).
+Serverless uses its own client, separate from the client you use with a dedicated cluster: `QdrantServerless` in Python and Rust, `serverless.Client` in Go, and `QdrantServerlessClient` in Java and .NET. Most queries work the same way, but collection management does not. See [Manage Collections](/documentation/serverless/collections/).
+
+If you're moving an application from a dedicated cluster, review the [API Differences](/documentation/interfaces/#api-differences) first.
 
 ## What You Need
 

@@ -135,3 +135,5 @@ Serverless applies writes in the background, so migrated points can take a while
 At the end of a migration to a single collection, the Migration Tool compares the point counts of the source and target collections. After a split, it skips this check. Count the points of each tenant collection yourself, and compare each count with a filtered count of that tenant in the source collection. For more checks, see the [Migration Guidance](/documentation/migration-guidance/).
 
 To connect to the new space with your application, use the `QdrantServerless` client. See [Connect to a Space](/documentation/serverless/connect/).
+
+Some API features and behaviors differ between dedicated clusters and Serverless, for example updates by filter and the default `wait` value. Before you move your application to the space, review the [API Differences](/documentation/interfaces/#api-differences).
