@@ -538,13 +538,6 @@ html[data-theme='dark'] .im {
     > :last-child {
       border-bottom: 0;
     }
-
-    // Keep running text to a readable line length in a wide cell.
-    .im-cell > p,
-    .im-cell > ul,
-    .im-cell > ol {
-      max-width: 46em;
-    }
   }
 
   .im-cells--c2 {

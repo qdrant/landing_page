@@ -69,6 +69,7 @@ immersive_nav:
     intro="Vector indexes are built to find neighbors in meaning. Location is a second, independent space, and its density varies widely."
     more="Filtering in Vector Search (article)|/articles/vector-search-filtering/"
     align="split"
+    compact=true
 >}}
 
 {{< im kind="cells" cols=1 >}}
