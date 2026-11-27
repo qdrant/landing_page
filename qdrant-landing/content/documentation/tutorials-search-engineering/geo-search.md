@@ -33,7 +33,6 @@ immersive_nav:
     lead="Combine vector similarity with radius, bounding box, and polygon filters in one query, and see why a geo filter needs more than a filter on top of a vector index."
     primary="Try the demo|#demo"
     secondary="Read the Geo Search docs|/documentation/search/geo-search/"
-    note="Works the same on Qdrant open source, Qdrant Cloud, and Hybrid Cloud."
 >}}
 
 {{< im kind="card" title="Query with a geo filter" meaning="“quiet café to work from”" location="1.5 km around central Berlin" >}}
