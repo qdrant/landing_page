@@ -196,10 +196,10 @@ Grouping fits collections that store each chunk of a document as its own point. 
 
 Formula Query rescores the same candidates with an expression over payload fields, such as recency or popularity, and needs a payload index on each field the formula references.
 
-Test a [late interaction model](/documentation/fastembed/fastembed-colbert/) when a cross-encoder is too slow. Document vectors are built at ingest, so only the query goes through the model per request, and the rescoring runs inside Qdrant in the same multi-stage query. Storage grows to a vector per token. [Multivectors and Late Interaction](/documentation/tutorials-search-engineering/using-multivector-representations/) walks the full setup.
+Test a [late interaction model](/documentation/search-tuning/reranking-guide/) when a cross-encoder is too slow. Document vectors are built at ingest, so only the query goes through the model per request, and the rescoring runs inside Qdrant in the same multi-stage query. Storage grows to a vector per token. [Multivectors and Late Interaction](/documentation/tutorials-search-engineering/using-multivector-representations/) walks the full setup.
 
 ## What to Tune Next
 
 After a win, the work moves to throughput, where the candidate count you can serve decides how much of the gain survives. After a loss, the gap is still there and the candidates are what to change, so revisit retrieval and [candidate depth](/documentation/search-tuning/candidate-depth/) before adding another ranking stage.
 
-Next, if memory is the constraint, [measure what memory placement and rescoring add to query latency](/documentation/search-tuning/when-your-collection-outgrows-ram/).
+Next, if a cross-encoder is too slow or you want to compare it with rescoring inside Qdrant, [see how late interaction, MUVERA, and cross-encoders behave as depth grows](/documentation/search-tuning/reranking-guide/).

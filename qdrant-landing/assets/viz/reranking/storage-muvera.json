@@ -1,0 +1,19 @@
+{
+  "title": "Stored size per document",
+  "subtitle": "KiB on disk, including storage overhead",
+  "kind": "grouped-columns",
+  "group": "dataset",
+  "series": "vector",
+  "y": "kib_per_document",
+  "colors": [
+    3,
+    0,
+    2
+  ],
+  "yMax": 220,
+  "yLabel": "KiB per document",
+  "width": 800,
+  "height": 320,
+  "textScale": 1.4,
+  "legendLayout": "auto"
+}

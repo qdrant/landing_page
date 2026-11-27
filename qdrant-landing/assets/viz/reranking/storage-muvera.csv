@@ -1,0 +1,16 @@
+dataset,vector,kib_per_document
+NFCorpus,Dense vector,1.8
+NFCorpus,Multivectors,209.7
+NFCorpus,MUVERA FDE,40.3
+SciFact,Dense vector,1.7
+SciFact,Multivectors,191.3
+SciFact,MUVERA FDE,40.2
+SCIDOCS,Dense vector,1.6
+SCIDOCS,Multivectors,110.2
+SCIDOCS,MUVERA FDE,40.1
+FiQA,Dense vector,1.6
+FiQA,Multivectors,72.3
+FiQA,MUVERA FDE,40.0
+Quora,Dense vector,1.6
+Quora,Multivectors,9.1
+Quora,MUVERA FDE,40.0

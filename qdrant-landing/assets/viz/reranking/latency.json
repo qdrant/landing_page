@@ -1,0 +1,54 @@
+{
+  "title": "Latency of dense prefetch plus LateOn rescoring, by depth",
+  "kind": "lines-facet",
+  "facet": "scope",
+  "facetLabel": "{}",
+  "x": "depth",
+  "xLabel": "candidates rescored (depth)",
+  "xSuffix": "",
+  "yLabel": "median ms per query",
+  "yScale": "linear",
+  "yDomains": {
+    "End to end": [
+      0,
+      80
+    ],
+    "Inside Qdrant": [
+      0,
+      35
+    ]
+  },
+  "yTicks": {
+    "End to end": [
+      0,
+      20,
+      40,
+      60,
+      80
+    ],
+    "Inside Qdrant": [
+      0,
+      10,
+      20,
+      30
+    ]
+  },
+  "series": [
+    "fiqa",
+    "nfcorpus",
+    "scifact",
+    "scidocs",
+    "quora"
+  ],
+  "seriesLabels": [
+    "FiQA",
+    "NFCorpus",
+    "SciFact",
+    "SCIDOCS",
+    "Quora"
+  ],
+  "unit": "ms",
+  "subtitle": "lower is better",
+  "width": 980,
+  "height": 300
+}

@@ -1,0 +1,60 @@
+{
+  "title": "MUVERA FDE against mean pooling: share of the exact MaxSim top 10 found",
+  "kind": "lines-facet",
+  "facet": "panel",
+  "facetLabel": "{}",
+  "x": "depth",
+  "xLabel": "candidates retrieved (depth)",
+  "xSuffix": "",
+  "yLabel": "% of exact top 10",
+  "yScale": "linear",
+  "yDomain": [
+    0,
+    100
+  ],
+  "yTicks": {
+    "Share of the exact MaxSim top 10 found": [
+      0,
+      20,
+      40,
+      60,
+      80,
+      100
+    ]
+  },
+  "seriesLabels": [
+    "MUVERA FDE",
+    "mean pooling"
+  ],
+  "unit": "%",
+  "subtitle": "FDE: 40 KiB per document. Mean pooling: 0.5 KiB. Higher is better.",
+  "width": 700,
+  "height": 300,
+  "series": [
+    "nfcorpus_fde",
+    "nfcorpus_pool"
+  ],
+  "views": [
+    {
+      "label": "NFCorpus",
+      "series": [
+        "nfcorpus_fde",
+        "nfcorpus_pool"
+      ]
+    },
+    {
+      "label": "SciFact",
+      "series": [
+        "scifact_fde",
+        "scifact_pool"
+      ]
+    },
+    {
+      "label": "SCIDOCS",
+      "series": [
+        "scidocs_fde",
+        "scidocs_pool"
+      ]
+    }
+  ]
+}

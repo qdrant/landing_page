@@ -1,0 +1,176 @@
+/* rerank-pipeline island. Scoped under .qi-rr. Controls, chips, and the
+   status line come from the shared island design system (islands.scss); this
+   file styles the stage boxes, wires, the Qdrant/application brackets, and
+   the per-method facts below the drawing.
+
+   Stage roles reuse the hues of the sibling retrieval-pipeline island: "first"
+   (prefetch) is the teal win tone, "qdrant" (a reranker running inside Qdrant)
+   is Qdrant red, "app" (a reranker running in your application) is the violet
+   categorical token, and "pool" is the muted cost tone. Text uses the island
+   type roles in Geist Mono: 13px semibold stage names, 12px details, 14px
+   frame labels. The viewBox is close to the article width, so these drawing
+   sizes render at about the same CSS size. */
+
+.qi-rr {
+  --rr-first-fill: #c0f0f0;
+  --rr-first-stroke: #038585;
+  --rr-first-text: #004f4f;
+  --rr-qdrant-fill: #ffdadb;
+  --rr-qdrant-stroke: #dc244c;
+  --rr-qdrant-text: #91012a;
+  --rr-app-fill: #ece8ff;
+  --rr-app-stroke: #6047ff;
+  --rr-app-text: #5700c9;
+  --rr-pool-fill: #f0f3fa;
+  --rr-pool-stroke: #b4bacc;
+  --rr-pool-text: #576280;
+  --rr-plain-stroke: #b4bacc;
+  --rr-plain-text: #303547;
+  --rr-wire: #303547;
+
+  display: block;
+  container-type: inline-size;
+  container-name: qi-rr;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .qi-rr {
+    --rr-first-fill: #0d2e2e;
+    --rr-first-stroke: #03a3a3;
+    --rr-first-text: #8fe9e9;
+    --rr-qdrant-fill: #3a1420;
+    --rr-qdrant-stroke: #ff5470;
+    --rr-qdrant-text: #ffabb9;
+    --rr-app-fill: #1d1640;
+    --rr-app-stroke: #9d8bff;
+    --rr-app-text: #cabdff;
+    --rr-pool-fill: #1a1f2e;
+    --rr-pool-stroke: #576280;
+    --rr-pool-text: #c3c9db;
+    --rr-plain-stroke: #576280;
+    --rr-plain-text: #e2e7f5;
+    --rr-wire: #e2e7f5;
+  }
+}
+html[data-theme='dark'] .qi-rr {
+  --rr-first-fill: #0d2e2e;
+  --rr-first-stroke: #03a3a3;
+  --rr-first-text: #8fe9e9;
+  --rr-qdrant-fill: #3a1420;
+  --rr-qdrant-stroke: #ff5470;
+  --rr-qdrant-text: #ffabb9;
+  --rr-app-fill: #1d1640;
+  --rr-app-stroke: #9d8bff;
+  --rr-app-text: #cabdff;
+  --rr-pool-fill: #1a1f2e;
+  --rr-pool-stroke: #576280;
+  --rr-pool-text: #c3c9db;
+  --rr-plain-stroke: #576280;
+  --rr-plain-text: #e2e7f5;
+  --rr-wire: #e2e7f5;
+}
+
+.qi-rr__fig {
+  padding: 1rem;
+  border: 1px solid var(--qi-border);
+  border-radius: var(--qi-radius);
+}
+
+.qi-rr__box {
+  stroke-width: 1.5;
+}
+.qi-rr__box--first { fill: var(--rr-first-fill); stroke: var(--rr-first-stroke); }
+.qi-rr__box--qdrant { fill: var(--rr-qdrant-fill); stroke: var(--rr-qdrant-stroke); }
+.qi-rr__box--app { fill: var(--rr-app-fill); stroke: var(--rr-app-stroke); stroke-width: 2; }
+.qi-rr__box--pool { fill: var(--rr-pool-fill); stroke: var(--rr-pool-stroke); }
+.qi-rr__box--plain { fill: none; stroke: var(--rr-plain-stroke); }
+
+.qi-rr__ink--first { fill: var(--rr-first-text); }
+.qi-rr__ink--qdrant { fill: var(--rr-qdrant-text); }
+.qi-rr__ink--app { fill: var(--rr-app-text); }
+.qi-rr__ink--pool { fill: var(--rr-pool-text); }
+.qi-rr__ink--plain { fill: var(--rr-plain-text); }
+
+.qi-rr__name,
+.qi-rr__detail,
+.qi-rr__short,
+.qi-rr__bracket text {
+  font-family: var(--qi-mono);
+}
+.qi-rr__name {
+  font-size: 13px;
+  font-weight: 600;
+}
+.qi-rr__detail {
+  font-size: 12px;
+}
+.qi-rr__short {
+  font-size: 24px;
+  font-weight: 600;
+  display: none;
+}
+
+.qi-rr__wire {
+  stroke: var(--rr-wire);
+  stroke-width: 1.5;
+  fill: none;
+}
+.qi-rr__arrowhead {
+  fill: var(--rr-wire);
+}
+
+.qi-rr__bracket path {
+  fill: none;
+  stroke-width: 1.5;
+}
+.qi-rr__bracket text {
+  font-size: 14px;
+}
+.qi-rr__bracket--qdrant path { stroke: var(--rr-qdrant-stroke); }
+.qi-rr__bracket--qdrant text { fill: var(--rr-qdrant-text); }
+.qi-rr__bracket--app path { stroke: var(--rr-app-stroke); }
+.qi-rr__bracket--app text { fill: var(--rr-app-text); }
+
+/* Per-method facts: plain HTML under the drawing, so they never scale down
+   with the viewBox. Same type roles: 13px semibold terms, 12px muted text. */
+.qi-rr__facts {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  font-family: var(--qi-mono);
+}
+.qi-rr__facts > div {
+  display: grid;
+  grid-template-columns: 11.5rem 1fr;
+  gap: 0.75rem;
+}
+.qi-rr__facts dt {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--qi-fg);
+}
+.qi-rr__facts dd {
+  margin: 0;
+  font-size: 13px;
+  color: var(--qi-muted);
+}
+
+/* Below ~600px of rendered width, the full stage names and detail lines
+   scale under a legible size. Collapse each stage to its short name at a
+   larger drawing size; the full first stage and reranker are already in the
+   status line and facts below. */
+@container qi-rr (max-width: 600px) {
+  .qi-rr__name,
+  .qi-rr__detail {
+    display: none;
+  }
+  .qi-rr__short {
+    display: block;
+  }
+  .qi-rr__bracket text {
+    font-size: 22px;
+  }
+  .qi-rr__facts > div {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+  }
+}

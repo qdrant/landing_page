@@ -1,0 +1,211 @@
+{
+  "title": "nDCG@10 and pool recall by candidate depth, with MUVERA",
+  "kind": "lines-facet",
+  "facet": "metric",
+  "facetLabel": "{}",
+  "x": "depth",
+  "xLabel": "candidates rescored (depth)",
+  "xSuffix": "",
+  "yLabel": "value",
+  "yScale": "linear",
+  "yLabels": {
+    "nDCG@10": "nDCG@10",
+    "Pool recall": "% of relevant documents in the pool"
+  },
+  "seriesLabels": [
+    "dense prefetch + LateOn",
+    "BM25 prefetch + LateOn",
+    "MUVERA prefetch + LateOn"
+  ],
+  "unit": "",
+  "subtitle": "higher is better",
+  "width": 800,
+  "height": 320,
+  "series": [
+    "fiqa_dense",
+    "fiqa_bm25",
+    "fiqa_muvera"
+  ],
+  "yDomains": {
+    "nDCG@10": [
+      25,
+      55
+    ],
+    "Pool recall": [
+      20,
+      100
+    ]
+  },
+  "yTicks": {
+    "nDCG@10": [
+      30,
+      40,
+      50
+    ],
+    "Pool recall": [
+      20,
+      40,
+      60,
+      80,
+      100
+    ]
+  },
+  "views": [
+    {
+      "label": "FiQA",
+      "series": [
+        "fiqa_dense",
+        "fiqa_bm25",
+        "fiqa_muvera"
+      ],
+      "yDomains": {
+        "nDCG@10": [
+          25,
+          55
+        ],
+        "Pool recall": [
+          20,
+          100
+        ]
+      },
+      "yTicks": {
+        "nDCG@10": [
+          30,
+          40,
+          50
+        ],
+        "Pool recall": [
+          20,
+          40,
+          60,
+          80,
+          100
+        ]
+      }
+    },
+    {
+      "label": "NFCorpus",
+      "series": [
+        "nfcorpus_dense",
+        "nfcorpus_bm25",
+        "nfcorpus_muvera"
+      ],
+      "yDomains": {
+        "nDCG@10": [
+          28,
+          40
+        ],
+        "Pool recall": [
+          0,
+          70
+        ]
+      },
+      "yTicks": {
+        "nDCG@10": [
+          30,
+          35,
+          40
+        ],
+        "Pool recall": [
+          0,
+          20,
+          40,
+          60
+        ]
+      }
+    },
+    {
+      "label": "SciFact",
+      "series": [
+        "scifact_dense",
+        "scifact_bm25",
+        "scifact_muvera"
+      ],
+      "yDomains": {
+        "nDCG@10": [
+          70,
+          78
+        ],
+        "Pool recall": [
+          75,
+          100
+        ]
+      },
+      "yTicks": {
+        "nDCG@10": [
+          70,
+          74,
+          78
+        ],
+        "Pool recall": [
+          80,
+          90,
+          100
+        ]
+      }
+    },
+    {
+      "label": "SCIDOCS",
+      "series": [
+        "scidocs_dense",
+        "scidocs_bm25",
+        "scidocs_muvera"
+      ],
+      "yDomains": {
+        "nDCG@10": [
+          0,
+          25
+        ],
+        "Pool recall": [
+          0,
+          80
+        ]
+      },
+      "yTicks": {
+        "nDCG@10": [
+          0,
+          10,
+          20
+        ],
+        "Pool recall": [
+          0,
+          20,
+          40,
+          60,
+          80
+        ]
+      }
+    },
+    {
+      "label": "Quora",
+      "series": [
+        "quora_dense",
+        "quora_bm25",
+        "quora_muvera"
+      ],
+      "yDomains": {
+        "nDCG@10": [
+          84,
+          92
+        ],
+        "Pool recall": [
+          85,
+          100
+        ]
+      },
+      "yTicks": {
+        "nDCG@10": [
+          85,
+          88,
+          91
+        ],
+        "Pool recall": [
+          85,
+          90,
+          95,
+          100
+        ]
+      }
+    }
+  ]
+}

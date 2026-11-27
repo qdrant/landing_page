@@ -1,7 +1,7 @@
 ---
 title: Search Tuning
 short_description: Tune candidate depth, fusion, reranking, and memory against your search goals, following the complete retrieval tuning series.
-description: "Tune Qdrant retrieval with measured changes to candidate depth, hybrid fusion, reranking, and memory use. Follow the six-part series in order."
+description: "Tune Qdrant retrieval with measured changes to candidate depth, hybrid fusion, reranking, and memory use. Follow the seven-part series in order."
 partition: learn
 learning_kind: guides
 cascade:

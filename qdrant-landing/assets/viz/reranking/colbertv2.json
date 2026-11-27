@@ -1,0 +1,119 @@
+{
+  "title": "nDCG@10 of ColBERTv2 rescoring against dense alone, by depth",
+  "kind": "lines-facet",
+  "facet": "panel",
+  "facetLabel": "{}",
+  "x": "depth",
+  "xLabel": "candidates rescored (depth)",
+  "xSuffix": "",
+  "yLabel": "nDCG@10",
+  "yScale": "linear",
+  "seriesLabels": [
+    "dense prefetch + ColBERTv2",
+    "dense alone"
+  ],
+  "unit": "",
+  "subtitle": "higher is better",
+  "width": 700,
+  "height": 300,
+  "series": [
+    "scidocs_colbertv2",
+    "scidocs_dense"
+  ],
+  "yDomains": {
+    "nDCG@10": [
+      14,
+      22
+    ]
+  },
+  "yTicks": {
+    "nDCG@10": [
+      16,
+      18,
+      20
+    ]
+  },
+  "views": [
+    {
+      "label": "SCIDOCS",
+      "series": [
+        "scidocs_colbertv2",
+        "scidocs_dense"
+      ],
+      "yDomains": {
+        "nDCG@10": [
+          14,
+          22
+        ]
+      },
+      "yTicks": {
+        "nDCG@10": [
+          16,
+          18,
+          20
+        ]
+      }
+    },
+    {
+      "label": "SciFact",
+      "series": [
+        "scifact_colbertv2",
+        "scifact_dense"
+      ],
+      "yDomains": {
+        "nDCG@10": [
+          68,
+          76
+        ]
+      },
+      "yTicks": {
+        "nDCG@10": [
+          70,
+          72,
+          74
+        ]
+      }
+    },
+    {
+      "label": "FiQA",
+      "series": [
+        "fiqa_colbertv2",
+        "fiqa_dense"
+      ],
+      "yDomains": {
+        "nDCG@10": [
+          34,
+          42
+        ]
+      },
+      "yTicks": {
+        "nDCG@10": [
+          36,
+          38,
+          40
+        ]
+      }
+    },
+    {
+      "label": "NFCorpus",
+      "series": [
+        "nfcorpus_colbertv2",
+        "nfcorpus_dense"
+      ],
+      "yDomains": {
+        "nDCG@10": [
+          31,
+          39
+        ]
+      },
+      "yTicks": {
+        "nDCG@10": [
+          32,
+          34,
+          36,
+          38
+        ]
+      }
+    }
+  ]
+}
