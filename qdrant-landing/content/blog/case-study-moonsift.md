@@ -1,7 +1,7 @@
 ---
 draft: false
 title: "How Moonsift Shipped AI Shopping Search Over a Catalog It Rewrites Every Day"
-short_description: "Daily bulk deletes kept crashing Moonsift's previous provider and stalled its shopping AI. On Qdrant Cloud, the catalog of over 15M products turns over every day, and the shopping AI is live."
+short_description: "Daily bulk deletes kept crashing other providers and stalled its shopping AI. On Qdrant Cloud, the catalog of over 15M products turns over every day, and the shopping AI is live."
 description: "Moonsift adds over 1M fashion and homeware products a day and deletes expired ones daily, while shoppers search by image and text. How it moved that workload to Qdrant, got three people off database firefighting, and launched its shopping AI, with the search pipeline and the human-evaluation process behind it."
 preview_image: /blog/case-study-moonsift/social_preview.png
 social_preview_image: /blog/case-study-moonsift/social_preview.png
@@ -19,7 +19,7 @@ tags:
 partition: case-studies
 ---
 
-![Moonsift is a shopping AI for fashion and homeware that searches millions of products by image and text on Qdrant Cloud. It adds over 1M products a day and deletes expired ones daily while shoppers search. After moving off a previous provider that crashed on those deletes, three people went back to product work and Moonsift launched its shopping AI to all users.](/blog/case-study-moonsift/bento_box.png)
+![Moonsift is a shopping AI for fashion and homeware that searches millions of products by image and text on Qdrant Cloud. It adds over 1M products a day and deletes expired ones daily while shoppers search. After moving off other providers that crashed on those deletes, three people went back to product work and Moonsift launched its shopping AI to all users.](/blog/case-study-moonsift/bento_box.png)
 
 <a href="https://www.moonsift.com/" target="_blank">Moonsift</a> wants to be the best place to keep your shopping context. You save what you're thinking of buying from any store, and a shopping AI that knows your taste finds more of what you'd want across many retailers. The goal is shopping that gets more personal the more you save.
 
@@ -32,7 +32,7 @@ The search behind it runs over more than 15 million fashion and homeware product
   <figcaption>A shopper saves a dress, and Qdrant finds similar products across more than 15 million items.</figcaption>
 </figure>
 
-On its previous provider, those daily bulk deletes kept crashing the database. Three people on a small team, including Moonsift's machine learning engineer, spent their weeks firefighting instead of building, and the shopping AI couldn't ship. After the move to Qdrant, the deletes stopped being an event. The team went back to product work, and in November 2026 Moonsift rolled its shopping AI out to all of its users.
+With other providers Moonsift tried, those daily bulk deletes kept crashing the database. Three people on a small team, including Moonsift's machine learning engineer, spent their weeks firefighting instead of building, and the shopping AI couldn't ship. After the move to Qdrant, the deletes stopped being an event. The team went back to product work, and in November 2026 Moonsift rolled its shopping AI out to all of its users.
 
 {{< quote
   text="Having a reliable vector database is crucial. It allows us to focus our time where we can be most innovative: building the shopping copilot."
@@ -76,7 +76,7 @@ Moonsift calls the third one "Semantic Transfer Search." A language model reads 
 
 Moonsift's catalog is a rolling window. Products arrive every day from many sources. Moonsift tags them and embeds them with its own CLIP-inspired vision-language model. Every day it also deletes products older than the window. That can mean over 1 million inserts a day, and a matching stream of deletes, on a collection of more than 15 million points that shoppers are querying the whole time.
 
-On the previous provider, bulk deletes with filters crashed the database again and again. Moonsift runs a weekly session where the whole company tests the latest build. For several weeks, the team arrived with improvements to show and found the database down.
+With those other providers, bulk deletes with filters crashed the database again and again. Moonsift runs a weekly session where the whole company tests the latest build. For several weeks, the team arrived with improvements to show and found the database down.
 
 The cost landed on people. Moonsift's machine learning engineer spent most of her time keeping the database running instead of working on models. The lead software engineer, who knows databases best, got pulled in, and so did David. On a small team, that was three people not improving search.
 
@@ -89,7 +89,7 @@ On Qdrant, the daily deletes stopped crashing anything. [Filtering](https://qdra
 It wasn't all automatic. When the collection doubled, from about 4 million to 8 million points, some settings needed tuning. Qdrant CTO Andrey Vasnetsov and an engineer joined a call with the team late on a Friday evening and worked through the configuration with them. In May 2025, after upgrading and moving payloads out of RAM, memory use dropped to what the team expected, and Moonsift used the freed capacity to hold more products. Today Moonsift runs on [Qdrant Cloud](https://qdrant.tech/cloud/), with separate staging and production clusters.
 
 {{< quote
-  text="For the past year, Qdrant has just worked, and we haven't had to worry about it. Our data comes in through several pipelines, and these require frequent maintenance. Having the part that's a relatively new technology be the reliable one is super important."
+  text="For the past year, Qdrant has just worked, and we haven't had to worry about it. Our data comes in through several pipelines, and these require frequent maintenance. Having this part that's a relatively new database technology be the reliable one is super important."
   name="David Wood"
   name_url="https://www.linkedin.com/in/davidwooduk/"
   role="Co-Founder and CTO"
@@ -133,7 +133,7 @@ David sums up what Qdrant changed in one word: risk. Before the move, any week c
 
 ## What's Next: 60 Million Products and Personal Taste
 
-Moonsift plans to grow the catalog from 15 million to about 60 million products over the next few months by adding sources. Over the next six months it will be personalizing results for each shopper by learning their style.
+Moonsift is growing the catalog from 15 million to about 60 million products over the next few months by adding sources. Over the next six months it will be personalizing results for each shopper by learning their style.
 
 ## From Firefighting to Shipping
 
