@@ -7,7 +7,7 @@ weight: 2
 
 # Frequently Asked Questions: Database Optimization 
 
-### How do I reduce memory usage?
+### How do I reduce memory usage? {products="!serverless"}
 
 The primary source of memory usage is vector data. There are several ways to address that:
 
@@ -17,7 +17,7 @@ The primary source of memory usage is vector data. There are several ways to add
 The choice of the approach depends on your requirements.
 Read more about [configuring the optimal](/documentation/ops-optimization/optimize/) use of Qdrant.
 
-### How do you choose the machine configuration?
+### How do you choose the machine configuration? {products="!serverless"}
 
 On Qdrant Cloud, you choose the CPU, memory, and disk when you [create a cluster](/documentation/cloud/create-cluster/) and can change them later by [scaling the cluster](/documentation/cloud/cluster-scaling/). Changing the CPU or memory restarts each node. Collections with a replication factor of 2 or more stay available during the restart, while collections without replicas have a short downtime. See [Restarts and Downtime](/documentation/cloud/configure-cluster/#restarts-and-downtime). Use the [Sizing Calculator](https://sizing.qdrant.tech/) to estimate the resources you need, and the [Pricing Calculator](https://cloud.qdrant.io/calculator) for cost. For the two scenarios below, refer also to [Capacity Planning](/documentation/capacity-planning/).
 
@@ -26,7 +26,7 @@ There are two main scenarios of Qdrant usage in terms of resource consumption:
 - **Performance-optimized** -- when you need to serve vector search as fast (many) as possible. In this case, you need to have as much vector data in RAM as possible. Use our [calculator](https://cloud.qdrant.io/calculator) to estimate the required RAM.
 - **Storage-optimized** -- when you need to store many vectors and minimize costs by compromising some search speed. In this case, pay attention to the disk speed instead. More about it in the article about [Memory Consumption](/articles/memory-consumption/).
 
-### I configured on-disk vector storage, but memory usage is still high. Why?
+### I configured on-disk vector storage, but memory usage is still high. Why? {products="!serverless"}
 
 Firstly, memory usage metrics as reported by `top` or `htop` may be misleading. They are not showing the minimal amount of memory required to run the service.
 If the RSS memory usage is 10 GB, it doesn't mean that it won't work on a machine with 8 GB of RAM.
@@ -38,7 +38,7 @@ As a result, the Qdrant process might use more memory than the minimum required 
 
 On Qdrant Cloud, the memory available to Qdrant is determined by the [cluster size](/documentation/cloud/cluster-scaling/) you choose. If you scale a cluster down, the new memory must still fit all of your data, or the cluster can run out of memory and become unavailable until you scale it back up. If you self-host and want to limit the memory usage of the service, we recommend using [limits in Docker](https://docs.docker.com/config/containers/resource_constraints/#memory) or Kubernetes.
 
-### My search latency increases under heavy write load. What should I do?
+### My search latency increases under heavy write load. What should I do? {products="!serverless"}
 
 Qdrant's background optimizer runs continuously, building HNSW indexes, merging segments, and applying quantization, while also serving search queries. Under heavy write load, the optimizer and queries compete for the same CPU, memory, and I/O. Here are the main levers to reduce that contention, ordered by impact:
 
@@ -56,7 +56,7 @@ For a full step-by-step walkthrough, see [Troubleshoot Read-Write Contention](/d
 There are several possible reasons for that:
 
 - **Using filters without payload index** -- If you're performing a search with a filter but you don't have a payload index, Qdrant will have to load whole payload data from disk to check the filtering condition. Ensure you have adequately configured [payload indexes](/documentation/manage-data/indexing/#payload-index).
-- **Usage of on-disk vector storage with slow disks** -- If you're using on-disk vector storage, ensure you have fast enough disks. We recommend using local SSDs with at least 50k IOPS. Read more about the influence of the disk speed on the search latency in the article about [Memory Consumption](/articles/memory-consumption/).
+- **Usage of on-disk vector storage with slow disks** -- On dedicated clusters, if you're using on-disk vector storage, ensure you have fast enough disks. We recommend using local SSDs with at least 50k IOPS. Read more about the influence of the disk speed on the search latency in the article about [Memory Consumption](/articles/memory-consumption/).
 - **Large limit or non-optimal query parameters** -- A large limit or offset might lead to significant performance degradation. Please pay close attention to the query/collection parameters that significantly diverge from the defaults. They might be the reason for the performance issues.
 
-To identify which specific requests are slow, use the [Slow Request Log](/documentation/ops-monitoring/slow-request-log/).
+On dedicated clusters, to identify which specific requests are slow, use the [Slow Request Log](/documentation/ops-monitoring/slow-request-log/).

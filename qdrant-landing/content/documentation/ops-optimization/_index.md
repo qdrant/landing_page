@@ -6,7 +6,7 @@ weight: 125
 partition: deploy
 ---
 
-# Optimization
+# Optimization {products="!serverless"}
 
 These pages cover strategies and internal mechanisms for improving search performance, reducing memory usage, managing how Qdrant organizes data on disk, and troubleshooting read-write contention.
 

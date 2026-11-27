@@ -11,7 +11,7 @@ aliases:
   - /documentation/operations/usage-statistics
 ---
 
-# Usage statistics
+# Usage statistics {products="self-hosted"}
 
 <aside role="status">On Qdrant Cloud, Qdrant doesn't collect anonymized usage statistics, so you don't need to deactivate them. The rest of this page applies to self-hosted deployments.</aside>
 

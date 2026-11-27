@@ -5,7 +5,7 @@ description: "Step-by-step recovery procedures for Qdrant node failures: restart
 weight: 25
 ---
 
-# Node Failure Recovery
+# Node Failure Recovery {products="!serverless"}
 
 Sometimes hardware malfunctions might render some nodes of the Qdrant cluster unrecoverable. Several recovery scenarios allow Qdrant to stay available for requests and even avoid performance degradation. Let's walk through them from best to worst.
 

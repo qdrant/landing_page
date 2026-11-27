@@ -73,7 +73,7 @@ The performance of <code>best_score</code> strategy will be linearly impacted by
 Since we are computing similarities to every example at each step of the search, the performance of this strategy will be linearly impacted by the amount of examples. This means that the more examples you provide, the slower the search will be. However, this strategy can be very powerful and should be more embedding-agnostic.
 
 <aside role="status">
-Accuracy may be impacted with this strategy. To improve it, increasing the <code>ef</code> search parameter to something above 32 will already be much better than the default 16, e.g: <code>"params": { "ef": 64 }</code>
+Accuracy may be impacted with this strategy. On dedicated clusters, you can improve it by increasing the <code>ef</code> search parameter above 32 (the default is 16), for example <code>"params": { "ef": 64 }</code>.
 </aside>
 
 To use this algorithm, you need to set `"strategy": "best_score"` in the recommendation request.
@@ -108,7 +108,7 @@ If the collection was created with multiple vectors, the name of the vector shou
 
 Parameter `using` specifies which stored vectors to use for the recommendation.
 
-### Lookup Vectors From Another Collection {version="0.11.6"}
+### Lookup Vectors From Another Collection {products="clusters[0.11.6],!serverless"}
 
 If you have collections with vectors of the same dimensionality,
 and you want to look for recommendations in one collection based on the vectors of another collection,
@@ -193,7 +193,7 @@ Notes about discovery search:
 
 * When providing ids as examples, they will be excluded from the results.
 * Score is always in descending order (larger is better), regardless of the metric used.
-* Since the space is hard-constrained by the context, accuracy is normal to drop when using default settings. To mitigate this, increasing the `ef` search parameter to something above 64 will already be much better than the default 16, e.g: `"params": { "ef": 128 }`
+* Since the space is hard-constrained by the context, accuracy is normal to drop when using default settings. On dedicated clusters, you can mitigate this by increasing the `ef` search parameter above 64 (the default is 16), for example `"params": { "ef": 128 }`.
 
 </aside>
 
@@ -229,7 +229,7 @@ Notes about context search:
 
 </aside>
 
-## Distance Matrix {version="1.12.0"}
+## Distance Matrix {products="clusters[1.12.0],!serverless"}
 
 The distance matrix API allows to calculate the distance between sampled pairs of vectors and to return the result as a sparse matrix.
 

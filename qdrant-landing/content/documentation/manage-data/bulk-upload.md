@@ -26,12 +26,12 @@ Aim for **64–256 points per batch**. Smaller batches under-utilize the network
 
 A single upload thread rarely saturates the server. Split your dataset across two to four concurrent threads, each sending its own stream of batches. This keeps Qdrant's internal write workers busy across shards and reduces total upload time.
 
-If [your collection has multiple shards](#create-collections-with-multiple-shards), target one upload thread per shard as a starting point. Each shard has an independent WAL and update worker, so parallel streams map directly onto available write capacity.
+On dedicated clusters, if [your collection has multiple shards](#create-collections-with-multiple-shards), target one upload thread per shard as a starting point. Each shard has an independent WAL and update worker, so parallel streams map directly onto available write capacity.
 
 
 > The Python client's `upload_points` method [handles batching and parallelization for you](/documentation/manage-data/points/#python-client-optimizations). Pass an iterator of points and set `batch_size` and `parallel` to control throughput without managing batches manually. For other client libraries, you need to implement batching and parallelization yourself.
 
-## Create Collections with Multiple Shards
+## Create Collections with Multiple Shards {products="!serverless"}
 
 In Qdrant, each collection is split into shards. By default, a collection has one shard, but you can specify more when creating the collection.
 By creating multiple shards, you can parallelize the upload of a large dataset. From two to four shards per machine is a reasonable number.
@@ -40,7 +40,7 @@ By creating multiple shards, you can parallelize the upload of a large dataset. 
 
 ## Create Payload Indexes Before Ingesting Data
 
-If your collection uses payload indexes, [create them](/documentation/manage-data/indexing/#create-a-payload-index) before you start uploading points. Qdrant builds extra HNSW links for each payload index to optimize filtered vector search quality. If you add a payload index after the HNSW graph is already built, those links won't exist, and filtered search will fall back to slower query-time strategies until you [rebuild the graph](/documentation/manage-data/indexing/#rebuild-the-hnsw-index), which is resource-intensive and can take a long time.
+On dedicated clusters, if your collection uses payload indexes, [create them](/documentation/manage-data/indexing/#create-a-payload-index) before you start uploading points. Qdrant builds extra HNSW links for each payload index to optimize filtered vector search quality. If you add a payload index after the HNSW graph is already built, those links won't exist, and filtered search will fall back to slower query-time strategies until you [rebuild the graph](/documentation/manage-data/indexing/#rebuild-the-hnsw-index), which is resource-intensive and can take a long time.
 
 The correct order is:
 
@@ -50,7 +50,9 @@ The correct order is:
 
 Following this sequence means Qdrant builds the graph in a single pass, rather than having to rebuild it after the fact.
 
-## Upload Directly to Disk
+On Serverless, you define payload indexes when you create the collection, so they always exist before you upload points.
+
+## Upload Directly to Disk {products="!serverless"}
 
 When the vectors you upload do not all fit in RAM, you likely want to move them to the
 [`cold` memory tier](/documentation/ops-configuration/memory-tiers/) directly.
@@ -68,7 +70,7 @@ data.
 
 For full configuration details, see [Configuring Memmap Storage](/documentation/manage-data/storage/#configuring-memmap-storage).
 
-## Mitigate Read-Write Contention
+## Mitigate Read-Write Contention {products="!serverless"}
 
 Bulk uploads push a continuous stream of writes through Qdrant's background [optimizer](/documentation/ops-optimization/optimizer/): it must build HNSW indexes, merge segments, and apply quantization as new data arrives. If you are running search queries at the same time, the optimizer and your queries compete for the same CPU time, memory bandwidth, and I/O. This can raise query latency noticeably during ingestion.
 

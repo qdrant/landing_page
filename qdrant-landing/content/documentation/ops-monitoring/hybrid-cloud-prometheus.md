@@ -14,7 +14,7 @@ aliases:
   - /documentation/tutorials-and-examples/hybrid-cloud-prometheus
 ---
 
-# Monitoring Hybrid/Private Cloud with Prometheus and Grafana
+# Monitoring Hybrid/Private Cloud with Prometheus and Grafana {products="!serverless"}
 | Time: 30 min | Level: Intermediate |
 | --- | ----------- |
 

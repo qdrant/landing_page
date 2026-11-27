@@ -10,7 +10,7 @@ aliases:
   - /guides/quantization/
 ---
 
-# Quantization
+# Quantization {products="!serverless"}
 
 Quantization is an optional feature in Qdrant that enables efficient storage and search of high-dimensional vectors.
 By transforming original vectors into new representations, quantization compresses data while preserving close to original relative distances between vectors.

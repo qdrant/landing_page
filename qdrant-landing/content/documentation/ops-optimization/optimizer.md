@@ -9,7 +9,7 @@ aliases:
   - /documentation/operations/optimizer
 ---
 
-# Optimizer
+# Optimizer {products="!serverless"}
 
 Qdrant [stores](/documentation/manage-data/storage/) the points of a collection in one or more shards, and each shard divides its points into segments. Each segment has its own vector storage, payload storage, vector and payload indexes, and ID tracker. There are two types of segments: appendable and non-appendable. Appendable segments accept new points, while non-appendable segments only support reads and deletes.
 

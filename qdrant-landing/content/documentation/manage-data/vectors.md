@@ -168,7 +168,7 @@ To search with named vectors (available in `query` API):
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/named-vector/" >}}
 
-### Adding and Removing Named Vectors {version="1.18.0"}
+### Adding and Removing Named Vectors {products="clusters[1.18.0],!serverless"}
 
 Named vectors can be added to or removed from an existing collection without having to recreate the collection.
 
@@ -193,7 +193,7 @@ Similarly, you can use inference at query time by providing the text or image to
 
 {{< code-snippet path="/documentation/headless/snippets/inference/query/" >}}
 
-## Datatypes {version="1.9.0"}
+## Datatypes {products="clusters[1.9.0],!serverless"}
 
 By default, Qdrant stores each vector dimension as a 32-bit floating-point number. This isn't always necessary: you may not need that level of precision for your use case, or the embedding model you're using may already produce lower-precision vectors, for example 8-bit integers.
 
@@ -289,7 +289,7 @@ For dense vectors, `uint8` is only useful if they have already been quantized to
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/datatype-uint8-sparse-and-dense/" >}}
 
-## Quantization
+## Quantization {products="!serverless"}
 
 Apart from changing the datatype of the original vectors, Qdrant can create quantized representations of vectors alongside the original ones.
 This quantized representation can be used to quickly select candidates for rescoring with the original vectors or even used directly for search.
@@ -298,6 +298,6 @@ Quantization is applied in the background, during the optimization process.
 
 More information about the quantization process can be found in the [Quantization](/documentation/manage-data/quantization/) section.
 
-## Vector Storage
+## Vector Storage {products="!serverless"}
 
 Qdrant always [stores vectors on disk](/documentation/manage-data/storage/#vector-storage). To improve query latency, you can also load a copy of the vectors into memory for faster access by configuring [a memory tier](/documentation/ops-configuration/memory-tiers/).

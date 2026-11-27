@@ -67,7 +67,7 @@ ulimit -n 10000
 
 Please note, the command should be executed before you run Qdrant server.
 
-## Insufficient storage (HTTP 507) {version="1.19.0"}
+## Insufficient storage (HTTP 507) {products="clusters[1.19.0],!serverless"}
 
 When nodes have been configured with a [resource quotas](/documentation/ops-configuration/quotas/) no nodes may be availabe with replicas that accept writes. In that case, clients see an HTTP 507 Insufficient Storage, or gRPC `ResourceExhausted` error:
 

@@ -9,7 +9,7 @@ aliases:
   - quick-start
   - quickstart
 ---
-# How to Get Started with Qdrant Locally
+# How to Get Started with Qdrant Locally {products="self-hosted"}
 
 <aside role="status">The fastest way to get started is a free <a href="/documentation/cloud-quickstart/">Qdrant Cloud</a> cluster, with no Docker setup required. Use this guide to run Qdrant locally, for example for development or testing.</aside>
 

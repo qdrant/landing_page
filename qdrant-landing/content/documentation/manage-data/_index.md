@@ -34,7 +34,7 @@ A [Payload](/documentation/manage-data/payload/) is structured metadata you can 
 
 [Indexing](/documentation/manage-data/indexing/) covers the available index types — payload, vector, sparse, and filterable — and how they accelerate search and filtering.
 
-## Quantization
+## Quantization {products="!serverless"}
 
 [Quantization](/documentation/manage-data/quantization/) reduces memory usage by compressing vectors, with options for scalar, product, and binary quantization.
 

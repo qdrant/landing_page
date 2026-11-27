@@ -91,6 +91,8 @@ REST API - API Schema definition is available [here](https://api.qdrant.tech/api
 In this example, we are looking for vectors similar to vector `[0.2, 0.1, 0.9, 0.7]`.
 Parameter `limit` (or its alias - `top`) specifies the amount of most similar results we would like to retrieve.
 
+### Search Parameters {products="!serverless"}
+
 Values under the key `params` specify custom parameters for the search.
 Currently, it could be:
 
@@ -100,6 +102,8 @@ Currently, it could be:
 * `quantization` - parameters related to quantization. See [Searching with Quantization](/documentation/manage-data/quantization/#searching-with-quantization) guide.
 * `acorn` - parameters related to the [ACORN search algorithm](#acorn-search-algorithm).
 * `idf` - which population the statistics for BM25 text queries and sparse vector IDF are computed over. See [Per-Tenant Scoring Statistics](/documentation/manage-data/multitenancy/#per-tenant-scoring-statistics).
+
+### Search Results and Vector Types
 
 Since the `filter` parameter is specified, the search is performed only among those points that satisfy the filter condition.
 See details of possible filters and their work in the [filtering](/documentation/search/filtering/) section.
@@ -185,7 +189,7 @@ It is possible to target nested fields using a dot notation:
 
 Accessing array elements by index is currently not supported.
 
-### ACORN Search Algorithm {version="1.16.0"}
+### ACORN Search Algorithm {products="clusters[1.16.0],!serverless"}
 
 For filtered vector search, you are recommended to create a [payload index](/documentation/manage-data/indexing/#payload-index) for the fields you want to filter by.
 During the search, Qdrant will use a combined [filterable index](/documentation/manage-data/indexing/#filterable-hnsw-index).
@@ -266,6 +270,8 @@ The above example will fetch the default vector from the point with this id, and
 
 If the `using` parameter is also specified, Qdrant will use the vector with that name.
 
+### Query by ID From Another Collection {products="!serverless"}
+
 It is also possible to reference an ID from a different collection, by setting the `lookup_from` parameter.
 
 {{< code-snippet path="/documentation/headless/snippets/query-points/by-existing-id-with-lookup/" >}}
@@ -304,7 +310,7 @@ Retrieve a large batch in a single request and paginate through it on the client
 
 The trade-off is increased latency, and returning more data than the user actually needs.
 
-#### Exact Search
+#### Exact Search {products="!serverless"}
 
 Use exact searches to bypass HNSW and scan all vectors, returning results in a stable, deterministic order. This ensures that offset-based pagination works correctly.
 
@@ -449,7 +455,7 @@ If the `group_by` field of a point is an array (e.g. `"document_id": ["a", "b"]`
 * Only [keyword](/documentation/manage-data/payload/#keyword) and [integer](/documentation/manage-data/payload/#integer) payload values are supported for the `group_by` parameter. Payload values with other types will be ignored.
 * At the moment, pagination is not enabled when using **groups**, so the `offset` parameter is not allowed.
 
-### Lookup in Groups
+### Lookup in Groups {products="!serverless"}
 
 When the points in a group share large fields like titles, abstracts, or full document vectors, copying that data onto every point inflates storage and forces you to rewrite every chunk whenever a shared field changes.
 

@@ -10,7 +10,7 @@ stack:
 learning_kind: examples
 ---
 
-# Monitoring Hybrid/Private Cloud with Datadog
+# Monitoring Hybrid/Private Cloud with Datadog {products="!serverless"}
 
 | Time: 20 min | Level: Intermediate |
 | --- | ----------- |

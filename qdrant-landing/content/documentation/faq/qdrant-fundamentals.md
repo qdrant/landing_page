@@ -38,7 +38,7 @@ Qdrant natively [supports multiple vectors per data point](/documentation/manage
 
 Yes, Qdrant supports migration of embeddings from other vector stores, facilitating easy transitions and adoption of Qdrant’s features.
 
-### Why the amount of indexed vectors doesn't match the amount of vectors in the collection?
+### Why the amount of indexed vectors doesn't match the amount of vectors in the collection? {products="!serverless"}
 
 Qdrant doesn't always need to index all vectors in the collection.
 It stores data is segments, and if the segment is small enough, it is more efficient to perform a full-scan search on it.
@@ -118,7 +118,7 @@ You are likely looking for the [scroll](/documentation/manage-data/points/#scrol
 
 Add a [payload index](/documentation/manage-data/indexing/#payload-index) on all the fields you're filtering by. Payload indexing often produces larger speedups for filtered queries than other optimizations such as changes to Hierarchical Navigable Small World (HNSW) parameters.
 
-For best results, create payload indexes **before** uploading data. When uploading data later, rebuild the HNSW index by [making a minimal change](/documentation/manage-data/indexing/#rebuild-the-hnsw-index) to `m` or `ef_construct` (for example, from 100 to 101). Queries continue to be served by the old index until the new index is complete, so there is no downtime. Don't immediately change the value of `ef_construct` back to its original value, but keep it set to the new value.
+On dedicated clusters, create payload indexes **before** uploading data for best results. When uploading data later, rebuild the HNSW index by [making a minimal change](/documentation/manage-data/indexing/#rebuild-the-hnsw-index) to `m` or `ef_construct` (for example, from 100 to 101). Queries continue to be served by the old index until the new index is complete, so there is no downtime. Don't immediately change the value of `ef_construct` back to its original value, but keep it set to the new value.
 
 To prevent clients from filtering on payload fields that don't have a payload index, enable strict mode and [set unindexed\_filtering\_retrieve to false](/documentation/ops-configuration/administration/#disable-retrieving-via-non-indexed-payload).
 
@@ -196,19 +196,19 @@ There are three ways to work around this:
 
 See also: [Stable Ordering](/documentation/search/search/#stable-ordering)
 
-### If `limit` is higher than `hnsw_ef`, does Qdrant automatically adjust `hnsw_ef`?
+### If `limit` is higher than `hnsw_ef`, does Qdrant automatically adjust `hnsw_ef`? {products="!serverless"}
 
 Yes. Qdrant internally sets `ef = max(ef, limit)` so that the candidate list is always at least as large as the requested result count.
 
-### What is the default value of `hnsw_ef` during search?
+### What is the default value of `hnsw_ef` during search? {products="!serverless"}
 
 By default, `hnsw_ef` equals `ef_construct` (default: 100). `ef_construct` is a collection-level configuration that controls the number of neighbors considered during graph construction. `hnsw_ef` is the per-query parameter controlling the size of the dynamic candidate list during search.
 
-### What are the default `rescore` values for different quantization methods?
+### What are the default `rescore` values for different quantization methods? {products="!serverless"}
 
 By default, rescoring is only enabled for four quantization methods: binary quantization, TurboQuant 1 Bit, TurboQuant 1.5 Bit, and TurboQuant 2 Bit. Other quantization methods do not rescore by default. The default behavior can be overridden with the query-time `rescore` parameter.
 
-### What does `ignore=true` do in quantization search params?
+### What does `ignore=true` do in quantization search params? {products="!serverless"}
 
 When `ignore` is `true`, Qdrant still traverses the HNSW graph that was built from quantized vectors, but uses exact (full-precision) distances to score candidates during traversal rather than quantized distances. This can improve recall at some cost, since different neighbors may be selected compared to a fully quantized search.
 
@@ -231,7 +231,7 @@ As a general guideline: named vectors share a point (and its payload). If differ
 
 See also: [Named Vectors](/documentation/manage-data/vectors/#named-vectors)
 
-### Can I switch to a different embedding model without recreating my collection?
+### Can I switch to a different embedding model without recreating my collection? {products="!serverless"}
 
 Yes, if you're using named vectors:
 
@@ -247,7 +247,7 @@ If you don't use named vectors, you need to create a new collection. Use an alia
 
 See also: [Migrate to a New Embedding Model](/documentation/tutorials-operations/embedding-model-migration/)
 
-### Why is my collection in "grey" status?
+### Why is my collection in "grey" status? {products="!serverless"}
 
 A collection in grey status means the optimizer has stalled. This can happen if a Qdrant instance is restarted while optimizations are ongoing. During this state, the amount of unindexed data can grow. Because Qdrant falls back to full-scan search on unindexed segments, this degrades query latency. If [`indexed_only` or `prevent_unoptimized` are enabled](/documentation/search/low-latency-search/#query-indexed-data-only), Qdrant doesn't return unindexed data, and search results may be incomplete.
 
@@ -258,7 +258,7 @@ Common recovery steps:
 
 See also: [Grey collection status](/documentation/manage-data/collections/#grey-collection-status)
 
-### Why are my writes rejected with HTTP 507?
+### Why are my writes rejected with HTTP 507? {products="!serverless"}
 
 An write succeeds once at least [`write_consistency_factor`](/documentation/scaling/consistency-guarantees/) replicas have accepted it. When nodes have been configured with [resource quotas](/documentation/ops-configuration/quotas/), no nodes may be availabe with replicas that accept writes. A 507 means too few replicas were left to reach the `write_consistency_factor`. With the default factor of 1, that means no replica of the shard had room.
 
@@ -276,11 +276,11 @@ A good starting point is 64 to 256 points per batch. However, if operations with
 
 See also: [Bulk Upload](/documentation/manage-data/bulk-upload/)
 
-### Can I only store quantized vectors and discard full precision vectors?
+### Can I only store quantized vectors and discard full precision vectors? {products="!serverless"}
 
 No, Qdrant requires full precision vectors for operations like reindexing, rescoring, etc.
 
-### Can I delete the original full-precision vectors after enabling quantization?
+### Can I delete the original full-precision vectors after enabling quantization? {products="!serverless"}
 
 No. Qdrant requires the original full-precision vectors to recompute quantized representations whenever the Vacuum Optimizer rebuilds a segment. Qdrant derives quantization statistics (offset and alpha) from the full-precision vectors in each segment, so removing them would make reindexing impossible.
 
@@ -304,13 +304,15 @@ data is automatically migrated to the newer storage format. This migration is no
 
 We only guarantee compatibility when you upgrade from one minor version to the next. If you are more than one minor version behind, upgrade the cluster to the latest patch version of each intermediate minor version before upgrading to the target version. For example, to upgrade from 1.17.x to 1.19.0, first upgrade to the latest 1.18.x patch version. Update your client SDKs after the cluster reaches the target version. See [Upgrades](/documentation/upgrades/) for details.
 
-### Should I create payload indexes before or after uploading? 
+### Should I create payload indexes before or after uploading?
 
-Create payload indexes before uploading to avoid index rebuilding. However, there are scenarios where defining idexes after uploading is okay. For example, you can configure a new filter logic after launch. 
+On dedicated clusters, create payload indexes before uploading to avoid index rebuilding. However, there are scenarios where defining indexes after uploading is okay. For example, you can configure a new filter logic after launch. 
 
 You should always index first if you know your filters upfront. If you need to index another payload later, you can still do it, but be aware of the performance hit.
 
-### If I need to add a payload index after the HNSW index has already been built, how do I trigger a full reindex?
+On Serverless, you define payload indexes when you create a collection, so they always exist before you upload data.
+
+### If I need to add a payload index after the HNSW index has already been built, how do I trigger a full reindex? {products="!serverless"}
 
 Changing `m` or `ef_construct` automatically triggers a full background HNSW rebuild. For cases where only a payload index is being added, make a minimal change to `ef_construct` (for example, from 100 to 101). Queries continue to be served by the old index until the new index is complete, so there is no downtime. Don't immediately change the value of `ef_construct` back to its original value, but keep it set to the new value.
 
@@ -335,7 +337,7 @@ Yes. Qdrant supports JWT-based access control that lets you issue signed tokens 
 
 ## Cloud
 
-### Is it possible to scale down a Qdrant Cloud cluster?
+### Is it possible to scale down a Qdrant Cloud cluster? {products="!serverless"}
 
 Yes, it is possible to both vertically and horizontally scale down a Qdrant Cloud cluster.
 This includes reducing the disk size. Because cloud providers don't support shrinking disks, Qdrant Cloud replaces each node with a new node that has the smaller disk, one node at a time and without downtime. See [Scaling Down Disk Space](/documentation/cloud/cluster-scaling/#scaling-down-disk-space).

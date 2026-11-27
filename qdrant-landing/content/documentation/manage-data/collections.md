@@ -26,8 +26,8 @@ Qdrant supports these most popular types of metrics:
 
 <aside role="status">For search efficiency, Cosine similarity is implemented as dot-product over normalized vectors. Vectors are automatically normalized during upload</aside>
 
-In addition to metrics and vector size, each collection uses its own set of parameters that controls collection optimization, index construction, and vacuum.
-These settings can be changed at any time by a corresponding request.
+On dedicated clusters, each collection also uses its own set of parameters that control collection optimization, index construction, and vacuum.
+You can change these settings at any time.
 
 To hand this to an agent instead, the Design a collection prompt makes it ask about your data and query shape first, then commit to a vector configuration and the payload indexes to create.
 
@@ -43,6 +43,8 @@ To hand this to an agent instead, the Design a collection prompt makes it ask ab
 
 
 {{< code-snippet path="/documentation/headless/snippets/create-collection/simple/" >}}
+
+### Collection Parameters {products="!serverless"}
 
 In addition to the required options, you can also specify custom values for the following collection options:
 
@@ -75,6 +77,8 @@ Each named vector in this mode has its distance and size:
 
 For rare use cases, it is possible to create a collection without any vector storage.
 
+#### Per-Vector Configuration {products="!serverless"}
+
 *Available as of v1.1.1*
 
 For each named vector you can optionally specify
@@ -88,7 +92,7 @@ search performance on a vector level.
 Qdrant always [stores vectors on disk](/documentation/manage-data/storage/#vector-storage). On a per-vector basis, you can configure a [memory tier](/documentation/ops-configuration/memory-tiers/) to control how much of that data also lives in memory.
 
 
-### Vector Datatypes {version="1.9.0"}
+### Vector Datatypes {products="clusters[1.9.0],!serverless"}
 
 By default, Qdrant stores each vector dimension as a 32-bit float. Memory and storage grow linearly with dimensionality, so for large vectors this adds up quickly. To reduce that cost, or to store vectors that are already lower precision, you can configure a different datatype: `float16` (half-precision), `uint8` (unsigned 8-bit integers), or one of the TurboQuant datatypes: `turbo4` (4 bits), `turbo8` (8 bits), or `turbo16` (16 bits).
 
@@ -142,7 +146,7 @@ docker run --net=host --rm -it registry.cloud.qdrant.io/library/qdrant-migration
 
 {{< code-snippet path="/documentation/headless/snippets/delete-collection/simple/" >}}
 
-## Update Collection
+## Update Collection {products="!serverless"}
 
 After creating a collection, you can change its configuration, its vectors, and the configuration of its vectors.
 
@@ -233,6 +237,8 @@ distributed and indexed.
 
 {{< code-snippet path="/documentation/headless/snippets/collection-info/simple/" >}}
 
+### Collection Info on Dedicated Clusters {products="!serverless"}
+
 <details>
 <summary>Expected result</summary>
 
@@ -300,7 +306,7 @@ The following color statuses are possible:
 
 Collection info also includes a `created_at` field with the time Qdrant created the collection. Collections created before v1.20.0 have no creation time, so the field is absent for them. Recovering a collection from a snapshot keeps the original value.
 
-### Grey Collection Status {version="1.9.0"}
+#### Grey Collection Status {version="1.9.0"}
 
 A collection may have the grey ⚫ status or show "optimizations pending,
 awaiting update operation" as optimization status. This state is normally caused
@@ -315,6 +321,13 @@ For example:
 
 Alternatively you may use the `Trigger Optimizers` button in the [Qdrant Web UI](/documentation/web-ui/).
 It is shown next to the grey collection status on the collection info page.
+
+### Collection Info on Serverless {products="serverless"}
+
+On Serverless, collection info includes the collection's configuration, point count, and size. Its `status` is one of the following:
+
+- 🟢 `green`: the collection is fully optimized.
+- 🟡 `yellow`: optimization is pending or running. The collection is searchable.
 
 ### Approximate Point and Vector Counts
 
@@ -344,7 +357,7 @@ points or vectors you can query. If you want to know exact counts, refer to the
 
 _Note: these numbers may be removed in a future version of Qdrant._
 
-### Indexing Vectors in HNSW
+### Indexing Vectors in HNSW {products="!serverless"}
 
 In some cases, you might be surprised the value of `indexed_vectors_count` is lower than you expected. This is an intended behaviour and
 depends on the [optimizer configuration](/documentation/ops-optimization/optimizer/). A new index segment is built if the size of non-indexed vectors is higher than the
@@ -353,7 +366,7 @@ created and `indexed_vectors_count` might be equal to `0`.
 
 It is possible to reduce the `indexing_threshold` for an existing collection by [updating collection parameters](#update-collection-parameters).
 
-### Collection Metadata {version="1.16.0"}
+### Collection Metadata {products="clusters[1.16.0],!serverless"}
 
 For convenience and better data organization, Qdrant allows attaching custom metadata to collections in the form of key-value pairs.
 Adding metadata is treated as a part of collection configuration and synchronized across all nodes in a cluster with consensus protocol.
@@ -387,7 +400,11 @@ When specified, metadata is returned as part of collection info:
 ```
 
 
-## Collection Aliases
+## List All Collections
+
+{{< code-snippet path="/documentation/headless/snippets/list-all-collections/simple/" >}}
+
+## Collection Aliases {products="!serverless"}
 
 In a production environment, it is sometimes necessary to switch different versions of vectors seamlessly.
 For example, when upgrading to a new version of the neural network.
@@ -421,8 +438,3 @@ For example, you can switch underlying collection with the following command:
 ### List All Aliases
 
 {{< code-snippet path="/documentation/headless/snippets/collection-aliases/list-all/" >}}
-
-### List All Collections
-
-{{< code-snippet path="/documentation/headless/snippets/list-all-collections/simple/" >}}
-

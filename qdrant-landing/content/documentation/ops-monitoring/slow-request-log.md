@@ -5,7 +5,7 @@ description: "Use the Slow Request Log REST endpoint to find which queries are r
 weight: 9
 ---
 
-# Slow Request Log {version="1.16.0"}
+# Slow Request Log {products="clusters[1.16.0],!serverless"}
 
 *This feature is in beta. Behavior may change in future releases.*
 

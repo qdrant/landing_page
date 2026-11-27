@@ -7,7 +7,7 @@ aliases:
   - disk-vs-ram
 ---
 
-# Memory Tiers
+# Memory Tiers {products="!serverless"}
 
 
 Qdrant persists all collection data to disk. For faster search, you can also load individual structures into RAM, but keeping everything in memory isn't always cost-effective. The per-structure `memory` parameter controls how each structure is cached in RAM: pinned permanently, warmed into a disk cache at startup, or left on disk until first accessed.

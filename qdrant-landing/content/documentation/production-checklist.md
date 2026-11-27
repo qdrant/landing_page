@@ -6,7 +6,7 @@ partition: deploy
 weight: 147
 ---
 
-# Things to Check Before Taking Qdrant into Production
+# Things to Check Before Taking Qdrant into Production {products="!serverless"}
 
 A practical checklist to ensure Qdrant is optimized, stable, and ready to handle real-world load.
 

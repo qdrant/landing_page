@@ -9,7 +9,7 @@ aliases:
   - /documentation/operations/optimize
 ---
 
-# Optimizing Qdrant Performance: Three Scenarios
+# Optimizing Qdrant Performance: Three Scenarios {products="!serverless"}
 
 Different use cases require different balances between memory usage, search speed, and precision. Qdrant is designed to be flexible and customizable so you can tune it to your specific needs.
 
