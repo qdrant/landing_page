@@ -154,6 +154,6 @@ On a dedicated cluster, a query can read vectors from another collection with `l
 
 On a dedicated cluster, you can partition tenants by payload, give each tenant its own shard, or combine both. See [Multitenancy](/documentation/manage-data/multitenancy/).
 
-On Serverless, give each tenant its own collection. See [Multitenancy: One Collection per Tenant](/documentation/serverless/collections/#multitenancy-one-collection-per-tenant).
+On Serverless, give each tenant its own collection. See [Multitenancy on Serverless](/documentation/manage-data/multitenancy/#multitenancy-on-serverless).
 
 On Edge, partition tenants by payload within one Edge Shard, or use one Edge Shard per tenant or device.

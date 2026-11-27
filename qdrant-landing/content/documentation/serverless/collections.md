@@ -13,9 +13,7 @@ That means no HNSW parameters, no quantization settings, no segment or storage o
 
 <aside role="status">You can't change a collection after you create it. That means no adding or removing a named vector, no adding a payload index, and no changing vector parameters. Declare the full schema up front. To change a schema, create a new collection, upload your points again, then delete the old one.</aside>
 
-## Multitenancy: One Collection per Tenant
-
-For multi-tenant applications, create one collection per tenant. A space supports far more collections than a dedicated cluster, so you don't need to fit many tenants into a shared collection. Keep each tenant's collection within the soft limit of around 1 million vectors.
+For multitenant applications, create one collection per tenant. See [Multitenancy on Serverless](/documentation/manage-data/multitenancy/#multitenancy-on-serverless).
 
 ## Create a Collection
 

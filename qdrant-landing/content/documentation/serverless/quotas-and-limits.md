@@ -14,7 +14,7 @@ Spaces share capacity with other workloads, so Serverless enforces stricter limi
 | Quota | Limit |
 |---|---|
 | Spaces per account | A fixed maximum per account, which can be raised on request. |
-| Collections per space | Far more than a dedicated cluster supports. |
+| Collections per space | No practical limit |
 | Vectors per collection | Soft limit of around 1 million |
 | Storage per collection | Set per space with **Max Storage per Collection**, 2 GiB on a new space. Once a collection reaches the limit, writes are rejected, while searches and deletes keep working. |
 | Indexed storage per collection | Set per space with **Max Indexed Storage per Collection**, 1 GiB on a new space. |

@@ -81,7 +81,7 @@ While the migration runs, the Migration Tool stores its progress in a collection
 
 ## Migrate Multitenant Collections
 
-On Serverless, [each tenant gets its own collection](/documentation/serverless/collections/#multitenancy-one-collection-per-tenant). To split a multitenant collection, put a `{field}` placeholder in `--target.collection`. The Migration Tool writes each point to the collection for its value of that payload field and creates each collection when the first point for it arrives. The field must be a top-level payload field with a non-empty string or an integer value.
+On Serverless, [each tenant gets its own collection](/documentation/manage-data/multitenancy/#multitenancy-on-serverless). To split a multitenant collection, put a `{field}` placeholder in `--target.collection`. The Migration Tool writes each point to the collection for its value of that payload field and creates each collection when the first point for it arrives. The field must be a top-level payload field with a non-empty string or an integer value.
 
 How you apply this depends on how the cluster collection implements [multitenancy](/documentation/manage-data/multitenancy/).
 

@@ -30,7 +30,7 @@ Qdrant and you split the responsibilities as follows:
 
 Serverless fits workloads where data size and traffic are hard to predict, or vary widely from one part of the workload to another. The platform scales capacity up and down with demand, so you don't size for the peak and then carry that capacity through quiet periods.
 
-- **Large multi-tenant applications.** Many tenants, each with different data sizes and traffic patterns, are hard to size on a fixed cluster. On Serverless, small and large tenants share a space without per-tenant capacity planning. A space supports far more collections than a dedicated cluster, so use one collection per tenant.
+- **Large multi-tenant applications.** Many tenants, each with different data sizes and traffic patterns, are hard to size on a fixed cluster. On Serverless, small and large tenants share a space without per-tenant capacity planning. There's no practical limit on the number of collections in a space, so [use one collection per tenant](/documentation/manage-data/multitenancy/#multitenancy-on-serverless).
 - **Low or uneven search traffic.** Workloads with low query volume, or traffic that arrives in bursts, don't need a cluster sized for the busiest hour. Capacity follows the traffic as it rises and falls.
 - **Constantly changing data volumes.** When the amount of data grows and shrinks all the time, you don't resize nodes or plan storage ahead. The platform adjusts quantization, indexing, and memory tiering as your collections change.
 

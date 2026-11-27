@@ -33,11 +33,15 @@ To hand this to an agent instead, the Design a collection prompt makes it ask ab
 
 {{< prompt "design-a-collection" >}}
 
-## Setting Up Multitenancy
+## Plan Your Collections
 
-**How many collections should you create?** In most cases, you should only use a single collection with payload-based partitioning. This approach is called [multitenancy](https://en.wikipedia.org/wiki/Multitenancy). It is efficient for most of users, but it requires additional configuration. [Learn how to set it up](/documentation/manage-data/multitenancy/).
+How many collections you need depends on your data and on how you've deployed Qdrant:
 
-**When should you create multiple collections?** When you have a limited number of users and you need isolation. This approach is flexible, but it may be more costly, since creating numerous collections may result in resource overhead. Also, you need to ensure that they do not affect each other in any way, including performance-wise.
+- **One collection per data model.** Points that share a payload structure belong in one collection. To store several embeddings for each point, for example from different models, use [named vectors](/documentation/manage-data/vectors/#named-vectors) instead of a collection per model.
+- **Separate collections for different data models.** Use a separate collection when the payload structures differ, or when the embeddings represent different entities. See [Should I use named vectors or separate collections?](/documentation/faq/qdrant-fundamentals/#should-i-use-named-vectors-or-separate-collections-for-different-embedding-models)
+- **Many tenants on a dedicated cluster: one shared collection.** Each collection carries its own resource overhead, and Qdrant Cloud limits each cluster to 1000 collections by default. Keep tenants in one collection and separate them by payload, by shard, or both. See [Multitenancy on Dedicated Clusters](/documentation/manage-data/multitenancy/#multitenancy-on-dedicated-clusters).
+- **A few tenants on a dedicated cluster that need strict isolation: separate collections.** This is more flexible, but it costs more resources, and you need to make sure that the collections don't affect each other's performance.
+- **Many tenants on Serverless: one collection per tenant.** See [Multitenancy on Serverless](/documentation/manage-data/multitenancy/#multitenancy-on-serverless).
 
 ## Create a Collection
 
