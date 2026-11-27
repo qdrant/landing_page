@@ -282,34 +282,25 @@ _Available as of v1.8.0_
 
 ### Geo
 
+Geo conditions match points whose stored location falls inside an area. Qdrant supports three shapes:
+
+- **Geo Radius** (`geo_radius`) matches locations inside a circle with a given `center` and a `radius` in meters.
+- **Geo Bounding Box** (`geo_bounding_box`) matches locations inside a rectangle defined by its `top_left` and `bottom_right` corners.
+- **Geo Polygon** (`geo_polygon`) matches locations inside an irregular shape, with optional interior rings that exclude areas.
+
+These conditions can only be applied to payloads that match the [geo-data format](/documentation/manage-data/payload/#geo). Refer to [Filter by Location](/documentation/search/geo-search/#filter-by-location) for examples, shape semantics, and coordinate rules, and to [Geo Search](/documentation/search/geo-search/) for an overview of combining location with vector search.
+
 #### Geo Bounding Box
 
-{{< code-snippet path="/documentation/headless/snippets/filter-condition/geo-bounding-box/" >}}
-
-It matches with `location`s inside a rectangle with the coordinates of the upper left corner in `top_left` and the coordinates of the lower right corner in `bottom_right`.
+Refer to [Bounding Box](/documentation/search/geo-search/#bounding-box).
 
 #### Geo Radius
 
-{{< code-snippet path="/documentation/headless/snippets/filter-condition/geo-radius/" >}}
-
-It matches with `location`s inside a circle with the `center` at the center and a radius of `radius` meters.
-
-If several values are stored, at least one of them should match the condition.
-These conditions can only be applied to payloads that match the [geo-data format](/documentation/manage-data/payload/#geo).
+Refer to [Radius](/documentation/search/geo-search/#radius).
 
 #### Geo Polygon
-Geo Polygons search is useful for when you want to find points inside an irregularly shaped area, for example a country boundary or a forest boundary. A polygon always has an exterior ring and may optionally include interior rings. A lake with an island would be an example of an interior ring. If you wanted to find points in the water but not on the island, you would make an interior ring for the island.
 
-When defining a ring, you must pick either a clockwise or counterclockwise ordering for your points.  The first and last point of the polygon must be the same.
-
-Currently, we only support unprojected global coordinates (decimal degrees longitude and latitude) and we are datum agnostic.
-
-{{< code-snippet path="/documentation/headless/snippets/filter-condition/geo-poligon/" >}}
-
-A match is considered any point location inside or on the boundaries of the given polygon's exterior but not inside any interiors.
-
-If several location values are stored for a point, then any of them matching will include that point as a candidate in the resultset.
-These conditions can only be applied to payloads that match the [geo-data format](/documentation/manage-data/payload/#geo).
+Refer to [Polygon](/documentation/search/geo-search/#polygon).
 
 ### Nested Key {version="1.1.0"}
 
