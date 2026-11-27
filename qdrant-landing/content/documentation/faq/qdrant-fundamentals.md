@@ -216,10 +216,11 @@ When `ignore` is `true`, Qdrant still traverses the HNSW graph that was built fr
 
 ### How many collections can I create?
 
-As many as you want, but be aware that each collection requires additional resources.
+On a dedicated cluster, each collection requires additional resources. Qdrant Cloud [limits each cluster to a maximum of 1000 collections](/documentation/cloud/configure-cluster/) by default.
 It is _highly_ recommended not to create many small collections, as it will lead to significant resource consumption overhead.
-
 We consider creating a collection for each user/dialog/document as an antipattern.
+
+On Serverless, there's no practical limit on the number of collections. For multitenant solutions, create one collection per tenant.
 
 Read more about collections, isolation, and multiple users in our [Multitenancy](/documentation/manage-data/multitenancy/) documentation.
 
@@ -316,10 +317,13 @@ On Serverless, you define payload indexes when you create a collection, so they 
 
 Changing `m` or `ef_construct` automatically triggers a full background HNSW rebuild. For cases where only a payload index is being added, make a minimal change to `ef_construct` (for example, from 100 to 101). Queries continue to be served by the old index until the new index is complete, so there is no downtime. Don't immediately change the value of `ef_construct` back to its original value, but keep it set to the new value.
 
-### Should I create one Qdrant collection per user? 
-No. Creating one collection per user is more resource intensive. 
+### Should I create one Qdrant collection per user?
 
-Instead of creating separate collections for each user, we recommend creating a [single collection](/documentation/manage-data/multitenancy/) and separate access using payloads. Each Qdrant point can have a payload as metadata. For multitenancy, you can include a `user_id` or `tenant_id` for each point. To optimize storage further, you can enable [tenant indexing](/documentation/manage-data/indexing/#tenant-index) for payload fields.
+It depends on how you've deployed Qdrant.
+
+On a dedicated cluster, no. Creating one collection per user is more resource intensive. Instead of creating separate collections for each user, we recommend creating a [single collection](/documentation/manage-data/multitenancy/#multitenancy-on-dedicated-clusters) and separate access using payloads. Each Qdrant point can have a payload as metadata. For multitenancy, you can include a `user_id` or `tenant_id` for each point. To optimize storage further, you can enable [tenant indexing](/documentation/manage-data/indexing/#tenant-index) for payload fields.
+
+On Serverless, yes. Give each user or tenant its own collection. See [Multitenancy on Serverless](/documentation/manage-data/multitenancy/#multitenancy-on-serverless).
 
 ## Security
 
