@@ -560,6 +560,12 @@ html[data-theme='dark'] .im {
     > :last-child {
       border-bottom: 0;
     }
+
+    // Stacked points sit closer together than cells in a grid.
+    .im-cell {
+      gap: 8px;
+      padding: 20px 24px 24px;
+    }
   }
 
   .im-cells--c2 {
