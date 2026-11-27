@@ -461,6 +461,28 @@ html[data-theme='dark'] .im {
     }
   }
 
+  // A section that explains something, not a step: a quieter heading and intro, so a
+  // step stays the strongest heading on the page.
+  .im-section--sub {
+    padding-block: 48px;
+
+    h2 {
+      margin-top: 8px;
+      font-size: clamp(24px, 2.4vw, 30px);
+      line-height: 1.25;
+      letter-spacing: -0.3px;
+    }
+
+    .im-sub {
+      margin-top: 12px;
+      font-size: 16px;
+    }
+
+    .im-cells {
+      margin-top: 32px;
+    }
+  }
+
   .im-head--left {
     max-width: 920px;
   }

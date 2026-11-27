@@ -107,6 +107,7 @@ HNSW finds neighbors by walking a graph. Keep only the 70 venues within 1.5 km o
     title="Extra Links Inside Each Area"
     intro="A strict filter can leave the search graph in disconnected pieces, so a filtered search misses good matches. To prevent this, Qdrant adds extra links to the graph, and a geo index does the same."
     compact=true
+    sub=true
 >}}
 
 {{< im kind="cells" cols=2 >}}
@@ -173,6 +174,7 @@ For a venue with several locations, use a list of these objects. The point match
     title="Choose a Shape"
     intro="Qdrant lets you filter by different shapes: a radius, a bounding box, or a polygon. Each one is a regular filter condition, so you can combine it with keyword, range, full-text, and other payload conditions in the same request."
     compact=true
+    sub=true
 >}}
 
 {{< im kind="cells" cols=3 >}}
@@ -243,6 +245,7 @@ Use it for delivery zones, districts, or a city minus its airport. Holes are sup
     title="A Plan for Every Query"
     intro="A geo filter can match a handful of points or most of the dataset, and no single search strategy suits both."
     compact=true
+    sub=true
 >}}
 
 {{< im kind="cells" cols=2 >}}
