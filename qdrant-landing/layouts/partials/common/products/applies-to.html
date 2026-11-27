@@ -32,7 +32,7 @@
 {{- $tag := slice -}}
 {{- with .products -}}
   {{- $known := slice -}}
-  {{- range site.Data.products }}{{ $known = $known | append .key }}{{ end -}}
+  {{- range hugo.Data.products }}{{ $known = $known | append .key }}{{ end -}}
   {{- $versions := dict -}}
   {{- $excluded := dict -}}
   {{- range split (replace (string .) "," " ") " " -}}
@@ -66,7 +66,7 @@
   {{- end -}}
   {{- $items := slice -}}
   {{- $exItems := slice -}}
-  {{- range site.Data.products -}}
+  {{- range hugo.Data.products -}}
     {{- if isset $versions .key -}}
       {{- $item := .label -}}
       {{- with index $versions .key }}{{ $item = printf "%s as of v%s" $item . }}{{ end -}}

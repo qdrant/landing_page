@@ -21,7 +21,7 @@
 {{- $res := resources.Get (printf "viz/%s.svg" $c.id) -}}
 {{- if not $res }}{{ errorf "chart in %s: assets/viz/%s.svg missing. Run: node scripts/viz/generate-charts.mjs" .Position $c.id }}{{ end -}}
 {{- /* Room below the plot; the viewBox must include it or the legend clips. */ -}}
-{{- $cfg := site.Data.viz.chart -}}
+{{- $cfg := hugo.Data.viz.chart -}}
 {{- $room := 0 -}}
 {{- if eq $spec.kind "grouped-columns" -}}
   {{- $room = $cfg.legendRoom -}}

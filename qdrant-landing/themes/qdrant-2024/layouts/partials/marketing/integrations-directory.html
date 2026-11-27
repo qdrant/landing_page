@@ -27,7 +27,7 @@
           {{ $sectionKey := path.Base $cat.section }}
           <div class="row g-4">
             {{ range .Pages.ByTitle }}
-              {{ $logo := index (site.Data.integration_logos | default dict) (printf "%s/%s" $sectionKey .File.ContentBaseName) }}
+              {{ $logo := index (hugo.Data.integration_logos | default dict) (printf "%s/%s" $sectionKey .File.ContentBaseName) }}
               <div class="col-12 col-md-6 col-xl-4 integrations-directory__item" data-search="{{ lower (printf "%s %s" .Title (.Params.short_description | default "")) }}">
                 <a class="integrations-directory__card" href="{{ .RelPermalink }}">
                   <div class="integrations-directory__card-head">
