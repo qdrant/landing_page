@@ -162,11 +162,11 @@ export function mount(node) {
       <div class="gl-panes">
         <div class="gl-pane">
           <div class="gl-pane-head"><span class="gl-title">On the Map</span><span class="gl-hint">Drag the circle</span></div>
-          <canvas data-map tabindex="0" role="img" aria-label="Map of ${fmt(S.N)} venues with a circular search area. Drag it, or use the arrow keys, to move it."></canvas>
+          <canvas data-map style="display:block;width:100%;max-width:100%;aspect-ratio:1.24" tabindex="0" role="img" aria-label="Map of ${fmt(S.N)} venues with a circular search area. Drag it, or use the arrow keys, to move it."></canvas>
         </div>
         <div class="gl-pane">
           <div class="gl-pane-head"><span class="gl-title">In Embedding Space</span><span class="gl-hint">Query: “quiet café to work from”</span></div>
-          <canvas data-vec role="img" aria-label="The same venues placed by meaning, with the query and the results marked."></canvas>
+          <canvas data-vec style="display:block;width:100%;max-width:100%;aspect-ratio:1.24" role="img" aria-label="The same venues placed by meaning, with the query and the results marked."></canvas>
         </div>
       </div>
       <div class="gl-pane gl-pane--legend">
@@ -405,13 +405,19 @@ export function mount(node) {
   const redraw = () => { readColors(); drawAll(); };
   new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', redraw);
-  let lastWidth = node.getBoundingClientRect().width;
-  new ResizeObserver(() => {
-    const w = node.getBoundingClientRect().width;
-    if (Math.abs(w - lastWidth) < 1) return;
-    lastWidth = w;
+  // The island loader adds this island's stylesheet and mounts the module without
+  // waiting for it, so on a cold load the canvases can change size after mount().
+  // Watch the canvases themselves, not only the column, and redraw when one moves.
+  const resizer = new ResizeObserver(() => {
+    const moved = Object.keys(cv).some((k) => {
+      const r = cv[k].getBoundingClientRect();
+      return Math.abs(r.width - dim[k].w) >= 1 || Math.abs(r.height - dim[k].h) >= 1;
+    });
+    if (!moved) return;
     setup();
     drawAll();
-  }).observe(node);
+  });
+  resizer.observe(cv.map);
+  resizer.observe(cv.vec);
   if (document.fonts) document.fonts.ready.then(drawAll);
 }
