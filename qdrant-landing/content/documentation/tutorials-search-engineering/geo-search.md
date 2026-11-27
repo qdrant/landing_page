@@ -71,21 +71,21 @@ immersive_nav:
     align="split"
 >}}
 
-{{< im kind="cells" cols=3 >}}
+{{< im kind="cells" cols=1 >}}
 
-{{< im kind="cell" fig="1<small> of 10</small>" title="Near on the Map Is Not Near in Meaning" >}}
+{{< im kind="cell" title="Near on the Map Is Not Near in Meaning" >}}
 
 Of the 10 best matches for “quiet café to work from” across the whole city, only 1 is within 1.5 km of central Berlin. If you search first and filter afterward, most of the results disappear.
 
 {{< im kind="end-cell" >}}
 
-{{< im kind="cell" fig="37×" title="The Same Radius Is a Different Filter Every Time" >}}
+{{< im kind="cell" title="The Same Radius Is a Different Filter Every Time" >}}
 
 In the demo, a 1 km circle in the city center holds 37 venues, and the same circle in Spandau holds 1. A geo filter can match a handful of points or most of the dataset, so no single fixed strategy works for both.
 
 {{< im kind="end-cell" >}}
 
-{{< im kind="cell" fig="48<small> islands</small>" title="Filters Cut the Search Graph Into Islands" >}}
+{{< im kind="cell" title="Filters Cut the Search Graph Into Islands" >}}
 
 HNSW finds neighbors by walking a graph. Keep only the 70 venues within 1.5 km of the city center and the demo's graph splits into 48 disconnected pieces, so the walk stops before it reaches the real best matches.
 
