@@ -1,0 +1,7 @@
+dataset,builder,p50_ms,p95_ms
+glove @ 0.90,HNSW,0.846,1.221
+glove @ 0.90,PiPNN,0.724,1.025
+sift @ 0.99,HNSW,0.527,0.693
+sift @ 0.99,PiPNN,0.421,0.547
+cohere @ 0.99,HNSW,1.053,1.546
+cohere @ 0.99,PiPNN,0.933,1.339

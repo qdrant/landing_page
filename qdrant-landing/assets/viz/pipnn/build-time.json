@@ -1,0 +1,30 @@
+{
+  "title": "Index build time",
+  "kind": "grouped-columns",
+  "subtitle": "about 1M vectors per dataset, lower is better",
+  "group": "dataset",
+  "series": "builder",
+  "y": "build_s_9600x",
+  "yLabel": "seconds",
+  "yMax": 100,
+  "colors": [
+    3,
+    0
+  ],
+  "height": 460,
+  "textScale": 1.6,
+  "legendLayout": "auto",
+  "views": [
+    {
+      "label": "Ryzen 5 9600X",
+      "y": "build_s_9600x",
+      "yMax": 100
+    },
+    {
+      "label": "Ryzen 9 5900XT",
+      "y": "build_s_5900xt",
+      "yMax": 240
+    }
+  ],
+  "width": 720
+}
