@@ -103,6 +103,8 @@ html[data-theme='dark'] .im {
   }
 
   // Links in running text.
+  .im-wrap > p a,
+  .im-wrap > ul a,
   .im-cell p a,
   .im-cell li a,
   .im-strip a,
@@ -419,6 +421,44 @@ html[data-theme='dark'] .im {
   // ---- sections ----
   .im-section {
     padding-block: 96px;
+  }
+
+  // A step: less padding than a full section, and plain content under the heading.
+  .im-section--compact {
+    padding-block: 64px;
+  }
+
+  .im-section > .im-wrap > {
+    p,
+    ul,
+    ol {
+      max-width: 46em;
+      margin: 24px 0 0;
+      font-size: 18px;
+      color: var(--im-muted);
+    }
+
+    ul,
+    ol {
+      padding-left: 22px;
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+
+    // A code snippet placed straight under a heading: its language tabs come first.
+    .lang-tabs {
+      margin-top: 32px;
+    }
+
+    h3 {
+      margin-top: 64px;
+    }
+
+    h3 + .im-cells {
+      margin-top: 24px;
+    }
   }
 
   .im-head--left {

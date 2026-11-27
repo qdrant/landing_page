@@ -20,12 +20,14 @@ immersive_nav:
     href: "#demo"
   - label: The problem
     href: "#problem"
-  - label: How it works
-    href: "#how"
-  - label: Filter shapes
-    href: "#shapes"
-  - label: Build it
-    href: "#build"
+  - label: Create the index
+    href: "#index"
+  - label: Store points
+    href: "#points"
+  - label: Filter
+    href: "#filter"
+  - label: Tune
+    href: "#tune"
 ---
 
 {{< im kind="hero"
@@ -100,16 +102,18 @@ HNSW finds neighbors by walking a graph. Keep only the 70 venues within 1.5 km o
 {{< im kind="end-section" >}}
 
 {{< im kind="section"
-    id="how"
-    eyebrow="How Qdrant handles it"
-    title="Built Into the Index, Decided per Query"
-    intro="Two mechanisms work together: extra links keep the index connected inside each area, and a query planner picks the faster search path for each filter."
-    glow=true
+    id="index"
+    eyebrow="Step 1"
+    title="Create the Geo Index First"
+    intro="Create a `geo` payload index on your location field right after you create the collection. Qdrant can then build the vector index with geo-aware links from the start."
+    compact=true
 >}}
+
+{{< code-snippet path="/documentation/headless/snippets/create-payload-index/geo/" >}}
 
 {{< im kind="cells" cols=2 >}}
 
-{{< im kind="cell" title="Extra Links Inside Each Area" pairs=true >}}
+{{< im kind="cell" >}}
 
 {{< im kind="frame" >}}
 
@@ -122,47 +126,42 @@ HNSW finds neighbors by walking a graph. Keep only the 70 venues within 1.5 km o
 
 {{< im kind="end-frame" >}}
 
+{{< im kind="end-cell" >}}
+
+{{< im kind="cell" tag="How Qdrant handles it" title="Extra Links Inside Each Area" pairs=true >}}
+
 **What Qdrant does.** When it builds the index, Qdrant adds links between venues that are close on the map, for each indexed payload field. A geo index does the same.
 
 **What it means.** A geo filter no longer leaves islands, so the search walk reaches the real best matches. The geo index has to exist before you ingest data, or Qdrant cannot add the links.
 
 {{< im kind="end-cell" >}}
 
-{{< im kind="cell" title="A Plan for Every Query" pairs=true >}}
-
-{{< im kind="frame" >}}
-
-{{< island
-    path="content/documentation/headless/geo-search/figure"
-    width="100%" ratio="360 / 210"
->}}
-![Few matching venues are checked one by one. With many matching venues, the search walks the graph.](/docs/geo-search-tutorial-query-planner.svg)
-{{< /island >}}
-
-{{< im kind="end-frame" >}}
-
-**What Qdrant does.** The query planner estimates how many points match the filter, using the payload index. With few matches, it checks each one exactly. With many, it walks the graph and applies the filter during the walk.
-
-**What it means.** You write the same filter either way, from a single block to a whole region. The collection's `full_scan_threshold` sets where the planner switches.
-
-{{< im kind="end-cell" >}}
-
-{{< im kind="strip" >}}
-
-**You write the filter, Qdrant plans the search.** For configuration details, see [Vector Index](/documentation/manage-data/indexing/#vector-index) and [Filterable HNSW Index](/documentation/manage-data/indexing/#filterable-hnsw-index).
-
-{{< im kind="end-strip" >}}
-
 {{< im kind="end-cells" >}}
 
 {{< im kind="end-section" >}}
 
 {{< im kind="section"
-    id="shapes"
-    eyebrow="Filter shapes"
-    title="Radius, Box, or Any Polygon"
-    intro="All three work as regular filter conditions, so you can combine them with keyword, range, full-text, and other payload conditions in the same request."
+    id="points"
+    eyebrow="Step 2"
+    title="Store Points as Latitude and Longitude"
+    compact=true
 >}}
+
+Store each location in a payload field as an object with `lat` and `lon` in decimal degrees, for example `{"lat": 52.52, "lon": 13.405}`. For a venue with several locations, use a list of these objects. The point matches when at least one location satisfies the condition.
+
+{{< im kind="end-section" >}}
+
+{{< im kind="section"
+    id="filter"
+    eyebrow="Step 3"
+    title="Filter by Location"
+    intro="Send meaning and location in one request. The query ranks venues by meaning, and a geo filter keeps only the venues inside a shape. The filter is a regular condition, so you can combine it with keyword, range, full-text, and other payload conditions."
+    compact=true
+>}}
+
+{{< code-snippet path="/documentation/headless/snippets/geo-search/semantic-query/" >}}
+
+### Choose a Shape
 
 {{< im kind="cells" cols=3 >}}
 
@@ -225,35 +224,41 @@ Use it for delivery zones, districts, or a city minus its airport. Holes are sup
 
 {{< im kind="end-cells" >}}
 
+{{< im kind="cells" cols=2 >}}
+
+{{< im kind="cell" >}}
+
+{{< im kind="frame" >}}
+
+{{< island
+    path="content/documentation/headless/geo-search/figure"
+    width="100%" ratio="360 / 210"
+>}}
+![Few matching venues are checked one by one. With many matching venues, the search walks the graph.](/docs/geo-search-tutorial-query-planner.svg)
+{{< /island >}}
+
+{{< im kind="end-frame" >}}
+
+{{< im kind="end-cell" >}}
+
+{{< im kind="cell" tag="How Qdrant handles it" title="A Plan for Every Query" pairs=true >}}
+
+**What Qdrant does.** The query planner estimates how many points match the filter, using the payload index. With few matches, it checks each one exactly. With many, it walks the graph and applies the filter during the walk.
+
+**What it means.** You write the same filter either way, from a single block to a whole region. The collection's `full_scan_threshold` sets where the planner switches.
+
+{{< im kind="end-cell" >}}
+
+{{< im kind="end-cells" >}}
+
 {{< im kind="end-section" >}}
 
 {{< im kind="section"
-    id="build"
-    eyebrow="Build it"
-    title="From an Empty Collection to a Geo Query"
-    intro="Three things to set up. The order matters: create the geo index before you ingest data."
-    glow=true
+    id="tune"
+    eyebrow="Optional"
+    title="Tune It if You Need To"
+    compact=true
 >}}
-
-{{< im kind="cells" cols=1 >}}
-
-{{< im kind="cell" tag="Step 1" title="Create the Geo Index First" >}}
-
-Create a `geo` payload index on your location field right after you create the collection. Qdrant can then build the vector index with geo-aware links from the start.
-
-{{< code-snippet path="/documentation/headless/snippets/create-payload-index/geo/" >}}
-
-{{< im kind="end-cell" >}}
-
-{{< im kind="cell" tag="Step 2" title="Store Points as Latitude and Longitude" >}}
-
-Store each location in a payload field as an object with `lat` and `lon` in decimal degrees, for example `{"lat": 52.52, "lon": 13.405}`. For a venue with several locations, use a list of these objects. The point matches when at least one location satisfies the condition.
-
-Then query with meaning and location in one request, as in the “Query with a geo filter” example.
-
-{{< im kind="end-cell" >}}
-
-{{< im kind="cell" tag="Step 3" title="Tune It if You Need To" >}}
 
 The defaults work for most collections. Two HNSW settings matter for geo filters:
 
@@ -261,10 +266,6 @@ The defaults work for most collections. Two HNSW settings matter for geo filters
 - `payload_m` sets how many extra links the index adds for each payload field.
 
 See [Vector Index](/documentation/manage-data/indexing/#vector-index) for both.
-
-{{< im kind="end-cell" >}}
-
-{{< im kind="end-cells" >}}
 
 {{< im kind="end-section" >}}
 

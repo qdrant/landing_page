@@ -23,7 +23,7 @@
 - Location: {{ . }}{{ end }}
 
 {{ else if eq $kind "section" -}}
-## {{ .Get "title" }}
+## {{ with .Get "eyebrow" }}{{ if hasPrefix . "Step" }}{{ . }}: {{ end }}{{ end }}{{ .Get "title" }}
 
 {{ with .Get "intro" }}{{ . }}
 
@@ -36,8 +36,9 @@
 
 {{ end -}}
 {{- else if eq $kind "cell" -}}
-### {{ .Get "title" }}
+{{ with .Get "title" }}### {{ . }}
 
+{{ end -}}
 {{ with .Get "fig" }}**{{ . | plainify }}**
 
 {{ end -}}

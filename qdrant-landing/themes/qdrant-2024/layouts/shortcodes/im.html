@@ -17,7 +17,8 @@
   section     a full-width section (id,      end-section (note)
               eyebrow, title, intro, align
               "left", "center", or "split",
-              default "left"; more, glow)
+              default "left"; more, glow,
+              compact for less padding)
   cells       a joined grid (cols)           end-cells
   cell        one block of the grid (tag,    end-cell
               fig, title, pairs)
@@ -63,7 +64,7 @@
 </div>
 {{- else if eq $kind "section" -}}
 {{- $align := .Get "align" | default "left" -}}
-<section class="im-section{{ if .Get "glow" }} im-lights{{ end }}"{{ with .Get "id" }} id="{{ . }}"{{ end }}>
+<section class="im-section{{ if .Get "glow" }} im-lights{{ end }}{{ if .Get "compact" }} im-section--compact{{ end }}"{{ with .Get "id" }} id="{{ . }}"{{ end }}>
   <div class="im-wrap">
     <div class="im-head im-head--{{ $align }}">
       <div>
