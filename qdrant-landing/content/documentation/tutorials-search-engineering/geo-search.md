@@ -103,18 +103,8 @@ HNSW finds neighbors by walking a graph. Keep only the 70 venues within 1.5 km o
 {{< im kind="end-section" >}}
 
 {{< im kind="section"
-    id="index"
-    eyebrow="Step 1"
-    title="Create the Collection and the Geo Index"
-    intro="This tutorial uses [Cloud Inference](/documentation/inference/) to create the embeddings, so it runs against a Qdrant Cloud cluster. Refer to the [Cloud Quickstart](/documentation/cloud-quickstart/) to create one. First, create a collection for the venues. The vector size of 384 matches the embedding model."
     compact=true
 >}}
-
-{{< code-snippet path="/documentation/headless/snippets/geo-search/create-collection/" order="python typescript rust java csharp go http" >}}
-
-Then create a `geo` payload index on the `location` field, right after you create the collection and before you upload points. Qdrant can then build the vector index with geo-aware links from the start.
-
-{{< code-snippet path="/documentation/headless/snippets/geo-search/create-geo-index/" order="python typescript rust java csharp go http" >}}
 
 {{< im kind="cells" cols=2 >}}
 
@@ -146,6 +136,22 @@ Then create a `geo` payload index on the `location` field, right after you creat
 {{< im kind="end-section" >}}
 
 {{< im kind="section"
+    id="index"
+    eyebrow="Step 1"
+    title="Create the Collection and the Geo Index"
+    intro="This tutorial uses [Cloud Inference](/documentation/inference/) to create the embeddings, so it runs against a Qdrant Cloud cluster. Refer to the [Cloud Quickstart](/documentation/cloud-quickstart/) to create one. First, create a collection for the venues. The vector size of 384 matches the embedding model."
+    compact=true
+>}}
+
+{{< code-snippet path="/documentation/headless/snippets/geo-search/create-collection/" order="python typescript rust java csharp go http" >}}
+
+Then create a `geo` payload index on the `location` field, right after you create the collection and before you upload points. Qdrant can then build the vector index with geo-aware links from the start.
+
+{{< code-snippet path="/documentation/headless/snippets/geo-search/create-geo-index/" order="python typescript rust java csharp go http" >}}
+
+{{< im kind="end-section" >}}
+
+{{< im kind="section"
     id="points"
     eyebrow="Step 2"
     title="Upload Venues With Locations"
@@ -156,6 +162,39 @@ Then create a `geo` payload index on the `location` field, right after you creat
 {{< code-snippet path="/documentation/headless/snippets/geo-search/upload-venues/" order="python typescript rust java csharp go http" >}}
 
 For a venue with several locations, use a list of these objects. The point matches a geo filter when at least one location satisfies the condition.
+
+{{< im kind="end-section" >}}
+
+{{< im kind="section"
+    compact=true
+>}}
+
+{{< im kind="cells" cols=2 >}}
+
+{{< im kind="cell" tag="How Qdrant handles it" title="A Plan for Every Query" pairs=true >}}
+
+**What Qdrant does.** The query planner estimates how many points match the filter, using the payload index. With few matches, it checks each one exactly. With many, it walks the graph and applies the filter during the walk.
+
+**What it means.** You write the same filter either way, from a single block to a whole region. The collection's `full_scan_threshold` sets where the planner switches.
+
+{{< im kind="end-cell" >}}
+
+{{< im kind="cell" >}}
+
+{{< im kind="frame" >}}
+
+{{< island
+    path="content/documentation/headless/geo-search/figure"
+    width="100%" ratio="360 / 210"
+>}}
+![Few matching venues are checked one by one. With many matching venues, the search walks the graph.](/docs/geo-search-tutorial-query-planner.svg)
+{{< /island >}}
+
+{{< im kind="end-frame" >}}
+
+{{< im kind="end-cell" >}}
+
+{{< im kind="end-cells" >}}
 
 {{< im kind="end-section" >}}
 
@@ -227,33 +266,6 @@ Use it for delivery zones, districts, or a city minus its airport. Holes are sup
 {{< im kind="end-frame" >}}
 
 {{< code-snippet path="/documentation/headless/snippets/filter-condition/geo-poligon/" >}}
-
-{{< im kind="end-cell" >}}
-
-{{< im kind="end-cells" >}}
-
-{{< im kind="cells" cols=2 >}}
-
-{{< im kind="cell" tag="How Qdrant handles it" title="A Plan for Every Query" pairs=true >}}
-
-**What Qdrant does.** The query planner estimates how many points match the filter, using the payload index. With few matches, it checks each one exactly. With many, it walks the graph and applies the filter during the walk.
-
-**What it means.** You write the same filter either way, from a single block to a whole region. The collection's `full_scan_threshold` sets where the planner switches.
-
-{{< im kind="end-cell" >}}
-
-{{< im kind="cell" >}}
-
-{{< im kind="frame" >}}
-
-{{< island
-    path="content/documentation/headless/geo-search/figure"
-    width="100%" ratio="360 / 210"
->}}
-![Few matching venues are checked one by one. With many matching venues, the search walks the graph.](/docs/geo-search-tutorial-query-planner.svg)
-{{< /island >}}
-
-{{< im kind="end-frame" >}}
 
 {{< im kind="end-cell" >}}
 

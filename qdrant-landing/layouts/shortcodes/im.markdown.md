@@ -23,8 +23,9 @@
 - Location: {{ . }}{{ end }}
 
 {{ else if eq $kind "section" -}}
-## {{ with .Get "eyebrow" }}{{ if hasPrefix . "Step" }}{{ . }}: {{ end }}{{ end }}{{ .Get "title" }}
+{{ with .Get "title" }}## {{ with $.Get "eyebrow" }}{{ if hasPrefix . "Step" }}{{ . }}: {{ end }}{{ end }}{{ . }}
 
+{{ end -}}
 {{ with .Get "intro" }}{{ . }}
 
 {{ end -}}

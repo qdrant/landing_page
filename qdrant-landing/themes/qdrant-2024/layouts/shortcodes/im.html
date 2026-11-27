@@ -18,7 +18,8 @@
               eyebrow, title, intro, align
               "left", "center", or "split",
               default "left"; more, glow,
-              compact for less padding)
+              compact for less padding). A section with
+              none of eyebrow, title, and intro has no heading.
   cells       a joined grid (cols)           end-cells
   cell        one block of the grid (tag,    end-cell
               fig, title, pairs)
@@ -66,10 +67,11 @@
 {{- $align := .Get "align" | default "left" -}}
 <section class="im-section{{ if .Get "glow" }} im-lights{{ end }}{{ if .Get "compact" }} im-section--compact{{ end }}"{{ with .Get "id" }} id="{{ . }}"{{ end }}>
   <div class="im-wrap">
+    {{ if or (.Get "eyebrow") (.Get "title") (.Get "intro") }}
     <div class="im-head im-head--{{ $align }}">
       <div>
         {{ with .Get "eyebrow" }}<span class="im-eyebrow">{{ . }}</span>{{ end }}
-        <h2>{{ .Get "title" }}</h2>
+        {{ with .Get "title" }}<h2>{{ . }}</h2>{{ end }}
         {{ if ne $align "split" }}{{ with .Get "intro" }}<p class="im-sub">{{ $page.RenderString $inline . }}</p>{{ end }}{{ end }}
       </div>
       {{ if eq $align "split" }}
@@ -79,6 +81,7 @@
       </div>
       {{ end }}
     </div>
+    {{ end }}
 {{- else if eq $kind "end-section" -}}
     {{ with .Get "note" }}<p class="im-note">{{ $page.RenderString $inline . }}</p>{{ end }}
   </div>
