@@ -30,6 +30,7 @@ layouts/partials/common/shortcode-assets/     names.html, css.html, js.html
 | `date` | yes | | marker | `/course/multi-vector-search/module-2/` |
 | `prompt` | yes | | marker | `/documentation/agentic-tools/` |
 | `quote` | yes | | marker | `/blog/case-study-poliscope/` |
+| `tabs` | yes | yes | marker | |
 | `chart` | yes | yes | `.HasShortcode "chart"` | |
 | `island` | yes | yes | `.HasShortcode "island"` | |
 

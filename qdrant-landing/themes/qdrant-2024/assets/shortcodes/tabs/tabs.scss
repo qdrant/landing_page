@@ -1,0 +1,96 @@
+@use '../../lib/tools' as *;
+
+// Tabbed content (layouts/shortcodes/tabs.html): folder-style tabs on a thin
+// baseline, and a thin border around the content below it. The active tab is
+// outlined on three sides and leaves a gap in the baseline. The baseline is
+// drawn per tab (plus a filler), so no background color is needed to hide it.
+
+$tabs-line: $neutral-40;
+$tabs-line-light: $neutral-90;
+
+.tabs {
+  margin: 1.5rem 0;
+}
+
+.tabs__list {
+  display: flex;
+  overflow-x: auto;
+
+  // Carries the baseline from the last tab to the right edge.
+  &::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid $tabs-line;
+  }
+}
+
+.tabs__tab {
+  flex: none;
+  padding: 6px 14px;
+  border: 1px solid transparent;
+  border-bottom-color: $tabs-line;
+  border-radius: 6px 6px 0 0;
+  background: none;
+  color: $neutral-60;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    color: $neutral-90;
+  }
+
+  &.active {
+    border-color: $tabs-line;
+    border-bottom-color: transparent;
+    color: $neutral-98;
+  }
+}
+
+// The border is open at the top: the baseline closes it. The left side starts
+// right under the active tab's left edge.
+.tabs__panel {
+  padding: 1rem;
+  border: 1px solid $tabs-line;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  // hidden="until-found" hides the content but keeps the box, so drop the
+  // padding and border or every hidden tab would leave a gap.
+  &[hidden] {
+    padding: 0;
+    border: none;
+  }
+}
+
+// Light theme. Written out longhand: see the [data-theme] trap in AGENTS.md.
+[data-theme='light'] .tabs__list::after {
+  border-bottom-color: $tabs-line-light;
+}
+
+[data-theme='light'] .tabs__tab {
+  border-bottom-color: $tabs-line-light;
+  color: $neutral-50;
+}
+
+[data-theme='light'] .tabs__tab:hover {
+  color: $neutral-20;
+}
+
+[data-theme='light'] .tabs__tab.active {
+  border-color: $tabs-line-light;
+  border-bottom-color: transparent;
+  color: $neutral-10;
+}
+
+[data-theme='light'] .tabs__panel {
+  border-color: $tabs-line-light;
+}

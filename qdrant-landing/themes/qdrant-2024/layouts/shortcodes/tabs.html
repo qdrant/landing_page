@@ -1,0 +1,32 @@
+{{- /*
+  Tabbed content: the same workflow described several ways (UI, CLI, API, ...).
+
+    {{< tabs >}}
+    {{< tab label="UI" >}}
+    Markdown content, including nested shortcodes.
+    {{< /tab >}}
+    {{< tab label="CLI" >}}
+    ...
+    {{< /tab >}}
+    {{< /tabs >}}
+
+  Choosing a tab selects the tab with the same label in every other tab group
+  on the page and is remembered across pages (assets/shortcodes/tabs/tabs.js).
+  The Markdown output (tabs.markdown.md) lists every tab under its label.
+*/ -}}
+{{- $panels := .Inner -}}
+{{- $labels := .Store.Get "labels" | default slice -}}
+{{- if not $labels -}}
+  {{- errorf "%s: tabs shortcode without any tab" .Page.File.Path -}}
+{{- end -}}
+<div class="tabs" data-shortcode="tabs">
+<div class="tabs__list" role="tablist">
+{{- /* Same ID prefix as in tab.html. Only the active tab is in the Tab
+       order; arrow keys move between tabs (tabs.js). */ -}}
+{{- $group := printf "tabs-%s-%d" (substr (md5 .Page.Path) 0 6) .Ordinal -}}
+{{- range $i, $label := $labels }}
+<button type="button" role="tab" class="tabs__tab{{ if eq $i 0 }} active{{ end }}" id="{{ $group }}-tab-{{ $i }}" aria-controls="{{ $group }}-panel-{{ $i }}" aria-selected="{{ if eq $i 0 }}true{{ else }}false{{ end }}" tabindex="{{ if eq $i 0 }}0{{ else }}-1{{ end }}" data-label="{{ $label }}">{{ $label }}</button>
+{{- end }}
+</div>
+{{ $panels }}
+</div>
