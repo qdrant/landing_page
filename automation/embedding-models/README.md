@@ -3,7 +3,7 @@
 These scripts generate the model tables on the FastEmbed and Qdrant Cloud
 Inference embeddings pages. The
 [Update Embedding Models](../../.github/workflows/update-embedding-models.yml)
-workflow runs them every Sunday and opens a PR when a catalog changes. The data
+workflow runs them daily and opens a PR when a catalog changes. The data
 files are generated, so change the scripts rather than editing the files.
 
 ```bash

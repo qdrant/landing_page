@@ -3,7 +3,7 @@ name: Update Embedding Models
 on:
   workflow_dispatch:
   schedule:
-    - cron: "00 17 * * 0"
+    - cron: "00 17 * * *"
 
 permissions:
   contents: write
@@ -40,4 +40,4 @@ jobs:
           add-paths: ${{ matrix.data }}
           delete-branch: true
           title: ${{ matrix.title }}
-          body: "Automated weekly update of `${{ matrix.data }}`."
+          body: "Automated update of `${{ matrix.data }}`."
