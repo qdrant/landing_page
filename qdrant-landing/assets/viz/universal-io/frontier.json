@@ -1,0 +1,73 @@
+{
+  "title": "Throughput against latency, one dot per configuration",
+  "kind": "scatter",
+  "x": "ms",
+  "xHigh": null,
+  "y": "mb",
+  "xScale": "log",
+  "yScale": "log",
+  "xLabel": "mean latency per read, ms (log scale)",
+  "yLabel": "throughput, MB/s (log scale)",
+  "series": "backend",
+  "pointLabel": "setting",
+  "place": "place",
+  "seriesNameAt": 1,
+  "seriesNamePlace": "down",
+  "frontier": null,
+  "height": 380,
+  "views": [
+    {
+      "label": "Random",
+      "subtitle": "4 KiB random reads on a local NVMe drive. Up and left is better",
+      "where": {
+        "pattern": "random"
+      },
+      "xDomain": [
+        0.05,
+        60
+      ],
+      "yDomain": [
+        0.1,
+        1500
+      ],
+      "frontier": null,
+      "seriesNameAt": 6,
+      "xHigh": null
+    },
+    {
+      "label": "Sequential",
+      "subtitle": "The same reads in order. Readahead lifts both local backends to one ceiling, and does nothing for object storage",
+      "where": {
+        "pattern": "sequential"
+      },
+      "x": "p99",
+      "xHigh": null,
+      "xScale": "log",
+      "xLabel": "p99 latency per read, ms (log scale). Readahead serves most sequential reads from memory, so these are the reads that reached the device",
+      "xDomain": [
+        0.04,
+        80
+      ],
+      "yDomain": [
+        0.1,
+        2000
+      ],
+      "frontier": null,
+      "yScale": "log",
+      "yLabel": "throughput, MB/s",
+      "seriesNameAt": 0
+    }
+  ],
+  "colors": [
+    0,
+    1,
+    2
+  ],
+  "tooltip": {
+    "mb": "throughput, MB/s",
+    "ms": "mean latency, ms",
+    "p99": "p99 latency, ms",
+    "reads": "reads per second",
+    "inflight": "measured in flight"
+  }
+}
