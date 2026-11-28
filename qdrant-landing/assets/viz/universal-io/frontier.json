@@ -61,8 +61,7 @@
   "colors": [
     0,
     1,
-    2,
-    "muted"
+    2
   ],
   "tooltip": {
     "mb": "throughput, MB/s",

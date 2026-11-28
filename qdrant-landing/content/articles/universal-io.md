@@ -217,11 +217,11 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 ## What Concurrency Buys
 
-{{< chart id="universal-io/frontier" caption="One dot per concurrency level, 4 KiB random reads on a 16-core server with 128 GiB of RAM and a locally attached NVMe drive, page cache dropped before each run. Up and left is better. The fourth line is fio on the same drive and the same file, which is what the device itself can do." caption2="The same reads in order, on the slowest 1%. Readahead serves the other 99 out of memory, so every backend lands on the same throughput." >}}
+{{< chart id="universal-io/frontier" caption="One dot per concurrency level, 4 KiB random reads on a 16-core server with 128 GiB of RAM and a locally attached NVMe drive, page cache dropped before each run. Up and left is better." caption2="The same reads in order, on the slowest 1%. Readahead serves the other 99 out of memory, so every backend lands on the same throughput." >}}
 
 Every figure here is reads in flight, measured rather than requested. Each backend caps concurrency at its own pipeline depth, so asking for more than it holds changes nothing.
 
-`io_uring` turns concurrency into throughput, and it gets nearly everything the device has. One read at a time gives 50.85 MB/s, and sixteen in flight give 594.57 MB/s. fio reading the same file on the same drive reaches 591.62 MB/s at that depth, so the pipeline costs nothing we can measure against raw device access.
+`io_uring` turns concurrency into throughput, and it gets nearly everything the device has. One read at a time gives 50.85 MB/s, and sixteen in flight give 594.57 MB/s. Reading the same file with fio, a disk benchmarking tool that talks to the device directly, reaches 591.62 MB/s at that depth. The pipeline costs nothing we can measure against raw device access.
 
 Sixteen is where it stops, and the limit is ours rather than the drive's. The ring holds 16, so asking for 32 or 64 reads in flight still measures 16 in flight. The drive is nowhere near finished at that point. fio on the same file reaches 945.46 MB/s at depth 32 and 1,158.65 MB/s at depth 64, so a deeper ring would roughly double what we get.
 
