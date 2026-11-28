@@ -63,5 +63,12 @@
     1,
     2,
     "muted"
-  ]
+  ],
+  "tooltip": {
+    "mb": "throughput, MB/s",
+    "ms": "p50 latency, ms",
+    "p99": "p99 latency, ms",
+    "reads": "reads per second",
+    "inflight": "measured in flight"
+  }
 }

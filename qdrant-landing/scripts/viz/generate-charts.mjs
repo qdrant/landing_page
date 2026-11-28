@@ -634,8 +634,17 @@ function scatter(c) {
 
   const zones = bySeries.flatMap((pts, si) => pts.map((d, ri) => {
     if (!at[si] || !at[si][ri]) return '';
-    const rows2 = [{ k: c.yLabel, v: `${d[c.y]}`, c: hue(si) },
-                   { k: c.xLabel, v: `${d[c.x]}`, c: hue(si) }];
+    // A `tooltip` map lets a scatter hide detail from the plot and surface it on
+    // hover, the way the column kinds already do. Without one, fall back to the
+    // two axis values so existing scatters are unchanged.
+    const rows2 = c.tooltip
+      ? Object.entries(c.tooltip).map(([field, label]) => ({
+          k: label,
+          v: `${d[field]}${unitOf(field) ? ' ' + unitOf(field) : ''}`,
+          c: hue(si),
+        }))
+      : [{ k: c.yLabel, v: `${d[c.y]}`, c: hue(si) },
+         { k: c.xLabel, v: `${d[c.x]}`, c: hue(si) }];
     const title = `${names[si]}${c.pointLabel && d[c.pointLabel] ? ' · ' + d[c.pointLabel] : ''}`;
     return `<rect data-viz-zone data-viz-key="s${si}-p${ri}"`
       + ` data-viz-title="${esc(title)}" data-viz-rows="${esc(JSON.stringify(rows2))}"`

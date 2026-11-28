@@ -1,31 +1,31 @@
-pattern,backend,setting,place,stub,ms,p99,mb
-random,mmap,depth 1,,,0.0768,0.0914,51.28
-random,mmap,depth 16,,,0.077,0.0917,51.18
-random,io_uring,depth 1,,,0.0774,0.0927,50.85
-random,io_uring,depth 2,,,0.0791,0.0971,100.46
-random,io_uring,depth 4,,,0.0826,0.1075,195.38
-random,io_uring,depth 8,,,0.0917,0.1274,358.54
-random,io_uring,depth 16,up,,0.1124,0.1592,594.57
-random,io_uring,depth 32,,,0.1123,0.1586,595.11
-random,io_uring,depth 64,right,,0.1123,0.1587,595.06
-random,S3,depth 1,left,,23.0364,35.5924,0.18
-random,S3,depth 2,,,22.9697,34.3262,0.35
-random,S3,depth 4,,,23.008,37.9225,0.7
-random,S3,depth 8,,,22.9722,35.2073,1.41
-random,S3,depth 16,left,,22.9766,36.5198,2.8
-random,S3,depth 32,,,22.9837,37.6243,5.62
-random,S3,depth 64,,,22.9895,34.7702,11.25
-random,S3,depth 128,,,22.9754,34.6725,22.61
-random,S3,depth 256,up,,22.9759,34.0582,45.29
-random,fio (raw device),depth 1,,,0.0732,0.0855,50.91
-random,fio (raw device),depth 2,,,0.0742,0.0906,100.19
-random,fio (raw device),depth 4,,,0.0783,0.0998,193.6
-random,fio (raw device),depth 8,,,0.0865,0.1203,352.25
-random,fio (raw device),depth 16,,,0.1039,0.1485,591.62
-random,fio (raw device),depth 32,,,0.1306,0.1833,945.46
-random,fio (raw device),depth 64,up,,0.2263,0.2847,1158.65
-sequential,mmap,depth 1,right,,0.0,0.1008,1259.02
-sequential,mmap,depth 16,,,0.0,0.1008,1259.02
-sequential,io_uring,depth 1,left,,0.0011,0.0688,1259.02
-sequential,io_uring,depth 16,,,0.0253,0.0983,1259.02
-sequential,io_uring,depth 64,,,0.0266,0.0989,1259.02
+pattern,backend,setting,place,stub,ms,p99,mb,reads,inflight
+random,mmap,depth 1,,,0.0768,0.0914,51.28,12519,1.0
+random,mmap,depth 16,,,0.077,0.0917,51.18,12494,1.0
+random,io_uring,depth 1,,,0.0774,0.0927,50.85,12415,1.0
+random,io_uring,depth 2,,,0.0791,0.0971,100.46,24526,2.0
+random,io_uring,depth 4,,,0.0826,0.1075,195.38,47700,4.0
+random,io_uring,depth 8,,,0.0917,0.1274,358.54,87533,7.99
+random,io_uring,depth 16,up,,0.1124,0.1592,594.57,145159,15.99
+random,io_uring,depth 32,,,0.1123,0.1586,595.11,145291,15.99
+random,io_uring,depth 64,right,,0.1123,0.1587,595.06,145278,15.99
+random,S3,depth 1,left,,23.0364,35.5924,0.18,43,1.0
+random,S3,depth 2,,,22.9697,34.3262,0.35,85,2.0
+random,S3,depth 4,,,23.008,37.9225,0.7,170,4.0
+random,S3,depth 8,,,22.9722,35.2073,1.41,344,8.0
+random,S3,depth 16,left,,22.9766,36.5198,2.8,684,15.98
+random,S3,depth 32,,,22.9837,37.6243,5.62,1372,31.85
+random,S3,depth 64,,,22.9895,34.7702,11.25,2747,63.88
+random,S3,depth 128,,,22.9754,34.6725,22.61,5519,127.93
+random,S3,depth 256,up,,22.9759,34.0582,45.29,11058,255.77
+random,fio (raw device),depth 1,,,0.0732,0.0855,50.91,12729,1
+random,fio (raw device),depth 2,,,0.0742,0.0906,100.19,25046,2
+random,fio (raw device),depth 4,,,0.0783,0.0998,193.6,48400,4
+random,fio (raw device),depth 8,,,0.0865,0.1203,352.25,88062,8
+random,fio (raw device),depth 16,,,0.1039,0.1485,591.62,147906,16
+random,fio (raw device),depth 32,,,0.1306,0.1833,945.46,236365,32
+random,fio (raw device),depth 64,up,,0.2263,0.2847,1158.65,289663,64
+sequential,mmap,depth 1,right,,0.0,0.1008,1259.02,307377,0.99
+sequential,mmap,depth 16,,,0.0,0.1008,1259.02,307377,0.99
+sequential,io_uring,depth 1,left,,0.0011,0.0688,1259.02,307377,0.98
+sequential,io_uring,depth 16,,,0.0253,0.0983,1259.02,307378,15.98
+sequential,io_uring,depth 64,,,0.0266,0.0989,1259.02,307378,15.98
