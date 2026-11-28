@@ -43,14 +43,13 @@ We’ve used the official Python client to show how the batch search might be in
 The first step is to create a collection with a specified configuration — at least vector size and the distance function used to measure the similarity between vectors.
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.conversions.common_types import VectorParams
+from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", 6333)
 if not client.collection_exists('test_collection'):
     client.create_collection(
         collection_name="test_collection",
-        vectors_config=VectorParams(size=4, distance=Distance.EUCLID),
+        vectors_config=models.VectorParams(size=4, distance=models.Distance.EUCLID),
 )
 ```
 
@@ -74,6 +73,7 @@ vectors = [
 client.upload_collection(
     collection_name="test_collection",
     vectors=vectors,
+    ids=list(range(len(vectors))),
 )
 ```
 
@@ -82,15 +82,15 @@ client.upload_collection(
 Now we’re ready to start looking for similar vectors, as our collection has some entries. Let’s say we want to find the distance between the selected vector and the most similar database entry and at the same time find the two most similar objects for a different vector query. Up till 0.9, we would need to call the API twice. Now, we can send both requests together:
 
 ```python
-results = client.search_batch(
+results = client.query_batch_points(
     collection_name="test_collection",
     requests=[
-        SearchRequest(
-            vector=[0., 0., 2., 0.],
+        models.QueryRequest(
+            query=[0., 0., 2., 0.],
             limit=1,
         ),
-        SearchRequest(
-            vector=[0., 0., 0., 0.01],
+        models.QueryRequest(
+            query=[0., 0., 0., 0.01],
             with_vector=True,
             limit=2,
         )
@@ -98,17 +98,17 @@ results = client.search_batch(
 )
 
 # Out: [
-#   [ScoredPoint(id=2, version=0, score=1.9, 
-#                payload=None, vector=None)],
-#   [ScoredPoint(id=3, version=0, score=0.09, 
-#                payload=None, vector=[0.0, 0.0, 0.0, 0.1]),
-#    ScoredPoint(id=1, version=0, score=0.10049876, 
-#                payload=None, vector=[0.0, 0.1, 0.0, 0.0])]
+#   QueryResponse(points=[ScoredPoint(id=2, version=0, score=1.9,
+#                                     payload=None, vector=None)]),
+#   QueryResponse(points=[ScoredPoint(id=3, version=0, score=0.09,
+#                                     payload=None, vector=[0.0, 0.0, 0.0, 0.1]),
+#                         ScoredPoint(id=1, version=0, score=0.10049876,
+#                                     payload=None, vector=[0.0, 0.1, 0.0, 0.0])])
 # ]
 
 ```
 
-Each instance of the SearchRequest class may provide its own search parameters, including vector query but also some additional filters. The response will be a list of individual results for each request. In case any of the requests is malformed, there will be an exception thrown, so either all of them pass or none of them.
+Each instance of the QueryRequest class may provide its own search parameters, including vector query but also some additional filters. The response will be a list of individual results for each request. In case any of the requests is malformed, there will be an exception thrown, so either all of them pass or none of them.
 
 And that’s it! You no longer have to handle the multiple requests on your own. Qdrant will do it under the hood.
 
