@@ -13,45 +13,48 @@
   "place": "place",
   "seriesNameAt": 1,
   "seriesNamePlace": "down",
-  "frontier": "frontier",
+  "frontier": null,
   "height": 380,
   "views": [
     {
       "label": "Random",
-      "subtitle": "4 KiB random reads. Up and left is better",
+      "subtitle": "4 KiB random reads on a local NVMe drive. Up and left is better",
       "where": {
         "pattern": "random"
       },
       "xDomain": [
-        0.5,
-        320
+        0.05,
+        60
       ],
       "yDomain": [
         0.1,
-        120
-      ]
+        1500
+      ],
+      "frontier": null,
+      "seriesNameAt": 6
     },
     {
       "label": "Sequential",
-      "subtitle": "4 KiB sequential reads, slowest 1% of reads. Up and left is better",
+      "subtitle": "4 KiB sequential reads. Every backend at every depth lands on the same throughput",
       "where": {
         "pattern": "sequential"
       },
       "x": "p99",
       "xHigh": null,
       "xScale": "linear",
-      "xLabel": "p99 latency per read, ms. Readahead serves 97% of sequential reads from memory, so these are the reads that reached the disk",
+      "xLabel": "p99 latency per read, ms. Readahead serves about 97% of sequential reads from memory, so these are the reads that reached the device",
       "xDomain": [
-        0.9,
-        1.5
+        0.06,
+        0.11
       ],
       "yDomain": [
         0,
-        260
+        1400
       ],
       "frontier": null,
       "yScale": "linear",
-      "yLabel": "throughput, MB/s"
+      "yLabel": "throughput, MB/s",
+      "seriesNameAt": 0
     }
   ],
   "colors": [

@@ -6,27 +6,53 @@
   "height": 385,
   "labelTop": "backend",
   "labelBottom": "setting",
-  "colors": [0, 0, 1, 1, 2, 2, 2],
+  "colors": [
+    0,
+    0,
+    1,
+    1,
+    2,
+    2,
+    2
+  ],
   "views": [
     {
       "label": "Throughput",
-      "yMax": 72,
+      "yMax": 620,
       "panels": [
-        { "title": "Throughput", "subtitle": "4 KiB random reads, higher is better", "y": "mb", "axis": "MB/s", "unit": "MB/s" }
+        {
+          "title": "Throughput",
+          "subtitle": "4 KiB random reads, higher is better",
+          "y": "mb",
+          "axis": "MB/s",
+          "unit": "MB/s"
+        }
       ]
     },
     {
       "label": "p50 latency",
-      "yMax": 28,
+      "yMax": 26,
       "panels": [
-        { "title": "Median latency", "subtitle": "4 KiB random reads at that concurrency, lower is better", "y": "ms", "axis": "p50 latency (ms)", "unit": "ms" }
+        {
+          "title": "Median latency",
+          "subtitle": "4 KiB random reads at that concurrency, lower is better",
+          "y": "ms",
+          "axis": "p50 latency (ms)",
+          "unit": "ms"
+        }
       ]
     },
     {
       "label": "p99 latency",
-      "yMax": 145,
+      "yMax": 40,
       "panels": [
-        { "title": "Tail latency", "subtitle": "4 KiB random reads at that concurrency, the slowest 1%, lower is better", "y": "p99", "axis": "p99 latency (ms)", "unit": "ms" }
+        {
+          "title": "Tail latency",
+          "subtitle": "4 KiB random reads at that concurrency, the slowest 1%, lower is better",
+          "y": "p99",
+          "axis": "p99 latency (ms)",
+          "unit": "ms"
+        }
       ]
     }
   ],

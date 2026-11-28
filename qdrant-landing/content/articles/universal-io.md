@@ -21,7 +21,7 @@ Qdrant reads all its on-disk data through `mmap`: vectors, HNSW graphs and paylo
 
 In [serverless mode](https://qdrant.tech/serverless/) the source of truth is object storage, which Qdrant caches on local disk. A read that misses that cache crosses the network, and it gets much slower.
 
-On our test box a cold `mmap` read of an EBS gp3 volume took 733 µs. From a same-region S3 bucket it took 26 ms, 36 times slower. From another region, 131 ms. Faster local storage only widens the gap, and a network read can fail in ways a disk read cannot.
+On our test box a cold `mmap` read of a local NVMe drive took 77 µs. From a same-region S3 bucket it took 23 ms, about 300 times slower. From another region, 131 ms. Faster local storage only widens the gap, and a network read can fail in ways a disk read cannot.
 
 One option was to re-implement every one of those interactions against object storage, but that would have meant maintaining two versions of the same logic, which tend to drift apart over time. Every data structure would also have needed to switch between the two versions, which could change the behavior of the local path that already worked well. 
 
@@ -37,16 +37,16 @@ We therefore decided to build a single interface that lets us hot-swap the stora
 
 What we needed instead was a single abstract interface (a `trait`, in Rust terms, similar to interfaces in Go and protocols in Python) that standardizes the contract for every backend, rather than a separate concrete implementation for each component. That interface had to cover at least three backends, and they behave very differently from each other:
 
-- **`mmap`**: synchronous. Very cheap when the data is already in RAM, but a read of cold data blocks on a page fault (733 µs on the EBS gp3 volume we measured on).
+- **`mmap`**: synchronous. Very cheap when the data is already in RAM, but a read of cold data blocks on a page fault (77 µs on the local NVMe drive we measured on).
 - **`io_uring`**: queued. Many reads can run concurrently, but works only on Linux kernel v5.1 or later (it was introduced in 2019).
-- **Network I/O**: asynchronous. Very expensive when the data isn't cached locally (26 ms per round trip to a bucket in the same region, and 131 ms to one in another region), and exposed to failure modes that disk reads don't have.
+- **Network I/O**: asynchronous. Very expensive when the data isn't cached locally (23 ms per round trip to a bucket in the same region, and 131 ms to one in another region), and exposed to failure modes that disk reads don't have.
 
 ## Neither Async nor Blocking Fits
 
 Because of this gap in cost, the design of the interface seemed to be limited to two approaches, and each with a clear downside:
 
-- **Make everything async.** This is a great fit for network storage, but a poor fit for `mmap` and for data that is already cached, because async isn't free in Rust. It needs a runtime, and the compiler optimizes async code poorly. On our test box a warm 8-byte read took 18 ns. The same read inside a Tokio runtime took 106 ns. The extra 88 ns matters on cached data and not on a 733 µs cold read.
-- **Make everything blocking.** This suits the existing `mmap` code, but it is terrible for network requests. A same-region request took 36 times longer than a cold disk read. When each request blocks until it finishes, that latency piles up quickly.
+- **Make everything async.** This is a great fit for network storage, but a poor fit for `mmap` and for data that is already cached, because async isn't free in Rust. It needs a runtime, and the compiler optimizes async code poorly. On our test box a warm 8-byte read took 18 ns. The same read inside a Tokio runtime took 106 ns. The extra 88 ns matters on cached data and not on an 77 µs cold read.
+- **Make everything blocking.** This suits the existing `mmap` code, but it is terrible for network requests. A same-region request took about 300 times longer than a cold disk read. When each request blocks until it finishes, that latency piles up quickly.
 
 After a few iterations, we settled on a middle ground, a `ReadPipeline` abstraction modeled on `io_uring`, in which you schedule reads (like pushing to a submission queue) and then wait for results (like reading from a completion queue), while each backend implements the pipeline in the way that suits it best.
 
@@ -211,33 +211,33 @@ fn read(range) -> Slice {
 }
 ```
 
-Once every block is local, the `fully_populated` flag lets reads skip the bitmap and its lock entirely. At that point a read is just a slice of the local `MmapFile`, the same kind of operation the `mmap` backend performs. The first read of a block still costs a 26 ms round trip. Every read after it costs 733 µs, the price of a local `mmap`.
+Once every block is local, the `fully_populated` flag lets reads skip the bitmap and its lock entirely. At that point a read is just a slice of the local `MmapFile`, the same kind of operation the `mmap` backend performs. The first read of a block still costs a 23 ms round trip. Every read after it costs 77 µs, the price of a local `mmap`.
 
 Append-only files can also grow, and reopening one would mean fetching everything again, so `DiskCache` grows the mirror in two phases: it first *stages* the change by learning the new remote size and prefetching the new tail, without any visible effect for readers, and then *applies* it by growing and remapping the local file. This lets Qdrant stage reloads for many files at once and pay only for the slowest one.
 
 ## What Concurrency Buys
 
-{{< chart id="universal-io/frontier" caption="One dot per concurrency level, 4 KiB random reads on a gp3 volume provisioned to 16,000 IOPS, page cache dropped before each run. Up and left is better. The fourth line is fio on the same volume and the same file, which is what the device itself can do." caption2="The same reads in order, on the slowest 1%. Readahead serves the other 99 out of memory, so concurrency has nothing left to overlap." >}}
+{{< chart id="universal-io/frontier" caption="One dot per concurrency level, 4 KiB random reads on a 16-core server with 128 GiB of RAM and a locally attached NVMe drive, page cache dropped before each run. Up and left is better. The fourth line is fio on the same drive and the same file, which is what the device itself can do." caption2="The same reads in order, on the slowest 1%. Readahead serves the other 99 out of memory, so every backend lands on the same throughput." >}}
 
 Every figure here is reads in flight, measured rather than requested. Each backend caps concurrency at its own pipeline depth, so asking for more than it holds changes nothing.
 
-`io_uring` turns concurrency into throughput, and it gets nearly everything the device has. One read at a time gives 5.26 MB/s, and sixteen in flight give 66.60 MB/s. fio reading the same file on the same volume reaches 68.26 MB/s at that depth, so the pipeline costs about 2% against raw device access.
+`io_uring` turns concurrency into throughput, and it gets nearly everything the device has. One read at a time gives 50.85 MB/s, and sixteen in flight give 594.57 MB/s. fio reading the same file on the same drive reaches 591.62 MB/s at that depth, so the pipeline costs nothing we can measure against raw device access.
 
-Sixteen is where it stops, for two reasons at once. The ring holds 16, so asking for 32 in flight still measures 16. The volume is finished by then too: fio gets 16,303 IOPS at depth 32 against 17,066 at depth 16, so a bigger ring would buy nothing here.
+Sixteen is where it stops, and the limit is ours rather than the drive's. The ring holds 16, so asking for 32 or 64 reads in flight still measures 16 in flight. The drive is nowhere near finished at that point. fio on the same file reaches 945.46 MB/s at depth 32 and 1,158.65 MB/s at depth 64, so a deeper ring would roughly double what we get.
 
-`mmap` runs one read at a time whatever you ask for. Ask it for sixteen in flight and the measurement comes back as one. Throughput sits at 5.61 MB/s, and a read takes 0.73 ms whether anything else is pending or not.
+`mmap` runs one read at a time whatever you ask for. Ask it for sixteen in flight and the measurement comes back as one. Throughput sits at 51.28 MB/s, and a read takes 77 µs whether anything else is pending or not.
 
-Concurrency can only buy what the disk has left to give. The same sweep on a gp3 volume at the 3,000 IOPS baseline turns one read in flight into sixteen for 1.8 times the throughput, not 12, because one thread reading on its own already takes more than half of what that volume can serve.
+Concurrency can only buy what the disk has left to give. On this drive, going from one read in flight to sixteen multiplies throughput by 11.7. The same sweep on a network volume provisioned to 3,000 IOPS gives 1.8 times instead. One thread reading on its own already takes more than half of what that volume can serve.
 
-S3 turns concurrency into throughput, but never into lower latency. Throughput doubles at every doubling of concurrency, from 0.15 MB/s with one read in flight to 34.29 MB/s with 256. A read still takes about 26 ms at every one of those levels. Across that whole range the median moves only between 25.52 ms and 26.42 ms.
+S3 turns concurrency into throughput, but never into lower latency. Throughput doubles at every doubling of concurrency, from 0.18 MB/s with one read in flight to 45.29 MB/s with 256. A read still takes about 23 ms at every one of those levels. Across that whole range the median moves only between 22.97 ms and 23.04 ms.
 
-{{< chart id="universal-io/endpoints" caption="One read at a time against each backend's own depth." caption2="By median latency. Nothing here is deeper than its backend holds, so no read waits for a slot and these are the devices' own times." caption3="And by tail latency. io_uring is 1.33 ms at p99 with sixteen reads in flight against 1.05 ms with one, so twelve times the throughput costs little at the tail." >}}
+{{< chart id="universal-io/endpoints" caption="One read at a time against each backend's own depth." caption2="By median latency. Nothing here is deeper than its backend holds, so no read waits for a slot and these are the devices' own times." caption3="And by tail latency. io_uring is 159 µs at p99 with sixteen reads in flight against 93 µs with one, so twelve times the throughput costs little at the tail." >}}
 
-Read in order and concurrency stops mattering. Opened with `MADV_SEQUENTIAL`, `io_uring` held about 207 MB/s at 1, 16 and 64 reads in flight alike, against 5.26 MB/s in random order at depth 1. The kernel reads ahead, so most reads never reach the disk and there is nothing left for the ring to overlap.
+Read in order and concurrency stops mattering. Opened with `MADV_SEQUENTIAL`, `io_uring` held about 1,259 MB/s at 1, 16 and 64 reads in flight alike, against 50.85 MB/s in random order at depth 1. The kernel reads ahead, so most reads never reach the disk and there is nothing left for the ring to overlap.
 
-`mmap` reads in order too, and gets about half as much. It holds 110.58 MB/s with one read in flight and 105.87 MB/s with sixteen, so depth changes nothing for it here either. Object storage has no readahead at all. Every read is its own round trip, so order buys it nothing.
+`mmap` reads in order too, and on this drive it gets exactly as much. It holds the same 1,259 MB/s at one read in flight and at sixteen, because the kernel prefetch thread does the work in both cases and neither backend is the bottleneck. Object storage has no readahead at all. Every read is its own round trip, so order buys it nothing.
 
-Concurrency only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 26 ms on object storage, however many reads the pipeline allows.
+Concurrency only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 23 ms on object storage, however many reads the pipeline allows.
 
 ## The Best of All Worlds (Almost)
 
