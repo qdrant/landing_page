@@ -309,17 +309,19 @@ sections:
         language: Python
         code: |
           # Real-time recommendation with business rules
-          results = client.recommend(
+          results = client.query_points(
               collection_name="products",
-              positive=[last_viewed_id, last_purchased_id],
-              negative=[returned_item_id],
+              query=RecommendQuery(recommend=RecommendInput(
+                  positive=[last_viewed_id, last_purchased_id],
+                  negative=[returned_item_id],
+                  strategy=RecommendStrategy.BEST_SCORE,
+              )),
               query_filter=Filter(must=[
-                  FieldCondition("in_stock", match=MatchValue(True)),
-                  FieldCondition("margin", range=Range(gte=0.25)),
+                  FieldCondition(key="in_stock", match=MatchValue(value=True)),
+                  FieldCondition(key="margin", range=Range(gte=0.25)),
               ]),
-              strategy=RecommendStrategy.BEST_SCORE,
               limit=12,
-          )
+          ).points
           
           # Update user vector on interaction (real-time)
           client.set_payload(
