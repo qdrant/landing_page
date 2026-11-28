@@ -217,7 +217,7 @@ Append-only files can also grow, and reopening one would mean fetching everythin
 
 ## What Concurrency Buys
 
-{{< chart id="universal-io/frontier" caption="One dot per concurrency level, 4 KiB random reads on a 16-core server with 128 GiB of RAM and a locally attached NVMe drive, page cache dropped before each run. Up and left is better." caption2="The same reads in order, on the slowest 1%. Readahead serves the other 99 out of memory, so every backend lands on the same throughput." >}}
+{{< chart id="universal-io/frontier" caption="One dot per concurrency level, 4 KiB random reads on a 16-core server with 128 GiB of RAM and a locally attached NVMe drive, page cache dropped before each run. Up and left is better." caption2="The same reads in order. Readahead lifts mmap 24.1 times and io_uring 2.1 times onto one shared ceiling. Object storage gains nothing, because it has no readahead to lift it." >}}
 
 Every figure here is reads in flight, measured rather than requested. Each backend caps concurrency at its own pipeline depth, so asking for more than it holds changes nothing.
 
@@ -235,7 +235,7 @@ S3 turns concurrency into throughput, but never into lower latency. Throughput d
 
 Read in order and concurrency stops mattering. Opened with `MADV_SEQUENTIAL`, `io_uring` held about 1,259 MB/s at 1, 16 and 64 reads in flight alike, against 50.85 MB/s in random order at depth 1. The kernel reads ahead, so most reads never reach the disk and there is nothing left for the ring to overlap.
 
-`mmap` reads in order too, and on this drive it gets exactly as much. It holds the same 1,259 MB/s at one read in flight and at sixteen, because the kernel prefetch thread does the work in both cases and neither backend is the bottleneck. Object storage has no readahead at all. Every read is its own round trip, so order buys it nothing.
+`mmap` reads in order too, and on this drive it gets exactly as much. It holds the same 1,259 MB/s at one read in flight and at sixteen, because the kernel prefetch thread does the work in both cases and neither backend is the bottleneck. Object storage has no readahead at all. With 256 reads in flight it holds 43.76 MB/s in random order and 41.17 MB/s in order, so reading sequentially is fractionally slower rather than faster. Every read is its own round trip, and a round trip costs the same whichever block you ask for.
 
 Concurrency only helps when there is more than one read to issue. One point by ID, one posting-list entry or a file header is still a single round trip of roughly 23 ms on object storage, however many reads the pipeline allows.
 

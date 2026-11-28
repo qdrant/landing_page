@@ -6,7 +6,7 @@
   "y": "mb",
   "xScale": "log",
   "yScale": "log",
-  "xLabel": "latency per read, ms (log scale)",
+  "xLabel": "mean latency per read, ms (log scale)",
   "yLabel": "throughput, MB/s (log scale)",
   "series": "backend",
   "pointLabel": "setting",
@@ -36,24 +36,24 @@
     },
     {
       "label": "Sequential",
-      "subtitle": "4 KiB sequential reads. Every backend at every depth lands on the same throughput",
+      "subtitle": "The same reads in order. Readahead lifts both local backends to one ceiling, and does nothing for object storage",
       "where": {
         "pattern": "sequential"
       },
       "x": "p99",
       "xHigh": null,
-      "xScale": "linear",
-      "xLabel": "p99 latency per read, ms. Readahead serves about 97% of sequential reads from memory, so these are the reads that reached the device",
+      "xScale": "log",
+      "xLabel": "p99 latency per read, ms (log scale). Readahead serves most sequential reads from memory, so these are the reads that reached the device",
       "xDomain": [
-        0.06,
-        0.11
+        0.04,
+        80
       ],
       "yDomain": [
-        0,
-        1400
+        0.1,
+        2000
       ],
       "frontier": null,
-      "yScale": "linear",
+      "yScale": "log",
       "yLabel": "throughput, MB/s",
       "seriesNameAt": 0
     }
@@ -65,7 +65,7 @@
   ],
   "tooltip": {
     "mb": "throughput, MB/s",
-    "ms": "p50 latency, ms",
+    "ms": "mean latency, ms",
     "p99": "p99 latency, ms",
     "reads": "reads per second",
     "inflight": "measured in flight"
