@@ -1,0 +1,107 @@
+{{- /*
+  im: the building blocks of an immersive page (layout: immersive).
+
+  A flat shortcode with an opening and a closing form per block. Blocks are
+  opened and closed with separate calls, not wrapped around their content, so
+  the Markdown and the other shortcodes (code-snippet, island) between them stay
+  at the top level of the page. Nesting them in a {{% %}} pair makes Hugo run
+  their HTML through Markdown, which turns indented HTML into code blocks.
+
+  kind        opens                          closes with
+  hero        the page opening: eyebrow,     end-hero
+              title, lead, buttons, note;
+              the content that follows is
+              the card on the right
+  card        a titled frame (title,         end-card
+              meaning, location)
+  section     a full-width section (id,      end-section (note)
+              eyebrow, title, intro, align
+              "left", "center", or "split",
+              default "left"; more, glow,
+              compact for less padding; sub for a smaller
+              heading, for a section that explains rather than leads). A section with
+              none of eyebrow, title, and intro has no heading.
+  cells       a joined grid (cols)           end-cells
+  cell        one block of the grid (tag,    end-cell
+              fig, title, pairs)
+  strip       a full-width line in the grid  end-strip
+  frame       a framed drawing               end-frame
+
+  Params that hold text (lead, note, intro, fig) accept inline Markdown or HTML.
+  "primary", "secondary", and "more" are "Label|/href".
+*/ -}}
+{{- $kind := .Get "kind" -}}
+{{- $page := .Page -}}
+{{- $inline := dict "display" "inline" -}}
+{{- if eq $kind "hero" -}}
+<div class="im-hero im-lights">
+  <div class="im-wrap im-hero__grid">
+    <div>
+      {{ with .Get "eyebrow" }}<span class="im-eyebrow">{{ . }}</span>{{ end }}
+      <h1>{{ $page.Title }}</h1>
+      {{ with .Get "lead" }}<p class="im-lead">{{ $page.RenderString $inline . }}</p>{{ end }}
+      <div class="im-cta">
+        {{ with .Get "primary" }}{{ $p := split . "|" }}<a class="im-btn im-btn--primary" href="{{ index $p 1 }}">{{ index $p 0 }}</a>{{ end }}
+        {{ with .Get "secondary" }}{{ $p := split . "|" }}<a class="im-btn im-btn--outline" href="{{ index $p 1 }}">{{ index $p 0 }}</a>{{ end }}
+      </div>
+      {{ with .Get "note" }}<p class="im-hero__note">{{ $page.RenderString $inline . }}</p>{{ end }}
+    </div>
+    <div>
+{{- else if eq $kind "end-hero" -}}
+    </div>
+  </div>
+</div>
+{{- else if eq $kind "card" -}}
+<div class="im-card">
+  <div class="im-card__head">{{ .Get "title" }}</div>
+  <div class="im-card__body">
+    {{ if or (.Get "meaning") (.Get "location") }}
+    <div class="im-card__row">
+      <div class="im-mini"><div class="im-mini__k">Meaning</div><div class="im-mini__v">{{ .Get "meaning" }}</div></div>
+      <div class="im-mini im-mini--on"><div class="im-mini__k">Location</div><div class="im-mini__v">{{ .Get "location" }}</div></div>
+    </div>
+    {{ end }}
+{{- else if eq $kind "end-card" -}}
+  </div>
+</div>
+{{- else if eq $kind "section" -}}
+{{- $align := .Get "align" | default "left" -}}
+<section class="im-section{{ if .Get "glow" }} im-lights{{ end }}{{ if .Get "compact" }} im-section--compact{{ end }}{{ if .Get "sub" }} im-section--sub{{ end }}"{{ with .Get "id" }} id="{{ . }}"{{ end }}>
+  <div class="im-wrap">
+    {{ if or (.Get "eyebrow") (.Get "title") (.Get "intro") }}
+    <div class="im-head im-head--{{ $align }}">
+      <div>
+        {{ with .Get "eyebrow" }}<span class="im-eyebrow">{{ . }}</span>{{ end }}
+        {{ with .Get "title" }}<h2>{{ . }}</h2>{{ end }}
+        {{ if ne $align "split" }}{{ with .Get "intro" }}<p class="im-sub">{{ $page.RenderString $inline . }}</p>{{ end }}{{ end }}
+      </div>
+      {{ if eq $align "split" }}
+      <div class="im-head__aside">
+        {{ with .Get "intro" }}<p class="im-sub">{{ $page.RenderString $inline . }}</p>{{ end }}
+        {{ with .Get "more" }}{{ $p := split . "|" }}<a class="im-more" href="{{ index $p 1 }}">{{ index $p 0 }} <svg aria-hidden="true" viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>{{ end }}
+      </div>
+      {{ end }}
+    </div>
+    {{ end }}
+{{- else if eq $kind "end-section" -}}
+    {{ with .Get "note" }}<p class="im-note">{{ $page.RenderString $inline . }}</p>{{ end }}
+  </div>
+</section>
+{{- else if eq $kind "cells" -}}
+<div class="im-cells im-cells--c{{ .Get "cols" | default 3 }}">
+{{- else if eq $kind "cell" -}}
+<article class="im-cell{{ if .Get "pairs" }} im-cell--pairs{{ end }}">
+  {{ with .Get "tag" }}<span class="im-tag">{{ . }}</span>{{ end }}
+  {{ with .Get "fig" }}<div class="im-fig">{{ . | safeHTML }}</div>{{ end }}
+  {{ with .Get "title" }}<h3>{{ . }}</h3>{{ end }}
+{{- else if eq $kind "strip" -}}
+<div class="im-strip">
+{{- else if eq $kind "frame" -}}
+<div class="im-frame">
+{{- else if eq $kind "end-cell" -}}
+</article>
+{{- else if or (eq $kind "end-cells") (eq $kind "end-strip") (eq $kind "end-frame") -}}
+</div>
+{{- else -}}
+{{- errorf "im shortcode in %q: unknown kind %q" $page.File.Path $kind -}}
+{{- end -}}

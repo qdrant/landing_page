@@ -1,0 +1,728 @@
+// Immersive layout (layouts/documentation/immersive.html): a full-width page
+// inside the documentation part, composed of a hero, sections, cell grids, and
+// live demos. The look follows the Qdrant Geo Search marketing page: a 1142px
+// column, joined bordered cell grids, mono eyebrows, soft background lights.
+//
+// Everything is scoped under .im. The --im-* tokens are declared on .im for both
+// themes, so an island or shortcode inside the page can read them. Chrome colors
+// follow the host theme: the explicit toggle (`data-theme` on <html>) and, when
+// no explicit choice has been made, the system preference.
+//
+// The page is a single stylesheet because the shortcodes (im-hero, im-card,
+// im-section, im-cells, im-cell, im-strip) only make sense inside this layout.
+// Imports only come from docs/ and lib/, never from the marketing tree.
+
+@mixin im-light {
+  --im-bg: #ffffff;
+  --im-surface: #f7f8fa;
+  --im-surface-2: #f0f3fa;
+  --im-surface-3: #e1e5f0;
+  --im-surface-4: #d4d9e6;
+  --im-fg: #090e1a;
+  --im-muted: #576280;
+  --im-dim: #717c99;
+  --im-faint: #b4bacc;
+  --im-grid: #eef1f6;
+  --im-line: #e1e5f0;
+  --im-line-2: #d4d9e6;
+  --im-border-strong: #8f98b2;
+  --im-eyebrow: #576280;
+  --im-red: #dc244c;
+  --im-red-soft: rgba(220, 36, 76, 0.09);
+  --im-violet: #6047ff;
+  --im-violet-soft: rgba(96, 71, 255, 0.1);
+  --im-blue: #0288d1;
+  --im-sky: #0288d1;
+  --im-orange: #ef6c00;
+  --im-teal: #00897b;
+  --im-glow-a: rgba(96, 71, 255, 0.08);
+  --im-glow-b: rgba(47, 111, 240, 0.06);
+}
+
+@mixin im-dark {
+  --im-bg: #090e1a;
+  --im-surface: #0c1220;
+  --im-surface-2: #111824;
+  --im-surface-3: #161e33;
+  --im-surface-4: #28324d;
+  --im-fg: #f0f3fa;
+  --im-muted: #abb1c7;
+  --im-dim: #8f98b2;
+  --im-faint: #3d4866;
+  --im-grid: #121a2c;
+  --im-line: #161e33;
+  --im-line-2: #28324d;
+  --im-border-strong: #717c99;
+  --im-eyebrow: #b4bacc;
+  --im-red: #dc244c;
+  --im-red-soft: rgba(220, 36, 76, 0.14);
+  --im-violet: #7e75ff;
+  --im-violet-soft: rgba(96, 71, 255, 0.18);
+  --im-blue: #64b5f6;
+  --im-sky: #29b6f6;
+  --im-orange: #ffa726;
+  --im-teal: #26a69a;
+  --im-glow-a: rgba(96, 71, 255, 0.22);
+  --im-glow-b: rgba(47, 111, 240, 0.16);
+}
+
+.im {
+  @include im-light;
+
+  --im-font: 'Mona Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --im-mono: 'Geist Mono', 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  --im-header-h: 80px; // the sticky header's height; the layout script keeps it current
+
+  background: var(--im-bg);
+  color: var(--im-fg);
+  font-family: var(--im-font);
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: clip;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) .im {
+    @include im-dark;
+  }
+}
+
+html[data-theme='dark'] .im {
+  @include im-dark;
+}
+
+.im {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  // Links in running text.
+  .im-wrap > p a,
+  .im-wrap > ul a,
+  .im-cell p a,
+  .im-cell li a,
+  .im-strip a,
+  .im-sub a,
+  .im-note a {
+    text-decoration: underline;
+    text-decoration-color: var(--im-border-strong);
+    text-underline-offset: 3px;
+
+    &:hover {
+      text-decoration-color: var(--im-fg);
+    }
+  }
+
+  b,
+  strong {
+    font-weight: 600;
+    color: var(--im-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--im-violet);
+    outline-offset: 2px;
+  }
+
+  // Inline code follows the page tokens instead of the documentation chip.
+  :not(pre) > code {
+    padding: 1px 5px;
+    border: 1px solid var(--im-line-2);
+    border-radius: 4px;
+    background: var(--im-surface-3);
+    color: var(--im-fg);
+    font-family: var(--im-mono);
+    font-size: 0.875em;
+  }
+
+  .im-wrap {
+    position: relative;
+    max-width: 1142px;
+    margin: 0 auto;
+    padding-inline: 16px;
+  }
+
+  // ---- type ----
+  .im-eyebrow {
+    display: block;
+    font: 400 14px/1.5 var(--im-mono);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--im-eyebrow);
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: var(--im-fg);
+    font-family: var(--im-font);
+    text-wrap: balance;
+  }
+
+  h1 {
+    margin: 16px 0 24px;
+    font-size: clamp(40px, 5vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    font-weight: 600;
+  }
+
+  h2 {
+    margin: 16px 0 0;
+    padding: 0;
+    border: 0;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    font-weight: 600;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 24px;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    font-weight: 600;
+  }
+
+  .im-lead {
+    max-width: 30em;
+    margin: 0 0 40px;
+    font-size: 20px;
+    letter-spacing: -0.2px;
+    color: var(--im-muted);
+  }
+
+  .im-sub {
+    max-width: 46em;
+    margin: 24px 0 0;
+    font-size: 18px;
+    color: var(--im-muted);
+  }
+
+  .im-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--im-fg);
+
+    svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.15s;
+    }
+
+    &:hover svg {
+      transform: translateX(2px);
+    }
+  }
+
+  // ---- buttons ----
+  .im-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+    padding: 0 27px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font: 500 18px/1 var(--im-font);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .im-btn--primary {
+    background: linear-gradient(180deg, #e5254f 0%, #c2053d 100%);
+    color: #fff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+    &:hover {
+      background: linear-gradient(180deg, #dc244c 0%, #a8043a 100%);
+      color: #fff;
+    }
+  }
+
+  .im-btn--outline {
+    border-color: var(--im-border-strong);
+    background: transparent;
+    color: var(--im-fg);
+
+    &:hover {
+      border-color: var(--im-fg);
+      color: var(--im-fg);
+    }
+  }
+
+  .im-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  // ---- in-page nav ----
+  .im-nav {
+    position: sticky;
+    top: var(--im-header-h);
+    z-index: 3;
+    border-bottom: 1px solid var(--im-line);
+    background: color-mix(in srgb, var(--im-bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+  }
+
+  .im-nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 52px;
+  }
+
+  .im-nav__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 32px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 15px;
+
+    a {
+      text-decoration: none;
+      color: var(--im-muted);
+
+      &:hover {
+        color: var(--im-fg);
+        text-decoration: underline;
+        text-underline-offset: 6px;
+        text-decoration-color: var(--im-border-strong);
+      }
+    }
+  }
+
+  .im-nav__actions {
+    flex: none;
+  }
+
+  // ---- background lights ----
+  .im-lights {
+    position: relative;
+    isolation: isolate;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 10% -10% 0;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(40% 50% at 12% 55%, var(--im-glow-a), transparent 70%),
+        radial-gradient(40% 50% at 88% 50%, var(--im-glow-b), transparent 70%),
+        radial-gradient(30% 30% at 50% 0%, rgba(220, 36, 76, 0.06), transparent 70%);
+      filter: blur(20px);
+    }
+  }
+
+  // ---- hero ----
+  .im-hero__grid {
+    display: grid;
+    grid-template-columns: 1fr 520px;
+    gap: 64px;
+    align-items: center;
+    padding-block: 96px;
+
+    > * {
+      min-width: 0;
+    }
+  }
+
+  .im-hero__note {
+    margin: 40px 0 0;
+    font-size: 14px;
+    color: var(--im-muted);
+
+    a {
+      color: var(--im-fg);
+      text-decoration: underline;
+      text-decoration-color: var(--im-border-strong);
+      text-underline-offset: 4px;
+    }
+  }
+
+  // The hero card: a titled frame around a code snippet.
+  .im-card {
+    overflow: hidden;
+    border: 1px solid var(--im-line-2);
+    border-radius: 8px;
+    background: var(--im-surface-2);
+    box-shadow: 0 40px 80px -40px rgba(96, 71, 255, 0.35);
+  }
+
+  .im-card__head {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--im-line-2);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .im-card__body {
+    display: grid;
+    gap: 12px;
+    padding: 16px;
+
+    > * {
+      min-width: 0;
+      margin: 0;
+    }
+  }
+
+  .im-card__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .im-mini {
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--im-line-2);
+    border-radius: 6px;
+    background: var(--im-surface);
+  }
+
+  .im-mini--on {
+    border-color: var(--im-violet);
+    background: var(--im-violet-soft);
+  }
+
+  .im-mini__k {
+    font: 400 11px/1.4 var(--im-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--im-dim);
+  }
+
+  .im-mini__v {
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  // ---- sections ----
+  .im-section {
+    padding-block: 96px;
+  }
+
+  // A step: less padding than a full section, and plain content under the heading.
+  .im-section--compact {
+    padding-block: 64px;
+  }
+
+  .im-section > .im-wrap > {
+    p,
+    ul,
+    ol {
+      max-width: 46em;
+      margin: 24px 0 0;
+      font-size: 18px;
+      color: var(--im-muted);
+    }
+
+    ul,
+    ol {
+      padding-left: 22px;
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+
+    // A code snippet placed straight under a heading: its language tabs come first.
+    .lang-tabs {
+      margin-top: 32px;
+    }
+
+    h3 {
+      margin-top: 64px;
+    }
+
+    h3 + .im-cells {
+      margin-top: 24px;
+    }
+  }
+
+  // A section that explains something, not a step: a quieter heading and intro, so a
+  // step stays the strongest heading on the page.
+  .im-section--sub {
+    padding-block: 48px;
+
+    h2 {
+      margin-top: 8px;
+      font-size: clamp(24px, 2.4vw, 30px);
+      line-height: 1.25;
+      letter-spacing: -0.3px;
+    }
+
+    .im-sub {
+      margin-top: 12px;
+      font-size: 16px;
+    }
+
+    .im-cells {
+      margin-top: 20px;
+    }
+  }
+
+  .im-head--left {
+    max-width: 920px;
+  }
+
+  .im-head--center {
+    max-width: 920px;
+    margin: 0 auto;
+    text-align: center;
+
+    .im-sub {
+      margin-inline: auto;
+    }
+  }
+
+  .im-head--split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 80px;
+    align-items: start;
+
+    h2 {
+      margin-top: 16px;
+    }
+
+    .im-sub {
+      margin: 0 0 20px;
+    }
+
+    .im-head__aside {
+      padding-top: 40px;
+    }
+  }
+
+  .im-sub p,
+  .im-lead p {
+    margin: 0;
+  }
+
+  .im-note {
+    margin: 20px 0 0;
+    font-size: 14px;
+    color: var(--im-dim);
+  }
+
+  // ---- joined cell grids ----
+  .im-cells {
+    display: grid;
+    margin-top: 64px;
+    border: 1px solid var(--im-line);
+    background: color-mix(in srgb, var(--im-bg) 85%, transparent);
+
+    > * {
+      min-width: 0;
+      border-right: 1px solid var(--im-line);
+      border-bottom: 1px solid var(--im-line);
+    }
+  }
+
+  .im-cells--c3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    > :nth-child(3n) {
+      border-right: 0;
+    }
+  }
+
+  // One column: the cells stack, so a code block can use the full width.
+  .im-cells--c1 {
+    grid-template-columns: minmax(0, 1fr);
+
+    > * {
+      border-right: 0;
+    }
+
+    > :last-child {
+      border-bottom: 0;
+    }
+
+    // Stacked points sit closer together than cells in a grid.
+    .im-cell {
+      gap: 8px;
+      padding: 20px 24px 24px;
+    }
+  }
+
+  .im-cells--c2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    > :nth-child(2n) {
+      border-right: 0;
+    }
+  }
+
+  .im-cell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr); // a wide code block scrolls instead of widening the cell
+    gap: 16px;
+    align-content: start;
+    padding: 32px 24px 40px;
+
+    > * {
+      min-width: 0;
+    }
+
+    p,
+    ul,
+    ol,
+    pre {
+      margin: 0;
+    }
+
+    p {
+      color: var(--im-muted);
+    }
+
+    ul,
+    ol {
+      padding-left: 20px;
+      color: var(--im-muted);
+    }
+
+    code {
+      font-size: 0.875em;
+    }
+
+    // Code blocks inside a cell stay compact.
+    .code-snippet,
+    .snippet,
+    pre {
+      font-size: 12.5px;
+    }
+  }
+
+  .im-cell--pairs > p {
+    padding: 16px 0;
+    border-top: 1px solid var(--im-line);
+
+    &:first-of-type {
+      padding-top: 0;
+      border-top: 0;
+    }
+  }
+
+  .im-strip {
+    grid-column: 1 / -1;
+    padding: 24px;
+    border-right: 0;
+    border-bottom: 0;
+    color: var(--im-muted);
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .im-cells > .im-strip {
+    border-right: 0;
+  }
+
+  .im-tag {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    border: 1px solid var(--im-line-2);
+    border-radius: 4px;
+    font: 400 11px/1.4 var(--im-mono);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--im-muted);
+  }
+
+  .im-fig {
+    font: 500 40px/1 var(--im-mono);
+    letter-spacing: -1px;
+    font-variant-numeric: tabular-nums;
+    color: var(--im-sky);
+
+    small {
+      font-size: 14px;
+      color: var(--im-dim);
+      letter-spacing: 0;
+      font-weight: 400;
+    }
+  }
+
+  // A diagram or drawing inside a cell: framed, on the surface color.
+  .im-frame {
+    padding: 20px 16px 12px;
+    border: 1px solid var(--im-line-2);
+    border-radius: 6px;
+    background: var(--im-surface);
+
+    .island {
+      margin: 0;
+    }
+  }
+
+  // ---- narrow screens ----
+  @media (max-width: 960px) {
+    .im-hero__grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+      padding-block: 56px 72px;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .im-section {
+      padding-block: 64px;
+    }
+
+    .im-head--split {
+      grid-template-columns: 1fr;
+
+      .im-head__aside {
+        padding-top: 0;
+      }
+    }
+
+    .im-cells--c3,
+    .im-cells--c2 {
+      grid-template-columns: 1fr;
+
+      > * {
+        border-right: 0 !important;
+      }
+    }
+
+    .im-nav__actions {
+      display: none;
+    }
+
+    // One row that scrolls sideways, instead of a nav that wraps to two or three.
+    .im-nav__links {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+  }
+}

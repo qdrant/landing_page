@@ -123,23 +123,23 @@ Example of single and multiple `geo` values:
 ```json
 {
     "location": {
-        "lon": 52.5200,
-        "lat": 13.4050
+        "lon": 13.4050,
+        "lat": 52.5200
     },
     "cities": [
         {
-            "lon": 51.5072,
-            "lat": 0.1276
+            "lon": -0.1276,
+            "lat": 51.5072
         },
         {
-            "lon": 40.7128,
-            "lat": 74.0060
+            "lon": -74.0060,
+            "lat": 40.7128
         }
     ]
 }
 ```
 
-Coordinate should be described as an object containing two fields: `lon` - for longitude, and `lat` - for latitude.
+Coordinate should be described as an object containing two fields: `lon` - for longitude, and `lat` - for latitude. To filter on locations, refer to [Geo Search](/documentation/search/geo-search/).
 
 ### Datetime {version="1.8.0"}
 

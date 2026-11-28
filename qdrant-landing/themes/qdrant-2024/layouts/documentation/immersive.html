@@ -1,0 +1,60 @@
+{{- /*
+  Immersive layout: a full-width page inside the documentation part.
+
+  Chosen with `layout: immersive` in front matter. It keeps the documentation
+  header and footer but drops the sidebar, the 844px article column, and the
+  table of contents, so a page can be composed of wide sections: a hero, live
+  demos, cell grids, and diagrams. Styles are in assets/docs/css/immersive.scss.
+
+  The page is written in Markdown with the im-* shortcodes (im-hero, im-card,
+  im-section, im-cells, im-cell, im-strip). In Markdown output (index.md) the
+  shortcodes become plain headings and text, so agents get the content without
+  the composition.
+
+  Front matter:
+    immersive_nav   Optional list of {label, href}: links shown in a slim bar
+                    under the header, for jumping between sections.
+*/ -}}
+<!doctype html>
+<html lang="en">
+  {{- partial "common/head.html" . -}}
+  <body>
+    {{- partial "common/validate-content.html" . -}}
+    <main>
+      {{ partial "documentation/header" . }}
+      <div class="im">
+        {{ with .Params.immersive_nav }}
+          <nav class="im-nav" aria-label="On this page">
+            <div class="im-wrap im-nav__inner">
+              <ul class="im-nav__links">
+                {{ range . }}
+                  <li><a href="{{ .href }}">{{ .label }}</a></li>
+                {{ end }}
+              </ul>
+              <div class="im-nav__actions">{{ partial "common/copy-markdown/button.html" $ }}</div>
+            </div>
+          </nav>
+        {{ end }}
+        <article class="im-body">
+          {{ .Content }}
+        </article>
+        <div class="im-wrap">
+          {{ partial "documentation/footer.html" . }}
+        </div>
+      </div>
+      <script>
+        // The in-page nav sticks under the documentation header, whose height
+        // changes with the screen width.
+        (function () {
+          var header = document.querySelector('.docs-header');
+          var page = document.querySelector('.im');
+          if (!header || !page) return;
+          var set = function () { page.style.setProperty('--im-header-h', header.getBoundingClientRect().height + 'px'); };
+          set();
+          window.addEventListener('resize', set);
+        })();
+      </script>
+    </main>
+  </body>
+  {{ partial "common/js.html" . }}
+</html>

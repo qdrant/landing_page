@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 210" role="img" aria-labelledby="t">
+<title id="t">Few matching venues are checked one by one. With many matching venues, the search walks the graph</title>
+<circle fill="#dc244c" fill-opacity="0.08" stroke="#dc244c" stroke-width="1.2" cx="90" cy="88" r="54"/>
+<circle fill="#303547" cx="67.8" cy="66.4" r="4"/><circle fill="none" stroke="#dc244c" stroke-width="1.6" cx="67.8" cy="66.4" r="9"/>
+<circle fill="#303547" cx="99.8" cy="54.5" r="4"/><circle fill="none" stroke="#dc244c" stroke-width="1.6" cx="99.8" cy="54.5" r="9"/>
+<circle fill="#303547" cx="114.2" cy="92.5" r="4"/><circle fill="none" stroke="#dc244c" stroke-width="1.6" cx="114.2" cy="92.5" r="9"/>
+<circle fill="#303547" cx="72.5" cy="91.5" r="4"/><circle fill="none" stroke="#dc244c" stroke-width="1.6" cx="72.5" cy="91.5" r="9"/>
+<circle fill="#303547" cx="83.7" cy="121.9" r="4"/><circle fill="none" stroke="#dc244c" stroke-width="1.6" cx="83.7" cy="121.9" r="9"/>
+<text x="90" y="182" fill="#303547" text-anchor="middle" font-size="13" font-weight="600" font-family="Geist Mono, ui-monospace, Menlo, monospace">Few venues match</text>
+<text x="90" y="200" fill="#656b7f" text-anchor="middle" font-size="12" font-family="Geist Mono, ui-monospace, Menlo, monospace">Check each one</text>
+<line stroke="#abb1c7" stroke-width="1" x1="180" y1="16" x2="180" y2="196"/>
+<circle fill="#dc244c" fill-opacity="0.08" stroke="#dc244c" stroke-width="1.2" cx="270" cy="88" r="58"/>
+<circle fill="#303547" cx="271.9" cy="68.9" r="3"/>
+<circle fill="#303547" cx="257.4" cy="76.5" r="3"/>
+<circle fill="#303547" cx="314.8" cy="88.5" r="3"/>
+<circle fill="#303547" cx="275.6" cy="109.6" r="3"/>
+<circle fill="#303547" cx="258.5" cy="133.6" r="3"/>
+<circle fill="#303547" cx="231.7" cy="78.4" r="3"/>
+<circle fill="#303547" cx="283.1" cy="132.7" r="3"/>
+<circle fill="#303547" cx="252.8" cy="44.1" r="3"/>
+<circle fill="#303547" cx="290.6" cy="71.8" r="3"/>
+<circle fill="#303547" cx="257.4" cy="103.0" r="3"/>
+<circle fill="#303547" cx="283.9" cy="57.8" r="3"/>
+<circle fill="#303547" cx="256.6" cy="118.5" r="3"/>
+<circle fill="#303547" cx="277.2" cy="86.9" r="3"/>
+<circle fill="#303547" cx="269.9" cy="43.9" r="3"/>
+<circle fill="#303547" cx="312.1" cy="68.1" r="3"/>
+<circle fill="#303547" cx="302.3" cy="114.1" r="3"/>
+<circle fill="#303547" cx="293.5" cy="103.2" r="3"/>
+<circle fill="#303547" cx="234.7" cy="58.5" r="3"/>
+<circle fill="#303547" cx="245.3" cy="127.0" r="3"/>
+<circle fill="#303547" cx="240.0" cy="96.6" r="3"/>
+<circle fill="#303547" cx="313.2" cy="103.8" r="3"/>
+<circle fill="#303547" cx="302.0" cy="83.1" r="3"/>
+<circle fill="#303547" cx="248.4" cy="58.5" r="3"/>
+<circle fill="#303547" cx="297.2" cy="59.0" r="3"/>
+<circle fill="#303547" cx="225.8" cy="100.7" r="3"/>
+<circle fill="#303547" cx="231.5" cy="115.6" r="3"/>
+<polyline fill="none" stroke="#6047ff" stroke-width="2" stroke-linejoin="round" points="225.8,100.7 257.4,103.0 277.2,86.9 290.6,71.8 312.1,68.1"/>
+<circle fill="#6047ff" cx="225.8" cy="100.7" r="4"/>
+<circle fill="#6047ff" cx="257.4" cy="103.0" r="4"/>
+<circle fill="#6047ff" cx="277.2" cy="86.9" r="4"/>
+<circle fill="#6047ff" cx="290.6" cy="71.8" r="4"/>
+<circle fill="#6047ff" cx="312.1" cy="68.1" r="4"/>
+<circle fill="none" stroke="#dc244c" stroke-width="1.6" cx="312.1" cy="68.1" r="9"/>
+<text x="270" y="182" fill="#303547" text-anchor="middle" font-size="13" font-weight="600" font-family="Geist Mono, ui-monospace, Menlo, monospace">Many venues match</text>
+<text x="270" y="200" fill="#656b7f" text-anchor="middle" font-size="12" font-family="Geist Mono, ui-monospace, Menlo, monospace">Walk the graph</text>
+</svg>

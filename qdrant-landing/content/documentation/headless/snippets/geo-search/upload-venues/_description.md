@@ -1,0 +1,1 @@
+This snippet uploads ten sample venues to the `venues` collection. Each venue is a point with a name, a description, and a `location` object with `lat` and `lon` in decimal degrees. Qdrant Cloud Inference creates the vector from the description, so the snippet passes a `Document` with the text and the model name instead of a vector.

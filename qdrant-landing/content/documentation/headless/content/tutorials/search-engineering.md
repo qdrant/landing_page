@@ -1,5 +1,6 @@
 | Tutorial | Objective | Stack | Time | Level |
 | :--- | :--- | :--- | :--- | :--- |
+| [Geo-Filtered Vector Search](/documentation/tutorials-search-engineering/geo-search/) | Combine semantic search with radius, bounding box, and polygon filters, and see how Qdrant keeps filtered search accurate. | <span class="pill">Python</span> | 20m | <span class="text-green">Beginner</span> |
 | [Relevance Feedback](/documentation/tutorials-search-engineering/using-relevance-feedback/) | Relevance Feedback Retrieval in Qdrant | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |
 | [Collaborative Filtering](/documentation/tutorials-search-engineering/collaborative-filtering/) | Collaborative filtering using sparse embeddings. | <span class="pill">Python</span> | 45m | <span class="text-yellow">Intermediate</span> |
 | [Multivector Document Retrieval](/documentation/tutorials-search-engineering/pdf-retrieval-at-scale/) | PDF RAG using ColPali and embedding pooling. | <span class="pill">Python</span> | 30m | <span class="text-yellow">Intermediate</span> |

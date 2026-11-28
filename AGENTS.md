@@ -142,6 +142,22 @@ it appears in `index.md` and renders nothing in HTML. See the root `README.md`.
   published. `https://skills.qdrant.tech/llms.txt` lists what is actually
   served.
 
+## Full-width pages
+
+A documentation page can drop the sidebar and the article column with
+`layout: immersive` in its front matter. The layout
+(`themes/qdrant-2024/layouts/documentation/immersive.html`) keeps the
+documentation header and footer; its styles are in
+`assets/docs/css/immersive.scss`. Compose the page from the flat `im` shortcode
+(`{{< im kind="section" ... >}}` and `{{< im kind="end-section" >}}`, and the
+same for `hero`, `card`, `cells`, `cell`, `strip`, `frame`), with Markdown,
+`code-snippet`, and `island` between the calls. Don't nest them in a `{{% %}}`
+pair: Hugo then runs their HTML through Markdown, and indented HTML turns into
+code blocks. Every `im` call needs blank lines around it, or Hugo wraps it into
+a paragraph. The Markdown output turns the blocks into plain headings and text,
+so the content has to read well without the composition. The geo search tutorial
+(`documentation/tutorials-search-engineering/geo-search.md`) is the reference.
+
 ## Code snippets
 
 - **Code samples belong in `documentation/headless/snippets/`**, not written
